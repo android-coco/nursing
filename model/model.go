@@ -20,12 +20,12 @@ type BaseModel struct {
 }
 
 func (mod BaseModel) InsertData(a interface{}) error {
-	_, err := fit.Engine().Insert(a)
+	_, err := fit.MySqlEngine().Insert(a)
 	return err
 }
 
 func (mod BaseModel) GetData(a interface{}) (b interface{}) {
-	has , err := fit.Engine().Get(&a)
+	has , err := fit.MySqlEngine().Get(&a)
 	if err != nil || !has {
 		fmt.Println(err)
 		return nil
@@ -34,5 +34,5 @@ func (mod BaseModel) GetData(a interface{}) (b interface{}) {
 }
 
 func (mod BaseModel) UpdateData(a interface{}) (b interface{}, err error)  {
-	return fit.Engine().Update(a)
+	return fit.MySqlEngine().Update(a)
 }

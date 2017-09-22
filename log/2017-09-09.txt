@@ -1,2 +1,1 @@
-fit->2017/09/09 15:48:25.682755 appliation.go:34: [open conf/fit.conf: no such file or directory]
-fit->2017/09/09 15:48:25.682889 appliation.go:54: [listen tcp :80: bind: address already in use]
+fit->2017/09/09 15:49:23.347783 appliation.go:34: [open conf/fit.conf: The system cannot find the path specified.]

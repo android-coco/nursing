@@ -55,7 +55,7 @@ func (c *SignsiputController) iputTemperature(r *fit.Request) {
 	nurseid    := r.FormValue("nurseid")
 	texttime,err3    :=  time.Parse("2006-01-02 15:04:05",r.FormValue("texttime"))
 	recordscene,err4 := strconv.ParseUint(r.FormValue("recordscene"), 10, 16)
-	ttemptype,err5   := strconv.ParseUint(r.FormValue("ttemptype"), 10, 16)
+	temptype,err5   := strconv.ParseUint(r.FormValue("temptype"), 10, 16)
 	coolingtype,err6 := strconv.ParseUint(r.FormValue("coolingtype"), 10, 16)
 	value,err7       := strconv.ParseFloat(r.FormValue("v1"),32)
 
@@ -66,10 +66,10 @@ func (c *SignsiputController) iputTemperature(r *fit.Request) {
 		item.NurseId = nurseid
 
 		item.Recordscene = uint16(recordscene)
-		item.Ttemptype = uint16(ttemptype)
+		item.Ttemptype = uint16(temptype)
 		item.Coolingtype = uint16(coolingtype)
 		item.Value = float32(value)
-		item.Testtime = texttime
+		item.Testtime = fit.JsonTime(texttime)
 
 		err := item.InsertData(item);
 
@@ -106,7 +106,7 @@ func (c *SignsiputController) iputPulse( r *fit.Request){
 
 		item.Recordscene = uint16(recordscene)
 		item.Value = uint16(value)
-		item.Testtime = texttime
+		item.Testtime = fit.JsonTime(texttime)
 
 		err := item.InsertData(item);
 
@@ -144,7 +144,7 @@ func (c *SignsiputController) iputBreathe(r *fit.Request){
 
 		item.Recordscene = uint16(recordscene)
 		item.Value = uint16(value)
-		item.Testtime = texttime
+		item.Testtime = fit.JsonTime(texttime)
 
         if whethertbm == "true"{
 			item.Whethertbm = true
@@ -191,7 +191,7 @@ func (c *SignsiputController) iputPressure( r *fit.Request){
 		item.Sysvalue = uint16(v1)
 		item.Diavalue = uint16(v2)
 		item.Pulsevalue = uint16(v3)
-		item.Testtime = texttime
+		item.Testtime = fit.JsonTime(texttime)
 
 		err := item.InsertData(item);
 
@@ -227,7 +227,7 @@ func (c *SignsiputController) iputHeartrate(r *fit.Request){
 		item.NurseId = nurseid
 
 		item.Recordscene = uint16(recordscene)
-		item.Testtime = texttime
+		item.Testtime = fit.JsonTime(texttime)
 		item.Value = uint16(v1)
 
 		err := item.InsertData(item);
@@ -264,7 +264,7 @@ func (c *SignsiputController) iputSpo2h( r *fit.Request){
 		item.NurseId = nurseid
 
 		item.Recordscene = uint16(recordscene)
-		item.Testtime = texttime
+		item.Testtime = fit.JsonTime(texttime)
 		item.Value = uint16(v1)
 
 		err := item.InsertData(item);
@@ -302,7 +302,7 @@ func (c *SignsiputController) iputGlucose(r *fit.Request){
 		item.NurseId = nurseid
 
 		item.Recordscene = uint16(recordscene)
-		item.Testtime = texttime
+		item.Testtime = fit.JsonTime(texttime)
 		item.Value = float32(v1)
 
 		err := item.InsertData(item);
@@ -338,7 +338,7 @@ func (c *SignsiputController) iputWeight( r *fit.Request){
 		item.PatientId = patientid
 		item.NurseId = nurseid
 
-		item.Testtime = texttime
+		item.Testtime = fit.JsonTime(texttime)
 		item.Recordscene = uint16(recordscene)
 		item.Value = float32(v1)
 
@@ -376,7 +376,7 @@ func (c *SignsiputController) iputHeight(r *fit.Request){
 		item.NurseId = nurseid
 
 		item.Recordscene = uint16(recordscene)
-		item.Testtime = texttime
+		item.Testtime = fit.JsonTime(texttime)
 		item.Value = float64(v1)
 
 		err := item.InsertData(item);

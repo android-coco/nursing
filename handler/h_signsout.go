@@ -23,27 +23,25 @@ func (c SignsoutController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 		c.JsonData.Datas = []interface{}{}
 	}
 
-	c.outWeight(r)
-
 	switch measuretype {
 	case model.Temperature_Type :
-
+		c.outTemperature(r)
 	case model.Pulse_Type :
-
+		c.outPulse(r)
 	case model.Breathe_Type :
-
+		c.outBreathe(r)
 	case model.Pressure_Type :
-
+		c.outPulse(r)
 	case model.Heartrate_Type :
-
+		c.outHeartrate(r)
 	case model.Spo2h_Type:
-
+		c.outSpo2h(r)
 	case model.Glucose_Type:
-
+		c.outGlucose(r)
 	case model.Weight_Type:
-
+		c.outWeight(r)
 	case model.Height_Type:
-
+		c.outHeight(r)
 	}
 
 	c.ResponseToJson(w)
@@ -57,7 +55,7 @@ func (c SignsoutController) Post(w *fit.Response, r *fit.Request, p fit.Params) 
 	if err != nil {
 		c.JsonData.Result = 1
 		c.JsonData.ErrorMsg = "参数不完整"
-		c.JsonData.Datas = []interface{}{}
+		c.JsonData.Datas = []interface{}{err,r.FormValue("measuretype")}
 	}
 
 	switch measuretype {
@@ -107,7 +105,7 @@ func (c *SignsoutController) outTemperature(r *fit.Request) {
 		item.NurseId = nurseid
 	}
 	if err3 == nil {
-		item.Testtime = texttime
+		item.Testtime = fit.JsonTime(texttime)
 	}
 	if err4 == nil {
 		item.Recordscene = uint16(recordscene)
@@ -125,13 +123,13 @@ func (c *SignsoutController) outTemperature(r *fit.Request) {
 	var err error
 	items := make([]model.Temperature, 0)
 	if err8 == nil && err9 == nil{
-		err = fit.Engine().Where("Testtime > ? and Testtime < ?",starttime,endtime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime > ? and Testtime < ?",starttime,endtime).Find(&items,item)
 	}else if err8 == nil {
-		err = fit.Engine().Where("Testtime > ?",starttime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime > ?",starttime).Find(&items,item)
 	}else if err9 == nil {
-		err = fit.Engine().Where("Testtime < ?",endtime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime < ?",endtime).Find(&items,item)
 	}else{
-		err = fit.Engine().Find(&items,item)
+		err = fit.MySqlEngine().Find(&items,item)
 	}
 
 	if  err != nil {
@@ -142,7 +140,7 @@ func (c *SignsoutController) outTemperature(r *fit.Request) {
 
 		c.JsonData.Result = 0
 		c.JsonData.ErrorMsg = "查询完成"
-		c.JsonData.Datas = []interface{}{items}
+		c.JsonData.Datas = items
 	}
 
 	fit.Logger().LogVerbose("",items)
@@ -167,7 +165,7 @@ func (c *SignsoutController) outPulse( r *fit.Request){
 		item.NurseId = nurseid
 	}
 	if err3 == nil {
-		item.Testtime = texttime
+		item.Testtime = fit.JsonTime(texttime)
 	}
 	if err1 == nil {
 		item.Recordscene = uint16(recordscene)
@@ -179,13 +177,13 @@ func (c *SignsoutController) outPulse( r *fit.Request){
 	var err error
 	items := make([]model.Pulse, 0)
 	if err8 == nil && err9 == nil{
-		err = fit.Engine().Where("Testtime > ? and Testtime < ?",starttime,endtime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime > ? and Testtime < ?",starttime,endtime).Find(&items,item)
 	}else if err8 == nil {
-		err = fit.Engine().Where("Testtime > ?",starttime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime > ?",starttime).Find(&items,item)
 	}else if err9 == nil {
-		err = fit.Engine().Where("Testtime < ?",endtime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime < ?",endtime).Find(&items,item)
 	}else{
-		err = fit.Engine().Find(&items,item)
+		err = fit.MySqlEngine().Find(&items,item)
 	}
 
 	if  err != nil {
@@ -196,7 +194,7 @@ func (c *SignsoutController) outPulse( r *fit.Request){
 
 		c.JsonData.Result = 0
 		c.JsonData.ErrorMsg = "查询完成"
-		c.JsonData.Datas = []interface{}{items}
+		c.JsonData.Datas = items
 	}
 
 	fit.Logger().LogVerbose("",items)
@@ -222,7 +220,7 @@ func (c *SignsoutController) outBreathe(r *fit.Request){
 		item.NurseId = nurseid
 	}
 	if err3 == nil {
-		item.Testtime = texttime
+		item.Testtime = fit.JsonTime(texttime)
 	}
 	if err1 == nil {
 		item.Recordscene = uint16(recordscene)
@@ -241,13 +239,13 @@ func (c *SignsoutController) outBreathe(r *fit.Request){
 	var err error
 	items := make([]model.Breathe, 0)
 	if err8 == nil && err9 == nil{
-		err = fit.Engine().Where("Testtime > ? and Testtime < ?",starttime,endtime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime > ? and Testtime < ?",starttime,endtime).Find(&items,item)
 	}else if err8 == nil {
-		err = fit.Engine().Where("Testtime > ?",starttime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime > ?",starttime).Find(&items,item)
 	}else if err9 == nil {
-		err = fit.Engine().Where("Testtime < ?",endtime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime < ?",endtime).Find(&items,item)
 	}else{
-		err = fit.Engine().Find(&items,item)
+		err = fit.MySqlEngine().Find(&items,item)
 	}
 
 	if  err != nil {
@@ -258,7 +256,7 @@ func (c *SignsoutController) outBreathe(r *fit.Request){
 
 		c.JsonData.Result = 0
 		c.JsonData.ErrorMsg = "查询完成"
-		c.JsonData.Datas = []interface{}{items}
+		c.JsonData.Datas = items
 	}
 
 	fit.Logger().LogVerbose("",items)
@@ -286,7 +284,7 @@ func (c *SignsoutController) outPressure( r *fit.Request){
 		item.NurseId = nurseid
 	}
 	if err5 == nil {
-		item.Testtime = texttime
+		item.Testtime = fit.JsonTime(texttime)
 	}
 	if err1 == nil {
 		item.Recordscene = uint16(recordscene)
@@ -305,13 +303,13 @@ func (c *SignsoutController) outPressure( r *fit.Request){
 	var err error
 	items := make([]model.Pressure, 0)
 	if err8 == nil && err9 == nil{
-		err = fit.Engine().Where("Testtime > ? and Testtime < ?",starttime,endtime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime > ? and Testtime < ?",starttime,endtime).Find(&items,item)
 	}else if err8 == nil {
-		err = fit.Engine().Where("Testtime > ?",starttime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime > ?",starttime).Find(&items,item)
 	}else if err9 == nil {
-		err = fit.Engine().Where("Testtime < ?",endtime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime < ?",endtime).Find(&items,item)
 	}else{
-		err = fit.Engine().Find(&items,item)
+		err = fit.MySqlEngine().Find(&items,item)
 	}
 
 	if  err != nil {
@@ -322,7 +320,7 @@ func (c *SignsoutController) outPressure( r *fit.Request){
 
 		c.JsonData.Result = 0
 		c.JsonData.ErrorMsg = "查询完成"
-		c.JsonData.Datas = []interface{}{items}
+		c.JsonData.Datas = items
 	}
 
 	fit.Logger().LogVerbose("",items)
@@ -347,7 +345,7 @@ func (c *SignsoutController) outHeartrate(r *fit.Request){
 		item.NurseId = nurseid
 	}
 	if err3 == nil {
-		item.Testtime = texttime
+		item.Testtime = fit.JsonTime(texttime)
 	}
 	if err1 == nil {
 		item.Recordscene = uint16(recordscene)
@@ -359,13 +357,13 @@ func (c *SignsoutController) outHeartrate(r *fit.Request){
 	var err error
 	items := make([]model.Heartrate, 0)
 	if err8 == nil && err9 == nil{
-		err = fit.Engine().Where("Testtime > ? and Testtime < ?",starttime,endtime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime > ? and Testtime < ?",starttime,endtime).Find(&items,item)
 	}else if err8 == nil {
-		err = fit.Engine().Where("Testtime > ?",starttime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime > ?",starttime).Find(&items,item)
 	}else if err9 == nil {
-		err = fit.Engine().Where("Testtime < ?",endtime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime < ?",endtime).Find(&items,item)
 	}else{
-		err = fit.Engine().Find(&items,item)
+		err = fit.MySqlEngine().Find(&items,item)
 	}
 
 	if  err != nil {
@@ -376,7 +374,7 @@ func (c *SignsoutController) outHeartrate(r *fit.Request){
 
 		c.JsonData.Result = 0
 		c.JsonData.ErrorMsg = "查询完成"
-		c.JsonData.Datas = []interface{}{items}
+		c.JsonData.Datas = items
 	}
 
 	fit.Logger().LogVerbose("",items)
@@ -401,7 +399,7 @@ func (c *SignsoutController) outSpo2h( r *fit.Request){
 		item.NurseId = nurseid
 	}
 	if err3 == nil {
-		item.Testtime = texttime
+		item.Testtime = fit.JsonTime(texttime)
 	}
 	if err1 == nil {
 		item.Recordscene = uint16(recordscene)
@@ -411,15 +409,15 @@ func (c *SignsoutController) outSpo2h( r *fit.Request){
 	}
 
 	var err error
-	items := make([]model.Heartrate, 0)
+	items := make([]model.Spo2h, 0)
 	if err8 == nil && err9 == nil{
-		err = fit.Engine().Where("Testtime > ? and Testtime < ?",starttime,endtime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime > ? and Testtime < ?",starttime,endtime).Find(&items,item)
 	}else if err8 == nil {
-		err = fit.Engine().Where("Testtime > ?",starttime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime > ?",starttime).Find(&items,item)
 	}else if err9 == nil {
-		err = fit.Engine().Where("Testtime < ?",endtime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime < ?",endtime).Find(&items,item)
 	}else{
-		err = fit.Engine().Find(&items,item)
+		err = fit.MySqlEngine().Find(&items,item)
 	}
 
 	if  err != nil {
@@ -430,7 +428,7 @@ func (c *SignsoutController) outSpo2h( r *fit.Request){
 
 		c.JsonData.Result = 0
 		c.JsonData.ErrorMsg = "查询完成"
-		c.JsonData.Datas = []interface{}{items}
+		c.JsonData.Datas = items
 	}
 
 	fit.Logger().LogVerbose("",items)
@@ -455,7 +453,7 @@ func (c *SignsoutController) outGlucose(r *fit.Request){
 		item.NurseId = nurseid
 	}
 	if err3 == nil {
-		item.Testtime = texttime
+		item.Testtime = fit.JsonTime(texttime)
 	}
 	if err1 == nil {
 		item.Recordscene = uint16(recordscene)
@@ -465,15 +463,15 @@ func (c *SignsoutController) outGlucose(r *fit.Request){
 	}
 
 	var err error
-	items := make([]model.Heartrate, 0)
+	items := make([]model.Glucose, 0)
 	if err8 == nil && err9 == nil{
-		err = fit.Engine().Where("Testtime > ? and Testtime < ?",starttime,endtime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime > ? and Testtime < ?",starttime,endtime).Find(&items,item)
 	}else if err8 == nil {
-		err = fit.Engine().Where("Testtime > ?",starttime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime > ?",starttime).Find(&items,item)
 	}else if err9 == nil {
-		err = fit.Engine().Where("Testtime < ?",endtime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime < ?",endtime).Find(&items,item)
 	}else{
-		err = fit.Engine().Find(&items,item)
+		err = fit.MySqlEngine().Find(&items,item)
 	}
 
 	if  err != nil {
@@ -484,7 +482,7 @@ func (c *SignsoutController) outGlucose(r *fit.Request){
 
 		c.JsonData.Result = 0
 		c.JsonData.ErrorMsg = "查询完成"
-		c.JsonData.Datas = []interface{}{items}
+		c.JsonData.Datas = items
 	}
 
 	fit.Logger().LogVerbose("",items)
@@ -510,7 +508,7 @@ func (c *SignsoutController) outWeight(r *fit.Request) {
 		item.NurseId = nurseid
 	}
 	if err3 == nil {
-		item.Testtime = texttime
+		item.Testtime = fit.JsonTime(texttime)
 	}
 	if err1 == nil {
 		item.Recordscene = uint16(recordscene)
@@ -522,13 +520,13 @@ func (c *SignsoutController) outWeight(r *fit.Request) {
     var err error
 	items := make([]model.Weight, 0)
 	if err4 == nil && err5 == nil{
-		err = fit.Engine().Where("Testtime > ? and Testtime < ?",starttime,endtime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime > ? and Testtime < ?",starttime,endtime).Find(&items,item)
 	}else if err4 == nil {
-		err = fit.Engine().Where("Testtime > ?",starttime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime > ?",starttime).Find(&items,item)
 	}else if err5 == nil {
-		err = fit.Engine().Where("Testtime < ?",endtime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime < ?",endtime).Find(&items,item)
 	}else{
-		err = fit.Engine().Find(&items,item)
+		err = fit.MySqlEngine().Find(&items,item)
 	}
 
 	if  err != nil {
@@ -539,7 +537,7 @@ func (c *SignsoutController) outWeight(r *fit.Request) {
 
 		c.JsonData.Result = 0
 		c.JsonData.ErrorMsg = "查询完成"
-		c.JsonData.Datas = []interface{}{items}
+		c.JsonData.Datas = items
 	}
 
 	fit.Logger().LogVerbose("",items)
@@ -566,7 +564,7 @@ func (c *SignsoutController) outHeight(r *fit.Request){
 		item.NurseId = nurseid
 	}
 	if err3 == nil {
-		item.Testtime = texttime
+		item.Testtime = fit.JsonTime(texttime)
 	}
 	if err1 == nil {
 		item.Recordscene = uint16(recordscene)
@@ -578,13 +576,13 @@ func (c *SignsoutController) outHeight(r *fit.Request){
 	var err error
 	items := make([]model.Height, 0)
 	if err4 == nil && err5 == nil{
-		err = fit.Engine().Where("Testtime > ? and Testtime < ?",starttime,endtime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime > ? and Testtime < ?",starttime,endtime).Find(&items,item)
 	}else if err4 == nil {
-		err = fit.Engine().Where("Testtime > ?",starttime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime > ?",starttime).Find(&items,item)
 	}else if err5 == nil {
-		err = fit.Engine().Where("Testtime < ?",endtime).Find(&items,item)
+		err = fit.MySqlEngine().Where("Testtime < ?",endtime).Find(&items,item)
 	}else{
-		err = fit.Engine().Find(&items,item)
+		err = fit.MySqlEngine().Find(&items,item)
 	}
 
 	if  err != nil {
@@ -595,7 +593,7 @@ func (c *SignsoutController) outHeight(r *fit.Request){
 
 		c.JsonData.Result = 0
 		c.JsonData.ErrorMsg = "查询完成"
-		c.JsonData.Datas = []interface{}{items}
+		c.JsonData.Datas = items
 	}
 
 	fit.Logger().LogVerbose("",items)

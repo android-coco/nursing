@@ -3,7 +3,6 @@ package model
 import (
 	"fit"
 	"fmt"
-	"time"
 )
 
 type AccessType int
@@ -21,13 +20,13 @@ const (
 )
 type Access struct {
 	BaseModel    		`xorm:"extends"`
-	AccessTime time.Time      `json:"access_time" xorm:"notnull comment(出入时间)"`
-	AccessType   AccessType       	`json:"access_type" xorm:"notnull"`
-	AccessReason AccessReason       `json:"access_reason" xorm:"notnull"`
+	AccessTime 		string      `json:"access_time" xorm:"notnull comment(出入时间)"`
+	AccessType 		AccessType       	`json:"access_type" xorm:"notnull"`
+	AccessReason 	AccessReason       `json:"access_reason" xorm:"notnull"`
 }
 
 func (m Access) InsertData() (int64, error)  {
-	id, err := fit.Engine().Insert(m)
+	id, err := fit.MySqlEngine().Insert(m)
 	return id, err
 }
 
@@ -56,8 +55,14 @@ func (m Access) ParseAccessReason(value string) (AccessReason, error) {
 	}
 }
 
-func AccessList(nurse_id, patient_id string) []Access  {
+func AccessList(nurse_id, patient_id string) ([]Access,error)  {
 	var mods []Access
-	fit.Engine().SQL("select * from warn where nurse_id = ? and patient_id = ?", nurse_id, patient_id).Find(&mods)
-	return mods
+	err := fit.MySqlEngine().SQL("select * from access where nurse_id = ? and patient_id = ?", nurse_id, patient_id).Find(&mods)
+	return mods, err
+}
+
+func AccessSearch(paramstr string) ([]Access ,error) {
+	var mods []Access
+	err := fit.MySqlEngine().SQL("select *from access where nurse_id = ?", paramstr).Find(&mods)
+	return mods, err
 }
