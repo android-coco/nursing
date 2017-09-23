@@ -17,6 +17,7 @@ func init() {
 	fit.Router().AddRouter("/accesslist", new(handler.AccessListController))
 	fit.Router().AddRouter("/iov/collect", new(handler.IntakeOutputCollectController))
 	fit.Router().AddRouter("/iov/query", new(handler.IntakeOutputQueryController))
+	fit.Router().AddRouter("/bedlist", new(handler.BedListController))
 	//医嘱查询
 	fit.Router().AddRouter("/medical/advice",new(handler.MedicalAdvice))
 

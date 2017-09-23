@@ -5,6 +5,8 @@ import (
 	"nursing/model"
 )
 
+
+/*登录页面*/
 type LoginController struct {
 	fit.Controller
 }

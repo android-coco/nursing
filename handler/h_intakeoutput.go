@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+/*出入量管理页面*/
 type IntakeOutputCollectController struct {
 	fit.Controller
 }
