@@ -7,7 +7,7 @@ import (
 
 func init() {
 	//路由配置
-	fit.Router().AddRouter("/", &handler.MainController{})
+	fit.Router().AddRouter("/", &handler.MainController{},"get,post:GetFunc")
 	fit.Router().AddRouter("/login", new(handler.LoginController))
 	fit.Router().AddRouter("/signsiput", new(handler.SignsiputController))
 	fit.Router().AddRouter("/signsout", new(handler.SignsoutController))

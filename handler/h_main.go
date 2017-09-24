@@ -41,6 +41,14 @@ type VAA struct {
 	VAA05 string
 }
 
+func (c MainController)GetFunc(w *fit.Response, r *fit.Request, p fit.Params)  {
+	fmt.Fprintln(w,"GetFuncOrPostFunc")
+}
+
+//func (c MainController)PostFunc(w *fit.Response, r *fit.Request, p fit.Params)  {
+//	fmt.Fprintln(w,"PostFunc")
+//}
+
 func (c MainController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 	//t, _ := time.Parse("2006-01-02 15:04:05", "2014-06-15 08:37:18")
