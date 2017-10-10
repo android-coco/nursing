@@ -67,7 +67,7 @@ func QueryIntakeOrOutputVolume(patientId string, tp int, page int) ([]IntakeOutp
 	count := 10
 	responseObj := make([]IntakeOutputDup, 0)
 	idx := page * count
-	err := fit.MySqlEngine().Omit("id","datetime").Table("IntakeOutput").Where("patientId = ? and type = ?", patientId, tp).Limit(count, idx).Find(&responseObj)
+	err := fit.MySqlEngine().Omit("id", "datetime").Table("IntakeOutput").Where("patientId = ? and type = ?", patientId, tp).Limit(count, idx).Find(&responseObj)
 	return responseObj, err
 }
 
@@ -76,6 +76,6 @@ func QueryIntakeOrOutputVolumeAll(patientId string, page int) ([]IntakeOutputDup
 	count := 10
 	responseObj := make([]IntakeOutputDup, 0)
 	idx := page * count
-	err := fit.MySqlEngine().Omit("id","datetime").Table("IntakeOutput").Where("patientId = ? ", patientId).And("(type = ? or type = ?)", IntakeOutputTypeOutput, IntakeOutputTypeIntake).Limit(count, idx).Find(&responseObj)
+	err := fit.MySqlEngine().Omit("id", "datetime").Table("IntakeOutput").Where("patientId = ? ", patientId).And("(type = ? or type = ?)", IntakeOutputTypeOutput, IntakeOutputTypeIntake).Limit(count, idx).Find(&responseObj)
 	return responseObj, err
 }

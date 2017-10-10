@@ -5,7 +5,6 @@ import (
 	"nursing/model"
 )
 
-
 /*登录页面*/
 type LoginController struct {
 	fit.Controller
@@ -54,7 +53,7 @@ func (c LoginController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 					}
 					for i, BCE := range slice_BCE {
 						DID := BCE.BCK01
-						slice_BCK, err_BCK := model.QueryDepartmentTable(DID)
+						slice_BCK, err_BCK := model.QueryDepartmentWithDID(DID)
 						if err_BCK != nil {
 							c.RenderingJsonAutomatically(3, "Database "+err_BCK.Error())
 							return

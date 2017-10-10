@@ -5,45 +5,54 @@ import (
 	"nursing/model"
 )
 
-type  AccessController struct {
+type AccessController struct {
 	fit.Controller
 }
 
-type VAA1 struct {
-	VAA01 int  // 病人id
-	VAA05 string // 姓名
-	ABW01 string // 性别 0=未知，1=M=男，2=F=女，9=未说明
-	VAA10 int    // 年龄
-	BCQ04 string // 床号
-}
+//type VAA1 struct {
+//	VAA01 int    // 病人id
+//	VAA05 string // 姓名
+//	ABW01 string // 性别 0=未知，1=M=男，2=F=女，9=未说明
+//	VAA10 int    // 年龄
+//	BCQ04 string // 床号
+//}
 
 func (c AccessController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 
-	access_type, err1 := model.Access{}.ParseAccessType(r.FormValue("access_type"))
-	access_reason, err2 := model.Access{}.ParseAccessReason(r.FormValue("access_reason"))
-	//access_time, err := time.Parse("2006-01-02 15:04:05", r.FormValue("access_time"))
-	access_time := r.FormValue("access_time")
-	nurse_id := r.FormValue("nurse_id")
-	patient_id := r.FormValue("patient_id")
+	accessType, err1 := model.Access{}.ParseAccessType(r.FormValue("access_type"))
+	accessReason, err2 := model.Access{}.ParseAccessReason(r.FormValue("access_reason"))
+	accessTime := r.FormValue("access_time")
 
-	if nurse_id == "" || patient_id == "" {
+	nurseId := r.FormValue("nurse_id")
+	nurseName := r.FormValue("nurse_name")
+	patientId := r.FormValue("patient_id")
+	patientName := r.FormValue("patient_name")
+	bedId := r.FormValue("bed_id")
+
+	if nurseId == "" || patientId == "" || nurseName == "" || patientName == "" || bedId == "" || err1 != nil {
+		if accessType == model.AccessTypeOut && err2 != nil {
+			c.JsonData.Result = 1
+			c.JsonData.ErrorMsg = "参数错误"
+			c.JsonData.Datas = []interface{}{err2.Error()}
+			return
+		}
 		c.JsonData.Result = 1
 		c.JsonData.ErrorMsg = "参数不完整"
-		c.JsonData.Datas = []interface{}{}
-		return
-	} else if  err1 != nil || err2 != nil{
-		c.JsonData.Result = 2
-		c.JsonData.ErrorMsg = "参数错误"
-		c.JsonData.Datas = []interface{}{}
+		c.JsonData.Datas = []interface{}{err1.Error()}
 		return
 	}
 
 	accessModel := model.Access{
-		BaseModel: model.BaseModel{NurseId: nurse_id, PatientId: patient_id},
-		AccessType: access_type,
-		AccessReason: access_reason,
-		AccessTime:access_time}
+		BaseModel: model.BaseModel{
+			NurseId:   nurseId,
+			PatientId: patientId},
+		AccessType:   accessType,
+		AccessReason: accessReason,
+		AccessTime:   accessTime,
+		NurseName:    nurseName,
+		PatientName:  patientName,
+		BedId:        bedId}
 
 	_, err := accessModel.InsertData()
 	if err != nil {
@@ -65,27 +74,21 @@ type AccessListController struct {
 
 func (c AccessListController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
-	//access_type, err1 := model.Access{}.ParseAccessType(r.FormValue("access_type"))
-	//access_reason, err2 := model.Access{}.ParseAccessReason(r.FormValue("access_reason"))
 
-	nurse_id := r.FormValue("nurse_id")
-	patient_id := r.FormValue("patient_id")
+	classId := r.FormValue("class_id")
+	accessType, err1 := model.Access{}.ParseAccessType(r.FormValue("access_type"))
 
-	//var userInfos []VAA1
-	//err := fit.SQLServerEngine().SQL("select VAA01, VAA05,ABW01 ,VAA10 ,BCQ04 from VAA1 WHERE VAA01 = ?", nurse_id).Find(&userInfos)
-	//c.JsonData.Result = 1000
-	//c.JsonData.ErrorMsg = "test"
-	//c.JsonData.Datas = []interface{}{userInfos, err}
-	//return
-
-
-
-	if nurse_id == "" || patient_id == "" {
+	if classId == "" {
 		c.JsonData.Result = 1
 		c.JsonData.ErrorMsg = "参数不完整"
 		c.JsonData.Datas = []interface{}{}
+	} else if err1 != nil {
+		c.JsonData.Result = 2
+		c.JsonData.ErrorMsg = "参数错误"
+		c.JsonData.Datas = []interface{}{}
+		return
 	} else {
-		accessModel, err := model.AccessList(nurse_id, patient_id)
+		accessModel, err := model.AccessList(classId, accessType)
 		if err != nil {
 			c.JsonData.Result = 1
 			c.JsonData.ErrorMsg = "错误"
@@ -105,9 +108,14 @@ type AccessSearchController struct {
 func (c AccessSearchController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 
+	classId := r.FormValue("class_id")
 	paramstr := r.FormValue("paramstr")
-	mods, err := model.AccessSearch(paramstr)
-	if err != nil {
+	mods, err := model.AccessSearch(classId, paramstr)
+	if classId == "" {
+		c.JsonData.Result = 1
+		c.JsonData.ErrorMsg = "参数不完整"
+		c.JsonData.Datas = []interface{}{}
+	} else if err != nil {
 		c.JsonData.Result = 1
 		c.JsonData.ErrorMsg = "错误"
 		c.JsonData.Datas = err
@@ -116,6 +124,5 @@ func (c AccessSearchController) Post(w *fit.Response, r *fit.Request, p fit.Para
 		c.JsonData.ErrorMsg = ""
 		c.JsonData.Datas = mods
 	}
-
 
 }

@@ -27,8 +27,8 @@ func (c MedicalAdvice) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 	r.ParseForm()
 	advice_class := r.FormValue("advice_class")         //医嘱类别BDA01  关联BDA1.BDA01
 	advice_type := r.FormValue("advice_type")           //长期或临时 VAF11
-	advice_execution := r.FormValue("advice_execution") //BBX01  关联BBX1.BBX01用药方式（执行分类  -1：普通，0：口服单，1：注射单，2：输液单，3：治疗单，4：皮试单，5：输血单，6：护理单，9：其它）
-	advice_state := r.FormValue("advice_state")         //VAF53状态(1：新嘱;2：疑问;3：校对;4：作废;5：删除 ;6：暂停;7：启用;8：已发送或停止;9：确认停止;10：皮试结果)
+	advice_execution := r.FormValue("advice_execution") //用药方式 VAF53或者BBX01  关联BBX1.BBX01 （执行分类  -1：普通，0：口服单，1：注射单，2：输液单，3：治疗单，4：皮试单，5：输血单，6：护理单，9：其它）
+	advice_state := r.FormValue("advice_state")         //VAF10 状态(1：新嘱;2：疑问;3：校对;4：作废;5：删除 ;6：暂停;7：启用;8：已发送或停止;9：确认停止;10：皮试结果)
 	patient_id := r.FormValue("patient_id")             //VAA01病人ID
 
 	if advice_class == "" || advice_type == "" || advice_execution == "" || advice_state == "" || patient_id ==""{

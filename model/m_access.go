@@ -11,6 +11,7 @@ type AccessReason int
 const (
 	AccessTypeBack AccessType = 1 << iota
 	AccessTypeOut
+	AccessTypeAll
 )
 
 const (
@@ -18,14 +19,19 @@ const (
 	AccessReasonOperation
 	AccessReasonOther
 )
+
 type Access struct {
-	BaseModel    		`xorm:"extends"`
-	AccessTime 		string      `json:"access_time" xorm:"notnull comment(出入时间)"`
-	AccessType 		AccessType       	`json:"access_type" xorm:"notnull"`
-	AccessReason 	AccessReason       `json:"access_reason" xorm:"notnull"`
+	BaseModel            `xorm:"extends"`
+	ClassId      string 		`json:"class_id" xorm:"comment(科室)`
+	PatientName  string        `json:"patient_name" xorm:"comment(病人姓名)`
+	NurseName    string        `json:"nurse_name" xorm:"comment(护士姓名)`
+	BedId        string        `json:"bed_id" xorm:"comment(床号)`
+	AccessTime   string      `json:"access_time" xorm:"notnull comment(出入时间)"`
+	AccessType   AccessType        `json:"access_type" xorm:"notnull"`
+	AccessReason AccessReason       `json:"access_reason" xorm:"notnull"`
 }
 
-func (m Access) InsertData() (int64, error)  {
+func (m Access) InsertData() (int64, error) {
 	id, err := fit.MySqlEngine().Insert(m)
 	return id, err
 }
@@ -36,8 +42,10 @@ func (m Access) ParseAccessType(value string) (AccessType, error) {
 		return AccessTypeBack, nil
 	case "2":
 		return AccessTypeOut, nil
+	case "4":
+		return AccessTypeAll, nil
 	default:
-		return AccessTypeBack, fmt.Errorf("not fund such of AccessType: %v", value)
+		return AccessTypeAll, fmt.Errorf("not fund such of AccessType: %v", value)
 	}
 }
 
@@ -55,14 +63,20 @@ func (m Access) ParseAccessReason(value string) (AccessReason, error) {
 	}
 }
 
-func AccessList(nurse_id, patient_id string) ([]Access,error)  {
+func AccessList(classId string, accessType AccessType) ([]Access, error) {
 	var mods []Access
-	err := fit.MySqlEngine().SQL("select * from access where nurse_id = ? and patient_id = ?", nurse_id, patient_id).Find(&mods)
+	var err error
+	if accessType == AccessTypeAll {
+		err = fit.MySqlEngine().SQL("select * from Access where classId = ?", classId).Find(&mods)
+	} else {
+		err = fit.MySqlEngine().SQL("select * from Access where classId = ? and accesstype = ?", classId, accessType).Find(&mods)
+	}
 	return mods, err
 }
 
-func AccessSearch(paramstr string) ([]Access ,error) {
+func AccessSearch(classId, paramstr string) ([]Access, error) {
 	var mods []Access
-	err := fit.MySqlEngine().SQL("select *from access where nurse_id = ?", paramstr).Find(&mods)
+	params := "%" + paramstr + "%"
+	err := fit.MySqlEngine().SQL("select * from Access where classId = ? and (patientid like ? or patientName like ?)", classId, params, params).Find(&mods)
 	return mods, err
 }

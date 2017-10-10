@@ -100,7 +100,7 @@ func (c IntakeOutputQueryController) Get(w *fit.Response, r *fit.Request, p fit.
 	r.ParseForm()
 	tp := r.FormValue("type")
 	page := r.FormValue("page")
-	pid := r.FormValue("pid")
+	pid := r.FormValue("patient_id")
 	if tp == "" || page == "" || pid == "" {
 		c.RenderingJsonAutomatically(1, "参数不完整 null value")
 		return

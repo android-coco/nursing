@@ -25,24 +25,12 @@ type BCE1 struct {
 	BCK01 int    // 科室ID
 }
 
-// 科室表
-type BCK1 struct {
-	BCK01 int    // 科室ID
-	BCK02 string // 科室编码
-	BCK03 string // 科室名称
-}
-
 type User_Response struct {
 	UID         int          `json:"user_id"`  // 员工ID
 	Code        string       `json:"code"`     // 工号
 	Name        string       `json:"name"`     // 姓名
 	Password    string       `json:"password"` // 密码（加密）
 	Departments []Department `json:"departments"`
-}
-
-type Department struct {
-	DepartmentID   int    `json:"department_id"`   // 科室ID
-	DepartmentName string `json:"department_name"` // 科室名
 }
 
 // query SYS_Users table with code and password
@@ -67,7 +55,7 @@ func QueryEmployeeTable(UID int, code string) ([]BCE1, error) {
 }
 
 // query BCK1 table with BCK01(departmentID)
-func QueryDepartmentTable(departmentID int) ([]BCK1, error){
+func QueryDepartmentWithDID(departmentID int) ([]BCK1, error) {
 	slice_BCK := make([]BCK1, 0)
 	err_BCK := fit.SQLServerEngine().Table("BCK1").Where("BCK01 = ?", departmentID).Find(&slice_BCK)
 	return slice_BCK, err_BCK

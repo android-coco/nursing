@@ -12,33 +12,72 @@ type WarnController struct {
 func (c WarnController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 	warnName := r.FormValue("warn_name")
+	warnDesc := r.FormValue("warn_desc")
+	warnType, err1 := model.Warn{}.ParseWarnType(r.FormValue("warn_type"))
 	warnTimeStr := r.FormValue("warn_time")
-	nurse_id := r.FormValue("nurse_id")
-	patient_id := r.FormValue("patient_id")
+	classId := r.FormValue("class_id")
 
-	if warnName == "" || warnTimeStr == "" || nurse_id == "" || patient_id == "" {
+	if warnName == "" || warnDesc == "" || warnTimeStr == "" || err1 != nil || classId == "" {
+		c.JsonData.Result = 1
+		c.JsonData.ErrorMsg = "参数不完整"
+		c.JsonData.Datas = []interface{}{err1.Error()}
+		return
+	}
+
+
+	warnModel := model.Warn{
+		Name:     warnName,
+		Desc:     warnDesc,
+		WarnType: warnType,
+		ClassId:  classId,
+		WarnTime: warnTimeStr}
+
+	id, err := warnModel.InsertData()
+	if err != nil || id == 0{
+		fit.Logger().LogError("Error", "warn add :", err)
+		c.JsonData.Result = 2
+		c.JsonData.ErrorMsg = "上传失败！"
+		c.JsonData.Datas = []interface{}{err.Error()}
+	} else {
+		//warnModel.Id = id
+		c.JsonData.Result = 0
+		c.JsonData.ErrorMsg = "上传成功！"
+		c.JsonData.Datas = warnModel
+	}
+}
+
+func (c WarnController) DelWarn(w *fit.Response, r *fit.Request, p fit.Params) {
+	defer c.ResponseToJson(w)
+	warnTime := r.FormValue("warn_time")
+	classId := r.FormValue("class_id")
+
+	if warnTime == "" || classId == "" {
 		c.JsonData.Result = 1
 		c.JsonData.ErrorMsg = "参数不完整"
 		c.JsonData.Datas = []interface{}{}
 		return
 	}
 
-	//warnTime, _ := time.Parse("2006-01-02 15:04:05", warnTimeStr)
-	//warnTime = time.Now()
-	//fit.Logger().LogInfo("", warnTime)
-
-	warnModel := model.Warn{BaseModel: model.BaseModel{NurseId: nurse_id, PatientId: patient_id}, Name: warnName, WarnTime: warnTimeStr}
-	_, err := warnModel.InsertData()
+	warnModel := model.Warn{ClassId: classId, WarnTime:warnTime}
+	id, err := warnModel.DeleteWarn()
 	if err != nil {
-		fit.Logger().LogError("Error", "warn add :", err)
+		fit.Logger().LogError("Error", "warn delete :", err)
 		c.JsonData.Result = 2
-		c.JsonData.ErrorMsg = "上传失败！"
-		c.JsonData.Datas = []interface{}{}
+		c.JsonData.ErrorMsg = "删除失败！"
+		c.JsonData.Datas = []interface{}{err.Error()}
+		return
 	} else {
-		//warnModel.Id = id
+		if id == 0 {
+			fit.Logger().LogError("Error", "warn delete :", err)
+			c.JsonData.Result = 3
+			c.JsonData.ErrorMsg = "不存在该条记录！"
+			c.JsonData.Datas = []interface{}{}
+			return
+		}
 		c.JsonData.Result = 0
-		c.JsonData.ErrorMsg = "上传成功！"
-		c.JsonData.Datas = warnModel
+		c.JsonData.ErrorMsg = "删除成功！"
+		//c.JsonData.Datas = []interface{}{}
+		return
 	}
 }
 
@@ -49,18 +88,19 @@ type WarnListController struct {
 func (c WarnListController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 
-	nurse_id := r.FormValue("nurse_id")
-	patient_id := r.FormValue("patient_id")
-	if nurse_id == "" || patient_id == "" {
+	//nurseId := r.FormValue("nurse_id")
+	classId := r.FormValue("class_id")
+	listType := r.FormValue("type")
+
+	if classId == "" || listType == "" {
 		c.JsonData.Result = 1
 		c.JsonData.ErrorMsg = "参数不完整"
 		c.JsonData.Datas = []interface{}{}
 
 	} else {
 		c.JsonData.Result = 0
-		warns := model.Warnlist(nurse_id, patient_id)
+		warns := model.Warnlist(classId, listType)
 		c.JsonData.Datas = warns
 	}
-
 
 }
