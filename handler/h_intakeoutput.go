@@ -32,6 +32,7 @@ func (c IntakeOutputCollectController) Post(w *fit.Response, r *fit.Request, p f
 	desc := r.FormValue("desc")
 	nurse_name := r.FormValue("nurse_name")
 	opertion_type := r.FormValue("opertion_type")
+	other_desc := r.FormValue("other_desc")
 
 	if nurse_name == "" || nid == "" || pid == "" || recordtime == "" || tp == "" || subtype == "" || value == "" {
 		c.RenderingJsonAutomatically(1, "参数不完整 null value")
@@ -66,14 +67,15 @@ func (c IntakeOutputCollectController) Post(w *fit.Response, r *fit.Request, p f
 			BaseModel: model.BaseModel{
 				PatientId: pid,
 				NurseId:   nid,
+				NurseName: nurse_name,
 			},
 			Type:          uint8(tp_i),
 			Subtype:       uint8(subtype_i),
 			OperationType: uint8(opertion_i),
-			RecordTime:    recordtime,
+			Testtime:      recordtime,
 			Value:         uint16(value_i),
 			Desc:          desc,
-			NurseName:     nurse_name,
+			OtherDesc:     other_desc,
 		}
 
 		err := iot.CollectIntakeOrOutputVolume()
@@ -110,7 +112,7 @@ func (c IntakeOutputQueryController) Get(w *fit.Response, r *fit.Request, p fit.
 
 	if err_tp != nil || tp_i < 1 || tp_i > 3 {
 		c.RenderingJsonAutomatically(2, "参数错误: type")
-	} else if err_dup != nil || page_i < 0 {
+	} else if err_dup != nil {
 		c.RenderingJsonAutomatically(2, "参数错误: page")
 	} else {
 		var slice []model.IntakeOutputDup

@@ -4,9 +4,9 @@ import "fit"
 
 type Devices struct
 {
-	Id        int64		`json:"id" xorm:"pk autoincr ->"`
-	Devicesclass     uint16      `json:"devicesclass" xorm:"notnull comment(套餐的科室信息)"`
-	Devicesname      string     `json:"devicesname" xorm:"notnull comment(套餐的名字)"`
+	Id               int	  `json:"id" xorm:"notnull comment(套餐的id)"`
+	Devicesclass     uint16   `json:"devicesclass" xorm:"notnull comment(套餐的科室信息)"`
+	Devicesname      string   `json:"devicesname" xorm:"notnull comment(套餐的名字)"`
 	Devicelist       string   `json:"devicelist" xorm:"notnull comment(套餐的设备)"`
 }
 

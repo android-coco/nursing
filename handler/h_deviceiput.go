@@ -11,6 +11,7 @@ type DeviceiputController struct {
 }
 
 func (c DeviceiputController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
+    defer c.ResponseToJson(w)
 
 	actiontype := r.FormValue("actiontype")
     if len(actiontype) == 0{
@@ -24,10 +25,6 @@ func (c DeviceiputController) Post(w *fit.Response, r *fit.Request, p fit.Params
 			c.amendDevices(r)
 		}
 	}
-
-	c.ResponseToJson(w)
-
-	fit.Logger().LogDebug("","Post")
 }
 
 func (c *DeviceiputController) addDevices(r *fit.Request) {
@@ -52,24 +49,23 @@ func (c *DeviceiputController) addDevices(r *fit.Request) {
 			if err!= nil{
 				c.JsonData.Result = 2
 				c.JsonData.ErrorMsg = "插入失败"
-				c.JsonData.Datas = []interface{}{err}
+				c.JsonData.Datas = err
 			}else{
 				c.JsonData.Result = 0
 				c.JsonData.ErrorMsg = "插入成功"
-				c.JsonData.Datas = []interface{}{}
+				c.JsonData.Datas = devices
 			}
 		}else{
 			c.JsonData.Result = 3
 			c.JsonData.ErrorMsg = "套餐已存在"
-			c.JsonData.Datas = []interface{}{err}
+			c.JsonData.Datas = err
 		}
-
 	}
 }
 
+
 func (c *DeviceiputController) amendDevices(r *fit.Request) {
-	//devicesclass,err := strconv.Atoi(r.FormValue("devicesclass"))
-	id,err := strconv.ParseInt(r.FormValue("id"), 10, 64)
+	id,err := strconv.Atoi(r.FormValue("id"))
 	altername := r.FormValue("devicesname")
 	alterlist  := r.FormValue("devicelist")
 
@@ -84,7 +80,6 @@ func (c *DeviceiputController) amendDevices(r *fit.Request) {
 	//.Where("id = ?",id)
 	has, err1 := fit.MySqlEngine().Where("id = ?",id).Get(&devices)
 
-	//fit.Logger().LogDebug("aaa",devices)
 	if has == false || err1!=nil {
 		c.JsonData.Result = 4
 		c.JsonData.ErrorMsg = "套餐不存在"
@@ -95,7 +90,7 @@ func (c *DeviceiputController) amendDevices(r *fit.Request) {
 			if err2!= nil{
 				c.JsonData.Result = 2
 				c.JsonData.ErrorMsg = "删除失败"
-				c.JsonData.Datas = []interface{}{err2}
+				c.JsonData.Datas = err2
 			}else{
 				c.JsonData.Result = 0
 				c.JsonData.ErrorMsg = "删除成功"
@@ -113,11 +108,11 @@ func (c *DeviceiputController) amendDevices(r *fit.Request) {
 					if err3!= nil{
 						c.JsonData.Result = 2
 						c.JsonData.ErrorMsg = "更新失败"
-						c.JsonData.Datas = []interface{}{err3}
+						c.JsonData.Datas = err3
 					}else{
 						c.JsonData.Result = 0
 						c.JsonData.ErrorMsg =  "更新成功"
-						c.JsonData.Datas = []interface{}{}
+						c.JsonData.Datas = devices
 					}
 				}else{
 					if err == nil{
@@ -127,7 +122,7 @@ func (c *DeviceiputController) amendDevices(r *fit.Request) {
 					}else{
 						c.JsonData.Result = 3
 						c.JsonData.ErrorMsg = "数据库请求出错"
-						c.JsonData.Datas = []interface{}{err}
+						c.JsonData.Datas = err
 					}
 				}
 			}else{
@@ -136,11 +131,11 @@ func (c *DeviceiputController) amendDevices(r *fit.Request) {
 				if err3!= nil{
 					c.JsonData.Result = 2
 					c.JsonData.ErrorMsg = "更新失败"
-					c.JsonData.Datas = []interface{}{err3}
+					c.JsonData.Datas = err3
 				}else{
 					c.JsonData.Result = 0
 					c.JsonData.ErrorMsg =  "更新成功"
-					c.JsonData.Datas = []interface{}{}
+					c.JsonData.Datas = devices
 				}
 			}
 		}else{
@@ -148,35 +143,6 @@ func (c *DeviceiputController) amendDevices(r *fit.Request) {
 			c.JsonData.ErrorMsg = "修改参数不完整"
 			c.JsonData.Datas = []interface{}{}
 		}
-
-
-		/*else if len(altername) !=0{
-			devices.Devicesname = altername
-			_,err4 :=fit.MySqlEngine().Where("id = ?",id).Update(&devices)
-
-			if err4!= nil{
-				c.JsonData.Result = 2
-				c.JsonData.ErrorMsg = "更新失败"
-				c.JsonData.Datas = []interface{}{err4}
-			}else{
-				c.JsonData.Result = 0
-				c.JsonData.ErrorMsg = "更新成功"
-				c.JsonData.Datas = []interface{}{}
-			}
-		}else {
-			devices.Devicelist = alterlist
-			_,err5 :=fit.MySqlEngine().Where("id = ?",id).Update(&devices)
-
-			if err5!= nil{
-				c.JsonData.Result = 2
-				c.JsonData.ErrorMsg = "更新失败"
-				c.JsonData.Datas = []interface{}{err5}
-			}else{
-				c.JsonData.Result = 0
-				c.JsonData.ErrorMsg = "更新成功"
-				c.JsonData.Datas = []interface{}{}
-			}
-		}*/
 	}
 }
 

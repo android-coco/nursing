@@ -2,7 +2,6 @@ package handler
 
 import (
 	"fit"
-	"strconv"
 	"nursing/model"
 	"time"
 
@@ -12,13 +11,9 @@ type SignsoutController struct {
 	fit.Controller
 }
 
-func (c SignsoutController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
-	fit.Logger().LogAssert("", "get")
-}
-
 func (c SignsoutController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 	fit.Logger().LogAssert("", "post")
-	//sql := "WHERE "
+	defer c.ResponseToJson(w)
 
 	patientid := r.FormValue("patientid")
 	nurseid := r.FormValue("nurseid")
@@ -43,568 +38,176 @@ func (c SignsoutController) Post(w *fit.Response, r *fit.Request, p fit.Params) 
 		if len(nurseid) != 0 {
 			sql = sql + " and "
 		}
-		sql = sql + "starttime > ?  "
+		sql = sql + "testtime > ?  "
 		msg = append(msg, starttime)
 	}
 	if err9 == nil {
 		if err8 == nil {
 			sql = sql + " and "
 		}
-		sql = sql + "endtime > ?"
+		sql = sql + "testtime < ?"
 		msg = append(msg, endtime)
 	}
 
-	measuretype := r.FormValue("measuretype")
-	if len(measuretype) == 0 {
-		c.JsonData.Result = 1
-		c.JsonData.ErrorMsg = "参数不完整"
-		c.JsonData.Datas = []interface{}{}
-	} else {
-		items, err := model.OutTemperature(sql, msg...)
+	items := make(map[string]interface{})
+	temperature := r.FormValue(model.Temperature_Type )
+	if len(temperature) != 0{
+		item, err := model.OutTemperature(sql, msg...)
 		if err != nil {
-			c.JsonData.Result = 3
-			c.JsonData.ErrorMsg = "查询错误" + err.Error()
-			c.JsonData.Datas = []interface{}{}
+			c.JsonData.Result = 1
+			c.JsonData.ErrorMsg = "查询错误"
+			c.JsonData.Datas = err
+			return
 		} else {
-			c.JsonData.Result = 0
-			c.JsonData.ErrorMsg = "查询完成"
-			c.JsonData.Datas = items
+			items[model.Temperature_Type] = item
 		}
 	}
 
-	/*measuretype := r.FormValue("measuretype")
-	if len(measuretype)==0 {
-		c.JsonData.Result = 1
-		c.JsonData.ErrorMsg = "参数不完整"
-		c.JsonData.Datas = []interface{}{}
-	}
-
-	switch measuretype {
-	case model.Temperature_Type :
-		c.outTemperature(r)
-	case model.Pulse_Type :
-		c.outPulse(r)
-	case model.Breathe_Type :
-		c.outBreathe(r)
-	case model.Pressure_Type :
-		c.outPulse(r)
-	case model.Heartrate_Type :
-		c.outHeartrate(r)
-	case model.Spo2h_Type:
-		c.outSpo2h(r)
-	case model.Glucose_Type:
-		c.outGlucose(r)
-	case model.Weight_Type:
-		c.outWeight(r)
-	case model.Height_Type:
-		c.outHeight(r)
-	}*/
-
-	c.ResponseToJson(w)
-}
-
-func (c *SignsoutController) outTemperature(r *fit.Request) {
-
-	patientid := r.FormValue("patientid")
-	nurseid := r.FormValue("nurseid")
-	texttime, err3 := time.Parse("2006-01-02 15:04:05", r.FormValue("texttime"))
-	recordscene, err4 := strconv.ParseUint(r.FormValue("recordscene"), 10, 16)
-	ttemptype, err5 := strconv.ParseUint(r.FormValue("ttemptype"), 10, 16)
-	coolingtype, err6 := strconv.ParseUint(r.FormValue("coolingtype"), 10, 16)
-	v1, err7 := strconv.ParseFloat(r.FormValue("v1"), 32)
-
-	starttime, err8 := time.Parse("2006-01-02 15:04:05", r.FormValue("starttime"))
-	endtime, err9 := time.Parse("2006-01-02 15:04:05", r.FormValue("endtime"))
-
-	var item model.Temperature
-
-	if len(patientid) != 0 {
-		item.PatientId = patientid
-	}
-	if len(nurseid) != 0 {
-		item.NurseId = nurseid
-	}
-	if err3 == nil {
-		item.Testtime = fit.JsonTime(texttime)
-	}
-	if err4 == nil {
-		item.Recordscene = uint16(recordscene)
-	}
-	if err5 == nil {
-		item.Ttemptype = uint16(ttemptype)
-	}
-	if err6 == nil {
-		item.Coolingtype = uint16(coolingtype)
-	}
-	if err7 == nil {
-		item.Value = float32(v1)
-	}
-
-	var err error
-	items := make([]model.Temperature, 0)
-	if err8 == nil && err9 == nil {
-		err = fit.MySqlEngine().Where("Testtime > ? and Testtime < ?", starttime, endtime).Find(&items, item)
-	} else if err8 == nil {
-		err = fit.MySqlEngine().Where("Testtime > ?", starttime).Find(&items, item)
-	} else if err9 == nil {
-		err = fit.MySqlEngine().Where("Testtime < ?", endtime).Find(&items, item)
-	} else {
-		err = fit.MySqlEngine().Find(&items, item)
-	}
-
-	if err != nil {
-		c.JsonData.Result = 3
-		c.JsonData.ErrorMsg = "查询错误"
-		c.JsonData.Datas = []interface{}{err}
-	} else {
-
-		c.JsonData.Result = 0
-		c.JsonData.ErrorMsg = "查询完成"
-		c.JsonData.Datas = items
-	}
-
-	fit.Logger().LogVerbose("", items)
-}
-
-func (c *SignsoutController) outPulse(r *fit.Request) {
-	patientid := r.FormValue("patientid")
-	nurseid := r.FormValue("nurseid")
-	texttime, err3 := time.Parse("2006-01-02 15:04:05", r.FormValue("texttime"))
-	recordscene, err1 := strconv.ParseUint(r.FormValue("recordscene"), 10, 16)
-	v1, err2 := strconv.ParseUint(r.FormValue("v1"), 10, 16)
-
-	starttime, err8 := time.Parse("2006-01-02 15:04:05", r.FormValue("starttime"))
-	endtime, err9 := time.Parse("2006-01-02 15:04:05", r.FormValue("endtime"))
-
-	var item model.Pulse;
-	if len(patientid) != 0 {
-		item.PatientId = patientid
-	}
-	if len(nurseid) != 0 {
-		item.NurseId = nurseid
-	}
-	if err3 == nil {
-		item.Testtime = fit.JsonTime(texttime)
-	}
-	if err1 == nil {
-		item.Recordscene = uint16(recordscene)
-	}
-	if err2 == nil {
-		item.Value = uint16(v1)
-	}
-
-	var err error
-	items := make([]model.Pulse, 0)
-	if err8 == nil && err9 == nil {
-		err = fit.MySqlEngine().Where("Testtime > ? and Testtime < ?", starttime, endtime).Find(&items, item)
-	} else if err8 == nil {
-		err = fit.MySqlEngine().Where("Testtime > ?", starttime).Find(&items, item)
-	} else if err9 == nil {
-		err = fit.MySqlEngine().Where("Testtime < ?", endtime).Find(&items, item)
-	} else {
-		err = fit.MySqlEngine().Find(&items, item)
-	}
-
-	if err != nil {
-		c.JsonData.Result = 3
-		c.JsonData.ErrorMsg = "查询错误"
-		c.JsonData.Datas = []interface{}{err}
-	} else {
-
-		c.JsonData.Result = 0
-		c.JsonData.ErrorMsg = "查询完成"
-		c.JsonData.Datas = items
-	}
-
-	fit.Logger().LogVerbose("", items)
-}
-
-func (c *SignsoutController) outBreathe(r *fit.Request) {
-	patientid := r.FormValue("patientid")
-	nurseid := r.FormValue("nurseid")
-	texttime, err3 := time.Parse("2006-01-02 15:04:05", r.FormValue("texttime"))
-	recordscene, err1 := strconv.ParseUint(r.FormValue("recordscene"), 10, 16)
-	v1, err2 := strconv.ParseUint(r.FormValue("v1"), 10, 16)
-	whethertbm := r.FormValue("whethertbm")
-
-	starttime, err8 := time.Parse("2006-01-02 15:04:05", r.FormValue("starttime"))
-	endtime, err9 := time.Parse("2006-01-02 15:04:05", r.FormValue("endtime"))
-
-	var item model.Breathe;
-	if len(patientid) != 0 {
-		item.PatientId = patientid
-	}
-	if len(nurseid) != 0 {
-		item.NurseId = nurseid
-	}
-	if err3 == nil {
-		item.Testtime = fit.JsonTime(texttime)
-	}
-	if err1 == nil {
-		item.Recordscene = uint16(recordscene)
-	}
-	if err2 == nil {
-		item.Value = uint16(v1)
-	}
-	if len(whethertbm) != 0 {
-		if whethertbm == "true" {
-			item.Whethertbm = true
+	pulse := r.FormValue(model.Pulse_Type )
+	if len(pulse) != 0{
+		item1, err1 := model.OutPulse(sql, msg...)
+		if err1 != nil {
+			c.JsonData.Result = 1
+			c.JsonData.ErrorMsg = "查询错误1"
+			c.JsonData.Datas = err1
+			return
 		} else {
-			item.Whethertbm = false
+			items[model.Pulse_Type] = item1
 		}
 	}
 
-	var err error
-	items := make([]model.Breathe, 0)
-	if err8 == nil && err9 == nil {
-		err = fit.MySqlEngine().Where("Testtime > ? and Testtime < ?", starttime, endtime).Find(&items, item)
-	} else if err8 == nil {
-		err = fit.MySqlEngine().Where("Testtime > ?", starttime).Find(&items, item)
-	} else if err9 == nil {
-		err = fit.MySqlEngine().Where("Testtime < ?", endtime).Find(&items, item)
-	} else {
-		err = fit.MySqlEngine().Find(&items, item)
+	breathe := r.FormValue(model.Breathe_Type )
+	if len(breathe) != 0{
+		item2, err2 := model.OutBreathe(sql, msg...)
+		if err2 != nil {
+			c.JsonData.Result = 1
+			c.JsonData.ErrorMsg = "查询错误2"
+			c.JsonData.Datas = err2
+			return
+		} else {
+			items[model.Breathe_Type] = item2
+		}
 	}
 
-	if err != nil {
-		c.JsonData.Result = 3
-		c.JsonData.ErrorMsg = "查询错误"
-		c.JsonData.Datas = []interface{}{err}
-	} else {
-
-		c.JsonData.Result = 0
-		c.JsonData.ErrorMsg = "查询完成"
-		c.JsonData.Datas = items
+	pressure := r.FormValue(model.Pressure_Type )
+	if len(pressure) != 0{
+		item3, err3 := model.OutPressure(sql, msg...)
+		if err3 != nil {
+			c.JsonData.Result = 1
+			c.JsonData.ErrorMsg = "查询错误3"
+			c.JsonData.Datas = err3
+			return
+		} else {
+			items[model.Pressure_Type] = item3
+		}
 	}
 
-	fit.Logger().LogVerbose("", items)
-
-}
-
-func (c *SignsoutController) outPressure(r *fit.Request) {
-	patientid := r.FormValue("patientid")
-	nurseid := r.FormValue("nurseid")
-	texttime, err5 := time.Parse("2006-01-02 15:04:05", r.FormValue("texttime"))
-	recordscene, err1 := strconv.ParseUint(r.FormValue("recordscene"), 10, 16)
-	v1, err2 := strconv.ParseUint(r.FormValue("v1"), 10, 16)
-	v2, err3 := strconv.ParseUint(r.FormValue("v2"), 10, 16)
-	v3, err4 := strconv.ParseUint(r.FormValue("v3"), 10, 16)
-
-	starttime, err8 := time.Parse("2006-01-02 15:04:05", r.FormValue("starttime"))
-	endtime, err9 := time.Parse("2006-01-02 15:04:05", r.FormValue("endtime"))
-
-	var item model.Pressure;
-	if len(patientid) != 0 {
-		item.PatientId = patientid
-	}
-	if len(nurseid) != 0 {
-		item.NurseId = nurseid
-	}
-	if err5 == nil {
-		item.Testtime = fit.JsonTime(texttime)
-	}
-	if err1 == nil {
-		item.Recordscene = uint16(recordscene)
-	}
-	if err2 == nil {
-		item.Sysvalue = uint16(v1)
-	}
-	if err3 == nil {
-		item.Diavalue = uint16(v2)
-	}
-	if err4 == nil {
-		item.Pulsevalue = uint16(v3)
+	heartrate := r.FormValue(model.Heartrate_Type )
+	if len(heartrate) != 0{
+		item4, err4 := model.OutHeartrate(sql, msg...)
+		if err4 != nil {
+			c.JsonData.Result = 1
+			c.JsonData.ErrorMsg = "查询错误4"
+			c.JsonData.Datas = err4
+			return
+		} else {
+			items[model.Heartrate_Type] = item4
+		}
 	}
 
-	var err error
-	items := make([]model.Pressure, 0)
-	if err8 == nil && err9 == nil {
-		err = fit.MySqlEngine().Where("Testtime > ? and Testtime < ?", starttime, endtime).Find(&items, item)
-	} else if err8 == nil {
-		err = fit.MySqlEngine().Where("Testtime > ?", starttime).Find(&items, item)
-	} else if err9 == nil {
-		err = fit.MySqlEngine().Where("Testtime < ?", endtime).Find(&items, item)
-	} else {
-		err = fit.MySqlEngine().Find(&items, item)
+	spo2h := r.FormValue(model.Spo2h_Type )
+	if len(spo2h) != 0{
+		item5, err5 := model.OutSpo2h(sql, msg...)
+		if err5 != nil {
+			c.JsonData.Result = 1
+			c.JsonData.ErrorMsg = "查询错误5"
+			c.JsonData.Datas = err5
+			return
+		} else {
+			items[model.Spo2h_Type] = item5
+		}
 	}
 
-	if err != nil {
-		c.JsonData.Result = 3
-		c.JsonData.ErrorMsg = "查询错误"
-		c.JsonData.Datas = []interface{}{err}
-	} else {
-
-		c.JsonData.Result = 0
-		c.JsonData.ErrorMsg = "查询完成"
-		c.JsonData.Datas = items
+	glucose := r.FormValue(model.Glucose_Type )
+	if len(glucose) != 0{
+		item6, err6 := model.OutGlucose(sql, msg...)
+		if err6 != nil {
+			c.JsonData.Result = 1
+			c.JsonData.ErrorMsg = "查询错误6"
+			c.JsonData.Datas = err6
+			return
+		} else {
+			items[model.Glucose_Type] = item6
+		}
 	}
 
-	fit.Logger().LogVerbose("", items)
-}
-
-func (c *SignsoutController) outHeartrate(r *fit.Request) {
-	patientid := r.FormValue("patientid")
-	nurseid := r.FormValue("nurseid")
-	texttime, err3 := time.Parse("2006-01-02 15:04:05", r.FormValue("texttime"))
-	recordscene, err1 := strconv.ParseUint(r.FormValue("recordscene"), 10, 16)
-	v1, err2 := strconv.ParseUint(r.FormValue("v1"), 10, 16)
-
-	starttime, err8 := time.Parse("2006-01-02 15:04:05", r.FormValue("starttime"))
-	endtime, err9 := time.Parse("2006-01-02 15:04:05", r.FormValue("endtime"))
-
-	var item model.Heartrate;
-	if len(patientid) != 0 {
-		item.PatientId = patientid
-	}
-	if len(nurseid) != 0 {
-		item.NurseId = nurseid
-	}
-	if err3 == nil {
-		item.Testtime = fit.JsonTime(texttime)
-	}
-	if err1 == nil {
-		item.Recordscene = uint16(recordscene)
-	}
-	if err2 == nil {
-		item.Value = uint16(v1)
+	weight := r.FormValue(model.Weight_Type )
+	if len(weight) != 0{
+		item7, err7 := model.OutWeight(sql, msg...)
+		if err7 != nil {
+			c.JsonData.Result = 1
+			c.JsonData.ErrorMsg = "查询错误7"
+			c.JsonData.Datas = err7
+			return
+		} else {
+			items[model.Weight_Type] = item7
+		}
 	}
 
-	var err error
-	items := make([]model.Heartrate, 0)
-	if err8 == nil && err9 == nil {
-		err = fit.MySqlEngine().Where("Testtime > ? and Testtime < ?", starttime, endtime).Find(&items, item)
-	} else if err8 == nil {
-		err = fit.MySqlEngine().Where("Testtime > ?", starttime).Find(&items, item)
-	} else if err9 == nil {
-		err = fit.MySqlEngine().Where("Testtime < ?", endtime).Find(&items, item)
-	} else {
-		err = fit.MySqlEngine().Find(&items, item)
+	height := r.FormValue(model.Height_Type )
+	if len(height) != 0{
+		item8, err8 := model.OutHeight(sql, msg...)
+		if err8 != nil {
+			c.JsonData.Result = 1
+			c.JsonData.ErrorMsg = "查询错误8"
+			c.JsonData.Datas = err8
+			return
+		} else {
+			items[model.Height_Type] = item8
+		}
 	}
 
-	if err != nil {
-		c.JsonData.Result = 3
-		c.JsonData.ErrorMsg = "查询错误"
-		c.JsonData.Datas = []interface{}{err}
-	} else {
-
-		c.JsonData.Result = 0
-		c.JsonData.ErrorMsg = "查询完成"
-		c.JsonData.Datas = items
+	skin := r.FormValue(model.Skin_Type )
+	if len(skin) != 0{
+		item9, err9 := model.OutSkin(sql, msg...)
+		if err9 != nil {
+			c.JsonData.Result = 1
+			c.JsonData.ErrorMsg = "查询错误9"
+			c.JsonData.Datas = err9
+			return
+		} else {
+			items[model.Skin_Type] = item9
+		}
 	}
 
-	fit.Logger().LogVerbose("", items)
-}
-
-func (c *SignsoutController) outSpo2h(r *fit.Request) {
-	patientid := r.FormValue("patientid")
-	nurseid := r.FormValue("nurseid")
-	texttime, err3 := time.Parse("2006-01-02 15:04:05", r.FormValue("texttime"))
-	recordscene, err1 := strconv.ParseUint(r.FormValue("recordscene"), 10, 16)
-	v1, err2 := strconv.ParseUint(r.FormValue("v1"), 10, 16)
-
-	starttime, err8 := time.Parse("2006-01-02 15:04:05", r.FormValue("starttime"))
-	endtime, err9 := time.Parse("2006-01-02 15:04:05", r.FormValue("endtime"))
-
-	var item model.Heartrate;
-	if len(patientid) != 0 {
-		item.PatientId = patientid
-	}
-	if len(nurseid) != 0 {
-		item.NurseId = nurseid
-	}
-	if err3 == nil {
-		item.Testtime = fit.JsonTime(texttime)
-	}
-	if err1 == nil {
-		item.Recordscene = uint16(recordscene)
-	}
-	if err2 == nil {
-		item.Value = uint16(v1)
+	ache := r.FormValue(model.Ache_Type )
+	if len(ache) != 0{
+		item10, err10 := model.OutAche(sql, msg...)
+		if err10 != nil {
+			c.JsonData.Result = 1
+			c.JsonData.ErrorMsg = "查询错误10"
+			c.JsonData.Datas = err10
+			return
+		} else {
+			items[model.Ache_Type] = item10
+		}
 	}
 
-	var err error
-	items := make([]model.Spo2h, 0)
-	if err8 == nil && err9 == nil {
-		err = fit.MySqlEngine().Where("Testtime > ? and Testtime < ?", starttime, endtime).Find(&items, item)
-	} else if err8 == nil {
-		err = fit.MySqlEngine().Where("Testtime > ?", starttime).Find(&items, item)
-	} else if err9 == nil {
-		err = fit.MySqlEngine().Where("Testtime < ?", endtime).Find(&items, item)
-	} else {
-		err = fit.MySqlEngine().Find(&items, item)
+	incident := r.FormValue(model.Incident_Type )
+	if len(incident) != 0{
+		item11, err11 := model.OutIncident(sql, msg...)
+		if err11 != nil {
+			c.JsonData.Result = 1
+			c.JsonData.ErrorMsg = "查询错误11"
+			c.JsonData.Datas = err11
+			return
+		} else {
+			items[model.Incident_Type] = item11
+		}
 	}
 
-	if err != nil {
-		c.JsonData.Result = 3
-		c.JsonData.ErrorMsg = "查询错误"
-		c.JsonData.Datas = []interface{}{err}
-	} else {
+	c.JsonData.Result = 0
+	c.JsonData.ErrorMsg = "查询完成"
+	c.JsonData.Datas = items
 
-		c.JsonData.Result = 0
-		c.JsonData.ErrorMsg = "查询完成"
-		c.JsonData.Datas = items
-	}
-
-	fit.Logger().LogVerbose("", items)
-}
-
-func (c *SignsoutController) outGlucose(r *fit.Request) {
-	patientid := r.FormValue("patientid")
-	nurseid := r.FormValue("nurseid")
-	texttime, err3 := time.Parse("2006-01-02 15:04:05", r.FormValue("texttime"))
-	recordscene, err1 := strconv.ParseUint(r.FormValue("recordscene"), 10, 16)
-	v1, err2 := strconv.ParseFloat(r.FormValue("v1"), 32)
-
-	starttime, err8 := time.Parse("2006-01-02 15:04:05", r.FormValue("starttime"))
-	endtime, err9 := time.Parse("2006-01-02 15:04:05", r.FormValue("endtime"))
-
-	var item model.Heartrate;
-	if len(patientid) != 0 {
-		item.PatientId = patientid
-	}
-	if len(nurseid) != 0 {
-		item.NurseId = nurseid
-	}
-	if err3 == nil {
-		item.Testtime = fit.JsonTime(texttime)
-	}
-	if err1 == nil {
-		item.Recordscene = uint16(recordscene)
-	}
-	if err2 == nil {
-		item.Value = uint16(v1)
-	}
-
-	var err error
-	items := make([]model.Glucose, 0)
-	if err8 == nil && err9 == nil {
-		err = fit.MySqlEngine().Where("Testtime > ? and Testtime < ?", starttime, endtime).Find(&items, item)
-	} else if err8 == nil {
-		err = fit.MySqlEngine().Where("Testtime > ?", starttime).Find(&items, item)
-	} else if err9 == nil {
-		err = fit.MySqlEngine().Where("Testtime < ?", endtime).Find(&items, item)
-	} else {
-		err = fit.MySqlEngine().Find(&items, item)
-	}
-
-	if err != nil {
-		c.JsonData.Result = 3
-		c.JsonData.ErrorMsg = "查询错误"
-		c.JsonData.Datas = []interface{}{err}
-	} else {
-
-		c.JsonData.Result = 0
-		c.JsonData.ErrorMsg = "查询完成"
-		c.JsonData.Datas = items
-	}
-
-	fit.Logger().LogVerbose("", items)
-}
-
-func (c *SignsoutController) outWeight(r *fit.Request) {
-
-	patientid := r.FormValue("patientid")
-	nurseid := r.FormValue("nurseid")
-	texttime, err3 := time.Parse("2006-01-02 15:04:05", r.FormValue("texttime"))
-	recordscene, err1 := strconv.ParseUint(r.FormValue("recordscene"), 10, 16)
-	v1, err2 := strconv.ParseFloat(r.FormValue("v1"), 32)
-
-	starttime, err4 := time.Parse("2006-01-02 15:04:05", r.FormValue("starttime"))
-	endtime, err5 := time.Parse("2006-01-02 15:04:05", r.FormValue("endtime"))
-
-	var item model.Weight;
-	if len(patientid) != 0 {
-		item.PatientId = patientid
-	}
-	if len(nurseid) != 0 {
-		item.NurseId = nurseid
-	}
-	if err3 == nil {
-		item.Testtime = fit.JsonTime(texttime)
-	}
-	if err1 == nil {
-		item.Recordscene = uint16(recordscene)
-	}
-	if err2 == nil {
-		item.Value = float32(v1)
-	}
-
-	var err error
-	items := make([]model.Weight, 0)
-	if err4 == nil && err5 == nil {
-		err = fit.MySqlEngine().Where("Testtime > ? and Testtime < ?", starttime, endtime).Find(&items, item)
-	} else if err4 == nil {
-		err = fit.MySqlEngine().Where("Testtime > ?", starttime).Find(&items, item)
-	} else if err5 == nil {
-		err = fit.MySqlEngine().Where("Testtime < ?", endtime).Find(&items, item)
-	} else {
-		err = fit.MySqlEngine().Find(&items, item)
-	}
-
-	if err != nil {
-		c.JsonData.Result = 3
-		c.JsonData.ErrorMsg = "查询错误"
-		c.JsonData.Datas = []interface{}{err}
-	} else {
-
-		c.JsonData.Result = 0
-		c.JsonData.ErrorMsg = "查询完成"
-		c.JsonData.Datas = items
-	}
-
-	fit.Logger().LogVerbose("", items)
-
-}
-
-func (c *SignsoutController) outHeight(r *fit.Request) {
-	patientid := r.FormValue("patientid")
-	nurseid := r.FormValue("nurseid")
-	texttime, err3 := time.Parse("2006-01-02 15:04:05", r.FormValue("texttime"))
-	recordscene, err1 := strconv.ParseUint(r.FormValue("recordscene"), 10, 16)
-	v1, err2 := strconv.ParseFloat(r.FormValue("v1"), 64)
-
-	starttime, err4 := time.Parse("2006-01-02 15:04:05", r.FormValue("starttime"))
-	endtime, err5 := time.Parse("2006-01-02 15:04:05", r.FormValue("endtime"))
-
-	var item model.Height;
-	if len(patientid) != 0 {
-		item.PatientId = patientid
-	}
-	if len(nurseid) != 0 {
-		item.NurseId = nurseid
-	}
-	if err3 == nil {
-		item.Testtime = fit.JsonTime(texttime)
-	}
-	if err1 == nil {
-		item.Recordscene = uint16(recordscene)
-	}
-	if err2 == nil {
-		item.Value = float64(v1)
-	}
-
-	var err error
-	items := make([]model.Height, 0)
-	if err4 == nil && err5 == nil {
-		err = fit.MySqlEngine().Where("Testtime > ? and Testtime < ?", starttime, endtime).Find(&items, item)
-	} else if err4 == nil {
-		err = fit.MySqlEngine().Where("Testtime > ?", starttime).Find(&items, item)
-	} else if err5 == nil {
-		err = fit.MySqlEngine().Where("Testtime < ?", endtime).Find(&items, item)
-	} else {
-		err = fit.MySqlEngine().Find(&items, item)
-	}
-
-	if err != nil {
-		c.JsonData.Result = 3
-		c.JsonData.ErrorMsg = "查询错误"
-		c.JsonData.Datas = []interface{}{err}
-	} else {
-
-		c.JsonData.Result = 0
-		c.JsonData.ErrorMsg = "查询完成"
-		c.JsonData.Datas = items
-	}
-
-	fit.Logger().LogVerbose("", items)
 }

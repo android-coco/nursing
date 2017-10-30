@@ -4,6 +4,7 @@ import (
 
 	"fit"
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -11,11 +12,11 @@ type WarnType int
 
 type Warn struct {
 	BaseModel 				`xorm:"extends"`
-	ClassId        string        `json:"class_id" xorm:"comment(科室id)`
+	ClassId        string        `json:"class_id" xorm:"comment(科室id)"`
 	Name     string        	`json:"name" xorm:"comment(提醒标签)"`
 	Desc     string        	`json:"desc" xorm:"comment(提醒描述)"`
 	WarnTime string      `json:"warn_time" xorm:"notnull comment(提醒时间)"`
-	WarnType WarnType		`json:"warn_type" xorm:"comment(提醒类型，1=响铃，2=震动，3=响铃+震动)`
+	WarnType WarnType		`json:"warn_type" xorm:"comment(提醒类型，1=响铃，2=震动，3=响铃+震动)"`
 }
 
 const (
@@ -38,7 +39,7 @@ func (m Warn) ParseWarnType(value string) (WarnType, error) {
 }
 
 func (m Warn) InsertData() (int64, error)  {
-	has, err1 := fit.MySqlEngine().Where("WarnTime = ?", m.WarnTime).Exist(&m)
+	has, err1 := fit.MySqlEngine().Where("WarnTime = ?", m.WarnTime).Exist(&Warn{})
 	if has {
 		return 0, fmt.Errorf("there has the same warn")
 	} else if err1 != nil {
@@ -49,18 +50,30 @@ func (m Warn) InsertData() (int64, error)  {
 	return id, err
 }
 
-func Warnlist(classId, listType string) []Warn {
+func Warnlist(classId string) []Warn {
 	var warns []Warn
-	if listType == "1" { // 已完成
-		fit.MySqlEngine().SQL("select * from Warn where ClassId = ? and WarnTime < ?", classId, time.Now().Format("2006-01-02 15:04")).Find(&warns)
-	} else { // 待执行
-		fit.MySqlEngine().SQL("select * from Warn where ClassId = ? and WarnTime > ?", classId, time.Now().Format("2006-01-02 15:04")).Find(&warns)
-	}
+	params := time.Now().Format("2006-01-02") + "%"
+	fit.MySqlEngine().SQL("select * from Warn where ClassId = ? and warntime like ?", classId, params).Find(&warns)
+	//if listType == "1" { // 已完成
+	//} else { // 待执行
+	//	fit.MySqlEngine().SQL("select * from Warn where ClassId = ? and WarnTime > ?", classId, time.Now().Format("2006-01-02 15:04")).Find(&warns)
+	//}
 	return warns
 }
 
 func (m Warn)DeleteWarn()(int64, error)  {
+	//// 入院时间
+	//var VAA73 time.Time
+	//// 出院时间
+	//var VAA74 time.Time
+	//fit.SQLServerEngine().SQL("select VAA73,VAA74 form VAA1 where")
+
+
 	// id 更新条数
-	id, err := fit.MySqlEngine().SQL("DELETE FROM Warn WHERE classid = ? and WarnTime = ?", m.ClassId, m.WarnTime).Delete(&m)
+
+	valSlice := strings.Split(m.WarnTime, ",")
+
+	//id, err := fit.MySqlEngine().SQL("DELETE FROM Warn WHERE classid = ?", m.ClassId).In("WarnTime", "2017-10-09 08:00:00,2017-10-09 08:00").Delete(&m)
+	id, err := fit.MySqlEngine().Where("classid = ?", m.ClassId).In("WarnTime", valSlice).Delete(Warn{})
 	return id, err
 }

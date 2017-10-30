@@ -37,7 +37,8 @@ type IntakeOutputDup struct {
 	Value         uint16       `json:"value" xorm:"notnull comment(采集值)"`
 	Desc          string       `json:"desc" xorm:"comment(描述)"`
 	NurseName     string       `json:"nurse_name" xorm:"notnull comment(护士姓名)"`
-	RecordTime    Datetime_IOV `json:"recordTime" xorm:"notnull comment(采集时间)"`
+	Testtime      Datetime_IOV `json:"recordTime" xorm:"notnull comment(采集时间)"`
+	OtherDesc     string       `json:"other_desc" xorm:"comment(其它出量的补充描述)"`
 }
 
 type IntakeOutput struct {
@@ -47,13 +48,13 @@ type IntakeOutput struct {
 	OperationType uint8  `json:"opertion_type" xorm:"notnull comment(操作类型，0：无，1：尿管排尿或者排便失禁，2：灌肠排便，3：清洁灌肠，4：肠镜排便，5：人工肛门排便)"`
 	Value         uint16 `json:"value" xorm:"notnull comment(采集值)"`
 	Desc          string `json:"desc" xorm:"comment(描述)"`
-	NurseName     string `json:"nurse_name" xorm:"notnull comment(护士姓名)"`
-	RecordTime    string `xorm:"notnull comment(采集时间)"`
+	Testtime      string `xorm:"notnull comment(采集时间)"`
+	OtherDesc     string `xorm:"comment(其它出量的补充描述)"`
 }
 
 // inert one intake or output volume into database
 func (iot *IntakeOutput) CollectIntakeOrOutputVolume() error {
-	_, err := fit.MySqlEngine().InsertOne(iot)
+	_, err := fit.MySqlEngine().Table("IntakeOutput").InsertOne(iot)
 	return err
 }
 
@@ -64,18 +65,28 @@ func (iot *IntakeOutput) CollectIntakeOrOutputVolume() error {
 	return slice of type IntakeOutput
 */
 func QueryIntakeOrOutputVolume(patientId string, tp int, page int) ([]IntakeOutputDup, error) {
-	count := 10
 	responseObj := make([]IntakeOutputDup, 0)
-	idx := page * count
-	err := fit.MySqlEngine().Omit("id", "datetime").Table("IntakeOutput").Where("patientId = ? and type = ?", patientId, tp).Limit(count, idx).Find(&responseObj)
-	return responseObj, err
+	if page >= 0 {
+		count := 20
+		idx := page * count
+		err := fit.MySqlEngine().Omit("id", "datetime").Table("IntakeOutput").Where("patientId = ? and type = ?", patientId, tp).Desc("testtime").Limit(count, idx).Find(&responseObj)
+		return responseObj, err
+	} else {
+		err := fit.MySqlEngine().Omit("id", "datetime").Table("IntakeOutput").Where("patientId = ? and type = ?", patientId, tp).Desc("testtime").Find(&responseObj)
+		return responseObj, err
+	}
 }
 
 // query datas where type is equal to IntakeOutputTypeIntake or IntakeOutputTypeOutput
 func QueryIntakeOrOutputVolumeAll(patientId string, page int) ([]IntakeOutputDup, error) {
-	count := 10
 	responseObj := make([]IntakeOutputDup, 0)
-	idx := page * count
-	err := fit.MySqlEngine().Omit("id", "datetime").Table("IntakeOutput").Where("patientId = ? ", patientId).And("(type = ? or type = ?)", IntakeOutputTypeOutput, IntakeOutputTypeIntake).Limit(count, idx).Find(&responseObj)
-	return responseObj, err
+	if page >= 0 {
+		count := 20
+		idx := page * count
+		err := fit.MySqlEngine().Omit("id", "datetime").Table("IntakeOutput").Where("patientId = ? ", patientId).And("(type = ? or type = ?)", IntakeOutputTypeOutput, IntakeOutputTypeIntake).Desc("testtime").Limit(count, idx).Find(&responseObj)
+		return responseObj, err
+	} else {
+		err := fit.MySqlEngine().Omit("id", "datetime").Table("IntakeOutput").Where("patientId = ? ", patientId).And("(type = ? or type = ?)", IntakeOutputTypeOutput, IntakeOutputTypeIntake).Desc("testtime").Find(&responseObj)
+		return responseObj, err
+	}
 }

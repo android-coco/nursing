@@ -27,9 +27,8 @@ func (c DeviceoutController) Post(w *fit.Response, r *fit.Request, p fit.Params)
 		if  err != nil {
 			c.JsonData.Result = 3
 			c.JsonData.ErrorMsg = "查询错误"
-			c.JsonData.Datas = []interface{}{err}
+			c.JsonData.Datas = err
 		}else{
-
 			c.JsonData.Result = 0
 			c.JsonData.ErrorMsg = "查询完成"
 			c.JsonData.Datas = items

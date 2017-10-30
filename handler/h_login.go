@@ -18,56 +18,67 @@ func (c LoginController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 
 	if code == "" || password == "" {
 		c.RenderingJsonAutomatically(1, "参数不完整")
+		return
 	} else {
+		// 查询User表（多科室多条数据,前提是BCE1表支持多科室）
 		slice_User, err_User := model.QueryUserTable(code, password)
+		length := len(slice_User)
 		if err_User != nil {
 			c.RenderingJsonAutomatically(3, "Database "+err_User.Error())
-		} else if length := len(slice_User); length == 0 {
+			return
+		} else if length == 0 {
 			c.RenderingJsonAutomatically(2, "工号或者密码错误，请重新输入")
-		} else if auth := slice_User[0].Authorized; auth != 0 {
-			c.RenderingJsonAutomatically(4, "此账号未被授权")
-		} else if eid := slice_User[0].EmployeeID; eid == 0 {
-			c.RenderingJsonAutomatically(4, "无法访问员工数据库")
-		} else {
-			EID := slice_User[0].EmployeeID
-			slice_IAN, err_IAN := model.QueryEmployeeContrastTable(EID)
-			if err_IAN != nil {
-				c.RenderingJsonAutomatically(3, "Database "+err_IAN.Error())
-			} else if length := len(slice_IAN); length == 0 {
-				c.RenderingJsonAutomatically(2, "工号不存在，请检查工号")
+			return
+		}
+
+		user := slice_User[0]
+		if user.Employeeid == 0 {
+			// Employeeid == 0 有可能是管理员账号，也可能未授权的普通账号
+			if authority := user.Authority; authority != 0 {
+				responce := model.UserInfo{
+					UID:         user.Employeeid,
+					Name:        user.Username,
+					Password:    user.Password,
+					Code:        user.Code,
+					Departments: make([]model.Department, 0),
+					Authority:   authority,
+				}
+
+				if authority == 3 {
+					// 设备管理员
+					c.RenderingJson(0, "登录成功", responce)
+				} else if authority == 2 {
+					// 账号管理员
+					c.RenderingJson(4, "此账号禁止在PDA端使用", responce)
+				}
+				return
 			} else {
-				UID := slice_IAN[0].BCE01
-				slice_BCE, err_BCE := model.QueryEmployeeTable(UID, code)
-				if err_BCE != nil {
-					c.RenderingJsonAutomatically(3, "Database "+err_BCE.Error())
-				} else if length := len(slice_BCE); length == 0 {
-					c.RenderingJsonAutomatically(2, "账号不存在，请检查工号")
+				c.RenderingJsonAutomatically(4, "未被授权，无法访问员工数据")
+				return
+			}
+		} else if user.DepartmentID == 0 {
+			c.RenderingJsonAutomatically(5, "此账号未隶属任何科室")
+			return
+		} else {
+			responce := model.UserInfo{
+				UID:         user.Employeeid,
+				Name:        user.Username,
+				Password:    user.Password,
+				Code:        user.Code,
+				Departments: make([]model.Department, length),
+				Authority:   user.Authority,
+			}
+			for i, obj := range slice_User {
+				department, err_BCK := model.QueryDepartmentWithDID(obj.DepartmentID)
+				if err_BCK != nil {
+					c.RenderingJsonAutomatically(3, "Database "+err_BCK.Error())
+					return
 				} else {
-					len_BCE := len(slice_BCE)
-					respoce := model.User_Response{
-						UID:         UID,
-						Name:        slice_User[0].Name,
-						Password:    password,
-						Code:        code,
-						Departments: make([]model.Department, len_BCE),
-					}
-					for i, BCE := range slice_BCE {
-						DID := BCE.BCK01
-						slice_BCK, err_BCK := model.QueryDepartmentWithDID(DID)
-						if err_BCK != nil {
-							c.RenderingJsonAutomatically(3, "Database "+err_BCK.Error())
-							return
-						} else if length := len(slice_BCK); length == 0 {
-							c.RenderingJsonAutomatically(5, "此账号未隶属任何科室")
-							return
-						} else {
-							respoce.Departments[i].DepartmentID = DID
-							respoce.Departments[i].DepartmentName = slice_BCK[0].BCK03
-						}
-					}
-					c.RenderingJson(0, "登录成功", respoce)
+					responce.Departments[i].DepartmentID = department.BCK01
+					responce.Departments[i].DepartmentName = department.BCK03
 				}
 			}
+			c.RenderingJson(0, "登录成功", responce)
 		}
 	}
 }

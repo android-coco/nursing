@@ -1498,7 +1498,7 @@ IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description',
 'SCHEMA', N'dbo', 
 'TABLE', N'VAF2', 
 NULL, NULL)) > 0) 
-EXEC sp_updateextendedproperty @name = N'MS_Description', @value = N'CREATE TABLE VAF2--住院病人医嘱记录
+EXEC sp_updateextendedproperty @name = N'MS_Description', @value = N'CREATE TABLE VAF1--住院病人医嘱记录
 (
         VAF01  INT  --ID
       ,VAF01A INT  --相关ID, 关联字段：VAF1.VAF01
@@ -1582,7 +1582,7 @@ EXEC sp_updateextendedproperty @name = N'MS_Description', @value = N'CREATE TABL
 , @level0type = 'SCHEMA', @level0name = N'dbo'
 , @level1type = 'TABLE', @level1name = N'VAF2'
 ELSE
-EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'CREATE TABLE VAF2--住院病人医嘱记录
+EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'CREATE TABLE VAF1--住院病人医嘱记录
 (
         VAF01  INT  --ID
       ,VAF01A INT  --相关ID, 关联字段：VAF1.VAF01

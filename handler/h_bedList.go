@@ -43,3 +43,4 @@ func (c *BedListController) RenderingJson(result int, errMsg string, datas inter
 	c.JsonData.ErrorMsg = errMsg
 	c.JsonData.Result = result
 }
+

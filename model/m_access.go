@@ -3,6 +3,7 @@ package model
 import (
 	"fit"
 	"fmt"
+	"strconv"
 )
 
 type AccessType int
@@ -21,14 +22,14 @@ const (
 )
 
 type Access struct {
-	BaseModel            `xorm:"extends"`
-	ClassId      string 		`json:"class_id" xorm:"comment(科室)`
-	PatientName  string        `json:"patient_name" xorm:"comment(病人姓名)`
-	NurseName    string        `json:"nurse_name" xorm:"comment(护士姓名)`
-	BedId        string        `json:"bed_id" xorm:"comment(床号)`
-	AccessTime   string      `json:"access_time" xorm:"notnull comment(出入时间)"`
-	AccessType   AccessType        `json:"access_type" xorm:"notnull"`
-	AccessReason AccessReason       `json:"access_reason" xorm:"notnull"`
+	BaseModel                 `xorm:"extends"`
+	ClassId      string       `json:"class_id" xorm:"comment(科室)"`
+	PatientName  string       `json:"patient_name" xorm:"comment(病人姓名)"`
+	//NurseName    string       `json:"nurse_name" xorm:"comment(责任护士姓名)"`
+	BedId        string       `json:"bed_id" xorm:"comment(床号)"`
+	AccessTime   string       `json:"access_time" xorm:"notnull comment(出入时间)"`
+	AccessType   AccessType   `json:"access_type" xorm:"notnull"`
+	AccessReason AccessReason `json:"access_reason" xorm:"notnull"`
 }
 
 func (m Access) InsertData() (int64, error) {
@@ -63,20 +64,32 @@ func (m Access) ParseAccessReason(value string) (AccessReason, error) {
 	}
 }
 
-func AccessList(classId string, accessType AccessType) ([]Access, error) {
+func AccessList(classId, page string, accessType AccessType) ([]Access, error) {
 	var mods []Access
 	var err error
-	if accessType == AccessTypeAll {
-		err = fit.MySqlEngine().SQL("select * from Access where classId = ?", classId).Find(&mods)
+	pageInt,_ := strconv.ParseInt(page, 10, 32)
+	if pageInt == -1 { // 全部
+		pageInt = 0
+		if accessType == AccessTypeAll {
+			err = fit.MySqlEngine().SQL("select * from Access where classId = ? ORDER BY `AccessTime` DESC", classId).Limit(20, int(pageInt)).Find(&mods)
+		} else {
+			err = fit.MySqlEngine().SQL("select * from Access where classId = ? and accesstype = ? ORDER BY `AccessTime` DESC", classId, accessType).Limit(20, int(pageInt)).Find(&mods)
+		}
 	} else {
-		err = fit.MySqlEngine().SQL("select * from Access where classId = ? and accesstype = ?", classId, accessType).Find(&mods)
+		pageInt *= 20
+		if accessType == AccessTypeAll {
+			err = fit.MySqlEngine().SQL("select * from Access where classId = ? ORDER BY `AccessTime` DESC", classId).Limit(20, int(pageInt)).Find(&mods)
+		} else {
+			err = fit.MySqlEngine().SQL("select * from Access where classId = ? and accesstype = ? ORDER BY `AccessTime` DESC", classId, accessType).Limit(20, int(pageInt)).Find(&mods)
+		}
 	}
+
 	return mods, err
 }
 
 func AccessSearch(classId, paramstr string) ([]Access, error) {
 	var mods []Access
 	params := "%" + paramstr + "%"
-	err := fit.MySqlEngine().SQL("select * from Access where classId = ? and (patientid like ? or patientName like ?)", classId, params, params).Find(&mods)
+	err := fit.MySqlEngine().SQL("select * from Access where classId = ? and (bedId like ? or patientName like ?)", classId, params, params).Find(&mods)
 	return mods, err
 }

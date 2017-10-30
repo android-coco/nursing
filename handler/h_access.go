@@ -3,6 +3,7 @@ package handler
 import (
 	"fit"
 	"nursing/model"
+	"fmt"
 )
 
 type AccessController struct {
@@ -23,36 +24,38 @@ func (c AccessController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 	accessType, err1 := model.Access{}.ParseAccessType(r.FormValue("access_type"))
 	accessReason, err2 := model.Access{}.ParseAccessReason(r.FormValue("access_reason"))
 	accessTime := r.FormValue("access_time")
-
 	nurseId := r.FormValue("nurse_id")
 	nurseName := r.FormValue("nurse_name")
 	patientId := r.FormValue("patient_id")
 	patientName := r.FormValue("patient_name")
 	bedId := r.FormValue("bed_id")
+	classId := r.FormValue("class_id")
 
-	if nurseId == "" || patientId == "" || nurseName == "" || patientName == "" || bedId == "" || err1 != nil {
+	fmt.Println("classid", classId)
+	if nurseId == "" || patientId == "" || nurseName == "" || patientName == "" || bedId == "" || classId == "" || err1 != nil {
 		if accessType == model.AccessTypeOut && err2 != nil {
 			c.JsonData.Result = 1
 			c.JsonData.ErrorMsg = "参数错误"
-			c.JsonData.Datas = []interface{}{err2.Error()}
+			c.JsonData.Datas = []interface{}{}
 			return
 		}
 		c.JsonData.Result = 1
 		c.JsonData.ErrorMsg = "参数不完整"
-		c.JsonData.Datas = []interface{}{err1.Error()}
+		c.JsonData.Datas = []interface{}{}
 		return
 	}
 
 	accessModel := model.Access{
 		BaseModel: model.BaseModel{
 			NurseId:   nurseId,
-			PatientId: patientId},
+			PatientId: patientId,
+			NurseName:    nurseName},
 		AccessType:   accessType,
 		AccessReason: accessReason,
 		AccessTime:   accessTime,
-		NurseName:    nurseName,
 		PatientName:  patientName,
-		BedId:        bedId}
+		BedId:        bedId,
+		ClassId:      classId}
 
 	_, err := accessModel.InsertData()
 	if err != nil {
@@ -76,6 +79,7 @@ func (c AccessListController) Post(w *fit.Response, r *fit.Request, p fit.Params
 	defer c.ResponseToJson(w)
 
 	classId := r.FormValue("class_id")
+	page := r.FormValue("page")
 	accessType, err1 := model.Access{}.ParseAccessType(r.FormValue("access_type"))
 
 	if classId == "" {
@@ -88,7 +92,7 @@ func (c AccessListController) Post(w *fit.Response, r *fit.Request, p fit.Params
 		c.JsonData.Datas = []interface{}{}
 		return
 	} else {
-		accessModel, err := model.AccessList(classId, accessType)
+		accessModel, err := model.AccessList(classId, page, accessType)
 		if err != nil {
 			c.JsonData.Result = 1
 			c.JsonData.ErrorMsg = "错误"
@@ -96,7 +100,11 @@ func (c AccessListController) Post(w *fit.Response, r *fit.Request, p fit.Params
 		} else {
 			c.JsonData.Result = 0
 			c.JsonData.ErrorMsg = ""
-			c.JsonData.Datas = accessModel
+			if accessModel == nil {
+				c.JsonData.Datas = []interface{}{}
+			} else {
+				c.JsonData.Datas = accessModel
+			}
 		}
 	}
 }
