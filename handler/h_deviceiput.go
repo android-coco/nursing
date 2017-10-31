@@ -39,7 +39,7 @@ func (c *DeviceiputController) addDevices(r *fit.Request) {
 	}else{
 		var devices model.Devices
 
-		has, err := fit.MySqlEngine().Where("devicesclass = ? and devicesname = ?",devicesclass,devicesname).Get(&devices)
+		has, err := fit.MySqlEngine().Table("Devices").Where("devicesclass = ? and devicesname = ?",devicesclass,devicesname).Get(&devices)
 		if has == false || err!=nil {
 			devices.Devicesclass = uint16(devicesclass)
 			devices.Devicesname = devicesname
@@ -78,7 +78,7 @@ func (c *DeviceiputController) amendDevices(r *fit.Request) {
 	//devices.Devicesclass = uint16(devicesclass)
 	//devices.Id = id
 	//.Where("id = ?",id)
-	has, err1 := fit.MySqlEngine().Where("id = ?",id).Get(&devices)
+	has, err1 := fit.MySqlEngine().Table("Devices").Where("id = ?",id).Get(&devices)
 
 	if has == false || err1!=nil {
 		c.JsonData.Result = 4
@@ -86,7 +86,7 @@ func (c *DeviceiputController) amendDevices(r *fit.Request) {
 		c.JsonData.Datas = []interface{}{}
 	}else{
 		if len(altername) ==0 && len(alterlist) ==0{
-			_,err2 := fit.MySqlEngine().Where("id = ?",id).Delete(&devices)
+			_,err2 := fit.MySqlEngine().Table("Devices").Where("id = ?",id).Delete(&devices)
 			if err2!= nil{
 				c.JsonData.Result = 2
 				c.JsonData.ErrorMsg = "删除失败"
@@ -99,12 +99,12 @@ func (c *DeviceiputController) amendDevices(r *fit.Request) {
 		}else if len(altername) !=0 && len(alterlist) !=0{
 			if devices.Devicesname != altername{
 
-				has, err := fit.MySqlEngine().Where("devicesclass = ? and devicesname = ?",devices.Devicesclass,altername).Get(&model.Devices{})
+				has, err := fit.MySqlEngine().Table("Devices").Where("devicesclass = ? and devicesname = ?",devices.Devicesclass,altername).Get(&model.Devices{})
 				if has == false && err == nil{
 					devices.Devicelist = alterlist
 					devices.Devicesname = altername
 
-					_,err3 := fit.MySqlEngine().Where("id = ? ",id).Update(&devices)
+					_,err3 := fit.MySqlEngine().Table("Devices").Where("id = ? ",id).Update(&devices)
 					if err3!= nil{
 						c.JsonData.Result = 2
 						c.JsonData.ErrorMsg = "更新失败"
@@ -127,7 +127,7 @@ func (c *DeviceiputController) amendDevices(r *fit.Request) {
 				}
 			}else{
 				devices.Devicelist = alterlist
-				_,err3 := fit.MySqlEngine().Where("id = ? ",id).Update(&devices)
+				_,err3 := fit.MySqlEngine().Table("Devices").Where("id = ? ",id).Update(&devices)
 				if err3!= nil{
 					c.JsonData.Result = 2
 					c.JsonData.ErrorMsg = "更新失败"

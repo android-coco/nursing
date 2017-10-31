@@ -1,3 +1,5 @@
+//  Created by JP
+
 package model
 
 import (

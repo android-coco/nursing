@@ -1,3 +1,5 @@
+//  Created by JP
+
 package model
 
 import (
@@ -89,6 +91,7 @@ func QueryDepartmentBedList(BCK01 int) ([]Beds, error) {
 					patient.VAA01 = bed.VAA01
 					patient.BCK01B = bed.BCK01B
 					patient.BCQ04 = bed.BCQ04
+
 					_, err = fit.MySqlEngine().SQL("select VAA04, VAA05, ABW01, VAA10, VAA73 from VAA1 where BCK01B = ? and VAA61 = 2 and VAA01 = ?", BCK01, bed.VAA01).Get(&patient)
 					_, err = fit.SQLServerEngine().SQL("select VAK20, VAK21 from VAK1 where VAA01 = ?", bed.VAA01).Get(&patient)
 

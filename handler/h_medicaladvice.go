@@ -111,7 +111,7 @@ func (c MedicalAdviceStateQuery) Post(w *fit.Response, r *fit.Request, p fit.Par
 			for k,i := range relusts{
 				sql := "advicestateId = ?"
 				advicestates,err := model.OutAdviceState(sql,i.VAF01)
-				patients, err_patient := model.QueryPatientInfo(strconv.Itoa(i.VAA01))
+				patients, err_patient := model.GetPatientInfo(strconv.Itoa(i.VAA01))
 
 				if err != nil || err_patient!= nil{
 					c.JsonData.Result = 3
@@ -141,7 +141,7 @@ func (c MedicalAdviceStateQuery) Post(w *fit.Response, r *fit.Request, p fit.Par
 			for _,i := range relusts{
 				sql := "advicestateId = ? and time >= ? and time <= ?"
 				advicestates,err := model.OutAdviceState(sql,i.VAF01,starttime,endtime)
-				patients, err_patient := model.QueryPatientInfo(strconv.Itoa(i.VAA01))
+				patients, err_patient := model.GetPatientInfo(strconv.Itoa(i.VAA01))
 
 				if err != nil || err_patient!= nil{
 					c.JsonData.Result = 3

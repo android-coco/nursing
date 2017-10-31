@@ -22,7 +22,7 @@ func (c DeviceoutController) Post(w *fit.Response, r *fit.Request, p fit.Params)
 	}else{
 
 		items := []model.Devices{}
-		err = fit.MySqlEngine().Where(" devicesclass = ?",devicesclass).Find(&items)
+		err = fit.MySqlEngine().Table("Devices").Where(" devicesclass = ?",devicesclass).Find(&items)
 
 		if  err != nil {
 			c.JsonData.Result = 3

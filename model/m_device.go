@@ -1,6 +1,6 @@
 package model
 
-import "fit"
+
 
 type Devices struct
 {
@@ -10,7 +10,8 @@ type Devices struct
 	Devicelist       string   `json:"devicelist" xorm:"notnull comment(套餐的设备)"`
 }
 
+/*
 func (mod Devices) InsertData(a interface{}) error {
 	_, err := fit.MySqlEngine().Insert(a)
 	return err
-}
+}*/

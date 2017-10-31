@@ -1,3 +1,5 @@
+//  Created by JP
+
 package handler
 
 import (
@@ -42,14 +44,19 @@ func (c LoginController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 					Code:        user.Code,
 					Departments: make([]model.Department, 0),
 					Authority:   authority,
+					Status:      user.Status,
 				}
 
-				if authority == 3 {
-					// 设备管理员
-					c.RenderingJson(0, "登录成功", responce)
-				} else if authority == 2 {
-					// 账号管理员
-					c.RenderingJson(4, "此账号禁止在PDA端使用", responce)
+				if user.Status == 1 {
+					if authority == 3 {
+						// 设备管理员
+						c.RenderingJson(0, "登录成功", responce)
+					} else if authority == 2 {
+						// 账号管理员
+						c.RenderingJson(4, "此账号禁止在PDA端使用", responce)
+					}
+				} else {
+					c.RenderingJson(6, "此账号已停用，请联系管理员", responce)
 				}
 				return
 			} else {
@@ -67,6 +74,7 @@ func (c LoginController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 				Code:        user.Code,
 				Departments: make([]model.Department, length),
 				Authority:   user.Authority,
+				Status:      user.Status,
 			}
 			for i, obj := range slice_User {
 				department, err_BCK := model.QueryDepartmentWithDID(obj.DepartmentID)
@@ -78,7 +86,12 @@ func (c LoginController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 					responce.Departments[i].DepartmentName = department.BCK03
 				}
 			}
-			c.RenderingJson(0, "登录成功", responce)
+
+			if user.Status == 1 {
+				c.RenderingJson(0, "登录成功", responce)
+			} else {
+				c.RenderingJson(6, "此账号已停用，请联系管理员", responce)
+			}
 		}
 	}
 }

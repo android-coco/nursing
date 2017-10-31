@@ -79,8 +79,20 @@ func pclist() {
 	fit.Router().AddRouter("/pc/login", new(handler.PCLoginController))
 	fit.Router().AddRouter("/pc/logout", new(handler.PCLoginController), "get:Logout")
 
+	// 账号管理
+	fit.Router().AddRouter("/pc/account/changepwd", new(handler.ChangePasswordController))
+	fit.Router().AddRouter("/pc/account/create", new(handler.AccountManageController),"get:Create")
+	fit.Router().AddRouter("/pc/account/update", new(handler.AccountManageController),"get:Update")
+
+	// 设备管理
+	fit.Router().AddRouter("/pc/device/manage",new(handler.DeviceManageController))
+
 	// 交接班
 	fit.Router().AddRouter("/pc/succession", new(handler.PCSuccessController))
+
+	// 体征录入
+	fit.Router().AddRouter("/pc/batvhinput", new(handler.PCBatvhinputController))
+	fit.Router().AddRouter("/pc/patvhhistory", new(handler.PCBatvhHistoryController))
 
 	//各种打印页预览
 	//腕带
