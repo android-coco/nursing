@@ -81,8 +81,12 @@ func pclist() {
 
 	// 账号管理
 	fit.Router().AddRouter("/pc/account/changepwd", new(handler.ChangePasswordController))
-	fit.Router().AddRouter("/pc/account/create", new(handler.AccountManageController),"get:Create")
-	fit.Router().AddRouter("/pc/account/update", new(handler.AccountManageController),"get:Update")
+	fit.Router().AddRouter("/pc/account/manage", new(handler.AccountManageController),"get:Manage")
+	fit.Router().AddRouter("/pc/account/manage/created", new(handler.AccountManageController),"get:List")
+	fit.Router().AddRouter("/pc/account/create", new(handler.AccountManageController),"post:Create")
+	fit.Router().AddRouter("/pc/account/update", new(handler.AccountManageController),"post:Update")
+	fit.Router().AddRouter("/pc/account/uncreated",new(handler.AccountManageController), "get:Uncreated")
+	fit.Router().AddRouter("/pc/account/created",new(handler.AccountManageController), "get:Created")
 
 	// 设备管理
 	fit.Router().AddRouter("/pc/device/manage",new(handler.DeviceManageController))

@@ -11,53 +11,29 @@ type MedicalAdviceQuery struct {
 	fit.Controller
 }
 
+//查询医嘱
 func (c MedicalAdviceQuery) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 	r.ParseForm()
 
-	advice_class := r.FormValue("advice_class")         //医嘱类别BDA01  关联BDA1.BDA01
-	advice_type := r.FormValue("advice_type")           //长期或临时 VAF11
-	advice_execution := r.FormValue("advice_execution") //用药方式 VAF53或者BBX01  关联BBX1.BBX01 （执行分类  -1：普通，0：口服单，1：注射单，2：输液单，3：治疗单，4：皮试单，5：输血单，6：护理单，9：其它）
-	advice_state := r.FormValue("advice_state")         //VAF10 状态(1：新嘱;2：疑问;3：校对;4：作废;5：删除 ;6：暂停;7：启用;8：已发送或停止;9：确认停止;10：皮试结果)
+	//advice_class := r.FormValue("advice_class")         //医嘱类别BDA01  关联BDA1.BDA01
+	//advice_type := r.FormValue("advice_type")           //长期或临时 VAF11
+	//advice_execution := r.FormValue("advice_execution") //用药方式 VAF53或者BBX01  关联BBX1.BBX01 （执行分类  -1：普通，0：口服单，1：注射单，2：输液单，3：治疗单，4：皮试单，5：输血单，6：护理单，9：其它）
+	//advice_state := r.FormValue("advice_state")         //VAF10 状态(1：新嘱;2：疑问;3：校对;4：作废;5：删除 ;6：暂停;7：启用;8：已发送或停止;9：确认停止;10：皮试结果)
 	patient_id := r.FormValue("patient_id")             //VAA01病人ID
 
 
-	if advice_class == "" || advice_type == "" || advice_execution == "" || advice_state == "" || patient_id ==""{
+	if  patient_id =="" {
 		c.JsonData.Result = 1
 		c.JsonData.ErrorMsg = "参数不完整"
 		c.JsonData.Datas = []interface{}{}
 	}else{
 	    var sql string
 	    var msg []interface{}
-        if advice_class != "all"{
-		   sql = sql + "BDA01 = ?"
-		   msg = append(msg, advice_class)
-	}
-	if advice_type != "all"{
-		if advice_class != "all"{
-			sql = sql + " and "
-		}
-		sql = sql + "VAF11 = ?"
-		msg = append(msg, advice_type)
-	}
-	if advice_execution != "all"{
-		if advice_type != "all"{
-			sql = sql + " and "
-		}
-		sql = sql + "VAF53 = ?"
-		msg = append(msg, advice_execution)
-	}
-	if advice_state != "all"{
-		if advice_execution != "all"{
-			sql = sql + " and "
-		}
-		sql = sql + "VAF10 = ? and"
-		msg = append(msg, advice_state)
-	}
 
-	sql = sql + "VAA01 = ?"
-	msg = append(msg, patient_id)
+	    sql = "VAA01 = ? and (VAF10 = ? or VAF10 = ? or VAF10 = ?)"
+	    msg = append(msg, patient_id,4,5,8)
 
-	relusts,err := model.OutAdvice(sql,msg...)
+		relusts,err := model.OutAdvice(sql,msg...)
 		if err != nil{
 			c.JsonData.Result = 2
 			c.JsonData.ErrorMsg = "查询错误"
@@ -74,11 +50,11 @@ func (c MedicalAdviceQuery) Post(w *fit.Response, r *fit.Request, p fit.Params) 
 	c.ResponseToJson(w)
 }
 
-
 type MedicalAdviceStateQuery struct {
 	fit.Controller
 }
 
+//查询执行医嘱
 func (c MedicalAdviceStateQuery) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 
@@ -129,7 +105,7 @@ func (c MedicalAdviceStateQuery) Post(w *fit.Response, r *fit.Request, p fit.Par
 	}else{
 		var sql string
 
-		sql = sql + "(VAF11 = ? and VAA01 = ? and VAF36 >= ? and VAF36 <= ?) or (VAF11 = ? and VAA01 = ?)"
+		sql = sql + "(VAF11 = ? and VAA01 = ? and VAF36 >= ? and VAF36 <= ? ) or (VAF11 = ? and VAA01 = ?)"
 		relusts,err := model.OutAdvice(sql,2,patient_id,starttime,endtime,1,patient_id)
 
 		if err != nil{
@@ -149,19 +125,11 @@ func (c MedicalAdviceStateQuery) Post(w *fit.Response, r *fit.Request, p fit.Par
 					c.JsonData.Datas = []interface{}{err,err_patient}
 					return
 				}else{
-					if i.VAF11 == 2 {  //临时医嘱
-					if i.VAF10 !=1 && i.VAF10 !=2 && i.VAF10 !=3 {
+					if len(advicestates) !=0{
 						advicefits = append(advicefits,model.AdviceFit{i,advicestates,patients})
-					    }
 					}else{
-						if i.VAF10 !=1 && i.VAF10 !=2 && i.VAF10 !=3 {
-							if i.VAF10 == 9{
-								if len(advicestates) !=0 {
-									advicefits = append(advicefits,model.AdviceFit{i,advicestates,patients})
-								}
-							}else{
-								advicefits = append(advicefits,model.AdviceFit{i,advicestates,patients})
-							}
+						if i.VAF10 == 8 || i.VAF10 == 10{
+							advicefits = append(advicefits,model.AdviceFit{i,advicestates,patients})
 						}
 					}
 				}

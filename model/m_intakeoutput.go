@@ -31,6 +31,10 @@ func (t Datetime_IOV) MarshalJSON() ([]byte, error) {
 	return []byte(`"` + time.Time(t).Format("2006-01-02 15:04") + `"`), nil
 }
 
+func (t Datetime_IOV) NormParse() string {
+	return time.Time(t).Format("2006-01-02 15:04:05")
+}
+
 type IntakeOutputDup struct {
 	BaseModel                  `xorm:"extends"`
 	Type          uint8        `json:"type" xorm:"notnull comment(出入量类型，1：入量，2：出量)"`

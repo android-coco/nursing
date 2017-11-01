@@ -10,20 +10,19 @@ import (
 
 //数据库模型转JSON 数据
 func Transfer(slice []model.I_BaseMoel) []interface{} {
-	var ifSlice []model.I_BaseMoel = make([]model.I_BaseMoel, len(slice))
+	var ifSlice = make([]model.I_BaseMoel, len(slice))
 	for idx, v := range slice {
 		ifSlice[idx] = v
 	}
-	var intfaceSlice []interface{} = make([]interface{}, len(ifSlice))
-	for idx,v:=range ifSlice{
+	var intfaceSlice = make([]interface{}, len(ifSlice))
+	for idx, v := range ifSlice {
 		intfaceSlice[idx] = v
 	}
 	return intfaceSlice
 }
 
-
 //  函数执行时间
-func Trace(msg string) func()  {
+func Trace(msg string) func() {
 	start := time.Now()
 	fmt.Printf("enter %s\n", msg)
 	return func() {
@@ -34,7 +33,7 @@ func Trace(msg string) func()  {
 /*sha1加密*/
 func Sha1Encryption(material string) string {
 	if material == "" {
-		 return material
+		return material
 	}
 	handler := sha1.New()
 	io.WriteString(handler, material)
