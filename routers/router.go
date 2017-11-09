@@ -13,17 +13,14 @@ func init() {
 	pdalist()
 
 	// 护理记录
-
 	nrlist()
 
 	// pc 端
 	pclist()
 
-	//数据库配置[]interface{}{new(model.Warn),new(model.Warn),new(model.Warn),new(model.Warn)}
-	//fit.App().InitModels([]interface{}{new(model.Warn), new(model.Access),new(model.IntakeOutput),
-	//new(model.Temperature),new(model.Pulse),new(model.Breathe),new(model.Pressure),new(model.Heartrate),
-	//new(model.Spo2h),new(model.Glucose),new(model.Weight),new(model.Height)})
-	//fit.App().InitModels([]interface{}{new(model.Warn), new(model.Access)})
+
+	// pc 护理记录
+	pcnrlist()
 }
 
 func pdalist() {
@@ -57,42 +54,85 @@ func pdalist() {
 func nrlist() {
 	fit.Router().AddRouter("/record/query", new(handler.QueryRecordController))
 	// 护理记录单
-	fit.Router().AddRouter("/record/nr1", new(handler.RecordController))
-	fit.Router().AddRouter("/record/nr1/edit", new(handler.RecordController), "get,post:Edit")
-	fit.Router().AddRouter("/record/nr1/add", new(handler.NRLController), "get,post:AddRecord")
-	fit.Router().AddRouter("/record/nr1/update", new(handler.NRLController), "get,post:UpdateRecord")
+	fit.Router().AddRouter("/record/nr1", new(handler.NRL1Controller))
+	fit.Router().AddRouter("/record/nr1/edit", new(handler.NRL1Controller), "get,post:Edit")
+	fit.Router().AddRouter("/record/nr1/add", new(handler.NRL1Controller), "get,post:AddRecord")
+	fit.Router().AddRouter("/record/nr1/update", new(handler.NRL1Controller), "get,post:UpdateRecord")
 	// 首次护理记录单
 	fit.Router().AddRouter("/record/nr2/add", new(handler.FirstNursingRecordController))
 	fit.Router().AddRouter("/record/nr2/edit", new(handler.FirstNursingRecordController))
 	fit.Router().AddRouter("/record/nr2", new(handler.QueryFirstNursingRecordController))
 	fit.Router().AddRouter("/record/nr2/exist", new(handler.QueryFirstNursingRecordController), "get:Exist")
 
-	// pc 端
-	fit.Router().AddRouter("/pc/record/nr1", new(handler.PNRLController), "get,post:NRL1Record")
-	fit.Router().AddRouter("/pc/tempchart", new(handler.TempChartController), "get,post:TempChart")
+	//基本生活活动能力BADL
+	fit.Router().AddRouter("/record/nr3", new(handler.NRL3Controller), "get,post:Check")
+	fit.Router().AddRouter("/record/nr3/edit", new(handler.NRL3Controller), "get,post:Edit")
+	fit.Router().AddRouter("/record/nr3/add", new(handler.NRL3Controller), "get,post:AddRecord")
+	fit.Router().AddRouter("/record/nr3/update", new(handler.NRL3Controller), "get,post:UpdateRecord")
+
+	//深静脉血栓形成风险评估表
+	fit.Router().AddRouter("/record/nr4", new(handler.NRL4Controller), "get,post:Check")
+	fit.Router().AddRouter("/record/nr4/edit", new(handler.NRL4Controller), "get,post:Edit")
+	fit.Router().AddRouter("/record/nr4/add", new(handler.NRL4Controller), "get,post:AddRecord")
+	fit.Router().AddRouter("/record/nr4/update", new(handler.NRL4Controller), "get,post:UpdateRecord")
+
+	//深静脉血栓观察表
+	fit.Router().AddRouter("/record/nr5", new(handler.NRL5Controller), "get,post:Check")
+	fit.Router().AddRouter("/record/nr5/edit", new(handler.NRL5Controller), "get,post:Edit")
+	fit.Router().AddRouter("/record/nr5/add", new(handler.NRL5Controller), "get,post:AddRecord")
+	fit.Router().AddRouter("/record/nr5/update", new(handler.NRL5Controller), "get,post:UpdateRecord")
+
+	//压疮风险因素评估表
+	fit.Router().AddRouter("/record/nr6", new(handler.NRL6Controller), "get,post:Check")
+	fit.Router().AddRouter("/record/nr6/update", new(handler.NRL6Controller), "get,post:UpdateRecord")
+	fit.Router().AddRouter("/record/nr6/edit", new(handler.NRL6Controller), "get,post:Edit")
+	fit.Router().AddRouter("/record/nr6/add", new(handler.NRL6Controller), "get,post:AddRecord")
+
+	//患者跌倒风险评估护理单
+	fit.Router().AddRouter("/record/nr7", new(handler.NRL7Controller), "get,post:Check")
+	fit.Router().AddRouter("/record/nr7/edit", new(handler.NRL7Controller), "get,post:Edit")
+	fit.Router().AddRouter("/record/nr7/add", new(handler.NRL7Controller), "get,post:AddRecord")
+	fit.Router().AddRouter("/record/nr7/update", new(handler.NRL7Controller), "get,post:UpdateRecord")
+
+	//疼痛强度评分量表
+	fit.Router().AddRouter("/record/nr8", new(handler.NRL8Controller), "get,post:Check")
+	fit.Router().AddRouter("/record/nr8/edit", new(handler.NRL8Controller), "get,post:Edit")
+	fit.Router().AddRouter("/record/nr8/add", new(handler.NRL8Controller), "get,post:AddRecord")
+	fit.Router().AddRouter("/record/nr8/update", new(handler.NRL8Controller), "get,post:UpdateRecord")
+
 }
 
 func pclist() {
 	// PC主页
 	fit.Router().AddRouter("/pc/home", new(handler.PCHomeController))
-	fit.Router().AddRouter("/pc/home/beds", new(handler.PCBedController))
 	fit.Router().AddRouter("/pc/login", new(handler.PCLoginController))
 	fit.Router().AddRouter("/pc/logout", new(handler.PCLoginController), "get:Logout")
 
 	// 账号管理
 	fit.Router().AddRouter("/pc/account/changepwd", new(handler.ChangePasswordController))
-	fit.Router().AddRouter("/pc/account/manage", new(handler.AccountManageController),"get:Manage")
-	fit.Router().AddRouter("/pc/account/manage/created", new(handler.AccountManageController),"get:List")
-	fit.Router().AddRouter("/pc/account/create", new(handler.AccountManageController),"post:Create")
-	fit.Router().AddRouter("/pc/account/update", new(handler.AccountManageController),"post:Update")
-	fit.Router().AddRouter("/pc/account/uncreated",new(handler.AccountManageController), "get:Uncreated")
-	fit.Router().AddRouter("/pc/account/created",new(handler.AccountManageController), "get:Created")
+	fit.Router().AddRouter("/pc/account/manage", new(handler.AccountManageController), "get:Manage")
+	fit.Router().AddRouter("/pc/account/manage/created", new(handler.AccountManageController), "get:List")
+	fit.Router().AddRouter("/pc/account/create", new(handler.AccountManageController), "post:Create")
+	fit.Router().AddRouter("/pc/account/update", new(handler.AccountManageController), "post:Update")
+	fit.Router().AddRouter("/pc/account/uncreated", new(handler.AccountManageController), "get:Uncreated")
+	fit.Router().AddRouter("/pc/account/created", new(handler.AccountManageController), "get:Created")
 
 	// 设备管理
-	fit.Router().AddRouter("/pc/device/manage",new(handler.DeviceManageController))
+	fit.Router().AddRouter("/pc/device/manage", new(handler.DeviceManageController))
+	fit.Router().AddRouter("/pc/host/config", new(handler.HostConfigController))
 
 	// 交接班
 	fit.Router().AddRouter("/pc/succession", new(handler.PCSuccessController))
+
+	// 出入管理
+	fit.Router().AddRouter("/pc/access/manage", new(handler.PCAccessController))
+
+	// 医嘱信息
+	fit.Router().AddRouter("/pc/medicaladvice/message", new(handler.MedicalAdviceMessage))
+	fit.Router().AddRouter("/pc/medicaladvice/Detail", new(handler.MedicalAdviceDetail))
+
+	// 医嘱拆分
+	fit.Router().AddRouter("/pc/medicaladvice/split", new(handler.MedicalAdviceSplit))
 
 	// 体征录入
 	fit.Router().AddRouter("/pc/batvhinput", new(handler.PCBatvhinputController))
@@ -103,6 +143,25 @@ func pclist() {
 	fit.Router().AddRouter("/pc/wdprint", new(handler.PCWristStrapController))
 	//屏贴
 	fit.Router().AddRouter("/pc/ptprint", new(handler.PCBottleStrapController))
-
+	// 体温单
 	fit.Router().AddRouter("/pc/templist", new(handler.TempChartController), "get,post:LoadTable")
+
+	//提醒管理
+	fit.Router().AddRouter("/pc/warn", new(handler.PCWarnController))
+	fit.Router().AddRouter("/pc/warn/del/:id", new(handler.PCWarnController), "get,post:DelWarn")
+	fit.Router().AddRouter("/pc/warn/modify", new(handler.PCWarnController), "get,post:ModifyWarn")
+
+	//历史记录
+	fit.Router().AddRouter("/pc/history", new(handler.PCHistoryController))
+	fit.Router().AddRouter("/pc/history/search",new(handler.PCHistoryController),"get:SearchPatients")
+	fit.Router().AddRouter("/pc/history/signs", new(handler.PCHistoryController),"get,post:Signs")
+	fit.Router().AddRouter("/pc/history/temperature", new(handler.PCHistoryController),"get,post:Temperature")
+	fit.Router().AddRouter("/pc/history/advice", new(handler.PCHistoryController),"get,post:Advice")
+}
+
+func pcnrlist()  {
+	// pc 端
+	//fit.Router().AddRouter("/pc/record/nrl1", new(handler.PCNRL1Controller), "get,post:NRLRecord")
+	fit.Router().AddRouter("/pc/record/nrl2", new(handler.PNRL2Controller), "get,post:NRLRecord")
+	fit.Router().AddRouter("/pc/record/nrl3", new(handler.PCNRL3Controller), "get,post:NRLRecord")
 }

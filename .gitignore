@@ -1,0 +1,21 @@
+.DS_Store
+
+
+# IDE Files
+#-------------------------
+/nbproject/
+.idea/*
+
+
+
+.vscode/*
+node_modules
+node_modules/*
+static/package.json
+static/.editorconfig
+static/gulpfile.babel.js
+static/.babelrc
+static/config
+static/config/*
+static/src
+log

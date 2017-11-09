@@ -29,6 +29,7 @@ func (c BedListController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 		return
 	}
 	response, err := model.QueryDepartmentBedList(depid_i)
+
 	if err != nil {
 		c.RenderingJsonAutomatically(3, "Database "+err.Error())
 	} else {

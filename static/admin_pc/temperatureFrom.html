@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>见康云护理管理信息系统</title>
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/amazeui.css" />
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/core.css" />
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/menu.css" />
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/admin.css" />
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/page/typography.css" />
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/page/form.css" />
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/component.css" />
+    <link rel="stylesheet" href="../dist/style/css/base_pc.min.css">
+    <link rel="stylesheet" href="../dist/style/css/style-chart.min.css">
+</head>
+
+<body class="pt48">
+    <div id="gopng_icon4_outer">
+        <div id="gopng_icon4"></div>
+    </div>
+    <div class="hd_tit">
+        <div class="logo"><img src="../dist/images/admin_pc/logo.png"></div>
+        <p class="tit">见康云护理管理信息系统_</p>
+        <div class="am-dropdown jky_dropdown" data-am-dropdown>
+            <button class="am-btn am-btn-primary am-dropdown-toggle" data-am-dropdown-toggle>内分泌科
+                <span class="jky_icon"><img src="../dist/images/admin_pc/xl.png" alt=""></span>
+            </button>
+            <ul class="am-dropdown-content">
+                <li class="am-active"><a href="#">内分泌科</a></li>
+                <li><a href="#">外科</a></li>
+                <li><a href="#">XXX科</a></li>
+                <li><a href="#">？？科</a></li>
+            </ul>
+        </div>
+        <div class="out_btn">
+            <img src="../dist/images/admin_pc/out.png" alt=""> 退出
+        </div>
+
+    </div>
+
+
+    <!-- Begin page -->
+    <div class="am-topbar am-topbar-fixed-top top48 type2">
+        <div class="am-topbar-left am-hide-sm-only">
+            <a class="username"><span>欢迎,你王小二</span><i class="zmdi zmdi-layers"></i></a>
+        </div>
+        <!--
+        <div class="contain">
+            <div class="jky-class-bar">
+
+            </div>
+          <div class="jky-tab-hd">
+                <ul>
+                    <li><a href="./batchInput.html">批量录入</a></li>
+                    <li class="active"><a href="./batchInput2.html">历史数据</a></li>
+                </ul>
+            </div>
+        </div>
+        -->
+
+    </div>
+    <!-- end page -->
+
+
+    <div class="admin">
+        <!--<div class="am-g">-->
+        <!-- ========== Left Sidebar Start ========== -->
+        <!--<div class="left side-menu am-hide-sm-only am-u-md-1 am-padding-0">
+			<div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 548px;">
+				<div class="sidebar-inner slimscrollleft" style="overflow: hidden; width: auto; height: 548px;">-->
+        <!-- sidebar start -->
+        <div class="admin-sidebar am-offcanvas  am-padding-0 jky_sidebar type2" id="admin-offcanvas">
+            <div class="am-offcanvas-bar admin-offcanvas-bar">
+
+                <ul class="am-list admin-sidebar-list" id="jky-menu">
+                    <li class="active admin-parent jky-on">
+                        <a data-am-collapse="{target: '#collapse-nav1'}">
+                            <span class="jky_icon2"><img src="../dist/images/admin_pc/icon10.png" alt="" style="width:25px"></span>
+                            <span class="tit">科室病人</span>
+                            <div class="jky_icon">
+                                <img src="../dist/images/admin_pc/icon5.png" alt="">
+                            </div>
+                        </a>
+                        <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav1">
+                            <li><a href="html/table_basic.html" class="am-cf">所有病人 <span class="num">10</span></a></li>
+                            <li><a href="html/table_basic.html" class="am-cf">新病人 <span class="num">10</span></a></li>
+                            <li><a href="html/table_basic.html" class="am-cf">新医嘱 <span class="num">10</span></a></li>
+                            <li><a href="html/table_basic.html" class="am-cf">停止医嘱 <span class="num">10</span></a></li>
+                            <li><a href="html/table_basic.html" class="am-cf">发热 <span class="num">10</span></a></li>
+                            <li><a href="html/table_basic.html" class="am-cf">待手术 <span class="num">10</span></a></li>
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a class="am-cf">
+                            <span class="jky_icon2">
+                                <img src="../dist/images/admin_pc/icon11.png" alt="">
+                            </span>
+                            <span class="tit"> 医嘱拆分 </span>
+                            <div class="jky_icon">
+                                <img src="../dist/images/admin_pc/icon5.png" alt="">
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="am-cf">
+                            <span class="jky_icon2">
+                                <img src="../dist/images/admin_pc/icon12.png" alt="">
+                            </span>
+                            <span class="tit">医嘱信息</span>
+                            <div class="jky_icon"><img src="../dist/images/admin_pc/icon5.png" alt=""></div>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="am-cf">
+                            <span class="jky_icon2">
+                                <img src="../dist/images/admin_pc/icon13.png" alt="">
+                            </span>
+                            <span class="tit">体征批量录入</span>
+                            <div class="jky_icon"><img src="../dist/images/admin_pc/icon5.png" alt=""></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="am-cf">
+                            <span class="jky_icon2">
+                                <img src="../dist/images/admin_pc/icon14.png" alt="">
+                            </span>
+                            <span class="tit">体温单</span>
+                            <div class="jky_icon"><img src="../dist/images/admin_pc/icon5.png" alt=""></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="am-cf">
+                            <span class="jky_icon2">
+                                <img src="../dist/images/admin_pc/icon15.png" alt="">
+                            </span>
+                            <span class="tit">交班表</span>
+                            <div class="jky_icon"><img src="../dist/images/admin_pc/icon5.png" alt=""></div>
+                        </a>
+                    </li>
+
+
+                    <li class="admin-parent">
+                        <a class="am-cf" data-am-collapse="{target: '#collapse-nav2'}">
+                            <span class="jky_icon2">
+                                <img src="../dist/images/admin_pc/icon16.png" alt="">
+                            </span>
+                            <span class="tit">护理文书</span>
+                            <div class="jky_icon"><img src="../dist/images/admin_pc/icon5.png" alt=""></div>
+                        </a>
+                        <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav2">
+                            <li><a href="#" class="am-cf">首次护理记录单</a></li>
+                            <li><a href="#" class="am-cf"> 护理记录单</a></li>
+
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <!-- sidebar end -->
+
+        <!--</div>
+			</div>
+		</div>-->
+        <!-- ========== Left Sidebar end ========== -->
+
+
+
+
+        <div class="content-page type2" style="margin-top: 10px;">
+            <div class="content ">
+                <div class="am-g">
+                    <div class="temperatureFrom">
+                        <div class="s-btn">
+                            <!-- <img src="../dist/images/admin_pc/icon22.png" alt=""> -->
+                        </div>
+                        <div class="user-warp">
+
+                            <div class="user-bar">
+                                <div class="tit">
+                                    <div class="l">
+                                        床号
+                                    </div>
+                                    <div class="r">
+                                        姓名
+                                    </div>
+                                </div>
+                                <div class="user-list">
+                                    <ul>
+                                        <li data-id="01" data-msg="病！！！">
+                                            <div class="l">
+                                                <label>T01</label>
+                                            </div>
+                                            <div class="r">
+                                                王小二
+                                            </div>
+                                        </li>
+                                        <li data-id="02">
+                                            <div class="l">
+                                                <label>T01</label>
+                                            </div>
+                                            <div class="r">
+                                                王小二
+                                            </div>
+                                        </li>
+                                        <li data-id="03" data-msg="病2！！！">
+                                            <div class="l">
+                                                <label>T01</label>
+                                            </div>
+                                            <div class="r">
+                                                王小二
+                                            </div>
+                                        </li>
+                                        <li data-id="04" data-msg="病3！！！">
+                                            <div class="l">
+                                                <label>T01</label>
+                                            </div>
+                                            <div class="r">
+                                                王小二
+                                            </div>
+                                        </li>
+                                        <li data-id="05">
+                                            <div class="l">
+                                                <label>T01</label>
+                                            </div>
+                                            <div class="r">
+                                                王小二
+                                            </div>
+                                        </li>
+                                        <li data-id="06">
+                                            <div class="l">
+                                                <label>T01</label>
+                                            </div>
+                                            <div class="r">
+                                                王小二
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hd-bar">
+                            <div class="week-box">
+                                <div class="icon">
+                                    <img src="../dist/images/admin_pc/icon20.png" alt="">
+                                </div>
+                                <ul class="week-list">
+                                    <li>
+                                        <a href="#" class="leftLast-btn"><img src="../dist/images/admin_pc/icon26.png" alt=""></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="left-btn"><img src="../dist/images/admin_pc/icon24.png" alt=""></a>
+                                    </li>
+                                    <li>
+                                        <select name="" id="">
+                                            <option value="1">第1周</option>
+                                            <option value="2">第2周</option>
+                                            <option value="3">第3周</option>
+                                        </select>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="right-btn"><img src="../dist/images/admin_pc/icon25.png" alt=""></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="rightLast-btn"><img src="../dist/images/admin_pc/icon27.png" alt=""></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="btn-group fr">
+                                <a href="" class="btn type2">编辑</a>
+                                <a href="" class="btn">打印</a>
+                                <a href="" class="btn">打印所有</a>
+                                <!-- <a href="" class="btn type2">保存</a> -->
+                            </div>
+                        </div>
+                        <div class="temperature-box">
+                            <div class="scroll-box">
+                                <div class="warp-box">
+                                    <!-- 体温单 -->
+                                    <div class="main-box">
+                                        <p class="tab-tit">
+                                            河南省虞城华山中西医结合医院
+                                        </p>
+                                        <div class="sub-msg-box">
+                                            <div class="bar">
+                                                <div class="l"><label>科别：</label> <span>你猜</span></div>
+                                                <div class="r"><label>门诊号：</label><span></span></div>
+
+
+                                            </div>
+                                            <div class="bar">
+                                                <div class="l">
+                                                    <label>姓名：</label> <span>你猜</span>
+                                                    <label>性别：</label> <span>你猜</span>
+                                                    <label>年龄：</label> <span>你猜</span>
+                                                    <label>病区：</label> <span>你猜</span>
+                                                    <label>房床号</label>
+                                                </div>
+                                                <div class="r">
+                                                    <label>诊断</label> <span>你猜</span>
+                                                    <label>住院号：</label> <span>你猜</span>
+
+                                                </div>
+                                            </div>
+
+                                            <span class="sub-tit">体温单</span>
+                                        </div>
+                                        <div class="table-data-box">
+                                            <table>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="tit" style="width: 106.75px;margin-top:-1px">日&nbsp;&nbsp;期</td>
+                                                        <td style="width: 106.75px;">2017-15-12</td>
+                                                        <td style="width: 106.75px;">2</td>
+                                                        <td style="width: 106.75px;">3</td>
+                                                        <td style="width: 106.75px;"></td>
+                                                        <td style="width: 106.75px;"></td>
+                                                        <td style="width: 106.75px;"></td>
+                                                        <td style="width: 106.75px;"></td>
+                                                        <td class="last-td" rowspan="4"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="tit">住院日期</td>
+                                                        <td>2017-15-12</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <!--<td class="last-td"></td>-->
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="tit">手术日期</td>
+                                                        <td>2017-15-12</td>
+                                                        <td>
+
+                                                        </td>
+                                                        <td>3</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <!--<td class="last-td"></td>-->
+                                                    </tr>
+                                                    <tr class="time-bar">
+                                                        <td class="tit">时&nbsp;&nbsp;间</td>
+                                                        <td>
+                                                            <span>4</span>
+                                                            <span>8</span>
+                                                            <span>12</span>
+                                                            <span>4</span>
+                                                            <span>8</span>
+                                                            <span>12</span>
+                                                        </td>
+                                                        <td>
+                                                            <span>4</span>
+                                                            <span>8</span>
+                                                            <span>12</span>
+                                                            <span>4</span>
+                                                            <span>8</span>
+                                                            <span>12</span>
+                                                        </td>
+                                                        <td>
+                                                            <span>4</span>
+                                                            <span>8</span>
+                                                            <span>12</span>
+                                                            <span>4</span>
+                                                            <span>8</span>
+                                                            <span>12</span>
+                                                        </td>
+                                                        <td>
+                                                            <span>4</span>
+                                                            <span>8</span>
+                                                            <span>12</span>
+                                                            <span>4</span>
+                                                            <span>8</span>
+                                                            <span>12</span>
+                                                        </td>
+                                                        <td>
+                                                            <span>4</span>
+                                                            <span>8</span>
+                                                            <span>12</span>
+                                                            <span>4</span>
+                                                            <span>8</span>
+                                                            <span>12</span>
+                                                        </td>
+                                                        <td>
+                                                            <span>4</span>
+                                                            <span>8</span>
+                                                            <span>12</span>
+                                                            <span>4</span>
+                                                            <span>8</span>
+                                                            <span>12</span>
+                                                        </td>
+                                                        <td>
+                                                            <span>4</span>
+                                                            <span>8</span>
+                                                            <span>12</span>
+                                                            <span>4</span>
+                                                            <span>8</span>
+                                                            <span>12</span>
+                                                        </td>
+                                                        <!--<td class="last-td"></td>-->
+                                                    </tr>
+
+
+                                                    <tr class="data-box">
+                                                        <td>&nbsp;
+                                                            <span class="wd-tit sel">
+                                                                温度
+                                                            </span>
+                                                        </td>
+                                                        <td colspan="7" class="tab-cont-box">
+                                                            <div class="data-warp">
+                                                                <div id="data-main" style="width: 924px; height: 1200px; -webkit-tap-highlight-color: transparent; user-select: none; background: transparent;" _echarts_instance_="ec_1508920920760">
+                                                                    <div style="position: relative; overflow: hidden; width: 1100px; height: 1200px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;"><canvas width="1100" height="1200" data-zr-dom-id="zr_0" style="position: absolute; left: 0px; top: 0px; width: 1100px; height: 1200px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div>
+                                                                    <div></div>
+                                                                </div>
+                                                                <!--width:851px;-->
+                                                            </div>
+                                                        </td>
+                                                        <td class="hs-bar" style="border-bottom: 0;">
+                                                            <span>华氏</span>
+                                                            <ul>
+                                                                <li>105.8</li>
+                                                                <li>104.9</li>
+                                                                <li>104.0</li>
+                                                                <li>103.1</li>
+                                                                <li>102.2</li>
+                                                                <li>101.3</li>
+                                                                <li>100.4</li>
+                                                                <li>99.5</li>
+                                                                <li>98.6</li>
+                                                                <li>97.7</li>
+                                                                <li>96.8</li>
+                                                                <li>95.9</li>
+                                                                <li>94</li>
+                                                            </ul>
+                                                            <div class="slb-bar">
+                                                                <ul>
+                                                                    <li>
+                                                                        <span class="yw-btn sel" data-val="0">
+                                                                            腋<br>温
+                                                                            <span class="ico"></span>
+                                                                        </span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span class="kw-btn sel" data-val="1">口<br> 温<span class="ico"></span></span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span class="gw-btn sel" data-val="2">肛<br>温<span class="ico"></span></span>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="tit">大便(次)</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td class="last-td" rowspan="7"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="tit">小便(次)</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="tit">入水量(ml)</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="tit">出水量(ml)</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="tit">体&nbsp;&nbsp;重(kg)</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="tit">血压(mmkg)</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="tit">药物过敏</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                            <footer>
+                                                <div>
+                                                    第
+                                                    <span>1</span> 周
+                                                </div>
+                                            </footer>
+                                        </div>
+
+
+                                    </div>
+                                    <!-- end体温单 -->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    </div>
+
+    <!-- navbar -->
+    <a href="admin-offcanvas" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"><!--<i class="fa fa-bars" aria-hidden="true"></i>--></a>
+
+    <script type="text/javascript" src="../dist/js/lib/jquery.min.js"></script>
+    <!--框架js-->
+    <script type="text/javascript" src="../dist/js/lib/amazeui_tmplate/amazeui.min.js"></script>
+    <!--//遮罩层退出框-->
+    <!-- <script type="text/javascript" src="../dist/js/lib/amazeui_tmplate/blockUI.js"></script> -->
+
+
+
+    <script src="../dist/js/lib/echarts.common.min.js"></script>
+    <script src="../dist/js/lib/echarts-data.js"></script>
+    <!--<script type="text/javascript" src="../dist/js/lib/amazeui_tmplate/charts/echarts.min.js" ></script>-->
+    <!--<script type="text/javascript" src="../dist/js/lib/amazeui_tmplate/charts/indexChart.js" ></script>-->
+
+
+    <script>
+        /**
+         * 节流函数
+         */
+        var nowFn = Date.now || function() {
+            return new Date().getTime()
+        }
+
+
+        function throttle(func, wait, option) {
+            var previous = 0, //之前的时间
+                timeout, self, args, result;
+
+            var later = function() {
+                previous = nowFn();
+                timeout = null;
+                result = func.apply(self, args);
+                !timeout && (self = args = null);
+            }
+            return function() {
+                var now = nowFn();
+
+                if (!previous && option.leading === false) previous = now;
+                var diff = wait - (now - previous);
+
+                args = arguments;
+                self = this;
+                if (diff <= 0) {
+                    if (timeout) {
+                        clearTimeout(timeout);
+                        timeout = null;
+                    }
+                    result = func.apply(self, args);
+                    previous = now;
+                    !timeout && (self = args = null); //如果没有堆积的任务 则清空 self 和args
+                } else if (!timeout && option.trailing !== false) {
+                    timeout = setTimeout(later, diff)
+                } else {
+                    console.log('被抛弃了')
+                }
+                return result;
+
+            }
+        }
+        $('#jky-menu').on('open.collapse.amui', function(e) {
+            $(e.target).parents("li").addClass("jky-on")
+        })
+        $('#jky-menu').on('close.collapse.amui', function(e) {
+            $(e.target).parents("li").removeClass("jky-on")
+        })
+
+
+
+        function toggleTar() {
+            if ($('.top48').hasClass('small-type')) {
+                $('.top48').removeClass('small-type')
+                $('.jky_sidebar').removeClass('small-type')
+            } else {
+                $('.top48').addClass('small-type')
+                $('.jky_sidebar').addClass('small-type')
+            }
+
+        }
+
+
+        $('.s-btn').on('click', function() {
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+                $('.user-warp').show();
+
+            } else {
+                $(this).addClass('active');
+                $('.user-warp').hide();
+            }
+
+        })
+
+        var nowDateObj = nowDate();
+
+        function nowDate() {
+            var res = {},
+                nowD = new Date();
+            res.date = nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
+            res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
+            return res
+        }
+
+        function addZero(i) {
+            if (i < 10) {
+                return "0" + i;
+            } else {
+                return i;
+            }
+        }
+        /**
+        laydate.render({
+            elem: '.time-input', //指定元素
+            // showBottom: false,
+            type: 'time',
+            format: 'HH:mm',
+            value: nowDateObj.time,
+            done: function(value, date, endDate) {
+                console.log(value); //得到日期生成的值，如：2017-08-18
+                console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+            }
+        });
+        **/
+        // setTimeout(function(){
+        // $('.time-input').val(nowDateObj.time)
+        // },0)
+
+
+        $(window).on('resize', throttle(resizeFn, 500, {
+            leading: false, //配置第一次不立即执行 true 第一次执行 false 第一次不执行
+            trailing: true // 是否抛弃 还是 往后堆积
+        }))
+
+        var h = $('.temperatureFrom').height()
+        resizeFn()
+
+        function resizeFn() {
+            h = $('.temperatureFrom').height()
+            var $el = $('.hd-bar');
+            elH = parseFloat($el.css('height'))
+            $('.temperature-box').height(h - elH - 10)
+            console.log(elH, h)
+        }
+
+
+        // var hxScroll = 0,
+        //     zxScroll = 0;
+        // $('.scroll-box').on('scroll', function() {
+        //     var sl = this.scrollLeft,
+        //         st = this.scrollTop
+        //     if (sl != hxScroll) {
+        //         console.log('横向滚动')
+        //         hxScroll = sl
+        //     }
+        //     if (st != zxScroll) {
+        //         console.log('纵向滚动')
+        //         $('.cont-table.fx').css('top', st)
+        //         zxScroll = st
+        //     }
+        // })
+    </script>
+</body>
+
+</html>

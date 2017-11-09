@@ -80,7 +80,7 @@ func AccessList(classId, page string, accessType AccessType) ([]Access, error) {
 		if accessType == AccessTypeAll {
 			err = fit.MySqlEngine().SQL("select * from Access where classId = ? ORDER BY `AccessTime` DESC", classId).Limit(20, int(pageInt)).Find(&mods)
 		} else {
-			err = fit.MySqlEngine().SQL("select * from Access where classId = ? and accesstype = ? ORDER BY `AccessTime` DESC", classId, accessType).Limit(20, int(pageInt)).Find(&mods)
+			err = fit.MySqlEngine().SQL("select * from Access where classId = ? and accesstype = ? ORDER BY `AccessT ime` DESC", classId, accessType).Limit(20, int(pageInt)).Find(&mods)
 		}
 	}
 
@@ -88,8 +88,16 @@ func AccessList(classId, page string, accessType AccessType) ([]Access, error) {
 }
 
 func AccessSearch(classId, paramstr string) ([]Access, error) {
-	var mods []Access
+	mods := make([]Access,0)
 	params := "%" + paramstr + "%"
 	err := fit.MySqlEngine().SQL("select * from Access where classId = ? and (bedId like ? or patientName like ?)", classId, params, params).Find(&mods)
+	return mods, err
+}
+
+
+func AccessALLList(classId string) ([]Access, error) {
+	var mods []Access
+	var err error
+	err = fit.MySqlEngine().SQL("select * from Access where classId = ?  ORDER BY `AccessTime` DESC", classId).Find(&mods)
 	return mods, err
 }

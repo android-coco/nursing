@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>见康云护理管理信息系统</title>
+    <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/amazeui.css" />
+    <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/core.css" />
+    <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/menu.css" />
+    <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/admin.css" />
+    <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/page/typography.css" />
+    <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/page/form.css" />
+    <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/component.css" />
+    <link rel="stylesheet" href="/static/dist/style/css/base_pc.min.css">
+</head>
+
+<body class="pt48">
+<div id="gopng_icon4_outer">
+    <div id="gopng_icon4"></div>
+</div>
+<div class="hd_tit">
+    <div class="logo"><img src="/static/dist/images/admin_pc/logo.png"></div>
+    <p class="tit">见康云护理管理信息系统_</p>
+    <div class="am-dropdown jky_dropdown" data-am-dropdown>
+        <button class="am-btn am-btn-primary am-dropdown-toggle" data-am-dropdown-toggle>{{.Userinfo.DepartmentName}}
+            <span class="jky_icon"><img src="/static/dist/images/admin_pc/xl.png" alt=""></span>
+        </button>
+    </div>
+    <div class="r_menu_list">
+        <div class="more_btn" {{if eq .Userinfo.Authority 2}}style="display:none"{{end}}>
+            <div class="parent_menu">
+                更多
+            </div>
+            <ul class="child_menu">
+                <li><a href="/pc/access/manage">出入管理</a></li>
+                <li><a href="/pc/warn">提醒管理</a></li>
+                <li><a href="/pc/history">历史病人</a></li>
+            </ul>
+        </div>
+        <div class="setup_btn" {{if eq .Userinfo.Authority 2}}style="display:none"{{end}}>
+            <div class="parent_menu">
+                设置
+            </div>
+            <ul class="child_menu">
+                <li><a href="/pc/account/changepwd">密码修改</a></li>
+                <!--<li><a href="/pc/device/manage">设备管理</a></li>-->
+                <li><a href="/pc/account/manage">账号管理</a></li>
+            </ul>
+        </div>
+        <div class="out_btn">
+            <img src="/static/dist/images/admin_pc/out.png" alt=""> 退出
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Begin page -->
+<div class="am-topbar am-topbar-fixed-top top48">
+    <div class="am-topbar-left am-hide-sm-only">
+        <a class="username"><span>欢迎你，{{.Userinfo.Name}}</span><i class="zmdi zmdi-layers"></i></a>
+    </div>
+
+    <div class="contain">
+        <div class="jky-class-bar">
+
+        </div>
+        <div class="jky-tab-hd">
+            <ul>
+                <li class="active"><a href="/pc/account/manage">创建新账号</a></li>
+                <li><a href="/pc/account/manage/created">已创建</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+</div>
+<!-- end page -->
+
+
+<div class="admin">
+    <!-- 侧边栏 -->
+    <div class="admin-sidebar am-offcanvas  am-padding-0 jky_sidebar type2" id="admin-offcanvas">
+        <div class="am-offcanvas-bar admin-offcanvas-bar">
+
+            <ul class="am-list admin-sidebar-list" id="jky-menu">
+                <li>
+                    <a class="am-cf none">
+                            <span class="jky_icon2">
+                                <img src="/static/dist/images/admin_pc/icon10.png" alt="">
+                            </span>
+                        <span class="tit"> 设备管理 </span>
+                        <div class="jky_icon">
+                            <img src="/static/dist/images/admin_pc/icon5.png" alt="">
+                        </div>
+                    </a>
+                </li>
+                <li class="active">
+                    <a class="am-cf">
+                            <span class="jky_icon2">
+                                <img src="/static/dist/images/admin_pc/icon11.png" alt="">
+                            </span>
+                        <span class="tit"> 账号管理 </span>
+                        <div class="jky_icon">
+                            <img src="/static/dist/images/admin_pc/icon5.png" alt="">
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a class="am-cf none">
+                            <span class="jky_icon2">
+                                <img src="/static/dist/images/admin_pc/icon12.png" alt="">
+                            </span>
+                        <span class="tit"> 服务器地址 </span>
+                        <div class="jky_icon">
+                            <img src="/static/dist/images/admin_pc/icon5.png" alt="">
+                        </div>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+
+    <!-- main -->
+
+    <div class="content-page type2" style="margin-top: 85px;">
+        <div class="content ">
+            <div class="am-g">
+                <div class="new-account-warp">
+                    <div class="new-account">
+                        <div class="new-account-cont-l">
+                            <div class="hd" {{if eq .Userinfo.Authority 1}}style="display:none"{{end}}>
+                                <label for="ks-sel">科室选择</label>
+                                <select name="" id="ks-sel">
+                                    {{range .Departments}}
+                                    <option value="{{.BCK01}}">{{.BCK03}}</option>
+                                    {{end}}
+                                </select>
+                            </div>
+                            <div class="all-sle">
+                                <input type="checkbox" id="all"> <label for="all">全部</label>
+                            </div>
+                            <div class="cont">
+
+                                <div class="scroll-box">
+                                    <!--<table class="use-table fix">-->
+                                        <!--<thead>-->
+                                        <!--<tr class="hd-tit">-->
+                                            <!--<th class="td-1">工号</th>-->
+                                            <!--<th class="td-2">姓名</th>-->
+                                            <!--<th class="td-3">科室</th>-->
+                                        <!--</tr>-->
+                                        <!--</thead>-->
+                                    <!--</table>-->
+                                    <table class="use-table change-div">
+                                        <thead>
+                                        <tr class="hd-tit">
+                                            <th class="td-1">工号</th>
+                                            <th class="td-2">姓名</th>
+                                            <th class="td-3">科室</th>
+                                        </tr>
+                                        </thead>
+
+                                        {{range .Users}}
+                                        <tr class="tr-bd">
+                                            <td class="td-1">
+                                                <div class="bed-id">
+                                                    <input class="user-select" type="checkbox" value="{{.BCE02}}"> {{.BCE02}}
+                                                </div>
+
+                                            </td>
+                                            <td class="td-2 td-2-dup">{{.BCE03}}</td>
+                                            <td class="td-3 td-3-dup">{{.BCK03}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="new-account-cont-r">
+                            <div class="hd">
+                                <div class="save-btn">
+                                    保存
+                                </div>
+                            </div>
+                            <div class="cont">
+                                <div class="scroll-box">
+                                    <div class="table-cont">
+                                        <table class="fix">
+                                            <thead>
+                                            <tr>
+                                                <th class="td-1">
+                                                    <div class="ks-tit">科室</div>
+                                                </th>
+                                                <th class="td-2">科室成员</th>
+                                                <th class="td-3">员工工号</th>
+                                                <th class="td-4">登录密码</th>
+                                                <th class="td-5">所属角色</th>
+                                                <th class="td-6">状态</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+
+                                        <table>
+                                            <thead>
+                                            <tr>
+                                                <th class="td-1">
+                                                    <div class="ks-tit">科室</div>
+                                                </th>
+                                                <th class="td-2">科室成员</th>
+                                                <th class="td-3">员工工号</th>
+                                                <th class="td-4">登录密码</th>
+                                                <th class="td-5">所属角色</th>
+                                                <th class="td-6">状态</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody class="ks-tit-body">
+                                            <!--<tr>-->
+                                                <!--<td>-->
+                                                    <!--<div class="ks-tit ks-tit-dep"></div>-->
+                                                <!--</td>-->
+                                                <!--<td class="ks-tit-name">-->
+                                                <!--</td>-->
+                                                <!--<td class="ks-tit-code">-->
+                                                <!--</td>-->
+                                                <!--<td class="ks-tit-pwd">-->
+                                                <!--</td>-->
+                                                <!--<td class="ks-tit-pwd-sel-1">-->
+                                                    <!--&lt;!&ndash;<select name="" class="sel-1">&ndash;&gt;-->
+                                                        <!--&lt;!&ndash;<option value="0">一般用户</option>&ndash;&gt;-->
+                                                        <!--&lt;!&ndash;<option value="1">账号管理员</option>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;</select>&ndash;&gt;-->
+                                                <!--</td>-->
+                                                <!--<td class="ks-tit-pwd-sel-2">-->
+                                                    <!--&lt;!&ndash;<select name="" class="sel-2">&ndash;&gt;-->
+                                                        <!--&lt;!&ndash;<option value="1">启用</option>&ndash;&gt;-->
+                                                        <!--&lt;!&ndash;<option value="2">停用</option>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;</select>&ndash;&gt;-->
+                                                <!--</td>-->
+                                            <!--</tr>-->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+
+<!-- navbar -->
+<a href="admin-offcanvas" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"><!--<i class="fa fa-bars" aria-hidden="true"></i>--></a>
+
+<script type="text/javascript" src="/static/dist/js/lib/jquery.min.js"></script>
+<!--框架js-->
+<script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/amazeui.min.js"></script>
+<!--//遮罩层退出框-->
+<!-- <script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/blockUI.js"></script> -->
+
+<!--<script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/charts/echarts.min.js" ></script>-->
+<!--<script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/charts/indexChart.js" ></script>-->
+
+<script src="/static/common.js"></script>
+<script>
+    $(function () {
+
+        /**
+         * 节流函数
+         */
+        var nowFn = Date.now || function() {
+            return new Date().getTime()
+        }
+
+
+        function throttle(func, wait, option) {
+            var previous = 0, //之前的时间
+                timeout, self, args, result;
+
+            var later = function() {
+                previous = nowFn();
+                timeout = null;
+                result = func.apply(self, args);
+                !timeout && (self = args = null);
+            }
+            return function() {
+                var now = nowFn();
+
+                if (!previous && option.leading === false) previous = now;
+                var diff = wait - (now - previous);
+
+                args = arguments;
+                self = this;
+                if (diff <= 0) {
+                    if (timeout) {
+                        clearTimeout(timeout);
+                        timeout = null;
+                    }
+                    result = func.apply(self, args);
+                    previous = now;
+                    !timeout && (self = args = null); //如果没有堆积的任务 则清空 self 和args
+                } else if (!timeout && option.trailing !== false) {
+                    timeout = setTimeout(later, diff)
+                } else {
+                    console.log('被抛弃了')
+                }
+                return result;
+
+            }
+        }
+        $('#jky-menu').on('open.collapse.amui', function(e) {
+            $(e.target).parents("li").addClass("jky-on")
+        })
+        $('#jky-menu').on('close.collapse.amui', function(e) {
+            $(e.target).parents("li").removeClass("jky-on")
+        })
+
+
+
+        function toggleTar() {
+            if ($('.top48').hasClass('small-type')) {
+                $('.top48').removeClass('small-type')
+                $('.jky_sidebar').removeClass('small-type')
+            } else {
+                $('.top48').addClass('small-type')
+                $('.jky_sidebar').addClass('small-type')
+            }
+
+        }
+
+        // // 获取科室列表
+        // function getDepatemnts() {
+        //     $.get("/departments",function (json) {
+        //         if (json.result == 0) {
+        //             var departments = json.datas
+        //             for (var index = 0; index < departments.length; index ++) {
+        //                 var department = departments[index]
+        //                 var department_id = department["department_id"]
+        //                 var department_name = department["department_name"]
+        //
+        //                 console.log("ID: ", department_id, "    Name: ", department_name)
+        //             }
+        //         } else {
+        //             alert(json.errmsg + "，请刷新网页重试")
+        //         }
+        //     }, 'json');
+        // }
+        //
+        // // 如果是账号管理员，则需要获取科室列表
+        // if ({{.Userinfo.Authority}} == 2) {
+        //     getDepatemnts();
+        // }
+
+        // $('.out_btn').on('click', function () {
+        //     $.get("/pc/logout", {}, function (json,status) {
+        //         console.log(json, status);
+        //         if (json.result == 0) {
+        //             window.location.href = "/pc/login"
+        //         } else {
+        //             alert("服务器繁忙，请稍后操作")
+        //         }
+        //     }, 'json');
+        // });
+
+        $('.cont').on('click', '.hide-btn,.colse-btn', function() {
+            var $this = $(this),
+                $parentEl = $this.parents('.device-item');
+            $parentEl.find('.item-tit').removeClass('none');
+            $parentEl.find('.divice-cont').addClass('none');
+
+
+        })
+        $('.cont').on('click', '.edit-btn', function() {
+            var $this = $(this),
+                $parentEl = $this.parents('.device-item');
+            $parentEl.find('.divice-cont').removeClass('none');
+            $parentEl.find('.item-tit').addClass('none');
+
+
+        })
+
+        $('body').on('click','.save-btn',function () {
+            console.log($('.ks-tit-body'))
+            var objArr = []
+            const length = $('.sel-1 option:selected').length
+            if (length == 0) {
+                return
+            }
+
+            for (var i = 0; i < length; i ++) {
+                var authority = $('.sel-1 option:selected').eq(i).val()
+                var status = $('.sel-2 option:selected').eq(i).val()
+                var code = $('.ks-tit-code').eq(i).html()
+                var obj = {}
+                obj['authority'] = authority
+                obj['code'] = code
+                obj['status'] = status
+                objArr.push(obj)
+            }
+            console.log(objArr)
+            console.log(JSON.stringify(objArr))
+
+            const handler = {{.Userinfo.Code}}
+            $.post("/pc/account/create", {
+                handler: handler,
+                datas:JSON.stringify(objArr),
+            }, function (json, status) {
+                if (json.result == 0) {
+                    alert(json.errmsg)
+                    location.reload()
+                } else {
+                    alert(json.errmsg)
+                }
+            }, 'json');
+        })
+
+        // 选择用户
+        $('body').on('change','.user-select',function () {
+            //var warn_type = $("input[type='checkbox']:checked").val();//类型
+            var codeViews = $(this).parents().find('.user-select')
+            var nameViews = $(this).parents().find('.td-2-dup')
+            var depViews = $(this).parents().find('.td-3-dup')
+
+            var strhtml = "";
+            for (var i = 0; i < codeViews.length; i ++) {
+                if (codeViews[i].checked) {
+                    var code = codeViews[i].value
+                    var name = nameViews[i].textContent
+                    var dep = depViews[i].textContent
+
+                    strhtml += "<tr>\n" +
+                        "<td>\n" +
+                        "<div class=\"ks-tit ks-tit-dep\">"+dep+"</div>\n" +
+                        "</td>\n" +
+                        "<td class=\"ks-tit-name\">"+name+"</td>\n" +
+                        "<td class=\"ks-tit-code\">"+code+"</td>\n" +
+                        "<td class=\"ks-tit-pwd\">123456</td>\n" +
+                        "<td class=\"ks-tit-pwd-sel-1\">    <select name=\"\" class=\"sel-1\">\n" +
+                        "<option value=\"0\">一般用户</option>\n" +
+                        "<option value=\"1\">账号管理员</option>\n" +
+                        "</select></td>\n" +
+                        "<td class=\"ks-tit-pwd-sel-2\">    <select name=\"\" class=\"sel-2\">\n" +
+                        "<option value=\"1\">启用</option>\n" +
+                        "<option value=\"2\">停用</option>\n" +
+                        "</select></td>\n" +
+                        "</tr>";
+                }
+            }
+            $('.ks-tit-body').html(strhtml)
+
+        });
+
+        
+        $("#all").change(function () {
+
+
+            if($(this).is(':checked')){
+                $('.use-table').find("input[type=checkbox]").prop('checked',true);
+            }else{
+                $('.use-table').find("input[type=checkbox]").prop('checked',false);
+            }
+            // 主动触发事件
+            var checkboxs = $('.user-select')
+            if (checkboxs.length > 0) {
+                checkboxs.eq(0).trigger('change')
+            }
+
+        })
+        
+        //筛选
+        $("#ks-sel").change(function () {
+            // var className = $('#ks-sel option:selected').text();//选中的文本
+            var classId = $('#ks-sel option:selected').val();//选中的值
+
+
+            $.get("/pc/account/uncreated", {
+                did: classId,
+            }, function (json, status) {
+                if (json.result == 0) {
+                    var resArr = json.datas;
+                    var html = '';
+                    html += "<thead>"
+                    + "<tr class=\"hd-tit\">"
+                    + "<th class=\"td-1\">工号</th>"
+                    + "<th class=\"td-2\">姓名</th>"
+                    + "<th class=\"td-3\">科室</th>"
+                    + "</tr>"
+                    + "</thead>";
+
+                    for (var i = 0; i < resArr.length; i++) {
+                        html += "<tr class=\"tr-bd\">"
+                            + " <td class=\"td-1\">"
+                            + "<div class=\"bed-id\">"
+                            + "<input class=\"user-select\" type=\"checkbox\" value="+resArr[i].code+">"+" "+resArr[i].code+"</div>"
+                            + "</td>"
+                            + "<td class=\"td-2 td-2-dup\">"+resArr[i].name+"</td>"
+                            + "<td class=\"td-3 td-3-dup\">"+resArr[i].department_name+"</td>"
+                            + "</tr>";
+                    }
+                    $(".change-div").html(html)
+
+                    // 取消选中全部
+                    $('#all').prop('checked',false)
+                    $('#all').trigger('change')
+                } else {
+                    alert(json.errmsg)
+                }
+            }, 'json');
+        });
+    });
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>基本生活活动能力</title>
+    <link rel="stylesheet" href="/static/dist/style/css/base.css">
+    <script>
+        function setFontSize() {
+            var deviceWidth = document.documentElement.clientWidth;
+            if (deviceWidth > 640) deviceWidth = 640;
+            document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+        }
+
+        setFontSize()
+        var timer = null;
+        window.addEventListener('resize', function() {
+            clearTimeout(timer)
+            timer = setTimeout(setFontSize, 300)
+        }, false)
+    </script>
+</head>
+
+<body>
+
+<div class="g-main">
+    <div class="m-msg">
+        <ul>
+            <li class="b1">
+                姓名:<span>{{.Pinfo.VAA05}}</span>
+            </li>
+            <li class="b1">
+                性别:<span>{{.Pinfo.Gender}}</span>
+            </li>
+            <li class="b1">
+                年龄:<span>{{.Pinfo.VAA10}}岁</span>
+            </li>
+            <li class="b1">
+                科室:<span>{{.Pinfo.BCK03}}</span>
+            </li>
+            <li class="b1">
+                床号:<span>{{.Pinfo.BCQ04}}</span>
+            </li>
+            <li class="b1">
+                住院号:<span>{{.Pinfo.VAA04}}</span>
+            </li>
+            <li class="b2">
+                诊断内容：<span>{{.Pinfo.VAO15}}</span>
+            </li>
+        </ul>
+    </div>
+    <div class="m-tit">
+        <p class="tit">评估项目</p>
+    </div>
+
+    <!-- 大便： -->
+    <div class="m-check2" id="c1">
+        <p class="tit">
+            大便：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c1-v1" name="check1" data-v="1" class="c1" {{if eq .NRL.NRL01 1}}checked{{end}}>
+                    <label for="c1-v1" class="icon"></label>
+                </div>
+                <label for="c1-v1">失禁或昏迷&nbsp;&nbsp;&nbsp;&nbsp;0分</label>
+            </li>
+            <li>
+                <div class="m-input-radio ">
+                    <input type="radio" id="c1-v2" name="check1" data-v="2" class="c1" {{if eq .NRL.NRL01 2}}checked{{end}}>
+                    <label for="c1-v2" class="icon"></label>
+                </div>
+                <label for="c1-v2">偶有失禁（每周<1次）&nbsp;&nbsp;&nbsp;&nbsp;5分</label>
+            </li>
+            <li>
+                <div class="m-input-radio ">
+                    <input type="radio" id="c1-v3" name="check1" data-v="3" class="c1" {{if eq .NRL.NRL01 3}}checked{{end}}>
+                    <label for="c1-v3" class="icon"></label>
+                </div>
+                <label for="c1-v3">控制&nbsp;&nbsp;&nbsp;&nbsp;10分</label>
+            </li>
+        </ul>
+    </div>
+    <div class="m-line"></div>
+
+    <!-- 小便： -->
+    <div class="m-check2" id="c2">
+        <p class="tit">
+            小便：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c2-v1" name="check2" data-v="1" class="c1" {{if eq .NRL.NRL02 1}}checked{{end}}>
+                    <label for="c2-v1" class="icon"></label>
+                </div>
+                <label for="c2-v1">失禁或昏迷或由他人导尿&nbsp;&nbsp;&nbsp;&nbsp;0分</label>
+            </li>
+            <li>
+                <div class="m-input-radio ">
+                    <input type="radio" id="c2-v2" name="check2" data-v="2" class="c1" {{if eq .NRL.NRL02 2}}checked{{end}}>
+                    <label for="c2-v2" class="icon"></label>
+                </div>
+                <label for="c2-v2">偶有失禁（每24h<1次）&nbsp;&nbsp;&nbsp;&nbsp;5分</label>
+            </li>
+            <li>
+                <div class="m-input-radio ">
+                    <input type="radio" id="c2-v3" name="check2" data-v="3" class="c1" {{if eq .NRL.NRL02 3}}checked{{end}}>
+                    <label for="c2-v3" class="icon"></label>
+                </div>
+                <label for="c2-v3">控制&nbsp;&nbsp;&nbsp;&nbsp;10分</label>
+            </li>
+        </ul>
+    </div>
+    <div class="m-line"></div>
+
+    <!-- 装饰 -->
+    <div class="m-check2" id="c3">
+        <p class="tit">
+            装饰：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c3-v1" name="check3" data-v="1" class="c1"  {{if eq .NRL.NRL03 1}}checked{{end}}>
+                    <label for="c3-v1" class="icon"></label>
+                </div>
+                <label for="c3-v1">需要帮助&nbsp;&nbsp;&nbsp;&nbsp;0分</label>
+            </li>
+            <li>
+                <div class="m-input-radio ">
+                    <input type="radio" id="c3-v2" name="check3" data-v="2" class="c1"  {{if eq .NRL.NRL03 2}}checked{{end}}>
+                    <label for="c3-v2" class="icon"></label>
+                </div>
+                <label for="c3-v2">自理（洗脸、梳头、刷牙、剃须）&nbsp;&nbsp;&nbsp;&nbsp;5分</label>
+            </li>
+        </ul>
+    </div>
+    <div class="m-line"></div>
+
+
+    <!-- 如厕： -->
+    <div class="m-check2" id="c4">
+        <p class="tit">
+            如厕：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c4-v1" name="check4" data-v="1" class="c1" {{if eq .NRL.NRL04 1}}checked{{end}}>
+                    <label for="c4-v1" class="icon"></label>
+                </div>
+                <label for="c4-v1">依赖他人&nbsp;&nbsp;&nbsp;&nbsp;0分</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c4-v2" name="check4" data-v="2" class="c1"  {{if eq .NRL.NRL04 2}}checked{{end}}>
+                    <label for="c4-v2" class="icon"></label>
+                </div>
+                <label for="c4-v2">需部分帮助&nbsp;&nbsp;&nbsp;&nbsp;5分</label>
+            </li>
+            <li>
+                <div class="m-input-radio two-row">
+                    <input type="radio" id="c4-v3" name="check4" data-v="3" class="c1" {{if eq .NRL.NRL04 3}}checked{{end}}>
+                    <label for="c4-v3" class="icon"></label>
+                </div>
+                <label for="c4-v3">自理（进出厕所、使用厕纸、穿脱裤子）&nbsp;&nbsp;&nbsp;&nbsp;10分</label>
+            </li>
+        </ul>
+    </div>
+
+    <div class="m-line"></div>
+
+    <!-- 进食：-->
+    <div class="m-check2" id="c5">
+        <p class="tit">
+            进食：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c5-v1" name="check5" data-v="1" class="c1" {{if eq .NRL.NRL05 1}}checked{{end}}>
+                    <label for="c5-v1" class="icon"></label>
+                </div>
+                <label for="c5-v1">较大或完全依赖&nbsp;&nbsp;&nbsp;&nbsp;0分</label>
+            </li>
+            <li>
+                <div class="m-input-radio two-row">
+                    <input type="radio" id="c5-v2" name="check5" data-v="2" class="c1" {{if eq .NRL.NRL05 2}}checked{{end}}>
+                    <label for="c5-v2" class="icon"></label>
+                </div>
+                <label for="c5-v2">需部分帮助（切面包、抹黄油、夹菜、盛饭）&nbsp;&nbsp;&nbsp;&nbsp;5分</label>
+            </li>
+            <li>
+                <div class="m-input-radio two-row">
+                    <input type="radio" id="c5-v3" name="check5" data-v="3" class="c1"  {{if eq .NRL.NRL05 3}}checked{{end}}>
+                    <label for="c5-v3" class="icon"></label>
+                </div>
+                <label for="c5-v3">全面自理（能进食各种食物，但不包括取饭、做饭）&nbsp;&nbsp;&nbsp;&nbsp;10分</label>
+            </li>
+        </ul>
+    </div>
+    <div class="m-line"></div>
+
+    <!-- 转移： -->
+    <div class="m-check2" id="c6">
+        <p class="tit">
+            转移：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c6-v1" name="check6" data-v="1" class="c1" {{if eq .NRL.NRL06 1}}checked{{end}}>
+                    <label for="c6-v1" class="icon"></label>
+                </div>
+                <label for="c6-v1">完全依赖他人，无坐位平衡&nbsp;&nbsp;&nbsp;&nbsp;0分</label>
+            </li>
+            <li>
+                <div class="m-input-radio two-row">
+                    <input type="radio" id="c6-v2" name="check6" data-v="2" class="c1"  {{if eq .NRL.NRL06 2}}checked{{end}}>
+                    <label for="c6-v2" class="icon"></label>
+                </div>
+                <label for="c6-v2">需大量帮助（1-2人，身体帮助），能坐&nbsp;&nbsp;&nbsp;&nbsp;5分</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c6-v3" name="check6" data-v="3" class="c1" {{if eq .NRL.NRL06 3}}checked{{end}}>>
+                    <label for="c6-v3" class="icon"></label>
+                </div>
+                <label for="c6-v3">需少量帮助（言语或身体帮助）&nbsp;&nbsp;&nbsp;&nbsp;10分</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c6-v4" name="check6" data-v="4" class="c1" {{if eq .NRL.NRL06 4}}checked{{end}}>
+                    <label for="c6-v4" class="icon"></label>
+                </div>
+                <label for="c6-v4">自理&nbsp;&nbsp;&nbsp;&nbsp;15分</label>
+            </li>
+        </ul>
+    </div>
+    <div class="m-line"></div>
+
+
+    <!-- 活动 -->
+    <div class="m-check2" id="c7">
+        <p class="tit">
+            活动：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c7-v1" name="check7" data-v="1" class="c1" {{if eq .NRL.NRL07 1}}checked{{end}}>
+                    <label for="c7-v1" class="icon"></label>
+                </div>
+                <label for="c7-v1">不能步行&nbsp;&nbsp;&nbsp;&nbsp;0分</label>
+            </li>
+            <li>
+                <div class="m-input-radio ">
+                    <input type="radio" id="c7-v2" name="check7" data-v="2" class="c1" {{if eq .NRL.NRL07 2}}checked{{end}}>
+                    <label for="c7-v2" class="icon"></label>
+                </div>
+                <label for="c7-v2">在轮椅上能独立行动&nbsp;&nbsp;&nbsp;&nbsp;5分</label>
+            </li>
+            <li>
+                <div class="m-input-radio ">
+                    <input type="radio" id="c7-v3" name="check7" data-v="3" class="c1" {{if eq .NRL.NRL07 3}}checked{{end}}>
+                    <label for="c7-v3" class="icon"></label>
+                </div>
+                <label for="c7-v3">需1人帮助步行（言语或身体帮助）&nbsp;&nbsp;&nbsp;&nbsp;10分</label>
+            </li>
+            <li>
+                <div class="m-input-radio two-row">
+                    <input type="radio" id="c7-v4" name="check7" data-v="4" class="c1" {{if eq .NRL.NRL07 4}}checked{{end}}>
+                    <label for="c7-v4" class="icon"></label>
+                </div>
+                <label for="c7-v4">独立步行（可用辅助器，在家及附近）&nbsp;&nbsp;&nbsp;&nbsp;15分</label>
+            </li>
+        </ul>
+    </div>
+    <div class="m-line"></div>
+
+
+
+    <!-- 穿衣 -->
+    <div class="m-check2" id="c8">
+        <p class="tit">
+            穿衣：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c8-v1" name="check8" data-v="1" class="c1" {{if eq .NRL.NRL08 1}}checked{{end}}>
+                    <label for="c8-v1" class="icon"></label>
+                </div>
+                <label for="c8-v1">依赖他人&nbsp;&nbsp;&nbsp;&nbsp;0分</label>
+            </li>
+            <li>
+                <div class="m-input-radio ">
+                    <input type="radio" id="c8-v2" name="check8" data-v="2" class="c1" {{if eq .NRL.NRL08 2}}checked{{end}}>
+                    <label for="c8-v2" class="icon"></label>
+                </div>
+                <label for="c8-v2">需一半帮助&nbsp;&nbsp;&nbsp;&nbsp;5分</label>
+            </li>
+            <li>
+                <div class="m-input-radio  two-row">
+                    <input type="radio" id="c8-v3" name="check8" data-v="3" class="c1" {{if eq .NRL.NRL08 3}}checked{{end}}>
+                    <label for="c8-v3" class="icon"></label>
+                </div>
+                <label for="c8-v3">自理（自己系、解纽扣、关开拉锁和穿鞋）&nbsp;&nbsp;&nbsp;&nbsp;10分</label>
+            </li>
+        </ul>
+    </div>
+    <div class="m-line"></div>
+
+    <!-- 上下楼梯： -->
+
+    <div class="m-check2" id="c9">
+        <p class="tit">
+            上下楼梯：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c9-v1" name="check9" data-v="1" class="c1" {{if eq .NRL.NRL09 1}}checked{{end}}>
+                    <label for="c9-v1" class="icon"></label>
+                </div>
+                <label for="c9-v1">不能&nbsp;&nbsp;&nbsp;&nbsp;0分</label>
+            </li>
+            <li>
+                <div class="m-input-radio ">
+                    <input type="radio" id="c9-v2" name="check9" data-v="2" class="c1" {{if eq .NRL.NRL09 2}}checked{{end}}>
+                    <label for="c9-v2" class="icon"></label>
+                </div>
+                <label for="c9-v2">需帮助（言语、身体、手杖帮助）&nbsp;&nbsp;&nbsp;&nbsp;5分</label>
+            </li>
+            <li>
+                <div class="m-input-radio  two-row">
+                    <input type="radio" id="c9-v3" name="check9" data-v="3" class="c1" {{if eq .NRL.NRL09 3}}checked{{end}}>
+                    <label for="c9-v3" class="icon"></label>
+                </div>
+                <label for="c9-v3">独立上下楼梯&nbsp;&nbsp;&nbsp;&nbsp;10分</label>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 洗澡 -->
+    <div class="m-check2" id="c10">
+        <p class="tit">
+            洗澡：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c10-v1" name="check10" data-v="1" class="c1" {{if eq .NRL.NRL10 1}}checked{{end}}>
+                    <label for="c10-v1" class="icon"></label>
+                </div>
+                <label for="c10-v1">依赖&nbsp;&nbsp;&nbsp;&nbsp;0分</label>
+            </li>
+            <li>
+                <div class="m-input-radio two-row">
+                    <input type="radio" id="c10-v2" name="check10" data-v="2" class="c1" {{if eq .NRL.NRL10 2}}checked{{end}}>
+                    <label for="c10-v2" class="icon"></label>
+                </div>
+                <label for="c10-v2">自理（无指导能进出浴室并自理洗澡）&nbsp;&nbsp;&nbsp;&nbsp;5分</label>
+            </li>
+        </ul>
+    </div>
+
+    <div class="m-line"></div>
+
+    <div class="m-zofen">
+        <span>总得分:</span>
+        <span class="fen"></span>
+        <span>分</span>
+    </div>
+
+    <div class="m-class-jb" id="c11">
+        <div class="tit">
+            建议护理级别:
+        </div>
+        <ul>
+            <li style="margin-left:.1rem">
+                <div class="m-input-radio">
+                    <input type="radio" id="c11-v1" name="check11" data-v="1" class="c1"  {{if eq .NRL.NRL11 1}}checked{{end}}>
+                    <label for="c11-v1" class="icon"></label>
+                </div>
+                <label for="c11-v1">一级护理</label>
+            </li>
+            <li style="margin-left:.4rem">
+                <div class="m-input-radio">
+                    <input type="radio" id="c11-v2" name="check11" data-v="2" class="c1"  {{if eq .NRL.NRL11 2}}checked{{end}}>
+                    <label for="c11-v2" class="icon"></label>
+                </div>
+                <label for="c11-v2">二级护理</label>
+            </li>
+        </ul>
+    </div>
+
+    <div class="m-time pdt-10">
+        <span>记录时间</span>
+        <div class="input">
+            <span class="date">{{.RecordDate}}</span>
+        </div>
+    </div>
+
+    <div class="m-autograph">
+        <span>签名：</span>
+        <span class="name">{{.Account.Username}}</span>
+    </div>
+    <div class="m-pd40"></div>
+
+    <div class="m-remarks">
+        <div class="tit">
+            备注：
+        </div>
+        <p> 评分结果： </p>
+        <p>满分100分。 </p>
+        <p>总分≤40分，重度依赖，全部需他人照顾，建议一级 护理；</p>
+        <p> 总分41~60分，中度依赖，大部分需他人照顾，建议 二级护理；
+        </p>
+        <p> 总分61~99分，轻度依赖，少部分需他人照顾，结合 患者病情，建议二级护理
+        </p>
+
+    </div>
+    <div class="m-remarks">
+        <div class="tit">
+            评估时机：
+        </div>
+
+        <p>1. 结合患者的活动，在自然状态下评估，根据患者的 耐受情况，一次或分时段进行评估。
+        </p>
+        <p>2. 患者入院时进行首次评估，
+            <60分时，每日评估一 次，每日9点前完成。</p>
+        <p>3. 病情发生变化时，动态评估。</p>
+
+
+    </div>
+</div>
+
+<div class="m-pd100"></div>
+
+<script src="/static/dist/js/base.js"></script>
+<script>
+
+    // setTime('{"date":"2017-01-02","time":"21:00"}')
+    function setTime(dataStr) {
+        var data = dataStr || {};
+        // var data = JSON.parse(dataStr)
+        var $mTime = $('.m-time');
+        data.date && $mTime.find('.date').text(data.date)
+        data.time && $mTime.find('.time').text(data.time)
+    }
+    function nowDate() {
+        var res = {},
+            nowD = new Date();
+        res.date = nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
+        res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
+        // return JSON.stringify(res)
+        return res;
+    }
+    function addZero(i) {
+        if (i < 10) {
+            return "0" + i;
+        } else {
+            return i;
+        }
+    }
+
+
+    var type = {{.Type}};
+    if (type == "1") {
+        setTime(nowDate())
+    }else{
+        var datetime = {{.NRL.DateTime}};
+        var dataDate = new Date(datetime);
+        function getDateStr(dateDate) {
+            var res = {}, nowD = new Date(dateDate);
+            if (dateDate==""){
+                res.time=""
+                res.date=""
+                return res
+            }
+            res.date = nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
+            res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
+            return res
+        }
+        setTime(getDateStr(dataDate))
+    }
+
+    //安卓调用
+    $(function(){
+        $(".m-time").find('.date').on('click',function(){
+            // WebJs_SetDate()
+            if(window.android!=null && typeof(window.android)!="undefined"){
+                window.android.WebJs_SetDate();
+            }else{
+                alert("js对象注入失败")
+            }
+
+        })
+        $(".m-time").find('.time').on('click',function(){
+            // WebJs_SetTime()
+            if(window.android!=null && typeof(window.android)!="undefined"){
+                window.android.WebJs_SetTime();
+            }else{
+                alert("js对象注入失败")
+            }
+        })
+    })
+
+    //单选可取消单选
+    $("input[type=radio]:checked").data('check',1)
+    $('input[type=radio]').on('click',function(){
+        var ischeck = $(this).data("check");
+        if(!ischeck){
+            $(this).parents('ul').find("input[type=radio]").data("check","0")
+            $(this).data("check","1");
+        }else{
+            $(this).prop('checked',false);
+            $(this).data("check","0");
+        }
+    })
+
+
+    function reqAPI(type) {
+        var data = {}
+        function init(){
+            data = {
+                /***---------------------**/
+                // 护士ID
+                "uid": {{.Account.Employeeid}},
+                // 护士名
+                "username": {{.Account.Username}},
+                //病人id
+                "pid": {{.Pinfo.VAA01}},
+                // 科室id
+                "did": {{.Pinfo.BCK01B}},
+                // "nrl_id":{{.Rid}}
+                /***---------------------**/
+            }
+            if(type=="2"){
+                data["rid"] = {{.Rid}}
+            }
+        }
+
+
+        function setData() {
+            init();
+            setDataDateTime();
+
+            setDatavNRL01();
+            setDatavNRL02();
+            setDatavNRL03();
+            setDatavNRL04();
+            setDatavNRL05();
+            setDatavNRL06();
+            setDatavNRL07();
+            setDatavNRL08();
+            setDatavNRL09();
+            setDatavNRL10();
+            setDatavNRL11();
+            sumFen();
+            //    判断是否是没设置值
+            if(type=="1"){
+                var num = 0;
+                $.each(data,function(i,n){
+                    num++;
+                })
+                //总共5个固定参数,如果没填长度就为5
+                if(num==5){
+                    return false;
+                }else{
+                    return true;
+                }
+            }else{
+                return true;
+            }
+        }
+
+        //设置日期
+        function setDataDateTime() {
+            var $mTime = $('.m-time')
+            dateStr = $mTime.find('.date').text()
+            // timeStr = $mTime.find('.time').text()
+            if (dateStr) {
+                data.datetime = dateStr + " 00:00:00"
+            }
+        }
+
+        //获取总分
+        function sumFen() {
+            var $fen = $('.m-zofen').find(".fen")
+            fenStr = $fen.text()
+            // timeStr = $mTime.find('.time').text()
+            if (fenStr!="") {
+                data.score = fenStr
+            }
+        }
+
+        // 获取大便
+        function setDatavNRL01() {
+            var $check = $("#c1").find('input[type=radio]:checked');
+            $check.length && (data.NRL01 = $check.data('v'))
+        }
+        // 获取小便
+        function setDatavNRL02() {
+            var $check = $("#c2").find('input[type=radio]:checked');
+            $check.length && (data.NRL02 = $check.data('v'))
+        }
+
+        // 装饰：
+        function setDatavNRL03() {
+            var $check = $("#c3").find('input[type=radio]:checked');
+            $check.length && (data.NRL03 = $check.data('v'))
+        }
+
+
+        // 如厕：
+        function setDatavNRL04() {
+            var $check = $("#c4").find('input[type=radio]:checked');
+            $check.length && (data.NRL04 = $check.data('v'))
+        }
+
+        // 进食：
+        function setDatavNRL05() {
+            var $check = $("#c5").find('input[type=radio]:checked');
+            $check.length && (data.NRL05 = $check.data('v'))
+        }
+        // 转移：
+        function setDatavNRL06() {
+            var $check = $("#c6").find('input[type=radio]:checked');
+            $check.length && (data.NRL06 = $check.data('v'))
+        }
+        // 活动：
+        function setDatavNRL07() {
+            var $check = $("#c7").find('input[type=radio]:checked');
+            $check.length && (data.NRL07 = $check.data('v'))
+        }
+        // 穿衣：
+        function setDatavNRL08() {
+            var $check = $("#c8").find('input[type=radio]:checked');
+            $check.length && (data.NRL08 = $check.data('v'))
+        }
+
+        // 上下楼梯：
+        function setDatavNRL09() {
+            var $check = $("#c9").find('input[type=radio]:checked');
+            $check.length && (data.NRL09 = $check.data('v'))
+        }
+
+        // 洗澡：
+        function setDatavNRL10() {
+            var $check = $("#c10").find('input[type=radio]:checked');
+            $check.length && (data.NRL10 = $check.data('v'))
+        }
+
+        // 洗澡：
+        function setDatavNRL11() {
+            var $check = $("#c11").find('input[type=radio]:checked');
+            $check.length && (data.NRL11 = $check.data('v'))
+        }
+
+
+        var api = '', typeStr = '';
+        if (type == "1") {
+            api = "/record/nr3/add"
+            typeStr = '保存'
+        } else if (type == "2") {
+            api = "/record/nr3/update"
+            typeStr = '修改'
+        }
+        return function saveFrom() {
+            var isOk = setData();
+            if(isOk){
+                $.ajax({
+                    url: api,
+                    data: data,
+                    type: "POST",
+                    timeout : 2000,
+                    success: function (data) {
+                        console.log(data);
+                        if (data) {
+                            switch (data.result) {
+                                case 0:
+                                    jky.util.toast(typeStr+"成功！", 1500, function(){
+                                        if(window.android!=null && typeof(window.android)!="undefined"){
+                                            window.android.WebJs_Finish();
+                                        }else{
+                                            alert("js对象注入失败")
+                                        }
+                                    });
+                                    break;
+                                case 2:
+                                    jky.util.toast(typeStr+"失败，请重试！", 1500);
+                                    break;
+                                default:
+                                    jky.util.toast("未知错误！", 1000)
+                            }
+                        }
+                    },
+                    error: function (e,txtStatus) {
+                        if(txtStatus == 'timeout'){
+                            jky.util.toast("请求超时，请重试！", 1000)
+                        }
+                        console.log("ajax err:", e)
+                    },
+                    dataType: "json"
+                })
+            }else{
+                jky.util.toast("请填写内容", 1500)
+            }
+
+        }
+    }
+
+    var reqAPIFN = reqAPI(type);
+    // 分数计算
+    $(function(){
+        var  scoreHash = {
+            "option1":{ //大便
+                "1":0,
+                "2":5,
+                "3":10,
+            },
+            "option2":{ //小便
+                "1":0,
+                "2":5,
+                "3":10,
+            },
+            "option3":{  //装饰
+                "1":0,
+                "2":5,
+            },
+            "option4":{ //如厕
+                "1":0,
+                "2":5,
+                "3":10,
+            },
+            "option5":{ //进食
+                "1":0,
+                "2":5,
+                "3":10,
+            },
+            "option6":{ //转移
+                "1":0,
+                "2":5,
+                "3":10,
+                "4":15,
+            },
+            "option7":{ //活动
+                "1":0,
+                "2":5,
+                "3":10,
+                "4":15,
+            },
+            "option8":{ //穿衣
+                "1":0,
+                "2":5,
+                "3":10,
+            },
+            "option9":{ //上下楼梯
+                "1":0,
+                "2":5,
+                "3":10,
+            },
+            "option10":{ //洗澡
+                "1":0,
+                "2":5,
+            },
+            // "option11":{  //建议护理级别
+            //     "1":0,
+            //     "2":5,
+            // }
+        }
+
+        function sumScore(){
+            // var i =10; //10题
+           var optionVal = [],sum="";
+            for(var i=1;i<11;i++){
+                // console.log($('#c'+i).find('input[type=radio]:checked').data('v'))
+                optionVal.push(scoreHash["option"+i][$('#c'+i).find('input[type=radio]:checked').data('v')])
+            }
+
+            $.each(optionVal,function(i,n){
+                if(n!=undefined&& parseFloat(n)!=NaN){
+                    if(sum == ""){
+                        sum = 0;
+                    }
+                    sum+=parseFloat(n)
+                }
+            })
+            return sum;
+        }
+
+        $('input[type=radio]').on('click',function(){
+            $('.m-zofen').find('.fen').text(sumScore())
+        })
+
+        if(type=="2"){
+            $('.m-zofen').find('.fen').text(sumScore())
+        }
+    })
+
+</script>
+
+</body>
+
+</html>

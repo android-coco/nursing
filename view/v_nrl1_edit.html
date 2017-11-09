@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>护理记录单</title>
+    <link rel="stylesheet" href="/static/dist/style/css/base.css">
+    <script>
+        function setFontSize() {
+            var deviceWidth = document.documentElement.clientWidth;
+            if (deviceWidth > 640) deviceWidth = 640;
+            document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+        }
+
+        setFontSize()
+        var timer = null;
+        window.addEventListener('resize', function () {
+            clearTimeout(timer)
+            timer = setTimeout(setFontSize, 300)
+        }, false)
+    </script>
+</head>
+
+<body>
+<div class="g-main">
+    <div class="m-msg">
+        <ul>
+            {{$time := .Time}}<!-- 入院时间 -->
+            {{range .Patintinfos}}
+            <li class="b1">
+                姓名:<span>{{.VAA1.VAA05}}</span>
+            </li>
+            <li class="b1">
+                性别:<span>{{.Gender}}</span>
+            </li>
+            <li class="b1">
+                年龄:<span>{{.VAA1.VAA10}}</span>
+            </li>
+            <li class="b1">
+                科室:<span>{{.BCK03}}</span>
+            </li>
+            <li class="b1">
+                床号:<span>{{.VAA1.BCQ04}}</span>
+            </li>
+            <li class="b1">
+                住院号:<span>{{.VAA1.VAA04}}</span>
+            </li>
+            <li class="b2">
+                入院日期:<span>{{$time}}</span>
+            </li>
+            <li class="b2">
+                诊断:<span>{{.VAO2.VAO15}}</span>
+            </li>
+            {{end}}
+        </ul>
+    </div>
+
+
+    <div class="m-tit">
+        <a class="import_btn" data-type="3">导入</a>
+        <p class="tit">生命体征</p>
+    </div>
+
+
+    <div class="m-input1" id="import1">
+        <ul>
+            <li>
+                <label for="temperature">体温：</label>
+                <input id="temperature" type="number" value="{{.NRL.Temperature}}" class="m-input-txt number">
+                <span class="unit">℃</span>
+            </li>
+            <li>
+                <label for="pulse">脉搏：</label>
+                <input id="pulse" type="number" value="{{.NRL.Pulse}}" class="m-input-txt number">
+                <span class="unit">次/分</span>
+            </li>
+            <!--<li>-->
+                <!--<label for="heartrate">心率：</label>-->
+                <!--<input id="heartrate" type="number" value="{{.NRL.Heartrate}}" class="m-input-txt number">-->
+                <!--<span class="unit">次/分</span>-->
+            <!--</li>-->
+            <li>
+                <label for="breathing">呼吸：</label>
+                <input id="breathing" type="number" value="{{.NRL.Breathe}}" class="m-input-txt number">
+                <span class="unit">次/分</span>
+            </li>
+            <li>
+                <label for="pressure">血压：</label>
+                <input id="pressure" type="number" value="{{.NRL.PressureDIA}}" class="m-input-txt type2 number">
+                <span class="line">/</span>
+                <input id="pressureMin" type="number" value="{{.NRL.PressureSYS}}" class="m-input-txt type2 number">
+                <span class="unit">mmHg</span>
+            </li>
+
+            <li>
+                <label for="heartrate">血氧：</label>
+                <input id="heartrate" type="number" value="{{.NRL.Heartrate}}" class="m-input-txt number">
+                <span class="unit">%</span>
+            </li>
+        </ul>
+    </div>
+    <div class="m-line"></div>
+    <div class="m-check1" id="c2">
+        <p class="tit">
+            瞳孔：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio"  {{if eq .NRL.NRA16B "1"}}checked{{end}}   id="c2-v1" name="check2" data-v="1">
+                    <label for="c2-v1" class="icon"></label>
+                </div>
+                <label for="c2-v1">灵敏</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio"  {{if eq .NRL.NRA16B "2"}}checked{{end}}   id="c2-v2" name="check2" data-v="2">
+                    <label for="c2-v2" class="icon"></label>
+                </div>
+                <label for="c2-v2">迟钝</label>
+            </li>
+
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" {{if eq .NRL.NRA16B "3"}}checked{{end}}  id="c2-v3" name="check2" data-v="3">
+                    <label for="c2-v3" class="icon"></label>
+                </div>
+                <label for="c2-v3">消失</label>
+            </li>
+
+        </ul>
+    </div>
+    <div class="m-line"></div>
+
+    <div class="m-check1" id="c1">
+        <p class="tit">
+            意识：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" {{if eq .NRL.NRA5 "1"}}checked{{end}} id="c1-v1" name="check1" data-v="1">
+                    <label for="c1-v1" class="icon"></label>
+                </div>
+                <label for="c1-v1">清醒</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" {{if eq .NRL.NRA5 "2"}}checked{{end}} id="c1-v2" name="check1" data-v="2">
+                    <label for="c1-v2" class="icon"></label>
+                </div>
+                <label for="c1-v2">嗜睡</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" {{if eq .NRL.NRA5 "6"}}checked{{end}} id="c1-v3" name="check1" data-v="6">
+                    <label for="c1-v3" class="icon"></label>
+                </div>
+                <label for="c1-v3">意识浑浊</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" {{if eq .NRL.NRA5 "3"}}checked{{end}} id="c1-v4" name="check1" data-v="3">
+                    <label for="c1-v4" class="icon"></label>
+                </div>
+                <label for="c1-v4">昏睡</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" {{if eq .NRL.NRA5 "4"}}checked{{end}} id="c1-v5" name="check1" data-v="4">
+                    <label for="c1-v5" class="icon"></label>
+                </div>
+                <label for="c1-v5">浅昏迷</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" {{if eq .NRL.NRA5 "5"}}checked{{end}} id="c1-v6" name="check1" data-v="5">
+                    <label for="c1-v6" class="icon"></label>
+                </div>
+                <label for="c1-v6">深昏迷</label>
+            </li>
+
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" {{if eq .NRL.NRA5 "7"}}checked{{end}} id="c1-v7" name="check1" data-v="7">
+                    <label for="c1-v7" class="icon"></label>
+                </div>
+                <label for="c1-v7">谵妄状态</label>
+            </li>
+
+        </ul>
+    </div>
+
+
+    <div class="m-tit">
+        <a class="import_btn" data-type="1">导入</a>
+        <p class="tit">入量</p>
+    </div>
+    <div class="m-input2" id="import2">
+        <ul>
+            <li>
+                <label for="i2-v1">量：</label>
+                <input id="i2-v1" type="number"  value="{{.NRL.NRA6B}}" class="m-input-txt number">
+                <span class="unit">ml</span>
+            </li>
+            <li>
+                <label for="i2-v2">内容：</label>
+                <input id="i2-v2" type="text"  value="{{.NRL.NRA6A}}" class="m-input-txt type3 ">
+            </li>
+
+        </ul>
+    </div>
+    <div class="m-tit">
+        <a class="import_btn" data-type="2">导入</a>
+        <p class="tit">出量</p>
+    </div>
+    <div class="m-input2" id="import3">
+        <ul>
+            <li>
+                <label for="i3-v1">量：</label>
+                <input id="i3-v1" type="number" value="{{.NRL.NRA7B}}" class="m-input-txt number">
+                <span class="unit">ml</span>
+            </li>
+            <li>
+                <label for="i3-v2">内容：</label>
+                <input id="i3-v2" type="text" value="{{.NRL.NRA7A}}" class="m-input-txt type3">
+            </li>
+
+        </ul>
+    </div>
+    <div class="m-tit">
+        <p class="tit">自定义项</p>
+    </div>
+
+
+        <div class="m-input3">
+            <div id="warp">
+
+                <div class="item">
+                    <ul>
+                        <li><label class="pd" for="i4-v1-1"><span class="icon">1</span>名称：</label>
+                            <input id="i4-v1-1" type="text" class="m-input-txt"  value="{{.NRL.NRA9A}}"></li>
+                        <li><label for="i4-v1-2">结果：</label>
+                            <input id="i4-v1-2" type="text" class="m-input-txt type1"  value="{{.NRL.NRA9B}}"></li>
+                    </ul>
+                </div>
+
+                <div class="item">
+                    <ul>
+                        <li><label class="pd" for="i4-v2-1"><span class="icon">2</span>名称：</label>
+                            <input id="i4-v2-1" type="text" class="m-input-txt" value="{{.NRL.NRA10A}}" ></li>
+                        <li><label for="i4-v2-2">结果：</label>
+                            <input id="i4-v2-2" type="text" class="m-input-txt type1" value="{{.NRL.NRA10B}}"></li>
+                    </ul>
+                </div>
+
+                <div class="item">
+                    <ul>
+                        <li><label class="pd" for="i4-v3-1"><span class="icon">3</span>名称：</label>
+                            <input id="i4-v3-1" type="text" class="m-input-txt"  value="{{.NRL.NRA11A}}"></li>
+                        <li><label for="i4-v3-2">结果：</label>
+                            <input id="i4-v3-2" type="text" class="m-input-txt type1" value="{{.NRL.NRA11B}}"></li>
+                    </ul>
+                </div>
+
+
+                {{ if eq .NRL.NRA12A ""}}
+                {{else}}
+                <div class="item">
+                    <ul>
+                        <li><label class="pd" for="i4-v4-1"><span class="icon">4</span>名称：</label>
+                            <input id="i4-v4-1" type="text" class="m-input-txt" value="{{.NRL.NRA12A}}"></li>
+                        <li><label for="i4-v4-2">结果：</label>
+                            <input id="i4-v4-2" type="text" class="m-input-txt type1" value="{{.NRL.NRA12B}}"></li>
+                    </ul>
+                </div>
+                {{end}}
+
+                {{ if eq .NRL.NRA13A ""}}
+                {{else}}
+                <div class="item">
+                    <ul>
+                        <li><label class="pd" for="i4-v5-1"><span class="icon">5</span>名称：</label>
+                            <input id="i4-v5-1" type="text" class="m-input-txt" value="{{.NRL.NRA13A}}"></li>
+                        <li><label for="i4-v5-2">结果：</label>
+                            <input id="i4-v5-2" type="text" class="m-input-txt type1" value="{{.NRL.NRA13B}}"></li>
+                    </ul>
+                </div>
+                {{end}}
+
+                {{ if eq .NRL.NRA14A ""}}
+                {{else}}
+                <div class="item">
+                    <ul>
+                        <li><label class="pd" for="i4-v6-1"><span class="icon">6</span>名称：</label>
+                            <input id="i4-v6-1" type="text" class="m-input-txt" value="{{.NRL.NRA14A}}"></li>
+                        <li><label for="i4-v6-2">结果：</label>
+                            <input id="i4-v6-2" type="text" class="m-input-txt type1" value="{{.NRL.NRA14B}}"></li>
+                    </ul>
+                </div>
+                {{end}}
+                {{ if eq .NRL.NRA15A ""}}
+                {{else}}
+                <div class="item">
+                    <ul>
+                        <li><label class="pd" for="i4-v7-1"><span class="icon">7</span>名称：</label>
+                            <input id="i4-v7-1" type="text" class="m-input-txt" value="{{.NRL.NRA15A}}"></li>
+                        <li><label for="i4-v7-2">结果：</label>
+                            <input id="i4-v7-2" type="text" class="m-input-txt type1" value="{{.NRL.NRA15B}}"></li>
+                    </ul>
+                </div>
+                {{end}}
+
+
+
+            </div>
+            <div class="add-btn" data-item="0">
+                <img src="/static/dist/images/add_btn.png" ><span>点击添加一栏</span>
+            </div>
+        </div>
+
+    <div class="m-textarea1">
+        <p class="tit">
+            特殊情况记录：
+        </p>
+        <textarea id="special" placeholder="点击描述具体内容" id="" cols="30" rows="10">{{.NRL.NRA8}}</textarea>
+    </div>
+
+    <div class="m-time">
+        <span>记录时间</span>
+        <div class="input">
+            <span class="date">{{.RecordDate}}</span>
+            <span class="time">{{.RecordTime}}</span>
+        </div>
+    </div>
+
+    <div class="m-autograph">
+        <span>责任护士签名：</span>
+        <span class="name">{{.UserName}}</span>
+    </div>
+</div>
+<div class="m-pd100"></div>
+
+<script type="tmpl" id="item">
+        <div class="item">
+            <ul>
+                <li><label class="pd" for="--"><span class="icon">-</span>名称：</label>
+                    <input id="--" type="text" class="m-input-txt"></li>
+                <li><label for="--">结果：</label>
+                    <input id="--" type="text" class="m-input-txt type1"></li>
+            </ul>
+        </div>
+
+
+</script>
+
+<script src="/static/dist/js/base.js"></script>
+<script>
+    var item = $("#warp").find(".item").length || 1;
+    $('.add-btn').data('item',item)
+    function addItem(index) {
+        var $item = $($('#item').text())
+        $item.find('.icon').text(index)
+        //console.log($item.find('li').eq(1).find('label'))
+        $item.find('li').eq(0).find('label').attr('for', 'i4-v' + index + '-1')
+        $item.find('li').eq(0).find('input').attr('id', 'i4-v' + index + '-1')
+        $item.find('li').eq(1).find('label').attr('for', 'i4-v' + index + '-2')
+        $item.find('li').eq(1).find('input').attr('id', 'i4-v' + index + '-2')
+        $('#warp').append($item)
+    }
+
+    $('.add-btn').on('click', function () {
+        var index = $(this).data('item');
+        index = parseInt(index) + 1
+        addItem(index)
+        $(this).data('item', index)
+        if (index == 4) $(this).hide();
+    })
+
+    // setTime('{"date":"2017-01-02","time":"21:00"}')
+
+
+
+    function setTime(dataStr) {
+
+        var data = dataStr || {}
+        // var data = JSON.parse(dataStr)
+        var $mTime = $('.m-time');
+        data.date && $mTime.find('.date').text(data.date)
+        data.time && $mTime.find('.time').text(data.time)
+    }
+
+    function nowDate() {
+        var res = {}, nowD = new Date();
+        res.date = nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
+        res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
+        // return JSON.stringify(res)
+        return res
+    }
+
+    function addZero(i) {
+        if (i < 10) {
+            return "0" + i;
+        } else {
+            return i;
+        }
+    }
+    // 收缩压（高压）/舒张压（低压）
+    // importData('{"temperature":"4","pulse":"99","breathing":"1","pressure":{"max":40,"min":30}}', "1")
+    // importData('{"data":"4","msg":"入量内容"}', "2")
+    // importData('{"data":"411","msg":"出量内容"}', "3")
+
+    // type 1：生命体征导入 2：入量导入 3：出量导入
+    function importData(dataStr) {
+        // var data = JSON.parse(dataStr)
+        var data = dataStr || {},
+            type = data.type
+        var $importBox = $('#import' + type)
+        switch (type) {
+            case "1":
+                data.temperature!="" && $('#temperature').val(data.temperature)
+                data.pulse!="" && $('#pulse').val(data.pulse)
+                data.heartrate!="" && $('#heartrate').val(data.heartrate)
+
+                data.breathing!="" && $('#breathing').val(data.breathing)
+                data.pressure!="" && data.pressure.max && $('#pressure').val(data.pressure.max)
+                data.pressure!="" && data.pressure.min && $('#pressureMin').val(data.pressure.min)
+                break;
+            case "2":
+                data.data!="" && $importBox.find("#i2-v1").val(data.data)
+                data.msg!="" && $importBox.find("#i2-v2").val(data.msg)
+                break;
+            case "3":
+                data.data!="" && $importBox.find("#i3-v1").val(data.data)
+                data.msg!="" && $importBox.find("#i3-v2").val(data.msg)
+                break;
+            default:
+                console.log("导入出错")
+        }
+    }
+
+    var numInputFn = jky.util.throttle(function () {
+        // if (isNaN(parseFloat($(this).val()))) {
+        //     $(this).val("")
+        // } else {
+        //     $(this).val(parseFloat($(this).val()))
+        // }
+        //  var valString = $(this).val(),val=null;
+
+        //     if(valString.slice(valString.length-1) =="."){
+        //         val=  valString.slice(0,valString.length-1)
+        //         if (isNaN(parseFloat(val))) {
+        //             $(this).val("")
+        //         } else {
+        //             $(this).val(parseFloat(val)+".")
+        //         }
+
+        //     }else{
+        //         val = valString
+        //         if (isNaN(parseFloat(val))) {
+        //             $(this).val("")
+        //         } else {
+        //             $(this).val(parseFloat(val))
+        //         }
+        //     }
+
+    }, 500)
+
+    $('input.number').on('input', numInputFn)
+
+    $('input.number').on('blur', function(){
+        var valString = $(this).val(),val=null;
+        val = valString;
+        if (isNaN(parseFloat(val))) {
+            $(this).val("")
+        } else {
+            $(this).val(parseFloat(val))
+        }
+    })
+
+    function reqAPI(type) {
+         var data = {}
+        function init(){
+            data = {
+                // 护士ID
+                "nurse_id": {{.Nid}},
+                // 护士名
+                "nurse_name": {{.UserName}},
+                //病人id
+                "patient_id": {{.Pid}},
+                // 科室id
+                "class_id":{{.Cid}}
+                // "nrl_id":"10.11"
+            }
+            if(type=="2"){
+                data["rid"] = {{.Rid}}
+            }
+        }
+
+
+        function setData() {
+			init();
+            setDataDateTime();
+            setDataVitalSigns();
+            setDatavNRA5();
+            setDataOutput();
+            setDataSpecial();
+            setDataCustom();
+            setDatavNRA16B();
+            if(type=="1"){
+                var num = 0;
+                $.each(data,function(i,n){
+                    num++;
+                })
+                //总共5个固定参数,如果没填长度就为5
+                if(num==5){
+                    return false;
+                }else{
+                    return true;
+                }
+            }else{
+                return true;
+            }
+        }
+
+        //设置日期
+        function setDataDateTime() {
+            var $mTime = $('.m-time')
+            dateStr = $mTime.find('.date').text()
+            timeStr = $mTime.find('.time').text()
+            if (dateStr && timeStr) {
+                data.datetime = dateStr + " " + timeStr + ":00"
+            }
+        }
+
+        //设置生命体征
+        function setDataVitalSigns() {
+            var temperature = parseFloat($("#temperature").val()),
+                pulse = parseFloat($("#pulse").val()),
+                heartrate = parseFloat($("#heartrate").val()),
+                breathe = parseFloat($("#breathing").val()),
+                preSys = parseFloat($("#pressure").val()),
+                preDia = parseFloat($("#pressureMin").val());
+            console.log(typeof temperature)
+            temperature&&temperature!="NaN" && (data.temperature = temperature);
+            pulse &&pulse!="NaN" && (data.pulse = pulse);
+            heartrate &&heartrate!="NaN" && (data.heartrate = heartrate);
+            breathe &&breathe!="NaN" && (data.breathe = breathe);
+            preSys &&preSys!="NaN" && (data.pre_sys = preSys);
+            preDia &&preDia!="NaN" && (data.pre_dia = preDia);
+        }
+
+        // 设置瞳孔
+        function setDatavNRA16B() {
+            var $check = $("#c2").find('input[type=radio]:checked');
+            $check.length && (data.NRA16B = $check.data('v'))
+        }
+
+        // 设置意识
+        function setDatavNRA5() {
+            var $check = $("#c1").find('input[type=radio]:checked');
+            $check.length && (data.NRA5 = $check.data('v'))
+        }
+
+        // 设置出入量
+        function setDataOutput() {
+            var NRA6B = parseFloat($('#i2-v1').val()),
+                NRA6A = parseFloat($('#i2-v2').val()),
+                NRA7B = parseFloat($('#i3-v1').val()),
+                NRA7A = parseFloat($('#i3-v2').val());
+            NRA6B && (data.NRA6B = NRA6B);
+            NRA6A && (data.NRA6A = NRA6A);
+            NRA7B && (data.NRA7B = NRA7B);
+            NRA7A && (data.NRA7A = NRA7A);
+        }
+
+        //设置特殊情况
+        function setDataSpecial() {
+            var NRA8 =  $.trim($('#special').val());
+            NRA8 && (data.NRA8 = NRA8);
+        }
+
+        // 设置自定义项
+        function setDataCustom() {
+            var $warp = $("#warp"),
+                index = $warp.find(".item").length,
+                i = 1;
+            var dataTmpl = {};
+            for (; i <= index; i++) {
+                // if($("#i4-v" + i + "-1").val()){
+                //     if(!dataTmpl[i]){ dataTmpl[i] = {}}
+                //     dataTmpl[i].val =$("#i4-v" + i + "-1").val()
+                // }
+                // if($("#i4-v" + i + "-2").val()){
+                //     if(!dataTmpl[i]){ dataTmpl[i] = {}}
+                //     dataTmpl[i].msg= $("#i4-v" + i + "-2").val()
+                // }
+                if ($.trim($("#i4-v" + i + "-1").val()) && $.trim($("#i4-v" + i + "-2").val())) {
+                    dataTmpl[i] = {}
+                    dataTmpl[i].val = $.trim($("#i4-v" + i + "-1").val())
+                    dataTmpl[i].msg = $.trim($("#i4-v" + i + "-2").val())
+                }
+            }
+            var dataIndex = 9;
+            for (key in dataTmpl) {
+                dataTmpl[key].val && (data["NRA" + dataIndex + "A"] = dataTmpl[key].val)
+                dataTmpl[key].msg && (data["NRA" + dataIndex + "B"] = dataTmpl[key].msg)
+                dataIndex++;
+            }
+        }
+
+        var api = '', typeStr = '';
+        if (type == "1") {
+            api = "/record/nr1/add"
+            typeStr = '保存'
+        } else if (type == "2") {
+            api = "/record/nr1/update"
+            typeStr = '修改'
+        }
+        return function saveFrom() {
+
+            var isOk = setData();
+            if(isOk) {
+                $.ajax({
+                    url: api,
+                    data: data,
+                    type: "POST",
+                    timeout: 2000,
+                    success: function (data) {
+                        console.log(data);
+                        if (data) {
+                            switch (data.result) {
+                                case 0:
+                                    jky.util.toast(typeStr + "成功！", 1500, function () {
+                                        if (window.android != null && typeof(window.android) != "undefined") {
+                                            window.android.WebJs_Finish();
+                                        } else {
+                                            alert("js对象注入失败")
+                                        }
+                                    });
+                                    break;
+                                case 2:
+                                    jky.util.toast(typeStr + "失败，请重试！", 1500);
+                                    break;
+                                default:
+                                    jky.util.toast("未知错误！", 1000)
+                            }
+                        }
+                    },
+                    error: function (e, txtStatus) {
+                        if (txtStatus == 'timeout') {
+                            jky.util.toast("请求超时，请重试！", 1000)
+                        }
+                        console.log("ajax err:", e)
+                    },
+                    dataType: "json"
+                })
+            }else{
+                jky.util.toast("请填写内容", 1500)
+            }
+        }
+    }
+
+    var type = {{.Ty}};
+    var reqAPIFN = reqAPI(type);
+    if(type == "1"){
+        setTime(nowDate())
+    }else{
+        /*var datetime = {{.NRL.DateTime}};
+        var dataDate = new Date(datetime);
+        function getDateStr(dateDate) {
+            var res = {}, nowD = new Date(dateDate);
+            if (dateDate==""){
+                res.time=""
+                res.date=""
+                return res
+            }
+            res.date = nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
+            res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
+
+            return res
+        }
+        setTime(getDateStr(dataDate))*/
+    }
+
+
+
+
+    $(function(){
+
+        $(".import_btn").on('click',function(){
+            // WebJs_Import($(this).data('type'))
+            if(window.android!=null && typeof(window.android)!="undefined"){
+                window.android.WebJs_Import($(this).data('type'));
+            }else{
+                alert("js对象注入失败")
+            }
+        })
+        $(".m-time").find('.date').on('click',function(){
+            // WebJs_SetDate()
+            if(window.android!=null && typeof(window.android)!="undefined"){
+                window.android.WebJs_SetDate();
+            }else{
+                alert("js对象注入失败")
+            }
+
+        })
+        $(".m-time").find('.time').on('click',function(){
+            // WebJs_SetTime()
+            if(window.android!=null && typeof(window.android)!="undefined"){
+                window.android.WebJs_SetTime();
+            }else{
+                alert("js对象注入失败")
+            }
+        })
+    })
+
+    $("input[type=radio]:checked").data('check',1)
+    $('input[type=radio]').on('click',function(){
+        var ischeck = $(this).data("check");        
+        if(!ischeck){
+            $(this).parents('ul').find("input[type=radio]").data("check","0")
+            $(this).data("check","1");
+        }else{
+            $(this).prop('checked',false);
+            $(this).data("check","0");
+        }
+    })
+
+
+</script>
+
+</body>
+
+</html>

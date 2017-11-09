@@ -1,0 +1,186 @@
+body {
+  font-family: 'Arial Negreta', 'Arial Normal', 'Arial';
+  font-style: normal;
+  font-size: 24px;
+  color: #000000;
+}
+p {
+  margin: 0;
+}
+ul,
+li {
+  padding: 0;
+  margin: 0;
+}
+tr,
+td {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+table {
+  box-sizing: border-box;
+  cellspacing: 0;
+  cellpadding: 0;
+}
+.dan {
+  border: 1px solid #000;
+}
+.dan .min-tit {
+  font-size: 14px;
+  text-align: center;
+}
+.dan p.tit {
+  font-size: 16px;
+  text-align: center;
+  font-weight: bold;
+}
+.dan p span.tit {
+  font-size: 16px;
+  text-align: center;
+  font-weight: bold;
+}
+.dan .top {
+  font-size: 14px;
+  padding-left: 40px;
+  line-height: 30px;
+}
+.dan .top p span {
+  padding-right: 20px;
+}
+.dan .bottom-bar {
+  font-size: 14px;
+  line-height: 60px;
+}
+.cont {
+  font-size: 14px;
+  overflow: auto;
+  position: relative;
+}
+.cont .l {
+  float: left;
+}
+.cont .l.m {
+  width: 20px;
+  height: 100px;
+}
+.cont .l.m div {
+  width: 20px;
+  margin: 0 10px;
+  position: absolute;
+  top: 50%;
+  margin-top: -38px;
+}
+.cont .table {
+  text-align: center;
+  border: 1px solid #000;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  height: 372px;
+}
+.cont .table .tr {
+  list-style: none;
+  font-weight: normal;
+}
+.cont .table .tr:nth-last-child(1) td {
+  border-bottom: 0;
+}
+.cont .table .tr ul {
+  overflow: auto;
+  list-style: none;
+  font-weight: normal;
+}
+.cont .table .tr li {
+  float: left;
+}
+.cont .table td {
+  border-bottom: 1px solid #000;
+}
+.cont .table .tr.tit {
+  line-height: 40px;
+}
+.cont .table .td1 {
+  width: 20px;
+  border-right: 1px solid #000;
+}
+.cont .table .td2 {
+  width: 200px;
+  border-right: 1px solid #000;
+}
+.cont .table .td2 p {
+  line-height: 30px;
+}
+.cont .table .td3,
+.cont .table .td4,
+.cont .table .td5,
+.cont .table .td6,
+.cont .table .td7 {
+  border-right: 1px solid #000;
+}
+.cont .table .td5,
+.cont .table .td7 {
+  width: 80px;
+}
+.cont .table .td3,
+.cont .table .td4 {
+  width: 60px;
+}
+.cont .table .td6 {
+  width: 50px;
+}
+.cont .table .td8 {
+  width: 60px;
+}
+.cont .table .time,
+.cont .table .name {
+  border-bottom: 1px solid #000;
+}
+.cont .table .time:nth-last-child(1),
+.cont .table .name:nth-last-child(1) {
+  border-bottom: 0;
+}
+.cont .table .name {
+  line-height: 30px;
+}
+.cont .table2 {
+  text-align: center;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  border-left: 1px solid #000;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.cont .table2 .tr {
+  list-style: none;
+  font-weight: normal;
+}
+.cont .table2 .tr:nth-last-child(1) td {
+  border-bottom: 0;
+}
+.cont .table2 .tr ul {
+  overflow: auto;
+  list-style: none;
+  font-weight: normal;
+}
+.cont .table2 .tr li {
+  float: left;
+}
+.cont .table2 .td1 {
+  width: 50px;
+  border-right: 1px solid #000;
+}
+.cont .table2 .td2 {
+  width: 80px;
+  border-right: 1px solid #000;
+}
+.cont .table2 .td3 {
+  width: 60px;
+  border-right: 1px solid #000;
+}
+.cont .table2 td {
+  border-bottom: 1px solid #000;
+}
+.cont .table2 .tr.tit {
+  line-height: 40px;
+}

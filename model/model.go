@@ -2,8 +2,8 @@ package model
 
 
 import (
-	"fit"
-	"fmt"
+	//"fit"
+	//"fmt"
 )
 
 type I_BaseMoel interface {
@@ -29,7 +29,7 @@ type IdModel struct {
 
 
 
-func (mod BaseModel) InsertData(a interface{}) error {
+/*func (mod BaseModel) InsertData(a interface{}) error {
 	_, err := fit.MySqlEngine().Insert(a)
 	return err
 }
@@ -45,4 +45,4 @@ func (mod BaseModel) GetData(a interface{}) (b interface{}) {
 
 func (mod BaseModel) UpdateData(a interface{}) (b interface{}, err error)  {
 	return fit.MySqlEngine().Update(a)
-}
+}*/

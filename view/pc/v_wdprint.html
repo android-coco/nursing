@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>打印腕带</title>
+</head>
+<style type="text/css">
+    .imgx{
+        width: 70px;
+        margin-left: 210px;
+        margin-top: 12px;
+        display: inline-block;
+    }
+    body{
+        margin: 0px
+    }
+    .warp{
+        display: inline-block;
+        padding-left:10px;
+        vertical-align: top;
+        position: absolute;
+        left: 30px;
+    }
+    .warp p{
+        margin: 0;
+        font-size:12px;
+    }
+</style>
+<body>
+<div>
+    <div class="imgx"></div>
+    <!--<img class="imgx" src="https://qr.api.cli.im/qr?data=124&level=H&transparent=false&bgcolor=%23ffffff&forecolor=%23000000&blockpixel=12&marginblock=1&logourl=&size=280&kid=cliim&key=26662b2f080feeb2da43226211b84364">-->
+    <div class="warp">
+        <p>深圳万丰医院</p>
+        <p>{{.Datas.Beds}} {{.Datas.Name}} {{.Datas.Sex}} {{.Datas.Age}}岁</p>
+        <p>{{.Datas.ClassName}}</p>
+        <p>ID:{{.Datas.Pid}}  &nbsp;&nbsp;&nbsp;&nbsp;{{.Datas.HospitalId}}</p>
+        <p>住院期间,请不要自行拆下腕带!</p>
+    </div>
+</div>
+
+<script src="/static/dist/js/lib/jquery.min.js"></script>
+<script src="/static/dist/js/lib/jquery.qrcode.min.js"></script>
+<script>
+   
+    $('.imgx').qrcode({
+        width: 70,
+        height: 70,
+        text:"WD-{{.Datas.Pid}}"
+    });
+</script>
+</body>
+</html>

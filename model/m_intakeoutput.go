@@ -35,6 +35,10 @@ func (t Datetime_IOV) NormParse() string {
 	return time.Time(t).Format("2006-01-02 15:04:05")
 }
 
+func (t Datetime_IOV) NormParse2() string {
+	return time.Time(t).Format("2006-01-02 15:04")
+}
+
 type IntakeOutputDup struct {
 	BaseModel                  `xorm:"extends"`
 	Type          uint8        `json:"type" xorm:"notnull comment(出入量类型，1：入量，2：出量)"`
@@ -95,4 +99,10 @@ func QueryIntakeOrOutputVolumeAll(patientId string, page int) ([]IntakeOutputDup
 		err := fit.MySqlEngine().Omit("id", "datetime").Table("IntakeOutput").Where("patientId = ? ", patientId).And("(type = ? or type = ?)", IntakeOutputTypeOutput, IntakeOutputTypeIntake).Desc("testtime").Find(&responseObj)
 		return responseObj, err
 	}
+}
+
+func QueryIntakeOrOutputVolumeWithPatient(pid int, startTime string, endTime string) ([]IntakeOutput, error) {
+	response := make([]IntakeOutput, 0)
+	err := fit.MySqlEngine().SQL("SELECT IntakeOutput.patientid,IntakeOutput.type,IntakeOutput.subtype,IntakeOutput.operationtype,IntakeOutput.`desc`,IntakeOutput.`value`,IntakeOutput.testtime from IntakeOutput WHERE IntakeOutput.patientid = ? and IntakeOutput.testtime BETWEEN ? AND ?",pid, startTime, endTime).Find(&response)
+	return response, err
 }

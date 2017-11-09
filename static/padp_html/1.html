@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>护理记录单</title>
+    <link rel="stylesheet" href="../dist/style/css/base.css">
+    <script>
+        function setFontSize() {
+            var deviceWidth = document.documentElement.clientWidth;
+            if (deviceWidth > 640) deviceWidth = 640;
+            document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+        }
+
+        setFontSize()
+        var timer = null;
+        window.addEventListener('resize', function () {
+            clearTimeout(timer)
+            timer = setTimeout(setFontSize, 300)
+        }, false)
+    </script>
+</head>
+
+<body>
+
+<div class="g-main">
+    <div class="m-msg">
+        <ul>
+            <li class="b1">
+                姓名:<span>王小二</span>
+            </li>
+            <li class="b1">
+                性别:<span>女</span>
+            </li>
+            <li class="b1">
+                年龄:<span>32岁</span>
+            </li>
+            <li class="b1">
+                科室:<span>产科</span>
+            </li>
+            <li class="b1">
+                床号:<span>T06</span>
+            </li>
+            <li class="b1">
+                住院号:<span>489632</span>
+            </li>
+            <li class="b2">
+                入院日期:<span>2017-09-22</span>
+            </li>
+            <li class="b2">
+                诊断:<span>慢性硬膜下血肿</span>
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="m-tit">
+        <a class="import_btn" data-type="1">导入</a>
+        <p class="tit">生命体征</p>
+    </div>
+
+
+    <div class="m-input1" id="import1">
+        <ul>
+            <li>
+                <label for="temperature">体温：</label>
+                <input id="temperature" type="number" class="m-input-txt">
+                <span class="unit">℃</span>
+            </li>
+            <li>
+                <label for="pulse">脉搏：</label>
+                <input id="pulse" type="number" class="m-input-txt">
+                <span class="unit">次/分</span>
+            </li>
+            <li>
+                <label for="breathing">呼吸：</label>
+                <input id="breathing" type="number" class="m-input-txt">
+                <span class="unit">次/分</span>
+            </li>
+            <li>
+                <label for="pressure">血压：</label>
+                <input id="pressure" type="number" class="m-input-txt type2">
+                <span class="line">/</span>
+                <input id="pressureMin" type="number" class="m-input-txt type2">
+                <span class="unit">mmHg</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="m-line"></div>
+
+    <div class="m-check1" id="c1">
+        <p class="tit">
+            意识：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c1-v1" name="check1" data-v="1">
+                    <label for="c1-v1" class="icon"></label>
+                </div>
+                <label for="c1-v1">清醒</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c1-v2" name="check1" data-v="2">
+                    <label for="c1-v2" class="icon"></label>
+                </div>
+                <label for="c1-v2">嗜睡</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c1-v3" name="check1" data-v="6">
+                    <label for="c1-v3" class="icon"></label>
+                </div>
+                <label for="c1-v3">意识浑浊</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c1-v4" name="check1" data-v="3">
+                    <label for="c1-v4" class="icon"></label>
+                </div>
+                <label for="c1-v4">昏睡</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c1-v5" name="check1" data-v="4">
+                    <label for="c1-v5" class="icon"></label>
+                </div>
+                <label for="c1-v5">浅昏迷</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c1-v6" name="check1" data-v="5">
+                    <label for="c1-v6" class="icon"></label>
+                </div>
+                <label for="c1-v6">深昏迷</label>
+            </li>
+
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c1-v7" name="check1" data-v="7">
+                    <label for="c1-v7" class="icon"></label>
+                </div>
+                <label for="c1-v7">谵妄状态</label>
+            </li>
+
+        </ul>
+    </div>
+
+
+    <div class="m-tit">
+        <a class="import_btn" data-type="2">导入</a>
+        <p class="tit">入量</p>
+    </div>
+    <div class="m-input2" id="import2">
+        <ul>
+            <li>
+                <label for="i2-v1">量：</label>
+                <input id="i2-v1" type="number" class="m-input-txt">
+                <span class="unit">ml</span>
+            </li>
+            <li>
+                <label for="i2-v2">内容：</label>
+                <input id="i2-v2" type="text" class="m-input-txt type3">
+            </li>
+
+        </ul>
+    </div>
+    <div class="m-tit">
+        <a class="import_btn" data-type="3">导入</a>
+        <p class="tit">出量</p>
+    </div>
+    <div class="m-input2" id="import3">
+        <ul>
+            <li>
+                <label for="i3-v1">量：</label>
+                <input id="i3-v1" type="number" class="m-input-txt">
+                <span class="unit">ml</span>
+            </li>
+            <li>
+                <label for="i3-v2">内容：</label>
+                <input id="i3-v2" type="text" class="m-input-txt type3">
+            </li>
+
+        </ul>
+    </div>
+    <div class="m-tit">
+        <p class="tit">自定义项</p>
+    </div>
+
+
+    <div class="m-input3">
+        <div id="warp">
+            <div class="item">
+                <ul>
+                    <li><label class="pd" for="i4-v1-1"><span class="icon">1</span>名称：</label>
+                        <input id="i4-v1-1" type="text" class="m-input-txt"></li>
+                    <li><label for="i4-v1-2">结果：</label>
+                        <input id="i4-v1-2" type="text" class="m-input-txt type1"></li>
+                </ul>
+            </div>
+            <div class="item">
+                <ul>
+                    <li><label class="pd" for="i4-v2-1"><span class="icon">2</span>名称：</label>
+                        <input id="i4-v2-1" type="text" class="m-input-txt"></li>
+                    <li><label for="i4-v2-2">结果：</label>
+                        <input id="i4-v2-2" type="text" class="m-input-txt type1"></li>
+                </ul>
+            </div>
+            <div class="item">
+                <ul>
+                    <li><label class="pd" for="i4-v3-1"><span class="icon">3</span>名称：</label>
+                        <input id="i4-v3-1" type="text" class="m-input-txt"></li>
+                    <li><label for="i4-v3-2">结果：</label>
+                        <input id="i4-v3-2" type="text" class="m-input-txt type1"></li>
+                </ul>
+            </div>
+        </div>
+        <div class="add-btn" data-item="3">
+            <img src="../dist/images/add_btn.png" alt=""><span>点击添加一栏</span>
+        </div>
+    </div>
+
+
+    <div class="m-textarea1">
+        <p class="tit">
+            特殊情况记录：
+        </p>
+        <textarea id="special" placeholder="点击描述具体内容" id="" cols="30" rows="10"></textarea>
+    </div>
+
+    <div class="m-time">
+        <span>记录时间</span>
+        <div class="input">
+            <span class="date">2017-09-08</span>
+            <span class="time">22:00</span>
+        </div>
+    </div>
+
+    <div class="m-autograph">
+        <span>签名：</span>
+        <span class="name">刘护士</span>
+    </div>
+</div>
+<div class="m-pd100"></div>
+
+<script type="tmpl" id="item">
+        <div class="item">
+            <ul>
+                <li><label class="pd" for="--"><span class="icon">-</span>名称：</label>
+                    <input id="--" type="text" class="m-input-txt"></li>
+                <li><label for="--">结果：</label>
+                    <input id="--" type="text" class="m-input-txt type1"></li>
+            </ul>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+<script src="../dist/js/base.js"></script>
+<script>
+    (function () {
+        function addItem(index) {
+            var $item = $($('#item').text())
+            $item.find('.icon').text(index)
+            // console.log($item.find('li').eq(1).find('label'))
+            $item.find('li').eq(0).find('label').attr('for', 'i4-v' + index + '-1')
+            $item.find('li').eq(0).find('input').attr('id', 'i4-v' + index + '-1')
+            $item.find('li').eq(1).find('label').attr('for', 'i4-v' + index + '-2')
+            $item.find('li').eq(1).find('input').attr('id', 'i4-v' + index + '-2')
+            $('#warp').append($item)
+        }
+
+        $('.add-btn').on('click', function () {
+            var index = $(this).data('item');
+            index = parseInt(index) + 1
+            addItem(index)
+            $(this).data('item', index);
+            if (index == 8) $(this).hide();
+        })
+
+        // setTime('{"date":"2017-01-02","time":"21:00"}')
+        function setTime(dataStr) {
+            var data = JSON.parse(dataStr)
+            var $mTime = $('.m-time');
+            data.date && $mTime.find('.date').text(data.date)
+            data.time && $mTime.find('.time').text(data.time)
+        }
+
+        // 收缩压（高压）/舒张压（低压）
+        importData('{"temperature":"4","pulse":"99","breathing":"1","pressure":{"max":40,"min":30}}', "1")
+        importData('{"data":"4","msg":"入量内容"}', "2")
+        importData('{"data":"411","msg":"出量内容"}', "3")
+
+        // type 1：生命体征导入 2：入量导入 3：出量导入
+        function importData(dataStr, type) {
+            var data = JSON.parse(dataStr)
+            var $importBox = $('#import' + type)
+            switch (type) {
+                case "1":
+                    data.temperature && $('#temperature').val(data.temperature)
+                    data.pulse && $('#pulse').val(data.pulse)
+                    data.breathing && $('#breathing').val(data.breathing)
+                    data.pressure && data.pressure.max && $('#pressure').val(data.pressure.max)
+                    data.pressure && data.pressure.min && $('#pressureMin').val(data.pressure.min)
+                    break;
+                case "2":
+                    data.data && $importBox.find("#i2-v1").val(data.data)
+                    data.msg && $importBox.find("#i2-v2").val(data.msg)
+                    break;
+                case "3":
+                    data.data && $importBox.find("#i3-v1").val(data.data)
+                    data.msg && $importBox.find("#i3-v2").val(data.msg)
+                    break;
+                default:
+                    console.log("导入出错")
+            }
+        }
+
+        var numInputFn = jky.util.throttle(function () {
+
+            var valString = $(this).val(),val=null;
+
+            if(valString.slice(valString.length-1) =="."){
+                val=  valString.slice(0,valString.length-1)
+                if (isNaN(parseFloat(val))) {
+                    $(this).val("")
+                } else {
+                    $(this).val(parseFloat(val)+".")
+                }
+
+            }else{
+                val = valString
+                if (isNaN(parseFloat(val))) {
+                    $(this).val("")
+                } else {
+                    $(this).val(parseFloat(val))
+                }
+            }
+
+
+        }, 500)
+        $('input[type=number]').on('input', numInputFn)
+        // $('input[type=number]').on('blur', function(){
+        //     if (isNaN(parseFloat($(this).val()))) {
+        //         $(this).val("")
+        //     } else {
+        //         $(this).val(parseFloat($(this).val()))
+        //     }
+        // })
+
+
+    })()
+
+    function reqAPI(type) {
+        var data = {}
+        function init(){
+            data = {
+                "nurse_id": "123",
+                "nurse_name": "王小二",
+                "patient_id": "444"
+            }
+        }
+
+        function setData() {
+            init();
+            setDataDateTime();
+            setDataVitalSigns();
+            setDatavNRA5();
+            setDataOutput();
+            setDataSpecial();
+            setDataCustom();
+        }
+
+        //设置日期
+        function setDataDateTime() {
+            var $mTime = $('.m-time')
+            dateStr = $mTime.find('.date').text()
+            timeStr = $mTime.find('.time').text()
+            if (dateStr && timeStr) {
+                data.datetime = dateStr + " " + timeStr + ":00"
+            }
+        }
+
+        //设置生命体征
+        function setDataVitalSigns() {
+            var temperature = $.trim($("#temperature").val()),
+                pulse = $.trim($("#pulse").val()),
+                breathe = $.trim($("#breathing").val()),
+                preSys = $.trim($("#pressure").val()),
+                preDia = $.trim($("#pressureMin").val());
+            temperature && (data.temperature = temperature);
+            pulse && (data.pulse = pulse);
+            breathe && (data.breathe = breathe);
+            preSys && (data.pre_sys = preSys);
+            preDia && (data.pre_dia = preDia);
+        }
+
+        // 设置意识
+        function setDatavNRA5() {
+            var $check = $("#c1").find('input[type=radio]:checked');
+            $check.length && (data.NRA5 = $check.data('v'))
+        }
+
+        // 设置出入量
+        function setDataOutput() {
+            var NRA6B = $.trim($('#i2-v1').val()),
+                NRA6A = $.trim($('#i2-v2').val()),
+                NRA7B = $.trim($('#i3-v1').val()),
+                NRA7A = $.trim($('#i3-v2').val());
+            NRA6B && (data.NRA6B = NRA6B);
+            NRA6A && (data.NRA6A = NRA6A);
+            NRA7B && (data.NRA7B = NRA7B);
+            NRA7A && (data.NRA7A = NRA7A);
+        }
+
+        //设置特殊情况
+        function setDataSpecial() {
+            var NRA8 =  $.trim($('#special').val());
+            NRA8 && (data.NRA8 = NRA8);
+        }
+
+        // 设置自定义项
+        function setDataCustom() {
+            var $warp = $("#warp"),
+                index = $warp.find(".item").length,
+                i = 1;
+            var dataTmpl = {};
+            for (; i <= index; i++) {
+                // if($("#i4-v" + i + "-1").val()){
+                //     if(!dataTmpl[i]){ dataTmpl[i] = {}}
+                //     dataTmpl[i].val =$("#i4-v" + i + "-1").val()
+                // }
+                // if($("#i4-v" + i + "-2").val()){
+                //     if(!dataTmpl[i]){ dataTmpl[i] = {}}
+                //     dataTmpl[i].msg= $("#i4-v" + i + "-2").val()
+                // }
+                if ($.trim($("#i4-v" + i + "-1").val()) && $.trim($("#i4-v" + i + "-2").val())) {
+                    dataTmpl[i] = {}
+                    dataTmpl[i].val = $.trim($("#i4-v" + i + "-1").val())
+                    dataTmpl[i].msg = $.trim($("#i4-v" + i + "-2").val())
+                }
+            }
+            var dataIndex = 9;
+            for (key in dataTmpl) {
+                dataTmpl[key].val && (data["NRA" + dataIndex + "A"] = dataTmpl[key].val)
+                dataTmpl[key].msg && (data["NRA" + dataIndex + "B"] = dataTmpl[key].msg)
+                dataIndex++;
+            }
+        }
+
+        var api = '', typeStr = '';
+        if (type == 1) {
+            api = "/record/nr1/add"
+            typeStr = '保存'
+        } else if (type == 2) {
+            api = "/record/nr1/update"
+            typeStr = '修改'
+        }
+        return function saveFrom() {
+            setData();
+
+            $.ajax({
+                url: api,
+                data: data,
+                type: "POST",
+                success: function (data) {
+                    console.log(data);
+                    if (data) {
+                        switch (data.result) {
+                            case 0:
+                                jky.util.toast(typeStr+"成功！", 1500);
+                                break;
+                            case 2:
+                                jky.util.toast(typeStr+"失败，请重试！", 1500);
+                                break;
+                            default:
+                                jky.util.toast("未知错误！", 1000)
+                        }
+                    }
+                },
+                error: function (e) {
+                    console.log("ajax err:", e)
+                },
+                dataType: "json"
+            })
+        }
+    }
+
+    var reqAPIFN = reqAPI(1);
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>压疮风险（内科）</title>
+    <link rel="stylesheet" href="/static/dist/style/css/base.css">
+    <script>
+        function setFontSize() {
+            var deviceWidth = document.documentElement.clientWidth;
+            if (deviceWidth > 640) deviceWidth = 640;
+            document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+        }
+
+        setFontSize()
+        var timer = null;
+        window.addEventListener('resize', function() {
+            clearTimeout(timer)
+            timer = setTimeout(setFontSize, 300)
+        }, false)
+    </script>
+</head>
+
+<body>
+
+<div class="g-main">
+    <div class="m-msg">
+        <ul>
+            <li class="b1">
+                姓名:<span>{{.Pinfo.VAA05}}</span>
+            </li>
+            <li class="b1">
+                性别:<span>{{.Pinfo.Gender}}</span>
+            </li>
+            <li class="b1">
+                年龄:<span>{{.Pinfo.VAA10}}岁</span>
+            </li>
+            <li class="b1">
+                科室:<span>{{.Pinfo.BCK03}}</span>
+            </li>
+            <li class="b1">
+                床号:<span>{{.Pinfo.BCQ04}}</span>
+            </li>
+            <li class="b1">
+                住院号:<span>{{.Pinfo.VAA04}}</span>
+            </li>
+            <li class="b2">
+                诊断内容：<span>{{.Pinfo.VAO15}}</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="m-tit">
+        <p class="tit">评估项目</p>
+    </div>
+
+    <!-- 口诉言词量表（VRS）： -->
+    <div class="m-check2" id="c1">
+        <p class="tit">
+            口诉言词量表（VRS）：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c1-v1" name="check1" data-v="1" class="c1">
+                    <label for="c1-v1" class="icon"></label>
+                </div>
+                <label for="c1-v1">0级：  无痛</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c1-v2" name="check1" data-v="2" class="c1">
+                    <label for="c1-v2" class="icon"></label>
+                </div>
+                <label for="c1-v2">I级（轻度）：有疼痛但可忍受，能正常生活，睡不 受干扰</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c1-v3" name="check1" data-v="3" class="c1">
+                    <label for="c1-v3" class="icon"></label>
+                </div>
+                <label for="c1-v3">II级（中度）：疼痛明显，不能忍受，要求使用止痛 剂睡眠受干扰</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c1-v4" name="check1" data-v="4" class="c1">
+                    <label for="c1-v4" class="icon"></label>
+                </div>
+                <label for="c1-v4">III级（重度）：疼痛剧烈，不能忍受，睡眠受严重干扰，可伴有自主神经紊乱或被动体位 </label>
+            </li>
+        </ul>
+    </div>
+
+    <div class="m-line"></div>
+
+    <!-- 数字评定量表（NRS）: -->
+    <div class="m-check4" id="c2">
+        <p class="tit">
+            数字评定量表（NRS）:
+        </p>
+        <ul>
+            <li>
+                <div class="input-radio-warp">
+                    <div class="m-input-radio ">
+                        <input type="radio" id="c2-v1" name="check2" data-v="1" class="c1">
+                        <label for="c2-v1" class="icon"></label>
+                    </div>
+                    <label for="c2-v1">0分</label>
+                </div>
+                <div class="line-warp">
+                    <div class="line-h"></div>
+                    <div class="line-s first"></div>
+                </div>
+                <span class="msg-txt">
+                        无痛
+                    </span>
+            </li>
+            <li>
+                <div class="input-radio-warp">
+                    <div class="m-input-radio ">
+                        <input type="radio" id="c2-v2" name="check2" data-v="2" class="c1">
+                        <label for="c2-v2" class="icon"></label>
+                    </div>
+                    <label for="c2-v2">1分</label>
+                </div>
+                <div class="line-warp">
+                    <div class="line-h"></div>
+                    <div class="line-s"></div>
+                </div>
+
+            </li>
+            <li>
+                <div class="input-radio-warp">
+                    <div class="m-input-radio">
+                        <input type="radio" id="c2-v3" name="check2" data-v="3" class="c1">
+                        <label for="c2-v3" class="icon"></label>
+                    </div>
+                    <label for="c2-v3">2分</label>
+                </div>
+                <div class="line-warp">
+                    <div class="line-h"></div>
+                    <div class="line-s"></div>
+                </div>
+            </li>
+            <li>
+                <div class="input-radio-warp">
+                    <div class="m-input-radio ">
+                        <input type="radio" id="c2-v4" name="check2" data-v="4" class="c1">
+                        <label for="c2-v4" class="icon"></label>
+                    </div>
+                    <label for="c2-v4">3分</label>
+                </div>
+                <div class="line-warp">
+                    <div class="line-h"></div>
+                    <div class="line-s"></div>
+                </div>
+            </li>
+            <li>
+                <div class="input-radio-warp">
+                    <div class="m-input-radio ">
+                        <input type="radio" id="c2-v5" name="check2" data-v="5" class="c1">
+                        <label for="c2-v5" class="icon"></label>
+                    </div>
+                    <label for="c2-v5">4分</label>
+                </div>
+                <div class="line-warp">
+                    <div class="line-h"></div>
+                    <div class="line-s"></div>
+                </div>
+            </li>
+            <li>
+                <div class="input-radio-warp">
+                    <div class="m-input-radio">
+                        <input type="radio" id="c2-v6" name="check2" data-v="6" class="c1">
+                        <label for="c2-v6" class="icon"></label>
+                    </div>
+                    <label for="c2-v6">5分</label>
+                </div>
+                <div class="line-warp">
+                    <div class="line-h"></div>
+                    <div class="line-s"></div>
+                </div>
+                <span class="msg-txt">
+                            轻度疼痛
+                        </span>
+            </li>
+            <li>
+                <div class="input-radio-warp">
+                    <div class="m-input-radio">
+                        <input type="radio" id="c2-v7" name="check2" data-v="7" class="c1">
+                        <label for="c2-v7" class="icon"></label>
+                    </div>
+                    <label for="c2-v7">6分</label>
+                </div>
+                <div class="line-warp">
+                    <div class="line-h"></div>
+                    <div class="line-s"></div>
+                </div>
+            </li>
+            <li>
+                <div class="input-radio-warp">
+                    <div class="m-input-radio ">
+                        <input type="radio" id="c2-v8" name="check2" data-v="8" class="c1">
+                        <label for="c2-v8" class="icon"></label>
+                    </div>
+                    <label for="c2-v8">7分</label>
+                </div>
+                <div class="line-warp">
+                    <div class="line-h"></div>
+                    <div class="line-s"></div>
+                </div>
+            </li>
+            <li>
+                <div class="input-radio-warp">
+                    <div class="m-input-radio ">
+                        <input type="radio" id="c2-v9" name="check2" data-v="9" class="c1">
+                        <label for="c2-v9" class="icon"></label>
+                    </div>
+                    <label for="c2-v9">8分</label>
+                </div>
+                <div class="line-warp">
+                    <div class="line-h"></div>
+                    <div class="line-s"></div>
+                </div>
+            </li>
+            <li>
+                <div class="input-radio-warp">
+                    <div class="m-input-radio ">
+                        <input type="radio" id="c2-v10" name="check2" data-v="10" class="c1">
+                        <label for="c2-v10" class="icon"></label>
+                    </div>
+                    <label for="c2-v10">9分</label>
+                </div>
+                <div class="line-warp">
+                    <div class="line-h"></div>
+                    <div class="line-s"></div>
+                </div>
+            </li>
+            <li>
+                <div class="input-radio-warp">
+                    <div class="m-input-radio ">
+                        <input type="radio" id="c2-v11" name="check2" data-v="11" class="c1">
+                        <label for="c2-v11" class="icon"></label>
+                    </div>
+                    <label for="c2-v11">10分</label>
+                </div>
+                <div class="line-warp ">
+                    <div class="line-h"></div>
+                    <div class="line-s last"></div>
+                </div>
+                <span class="msg-txt">
+                            剧痛
+                        </span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="m-line"></div>
+
+
+
+
+
+    <!-- 面部表情量表（Wong-Baker）： -->
+    <div class="m-check2" id="c3">
+        <p class="tit">
+            面部表情量表（Wong-Baker）：
+        </p>
+        <ul>
+            <li class="imgBox">
+                <div class="m-input-radio">
+                    <input type="radio" id="c3-v1" name="check3" data-v="1">
+                    <label for="c3-v1" class="icon"></label>
+                </div>
+                <label class="img-label" for="c3-v1">0</label>
+                <label class="img-label2" for="c3-v1">
+                    <div class="img-icon">
+                        <img src="/static/dist/images/m_pda/icon1.png" alt="">
+                    </div>
+                    <span class="img-span">
+                        无痛
+                    </span>
+                </label>
+            </li>
+            <li class="imgBox">
+                <div class="m-input-radio">
+                    <input type="radio" id="c3-v2" name="check3" data-v="2">
+                    <label for="c3-v2" class="icon"></label>
+                </div>
+                <label class="img-label" for="c3-v2">2</label>
+                <label class="img-label2" for="c3-v2">
+                    <div class="img-icon">
+                        <img src="/static/dist/images/m_pda/icon2.png" alt="">
+                    </div>
+                    <span class="img-span">
+                            轻微疼痛
+                        </span>
+                </label>
+            </li>
+            <li class="imgBox">
+                <div class="m-input-radio">
+                    <input type="radio" id="c3-v3" name="check3" data-v="3">
+                    <label for="c3-v3" class="icon"></label>
+                </div>
+                <label class="img-label" for="c3-v3">4</label>
+                <label class="img-label2" for="c3-v3">
+                    <div class="img-icon">
+                        <img src="/static/dist/images/m_pda/icon3.png" alt="">
+                    </div>
+                    <span class="img-span">
+                            轻度疼痛
+                        </span>
+                </label>
+            </li>
+            <li class="imgBox">
+                <div class="m-input-radio">
+                    <input type="radio" id="c3-v4" name="check3" data-v="4">
+                    <label for="c3-v4" class="icon"></label>
+                </div>
+                <label class="img-label" for="c3-v4">6</label>
+                <label class="img-label2" for="c3-v4">
+                    <div class="img-icon">
+                        <img src="/static/dist/images/m_pda/icon4.png" alt="">
+                    </div>
+                    <span class="img-span">
+                                中度疼痛
+                        </span>
+                </label>
+            </li>
+            <li class="imgBox">
+                <div class="m-input-radio">
+                    <input type="radio" id="c3-v5" name="check3" data-v="4">
+                    <label for="c3-v5" class="icon"></label>
+                </div>
+                <label class="img-label" for="c3-v5">8</label>
+                <label class="img-label2" for="c3-v5">
+                    <div class="img-icon">
+                        <img src="/static/dist/images/m_pda/icon6.png" alt="">
+                    </div>
+                    <span class="img-span">
+                                重度疼痛
+                            </span>
+                </label>
+            </li>
+            <li class="imgBox">
+                <div class="m-input-radio">
+                    <input type="radio" id="c3-v6" name="check3" data-v="4">
+                    <label for="c3-v6" class="icon"></label>
+                </div>
+                <label class="img-label" for="c3-v6">10</label>
+                <label class="img-label2" for="c3-v6">
+                    <div class="img-icon">
+                        <img src="/static/dist/images/m_pda/icon7.png" alt="">
+                    </div>
+                    <span class="img-span">
+                                剧痛
+                        </span>
+                </label>
+            </li>
+        </ul>
+    </div>
+
+    <div class="m-line"></div>
+    <!--面部表情量表（FPS-R）： -->
+    <div class="m-check4 type2" id="c4">
+        <p class="tit">
+            面部表情量表（FPS-R）：
+        </p>
+        <ul>
+            <li>
+                <div class="input-radio-warp">
+                    <div class="m-input-radio ">
+                        <input type="radio" id="c4-v1" name="check4" data-v="1" class="c1">
+                        <label for="c4-v1" class="icon"></label>
+                    </div>
+                    <label for="c4-v1">0</label>
+                </div>
+                <div class="line-warp">
+                </div>
+                <div class="img-icon">
+                    <img src="/static/dist/images/m_pda/icon8.png" alt="">
+                </div>
+                <span class="msg-txt">
+                        无痛
+                    </span>
+            </li>
+            <li>
+                <div class="input-radio-warp">
+                    <div class="m-input-radio ">
+                        <input type="radio" id="c4-v2" name="check4" data-v="2" class="c1">
+                        <label for="c4-v2" class="icon"></label>
+                    </div>
+                    <label for="c4-v2">1</label>
+                </div>
+                <div class="line-warp">
+                    <div class="line-h "></div>
+                    <div class="line-s first"></div>
+                </div>
+
+            </li>
+            <li>
+                <div class="input-radio-warp">
+                    <div class="m-input-radio">
+                        <input type="radio" id="c4-v3" name="check4" data-v="3" class="c1">
+                        <label for="c4-v3" class="icon"></label>
+                    </div>
+                    <label for="c4-v3">2</label>
+                </div>
+                <div class="line-warp">
+                    <div class="line-h"></div>
+                    <div class="line-s"></div>
+                </div>
+                <div class="img-icon">
+                    <img src="/static/dist/images/m_pda/icon9.png" alt="">
+                </div>
+                <span class="msg-txt">
+                            轻微疼痛
+                    </span>
+            </li>
+            <li>
+                <div class="input-radio-warp">
+                    <div class="m-input-radio ">
+                        <input type="radio" id="c4-v4" name="check4" data-v="4" class="c1">
+                        <label for="c4-v4" class="icon"></label>
+                    </div>
+                    <label for="c4-v4">3</label>
+                </div>
+                <div class="line-warp">
+                    <div class="line-h"></div>
+                    <div class="line-s last"></div>
+                </div>
+            </li>
+            <li>
+                <div class="input-radio-warp">
+                    <div class="m-input-radio ">
+                        <input type="radio" id="c4-v5" name="check4" data-v="5" class="c1">
+                        <label for="c4-v5" class="icon"></label>
+                    </div>
+                    <label for="c4-v5">4</label>
+                </div>
+                <div class="line-warp">
+                    <div class="line-h"></div>
+                    <div class="line-s first"></div>
+                </div>
+                <div class="img-icon">
+                    <img src="/static/dist/images/m_pda/icon10.png" alt="">
+                </div>
+            </li>
+            <li>
+                <div class="input-radio-warp">
+                    <div class="m-input-radio">
+                        <input type="radio" id="c4-v6" name="check4" data-v="6" class="c1">
+                        <label for="c4-v6" class="icon"></label>
+                    </div>
+                    <label for="c4-v6">5</label>
+                </div>
+                <div class="line-warp">
+                    <div class="line-h"></div>
+                    <div class="line-s"></div>
+                </div>
+                <div class="img-icon">
+
+                </div>
+                <span class="msg-txt">
+                        中度疼痛
+                    </span>
+            </li>
+            <li>
+                <div class="input-radio-warp">
+                    <div class="m-input-radio">
+                        <input type="radio" id="c4-v7" name="check4" data-v="7" class="c1">
+                        <label for="c4-v7" class="icon"></label>
+                    </div>
+                    <label for="c4-v7">6</label>
+                </div>
+                <div class="line-warp">
+                    <div class="line-h"></div>
+                    <div class="line-s last"></div>
+                </div>
+                <div class="img-icon">
+                    <img src="/static/dist/images/m_pda/icon11.png" alt="">
+                </div>
+            </li>
+            <li>
+                <div class="input-radio-warp">
+                    <div class="m-input-radio ">
+                        <input type="radio" id="c4-v8" name="check4" data-v="8" class="c1">
+                        <label for="c4-v8" class="icon"></label>
+                    </div>
+                    <label for="c4-v8">7</label>
+                </div>
+                <div class="line-warp">
+                    <div class="line-h"></div>
+                    <div class="line-s first"></div>
+                </div>
+            </li>
+            <li>
+                <div class="input-radio-warp">
+                    <div class="m-input-radio ">
+                        <input type="radio" id="c4-v9" name="check4" data-v="9" class="c1">
+                        <label for="c4-v9" class="icon"></label>
+                    </div>
+                    <label for="c4-v9">8</label>
+                </div>
+                <div class="line-warp">
+                    <div class="line-h"></div>
+                    <div class="line-s"></div>
+                </div>
+                <div class="img-icon">
+                    <img src="/static/dist/images/m_pda/icon12.png" alt="">
+                </div>
+            </li>
+            <li>
+                <div class="input-radio-warp">
+                    <div class="m-input-radio ">
+                        <input type="radio" id="c4-v10" name="check4" data-v="10" class="c1">
+                        <label for="c4-v10" class="icon"></label>
+                    </div>
+                    <label for="c4-v10">9</label>
+                </div>
+                <div class="line-warp">
+                    <div class="line-h"></div>
+                    <div class="line-s"></div>
+                </div>
+                <div class="img-icon">
+
+                </div>
+                <span class="msg-txt">重度疼痛</span>
+            </li>
+            <li>
+                <div class="input-radio-warp">
+                    <div class="m-input-radio ">
+                        <input type="radio" id="c4-v11" name="check4" data-v="11" class="c1">
+                        <label for="c4-v11" class="icon"></label>
+                    </div>
+                    <label for="c4-v11">10</label>
+                </div>
+                <div class="line-warp ">
+                    <div class="line-h"></div>
+                    <div class="line-s last"></div>
+                </div>
+                <div class="img-icon">
+                    <img src="/static/dist/images/m_pda/icon13.png" alt="">
+                </div>
+            </li>
+        </ul>
+    </div>
+
+
+
+
+    <div class="m-line"></div>
+
+
+    <div class="m-time">
+        <span>评估时间：</span>
+        <div class="input">
+            <span class="date">{{.RecordDate}}</span>
+            <!-- <span class="time">22:00</span> -->
+        </div>
+    </div>
+
+    <div class="m-autograph">
+        <span>评估人：</span>
+        <span class="name">{{.Account.Username}}</span>
+    </div>
+
+    <!-- <div class="m-autograph2">
+        <span class="tit">审核护士签名：</span>
+        <input class="m-input-txt type2">
+    </div> -->
+
+    <div class="m-pd40"></div>
+
+    <div class="m-remarks">
+        <div class="tit">
+            备注：
+        </div>
+        <p>1. 数字评定量表（numeric rating, NRS) , 用0 ~ 10的 数字代表不同程度的疼痛，0为无痛，10为最为剧烈疼痛，患者自己圈出或说出能代表其疼痛强度的数字。
+        </p>
+        <p>2. 面部表情量表。Wong-Baker面部表情量表用快乐到悲伤及哭泣的6个不同表情的面孔表达疼痛的不同强度，评估时要求患者选择一个最能表达其疼痛的脸谱。
+        </p>
+        <p>FPS-R有6个面部表情，这些表情表示不同程度的疼痛，评估时由患者指向或说出最能表示其疼痛程度的那张脸。该量表在成人和老年人疼痛强度评估中有较好的信度和效度。
+        </p>
+
+    </div>
+</div>
+<div class="m-pd100"></div>
+
+
+<script src="/static/dist/js/base.js"></script>
+<script>
+    var type = 1;
+
+    // setTime('{"date":"2017-01-02","time":"21:00"}')
+    function setTime(dataStr) {
+        var data = JSON.parse(dataStr)
+        var $mTime = $('.m-time');
+        data.date && $mTime.find('.date').text(data.date)
+        data.time && $mTime.find('.time').text(data.time)
+    }
+
+    function nowDate() {
+        var res = {},
+            nowD = new Date();
+        res.date = nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
+        res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
+        return JSON.stringify(res)
+    }
+
+    function addZero(i) {
+        if (i < 10) {
+            return "0" + i;
+        } else {
+            return i;
+        }
+    }
+
+    if (type = 1) {
+        setTime(nowDate())
+    }
+
+    var numInputFn = jky.util.throttle(function() {
+        if (isNaN(parseFloat($(this).val()))) {
+            $(this).val("")
+        } else {
+            $(this).val(parseFloat($(this).val()))
+        }
+    }, 500)
+    $('input[type=number]').on('input', numInputFn)
+
+
+    function reqAPI(type) {
+        var data = {}
+
+        function init() {
+            data = {
+                "nurse_id": "10010",
+                "nurse_name": "王小二",
+                "patient_id": "124",
+                "department_id": "102"
+                // "nrl_id":"10.11"
+            }
+        }
+
+        function setData() {
+            init() //重置数据
+            setDataDateTime();
+            setDatavNRL02();
+            setDatavNRL03();
+            setDatavNRL04();
+            setDatavNRL05();
+            setDatavNRL06();
+            setDatavNRL07();
+            setDatavNRL08();
+            setDatavNRL09();
+            setDatavNRL10();
+            setDatavNRL12();
+            setDatavNRL13();
+            setDatavNRL14();
+            setDatavNRL15();
+            setDatavNRL16();
+            setDatavNRL17();
+            setDatavNRL19();
+            setDatavNRL20();
+            setDatavNRL21();
+            setDatavNRL23();
+            setDatavNRL25();
+            setDatavNRL29();
+            setDatavNRL30();
+            setDataEnd();
+        }
+
+        //设置日期
+        function setDataDateTime() {
+            var $mTime = $('.m-time')
+            dateStr = $mTime.find('.date').text()
+            timeStr = $mTime.find('.time').text()
+            if (dateStr && timeStr) {
+                data.datetime = dateStr + " " + timeStr + ":00"
+            }
+        }
+
+
+        // 设置教育程度
+        function setDatavNRL02() {
+            var $check = $("#c1").find('input[type=radio]:checked');
+            $check.length && (data.NRL02 = $check.data('v'))
+        }
+
+        // 资料来源
+        function setDatavNRL03() {
+            var $check = $("#c2").find('input[type=radio]:checked');
+            $check.length && (data.NRL03 = $check.data('v'))
+        }
+
+        // 日常照顾者：
+        function setDatavNRL04() {
+            var $check = $("#c3").find('input[type=radio]:checked');
+            $check.length && (data.NRL04 = $check.data('v'))
+        }
+
+        // 入院方式
+        function setDatavNRL05() {
+            var $check = $("#c4").find('input[type=radio]:checked');
+            $check.length && (data.NRL05 = $check.data('v'))
+        }
+
+        // 过敏史：
+        function setDatavNRL06() {
+            var $check = $("#c5").find('.c5[type=radio]:checked');
+            if ($check.length != 0) {
+                data.NRL06 = $check.data('v');
+                if ($check.data('v') == 2) {
+                    var $check2 = $("#c5-c2").find('input[type=radio]:checked'),
+                        check2Data = {},
+                        check2Val = $check2.parents("li").find("input[type=text]");
+                    if ($check2.length) {
+                        check2Data[$check2.data('v')] = $.trim(check2Val.val());
+                        data.NRL06A = JSON.stringify(check2Data)
+                    }
+                }
+            }
+        }
+
+        // 医疗费用支付方式：
+        function setDatavNRL07() {
+            var $check = $("#c6").find('input[type=radio]:checked');
+            $check.length && (data.NRL07 = $check.data('v'))
+            if ($check.data('v') == "7") {
+                var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
+                checkVal && (data.NRL07A = checkVal)
+            }
+        }
+
+        // 意识状态
+        function setDatavNRL08() {
+            var $check = $("#c7").find('input[type=radio]:checked');
+            $check.length && (data.NRL08 = $check.data('v'))
+        }
+
+        function setDatavNRL09() {
+            var $check = $("#c8").find('input[type=radio]:checked');
+            $check.length && (data.NRL09 = $check.data('v'))
+        }
+
+        //饮食
+        function setDatavNRL10() {
+            var $check = $("#c9").find('input[type=radio]:checked');
+            $check.length && (data.NRL10 = $check.data('v'))
+            var $check2 = $("#c10").find('input[type=radio]:checked');
+            $check2.length && (data.NRL11 = $check2.data('v'))
+        }
+
+        // 口腔黏膜：
+        function setDatavNRL12() {
+            var $check = $("#c11").find('input[type=radio]:checked');
+            $check.length && (data.NRL12 = $check.data('v'))
+            if ($check.data('v') == "5") {
+                var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
+                checkVal && (data.NRL12A = checkVal)
+            }
+        }
+
+        function setDatavNRL13() {
+            var $check = $("#c12").find('input[type=radio]:checked');
+            $check.length && (data.NRL13 = $check.data('v'))
+        }
+
+        // 睡眠
+        function setDatavNRL14() {
+            var $check = $("#c13").find('input[type=radio]:checked');
+            $check.length && (data.NRL14 = $check.data('v'))
+            if ($check.data('v') == "6") {
+                var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
+                checkVal && (data.NRL14A = checkVal)
+            }
+        }
+
+        function setDatavNRL15() {
+            var $check = $("#c14").find('input[type=radio]:checked');
+            $check.length && (data.NRL15 = $check.data('v'))
+        }
+
+        // 排尿
+        function setDatavNRL16() {
+            var $check = $("#c15").find('input[type=radio]:checked');
+            $check.length && (data.NRL16 = $check.data('v'))
+            if ($check.data('v') == "8") {
+                var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
+                checkVal && (data.NRL16A = checkVal)
+            }
+        }
+
+        // 排便
+        function setDatavNRL17() {
+            var i1 = $.trim($("#i1").val()),
+                i2 = $.trim($("#i2").val());
+            if (i1 || i2) {
+                var res = '';
+                i2 ? (res = i1 + "," + i2) : (res = i1)
+                data.NRL18 = res
+
+            }
+
+            var $check = $("#c16").find('input[type=radio]:checked');
+            $check.length && (data.NRL17 = $check.data('v'))
+            if ($check.data('v') == "5") {
+                var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
+                checkVal && (data.NRL17A = checkVal)
+            }
+
+        }
+
+        // 四肢活动：
+        function setDatavNRL19() {
+            var $check = $("#c17").find('.c17[type=radio]:checked');
+            if ($check.length != 0) {
+                data.NRL19 = $check.data('v');
+                if ($check.data('v') == 3) {
+                    var $check2 = $("#c17-c2").find('input[type=radio]:checked');
+                    $check2.length && (data.LimbsId = $check2.data('v'))
+                }
+            }
+        }
+
+        // 自理能力：
+        function setDatavNRL20() {
+            var $check = $("#c18").find('input[type=radio]:checked');
+            $check.length && (data.NRL20 = $check.data('v'))
+            if ($check.data('v') == "3") {
+                var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
+                checkVal && (data.NRL20A = checkVal)
+            }
+        }
+
+        // 皮肤状况：
+        function setDatavNRL21() {
+            var $check = $("#c19").find('input[type=radio]:checked');
+            $check.length && (data.NRL20 = $check.data('v'))
+            var iText = $.trim($("#i3").val())
+            iText && (data.NRL22 = iText)
+        }
+
+        // 语言沟通：
+        function setDatavNRL23() {
+            var iText = $.trim($("#i4").val())
+            iText && (data.NRL23 = iText)
+            var $check = $("#c20").find('input[type=radio]:checked');
+            $check.length && (data.NRL24 = $check.data('v'))
+        }
+
+        // 生活习惯：
+        function setDatavNRL25() {
+            var $check = $("#c21").find('input[type=radio]:checked');
+            $check.length && (data.NRL25 = $check.data('v'));
+            if ($check.data('v') == "2") {
+                var checkVal = $.trim($check.parents("li").find("input[type=number]").val());
+                checkVal && (data.NRL26 = checkVal)
+            }
+            var $check2 = $("#c22").find('input[type=radio]:checked');
+            $check2.length && (data.NRL27 = $check2.data('v'));
+            if ($check2.data('v') == "2") {
+                var checkVal2 = $.trim($check2.parents("li").find("input[type=number]").val());
+                checkVal2 && (data.NRL28 = checkVal2)
+            }
+        }
+
+        // 其它症状和体征：
+        function setDatavNRL29() {
+            var resTxt = $('#i5').val() //$.trim()
+            resTxt && (data.NRL29 = resTxt)
+        }
+
+        // 住院告知
+        function setDatavNRL30() {
+            var $check = $("#c23").find('input[type=radio]:checked');
+            $check.length && (data.NRL30 = $check.data('v'))
+            if ($check.data('v') == "8") {
+                var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
+                checkVal && (data.NRL30A = checkVal)
+            }
+        }
+
+        // 基础护理 专科护理 患者安全  其它 护理交班重点 提醒医生给予关注 提醒家属给予关爱
+        function setDataEnd() {
+            $('#i6').val() && (data.NRL31 = $('#i6').val())
+            $('#i7').val() && (data.NRL32 = $('#i7').val())
+            $('#i8').val() && (data.NRL33 = $('#i8').val())
+            $('#i9').val() && (data.NRL34 = $('#i9').val())
+            $('#i10').val() && (data.NRL35 = $('#i10').val())
+            $('#i11').val() && (data.NRL36 = $('#i11').val())
+            $('#i12').val() && (data.NRL37 = $('#i12').val())
+        }
+
+        var api = '',
+            typeStr = '';
+        if (type == 1) {
+            api = "/record/nr2/add"
+            typeStr = '保存'
+        } else if (type == 2) {
+            api = "/record/nr1/update"
+            typeStr = '修改'
+        }
+        return function saveFrom() {
+            setData();
+
+            $.ajax({
+                url: api,
+                data: data,
+                type: "POST",
+                success: function(data) {
+                    console.log(data);
+                    if (data) {
+                        switch (data.result) {
+                            case 0:
+                                jky.util.toast(typeStr + "成功！", 1500);
+                                break;
+                            case 2:
+                                jky.util.toast(typeStr + "失败，请重试！", 1500);
+                                break;
+                            default:
+                                jky.util.toast("未知错误！", 1000)
+                        }
+                    }
+                },
+                error: function(e) {
+                    console.log("ajax err:", e)
+                },
+                dataType: "json"
+            })
+        }
+    }
+
+    var reqAPIFN = reqAPI(1);
+
+
+    $('.tab-tit').on('click', function() {
+        if ($(this).hasClass('active')) {
+            $(this).removeClass('active');
+            $('.tab-cont').addClass('m-none')
+        } else {
+            $(this).addClass('active');
+            $('.tab-cont').removeClass('m-none')
+        }
+    })
+
+    $('input[type=radio]').on('click', function() {
+        var ischeck = $(this).data("check");
+        if (!ischeck) {
+            $(this).parents('ul').find("input[type=radio]").data("check", "0")
+            $(this).data("check", "1");
+
+        } else {
+            $(this).prop('checked', false);
+            $(this).data("check", "0");
+        }
+    })
+</script>
+
+</body>
+
+</html>

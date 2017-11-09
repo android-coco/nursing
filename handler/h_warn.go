@@ -56,18 +56,19 @@ func (c WarnController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 
 func (c WarnController) DelWarn(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
-	warnTime := r.FormValue("warn_time")
-	classId := r.FormValue("class_id")
+	//warnTime := r.FormValue("warn_time")
+	//classId := r.FormValue("class_id")
+	ids := r.FormValue("ids")
 
-	if warnTime == "" || classId == "" {
+	if ids == "" {
 		c.JsonData.Result = 1
 		c.JsonData.ErrorMsg = "参数不完整"
 		c.JsonData.Datas = []interface{}{}
 		return
 	}
 
-	warnModel := model.Warn{ClassId: classId, WarnTime: warnTime}
-	id, err := warnModel.DeleteWarn()
+	//warnModel := model.Warn{ClassId: classId, WarnTime: warnTime}
+	id, err := model.DelWarn(ids)
 	if err != nil {
 		fit.Logger().LogError("Error", "warn delete :", err)
 		c.JsonData.Result = 2

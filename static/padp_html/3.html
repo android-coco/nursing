@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>护理记录单</title>
+    <link rel="stylesheet" href="../dist/style/css/base.css">
+    <script>
+        function setFontSize() {
+            var deviceWidth = document.documentElement.clientWidth;
+            if (deviceWidth > 640) deviceWidth = 640;
+            document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+        }
+        setFontSize()
+        var timer = null;
+        window.addEventListener('resize', function() {
+            clearTimeout(timer)
+            timer = setTimeout(setFontSize, 300)
+        }, false)
+    </script>
+</head>
+
+<body>
+
+    <div class="g-main none">
+        <div class="m-msg">
+            <ul>
+                <li class="b1">
+                    姓名:<span>王小二</span>
+                </li>
+                <li class="b1">
+                    性别:<span>女</span>
+                </li>
+                <li class="b1">
+                    年龄:<span>32岁</span>
+                </li>
+                <li class="b1">
+                    科室:<span>产科</span>
+                </li>
+                <li class="b1">
+                    床号:<span>T06</span>
+                </li>
+                <li class="b1">
+                    住院号:<span>489632</span>
+                </li>
+                <li class="b2">
+                    入院日期:<span>2017-09-22</span>
+                </li>
+                <li class="b2">
+                    诊断:<span>慢性硬膜下血肿</span>
+                </li>
+            </ul>
+        </div>
+
+
+        <div class="m-tit">
+            <p class="tit">生命体征</p>
+        </div>
+
+
+        <div class="m-input1">
+            <ul>
+                <li>
+                    <label for="temperature">体温：</label>
+                    <input id="temperature" type="text" class="m-input-txt" disabled>
+                    <span class="unit">℃</span>
+                </li>
+                <li>
+                    <label for="temperature">脉搏：</label>
+                    <input id="temperature" type="text" class="m-input-txt" disabled>
+                    <span class="unit">次/分</span>
+                </li>
+                <li>
+                    <label for="temperature">呼吸：</label>
+                    <input id="temperature" type="text" class="m-input-txt" disabled>
+                    <span class="unit">次/分</span>
+                </li>
+                <li>
+                    <label for="temperature">血压：</label>
+                    <input id="temperature" type="text" class="m-input-txt type2" disabled>
+                    <span class="line">/</span>
+                    <input id="temperature" type="text" class="m-input-txt type2" disabled>
+                    <span class="unit">mmHg</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="m-line"></div>
+
+        <div class="m-check1">
+            <p class="tit">
+                意识：
+            </p>
+            <ul>
+                <li>
+                    <div class="m-input-radio">
+                        <input type="radio" disabled id="c1-v1" name="check1">
+                        <label for="c1-v1" class="icon"></label>
+                    </div>
+                    <label for="c1-v1">清醒</label>
+                </li>
+                <li>
+                    <div class="m-input-radio">
+                        <input type="radio" disabled id="c1-v2" name="check1">
+                        <label for="c1-v2" class="icon"></label>
+                    </div>
+                    <label for="c1-v2">嗜睡</label>
+                </li>
+                <li>
+                    <div class="m-input-radio">
+                        <input type="radio" disabled id="c1-v3" name="check1">
+                        <label for="c1-v3" class="icon"></label>
+                    </div>
+                    <label for="c1-v3">意识浑浊</label>
+                </li>
+                <li>
+                    <div class="m-input-radio">
+                        <input type="radio" disabled id="c1-v4" name="check1">
+                        <label for="c1-v4" class="icon"></label>
+                    </div>
+                    <label for="c1-v4">昏睡</label>
+                </li>
+                <li>
+                    <div class="m-input-radio">
+                        <input type="radio" disabled id="c1-v5" name="check1">
+                        <label for="c1-v5" class="icon"></label>
+                    </div>
+                    <label for="c1-v5">浅昏迷</label>
+                </li>
+                <li>
+                    <div class="m-input-radio">
+                        <input type="radio" disabled id="c1-v6" name="check1">
+                        <label for="c1-v6" class="icon"></label>
+                    </div>
+                    <label for="c1-v6">深昏迷</label>
+                </li>
+
+                <li>
+                    <div class="m-input-radio">
+                        <input type="radio" disabled id="c1-v7" name="check1">
+                        <label for="c1-v7" class="icon"></label>
+                    </div>
+                    <label for="c1-v7">谵妄状态</label>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <div class="m-tit">
+            <p class="tit">入量</p>
+        </div>
+        <div class="m-input2">
+            <ul>
+                <li>
+                    <label for="i2-v1">量：</label>
+                    <input id="i2-v1" type="text" class="m-input-txt" disabled>
+                    <span class="unit">ml</span>
+                </li>
+                <li>
+                    <label for="i2-v2">内容：</label>
+                    <input id="i2-v2" type="text" class="m-input-txt type3" disabled>
+                </li>
+
+            </ul>
+        </div>
+        <div class="m-tit">
+            <p class="tit">出量</p>
+        </div>
+        <div class="m-input2">
+            <ul>
+                <li>
+                    <label for="i3-v1">量：</label>
+                    <input id="i3-v1" type="text" class="m-input-txt" disabled>
+                    <span class="unit">ml</span>
+                </li>
+                <li>
+                    <label for="i3-v2">内容：</label>
+                    <input id="i3-v2" type="text" class="m-input-txt type3" disabled>
+                </li>
+
+            </ul>
+        </div>
+        <div class="m-tit">
+            <p class="tit">自定义项</p>
+        </div>
+
+
+        <div class="m-input3">
+            <div id="warp">
+                <div class="item">
+                    <ul>
+                        <li><label class="pd" for="i4-v1-1"><span class="icon">1</span>名称：</label>
+                            <input id="i4-v1-1" type="text" class="m-input-txt" disabled></li>
+                        <li><label for="i4-v1-2">结果：</label>
+                            <input id="i4-v1-2" type="text" class="m-input-txt type1" disabled></li>
+                    </ul>
+                </div>
+                <div class="item">
+                    <ul>
+                        <li><label class="pd" for="i4-v2-1"><span class="icon">2</span>名称：</label>
+                            <input  type="text" disabled class="m-input-txt"  id="i4-v2-1"></li>
+                        <li><label for="i4-v2-2">结果：</label>
+                            <input  type="text" disabled class="m-input-txt type1" id="i4-v2-2"></li>
+                    </ul>
+                </div>
+                <div class="item">
+                    <ul>
+                        <li><label class="pd" for="i4-v3-1"><span class="icon">3</span>名称：</label>
+                            <input id="i4-v3-1" type="text" class="m-input-txt" disabled></li>
+                        <li><label for="i4-v3-2">结果：</label>
+                            <input id="i4-v3-2" type="text" class="m-input-txt type1" disabled></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- <div class="add-btn" data-item="3">
+                <img src="../dist/images/add_btn.png" alt=""><span>点击添加一栏</span>
+            </div> -->
+        </div>
+
+
+        <div class="m-textarea1">
+            <p class="tit">
+                特殊情况记录：
+            </p>
+            <div class="textarea">
+                    特殊情况记录：特殊情况记录：特殊情况记录：特殊情况记录：特殊情况记录：特殊情况记录：特殊情况记录：特殊情况记录：特殊情况记录：特殊情况记录：特殊情况记录：特殊情况记录：特殊情况记录：特殊情况记录：特殊情况记录：特殊情况记录：特殊情况记录：特殊情况记录：特殊情况记录：特殊情况记录：特殊情况记录：
+            </div>
+        </div>
+
+        <div class="m-time">
+            <span>记录时间</span>
+            <div class="input">
+                <span class="date">2017-09-08</span>
+                <span class="time">22:00</span>
+            </div>
+        </div>
+
+        <div class="m-autograph">
+            <span>签名：</span>
+            <span class="name">刘护士</span>
+        </div>
+    </div>
+    <div class="m-pd100"></div>
+
+    <script type="tmpl" id="item">
+        <div class="item">
+            <ul>
+                <li><label class="pd" for="--"><span class="icon">-</span>名称：</label>
+                    <input id="--" type="text" class="m-input-txt"></li>
+                <li><label for="--">结果：</label>
+                    <input id="--" type="text" class="m-input-txt type1"></li>
+            </ul>
+        </div>
+    </script>
+
+    <script src="../dist/js/base.js"></script>
+    <script>
+        function addItem(index) {
+            var $item = $($('#item').text())
+            $item.find('.icon').text(index)
+            console.log($item.find('li').eq(1).find('label'))
+            $item.find('li').eq(0).find('label').attr('for', 'i4-v' + index + '-1')
+            $item.find('li').eq(0).find('input').attr('id', 'i4-v' + index + '-1')
+            $item.find('li').eq(1).find('label').attr('for', 'i4-v' + index + '-2')
+            $item.find('li').eq(1).find('input').attr('id', 'i4-v' + index + '-2')
+            $('#warp').append($item)
+        }
+
+        $('.add-btn').on('click', function() {
+            var index = $(this).data('item');
+            index = parseInt(index) + 1
+            addItem(index)
+            $(this).data('item', index)
+        })
+    </script>
+
+</body>
+
+</html>

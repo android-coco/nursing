@@ -4,49 +4,55 @@ import (
 	"fit"
 	"nursing/model"
 	"time"
-
+	"strconv"
 )
 
 type SignsoutController struct {
 	fit.Controller
 }
 
+//获取体征数据
 func (c SignsoutController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 	fit.Logger().LogAssert("", "post")
 	defer c.ResponseToJson(w)
 
 	patientid := r.FormValue("patientid")
 	nurseid := r.FormValue("nurseid")
+	page,err_page  := strconv.Atoi(r.FormValue("page"))
 	starttime, err8 := time.Parse("2006-01-02 15:04:05", r.FormValue("starttime"))
 	endtime, err9 := time.Parse("2006-01-02 15:04:05", r.FormValue("endtime"))
 
 	var sql string
 	var msg []interface{}
 
+	if len(patientid) == 0{
+		c.JsonData.Result = 1
+		c.JsonData.ErrorMsg = "参数不完整"
+	}
+
 	if len(patientid) != 0 {
 		sql = sql + "patientid = ?"
 		msg = append(msg, patientid)
 	}
+
 	if len(nurseid) != 0 {
-		if len(patientid) != 0 {
-			sql = sql + " and "
-		}
-		sql = sql + "nurseid = ?"
+		sql = sql + " and nurseid = ?"
 		msg = append(msg, nurseid)
 	}
+
 	if err8 == nil {
-		if len(nurseid) != 0 {
-			sql = sql + " and "
-		}
-		sql = sql + "testtime > ?  "
+		sql = sql + " and testtime >= ? "
 		msg = append(msg, starttime)
 	}
+
 	if err9 == nil {
-		if err8 == nil {
-			sql = sql + " and "
-		}
-		sql = sql + "testtime < ?"
+		sql = sql + " and testtime <= ?"
 		msg = append(msg, endtime)
+	}
+
+	if err_page == nil{
+		sql = sql + " order by Testtime desc limit ?,10"
+		msg = append(msg, 10*page)
 	}
 
 	items := make(map[string]interface{})

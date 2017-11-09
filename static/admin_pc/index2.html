@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>见康云护理管理信息系统</title>
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/amazeui.css" />
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/core.css" />
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/menu.css" />
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/admin.css" />
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/page/typography.css" />
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/page/form.css" />
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/component.css" />
+    <link rel="stylesheet" href="../dist/style/css/base_pc.min.css">
+</head>
+
+<body class="pt100">
+    <div id="gopng_icon4_outer">
+        <div id="gopng_icon4"></div>
+    </div>
+    <div class="hd_tit">
+        <div class="logo"><img src="../dist/images/admin_pc/logo.png"></div>
+        <p class="tit">见康云护理管理信息系统_</p>
+        <div class="am-dropdown jky_dropdown" data-am-dropdown>
+            <button class="am-btn am-btn-primary am-dropdown-toggle" data-am-dropdown-toggle>内分泌科
+                <span class="jky_icon"><img src="../dist/images/admin_pc/xl.png" alt=""></span>
+            </button>
+            <ul class="am-dropdown-content">
+                <li class="am-active"><a href="#">内分泌科</a></li>
+                <li><a href="#">外科</a></li>
+                <li><a href="#">XXX科</a></li>
+                <li><a href="#">？？科</a></li>
+            </ul>
+        </div>
+        <div class="out_btn">
+            <img src="../dist/images/admin_pc/out.png" alt=""> 退出
+        </div>
+
+    </div>
+
+
+    <!-- Begin page -->
+    <div class="am-topbar am-topbar-fixed-top top48">
+        <div class="am-topbar-left am-hide-sm-only">
+            <a class="username"><span>欢迎,你王小二</span><i class="zmdi zmdi-layers"></i></a>
+        </div>
+
+        <div class="contain">
+            <div class="jky-class-bar">
+                <ul>
+                    <li>
+                        <p><span class="icon1"></span>特护</p>
+                    </li>
+                    <li>
+                        <p><span class="icon2"></span>一级护理</p>
+                    </li>
+                    <li>
+                        <p><span class="icon3"></span>二级护理</p>
+                    </li>
+                    <li>
+                        <p><span class="icon4"></span>三级护理</p>
+                    </li>
+                    <li>
+                        <p><span class="icon9"></span>无护理级别</p>
+                    </li>
+                    <li>
+                        <p><span class="icon5"></span>新病人</p>
+                    </li>
+                    <li>
+                        <p><span class="icon6"></span>发热</p>
+                    </li>
+                    <li>
+                        <p><span class="icon7"></span>新医嘱/停止医嘱</p>
+                    </li>
+                    <li>
+                        <p>
+                            <input type="checkbox" class="check" id="show">
+                            <!-- <span class="icon8"></span> -->
+                            <label for="show">仅显示有病人床位</label></p>
+                    </li>
+                </ul>
+            </div>
+            <div class="jky-tab-hd">
+                <ul>
+                    <li><a>简卡</a></li>
+                    <li class="active"><a>列表</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    <!-- end page -->
+
+
+    <div class="admin">
+        <!--<div class="am-g">-->
+        <!-- ========== Left Sidebar Start ========== -->
+        <!--<div class="left side-menu am-hide-sm-only am-u-md-1 am-padding-0">
+			<div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 548px;">
+				<div class="sidebar-inner slimscrollleft" style="overflow: hidden; width: auto; height: 548px;">-->
+        <!-- sidebar start -->
+        <div class="admin-sidebar am-offcanvas  am-padding-0 jky_sidebar" id="admin-offcanvas">
+            <div class="am-offcanvas-bar admin-offcanvas-bar">
+
+                <ul class="am-list admin-sidebar-list" id="jky-menu">
+                    <li class="active admin-parent jky-on">
+                        <a data-am-collapse="{target: '#collapse-nav1'}">
+                            <span class="jky_icon2"><img src="../dist/images/admin_pc/icon10.png" alt="" style="width:25px"></span>
+                            <span class="tit">科室病人</span>
+                            <div class="jky_icon">
+                                <img src="../dist/images/admin_pc/icon5.png" alt="">
+                            </div>
+                        </a>
+                        <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav1">
+                            <li><a href="html/table_basic.html" class="am-cf">所有病人 <span class="num">10</span></a></li>
+                            <li><a href="html/table_basic.html" class="am-cf">新病人 <span class="num">10</span></a></li>
+                            <li><a href="html/table_basic.html" class="am-cf">新医嘱 <span class="num">10</span></a></li>
+                            <li><a href="html/table_basic.html" class="am-cf">停止医嘱 <span class="num">10</span></a></li>
+                            <li><a href="html/table_basic.html" class="am-cf">发热 <span class="num">10</span></a></li>
+                            <li><a href="html/table_basic.html" class="am-cf">待手术 <span class="num">10</span></a></li>
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a class="am-cf">
+                            <span class="jky_icon2">
+                                <img src="../dist/images/admin_pc/icon11.png" alt="">
+                            </span>
+                            <span class="tit"> 医嘱拆分 </span>
+                            <div class="jky_icon">
+                                <img src="../dist/images/admin_pc/icon5.png" alt="">
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="am-cf">
+                            <span class="jky_icon2">
+                                <img src="../dist/images/admin_pc/icon12.png" alt="">
+                            </span>
+                            <span class="tit">医嘱信息</span>
+                            <div class="jky_icon"><img src="../dist/images/admin_pc/icon5.png" alt=""></div>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="am-cf">
+                            <span class="jky_icon2">
+                                <img src="../dist/images/admin_pc/icon13.png" alt="">
+                            </span>
+                            <span class="tit">体征批量录入</span>
+                            <div class="jky_icon"><img src="../dist/images/admin_pc/icon5.png" alt=""></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="am-cf">
+                            <span class="jky_icon2">
+                                <img src="../dist/images/admin_pc/icon14.png" alt="">
+                            </span>
+                            <span class="tit">体温单</span>
+                            <div class="jky_icon"><img src="../dist/images/admin_pc/icon5.png" alt=""></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="am-cf">
+                            <span class="jky_icon2">
+                                <img src="../dist/images/admin_pc/icon15.png" alt="">
+                            </span>
+                            <span class="tit">交班表</span>
+                            <div class="jky_icon"><img src="../dist/images/admin_pc/icon5.png" alt=""></div>
+                        </a>
+                    </li>
+
+
+                    <li class="admin-parent">
+                        <a class="am-cf" data-am-collapse="{target: '#collapse-nav2'}">
+                            <span class="jky_icon2">
+                                <img src="../dist/images/admin_pc/icon16.png" alt="">
+                            </span>
+                            <span class="tit">护理文书</span>
+                            <div class="jky_icon"><img src="../dist/images/admin_pc/icon5.png" alt=""></div>
+                        </a>
+                        <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav2">
+                            <li><a href="#" class="am-cf">首次护理记录单</a></li>
+                            <li><a href="#" class="am-cf"> 护理记录单</a></li>
+
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <!-- sidebar end -->
+
+        <!--</div>
+			</div>
+		</div>-->
+        <!-- ========== Left Sidebar end ========== -->
+
+
+
+        <!--	<div class="am-g">-->
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <div class="content-page none" data-index="1">
+            <!-- Start content -->
+            <div class="content">
+                <div class="am-g jky-box-list">
+                    <ul>
+                        <li>
+                            <div class="item t1">
+                                <div class="hide-menu">
+                                    <ul>
+                                        <li><a class="dy">打印腕带</a></li>
+                                    </ul>
+                                </div>
+                                <div class="tit">B05</div>
+                                <div class="cont">
+                                    <p> <span class="name">王小二</span>&nbsp;&nbsp;&nbsp; 女&nbsp;&nbsp;&nbsp; 65岁&nbsp;&nbsp;&nbsp; 自费</p>
+                                    <p class="id"> <span>内科   id：12410089</span></p>
+                                    <p class="msg"> <span>2型糖尿病，周围神经病变，大血管病变 m cmas xam;2型糖尿病，周围神经病变，大血管病变 m cmas xam ;2型糖尿病，周围神经病变，大血管病变 m cmas xam  </span></p>
+                                    <p><span class="name-tit">责任医生：</span><span class="ysname">胡医生</span></p>
+                                    <div class="icon-bar">
+                                        <div class="jky-icon">
+                                            <img src="../dist/images/admin_pc/icon2.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon3.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon4.png" style="height:22px" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item t2">
+                                <div class="hide-menu">
+                                    <ul>
+                                        <li><a class="dy">打印腕带</a></li>
+                                    </ul>
+                                </div>
+                                <div class="tit">B05</div>
+                                <div class="cont">
+                                    <p> <span class="name">王小二</span>&nbsp;&nbsp;&nbsp; 女&nbsp;&nbsp;&nbsp; 65岁&nbsp;&nbsp;&nbsp; 自费</p>
+                                    <p class="id"> <span>内科   id：12410089</span></p>
+                                    <p class="msg"> <span>2型糖尿病，周围神经病变，大血管病变 m cmas xam;</span></p>
+                                    <p><span class="name-tit">责任医生：</span><span class="ysname">胡医生</span></p>
+                                    <div class="icon-bar">
+                                        <div class="jky-icon">
+                                            <img src="../dist/images/admin_pc/icon2.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon3.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon4.png" style="height:22px" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item t3">
+                                <div class="hide-menu">
+                                    <ul>
+                                        <li><a class="dy">打印腕带</a></li>
+                                    </ul>
+                                </div>
+                                <div class="tit">B05</div>
+                                <div class="cont">
+                                    <p> <span class="name">王小二</span>&nbsp;&nbsp;&nbsp; 女&nbsp;&nbsp;&nbsp; 65岁&nbsp;&nbsp;&nbsp; 自费</p>
+                                    <p class="id"> <span>内科   id：12410089</span></p>
+                                    <p class="msg"> <span>2型糖尿病，周围神经病变，大血管病变 m cmas xam;</span></p>
+                                    <p><span class="name-tit">责任医生：</span><span class="ysname">胡医生</span></p>
+                                    <div class="icon-bar">
+                                        <div class="jky-icon">
+                                            <img src="../dist/images/admin_pc/icon2.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon3.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon4.png" style="height:22px" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item t4">
+                                <div class="hide-menu">
+                                    <ul>
+                                        <li><a class="dy">打印腕带</a></li>
+                                    </ul>
+                                </div>
+                                <div class="tit">B05</div>
+                                <div class="cont">
+                                    <p> <span class="name">王小二</span>&nbsp;&nbsp;&nbsp; 女&nbsp;&nbsp;&nbsp; 65岁&nbsp;&nbsp;&nbsp; 自费</p>
+                                    <p class="id"> <span>内科   id：12410089</span></p>
+                                    <p class="msg"> <span>2型糖尿病，周围神经病变，大血管病变 m cmas xam;</span></p>
+                                    <p><span class="name-tit">责任医生：</span><span class="ysname">胡医生</span></p>
+                                    <div class="icon-bar">
+                                        <div class="jky-icon">
+                                            <img src="../dist/images/admin_pc/icon2.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon3.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon4.png" style="height:22px" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item t5">
+                                <div class="tit">B06(空床)</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item t6">
+                                <div class="hide-menu">
+                                    <ul>
+                                        <li><a class="dy">打印腕带</a></li>
+                                    </ul>
+                                </div>
+                                <div class="tit">B05</div>
+                                <div class="cont">
+                                    <p> <span class="name">王小二</span>&nbsp;&nbsp;&nbsp; 女&nbsp;&nbsp;&nbsp; 65岁&nbsp;&nbsp;&nbsp; 自费</p>
+                                    <p class="id"> <span>内科   id：12410089</span></p>
+                                    <p class="msg"> <span>2型糖尿病，周围神经病变，大血管病变 m cmas xam;</span></p>
+                                    <p><span class="name-tit">责任医生：</span><span class="ysname">胡医生</span></p>
+                                    <div class="icon-bar">
+                                        <div class="jky-icon">
+                                            <img src="../dist/images/admin_pc/icon2.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon3.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon4.png" style="height:22px" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+
+                        <!-- 多余的 -->
+                        <li>
+                            <div class="item t1">
+                                <div class="hide-menu">
+                                    <ul>
+                                        <li><a class="dy">打印腕带</a></li>
+                                    </ul>
+                                </div>
+                                <div class="tit">B05</div>
+                                <div class="cont">
+                                    <p> <span class="name">王小二</span>&nbsp;&nbsp;&nbsp; 女&nbsp;&nbsp;&nbsp; 65岁&nbsp;&nbsp;&nbsp; 自费</p>
+                                    <p class="id"> <span>内科   id：12410089</span></p>
+                                    <p class="msg"> <span>2型糖尿病，周围神经病变，大血管病变 m cmas xam;2型糖尿病，周围神经病变，大血管病变 m cmas xam ;2型糖尿病，周围神经病变，大血管病变 m cmas xam  </span></p>
+                                    <p><span class="name-tit">责任医生：</span><span class="ysname">胡医生</span></p>
+                                    <div class="icon-bar">
+                                        <div class="jky-icon">
+                                            <img src="../dist/images/admin_pc/icon2.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon3.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon4.png" style="height:22px" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item t1">
+                                <div class="hide-menu">
+                                    <ul>
+                                        <li><a class="dy">打印腕带</a></li>
+                                    </ul>
+                                </div>
+                                <div class="tit">B05</div>
+                                <div class="cont">
+                                    <p> <span class="name">王小二</span>&nbsp;&nbsp;&nbsp; 女&nbsp;&nbsp;&nbsp; 65岁&nbsp;&nbsp;&nbsp; 自费</p>
+                                    <p class="id"> <span>内科   id：12410089</span></p>
+                                    <p class="msg"> <span>2型糖尿病，周围神经病变，大血管病变 m cmas xam;2型糖尿病，周围神经病变，大血管病变 m cmas xam ;2型糖尿病，周围神经病变，大血管病变 m cmas xam  </span></p>
+                                    <p><span class="name-tit">责任医生：</span><span class="ysname">胡医生</span></p>
+                                    <div class="icon-bar">
+                                        <div class="jky-icon">
+                                            <img src="../dist/images/admin_pc/icon2.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon3.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon4.png" style="height:22px" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item t1">
+                                <div class="hide-menu">
+                                    <ul>
+                                        <li><a class="dy">打印腕带</a></li>
+                                    </ul>
+                                </div>
+                                <div class="tit">B05</div>
+                                <div class="cont">
+                                    <p> <span class="name">王小二</span>&nbsp;&nbsp;&nbsp; 女&nbsp;&nbsp;&nbsp; 65岁&nbsp;&nbsp;&nbsp; 自费</p>
+                                    <p class="id"> <span>内科   id：12410089</span></p>
+                                    <p class="msg"> <span>2型糖尿病，周围神经病变，大血管病变 m cmas xam;2型糖尿病，周围神经病变，大血管病变 m cmas xam ;2型糖尿病，周围神经病变，大血管病变 m cmas xam  </span></p>
+                                    <p><span class="name-tit">责任医生：</span><span class="ysname">胡医生</span></p>
+                                    <div class="icon-bar">
+                                        <div class="jky-icon">
+                                            <img src="../dist/images/admin_pc/icon2.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon3.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon4.png" style="height:22px" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item t1">
+                                <div class="hide-menu">
+                                    <ul>
+                                        <li><a class="dy">打印腕带</a></li>
+                                    </ul>
+                                </div>
+                                <div class="tit">B05</div>
+                                <div class="cont">
+                                    <p> <span class="name">王小二</span>&nbsp;&nbsp;&nbsp; 女&nbsp;&nbsp;&nbsp; 65岁&nbsp;&nbsp;&nbsp; 自费</p>
+                                    <p class="id"> <span>内科   id：12410089</span></p>
+                                    <p class="msg"> <span>2型糖尿病，周围神经病变，大血管病变 m cmas xam;2型糖尿病，周围神经病变，大血管病变 m cmas xam ;2型糖尿病，周围神经病变，大血管病变 m cmas xam  </span></p>
+                                    <p><span class="name-tit">责任医生：</span><span class="ysname">胡医生</span></p>
+                                    <div class="icon-bar">
+                                        <div class="jky-icon">
+                                            <img src="../dist/images/admin_pc/icon2.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon3.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon4.png" style="height:22px" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item t1">
+                                <div class="hide-menu">
+                                    <ul>
+                                        <li><a class="dy">打印腕带</a></li>
+                                    </ul>
+                                </div>
+                                <div class="tit">B05</div>
+                                <div class="cont">
+                                    <p> <span class="name">王小二</span>&nbsp;&nbsp;&nbsp; 女&nbsp;&nbsp;&nbsp; 65岁&nbsp;&nbsp;&nbsp; 自费</p>
+                                    <p class="id"> <span>内科   id：12410089</span></p>
+                                    <p class="msg"> <span>2型糖尿病，周围神经病变，大血管病变 m cmas xam;2型糖尿病，周围神经病变，大血管病变 m cmas xam ;2型糖尿病，周围神经病变，大血管病变 m cmas xam  </span></p>
+                                    <p><span class="name-tit">责任医生：</span><span class="ysname">胡医生</span></p>
+                                    <div class="icon-bar">
+                                        <div class="jky-icon">
+                                            <img src="../dist/images/admin_pc/icon2.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon3.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon4.png" style="height:22px" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item t1">
+                                <div class="hide-menu">
+                                    <ul>
+                                        <li><a class="dy">打印腕带</a></li>
+                                    </ul>
+                                </div>
+                                <div class="tit">B05</div>
+                                <div class="cont">
+                                    <p> <span class="name">王小二</span>&nbsp;&nbsp;&nbsp; 女&nbsp;&nbsp;&nbsp; 65岁&nbsp;&nbsp;&nbsp; 自费</p>
+                                    <p class="id"> <span>内科   id：12410089</span></p>
+                                    <p class="msg"> <span>2型糖尿病，周围神经病变，大血管病变 m cmas xam;2型糖尿病，周围神经病变，大血管病变 m cmas xam ;2型糖尿病，周围神经病变，大血管病变 m cmas xam  </span></p>
+                                    <p><span class="name-tit">责任医生：</span><span class="ysname">胡医生</span></p>
+                                    <div class="icon-bar">
+                                        <div class="jky-icon">
+                                            <img src="../dist/images/admin_pc/icon2.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon3.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon4.png" style="height:22px" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item t1">
+                                <div class="hide-menu">
+                                    <ul>
+                                        <li><a class="dy">打印腕带</a></li>
+                                    </ul>
+                                </div>
+                                <div class="tit">B05</div>
+                                <div class="cont">
+                                    <p> <span class="name">王小二</span>&nbsp;&nbsp;&nbsp; 女&nbsp;&nbsp;&nbsp; 65岁&nbsp;&nbsp;&nbsp; 自费</p>
+                                    <p class="id"> <span>内科   id：12410089</span></p>
+                                    <p class="msg"> <span>2型糖尿病，周围神经病变，大血管病变 m cmas xam;2型糖尿病，周围神经病变，大血管病变 m cmas xam ;2型糖尿病，周围神经病变，大血管病变 m cmas xam  </span></p>
+                                    <p><span class="name-tit">责任医生：</span><span class="ysname">胡医生</span></p>
+                                    <div class="icon-bar">
+                                        <div class="jky-icon">
+                                            <img src="../dist/images/admin_pc/icon2.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon3.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon4.png" style="height:22px" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item t1">
+                                <div class="hide-menu">
+                                    <ul>
+                                        <li><a class="dy">打印腕带</a></li>
+                                    </ul>
+                                </div>
+                                <div class="tit">B05</div>
+                                <div class="cont">
+                                    <p> <span class="name">王小二</span>&nbsp;&nbsp;&nbsp; 女&nbsp;&nbsp;&nbsp; 65岁&nbsp;&nbsp;&nbsp; 自费</p>
+                                    <p class="id"> <span>内科   id：12410089</span></p>
+                                    <p class="msg"> <span>2型糖尿病，周围神经病变，大血管病变 m cmas xam;2型糖尿病，周围神经病变，大血管病变 m cmas xam ;2型糖尿病，周围神经病变，大血管病变 m cmas xam  </span></p>
+                                    <p><span class="name-tit">责任医生：</span><span class="ysname">胡医生</span></p>
+                                    <div class="icon-bar">
+                                        <div class="jky-icon">
+                                            <img src="../dist/images/admin_pc/icon2.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon3.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon4.png" style="height:22px" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item t1">
+                                <div class="hide-menu">
+                                    <ul>
+                                        <li><a class="dy">打印腕带</a></li>
+                                    </ul>
+                                </div>
+                                <div class="tit">B05</div>
+                                <div class="cont">
+                                    <p> <span class="name">王小二</span>&nbsp;&nbsp;&nbsp; 女&nbsp;&nbsp;&nbsp; 65岁&nbsp;&nbsp;&nbsp; 自费</p>
+                                    <p class="id"> <span>内科   id：12410089</span></p>
+                                    <p class="msg"> <span>2型糖尿病，周围神经病变，大血管病变 m cmas xam;2型糖尿病，周围神经病变，大血管病变 m cmas xam ;2型糖尿病，周围神经病变，大血管病变 m cmas xam  </span></p>
+                                    <p><span class="name-tit">责任医生：</span><span class="ysname">胡医生</span></p>
+                                    <div class="icon-bar">
+                                        <div class="jky-icon">
+                                            <img src="../dist/images/admin_pc/icon2.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon3.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon4.png" style="height:22px" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item t1">
+                                <div class="hide-menu">
+                                    <ul>
+                                        <li><a class="dy">打印腕带</a></li>
+                                    </ul>
+                                </div>
+                                <div class="tit">B05</div>
+                                <div class="cont">
+                                    <p> <span class="name">王小二</span>&nbsp;&nbsp;&nbsp; 女&nbsp;&nbsp;&nbsp; 65岁&nbsp;&nbsp;&nbsp; 自费</p>
+                                    <p class="id"> <span>内科   id：12410089</span></p>
+                                    <p class="msg"> <span>2型糖尿病，周围神经病变，大血管病变 m cmas xam;2型糖尿病，周围神经病变，大血管病变 m cmas xam ;2型糖尿病，周围神经病变，大血管病变 m cmas xam  </span></p>
+                                    <p><span class="name-tit">责任医生：</span><span class="ysname">胡医生</span></p>
+                                    <div class="icon-bar">
+                                        <div class="jky-icon">
+                                            <img src="../dist/images/admin_pc/icon2.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon3.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon4.png" style="height:22px" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item t1">
+                                <div class="hide-menu">
+                                    <ul>
+                                        <li><a class="dy">打印腕带</a></li>
+                                    </ul>
+                                </div>
+                                <div class="tit">B05</div>
+                                <div class="cont">
+                                    <p> <span class="name">王小二</span>&nbsp;&nbsp;&nbsp; 女&nbsp;&nbsp;&nbsp; 65岁&nbsp;&nbsp;&nbsp; 自费</p>
+                                    <p class="id"> <span>内科   id：12410089</span></p>
+                                    <p class="msg"> <span>2型糖尿病，周围神经病变，大血管病变 m cmas xam;2型糖尿病，周围神经病变，大血管病变 m cmas xam ;2型糖尿病，周围神经病变，大血管病变 m cmas xam  </span></p>
+                                    <p><span class="name-tit">责任医生：</span><span class="ysname">胡医生</span></p>
+                                    <div class="icon-bar">
+                                        <div class="jky-icon">
+                                            <img src="../dist/images/admin_pc/icon2.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon3.png" alt="">
+                                        </div>
+                                        <div class="jky-icon">
+
+                                            <img src="../dist/images/admin_pc/icon4.png" style="height:22px" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <!-- end right Content here -->
+        <!--</div>-->
+
+
+
+        <div class="content-page none" data-index="2">
+            <div class="content jky-table-index">
+                <div class="am-g">
+                    <table class="am-table am-table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="th1">床号</th>
+                                <th class="th2">姓名</th>
+                                <th class="th3">性别</th>
+                                <th class="th4">年龄</th>
+                                <th class="th5">住院号</th>
+                                <th class="th6">护理级别</th>
+                                <th class="th7">诊断</th>
+                                <th class="th8">主治医生</th>
+                                <th class="th9">责任护士</th>
+                                <th class="th10">入院时间</th>
+                                <th class="th11">费用差额</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="id">
+                                    <div class="hideCe">
+                                        <a href="#">打印腕带                                            </a>
+                                    </div>
+                                    <p class="txt">B01</p>
+                                    <div class="icon"><img src="../dist/images/admin_pc/icon17.png" alt=""></div>
+                                </td>
+                                <td>王小二</td>
+                                <td class="t-c">女</td>
+                                <td class="t-c">45</td>
+                                <td class="t-c">654789</td>
+                                <td class="t1 t-c">特护</td>
+                                <td>慢性硬膜下血肿</td>
+                                <td>啊医生</td>
+                                <td>b护士</td>
+                                <td class="t-c">2017-09-12 12:00</td>
+                                <td class="t-c">+900</td>
+                            </tr>
+                            <tr>
+                                <td class="id">
+                                    <div class="hideCe">
+                                        <a href="#">打印腕带                                            </a>
+                                    </div>
+                                    <p class="txt">B01</p>
+                                    <div class="icon"><img src="../dist/images/admin_pc/icon17.png" alt=""></div>
+                                </td>
+                                <td>王小二</td>
+                                <td class="t-c">女</td>
+                                <td class="t-c">45</td>
+                                <td class="t-c">654789</td>
+                                <td class="t2 t-c">一级护理</td>
+                                <td>慢性硬膜下血肿</td>
+                                <td>啊医生</td>
+                                <td>b护士</td>
+                                <td class="t-c">2017-09-12 12:00</td>
+                                <td class="t-c warn">-900</td>
+                            </tr>
+                            <tr>
+                                <td class="id">
+                                    <div class="hideCe">
+                                        <a href="#">打印腕带                                            </a>
+                                    </div>
+                                    <p class="txt">B01</p>
+                                    <div class="icon"><img src="../dist/images/admin_pc/icon17.png" alt=""></div>
+                                </td>
+                                <td>王小二</td>
+                                <td class="t-c">女</td>
+                                <td class="t-c">45</td>
+                                <td class="t-c">654789</td>
+                                <td class="t3 t-c">二级护理</td>
+                                <td>慢性硬膜下血肿</td>
+                                <td>啊医生</td>
+                                <td>b护士</td>
+                                <td class="t-c">2017-09-12 12:00</td>
+                                <td class="t-c warn">-900</td>
+                            </tr>
+                            <tr>
+                                <td class="id">
+                                    <div class="hideCe">
+                                        <a href="#">打印腕带                                            </a>
+                                    </div>
+                                    <p class="txt">B01</p>
+                                    <div class="icon"><img src="../dist/images/admin_pc/icon17.png" alt=""></div>
+                                </td>
+                                <td>王小二</td>
+                                <td class="t-c">女</td>
+                                <td class="t-c">45</td>
+                                <td class="t-c">654789</td>
+                                <td class="t4 t-c">三级护理</td>
+                                <td>慢性硬膜下血肿</td>
+                                <td>啊医生</td>
+                                <td>b护士</td>
+                                <td class="t-c">2017-09-12 12:00</td>
+                                <td class="t-c warn">-900</td>
+                            </tr>
+                            <tr>
+                                <td class="id">
+                                    <div class="hideCe">
+                                        <a href="#">打印腕带                                            </a>
+                                    </div>
+                                    <p class="txt">B01</p>
+                                    <div class="icon"><img src="../dist/images/admin_pc/icon17.png" alt=""></div>
+                                </td>
+                                <td>王小二</td>
+                                <td class="t-c">女</td>
+                                <td class="t-c">45</td>
+                                <td class="t-c">654789</td>
+                                <td class="t5 t-c">无护理级别</td>
+                                <td>慢性硬膜下血肿</td>
+                                <td>啊医生</td>
+                                <td>b护士</td>
+                                <td class="t-c">2017-09-12 12:00</td>
+                                <td class="t-c warn">-900</td>
+                            </tr>
+                            <tr>
+                                <td class="id">B01(空床)</td>
+                                <td></td>
+                                <td class="t-c"></td>
+                                <td class="t-c"></td>
+                                <td class="t-c"></td>
+                                <td class="t2 t-c"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="t-c"></td>
+                                <td class="t-c "></td>
+                            </tr>
+                            <tr>
+                                <td class="id">
+                                    <div class="hideCe">
+                                        <a href="#">打印腕带                                            </a>
+                                    </div>
+                                    <p class="txt">B01</p>
+                                    <div class="icon"><img src="../dist/images/admin_pc/icon17.png" alt=""></div>
+                                </td>
+                                <td>王小二</td>
+                                <td class="t-c">女</td>
+                                <td class="t-c">45</td>
+                                <td class="t-c">654789</td>
+                                <td class="t2 t-c">一级护理</td>
+                                <td>慢性硬膜下血肿</td>
+                                <td>啊医生</td>
+                                <td>b护士</td>
+                                <td class="t-c">2017-09-12 12:00</td>
+                                <td class="t-c warn">-900</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- navbar -->
+    <a href="admin-offcanvas" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"><!--<i class="fa fa-bars" aria-hidden="true"></i>--></a>
+
+    <script type="text/javascript" src="../dist/js/lib/jquery.min.js"></script>
+    <!--框架js-->
+    <script type="text/javascript" src="../dist/js/lib/amazeui_tmplate/amazeui.min.js"></script>
+    <!--//遮罩层退出框-->
+    <script type="text/javascript" src="../dist/js/lib/amazeui_tmplate/blockUI.js"></script>
+    <!--<script type="text/javascript" src="../dist/js/lib/amazeui_tmplate/charts/echarts.min.js" ></script>-->
+    <!--<script type="text/javascript" src="../dist/js/lib/amazeui_tmplate/charts/indexChart.js" ></script>-->
+    <script>
+        /**
+         * 节流函数
+         */
+        var nowFn = Date.now || function() {
+            return new Date().getTime()
+        }
+
+
+        function throttle(func, wait, option) {
+            var previous = 0, //之前的时间
+                timeout, self, args, result;
+
+            var later = function() {
+                previous = nowFn();
+                timeout = null;
+                result = func.apply(self, args);
+                !timeout && (self = args = null);
+            }
+            return function() {
+                var now = nowFn();
+
+                if (!previous && option.leading === false) previous = now;
+                var diff = wait - (now - previous);
+
+                args = arguments;
+                self = this;
+                if (diff <= 0) {
+                    if (timeout) {
+                        clearTimeout(timeout);
+                        timeout = null;
+                    }
+                    result = func.apply(self, args);
+                    previous = now;
+                    !timeout && (self = args = null); //如果没有堆积的任务 则清空 self 和args
+                } else if (!timeout && option.trailing !== false) {
+                    timeout = setTimeout(later, diff)
+                } else {
+                    console.log('被抛弃了')
+                }
+                return result;
+
+            }
+        }
+        $('#jky-menu').on('open.collapse.amui', function(e) {
+            $(e.target).parents("li").addClass("jky-on")
+        })
+        $('#jky-menu').on('close.collapse.amui', function(e) {
+            $(e.target).parents("li").removeClass("jky-on")
+        })
+        $(window).on('resize', throttle(resizeFn, 500, {
+            leading: false, //配置第一次不立即执行 true 第一次执行 false 第一次不执行
+            trailing: true // 是否抛弃 还是 往后堆积
+        }))
+
+        resizeFn()
+
+        function resizeFn() {
+            // + parseFloat($('.top48').css('margin-bottom'))
+            $('.content-page').css('margin-top', $('.jky-class-bar').height() - 5)
+        }
+        setCont(0);
+        //设置主框架显示
+        function setCont() {
+            var i = $('.jky-tab-hd').find('.active').index();
+            $('.content-page').addClass('none').eq(i).removeClass('none')
+
+        }
+        $('.jky-tab-hd').on('click', 'li', function() {
+            $('.jky-tab-hd').find('.active').removeClass('active')
+            $(this).addClass('active')
+            setCont()
+        })
+
+
+        function toggleTar() {
+            if ($('.top48').hasClass('small-type')) {
+                $('.top48').removeClass('small-type')
+                $('.jky_sidebar').removeClass('small-type')
+            } else {
+                $('.top48').addClass('small-type')
+                $('.jky_sidebar').addClass('small-type')
+            }
+
+        }
+
+        function refreshData(type) {
+            var classid = {{.Userinfo.DepartmentID}};
+
+            var url = "/pc/home/beds?department_id=" + classid + "&type=" + type;
+            $.get(url, function (json) {
+                console.log(json)
+                if (json.result == 0) {
+                    var patientArr = json.datas["bed"];
+                    var patinetDict = json.datas["num"];
+                    var html1 = "";
+                    var html2 = "<ul>";
+
+                    // 左侧 patient统计
+                    $("#patient-list1").find("span").text(patinetDict["t0"]);
+                    $("#patient-list2").find("span").text(patinetDict["t1"]);
+                    $("#patient-list3").find("span").text(patinetDict["t2"]);
+                    $("#patient-list4").find("span").text(patinetDict["t3"]);
+                    $("#patient-list5").find("span").text(patinetDict["t4"]);
+                    $("#patient-list6").find("span").text(patinetDict["t5"]);
+
+                    // 右侧表格和list
+                    for (var i = 0; i < patientArr.length; i++) {
+                        var patientInfo = patientArr[i];
+                        var degree = "";
+                        var clid = "t5";
+                        if (patientInfo["nursing_degree"] === "0") {
+                            clid = "t1";
+                            degree = "特级护理"
+                        } else if (patientInfo["nursing_degree"] === "1") {
+                            clid = "t2";
+                            degree = "一级护理"
+                        } else if (patientInfo["nursing_degree"] === "2") {
+                            clid = "t3";
+                            degree = "二级护理"
+                        } else if (patientInfo["nursing_degree"] === "3") {
+                            clid = "t4";
+                            degree = "三级护理";
+                        } else if (patientInfo["nursing_degree"] === "") {
+                            clid = "t5";
+                            degree = "无护理级别";
+                        }
+                        // console.log(degree, patientInfo["nursing_degree"])
+
+                        if (patientInfo["patient_id"] > 0) {
+
+                            html1 += "<tr>" +
+                                "<td class=\"id\">" +
+                                "<div class=\"hideCe\">" +
+                                "<a href=\"/pc/wdprint?pid=" + patientInfo["patient_id"] + "\" target=\"view_window\">打印腕带 </a>" +
+                                "</div>" +
+                                "<p class=\"txt\">" + patientInfo["bed_coding"] + "</p>" +
+                                "<div class=\"icon\"><img src=\"/static/dist/images/admin_pc/icon17.png\" alt=\"\"></div>\n" +
+                                "</td>" +
+                                "<td>" + patientInfo["name"] + "</td>" +
+                                "<td class=\"t-c\">" + patientInfo["gender"] + "</td>" +
+                                "<td class=\"t-c\">" + patientInfo["age"] + "</td>" +
+                                "<td class=\"t-c\">" + patientInfo["hosp_num"] + "</td>" +
+                                "<td class=\" "+ clid +" t-c\">" + degree + "</td>" +
+                                "<td>" + patientInfo["diagnose_name"] + "</td>\n" +
+                                "<td>" + patientInfo["physician_name"] + "</td>\n" +
+                                "<td>" + patientInfo["nurse_name"] + "</td>\n" +
+                                "<td class=\"t-c\">" + patientInfo["hospital_date"] + "</td>\n" +
+                                //    费用差额 patientInfo["arrearage"]
+                                "<td class=\"t-c\">" + "-" + "</td>\n" +
+                                "</tr>";
+
+                            html2 += "<li>\n" +
+                                "<div class=\"item t1\">\n" +
+                                "<div class=\"hide-menu\">\n" +
+                                "<ul>\n" +
+                                "<li><a href=\"/pc/wdprint?pid=" + patientInfo["patient_id"] + "\" class=\"dy\" target=\"view_window\">打印腕带</a></li>\n" +
+                                "</ul>\n" +
+                                "</div>\n" +
+                                "<div class=\"tit\">" + patientInfo["bed_coding"] + "</div>" +
+                                "<div class=\"cont\">" +
+                                "<p>" +
+                                "<span class=\"name\">" + patientInfo["name"] + "</span>" +
+                                "&nbsp;&nbsp;&nbsp; " + patientInfo["gender"] + "&nbsp;&nbsp;&nbsp; " + patientInfo["age"] + "岁&nbsp;&nbsp;&nbsp;\n" +
+                                patientInfo["type"] +
+                                "</p>\n" +
+                                "<p class=\"id\"><span>" + patientInfo["department_name"] + "   id：" + patientInfo["patient_id"] +"</span></p>\n" +
+                                "<p class=\"msg\"><span>" + patientInfo["diagnose_name"] + "</span>\n" + "</p>\n" +
+                                "<p><span class=\"name-tit\">责任医生：</span><span class=\"ysname\">" + patientInfo["physician_name"] + "</span></p>\n" +
+                                "<div class=\"icon-bar\">\n";
+
+                            if ("1" == patientInfo["new_patient"]) {
+                                html2 += "<div class=\"jky-icon\">\n" +
+                                    "<img src=\"/static/dist/images/admin_pc/icon2.png\" alt=\"\">\n" +
+                                    "</div>\n";
+                            }
+
+                            if ("1" == patientInfo["stopped_order"] || "1" == patientInfo["new_order"]) {
+                                html2 += "<div class=\"jky-icon\">\n" +
+                                    "<img src=\"/static/dist/images/admin_pc/icon3.png\" alt=\"\">\n" +
+                                    "</div>\n";
+                            }
+
+                            if ("1" == patientInfo["fever"]) {
+                                html2 += "<div class=\"jky-icon\">\n" +
+                                    "<img src=\"/static/dist/images/admin_pc/icon4.png\" style=\"height:22px\" alt=\"\">\n" +
+                                    "</div>\n";
+                            }
+
+
+                            html2 +=    "</div>\n" +
+                                "</div>\n" +
+                                "</div>\n" +
+                                "</li>";
+
+                        }
+                        else {
+                            html1 += "<tr class='td-5'>\n" +
+                                "<td class=\"id\">" + patientInfo["bed_coding"] + "(空床)</td>\n" +
+                                "<td></td>\n" +
+                                "<td class=\"t-c\"></td>\n" +
+                                "<td class=\"t-c\"></td>\n" +
+                                "<td class=\"t-c\"></td>\n" +
+                                "<td class=\"t2 t-c\"></td>\n" +
+                                "<td></td>\n" +
+                                "<td></td>\n" +
+                                "<td></td>\n" +
+                                "<td class=\"t-c\"></td>\n" +
+                                "<td class=\"t-c \"></td>\n" +
+                                "</tr>"
+
+                            html2 += "<li>\n" +
+                                "<div class=\"item t5\">\n" +
+                                "<div class=\"tit\">" + patientInfo["bed_coding"] + "(空床)</div>\n" +
+                                "</div>\n" +
+                                " </li>"
+
+                        }
+                    }
+
+
+                    // $("#jky-p-list").html(html1);
+                    // html2 += "</ul>";
+                    // $("#jky-p-table").html(html2);
+
+                }
+                else {
+                    alert(json.errmsg)
+                }
+            }, 'json');
+        }
+    </script>
+</body>
+
+</html>

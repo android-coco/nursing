@@ -1,0 +1,132 @@
+{{define "header_side"}}
+<div class="am-topbar am-topbar-fixed-top top48 type2">
+    <div class="am-topbar-left am-hide-sm-only">
+        <a class="username"><span>欢迎你，{{.Userinfo.Name}}</span><i class="zmdi zmdi-layers"></i></a>
+    </div>
+    <!--
+    <div class="contain">
+        <div class="jky-class-bar">
+
+        </div>
+      <div class="jky-tab-hd">
+            <ul>
+                <li><a href="./batchInput.html">批量录入</a></li>
+                <li class="active"><a href="./batchInput2.html">历史数据</a></li>
+            </ul>
+        </div>
+    </div>
+    -->
+
+</div>
+<div class="admin-sidebar am-offcanvas  am-padding-0 jky_sidebar" id="admin-offcanvas">
+    <div class="am-offcanvas-bar admin-offcanvas-bar">
+
+        <ul class="am-list admin-sidebar-list" id="jky-menu">
+            <li class="admin-parent" >
+                <a data-am-collapse="{target: '#collapse-nav1'}">
+                        <span class="jky_icon2"><img src="/static/dist/images/admin_pc/icon10.png" alt=""
+                                                     style="width:25px"></span>
+                    <span class="tit">科室病人 </span>
+                    <div class="jky_icon">
+                        <img src="/static/dist/images/admin_pc/icon5.png" alt="">
+                    </div>
+                </a>
+                <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav1">
+                    <li><a class="am-cf" href="/pc/home?num=0">所有病人 <span class="num" id="patient-list1">{{.Num.t0}}</span></a></li>
+                    <li><a class="am-cf" href="/pc/home?num=1">新病人 <span class="num" id="patient-list2">{{.Num.t1}}</span></a></li>
+                    <li><a class="am-cf" href="/pc/home?num=2">新医嘱 <span class="num" id="patient-list3">{{.Num.t2}}</span></a></li>
+                    <li><a class="am-cf" href="/pc/home?num=3">停止医嘱 <span class="num" id="patient-list4">{{.Num.t3}}</span></a></li>
+                    <li><a class="am-cf" href="/pc/home?num=4">发热 <span class="num" id="patient-list5"></span></a></li>
+                    <li><a class="am-cf" href="/pc/home?num=5">待手术 <span class="num" id="patient-list6"></span></a></li>
+
+                </ul>
+            </li>
+
+            <li>
+                <a class="am-cf" href="/pc/medicaladvice/split">
+                            <span class="jky_icon2">
+                                <img src="/static/dist/images/admin_pc/icon11.png" alt="">
+                            </span>
+                    <span class="tit"> 医嘱拆分</span>
+                    <div class="jky_icon">
+                        <img src="/static/dist/images/admin_pc/icon5.png" alt="">
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a class="am-cf" href="/pc/medicaladvice/message">
+                            <span class="jky_icon2">
+                                <img src="/static/dist/images/admin_pc/icon12.png" alt="">
+                            </span>
+                    <span class="tit">医嘱信息</span>
+                    <div class="jky_icon"><img src="/static/dist/images/admin_pc/icon5.png" alt=""></div>
+                </a>
+            </li>
+
+            <li>
+                <a class="am-cf" href="/pc/batvhinput">
+                            <span class="jky_icon2">
+                                <img src="/static/dist/images/admin_pc/icon13.png" alt="">
+                            </span>
+                    <span class="tit">体征批量录入</span>
+                    <div class="jky_icon"><img src="/static/dist/images/admin_pc/icon5.png" alt=""></div>
+                </a>
+            </li>
+            <li>
+                <a class="am-cf" href="/pc/templist">
+                            <span class="jky_icon2">
+                                <img src="/static/dist/images/admin_pc/icon14.png" alt="">
+                            </span>
+                    <span class="tit">体温单</span>
+                    <div class="jky_icon"><img src="/static/dist/images/admin_pc/icon5.png" alt=""></div>
+                </a>
+            </li>
+            <li>
+                <a class="am-cf" href="/pc/succession">
+                            <span class="jky_icon2">
+                                <img src="/static/dist/images/admin_pc/icon15.png" alt="">
+                            </span>
+                    <span class="tit">交班表</span>
+                    <div class="jky_icon"><img src="/static/dist/images/admin_pc/icon5.png" alt=""></div>
+                </a>
+            </li>
+
+
+            <li class="admin-parent">
+                <a class="am-cf" data-am-collapse="{target: '#collapse-nav2'}">
+                            <span class="jky_icon2">
+                                <img src="/static/dist/images/admin_pc/icon16.png" alt="">
+                            </span>
+                    <span class="tit">护理文书</span>
+                    <div class="jky_icon"><img src="/static/dist/images/admin_pc/icon5.png" alt=""></div>
+                </a>
+                <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav2">
+                    <li><a href="/pc/record/nrl1" class="am-cf"> 护理记录单</span></a></li>
+                    <li><a href="/pc/record/nrl2" class="am-cf">首次护理记录单</span></a></li>
+                    <li><a href="/pc/record/nrl3" class="am-cf">基本生活活动能力BADL</span></a></li>
+                    <li><a href="/pc/record/nrl4" class="am-cf">深静脉血栓DVT形成风险评估表</span></a></li>
+                    <li><a href="/pc/record/nrl5" class="am-cf">深静脉血栓护理观察单</span></a></li>
+                    <li><a href="/pc/record/nrl6" class="am-cf">压疮风险因素评估表</span></a></li>
+                    <li><a href="/pc/record/nrl7" class="am-cf">患者跌倒风险评估护理的单</span></a></li>
+                    <li><a href="/pc/record/nrl8" class="am-cf">疼痛强度评分量表</span></a></li>
+
+                </ul>
+            </li>
+
+        </ul>
+    </div>
+</div>
+
+<script>
+    var menuIndex = {{.Menuindex}}||"";
+    var num = JSON.parse(window.localStorage.getItem("num"));
+
+    document.getElementById("patient-list1").innerHTML = num.t0;
+    document.getElementById("patient-list2").innerHTML = num.t1;
+    document.getElementById("patient-list3").innerHTML = num.t2;
+    document.getElementById("patient-list4").innerHTML = num.t3;
+    document.getElementById("patient-list5").innerHTML = num.t4;
+    document.getElementById("patient-list6").innerHTML = num.t5;
+
+</script>
+{{end}}

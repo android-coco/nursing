@@ -40,3 +40,27 @@ func Sha1Encryption(material string) string {
 	pwBt := handler.Sum(nil)
 	return fmt.Sprintf("%x", pwBt)
 }
+
+//2个时间比较大小  time1 < time2 reutn true
+func CompareTime(time1, time2 string) bool {
+	//先把时间字符串格式化成相同的时间类型
+	t1, err := time.Parse("2006-01-02 15:04:05", time1)
+	t2, err := time.Parse("2006-01-02 15:04:05", time2)
+	if err == nil && t1.Before(t2) {
+		//处理逻辑
+		return true
+	}
+	return false
+}
+
+//2个时间比较大小  time1 < time2 reutn true
+func CompareTimeNow(time1 string) bool {
+	//先把时间字符串格式化成相同的时间类型
+	t1, err := time.Parse("2006-01-02 15:04", time1)
+	t2 := time.Now()
+	if err == nil && t1.Before(t2) {
+		//处理逻辑
+		return true
+	}
+	return false
+}

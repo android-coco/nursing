@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>见康云护理管理信息系统</title>
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/amazeui.css" />
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/core.css" />
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/menu.css" />
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/admin.css" />
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/page/typography.css" />
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/page/form.css" />
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/component.css" />
+    <link rel="stylesheet" href="../dist/style/css/base_pc.min.css" />
+</head>
+
+<body class="pt48">
+    <div id="gopng_icon4_outer">
+        <div id="gopng_icon4"></div>
+    </div>
+    <div class="hd_tit">
+        <div class="logo">
+            <img src="../dist/images/admin_pc/logo.png" />
+        </div>
+        <p class="tit">见康云护理管理信息系统_</p>
+        <div class="am-dropdown jky_dropdown" data-am-dropdown="">
+            <button class="am-btn am-btn-primary am-dropdown-toggle" data-am-dropdown-toggle="">内分泌科 <span class="jky_icon"><img src="../dist/images/admin_pc/xl.png" alt="" /></span> </button>
+            <ul class="am-dropdown-content">
+                <li class="am-active"><a href="#">内分泌科</a></li>
+                <li><a href="#">外科</a></li>
+                <li><a href="#">XXX科</a></li>
+                <li><a href="#">？？科</a></li>
+            </ul>
+        </div>
+        <div class="r_menu_list">
+            <div class="more_btn">
+                <div class="parent_menu">
+                    更多
+                </div>
+                <ul class="child_menu">
+                    <li><a href="#">出入管理</a></li>
+                    <li><a href="#">提醒管理</a></li>
+                    <li><a href="#">历史病人</a></li>
+                </ul>
+            </div>
+            <div class="setup_btn">
+                <div class="parent_menu">
+                    设置
+                </div>
+                <ul class="child_menu">
+                    <li><a href="#">密码修改</a></li>
+                    <li><a href="#">设备管理</a></li>
+                    <li><a href="#">账号管理</a></li>
+                </ul>
+            </div>
+            <div class="out_btn">
+                <img src="../dist/images/admin_pc/out.png" alt=""> 退出
+            </div>
+        </div>
+    </div>
+    <!-- Begin page -->
+    <div class="am-topbar am-topbar-fixed-top top48 type2">
+        <div class="am-topbar-left am-hide-sm-only">
+            <a class="username"><span>欢迎,你王小二</span><i class="zmdi zmdi-layers"></i></a>
+        </div>
+    </div>
+    <!-- </div> -->
+    <!-- end page -->
+    <div class="admin">
+        <!--<div class="am-g">-->
+        <!-- ========== Left Sidebar Start ========== -->
+        <!--<div class="left side-menu am-hide-sm-only am-u-md-1 am-padding-0">
+			<div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 548px;">
+				<div class="sidebar-inner slimscrollleft" style="overflow: hidden; width: auto; height: 548px;">-->
+        <!-- sidebar start -->
+        <div class="admin-sidebar am-offcanvas  am-padding-0 jky_sidebar type2" id="admin-offcanvas">
+            <div class="am-offcanvas-bar admin-offcanvas-bar">
+                <ul class="am-list admin-sidebar-list" id="jky-menu">
+                    <li class="active admin-parent jky-on">
+                        <a data-am-collapse="{target: '#collapse-nav1'}"> <span class="jky_icon2"><img src="../dist/images/admin_pc/icon10.png" alt="" style="width:25px" /></span> <span class="tit">科室病人</span>
+                            <div class="jky_icon">
+                                <img src="../dist/images/admin_pc/icon5.png" alt="" />
+                            </div>
+                        </a>
+                        <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav1">
+                            <li><a href="html/table_basic.html" class="am-cf">所有病人 <span class="num">10</span></a></li>
+                            <li><a href="html/table_basic.html" class="am-cf">新病人 <span class="num">10</span></a></li>
+                            <li><a href="html/table_basic.html" class="am-cf">新医嘱 <span class="num">10</span></a></li>
+                            <li><a href="html/table_basic.html" class="am-cf">停止医嘱 <span class="num">10</span></a></li>
+                            <li><a href="html/table_basic.html" class="am-cf">发热 <span class="num">10</span></a></li>
+                            <li><a href="html/table_basic.html" class="am-cf">待手术 <span class="num">10</span></a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="am-cf"> <span class="jky_icon2"> <img src="../dist/images/admin_pc/icon11.png" alt="" /> </span> <span class="tit"> 医嘱拆分 </span>
+                            <div class="jky_icon">
+                                <img src="../dist/images/admin_pc/icon5.png" alt="" />
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="am-cf"> <span class="jky_icon2"> <img src="../dist/images/admin_pc/icon12.png" alt="" /> </span> <span class="tit">医嘱信息</span>
+                            <div class="jky_icon">
+                                <img src="../dist/images/admin_pc/icon5.png" alt="" />
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="am-cf"> <span class="jky_icon2"> <img src="../dist/images/admin_pc/icon13.png" alt="" /> </span> <span class="tit">体征批量录入</span>
+                            <div class="jky_icon">
+                                <img src="../dist/images/admin_pc/icon5.png" alt="" />
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="am-cf"> <span class="jky_icon2"> <img src="../dist/images/admin_pc/icon14.png" alt="" /> </span> <span class="tit">体温单</span>
+                            <div class="jky_icon">
+                                <img src="../dist/images/admin_pc/icon5.png" alt="" />
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="am-cf"> <span class="jky_icon2"> <img src="../dist/images/admin_pc/icon15.png" alt="" /> </span> <span class="tit">交班表</span>
+                            <div class="jky_icon">
+                                <img src="../dist/images/admin_pc/icon5.png" alt="" />
+                            </div>
+                        </a>
+                    </li>
+                    <li class="admin-parent">
+                        <a class="am-cf" data-am-collapse="{target: '#collapse-nav2'}"> <span class="jky_icon2"> <img src="../dist/images/admin_pc/icon16.png" alt="" /> </span> <span class="tit">护理文书</span>
+                            <div class="jky_icon">
+                                <img src="../dist/images/admin_pc/icon5.png" alt="" />
+                            </div>
+                        </a>
+                        <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav2">
+                            <li><a href="#" class="am-cf">首次护理记录单</a></li>
+                            <li><a href="#" class="am-cf"> 护理记录单</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- sidebar end -->
+        <!--</div>
+			</div>
+		</div>-->
+        <!-- ========== Left Sidebar end ========== -->
+        <!--	<div class="am-g">-->
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <div class="content-page jky-table-page doc-input1" data-index="1">
+            <div class="s-btn">
+                <!-- <img src="../dist/images/admin_pc/icon22.png" alt=""> -->
+            </div>
+            <div class="user-bar">
+                <div class="tit">
+                    <div class="l">
+                        床号
+                    </div>
+                    <div class="r">
+                        姓名
+                    </div>
+                </div>
+                <div class="user-list">
+                    <ul>
+                        <li data-id="01" data-msg="你病了！！！">
+                            <div class="l">
+                                T01
+                            </div>
+                            <div class="r">
+                                王小二
+                            </div>
+                        </li>
+                        <li data-id="02">
+                            <div class="l">
+                                T01
+                            </div>
+                            <div class="r">
+                                王小二
+                            </div>
+                        </li>
+                        <li data-id="03" data-msg="你病2了！！！">
+                            <div class="l">
+                                T01
+                            </div>
+                            <div class="r">
+                                王小二
+                            </div>
+                        </li>
+                        <li data-id="04" data-msg="你病了3！！！">
+                            <div class="l">
+                                T01
+                            </div>
+                            <div class="r">
+                                王小二
+                            </div>
+                        </li>
+                        <li data-id="05">
+                            <div class="l">
+                                T01
+                            </div>
+                            <div class="r">
+                                王小二
+                            </div>
+                        </li>
+                        <li data-id="06">
+                            <div class="l">
+                                T01
+                            </div>
+                            <div class="r">
+                                王小二
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Start content -->
+            <div class="content doc-input3-cont">
+                <div class="tit-warp">
+                    <div class="tit-bar">
+                        <div class="date-box fl">
+                            <div class="icon">
+                                <img src="../dist/images/admin_pc/icon20.png" alt="">
+                            </div>
+                            <input type="text" class="am-form-field  date-input" id="date1" lay-key="1">
+                            <span class="line">—</span>
+                            <input type="text" class="am-form-field  date-input" id="date2" lay-key="2">
+                            <a href="" class="all-btn">所有记录</a>
+                        </div>
+                        <div class="btn-group">
+                            <a  class="btn type2 createCol">新建</a>
+                            <a  class="btn">打印</a>
+                        </div>
+                        <p class="tit">深圳万丰医院深静脉血栓(DVT)形成风险评估表</p>
+
+
+                    </div>
+                </div>
+                <div class="scroll-box">
+                    <div class="doc-cont">
+                        <p class="row-txt">
+                            <span><label>床号：</label>T06</span>
+                            <span><label>姓名：</label>女</span>
+                            <span><label>年龄：</label>23岁</span>
+                            <span><label>住院号：</label>489632</span>
+                            <span><label>诊断：</label>慢性硬膜下血肿</span>
+                        </p>
+
+                        <!-- cont -->
+                        <table class="doc-table">
+                            <tr class="tit-tr">
+                                <td>
+                                    <div class="cont-warp">项目</div>
+                                </td>
+                                <td>
+                                    <div class="cont-warp">评估</div>
+                                </td>
+                                <td>
+                                    <div class="cont-warp">评估标准</div>
+                                </td>
+                            </tr>
+                            <tr class="tr1">
+                                <td>
+                                    <div class="cont-warp">年龄(岁)</div>
+                                </td>
+                                <td>
+                                    <div class="cont-warp">
+                                        <p>0</p>
+                                        <p>1</p>
+                                        <p>2</p>
+                                        <p>3</p>
+                                        <p>4</p>
+                                        <p>5</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="cont-warp">
+                                        <p>10---30岁</p>
+                                        <p>31---40岁</p>
+                                        <p>41---50岁</p>
+                                        <p>51---60岁</p>
+                                        <p>61---70岁</p>
+                                        <p>&gt;70岁</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="tr2">
+                                <td>
+                                    <div class="cont-warp">BMI= 体重（kg）/身高（m）^2</div>
+                                </td>
+                                <td>
+                                    <div class="cont-warp">
+                                        <p>0</p>
+                                        <p>1</p>
+                                        <p>2</p>
+                                        <p>3</p>
+                                        <p>4</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="cont-warp">
+                                        <p>16---19</p>
+                                        <p>20---25</p>
+                                        <p>26---30</p>
+                                        <p>31---40</p>
+                                        <p>&gt;40</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="tr3">
+                                <td>
+                                    <div class="cont-warp">运动能力</div>
+                                </td>
+                                <td>
+                                    <div class="cont-warp">
+                                        <p>0</p>
+                                        <p>1</p>
+                                        <p>2</p>
+                                        <p>3</p>
+                                        <p>4</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="cont-warp">
+                                        <p>能走动</p>
+                                        <p>运动受限(需要辅助工具)</p>
+                                        <p>运动严重受限(需要他人协助)</p>
+                                        <p>轮椅</p>
+                                        <p>完全卧床</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="tr4">
+                                <td>
+                                    <div class="cont-warp">特殊风险种类</div>
+                                </td>
+                                <td>
+                                    <div class="cont-warp">
+                                        <p>&nbsp;</p>
+                                        <p>1</p>
+                                        <p>2</p>
+                                        <p>3</p>
+                                        <p>4</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="cont-warp">
+                                        <p>服用避孕药</p>
+                                        <p>20 ~ 35岁</p>
+                                        <p>大于35岁或激素替代治疗</p>
+                                        <p>怀孕及产褥期</p>
+                                        <p>易栓症</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="tr5">
+                                <td>
+                                    <div class="cont-warp">创伤风险种类（术前）</div>
+                                </td>
+                                <td>
+                                    <div class="cont-warp">
+                                        <p>1</p>
+                                        <p>2</p>
+                                        <p>3</p>
+                                        <p>4</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="cont-warp">
+                                        <p>头部损伤或胸部损伤</p>
+                                        <p>脊柱损伤</p>
+                                        <p>盆腔损伤</p>
+                                        <p>下肢损伤</p>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="tr6">
+                                <td>
+                                    <div class="cont-warp">外科干预</div>
+                                </td>
+                                <td>
+                                    <div class="cont-warp">
+                                        <p>1</p>
+                                        <p>2</p>
+                                        <p>3</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="cont-warp">
+                                        <p>小手术小于30分钟</p>
+                                        <p>择期大型手术</p>
+                                        <p>急诊大手术、腹部手术、泌尿科手术、神经外科手术</p>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            <tr class="tr7">
+                                <td>
+                                    <div class="cont-warp">现有的高风险疾病</div>
+                                </td>
+                                <td>
+                                    <div class="cont-warp">
+                                        <p>1</p>
+                                        <p>2<br/>&nbsp;
+                                        </p>
+                                        <p>3</p>
+                                        <p>4</p>
+                                        <p>5</p>
+                                        <p>6</p>
+                                        <p>7</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="cont-warp">
+                                        <p>溃疡性结石肠炎</p>
+                                        <p>红血球增多症、镰状细胞贫血、溶血性贫血 </p>
+                                        <p>静脉曲张、慢性心脏疾病</p>
+                                        <p>急性心肌梗塞 </p>
+                                        <p>恶性肿瘤（活性） </p>
+                                        <p>脑血管意外 </p>
+                                        <p>DVT病史 </p>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="bt-tit">
+                                <td colspan="3">
+                                    <div class="cont-warp">
+                                        总得分
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="bt-tit2">
+                                <td colspan="3">
+                                    <div class="cont-warp">
+                                        评估人
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="bt-tit4">
+                                <td colspan="3">
+                                    <div class="cont-warp">
+                                        操作
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="sel-box">
+                            <div class="tit">
+                                评估日期
+                            </div>
+                            <ul class="line-box">
+                                <li class="tr11">
+                                    <div class="cont-warp"></div>
+                                </li>
+                                <li class="tr1">
+                                    <div class="cont-warp"></div>
+                                </li>
+                                <li class="tr2">
+                                    <div class="cont-warp"></div>
+                                </li>
+                                <li class="tr3">
+                                    <div class="cont-warp"></div>
+                                </li>
+                                <li class="tr4">
+                                    <div class="cont-warp"></div>
+                                </li>
+                                <li class="tr5">
+                                    <div class="cont-warp"></div>
+                                </li>
+                                <li class="tr6">
+                                    <div class="cont-warp"></div>
+                                </li>
+                                <li class="tr7">
+                                    <div class="cont-warp"></div>
+                                </li>
+                                <li class="bt-tit">
+                                    <div class="cont-warp"></div>
+                                </li>
+                                <li class="bt-tit2">
+                                    <div class="cont-warp"></div>
+                                </li>
+                                <li class="bt-tit4">
+                                    <div class="cont-warp"></div>
+                                </li>
+                            </ul>
+                            <div class="list">
+                                <ul>
+                                    <li class="tr11">
+                                        <div class="cont-warp">
+                                            <p class="txt">2017-10-10</p>
+                                            <div class="sel-input"></div>
+                                        </div>
+                                    </li>
+                                    <li class="tr1">
+                                        <div class="cont-warp">
+                                            <p class="txt">10</p>
+                                            <div class="sel-input">
+                                                <select class="c1">
+                                                    <option value="0"></option>
+                                                    <option value="1">0</option>
+                                                    <option value="2">5</option>
+                                                    <option value="3">10</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="tr2">
+                                        <div class="cont-warp">
+                                            <p class="txt">10</p>
+                                            <div class="sel-input">
+                                                <select class="c2">
+                                                    <option value="0"></option>
+                                                    <option value="1">0</option>
+                                                    <option value="2">5</option>
+                                                    <option value="3">10</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="tr3">
+                                        <div class="cont-warp">
+                                            <p class="txt">10</p>
+                                            <div class="sel-input">
+                                                <select class="c3">
+                                                    <option value="0"></option>
+                                                    <option value="1">0</option>
+                                                    <option value="2">5</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="tr4">
+                                        <div class="cont-warp">
+                                            <p class="txt">10</p>
+                                            <div class="sel-input">
+                                                <select class="c4">
+                                                    <option value="0"></option>
+
+                                                    <option value="1">0</option>
+                                                    <option value="2">5</option>
+                                                    <option value="3">10</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="tr5">
+                                        <div class="cont-warp">
+                                            <p class="txt">10</p>
+                                            <div class="sel-input">
+                                                <select class="c5">
+                                                    <option value="0"></option>
+                                                    <option value="1">0</option>
+                                                    <option value="2">5</option>
+                                                    <option value="3">10</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="tr6">
+                                        <div class="cont-warp">
+                                            <p class="txt">10</p>
+                                            <div class="sel-input">
+                                                <select class="c6">
+                                                    <option value="0"></option>
+                                                    <option value="1">0</option>
+                                                    <option value="2">5</option>
+                                                    <option value="3">10</option>
+                                                    <option value="4">15</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="tr7">
+                                        <div class="cont-warp">
+                                            <p class="txt">10</p>
+                                            <div class="sel-input">
+                                                <select class="c7">
+                                                    <option value="0"></option>
+
+                                                    <option value="1">0</option>
+                                                    <option value="2">5</option>
+                                                    <option value="3">10</option>
+                                                    <option value="4">15</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="bt-tit">
+                                        <div class="cont-warp">
+                                            <p class="txt">10</p>
+                                            <div class="sel-input"></div>
+                                        </div>
+                                    </li>
+
+                                    <li class="bt-tit2">
+                                        <div class="cont-warp">
+                                            <p class="txt2">黄护士</p>
+                                            <div class="sel-input"></div>
+                                        </div>
+                                    </li>
+
+                                    <li class="bt-tit4">
+                                        <div class="cont-warp">
+
+                                            <a href="#1" class="save-btn"><span>保存</span></a>
+                                            <a href="#1" class="edit-btn">
+                                                <i class="am-icon-pencil"></i><span>编辑</span>
+                                            </a>
+                                            <a href="#1" class="del-btn"><i class="am-icon-trash"></i><span>删除</span></a>
+
+                                        </div>
+                                    </li>
+                                </ul>
+
+                            </div>
+
+                        </div>
+                        <!-- 分页栏 -->
+                        <div class="page-bar">
+                            <span>页面位置</span>
+                            <ul>
+                                <li>
+                                    <a href="">
+                                        <img src="../dist/images/admin_pc/icon43.png" alt="">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <img src="../dist/images/admin_pc/icon44.png" alt="">
+                                    </a>
+                                </li>
+                                <li>
+                                    第
+                                    <input type="text" class="pageNum"> 页
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <img src="../dist/images/admin_pc/icon45.png" alt="">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <img src="../dist/images/admin_pc/icon46.png" alt="">
+                                    </a>
+                                </li>
+                            </ul>
+                            <span>共<i class="pageSum">5</i>页</span>
+                        </div>
+
+                        <!-- 备注 -->
+                        <div class="remarks-box">
+                            <div class="l">
+                                    <p class="tit">评分方案：</p>
+                                    <p class="txt">≤ 6分无风险；7~10分为低危（关注病情 变化，随时评估）；11~14分为中危（第一周评估2次， 此后4周内每周评估一次，之后每月评估一次）；≥15 分为高危（手术后3天内每天评估1次，之后接中危 病人评估）</p>
+                                    <p class="tit">评估时机：</p>
+                                    <p class="txt">
+                                            患者入院24h 内完成
+                                    </p>
+                            </div>
+
+                        </div>
+                        <div class="pd-20"></div>
+
+                    </div>
+
+                </div>
+            </div>
+            <!-- end right Content here -->
+            <!--</div>-->
+        </div>
+        <!-- </div> -->
+
+
+
+        <script type="text/template" id="col">
+            <ul>
+                <li class="tr11">
+                    <div class="cont-warp">
+                        <p class="txt">2017-10-10</p>
+                        <div class="sel-input"></div>
+                    </div>
+                </li>
+                <li class="tr1">
+                    <div class="cont-warp">
+                        <p class="txt">10</p>
+                        <div class="sel-input">
+                            <select class="c1">
+                                    <option value="1">0</option>
+                                    <option value="2">5</option>
+                                    <option value="3">10</option>
+                                </select>
+                        </div>
+                    </div>
+                </li>
+                <li class="tr2">
+                    <div class="cont-warp">
+                        <p class="txt">10</p>
+                        <div class="sel-input">
+                            <select class="c2">
+                                    <option value="1">0</option>
+                                    <option value="2">5</option>
+                                    <option value="3">10</option>
+                                </select>
+                        </div>
+                    </div>
+                </li>
+                <li class="tr3">
+                    <div class="cont-warp">
+                        <p class="txt">10</p>
+                        <div class="sel-input">
+                            <select class="c3">
+                                    <option value="1">0</option>
+                                    <option value="2">5</option>
+                                </select>
+                        </div>
+                    </div>
+                </li>
+                <li class="tr4">
+                    <div class="cont-warp">
+                        <p class="txt">10</p>
+                        <div class="sel-input">
+                            <select class="c4">
+                                    <option value="1">0</option>
+                                    <option value="2">5</option>
+                                    <option value="3">10</option>
+                                </select>
+                        </div>
+                    </div>
+                </li>
+                <li class="tr5">
+                    <div class="cont-warp">
+                        <p class="txt">10</p>
+                        <div class="sel-input">
+                            <select class="c5">
+                                            <option value="1">0</option>
+                                            <option value="2">5</option>
+                                            <option value="3">10</option>
+                                        </select>
+                        </div>
+                    </div>
+                </li>
+                <li class="tr6">
+                    <div class="cont-warp">
+                        <p class="txt">10</p>
+                        <div class="sel-input">
+                            <select class="c6">
+                                    <option value="1">0</option>
+                                    <option value="2">5</option>
+                                    <option value="3">10</option>
+                                    <option value="4">15</option>
+                                </select>
+                        </div>
+                    </div>
+                </li>
+                <li class="tr7">
+                    <div class="cont-warp">
+                        <p class="txt">10</p>
+                        <div class="sel-input">
+                            <select class="c7">
+                                    <option value="1">0</option>
+                                    <option value="2">5</option>
+                                    <option value="3">10</option>
+                                    <option value="4">15</option>
+                                </select>
+                        </div>
+                    </div>
+                </li>
+                <li class="tr8">
+                    <div class="cont-warp">
+                        <p class="txt">10</p>
+                        <div class="sel-input">
+                            <select class="c8">
+                                    <option value="1">0</option>
+                                    <option value="2">5</option>
+                                    <option value="3">10</option>
+                                </select>
+                        </div>
+                    </div>
+                </li>
+                <li class="tr9">
+                    <div class="cont-warp">
+                        <p class="txt">10</p>
+                        <div class="sel-input">
+                            <select class="c9">
+                                    <option value="1">0</option>
+                                    <option value="2">5</option>
+                                    <option value="3">10</option>
+                                </select>
+                        </div>
+                    </div>
+                </li>
+                <li class="tr10">
+                    <div class="cont-warp">
+                        <p class="txt">10</p>
+                        <div class="sel-input">
+                            <select class="c10">
+                                    <option value="1">0</option>
+                                    <option value="2">5</option>
+                                </select>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="bt-tit">
+                    <div class="cont-warp">
+                        <p class="txt">10</p>
+                        <div class="sel-input"></div>
+                    </div>
+                </li>
+
+                <li class="bt-tit2">
+                    <div class="cont-warp">
+                        <p class="txt2">黄护士</p>
+                        <div class="sel-input"></div>
+                    </div>
+                </li>
+
+                <li class="bt-tit3">
+                    <div class="cont-warp">
+                        <p class="txt">一级护理</p>
+                        <div class="sel-input">
+                            <select class="c7">
+                                    <option value="1">一级护理</option>
+                                    <option value="2">二级护理</option>
+                                </select>
+                        </div>
+                    </div>
+                </li>
+                <li class="bt-tit4">
+                    <div class="cont-warp">
+
+                        <a href="#1" class="save-btn"><span>保存</span></a>
+                        <a href="#1" class="edit-btn">
+                            <i class="am-icon-pencil"></i><span>编辑</span>
+                        </a>
+                        <a href="#1" class="del-btn"><i class="am-icon-trash"></i><span>删除</span></a>
+
+                    </div>
+                </li>
+            </ul>
+        </script>
+
+        <!-- navbar -->
+        <a href="admin-offcanvas" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}">
+            <!--<i class="fa fa-bars" aria-hidden="true"></i>--></a>
+        <script type="text/javascript" src="../dist/js/lib/jquery.min.js"></script>
+        <!--框架js-->
+        <script type="text/javascript" src="../dist/js/lib/amazeui_tmplate/amazeui.min.js"></script>
+        <script src="../dist/js/lib/laydate/laydate.js"></script>
+        <!--//遮罩层退出框-->
+        <script type="text/javascript" src="../dist/js/lib/amazeui_tmplate/blockUI.js"></script>
+        <!--<script type="text/javascript" src="../dist/js/lib/amazeui_tmplate/charts/echarts.min.js" ></script>-->
+        <!--<script type="text/javascript" src="../dist/js/lib/amazeui_tmplate/charts/indexChart.js" ></script>-->
+        <script>
+            $('#jky-menu').on('open.collapse.amui', function(e) {
+                $(e.target).parents("li").addClass("jky-on")
+            })
+            $('#jky-menu').on('close.collapse.amui', function(e) {
+                $(e.target).parents("li").removeClass("jky-on")
+            })
+
+
+
+            var nowDateObj = nowDate()
+
+            function nowDate() {
+                var res = {},
+                    nowD = new Date();
+                res.date = nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
+                res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
+                return res
+            }
+
+            function addZero(i) {
+                if (i < 10) {
+                    return "0" + i;
+                } else {
+                    return i;
+                }
+            }
+            // laydate.render({
+            //     elem: '.date-input', //指定元素
+            //     showBottom: false,
+            //     value: nowDateObj.date,
+            //     done: function(value, date, endDate) {
+            //         console.log(value); //得到日期生成的值，如：2017-08-18
+            //         console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+            //         console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+            //     }
+            // });
+
+
+
+
+            // var numInputFn = jky.util.throttle(function () {
+            //     if (isNaN(parseFloat($(this).val()))) {
+            //         $(this).val("")
+            //     } else {
+            //         $(this).val(parseFloat($(this).val()))
+            //     }
+            // }, 500)
+
+            /**
+             * 节流函数
+             */
+            var nowFn = Date.now || function() {
+                return new Date().getTime()
+            }
+
+
+            function throttle(func, wait, option) {
+                var previous = 0, //之前的时间
+                    timeout, self, args, result;
+
+                var later = function() {
+                    previous = nowFn();
+                    timeout = null;
+                    result = func.apply(self, args);
+                    !timeout && (self = args = null);
+                }
+                return function() {
+                    var now = nowFn();
+
+                    if (!previous && option.leading === false) previous = now;
+                    var diff = wait - (now - previous);
+
+                    args = arguments;
+                    self = this;
+                    if (diff <= 0) {
+                        if (timeout) {
+                            clearTimeout(timeout);
+                            timeout = null;
+                        }
+                        result = func.apply(self, args);
+                        previous = now;
+                        !timeout && (self = args = null); //如果没有堆积的任务 则清空 self 和args
+                    } else if (!timeout && option.trailing !== false) {
+                        timeout = setTimeout(later, diff)
+                    } else {
+                        console.log('被抛弃了')
+                    }
+                    return result;
+
+                }
+            }
+
+
+            var $inputNum = $('.tit2,.tit3,.tit4').find('input')
+            $inputNum.on('input', throttle(function() {
+                if (isNaN(parseFloat($(this).val()))) {
+                    $(this).val("")
+                } else {
+                    $(this).val(parseFloat($(this).val()))
+                }
+            }, 500, {
+                leading: false, //配置第一次不立即执行 true 第一次执行 false 第一次不执行
+                trailing: true // 是否抛弃 还是 往后堆积
+            }))
+
+            function toggleTar() {
+                if ($('.top48').hasClass('small-type')) {
+                    $('.top48').removeClass('small-type')
+                    $('.jky_sidebar').removeClass('small-type')
+                } else {
+                    $('.top48').addClass('small-type')
+                    $('.jky_sidebar').addClass('small-type')
+                }
+            }
+
+
+            $('.s-btn').on('click', function() {
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                    $('.user-bar').show();
+                    $('.doc-input3-cont').css('margin-left', 244)
+                } else {
+                    $(this).addClass('active');
+                    $('.doc-input3-cont').css('margin-left', 0)
+                    $('.user-bar').hide();
+                }
+            })
+
+
+
+            laydate.render({
+                elem: '.date', //指定元素
+                showBottom: false,
+                value: nowDateObj.date,
+                done: function(value, date, endDate) {
+                    console.log(value); //得到日期生成的值，如：2017-08-18
+                    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                    console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                }
+            });
+
+            laydate.render({
+                elem: '.time', //指定元素
+                // showBottom: false,
+                type: 'time',
+                format: 'HH:mm',
+                value: nowDateObj.time,
+                done: function(value, date, endDate) {
+                    console.log(value); //得到日期生成的值，如：2017-08-18
+                    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                    console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                }
+            });
+            laydate.render({
+                elem: '.date2', //指定元素
+                showBottom: false,
+                value: nowDateObj.date,
+                done: function(value, date, endDate) {
+                    console.log(value); //得到日期生成的值，如：2017-08-18
+                    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                    console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                }
+            });
+
+            laydate.render({
+                elem: '.time2', //指定元素
+                // showBottom: false,
+                type: 'time',
+                format: 'HH:mm',
+                value: nowDateObj.time,
+                done: function(value, date, endDate) {
+                    console.log(value); //得到日期生成的值，如：2017-08-18
+                    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                    console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                }
+            });
+
+
+            $('body').on('click', '.edit-btn', function() {
+                if ($('.list').find('ul.active').length > 0) {
+                    alert("请先保存信息")
+                } else {
+                    var $ul = $(this).parents('ul')
+                    $ul.addClass("active")
+                    $date = $("<input class='date-input-td'>")
+                    $ul.find('.tr11').find('.cont-warp').find('.sel-input').html($date)
+                    laydate.render({
+                        elem: '.date-input-td', //指定元素
+                        showBottom: false,
+                        value: nowDateObj.date,
+                        done: function(value, date, endDate) {
+                            console.log(value); //得到日期生成的值，如：2017-08-18
+                            console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                            console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                        }
+                    });
+
+
+                }
+
+            })
+            $('body').on('click', '.save-btn', function() {
+                var $ul = $(this).parents('ul')
+
+                $ul.removeClass("active")
+                $ul.find('.tr11').find('.cont-warp').find('.sel-input').html("")
+            })
+            $('body').on('click','.del-btn',function(){
+                confirm("是否确认删除")
+            })
+
+            $('body').on('click','.createCol',function(){
+                var elTxt = $('#col').text()
+                $(elTxt)
+            })
+        </script>
+</body>
+
+</html>

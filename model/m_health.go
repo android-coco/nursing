@@ -27,6 +27,10 @@ const (
 	Incident_Type string = "Incident_Type" //事件
 )
 
+type TimeShow interface {
+	ShowTime()time.Time
+}
+
 /*体温*/
 type Temperature struct {
 	BaseModel                `xorm:"extends"`
@@ -35,6 +39,10 @@ type Temperature struct {
 	Ttemptype   string       `json:"ttemptype" xorm:"notnull comment(体温的类型,1腋温,2耳温,3口温,4肛温,5额温)"`
 	Coolingvalue  string     `json:"coolingvalue" xorm:"notnull comment(降温值)"`
 	Value       string       `json:"value" xorm:"notnull comment(值)"`
+}
+
+func (v Temperature)ShowTime()time.Time{
+	return time.Time(v.Testtime)
 }
 
 func IputTemperature(session *xorm.Session,strData map[string]string) error {
@@ -59,7 +67,7 @@ func IputTemperature(session *xorm.Session,strData map[string]string) error {
 	}
 
 	if v, ok := strData["testtime"]; ok {
-		texttime, err := time.Parse("2006-01-02 15:04:05", v)
+		texttime, err := time.ParseInLocation("2006-01-02 15:04:05",v,time.Local)
 		if err != nil {
 			return errors.New("没有testtime")
 		} else {
@@ -93,14 +101,33 @@ func IputTemperature(session *xorm.Session,strData map[string]string) error {
 		return errors.New("没有value")
 	}
 
-	_, err := session.Insert(item);
+
+	return InsertTemperature(session,item)
+}
+
+func InsertTemperature(session *xorm.Session,item *Temperature) error{
+	var item1 = &Temperature{}
+
+	has,err := session.Table("Temperature").Where("Testtime = ? and PatientId = ?",item.Testtime.String(),item.PatientId).Get(item1)
+
+	if err !=nil{
+		return err
+	}
+
+	if has {
+		_, err = session.Where("Testtime = ? and PatientId = ?",item.Testtime.String(),item.PatientId).Update(item);
+	}else{
+		_, err = session.Insert(item);
+	}
 
 	return err
 }
 
 func OutTemperature(sql string, msg ...interface{}) ([]Temperature, error) {
 	items := make([]Temperature, 0)
+	//fit.MySqlEngine().ShowSQL(true)
 	err := fit.MySqlEngine().Where(sql, msg...).Find(&items)
+
 	return items, err
 }
 
@@ -108,7 +135,7 @@ func OutTemperature(sql string, msg ...interface{}) ([]Temperature, error) {
 func GetWhetherFever(patientId int) (bool, error) {
 
 	item := Temperature{}
-	has, err := fit.MySqlEngine().SQL("select Value from Temperature where patientid = ? order by id desc", patientId).Get(&item)
+	has, err := fit.MySqlEngine().SQL("select Value from Temperature where patientid = ? order by Testtime desc", patientId).Get(&item)
 	if has == false {
 		return false, errors.New("査不到数据")
 	}
@@ -138,6 +165,10 @@ type Pulse struct {
 	Whetherbriefness string       `json:"whetherbriefness" xorm:"notnull comment(是否短促,0否1是)"`
 }
 
+func (v Pulse)ShowTime()time.Time{
+	return time.Time(v.Testtime)
+}
+
 func IputPulse(session *xorm.Session,strData map[string]string) error {
 	var item = &Pulse{}
 
@@ -160,7 +191,7 @@ func IputPulse(session *xorm.Session,strData map[string]string) error {
 	}
 
 	if v, ok := strData["testtime"]; ok {
-		texttime, err := time.Parse("2006-01-02 15:04:05", v)
+		texttime, err := time.ParseInLocation("2006-01-02 15:04:05",v,time.Local)
 		if err != nil {
 			return errors.New("没有testtime")
 		} else {
@@ -188,7 +219,24 @@ func IputPulse(session *xorm.Session,strData map[string]string) error {
 		return errors.New("没有whetherbriefness")
 	}
 
-	_,err := session.Insert(item);
+	return InsertPulse(session,item)
+}
+
+func InsertPulse(session *xorm.Session,item *Pulse) error{
+	var item1 = &Pulse{}
+
+	has,err := session.Table("Pulse").Where("Testtime = ? and PatientId = ?",item.Testtime.String(),item.PatientId).Get(item1)
+
+	if err !=nil{
+		return err
+	}
+
+	if has {
+		_, err = session.Where("Testtime = ? and PatientId = ?",item.Testtime.String(),item.PatientId).Update(item);
+	}else{
+		_, err = session.Insert(item);
+	}
+
 	return err
 }
 
@@ -205,6 +253,10 @@ type Breathe struct {
 	Recordscene string       `json:"recordscene" xorm:"notnull comment(测试的场景,1辅助呼吸,2停辅助呼吸)"`
 	Value       string       `json:"value" xorm:"notnull comment(值)"`
 	Whethertbm  string       `json:"whethertbm" xorm:"notnull comment(是否上呼吸机,0否1是)"`
+}
+
+func (v Breathe)ShowTime()time.Time{
+	return time.Time(v.Testtime)
 }
 
 func IputBreathe(session *xorm.Session,strData map[string]string) error {
@@ -229,7 +281,7 @@ func IputBreathe(session *xorm.Session,strData map[string]string) error {
 	}
 
 	if v, ok := strData["testtime"]; ok {
-		texttime, err := time.Parse("2006-01-02 15:04:05", v)
+		texttime, err := time.ParseInLocation("2006-01-02 15:04:05",v,time.Local)
 		if err != nil {
 			return errors.New("没有testtime")
 		} else {
@@ -257,7 +309,24 @@ func IputBreathe(session *xorm.Session,strData map[string]string) error {
 		return errors.New("没有whetherbriefness")
 	}
 
-	_,err := session.Insert(item);
+	return InsertBreathe(session,item)
+}
+
+func InsertBreathe(session *xorm.Session,item *Breathe) error{
+	var item1 = &Breathe{}
+
+	has,err := session.Table("Breathe").Where("Testtime = ? and PatientId = ?",item.Testtime.String(),item.PatientId).Get(item1)
+
+	if err !=nil{
+		return err
+	}
+
+	if has {
+		_, err = session.Where("Testtime = ? and PatientId = ?",item.Testtime.String(),item.PatientId).Update(item);
+	}else{
+		_, err = session.Insert(item);
+	}
+
 	return err
 }
 
@@ -275,6 +344,10 @@ type Pressure struct {
 	Diavalue    string       `json:"diavalue" xorm:"notnull comment(低压值)"`
 	Sysvalue    string       `json:"sysvalue" xorm:"notnull comment(高压值)"`
 	//Pulsevalue  string       `json:"pulsevalue" xorm:"notnull comment(脉率值)"`
+}
+
+func (v Pressure)ShowTime()time.Time{
+	return time.Time(v.Testtime)
 }
 
 func IputPressure(session *xorm.Session,strData map[string]string) error {
@@ -299,7 +372,7 @@ func IputPressure(session *xorm.Session,strData map[string]string) error {
 	}
 
 	if v, ok := strData["testtime"]; ok {
-		texttime, err := time.Parse("2006-01-02 15:04:05", v)
+		texttime, err := time.ParseInLocation("2006-01-02 15:04:05",v,time.Local)
 		if err != nil {
 			return errors.New("没有testtime")
 		} else {
@@ -327,7 +400,24 @@ func IputPressure(session *xorm.Session,strData map[string]string) error {
 		return errors.New("没有value")
 	}
 
-	_,err := session.Insert(item);
+	return InsertPressure(session,item)
+}
+
+func InsertPressure(session *xorm.Session,item *Pressure) error{
+	var item1 = &Pressure{}
+
+	has,err := session.Table("Pressure").Where("Testtime = ? and PatientId = ?",item.Testtime.String(),item.PatientId).Get(item1)
+
+	if err !=nil{
+		return err
+	}
+
+	if has {
+		_, err = session.Where("Testtime = ? and PatientId = ?",item.Testtime.String(),item.PatientId).Update(item);
+	}else{
+		_, err = session.Insert(item);
+	}
+
 	return err
 }
 
@@ -343,6 +433,10 @@ type Heartrate struct {
 	Testtime    fit.JsonTime `json:"testtime" xorm:"notnull comment(测试时间)"`
 	Recordscene string       `json:"recordscene" xorm:"notnull comment(测试的场景)"`
 	Value       string       `json:"value" xorm:"notnull comment(值)"`
+}
+
+func (v Heartrate)ShowTime()time.Time{
+	return time.Time(v.Testtime)
 }
 
 func IputHeartrate(session *xorm.Session,strData map[string]string) error {
@@ -367,7 +461,7 @@ func IputHeartrate(session *xorm.Session,strData map[string]string) error {
 	}
 
 	if v, ok := strData["testtime"]; ok {
-		texttime, err := time.Parse("2006-01-02 15:04:05", v)
+		texttime, err := time.ParseInLocation("2006-01-02 15:04:05",v,time.Local)
 		if err != nil {
 			return errors.New("没有testtime")
 		} else {
@@ -389,7 +483,24 @@ func IputHeartrate(session *xorm.Session,strData map[string]string) error {
 		return errors.New("没有value")
 	}
 
-	_,err := session.Insert(item);
+	return InsertHeartrate(session,item)
+}
+
+func InsertHeartrate(session *xorm.Session,item *Heartrate) error{
+	var item1 = &Heartrate{}
+
+	has,err := session.Table("Heartrate").Where("Testtime = ? and PatientId = ?",item.Testtime.String(),item.PatientId).Get(item1)
+
+	if err !=nil{
+		return err
+	}
+
+	if has {
+		_, err = session.Where("Testtime = ? and PatientId = ?",item.Testtime.String(),item.PatientId).Update(item);
+	}else{
+		_, err = session.Insert(item);
+	}
+
 	return err
 }
 
@@ -405,6 +516,10 @@ type Spo2h struct {
 	Testtime    fit.JsonTime `json:"testtime" xorm:"notnull comment(测试时间)"`
 	Recordscene string       `json:"recordscene" xorm:"notnull comment(测试的场景)"`
 	Value       string       `json:"value" xorm:"notnull comment(值)"`
+}
+
+func (v Spo2h)ShowTime()time.Time{
+	return time.Time(v.Testtime)
 }
 
 func IputSpo2h(session *xorm.Session,strData map[string]string) error {
@@ -429,7 +544,7 @@ func IputSpo2h(session *xorm.Session,strData map[string]string) error {
 	}
 
 	if v, ok := strData["testtime"]; ok {
-		texttime, err := time.Parse("2006-01-02 15:04:05", v)
+		texttime, err := time.ParseInLocation("2006-01-02 15:04:05",v,time.Local)
 		if err != nil {
 			return errors.New("没有testtime")
 		} else {
@@ -451,7 +566,24 @@ func IputSpo2h(session *xorm.Session,strData map[string]string) error {
 		return errors.New("没有value")
 	}
 
-	_,err := session.Insert(item);
+	return InsertSpo2h(session,item)
+}
+
+func InsertSpo2h(session *xorm.Session,item *Spo2h) error{
+	var item1 = &Spo2h{}
+
+	has,err := session.Table("Spo2h").Where("Testtime = ? and PatientId = ?",item.Testtime.String(),item.PatientId).Get(item1)
+
+	if err !=nil{
+		return err
+	}
+
+	if has {
+		_, err = session.Where("Testtime = ? and PatientId = ?",item.Testtime.String(),item.PatientId).Update(item);
+	}else{
+		_, err = session.Insert(item);
+	}
+
 	return err
 }
 
@@ -468,6 +600,10 @@ type Glucose struct {
 	Recordscene string       `json:"recordscene" xorm:"notnull comment(测试的场景,1外出,2检查,3请假,4拒试,5无法侧,6不在)"`
 	Teststate   string       `json:"teststate" xorm:"notnull comment(测试的状态,1空腹,2早餐后1h,3早餐后2h,4中餐前,5中餐后1h,6中餐后2h,7晚餐前,8晚餐后1h,9晚餐后2h,10睡前)"`
 	Value       string       `json:"value" xorm:"notnull comment(值)"`
+}
+
+func (v Glucose)ShowTime()time.Time{
+	return time.Time(v.Testtime)
 }
 
 func IputGlucose(session *xorm.Session,strData map[string]string) error {
@@ -492,7 +628,7 @@ func IputGlucose(session *xorm.Session,strData map[string]string) error {
 	}
 
 	if v, ok := strData["testtime"]; ok {
-		texttime, err := time.Parse("2006-01-02 15:04:05", v)
+		texttime, err := time.ParseInLocation("2006-01-02 15:04:05",v,time.Local)
 		if err != nil {
 			return errors.New("没有testtime")
 		} else {
@@ -520,7 +656,24 @@ func IputGlucose(session *xorm.Session,strData map[string]string) error {
 		return errors.New("没有value")
 	}
 
-	_,err := session.Insert(item);
+	return InsertGlucose(session,item)
+}
+
+func InsertGlucose(session *xorm.Session,item *Glucose) error{
+	var item1 = &Glucose{}
+
+	has,err := session.Table("Glucose").Where("Testtime = ? and PatientId = ?",item.Testtime.String(),item.PatientId).Get(item1)
+
+	if err !=nil{
+		return err
+	}
+
+	if has {
+		_, err = session.Where("Testtime = ? and PatientId = ?",item.Testtime.String(),item.PatientId).Update(item);
+	}else{
+		_, err = session.Insert(item);
+	}
+
 	return err
 }
 
@@ -536,6 +689,10 @@ type Weight struct {
 	Testtime    fit.JsonTime `json:"testtime" xorm:"notnull comment(测试时间)"`
 	Recordscene string       `json:"recordscene" xorm:"notnull comment(测试的场景,1卧床,2轮椅,3平车)"`
 	Value       string       `json:"value" xorm:"notnull comment(值)"`
+}
+
+func (v Weight)ShowTime()time.Time{
+	return time.Time(v.Testtime)
 }
 
 func IputWeight(session *xorm.Session,strData map[string]string) error {
@@ -560,7 +717,7 @@ func IputWeight(session *xorm.Session,strData map[string]string) error {
 	}
 
 	if v, ok := strData["testtime"]; ok {
-		texttime, err := time.Parse("2006-01-02 15:04:05", v)
+		texttime, err := time.ParseInLocation("2006-01-02 15:04:05",v,time.Local)
 		if err != nil {
 			return errors.New("没有testtime")
 		} else {
@@ -582,7 +739,24 @@ func IputWeight(session *xorm.Session,strData map[string]string) error {
 		return errors.New("没有value")
 	}
 
-	_,err := session.Insert(item);
+	return InsertWeight(session,item)
+}
+
+func InsertWeight(session *xorm.Session,item *Weight) error{
+	var item1 = &Weight{}
+
+	has,err := session.Table("Weight").Where("Testtime = ? and PatientId = ?",item.Testtime.String(),item.PatientId).Get(item1)
+
+	if err !=nil{
+		return err
+	}
+
+	if has {
+		_, err = session.Where("Testtime = ? and PatientId = ?",item.Testtime.String(),item.PatientId).Update(item);
+	}else{
+		_, err = session.Insert(item);
+	}
+
 	return err
 }
 
@@ -598,6 +772,10 @@ type Height struct {
 	Testtime    fit.JsonTime `json:"testtime" xorm:"notnull comment(测试时间)"`
 	Recordscene string       `json:"recordscene" xorm:"notnull comment(测试的场景,1卧床,2轮椅,3平车)"`
 	Value       string       `json:"value" xorm:"notnull comment(值)"`
+}
+
+func (v Height)ShowTime()time.Time{
+	return time.Time(v.Testtime)
 }
 
 func IputHeight(session *xorm.Session,strData map[string]string) error {
@@ -622,7 +800,7 @@ func IputHeight(session *xorm.Session,strData map[string]string) error {
 	}
 
 	if v, ok := strData["testtime"]; ok {
-		texttime, err := time.Parse("2006-01-02 15:04:05", v)
+		texttime, err := time.ParseInLocation("2006-01-02 15:04:05",v,time.Local)
 		if err != nil {
 			return errors.New("没有testtime")
 		} else {
@@ -644,7 +822,24 @@ func IputHeight(session *xorm.Session,strData map[string]string) error {
 		return errors.New("没有value")
 	}
 
-	_,err := session.Insert(item);
+	return InsertHeight(session,item)
+}
+
+func InsertHeight(session *xorm.Session,item *Height) error{
+	var item1 = &Height{}
+
+	has,err := session.Table("Height").Where("Testtime = ? and PatientId = ?",item.Testtime.String(),item.PatientId).Get(item1)
+
+	if err !=nil{
+		return err
+	}
+
+	if has {
+		_, err = session.Where("Testtime = ? and PatientId = ?",item.Testtime.String(),item.PatientId).Update(item);
+	}else{
+		_, err = session.Insert(item);
+	}
+
 	return err
 }
 
@@ -660,6 +855,10 @@ type Skin struct {
 	Testtime    fit.JsonTime `json:"testtime" xorm:"notnull comment(测试时间)"`
 	Recordscene string       `json:"recordscene" xorm:"notnull comment(测试的场景)"`
 	Value       string       `json:"value" xorm:"notnull comment(值)"`
+}
+
+func (v Skin)ShowTime()time.Time{
+	return time.Time(v.Testtime)
 }
 
 func IputSkin(session *xorm.Session,strData map[string]string) error {
@@ -684,7 +883,7 @@ func IputSkin(session *xorm.Session,strData map[string]string) error {
 	}
 
 	if v, ok := strData["testtime"]; ok {
-		texttime, err := time.Parse("2006-01-02 15:04:05", v)
+		texttime, err := time.ParseInLocation("2006-01-02 15:04:05",v,time.Local)
 		if err != nil {
 			return errors.New("没有testtime")
 		} else {
@@ -706,7 +905,24 @@ func IputSkin(session *xorm.Session,strData map[string]string) error {
 		return errors.New("没有value")
 	}
 
-	_,err := session.Insert(item);
+	return InsertSkin(session,item)
+}
+
+func InsertSkin(session *xorm.Session,item *Skin) error{
+	var item1 = &Skin{}
+
+	has,err := session.Table("Skin").Where("Testtime = ? and PatientId = ?",item.Testtime.String(),item.PatientId).Get(item1)
+
+	if err !=nil{
+		return err
+	}
+
+	if has {
+		_, err = session.Where("Testtime = ? and PatientId = ?",item.Testtime.String(),item.PatientId).Update(item);
+	}else{
+		_, err = session.Insert(item);
+	}
+
 	return err
 }
 
@@ -716,12 +932,16 @@ func OutSkin(sql string, msg ...interface{}) ([]Skin, error) {
 	return items, err
 }
 
-/*疼痛*/
+/*其他*/
 type Ache struct {
 	BaseModel                `xorm:"extends"`
 	Testtime    fit.JsonTime `json:"testtime" xorm:"notnull comment(测试时间)"`
 	Recordscene string       `json:"recordscene" xorm:"notnull comment(测试的场景)"`
 	Value       string       `json:"value" xorm:"notnull comment(值)"`
+}
+
+func (v Ache)ShowTime()time.Time{
+	return time.Time(v.Testtime)
 }
 
 func IputAche(session *xorm.Session,strData map[string]string) error {
@@ -746,7 +966,7 @@ func IputAche(session *xorm.Session,strData map[string]string) error {
 	}
 
 	if v, ok := strData["testtime"]; ok {
-		texttime, err := time.Parse("2006-01-02 15:04:05", v)
+		texttime, err := time.ParseInLocation("2006-01-02 15:04:05",v,time.Local)
 		if err != nil {
 			return errors.New("没有testtime")
 		} else {
@@ -768,7 +988,24 @@ func IputAche(session *xorm.Session,strData map[string]string) error {
 		return errors.New("没有value")
 	}
 
-	_,err := session.Insert(item);
+	return InsertAche(session,item)
+}
+
+func InsertAche(session *xorm.Session,item *Ache) error{
+	var item1 = &Ache{}
+
+	has,err := session.Table("Ache").Where("Testtime = ? and PatientId = ?",item.Testtime.String(),item.PatientId).Get(item1)
+
+	if err !=nil{
+		return err
+	}
+
+	if has {
+		_, err = session.Where("Testtime = ? and PatientId = ?",item.Testtime.String(),item.PatientId).Update(item);
+	}else{
+		_, err = session.Insert(item);
+	}
+
 	return err
 }
 
@@ -784,6 +1021,10 @@ type Incident struct {
 	Testtime    fit.JsonTime `json:"testtime" xorm:"notnull comment(测试时间)"`
 	Recordscene string       `json:"recordscene" xorm:"notnull comment(测试的场景,1入院,2出院,3手术,4分娩,5出生,6转入,7转科,8转院,9死亡,10外出)"`
 	Value       string       `json:"value" xorm:"notnull comment(值)"`
+}
+
+func (v Incident)ShowTime()time.Time{
+	return time.Time(v.Testtime)
 }
 
 func IputIncident(session *xorm.Session,strData map[string]string) error {
@@ -808,7 +1049,7 @@ func IputIncident(session *xorm.Session,strData map[string]string) error {
 	}
 
 	if v, ok := strData["testtime"]; ok {
-		texttime, err := time.Parse("2006-01-02 15:04:05", v)
+		texttime, err := time.ParseInLocation("2006-01-02 15:04:05",v,time.Local)
 		if err != nil {
 			return errors.New("没有testtime")
 		} else {
@@ -830,7 +1071,24 @@ func IputIncident(session *xorm.Session,strData map[string]string) error {
 		return errors.New("没有value")
 	}
 
-	_,err := session.Insert(item);
+	return InsertIncident(session,item)
+}
+
+func InsertIncident(session *xorm.Session,item *Incident) error{
+	var item1 = &Incident{}
+
+	has,err := session.Table("Incident").Where("Testtime = ? and PatientId = ?",item.Testtime.String(),item.PatientId).Get(item1)
+
+	if err !=nil{
+		return err
+	}
+
+	if has {
+		_, err = session.Where("Testtime = ? and PatientId = ?",item.Testtime.String(),item.PatientId).Update(item);
+	}else{
+		_, err = session.Insert(item);
+	}
+
 	return err
 }
 
@@ -839,3 +1097,19 @@ func OutIncident(sql string, msg ...interface{}) ([]Incident, error) {
 	err := fit.MySqlEngine().Where(sql, msg...).Find(&items)
 	return items, err
 }
+
+type TimeShowSlice []TimeShow
+
+func (s TimeShowSlice) Len() int {
+	return len(s)
+	}
+
+func (s TimeShowSlice) Swap(i, j int){
+	s[i], s[j] = s[j], s[i]
+	}
+
+func (s TimeShowSlice) Less(i, j int) bool {
+	return s[i].ShowTime().Unix() < s[j].ShowTime().Unix()
+	}
+
+

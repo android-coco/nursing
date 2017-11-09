@@ -1,0 +1,932 @@
+{{template "header_top" .}}
+<div class="admin">
+    <!-- sidebar start -->
+    {{template "header_side" .}}
+    <!-- sidebar end -->
+    <div class="content-page jky-table-page" data-index="1">
+        <div class="user-bar">
+            <div class="tit">
+                <div class="l">
+                    床号
+                </div>
+                <div class="r">
+                    姓名
+                </div>
+            </div>
+            <div class="user-list">
+                {{range .Patients}}
+                <ul>
+                    <li data-id="{{.VAA01}}" data-msg="{{.VAO15}}">
+                        <div class="l">
+                            {{.BCQ04}}
+                        </div>
+                        <div class="r">
+                            {{.VAA05}}
+                        </div>
+                    </li>
+                </ul>
+                {{end}}
+            </div>
+        </div>
+        <!-- Start content -->
+        <div class="content shiftTable">
+            <div class="tit-bar">
+                <div class="date-box">
+                    <div class="icon">
+                        <img src="/static/dist/images/admin_pc/icon20.png" alt=""/>
+                    </div>
+                    <input type="text" id="datatime" class="am-form-field  date-input"/>
+                </div>
+                <div class="cont-bar">
+                    <div class="btn-group">
+                        <a href="" class="btn">打印</a>
+                        <a href="" class="btn">导出</a>
+                        <button class="btn type2" id="savedata">保存</button>
+                    </div>
+                </div>
+            </div>
+            <div class="table-warp">
+                <div class="cont-table">
+                    <ul class="ta_hd">
+                        <li class="first tit1"><span>床号</span> <span>姓名</span> <span>诊断</span></li>
+                        <li class="tit2">
+                            <p class="name"> 白班 </p>
+                            <div class="row1">
+                                <div class="input-bar l">
+                                    <label for="t1-t1">原有病人:</label>
+                                    <input type="text" id="t1-t1" value="{{.d_NoldPatient}}" {{if .d_Disabled}} disabled
+                                           {{end}}/>
+                                </div>
+                                <div class="input-bar r">
+                                    <label for="t1-t2">现有病人:</label>
+                                    <input type="text" id="t1-t2" value="{{.d_NnowPatient}}" {{if .d_Disabled}} disabled
+                                           {{end}}/>
+                                </div>
+                            </div>
+                            <div class="row2">
+                                <div class="input-bar f">
+                                    <label for="t1-t3">入院:</label>
+                                    <input type="text" id="t1-t3" value="{{.d_NintHospital}}" {{if .d_Disabled}}
+                                           disabled {{end}}/>
+                                </div>
+                                <div class="input-bar">
+                                    <label for="t1-t4">出院:</label>
+                                    <input type="text" id="t1-t4" value="{{.d_NoutHospital}}" {{if .d_Disabled}}
+                                           disabled {{end}}/>
+                                </div>
+                                <div class="input-bar">
+                                    <label for="t1-t5">转入:</label>
+                                    <input type="text" id="t1-t5" value="{{.d_Ninto}}" {{if .d_Disabled}} disabled
+                                           {{end}}/>
+                                </div>
+                                <div class="input-bar">
+                                    <label for="t1-t6">转出:</label>
+                                    <input type="text" id="t1-t6" value="{{.d_Nout}}" {{if .d_Disabled}} disabled
+                                           {{end}}/>
+                                </div>
+                                <div class="input-bar f">
+                                    <label for="t1-t7">手术:</label>
+                                    <input type="text" id="t1-t7" value="{{.d_Nsurgery}}" {{if .d_Disabled}} disabled
+                                           {{end}}/>
+                                </div>
+                                <div class="input-bar">
+                                    <label for="t1-t8">分娩:</label>
+                                    <input type="text" id="t1-t8" value="{{.d_Nchildbirth}}" {{if .d_Disabled}} disabled
+                                           {{end}}/>
+                                </div>
+                                <div class="input-bar">
+                                    <label for="t1-t9">危重:</label>
+                                    <input type="text" id="t1-t9" value="{{.d_Ncritically}}" {{if .d_Disabled}} disabled
+                                           {{end}}/>
+                                </div>
+                                <div class="input-bar">
+                                    <label for="t1-t10">死亡:</label>
+                                    <input type="text" id="t1-t10" value="{{.d_Ndeath}}" {{if .d_Disabled}} disabled
+                                           {{end}}/>
+                                </div>
+                                <div class="input-bar f">
+                                    <label for="t1-t11">特护:</label>
+                                    <input type="text" id="t1-t11" value="{{.d_NintensiveCare}}" {{if .d_Disabled}}
+                                           disabled {{end}}/>
+                                </div>
+                                <div class="input-bar">
+                                    <label for="t1-t12">一级护理:</label>
+                                    <input type="text" id="t1-t12" value="{{.d_NprimaryCare}}" {{if .d_Disabled}}
+                                           disabled {{end}}/>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tit3">
+                            <p class="name"> 晚班 </p>
+                            <div class="row1">
+                                <div class="input-bar l">
+                                    <label for="t2-t1">原有病人:</label>
+                                    <input type="text" id="t2-t1" value="{{.n_NoldPatient}}" {{if .n_Disabled}} disabled
+                                           {{end}}/>
+                                </div>
+                                <div class="input-bar r">
+                                    <label for="t2-t2">现有病人:</label>
+                                    <input type="text" id="t2-t2" value="{{.n_NnowPatient}}" {{if .n_Disabled}} disabled
+                                           {{end}}/>
+                                </div>
+                            </div>
+                            <div class="row2">
+                                <div class="input-bar f">
+                                    <label for="t2-t3">入院:</label>
+                                    <input type="text" id="t2-t3" value="{{.n_NintHospital}}" {{if .n_Disabled}}
+                                           disabled {{end}}/>
+                                </div>
+                                <div class="input-bar">
+                                    <label for="t2-t4">出院:</label>
+                                    <input type="text" id="t2-t4" value="{{.n_NoutHospital}}" {{if .n_Disabled}}
+                                           disabled {{end}}/>
+                                </div>
+                                <div class="input-bar">
+                                    <label for="t2-t5">转入:</label>
+                                    <input type="text" id="t2-t5" value="{{.n_Ninto}}" {{if .n_Disabled}} disabled
+                                           {{end}}/>
+                                </div>
+                                <div class="input-bar">
+                                    <label for="t2-t6">转出:</label>
+                                    <input type="text" id="t2-t6" value="{{.n_Nout}}" {{if .n_Disabled}} disabled
+                                           {{end}}/>
+                                </div>
+                                <div class="input-bar f">
+                                    <label for="t2-t7">手术:</label>
+                                    <input type="text" id="t2-t7" value="{{.n_Nsurgery}}" {{if .n_Disabled}} disabled
+                                           {{end}}/>
+                                </div>
+                                <div class="input-bar">
+                                    <label for="t2-t8">分娩:</label>
+                                    <input type="text" id="t2-t8" value="{{.n_Nchildbirth}}" {{if .n_Disabled}} disabled
+                                           {{end}}/>
+                                </div>
+                                <div class="input-bar">
+                                    <label for="t2-t9">危重:</label>
+                                    <input type="text" id="t2-t9" value="{{.n_Ncritically}}" {{if .n_Disabled}} disabled
+                                           {{end}}/>
+                                </div>
+                                <div class="input-bar">
+                                    <label for="t2-t10">死亡:</label>
+                                    <input type="text" id="t2-t10" value="{{.n_Ndeath}}" {{if .n_Disabled}} disabled
+                                           {{end}}/>
+                                </div>
+                                <div class="input-bar f">
+                                    <label for="t2-t11">特护:</label>
+                                    <input type="text" id="t2-t11" value="{{.n_NintensiveCare}}" {{if .n_Disabled}}
+                                           disabled {{end}}/>
+                                </div>
+                                <div class="input-bar">
+                                    <label for="t2-t12">一级护理:</label>
+                                    <input type="text" id="t2-t12" value="{{.n_NprimaryCare}}" {{if .n_Disabled}}
+                                           disabled {{end}}/>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tit4 last">
+                            <p class="name" > 夜班 </p>
+                            <p hidden id="n_type">{{1}}</p>
+                            <div class="row1">
+                                <div class="input-bar l">
+                                    <label for="t3-t1">原有病人:</label>
+                                    <input type="text" id="t3-t1" value="{{.N_NoldPatient}}" {{if .N_Disabled}} disabled
+                                           {{end}}/>
+                                </div>
+                                <div class="input-bar r">
+                                    <label for="t3-t2">现有病人:</label>
+                                    <input type="text" id="t3-t2" value="{{.N_NnowPatient}}" {{if .N_Disabled}} disabled
+                                           {{end}}/>
+                                </div>
+                            </div>
+                            <div class="row2">
+                                <div class="input-bar f">
+                                    <label for="t3-t3">入院:</label>
+                                    <input type="text" id="t3-t3" value="{{.N_NintHospital}}" {{if .N_Disabled}}
+                                           disabled {{end}}/>
+                                </div>
+                                <div class="input-bar">
+                                    <label for="t3-t4">出院:</label>
+                                    <input type="text" id="t3-t4" value="{{.N_NoutHospital}}" {{if .N_Disabled}}
+                                           disabled {{end}}/>
+                                </div>
+                                <div class="input-bar">
+                                    <label for="t3-t5">转入:</label>
+                                    <input type="text" id="t3-t5" value="{{.N_Ninto}}" {{if .N_Disabled}} disabled
+                                           {{end}}/>
+                                </div>
+                                <div class="input-bar">
+                                    <label for="t3-t6">转出:</label>
+                                    <input type="text" id="t3-t6" value="{{.N_Nout}}" {{if .N_Disabled}} disabled
+                                           {{end}}/>
+                                </div>
+                                <div class="input-bar f">
+                                    <label for="t3-t7">手术:</label>
+                                    <input type="text" id="t3-t7" value="{{.N_Nsurgery}}" {{if .N_Disabled}} disabled
+                                           {{end}}/>
+                                </div>
+                                <div class="input-bar">
+                                    <label for="t3-t8">分娩:</label>
+                                    <input type="text" id="t3-t8" value="{{.N_Nchildbirth}}" {{if .N_Disabled}} disabled
+                                           {{end}}/>
+                                </div>
+                                <div class="input-bar">
+                                    <label for="t3-t9">危重:</label>
+                                    <input type="text" id="t3-t9" value="{{.N_Ncritically}}" {{if .N_Disabled}} disabled
+                                           {{end}}/>
+                                </div>
+                                <div class="input-bar">
+                                    <label for="t3-t10">死亡:</label>
+                                    <input type="text" id="t3-t10" value="{{.N_Ndeath}}" {{if .N_Disabled}} disabled
+                                           {{end}}/>
+                                </div>
+                                <div class="input-bar f">
+                                    <label for="t3-t11">特护:</label>
+                                    <input type="text" id="t3-t11" value="{{.N_NintensiveCare}}" {{if .N_Disabled}}
+                                           disabled {{end}}/>
+                                </div>
+                                <div class="input-bar">
+                                    <label for="t3-t12">一级护理:</label>
+                                    <input type="text" id="t3-t12" value="{{.N_NprimaryCare}}" {{if .N_Disabled}}
+                                           disabled {{end}}/>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="td-warp">
+                        <!-- 行 -->
+                        {{$d_Disabled := .d_Disabled}}
+                        {{$n_Disabled := .n_Disabled}}
+                        {{$N_Disabled := .N_Disabled}}
+
+                        {{range .Successiondetails}}
+                        <div class="td-row f" data-id="{{.PatientId}}" data-ty="{{.ID}}">
+                            <div class="cont1">
+                                <div class="txt-warp">
+                                    <div class="txt">
+                                        <span class="first bedId">{{.BedID}}</span>
+                                        <span class="userName">{{.PatientName}}</span>
+                                        <span class="cont">{{.Piagnosis}}</span>
+                                        <div class="del">
+                                            <img src="/static/dist/images/admin_pc/icon21.png" alt="">删除
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sel">
+
+                                    <select id="row1-sel" class="sel-input" {{if or ( or (and $d_Disabled .Comment1) (and $n_Disabled .Comment2) ) (and $N_Disabled .Comment3) }} disabled  data-isdel="1"{{end}}>
+                                        <option {{if eq .Typte 1 }} selected="" {{end}} value="1">入院</option>
+                                        <option {{if eq .Typte 2 }} selected="" {{end}} value="2">出院</option>
+                                        <option {{if eq .Typte 3 }} selected="" {{end}} value="3">转入</option>
+                                        <option {{if eq .Typte 4 }} selected="" {{end}} value="4">转出</option>
+                                        <option {{if eq .Typte 5 }} selected="" {{end}} value="5">手术</option>
+                                        <option {{if eq .Typte 6 }} selected="" {{end}} value="6">分娩</option>
+                                        <option {{if eq .Typte 7 }} selected="" {{end}} value="7">病危</option>
+                                        <option {{if eq .Typte 8 }} selected="" {{end}} value="8">死亡</option>
+                                        <option {{if eq .Typte 9 }} selected="" {{end}} value="9">特护</option>
+                                        <option {{if eq .Typte 10 }} selected="" {{end}} value="10">一级护理</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="cont2">
+                                <textarea class="textarea-input" name="" id="row1-msg1" rows="2" {{if $d_Disabled}}
+                                          disabled {{end}}>{{.Comment1}}</textarea>
+                            </div>
+                            <div class="cont3">
+                                <textarea class="textarea-input" name="" id="row1-msg2" rows="2" {{if $n_Disabled}}
+                                          disabled {{end}}>{{.Comment2}}</textarea>
+                            </div>
+                            <div class="cont4">
+                                <textarea class="textarea-input" name="" id="row1-msg3" rows="2" {{if $N_Disabled}}
+                                          disabled {{end}}>{{.Comment3}}</textarea>
+                            </div>
+                        </div>
+                        {{end}}
+
+                        <!--{{range .n_Successiondetails}}
+                        <div class="td-row" data-id="000">
+                            <div class="cont1">
+                                <div class="txt-warp">
+                                    <div class="txt">
+                                        <span class="first bedId">{{.BedID}}</span>
+                                        <span class="userName">{{.PatientName}}</span>
+                                        <span class="cont">{{.Piagnosis}}</span>
+                                        <div class="del">
+                                            <img src="/static/dist/images/admin_pc/icon21.png" alt="">删除
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sel">
+                                    <select id="row1-sel1">
+                                        <option selected="" value="入院">入院</option>
+                                        <option value="出院">出院</option>
+                                        <option value="转入">转入</option>
+                                        <option value="转出">转出</option>
+                                        <option value="手术">手术</option>
+                                        <option value="分娩">分娩</option>
+                                        <option value="病危">病危</option>
+                                        <option value="死亡">死亡</option>
+                                        <option value="特护">特护</option>
+                                        <option value="一级护理">一级护理</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="cont2">
+                                <textarea class="textarea-input" name="" id="row2-msg1" rows="2"></textarea>
+                            </div>
+                            <div class="cont3">
+                                <textarea class="textarea-input" name="" id="row2-msg2" rows="2">{{.Comment}}</textarea>
+                            </div>
+                            <div class="cont4">
+                                <textarea class="textarea-input" name="" id="row2-msg3" rows="2"></textarea>
+                            </div>
+                        </div>
+                        {{end}}-->
+
+                        <!--{{range .N_Successiondetails}}
+                        <div class="td-row" data-id="111">
+                            <div class="cont1">
+                                <div class="txt-warp">
+                                    <div class="txt">
+                                        <span class="first bedId">{{.BedID}}</span>
+                                        <span class="userName">{{.PatientName}}</span>
+                                        <span class="cont">{{.Piagnosis}}</span>
+                                        <div class="del">
+                                            <img src="/static/dist/images/admin_pc/icon21.png" alt="">删除
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sel">
+                                    <select id="row1-sel2">
+                                        <option selected="" value="入院">入院</option>
+                                        <option value="出院">出院</option>
+                                        <option value="转入">转入</option>
+                                        <option value="转出">转出</option>
+                                        <option value="手术">手术</option>
+                                        <option value="分娩">分娩</option>
+                                        <option value="病危">病危</option>
+                                        <option value="死亡">死亡</option>
+                                        <option value="特护">特护</option>
+                                        <option value="一级护理">一级护理</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="cont2">
+                                <textarea class="textarea-input" name="" id="row3-msg1" rows="2"></textarea>
+                            </div>
+                            <div class="cont3">
+                                <textarea class="textarea-input" name="" id="row3-msg2" rows="2"></textarea>
+                            </div>
+                            <div class="cont4">
+                                <textarea class="textarea-input" name="" id="row3-msg3" rows="2"></textarea>
+                            </div>
+                        </div>
+                        {{end}}-->
+                    </div>
+                </div>
+                <div class="autograph-bar">
+                    <ul>
+                        <li class="first"></li>
+                        <li><label>签名:</label> <input type="text" id="nursing_1" value="{{.d_NursingName}}" {{if $d_Disabled}}
+                                                      disabled {{end}}/></li>
+                        <li><label>签名:</label> <input type="text" id="nursing_2" value="{{.n_NursingName}}" {{if $n_Disabled}}
+                                                      disabled {{end}}/></li>
+                        <li><label>签名:</label> <input type="text" id="nursing_3" value="{{.n_NursingName}}" {{if $N_Disabled}}
+                                                      disabled {{end}}/></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end right Content here -->
+    <!--</div>-->
+</div>
+<!-- </div> -->
+<script id="newrow" type="tmpl">
+        <div class="td-row" data-ty="0">
+            <div class="cont1"></div>
+            <div class="cont2">
+                <textarea class="textarea-input" name="" id="" rows="2"></textarea>
+            </div>
+            <div class="cont3">
+                <textarea class="textarea-input" name="" id="" rows="2"></textarea>
+            </div>
+            <div class="cont4">
+                <textarea class="textarea-input" name="" id="" rows="2"></textarea>
+            </div>
+        </div>
+
+
+
+
+
+
+</script>
+
+<script id="setRow" type="tmpl">
+            <div class="txt-warp">
+                <div class="txt">
+                    <span class="first bedId"></span>
+                    <span class="userName"></span>
+                    <span class="cont"></span>
+                    <div class="del">
+                        <img src="/static/dist/images/admin_pc/icon21.png" alt="">删除
+                    </div>
+                </div>
+            </div>
+            <div class="sel">
+                <select class="sel-input">
+                <option selected="" value="1">入院</option>
+                <option value="2">出院</option>
+                <option value="3">转入</option>
+                <option value="4">转出</option>
+                <option value="5">手术</option>
+                <option value="6">分娩</option>
+                <option value="7">病危</option>
+                <option value="8">死亡</option>
+                <option value="9">特护</option>
+                <option value="10">一级护理</option>
+                </select>
+            </div>
+
+
+
+
+
+
+</script>
+
+<!-- navbar -->
+<a href="admin-offcanvas" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu"
+   data-am-offcanvas="{target: '#admin-offcanvas'}">
+    <!--<i class="fa fa-bars" aria-hidden="true"></i>--></a>
+<script type="text/javascript" src="/static/dist/js/lib/jquery.min.js"></script>
+<!--框架js-->
+<script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/amazeui.min.js"></script>
+<script src="/static/dist/js/lib/laydate/laydate.js"></script>
+<!--//遮罩层退出框-->
+<script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/blockUI.js"></script>
+
+<script src="/static/common.js"></script>
+<!--<script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/charts/echarts.min.js" ></script>-->
+<!--<script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/charts/indexChart.js" ></script>-->
+<script>
+
+    $('#jky-menu').on('open.collapse.amui', function (e) {
+        $(e.target).parents("li").addClass("jky-on")
+    })
+    $('#jky-menu').on('close.collapse.amui', function (e) {
+        $(e.target).parents("li").removeClass("jky-on")
+    })
+
+
+    var nowDateObj = nowDate()
+
+    function nowDate() {
+        var res = {},
+            nowD = new Date();
+        res.date = nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
+        res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
+        return res
+    }
+
+    function addZero(i) {
+        if (i < 10) {
+            return "0" + i;
+        } else {
+            return i;
+        }
+    }
+
+    laydate.render({
+        elem: '.date-input', //指定元素
+        showBottom: false,
+        value: nowDateObj.date,
+        done: function (value, date, endDate) {
+            console.log(value); //得到日期生成的值，如：2017-08-18
+            console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+            console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+
+            console.log("kai zi sb")
+            // window.location.href = "";
+        }
+    });
+
+    function createRow(index) {
+
+        var d_Disabled={{.d_Disabled}}
+        var n_Disabled={{.n_Disabled}}
+        var N_Disabled={{.N_Disabled}}
+
+        var $row = $($('#newrow').text());
+        // $row.data('id',id)
+        $row.find('.sel-input').attr('id', 'row' + index + '-sel')
+        if(d_Disabled){
+            $row.find('.textarea-input').eq(0).attr('disabled','disabled')
+        }
+        if(n_Disabled){
+            $row.find('.textarea-input').eq(1).attr('disabled','disabled')
+        }
+        if(N_Disabled){
+            $row.find('.textarea-input').eq(2).attr('disabled','disabled')
+        }
+        $row.find('.textarea-input').eq(0).attr('id', 'row' + index + '-msg1')
+        $row.find('.textarea-input').eq(1).attr('id', 'row' + index + '-msg2')
+        $row.find('.textarea-input').eq(2).attr('id', 'row' + index + '-msg3')
+        $('.td-warp').append($row);
+        return $row
+    }
+
+    function createTxtCont(i) {
+        var $contText = $($('#setRow').text())
+        $('.td-row').eq(i).find('.cont1').append($contText)
+    }
+
+    function setRow(id, $el) {
+        if (isRepeat(id)) {
+            alert("该条数据已存在")
+            return false;
+        }
+
+        var cont = $el.data('msg'),
+            bedId = $el.find('.l').text(),
+            userName = $el.find('.r').text(),
+            $targetEl = null;
+
+        var newRowHelper = isCreateRow();
+        if (newRowHelper.res) {
+            $targetEl = createRow(newRowHelper.index)
+        } else {
+            $targetEl = $('.td-row').eq(newRowHelper.index)
+        }
+
+        var renderData = {
+            id: id,
+            cont: cont,
+            userName: userName,
+            bedId: bedId
+        }
+        // console.log($targetEl)
+        createTxtCont(newRowHelper.index)
+
+        writeRowData($('.td-row').eq(newRowHelper.index), renderData)
+
+    }
+
+    function writeRowData($el, data) {
+        $el.data('id', data.id)
+        $el.find('.txt-warp').find('.userName').text(data.userName)
+        $el.find('.txt-warp').find('.cont').text(data.cont)
+        $el.find('.txt-warp').find('.bedId').text(data.bedId)
+    }
+
+    function isCreateRow() {
+        var $tdRow = $('.td-row'),
+            res = false,
+            cout = 0,
+            index = 0;
+        for (var i = 0; i < $tdRow.length; i++) {
+            if (!$tdRow.eq(i).data('id')) {
+                // index = cout - 1;
+                index = cout;
+                break;
+            } else {
+                cout++
+
+            }
+        }
+        if (cout == $tdRow.length) {
+            res = true
+            // index = cout-1;
+            index = cout;
+        } else {
+            res = false;
+        }
+        return {
+            res: res,
+            index: index
+        };
+    }
+
+    function isRepeat(currentId) {
+        // var $userList = $('.user-list'),
+        //     currentId = $userList.find('li').eq(index).data('id'),
+        var $tdRow = $('.td-row'),
+            res = false;
+        // console.log(currentId)
+        for (var i = 0; i < $tdRow.length; i++) {
+            if ($tdRow.eq(i).data('id') == currentId) {
+                res = true
+                break;
+            }
+        }
+        return res;
+    }
+
+    $('.user-list').on('click', 'li', function () {
+        var id = $(this).data('id');
+
+        setRow(id, $(this))
+    })
+
+    //del
+    $('body').on('click','.del',function(){
+        if($(this).parents('.td-row').find('.row1-sel').data('isdel')=="1"){
+            alert("不能删除")
+        }else{
+            $(this).parents('.td-row').remove();
+        }
+
+    })
+    // var numInputFn = jky.util.throttle(function () {
+    //     if (isNaN(parseFloat($(this).val()))) {
+    //         $(this).val("")
+    //     } else {
+    //         $(this).val(parseFloat($(this).val()))
+    //     }
+    // }, 500)
+
+    /**
+     * 节流函数
+     */
+    var nowFn = Date.now || function () {
+        return new Date().getTime()
+    }
+
+
+    function throttle(func, wait, option) {
+        var previous = 0, //之前的时间
+            timeout, self, args, result;
+
+        var later = function () {
+            previous = nowFn();
+            timeout = null;
+            result = func.apply(self, args);
+            !timeout && (self = args = null);
+        }
+        return function () {
+            var now = nowFn();
+
+            if (!previous && option.leading === false) previous = now;
+            var diff = wait - (now - previous);
+
+            args = arguments;
+            self = this;
+            if (diff <= 0) {
+                if (timeout) {
+                    clearTimeout(timeout);
+                    timeout = null;
+                }
+                result = func.apply(self, args);
+                previous = now;
+                !timeout && (self = args = null); //如果没有堆积的任务 则清空 self 和args
+            } else if (!timeout && option.trailing !== false) {
+                timeout = setTimeout(later, diff)
+            } else {
+                console.log('被抛弃了')
+            }
+            return result;
+
+        }
+    }
+
+    var $inputNum = $('.tit2,.tit3,.tit4').find('input')
+    $inputNum.on('input', throttle(function () {
+        if (isNaN(parseFloat($(this).val()))) {
+            $(this).val("")
+        } else {
+            $(this).val(parseFloat($(this).val()))
+        }
+    }, 500, {
+        leading: false, //配置第一次不立即执行 true 第一次执行 false 第一次不执行
+        trailing: true // 是否抛弃 还是 往后堆积
+    }))
+
+    function toggleTar() {
+        if ($('.top48').hasClass('small-type')) {
+            $('.top48').removeClass('small-type')
+            $('.jky_sidebar').removeClass('small-type')
+        } else {
+            $('.top48').addClass('small-type')
+            $('.jky_sidebar').addClass('small-type')
+        }
+
+    }
+
+    //保存方法
+    $(function () {
+        var  nurse = {{.Userinfo}};
+
+        $('#savedata').on('click', function () {
+            var datatime = $('#datatime').val() + " 00:00:00";//时间
+
+            var t1 = $('#t1-t1').val();//原有病人
+            var t2 = $('#t1-t2').val();//现有病人
+            var t3 = $('#t1-t3').val();//入院
+            var t4 = $('#t1-t4').val();//出院
+            var t5 = $('#t1-t5').val();//转入
+            var t6 = $('#t1-t6').val();//转出
+            var t7 = $('#t1-t7').val();//手术
+            var t8 = $('#t1-t8').val();//分娩
+            var t9 = $('#t1-t9').val();//危重
+            var t10 = $('#t1-t10').val();//死亡
+            var t11 = $('#t1-t11').val();//特护
+            var t12 = $('#t1-t12').val();//一级护理
+
+            var n_t1 = $('#t2-t1').val();//原有病人
+            var n_t2 = $('#t2-t1').val();//现有病人
+            var n_t3 = $('#t2-t3').val();//入院
+            var n_t4 = $('#t2-t4').val();//出院
+            var n_t5 = $('#t2-t5').val();//转入
+            var n_t6 = $('#t2-t6').val();//转出
+            var n_t7 = $('#t2-t7').val();//手术
+            var n_t8 = $('#t2-t8').val();//分娩
+            var n_t9 = $('#t2-t9').val();//危重
+            var n_t10 = $('#t2-t10').val();//死亡
+            var n_t11 = $('#t2-t11').val();//特护
+            var n_t12 = $('#t2-t12').val();//一级护理
+
+            var y_t1 = $('#t3-t1').val();//原有病人
+            var y_t2 = $('#t3-t2').val();//现有病人
+            var y_t3 = $('#t3-t3').val();//入院
+            var y_t4 = $('#t3-t4').val();//出院
+            var y_t5 = $('#t3-t5').val();//转入
+            var y_t6 = $('#t3-t6').val();//转出
+            var y_t7 = $('#t3-t7').val();//手术
+            var y_t8 = $('#t3-t8').val();//分娩
+            var y_t9 = $('#t3-t9').val();//危重
+            var y_t10 = $('#t3-t10').val();//死亡
+            var y_t11 = $('#t3-t11').val();//特护
+            var y_t12 = $('#t3-t12').val();//一级护理
+
+            var nursing_a = $('#nursing_1').val();//护士名称
+            var nursing_b = $('#nursing_2').val();//护士名称
+            var nursing_c = $('#nursing_3').val();//护士名称
+            //var ntype = $('n_type').val();// 夜班是否上传
+
+            var str_d = '{ "datatime":"' + datatime + '"'
+                    + ', "type": "' + 1 + '"'
+                    + ', "nursingname":"' + nursing_a + '"'
+                    + ', "nursingid":"' + nurse.UID+ '"'
+                    + ', "classid":"' + nurse.DepartmentID + '"'
+                    + ', "noldpatient": "' + t1 + '"'
+                    + ', "nnowpatient": "' + t2 + '"'
+                    + ', "ninthospital": "' + t3 + '"'
+                    + ', "nouthospital": "' + t4 + '"'
+                    + ', "ninto": "' + t5 + '"'
+                    + ', "nout": "' + t6 + '"'
+                    + ', "nsurgery": "' + t7 + '"'
+                    + ', "nchildbirth": "' + t8 + '"'
+                    + ', "ncritically": "' + t9 + '"'
+                    + ', "ndeath": "' + t10 + '"'
+                    + ', "nintensivecare": "' + t11 + '"'
+                    + ', "nprimarycare": "' + t12 + '" }';
+
+            var str_n = '{ "datatime": "' + datatime + '"'
+                + ', "type": "' + 2 + '"'
+                + ', "nursingname": "' + nursing_b + '"'
+                + ', "nursingid": "' + nurse.UID + '"'
+                + ', "classid": "' + nurse.DepartmentID + '"'
+                + ', "noldpatient": "' + n_t1 + '"'
+                + ', "nnowpatient": "' + n_t2 + '"'
+                + ', "ninthospital": "' + n_t3 + '"'
+                + ', "nouthospital": "' + n_t4 + '"'
+                + ', "ninto": "' + n_t5 + '"'
+                + ', "nout": "' + n_t6 + '"'
+                + ', "nsurgery": "' + n_t7 + '"'
+                + ', "nchildbirth": "' + n_t8 + '"'
+                + ', "ncritically": "' + n_t9 + '"'
+                + ', "ndeath": "' + n_t10 + '"'
+                + ', "nintensivecare": "' + n_t11 + '"'
+                + ', "nprimarycare": "' + n_t12 + '" }';
+
+            var str_g = '{ "datatime": "' + datatime + '"'
+                + ', "type": "' + 3 + '"'
+                + ', "nursingname": "' + nursing_c + '"'
+                + ', "nursingid": "' + nurse.UID + '"'
+                + ', "classid": "' + nurse.DepartmentID + '"'
+                + ', "noldpatient": "' + y_t1 + '"'
+                + ', "nnowpatient": "' + y_t2 + '"'
+                + ', "ninthospital": "' + y_t3 + '"'
+                + ', "nouthospital": "' + y_t4 + '"'
+                + ', "ninto": "' + y_t5 + '"'
+                + ', "nout": "' + y_t6 + '"'
+                + ', "nsurgery": "' + y_t7 + '"'
+                + ', "nchildbirth": "' + y_t8 + '"'
+                + ', "ncritically": "' + y_t9 + '"'
+                + ', "ndeath": "' + y_t10 + '"'
+                + ', "nintensivecare": "' + y_t11 + '"'
+                + ', "nprimarycare": "' + y_t12 + '" }';
+
+            var d_Disabled = {{.d_Disabled}}
+            var n_Disabled = {{.n_Disabled}}
+            var N_Disabled = {{.N_Disabled}}
+
+            if (d_Disabled || nursing_a == "") {
+                str_d = ""
+            }
+            if (n_Disabled || nursing_b == "") {
+                str_n = ""
+            }
+            if (N_Disabled || nursing_c == "") {
+                str_g = ""
+            }
+
+            var str_c = getData()
+
+            /*Comment_Shift:str_c*/
+
+            //var obj = JSON.parse(str); //由JSON字符串转换为JSON对象
+            //var jk_name = {{.d_NursingName}}
+             console.log("***: ",nursing_a)
+
+            console.log(str_c);
+             $.post("/pc/succession", {
+                 Day_Shift:str_d,
+                 Night_Shift:str_n,
+                 Graveyard_Shift:str_g,
+                 Comment_Shift:str_c
+             }, function (json, status) {
+                 //console.log(json, status);
+                  if (json.result == 0 ) {
+                      alert(json.errmsg)
+                  } else  {
+                      alert(json.errmsg)
+                  }
+             }, 'json');
+        });
+
+
+        function getData(){
+            //var res = [];
+            var res = "[";
+            var datatime = $('#datatime').val() + " 00:00:00";
+            var classid = nurse.DepartmentID;
+            $('.td-row').each(function(i,el){
+                /*res[i]={}
+                res[i]['datatime'] = datatime || "";
+                res[i]['classid'] = classid || "";
+                res[i]['bedid'] = $.trim($(el).find('.first.bedId').text()) || "";
+                res[i]['patientname'] = $.trim($(el).find('.userName').text()) || "";
+                res[i]['piagnosis'] = $.trim($(el).find('.cont').text()) || "";
+                res[i]['typte'] = $(el).find('.sel-input').val() || "";
+                res[i]['comment1'] = $(el).find('.cont2').find('.textarea-input').val() || "";
+                res[i]['comment2'] = $(el).find('.cont3').find('.textarea-input').val() || "";
+                res[i]['comment3'] = $(el).find('.cont4').find('.textarea-input').val() || "";*/
+
+                var c1 = datatime || "";
+                var c2 = classid || "";
+                var c3 = $.trim($(el).find('.first.bedId').text()) || "";
+                var c4 = $.trim($(el).find('.userName').text()) || "";
+                var c5 = $.trim($(el).find('.cont').text()) || "";
+                var c6 = $(el).find('.sel-input').val() || "";
+                var c7 = $(el).find('.cont2').find('.textarea-input').val() || "";
+                var c8 = $(el).find('.cont3').find('.textarea-input').val() || "";
+                var c9 = $(el).find('.cont4').find('.textarea-input').val() || "";
+                var c10 = $(el).data("id")|| "";
+
+                var str_c = '{ "datatime": "' + c1 + '"'    //时间
+                    + ', "classid": "' + c2 + '"'          //科室ID
+                    + ', "bedid": "' + c3  + '"'           //床位号
+                    + ', "patientname": "' + c4 + '"'      //病人名称
+                    + ', "patientid": "' + c10 + '"'      //病人id
+                    + ', "piagnosis": "' + c5 + '"'        //诊断
+                    + ', "typte": "' + c6 + '"'            //选择类型
+                    + ', "comment1": "' + c7 + '"'         //第一个空
+                    + ', "comment2": "' + c8 + '"'         //第二个空
+                    + ', "comment3": "' + c9 + '" }';      //第三个空
+                if(i == 0){
+                    res = res + str_c
+                }else{
+                    res = res + "," + str_c
+                }
+            })
+            res = res + "]"
+            return res
+        }
+    });
+
+
+
+</script>
+
+<script>
+   /* $(function () {
+        $(".td-warp").find(".td-row f").each(function (i, el) {
+            el.val()
+        })
+
+        var patient1 = $("#t1-t1").val()
+
+        $.post("",
+            {}, function (json) {
+
+            }, 'json');
+
+
+        var jsonstr = '{}'
+    })*/
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>首次护理记录单</title>
+    <link rel="stylesheet" href="../dist/style/css/base.css">
+    <script>
+        function setFontSize() {
+            var deviceWidth = document.documentElement.clientWidth;
+            if (deviceWidth > 640) deviceWidth = 640;
+            document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+        }
+
+        setFontSize()
+        var timer = null;
+        window.addEventListener('resize', function () {
+            clearTimeout(timer)
+            timer = setTimeout(setFontSize, 300)
+        }, false)
+    </script>
+</head>
+
+<body>
+
+<div class="g-main">
+    <div class="m-msg">
+        <ul>
+            <li class="b1">
+                姓名:<span>王小二</span>
+            </li>
+            <li class="b1">
+                性别:<span>女</span>
+            </li>
+            <li class="b1">
+                年龄:<span>32岁</span>
+            </li>
+            <li class="b1">
+                科室:<span>内科</span>
+            </li>
+            <li class="b1">
+                床号:<span>T06</span>
+            </li>
+            <li class="b1">
+                住院号:<span>489632</span>
+            </li>
+            <li class="b2">
+                入院日期:<span>2017-09-22</span>
+            </li>
+            <li class="b1">
+                职业:<span>小二</span>
+            </li>
+            <li class="b1">
+                民族/宗教:<span>汉</span>
+            </li>
+            <li class="b2">
+                诊断:<span>慢性硬膜下血肿</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="m-line"></div>
+    <!-- 教育程度 -->
+    <div class="m-check1" id="c1">
+        <p class="tit">
+            教育程度：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c1-v1" name="check1" data-v="1">
+                    <label for="c1-v1" class="icon"></label>
+                </div>
+                <label for="c1-v1">文盲</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c1-v2" name="check1" data-v="2">
+                    <label for="c1-v2" class="icon"></label>
+                </div>
+                <label for="c1-v2">小学</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c1-v3" name="check1" data-v="3">
+                    <label for="c1-v3" class="icon"></label>
+                </div>
+                <label for="c1-v3">中学</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c1-v4" name="check1" data-v="4">
+                    <label for="c1-v4" class="icon"></label>
+                </div>
+                <label for="c1-v4">中专</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c1-v5" name="check1" data-v="5">
+                    <label for="c1-v5" class="icon"></label>
+                </div>
+                <label for="c1-v5">大专以上</label>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 资料来源 -->
+    <div class="m-check1" id="c2">
+        <p class="tit">
+            资料来源
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c2-v1" name="check2" data-v="1">
+                    <label for="c2-v1" class="icon"></label>
+                </div>
+                <label for="c2-v1">患者</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c2-v2" name="check2" data-v="2">
+                    <label for="c2-v2" class="icon"></label>
+                </div>
+                <label for="c2-v2">家属</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c2-v3" name="check2" data-v="3">
+                    <label for="c2-v3" class="icon"></label>
+                </div>
+                <label for="c2-v3">朋友</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c2-v4" name="check2" data-v="4">
+                    <label for="c2-v4" class="icon"></label>
+                </div>
+                <label for="c2-v4">其它</label>
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="m-line"></div>
+    <!-- 日常照顾者： -->
+    <div class="m-check1" id="c3">
+        <p class="tit">
+            日常照顾者：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c3-v1" name="check3" data-v="1">
+                    <label for="c3-v1" class="icon"></label>
+                </div>
+                <label for="c3-v1">自我照顾</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c3-v2" name="check3" data-v="2">
+                    <label for="c3-v2" class="icon"></label>
+                </div>
+                <label for="c3-v2">夫/妻</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c3-v3" name="check3" data-v="3">
+                    <label for="c3-v3" class="icon"></label>
+                </div>
+                <label for="c3-v3">父母</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c3-v4" name="check3" data-v="4">
+                    <label for="c3-v4" class="icon"></label>
+                </div>
+                <label for="c3-v4">子女</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c3-v5" name="check3" data-v="5">
+                    <label for="c3-v5" class="icon"></label>
+                </div>
+                <label for="c3-v5">亲戚</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c3-v6" name="check3" data-v="6">
+                    <label for="c3-v6" class="icon"></label>
+                </div>
+                <label for="c3-v6">朋友</label>
+            </li>
+
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c3-v7" name="check3" data-v="7">
+                    <label for="c3-v7" class="icon"></label>
+                </div>
+                <label for="c3-v7">保姆</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c3-v8" name="check3" data-v="8">
+                    <label for="c3-v8" class="icon"></label>
+                </div>
+                <label for="c3-v8">其他</label>
+            </li>
+        </ul>
+    </div>
+
+    <div class="m-line"></div>
+    <!-- 入院方式 -->
+
+    <div class="m-check1" id="c4">
+        <p class="tit">
+            入院方式
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c4-v1" name="check4" data-v="1">
+                    <label for="c4-v1" class="icon"></label>
+                </div>
+                <label for="c4-v1">步行</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c4-v2" name="check4" data-v="2">
+                    <label for="c4-v2" class="icon"></label>
+                </div>
+                <label for="c4-v2">扶行</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c4-v3" name="check4" data-v="3">
+                    <label for="c4-v3" class="icon"></label>
+                </div>
+                <label for="c4-v3">轮椅</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c4-v4" name="check4" data-v="4">
+                    <label for="c4-v4" class="icon"></label>
+                </div>
+                <label for="c4-v4">平车</label>
+            </li>
+
+        </ul>
+    </div>
+    <div class="m-line"></div>
+    <!-- 过敏史： -->
+    <div class="m-check2" id="c5">
+        <p class="tit">
+            过敏史：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c5-v1" name="check5" data-v="1" class="c5">
+                    <label for="c5-v1" class="icon"></label>
+                </div>
+                <label for="c5-v1">无</label>
+
+            </li>
+            <li>
+                <div class="m-check-warp">
+                    <div class="m-input-radio">
+                        <input type="radio" id="c5-v2" name="check5" data-v="2" class="c5">
+                        <label for="c5-v2" class="icon"></label>
+                    </div>
+                    <label for="c5-v2">有</label>
+                </div>
+                <ul id="c5-c2">
+                    <li class="b1">
+                        ( 过敏源：
+                        <div class="m-input-radio">
+                            <input type="radio" id="c5-v2-v1" name="c5-v2" data-v="1">
+                            <label for="c5-v2-v1" class="icon"></label>
+                        </div>
+                        <label for="c5-v2-v1">食物，种类</label>
+                        <input type="text" class="m-input-txt">
+
+                    </li>
+                    <li class="b2">
+                        <div class="m-input-radio">
+                            <input type="radio" id="c5-v2-v2" name="c5-v2" data-v="2">
+                            <label for="c5-v2-v2" class="icon"></label>
+                        </div>
+                        <label for="c5-v2-v2">药物</label>
+                        <input type="text" class="m-input-txt"></li>
+
+
+                    <li class="b2">
+                        <div class="m-input-radio">
+                            <input type="radio" id="c5-v2-v3" name="c5-v2" data-v="3">
+                            <label for="c5-v2-v3" class="icon"></label>
+                        </div>
+                        <label for="c5-v2-v3">其它</label>
+                        <input type="text" class="m-input-txt">)
+                    </li>
+
+                </ul>
+
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c5-v3" name="check5" data-v="3" class="c5">
+                    <label for="c5-v3" class="icon"></label>
+                </div>
+                <label for="c5-v3">不明确</label>
+            </li>
+
+        </ul>
+    </div>
+
+
+    <div class="m-line"></div>
+    <!-- 医疗费用支付方式： -->
+    <div class="m-check1 t1" id="c6">
+        <p class="tit">
+            医疗费用支付方式：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c6-v1" name="check6" data-v="1">
+                    <label for="c6-v1" class="icon"></label>
+                </div>
+                <label for="c6-v1">自费</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c6-v2" name="check6" data-v="2">
+                    <label for="c6-v2" class="icon"></label>
+                </div>
+                <label for="c6-v2">公费医疗</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c6-v3" name="check6" data-v="3">
+                    <label for="c6-v3" class="icon"></label>
+                </div>
+                <label for="c6-v3">医保</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c6-v4" name="check6" data-v="4">
+                    <label for="c6-v4" class="icon"></label>
+                </div>
+                <label for="c6-v4">社保</label>
+            </li>
+
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c6-v5" name="check6" data-v="5">
+                    <label for="c6-v5" class="icon"></label>
+                </div>
+                <label for="c6-v5">商业保险</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c6-v6" name="check6" data-v="6">
+                    <label for="c6-v6" class="icon"></label>
+                </div>
+                <label for="c6-v6">他人赔付</label>
+            </li>
+            <li class="b1">
+                <div class="m-input-radio">
+                    <input type="radio" id="c6-v7" name="check6" data-v="7">
+                    <label for="c6-v7" class="icon"></label>
+                </div>
+                <label for="c6-v7">其他</label>
+                <input type="text" class="m-input-txt">
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="m-line"></div>
+
+    <div class="m-tit b">
+        <p class="tit">一、护理评估</p>
+    </div>
+    <!-- 意识状态： -->
+    <div class="m-check3">
+        <p class="tit">
+            意识状态：
+        </p>
+        <ul id="c7">
+            <li class="tit">呼之：</li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c7-v1" name="check7" data-v="1">
+                    <label for="c7-v1" class="icon"></label>
+                </div>
+                <label for="c7-v1">能应</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c7-v2" name="check7" data-v="2">
+                    <label for="c7-v2" class="icon"></label>
+                </div>
+                <label for="c7-v2">不应</label>
+            </li>
+        </ul>
+        <ul id="c8">
+            <li class="tit">对答：</li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c8-v1" name="check8" data-v="1">
+                    <label for="c8-v1" class="icon"></label>
+                </div>
+                <label for="c8-v1">切题</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c8-v2" name="check8" data-v="2">
+                    <label for="c8-v2" class="icon"></label>
+                </div>
+                <label for="c8-v2">不切题</label>
+            </li>
+        </ul>
+    </div>
+    <div class="m-line"></div>
+
+    <!-- 饮食： -->
+    <div class="m-check1">
+        <p class="tit">
+            饮食：
+        </p>
+        <ul id="c9">
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c9-v1" name="check9" data-v="1">
+                    <label for="c9-v1" class="icon"></label>
+                </div>
+                <label for="c9-v1">自行进食</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c9-v2" name="check9" data-v="2">
+                    <label for="c9-v2" class="icon"></label>
+                </div>
+                <label for="c9-v2">协助进食</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c9-v3" name="check9" data-v="3">
+                    <label for="c9-v3" class="icon"></label>
+                </div>
+                <label for="c9-v3">经鼻胃管</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c9-v4" name="check9" data-v="4">
+                    <label for="c9-v4" class="icon"></label>
+                </div>
+                <label for="c9-v4">经鼻肠管</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c9-v5" name="check9" data-v="5">
+                    <label for="c9-v5" class="icon"></label>
+                </div>
+                <label for="c9-v5">胃肠造瘘管</label>
+            </li>
+        </ul>
+
+
+        <ul class="t2" id="c10">
+            <li class="tit">咀嚼困难：</li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c10-v1" name="check10" data-v="1">
+                    <label for="c10-v1" class="icon"></label>
+                </div>
+                <label for="c10-v1">无</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c10-v2" name="check10" data-v="2">
+                    <label for="c10-v2" class="icon"></label>
+                </div>
+                <label for="c10-v2">有</label>
+            </li>
+        </ul>
+    </div>
+
+    <div class="m-line"></div>
+    <!-- 口腔黏膜： -->
+    <div class="m-check1 t1">
+        <p class="tit">
+            口腔黏膜：
+        </p>
+        <ul id="c11">
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c11-v1" name="check11" data-v="1">
+                    <label for="c11-v1" class="icon"></label>
+                </div>
+                <label for="c11-v1">完整</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c11-v2" name="check11" data-v="2">
+                    <label for="c11-v2" class="icon"></label>
+                </div>
+                <label for="c11-v2">溃疡</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c11-v3" name="check11" data-v="3">
+                    <label for="c11-v3" class="icon"></label>
+                </div>
+                <label for="c11-v3">白斑</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c11-v4" name="check11" data-v="4">
+                    <label for="c11-v4" class="icon"></label>
+                </div>
+                <label for="c11-v4">红肿</label>
+            </li>
+            <li class="b2">
+                <div class="m-input-radio">
+                    <input type="radio" id="c11-v5" name="check11" data-v="5">
+                    <label for="c11-v5" class="icon"></label>
+                </div>
+                <label for="c11-v5">其他</label>
+                <input type="text" class="m-input-txt">
+            </li>
+        </ul>
+
+
+        <ul class="t2" id="c12">
+            <li class="tit">吞咽困难：</li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c12-v1" name="check12" data-v="1">
+                    <label for="c12-v1" class="icon"></label>
+                </div>
+                <label for="c12-v1">无</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c12-v2" name="check12" data-v="2">
+                    <label for="c12-v2" class="icon"></label>
+                </div>
+                <label for="c12-v2">有</label>
+            </li>
+        </ul>
+    </div>
+    <div class="m-line"></div>
+    <!-- 睡眠： -->
+    <div class="m-check1 t1">
+        <p class="tit">
+            睡眠：
+        </p>
+        <ul id="c13">
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c13-v1" name="check13" data-v="1">
+                    <label for="c13-v1" class="icon"></label>
+                </div>
+                <label for="c13-v1">正常 </label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c13-v2" name="check13" data-v="2">
+                    <label for="c13-v2" class="icon"></label>
+                </div>
+                <label for="c13-v2">难入眠</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c13-v3" name="check13" data-v="3">
+                    <label for="c13-v3" class="icon"></label>
+                </div>
+                <label for="c13-v3">易醒</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c13-v4" name="check13" data-v="4">
+                    <label for="c13-v4" class="icon"></label>
+                </div>
+                <label for="c13-v4">早醒</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c13-v5" name="check13" data-v="5">
+                    <label for="c13-v5" class="icon"></label>
+                </div>
+                <label for="c13-v5">多梦</label>
+            </li>
+
+            <li class="b1">
+                <div class="m-input-radio">
+                    <input type="radio" id="c13-v6" name="check13" data-v="6">
+                    <label for="c13-v6" class="icon"></label>
+                </div>
+                <label for="c13-v6">使用辅助药物</label>
+                <input type="text" class="m-input-txt">
+            </li>
+        </ul>
+
+
+        <ul class="t2" id="c14">
+            <li class="tit">醒后疲劳感：</li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c14-v1" name="check14" data-v="1">
+                    <label for="c14-v1" class="icon"></label>
+                </div>
+                <label for="c14-v1">无</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c14-v2" name="check14" data-v="2">
+                    <label for="c14-v2" class="icon"></label>
+                </div>
+                <label for="c14-v2">有</label>
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="m-line"></div>
+    <!-- 排尿： -->
+    <div class="m-check1 t1">
+        <p class="tit">
+            排尿：
+        </p>
+        <ul id="c15">
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c15-v1" name="check15" data-v="1">
+                    <label for="c15-v1" class="icon"></label>
+                </div>
+                <label for="c15-v1">未发现异常 </label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c15-v2" name="check15" data-v="2">
+                    <label for="c15-v2" class="icon"></label>
+                </div>
+                <label for="c15-v2">尿频</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c15-v3" name="check15" data-v="3">
+                    <label for="c15-v3" class="icon"></label>
+                </div>
+                <label for="c15-v3">尿急</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c15-v4" name="check15" data-v="4">
+                    <label for="c15-v4" class="icon"></label>
+                </div>
+                <label for="c15-v4">尿痛</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c15-v5" name="check15" data-v="5">
+                    <label for="c15-v5" class="icon"></label>
+                </div>
+                <label for="c15-v5">尿失禁</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c15-v6" name="check15" data-v="6">
+                    <label for="c15-v6" class="icon"></label>
+                </div>
+                <label for="c15-v6">尿潴留</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c15-v7" name="check15" data-v="7">
+                    <label for="c15-v7" class="icon"></label>
+                </div>
+                <label for="c15-v7">留置尿管</label>
+            </li>
+
+            <li class="b2">
+                <div class="m-input-radio">
+                    <input type="radio" id="c15-v8" name="check15" data-v="8">
+                    <label for="c15-v8" class="icon"></label>
+                </div>
+                <label for="c15-v8">其它</label>
+                <input type="text" class="m-input-txt">
+            </li>
+        </ul>
+    </div>
+    <div class="m-line"></div>
+    <!-- 排便： -->
+
+    <div class="m-check1 t1">
+        <p class="tit">
+            排便：
+        </p>
+        <div class="m-input-bar">
+            <label for="i1">次数：</label>
+            <input type="number" class="m-input-txt" id="i1">
+            <span>次/天</span><label for="i2">（1次/ </label>
+            <input type="number" class="m-input-txt" id="i2">
+            <span>天）</span>
+        </div>
+        <ul id="c16">
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c16-v1" name="check16" data-v="1">
+                    <label for="c16-v1" class="icon"></label>
+                </div>
+                <label for="c16-v1">便秘</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c16-v2" name="check16" data-v="2">
+                    <label for="c16-v2" class="icon"></label>
+                </div>
+                <label for="c16-v2">腹泻</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c16-v3" name="check16" data-v="3">
+                    <label for="c16-v3" class="icon"></label>
+                </div>
+                <label for="c16-v3">失禁</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c16-v4" name="check16" data-v="4">
+                    <label for="c16-v4" class="icon"></label>
+                </div>
+                <label for="c16-v4">造瘘</label>
+            </li>
+
+            <li class="b2">
+                <div class="m-input-radio">
+                    <input type="radio" id="c16-v5" name="check16" data-v="5">
+                    <label for="c16-v5" class="icon"></label>
+                </div>
+                <label for="c16-v5">其它</label>
+                <input type="text" class="m-input-txt">
+            </li>
+        </ul>
+    </div>
+    <div class="m-line"></div>
+    <!-- 四肢活动： -->
+
+    <div class="m-check1">
+        <p class="tit">
+            四肢活动：
+        </p>
+        <ul id="c17">
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c17-v1" name="check17" class="c17" data-v="1">
+                    <label for="c17-v1" class="icon"></label>
+                </div>
+                <label for="c17-v1">自如</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c17-v2" name="check17" class="c17" data-v="2">
+                    <label for="c17-v2" class="icon"></label>
+                </div>
+                <label for="c17-v2">无力</label>
+            </li>
+            <li class="b1 tbar1" style="margin-top:.48rem;">
+                <div class="m-check-warp">
+                    <div class="m-input-radio">
+                        <input type="radio" id="c17-v3" name="check17" class="c17" data-v="3">
+                        <label for="c17-v3" class="icon"></label>
+                    </div>
+                    <label for="c17-v3">偏瘫</label>
+                </div>
+                <ul id="c17-c2">
+                    <li>(
+                        <div class="m-input-radio">
+                            <input type="radio" id="c17-v3-v1" name="check17-2" data-v="1">
+                            <label for="c17-v3-v1" class="icon"></label>
+                        </div>
+                        <label for="c17-v3-v1">左上肢</label>
+                    </li>
+                    <li>&nbsp;
+                        <div class="m-input-radio">
+                            <input type="radio" id="c17-v3-v2" name="check17-2" data-v="2">
+                            <label for="c17-v3-v2" class="icon"></label>
+                        </div>
+                        <label for="c17-v3-v2">左下肢</label>
+                    </li>
+                    <li>
+                        &nbsp;
+                        <div class="m-input-radio">
+                            <input type="radio" id="c17-v3-v3" name="check17-2" data-v="3">
+                            <label for="c17-v3-v3" class="icon"></label>
+                        </div>
+                        <label for="c17-v3-v3">右上肢</label>
+                    </li>
+                    <li>
+                        &nbsp;
+                        <div class="m-input-radio">
+                            <input type="radio" id="c17-v3-v4" name="check17-2" data-v="4">
+                            <label for="c17-v3-v4" class="icon"></label>
+                        </div>
+                        <label for="c17-v3-v4">右下肢</label> )
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c17-v4" name="check17" class="c17" data-v="4">
+                    <label for="c17-v4" class="icon"></label>
+                </div>
+                <label for="c17-v4">截瘫</label>
+            </li>
+
+            <li class="b2">
+                <div class="m-input-radio">
+                    <input type="radio" id="c17-v5" name="check17" class="c17" data-v="5">
+                    <label for="c17-v5" class="icon"></label>
+                </div>
+                <label for="c17-v5">全瘫</label>
+            </li>
+        </ul>
+    </div>
+    <div class="m-line"></div>
+    <!-- 自理能力： -->
+    <div class="m-check1 t1">
+        <p class="tit">
+            自理能力：
+        </p>
+        <ul class="t3" id="c18">
+            <li class="b3">
+                <div class="m-input-radio">
+                    <input type="radio" id="c18-v1" name="check18" data-v="1">
+                    <label for="c18-v1" class="icon"></label>
+                </div>
+                <label for="c18-v1">完全自理</label>
+            </li>
+            <li class="b3">
+                <div class="m-input-radio">
+                    <input type="radio" id="c18-v2" name="check18" data-v="2">
+                    <label for="c18-v2" class="icon"></label>
+                </div>
+                <label for="c18-v2">完全不能自理</label>
+            </li>
+
+            <li class="b1">
+                <div class="m-input-radio">
+                    <input type="radio" id="c18-v3" name="check18" data-v="3">
+                    <label for="c18-v3" class="icon"></label>
+                </div>
+                <label for="c18-v3">部分自理</label>
+                <input type="text" class="m-input-txt">
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="m-line"></div>
+
+    <!-- 皮肤状况： -->
+    <div class="m-check1 t1">
+        <p class="tit">
+            皮肤状况：
+        </p>
+        <ul id="c19">
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c19-v1" name="check19" data-v="1">
+                    <label for="c19-v1" class="icon"></label>
+                </div>
+                <label for="c19-v1">完整 </label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c19-v2" name="check19" data-v="2">
+                    <label for="c19-v2" class="icon"></label>
+                </div>
+                <label for="c19-v2">苍白</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c19-v3" name="check19" data-v="3">
+                    <label for="c19-v3" class="icon"></label>
+                </div>
+                <label for="c19-v3">黄疸</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c19-v4" name="check19" data-v="4">
+                    <label for="c19-v4" class="icon"></label>
+                </div>
+                <label for="c19-v4">潮红</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c19-v5" name="check19" data-v="5">
+                    <label for="c19-v5" class="icon"></label>
+                </div>
+                <label for="c19-v5">紫绀</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c19-v6" name="check19" data-v="6">
+                    <label for="c19-v6" class="icon"></label>
+                </div>
+                <label for="c19-v6">干燥</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c19-v7" name="check19" data-v="7">
+                    <label for="c19-v7" class="icon"></label>
+                </div>
+                <label for="c19-v7">出血点</label>
+            </li>
+
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c19-v8" name="check19" data-v="8">
+                    <label for="c19-v8" class="icon"></label>
+                </div>
+                <label for="c19-v8">压疮</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c19-v9" name="check19" data-v="9">
+                    <label for="c19-v9" class="icon"></label>
+                </div>
+                <label for="c19-v9">破损</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c19-v10" name="check19" data-v="10">
+                    <label for="c19-v10" class="icon"></label>
+                </div>
+                <label for="c19-v10">水肿</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c19-v11" name="check19" data-v="11">
+                    <label for="c19-v11" class="icon"></label>
+                </div>
+                <label for="c19-v11">皮疹</label>
+            </li>
+        </ul>
+
+        <div class="m-msg-bar">
+            <span>详细描述：</span>
+            <input type="text" class="m-input-txt" id="i3">
+        </div>
+    </div>
+
+    <div class="m-line"></div>
+
+    <!-- 语言沟通： -->
+
+    <div class="m-check1 t1">
+        <p class="tit">
+            语言沟通：
+        </p>
+        <div class="m-msg-bar type1" style="margin-top:0">
+            <span>最常用语言/语种：</span>
+            <input type="text" class="m-input-txt" id="i4" style="width:4rem">
+        </div>
+        <ul class="t4" id="c20">
+            <li class="tit">语言表达：</li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c20-v1" name="check20" data-v="1">
+                    <label for="c20-v1" class="icon"></label>
+                </div>
+                <label for="c20-v1">清楚 </label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c20-v2" name="check20" data-v="2">
+                    <label for="c20-v2" class="icon"></label>
+                </div>
+                <label for="c20-v2">含糊</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c20-v3" name="check20" data-v="3">
+                    <label for="c20-v3" class="icon"></label>
+                </div>
+                <label for="c20-v3">失语</label>
+            </li>
+
+        </ul>
+
+
+    </div>
+
+
+    <div class="m-line"></div>
+
+
+    <!-- 生活习惯： -->
+
+    <div class="m-check1 t1">
+        <p class="tit">
+            生活习惯：
+        </p>
+        <ul class="t5" id="c21">
+            <li class="tit">吸烟：</li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c21-v1" name="check21" data-v="1">
+                    <label for="c21-v1" class="icon"></label>
+                </div>
+                <label for="c21-v1">无 </label>
+
+
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c21-v2" name="check21" data-v="2">
+                    <label for="c21-v2" class="icon"></label>
+                </div>
+                <label for="c21-v2">有，</label>
+                <input type="number" class="m-input-txt">
+                <span>支/天</span>
+            </li>
+        </ul>
+        <ul class="t5" id="c22">
+            <li class="tit">嗜酒：</li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c22-v1" name="check22" data-v="1">
+                    <label for="c22-v1" class="icon"></label>
+                </div>
+                <label for="c22-v1">无 </label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c22-v2" name="check22" data-v="2">
+                    <label for="c22-v2" class="icon"></label>
+                </div>
+                <label for="c22-v2">有，</label>
+                <input type="number" class="m-input-txt">
+                <span>两/天</span>
+            </li>
+        </ul>
+
+
+    </div>
+    <div class="m-line"></div>
+
+    <div class="m-textarea1">
+        <p class="tit bule">
+            其它症状和体征：
+        </p>
+        <textarea placeholder="" id="i5" cols="30" rows="10"></textarea>
+    </div>
+
+    <div class="m-line"></div>
+
+    <div class="m-tit b">
+        <p class="tit">二、住院告知</p>
+    </div>
+    <!--住院告知-->
+    <div class="m-check1 t1">
+        <ul class="t6" id="c23">
+            <li class="b3">
+                <div class="m-input-radio">
+                    <input type="radio" id="c23-v1" name="check23" data-v="1">
+                    <label for="c23-v1" class="icon"></label>
+                </div>
+                <label for="c23-v1">住院通知 </label>
+            </li>
+            <li class="b3">
+                <div class="m-input-radio">
+                    <input type="radio" id="c23-v2" name="check23" data-v="2">
+                    <label for="c23-v2" class="icon"></label>
+                </div>
+                <label for="c23-v2">物品管理</label>
+            </li>
+            <li class="b3">
+                <div class="m-input-radio">
+                    <input type="radio" id="c23-v3" name="check23" data-v="3">
+                    <label for="c23-v3" class="icon"></label>
+                </div>
+                <label for="c23-v3">作息</label>
+            </li>
+            <li class="b3">
+                <div class="m-input-radio">
+                    <input type="radio" id="c23-v4" name="check23" data-v="4">
+                    <label for="c23-v4" class="icon"></label>
+                </div>
+                <label for="c23-v4">探陪</label>
+            </li>
+            <li class="b3">
+                <div class="m-input-radio">
+                    <input type="radio" id="c23-v5" name="check23" data-v="5">
+                    <label for="c23-v5" class="icon"></label>
+                </div>
+                <label for="c23-v5">订餐</label>
+            </li>
+            <li class="b3">
+                <div class="m-input-radio">
+                    <input type="radio" id="c23-v6" name="check23" data-v="6">
+                    <label for="c23-v6" class="icon"></label>
+                </div>
+                <label for="c23-v6">介绍主管医生</label>
+            </li>
+            <li class="b3">
+                <div class="m-input-radio">
+                    <input type="radio" id="c23-v7" name="check23" data-v="7">
+                    <label for="c23-v7" class="icon"></label>
+                </div>
+                <label for="c23-v7">介绍主管护士</label>
+            </li>
+
+            <li class="b2">
+                <div class="m-input-radio">
+                    <input type="radio" id="c23-v8" name="check23" data-v="8">
+                    <label for="c23-v8" class="icon"></label>
+                </div>
+                <label for="c23-v8">其它</label>
+                <input type="text" class="m-input-txt">
+            </li>
+        </ul>
+    </div>
+
+    <div class="m-tit b">
+        <p class="tit">三、护理重点</p>
+    </div>
+
+    <div class="m-textarea1">
+        <p class="tit bule">
+            1、基础护理：
+        </p>
+        <textarea placeholder="" id="i6" cols="30" rows="10"></textarea>
+    </div>
+    <div class="m-line"></div>
+    <div class="m-textarea1">
+        <p class="tit bule">
+            2、专科护理：
+        </p>
+        <textarea placeholder="" id="i7" cols="30" rows="10"></textarea>
+    </div>
+    <div class="m-line"></div>
+    <div class="m-textarea1">
+        <p class="tit bule">
+            3、患者安全：
+        </p>
+        <textarea placeholder="" id="i8" cols="30" rows="10"></textarea>
+    </div>
+    <div class="m-line"></div>
+
+    <div class="m-textarea1">
+        <p class="tit bule">
+            4、其它：
+        </p>
+        <textarea placeholder="" id="i9" cols="30" rows="10"></textarea>
+    </div>
+    <div class="m-line"></div>
+    <div class="m-textarea1">
+        <p class="tit bule">
+            护理交班重点：
+
+        </p>
+        <textarea placeholder="" id="i10" cols="30" rows="10"></textarea>
+    </div>
+    <div class="m-line"></div>
+    <div class="m-textarea1">
+        <p class="tit bule">
+            提醒医生给予关注：
+        </p>
+        <textarea placeholder="" id="i11" cols="30" rows="10"></textarea>
+    </div>
+    <div class="m-line"></div>
+    <div class="m-textarea1">
+        <p class="tit bule">
+            提醒家属给予关爱：
+        </p>
+        <textarea placeholder="" id="i12" cols="30" rows="10"></textarea>
+    </div>
+    <div class="m-line"></div>
+
+    <div class="m-time">
+        <span>记录时间</span>
+        <div class="input">
+            <span class="date">2017-09-08</span>
+            <span class="time">22:00</span>
+        </div>
+    </div>
+
+    <div class="m-autograph">
+        <span>签名：</span>
+        <span class="name">刘护士</span>
+    </div>
+</div>
+<div class="m-pd100"></div>
+
+<script type="tmpl" id="item">
+        <div class="item">
+            <ul>
+                <li><label class="pd" for="--"><span class="icon">-</span>名称：</label>
+                    <input id="--" type="text" class="m-input-txt"></li>
+                <li><label for="--">结果：</label>
+                    <input id="--" type="text" class="m-input-txt type1"></li>
+            </ul>
+        </div>
+</script>
+
+<script src="../dist/js/base.js"></script>
+<script>
+    var type = 1;
+
+    // setTime('{"date":"2017-01-02","time":"21:00"}')
+    function setTime(dataStr) {
+        var data = JSON.parse(dataStr)
+        var $mTime = $('.m-time');
+        data.date && $mTime.find('.date').text(data.date)
+        data.time && $mTime.find('.time').text(data.time)
+    }
+
+    function nowDate() {
+        var res = {}, nowD = new Date();
+        res.date = nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
+        res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
+        return JSON.stringify(res)
+    }
+
+    function addZero(i) {
+        if (i < 10) {
+            return "0" + i;
+        } else {
+            return i;
+        }
+    }
+
+    if (type = 1) {
+        setTime(nowDate())
+    }
+
+    var numInputFn = jky.util.throttle(function () {
+        if (isNaN(parseFloat($(this).val()))) {
+            $(this).val("")
+        } else {
+            $(this).val(parseFloat($(this).val()))
+        }
+    }, 500)
+    $('input[type=number]').on('input', numInputFn)
+
+
+    function reqAPI(type) {
+        var data = {}
+
+        function init() {
+            data = {
+                "nurse_id": "10010",
+                "nurse_name": "王小二",
+                "patient_id": "124",
+                "department_id": "102"
+                // "nrl_id":"10.11"
+            }
+        }
+
+        function setData() {
+            init() //重置数据
+            setDataDateTime();
+            setDatavNRL02();
+            setDatavNRL03();
+            setDatavNRL04();
+            setDatavNRL05();
+            setDatavNRL06();
+            setDatavNRL07();
+            setDatavNRL08();
+            setDatavNRL09();
+            setDatavNRL10();
+            setDatavNRL12();
+            setDatavNRL13();
+            setDatavNRL14();
+            setDatavNRL15();
+            setDatavNRL16();
+            setDatavNRL17();
+            setDatavNRL19();
+            setDatavNRL20();
+            setDatavNRL21();
+            setDatavNRL23();
+            setDatavNRL25();
+            setDatavNRL29();
+            setDatavNRL30();
+            setDataEnd();
+        }
+
+        //设置日期
+        function setDataDateTime() {
+            var $mTime = $('.m-time')
+            dateStr = $mTime.find('.date').text()
+            timeStr = $mTime.find('.time').text()
+            if (dateStr && timeStr) {
+                data.datetime = dateStr + " " + timeStr + ":00"
+            }
+        }
+
+
+        // 设置教育程度
+        function setDatavNRL02() {
+            var $check = $("#c1").find('input[type=radio]:checked');
+            $check.length && (data.NRL02 = $check.data('v'))
+        }
+
+        // 资料来源
+        function setDatavNRL03() {
+            var $check = $("#c2").find('input[type=radio]:checked');
+            $check.length && (data.NRL03 = $check.data('v'))
+        }
+
+        // 日常照顾者：
+        function setDatavNRL04() {
+            var $check = $("#c3").find('input[type=radio]:checked');
+            $check.length && (data.NRL04 = $check.data('v'))
+        }
+
+        // 入院方式
+        function setDatavNRL05() {
+            var $check = $("#c4").find('input[type=radio]:checked');
+            $check.length && (data.NRL05 = $check.data('v'))
+        }
+
+        // 过敏史：
+        function setDatavNRL06() {
+            var $check = $("#c5").find('.c5[type=radio]:checked');
+            if ($check.length != 0) {
+                data.NRL06 = $check.data('v');
+                if ($check.data('v') == 2) {
+                    var $check2 = $("#c5-c2").find('input[type=radio]:checked'),
+                        check2Data = {},
+                        check2Val = $check2.parents("li").find("input[type=text]");
+                    if ($check2.length) {
+                        check2Data[$check2.data('v')] = $.trim(check2Val.val());
+                        data.NRL06A = JSON.stringify(check2Data)
+                    }
+                }
+            }
+        }
+
+        // 医疗费用支付方式：
+        function setDatavNRL07() {
+            var $check = $("#c6").find('input[type=radio]:checked');
+            $check.length && (data.NRL07 = $check.data('v'))
+            if ($check.data('v') == "7") {
+                var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
+                checkVal && (data.NRL07A = checkVal)
+            }
+        }
+
+        // 意识状态
+        function setDatavNRL08() {
+            var $check = $("#c7").find('input[type=radio]:checked');
+            $check.length && (data.NRL08 = $check.data('v'))
+        }
+
+        function setDatavNRL09() {
+            var $check = $("#c8").find('input[type=radio]:checked');
+            $check.length && (data.NRL09 = $check.data('v'))
+        }
+
+        //饮食
+        function setDatavNRL10() {
+            var $check = $("#c9").find('input[type=radio]:checked');
+            $check.length && (data.NRL10 = $check.data('v'))
+            var $check2 = $("#c10").find('input[type=radio]:checked');
+            $check2.length && (data.NRL11 = $check2.data('v'))
+        }
+
+        // 口腔黏膜：
+        function setDatavNRL12() {
+            var $check = $("#c11").find('input[type=radio]:checked');
+            $check.length && (data.NRL12 = $check.data('v'))
+            if ($check.data('v') == "5") {
+                var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
+                checkVal && (data.NRL12A = checkVal)
+            }
+        }
+
+        function setDatavNRL13() {
+            var $check = $("#c12").find('input[type=radio]:checked');
+            $check.length && (data.NRL13 = $check.data('v'))
+        }
+
+        // 睡眠
+        function setDatavNRL14() {
+            var $check = $("#c13").find('input[type=radio]:checked');
+            $check.length && (data.NRL14 = $check.data('v'))
+            if ($check.data('v') == "6") {
+                var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
+                checkVal && (data.NRL14A = checkVal)
+            }
+        }
+
+        function setDatavNRL15() {
+            var $check = $("#c14").find('input[type=radio]:checked');
+            $check.length && (data.NRL15 = $check.data('v'))
+        }
+
+        // 排尿
+        function setDatavNRL16() {
+            var $check = $("#c15").find('input[type=radio]:checked');
+            $check.length && (data.NRL16 = $check.data('v'))
+            if ($check.data('v') == "8") {
+                var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
+                checkVal && (data.NRL16A = checkVal)
+            }
+        }
+
+        // 排便
+        function setDatavNRL17() {
+            var i1 = $.trim($("#i1").val()),
+                i2 = $.trim($("#i2").val());
+            if (i1 || i2) {
+                var res = '';
+                i2 ? (res = i1 + "," + i2) : (res = i1)
+                data.NRL18 = res
+
+            }
+
+            var $check = $("#c16").find('input[type=radio]:checked');
+            $check.length && (data.NRL17 = $check.data('v'))
+            if ($check.data('v') == "5") {
+                var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
+                checkVal && (data.NRL17A = checkVal)
+            }
+
+        }
+
+        // 四肢活动：
+        function setDatavNRL19() {
+            var $check = $("#c17").find('.c17[type=radio]:checked');
+            if ($check.length != 0) {
+                data.NRL19 = $check.data('v');
+                if ($check.data('v') == 3) {
+                    var $check2 = $("#c17-c2").find('input[type=radio]:checked');
+                    $check2.length && (data.LimbsId = $check2.data('v'))
+                }
+            }
+        }
+
+        // 自理能力：
+        function setDatavNRL20() {
+            var $check = $("#c18").find('input[type=radio]:checked');
+            $check.length && (data.NRL20 = $check.data('v'))
+            if ($check.data('v') == "3") {
+                var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
+                checkVal && (data.NRL20A = checkVal)
+            }
+        }
+
+        // 皮肤状况：
+        function setDatavNRL21() {
+            var $check = $("#c19").find('input[type=radio]:checked');
+            $check.length && (data.NRL20 = $check.data('v'))
+            var iText = $.trim($("#i3").val())
+            iText && (data.NRL22 = iText)
+        }
+
+        // 语言沟通：
+        function setDatavNRL23() {
+            var iText = $.trim($("#i4").val())
+            iText && (data.NRL23 = iText)
+            var $check = $("#c20").find('input[type=radio]:checked');
+            $check.length && (data.NRL24 = $check.data('v'))
+        }
+
+        // 生活习惯：
+        function setDatavNRL25() {
+            var $check = $("#c21").find('input[type=radio]:checked');
+            $check.length && (data.NRL25 = $check.data('v'));
+            if ($check.data('v') == "2") {
+                var checkVal = $.trim($check.parents("li").find("input[type=number]").val());
+                checkVal && (data.NRL26 = checkVal)
+            }
+            var $check2 = $("#c22").find('input[type=radio]:checked');
+            $check2.length && (data.NRL27 = $check2.data('v'));
+            if ($check2.data('v') == "2") {
+                var checkVal2 = $.trim($check2.parents("li").find("input[type=number]").val());
+                checkVal2 && (data.NRL28 = checkVal2)
+            }
+        }
+
+        // 其它症状和体征：
+        function setDatavNRL29() {
+            var resTxt = $('#i5').val()  //$.trim()
+            resTxt && (data.NRL29 = resTxt)
+        }
+
+        // 住院告知
+        function setDatavNRL30(){
+            var $check = $("#c23").find('input[type=radio]:checked');
+            $check.length && (data.NRL30 = $check.data('v'))
+            if ($check.data('v') == "8") {
+                var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
+                checkVal && (data.NRL30A = checkVal)
+            }
+        }
+
+        // 基础护理 专科护理 患者安全  其它 护理交班重点 提醒医生给予关注 提醒家属给予关爱
+        function setDataEnd(){
+            $('#i6').val() && (data.NRL31 =$('#i6').val())
+            $('#i7').val() && (data.NRL32 =$('#i7').val())
+            $('#i8').val() && (data.NRL33 =$('#i8').val())
+            $('#i9').val() && (data.NRL34 =$('#i9').val())
+            $('#i10').val() && (data.NRL35 =$('#i10').val())
+            $('#i11').val() && (data.NRL36 =$('#i11').val())
+            $('#i12').val() && (data.NRL37 =$('#i12').val())
+        }
+
+        var api = '', typeStr = '';
+        if (type == 1) {
+            api = "/record/nr2/add"
+            typeStr = '保存'
+        } else if (type == 2) {
+            api = "/record/nr1/update"
+            typeStr = '修改'
+        }
+        return function saveFrom() {
+            setData();
+
+            $.ajax({
+                url: api,
+                data: data,
+                type: "POST",
+                success: function (data) {
+                    console.log(data);
+                    if (data) {
+                        switch (data.result) {
+                            case 0:
+                                jky.util.toast(typeStr + "成功！", 1500);
+                                break;
+                            case 2:
+                                jky.util.toast(typeStr + "失败，请重试！", 1500);
+                                break;
+                            default:
+                                jky.util.toast("未知错误！", 1000)
+                        }
+                    }
+                },
+                error: function (e) {
+                    console.log("ajax err:", e)
+                },
+                dataType: "json"
+            })
+        }
+    }
+
+    var reqAPIFN = reqAPI(1);
+    $('input[type=radio]').on('click',function(){
+        var ischeck = $(this).data("check");
+        if(!ischeck){
+            $(this).parents('ul').find("input[type=radio]").data("check","0")
+            $(this).data("check","1");
+        }else{
+            $(this).prop('checked',false);
+            $(this).data("check","0");
+        }
+    })
+</script>
+
+</body>
+
+</html>

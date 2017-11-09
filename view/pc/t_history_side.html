@@ -1,0 +1,62 @@
+{{define "templet_history_side"}}
+
+<div class="cb-bar-warp">
+    <div class="left_history_menu">
+        <div class="top-box">
+            <div class="tr-hd">
+                <div class="td-1">姓名</div>
+                <div class="td-2">登记号</div>
+                <div class="td-3">住院号</div>
+                <div class="td-4">住出院时间</div>
+            </div>
+            <div class="top_tabel search-patient">
+                {{range .Patients}}
+                <div class="tr-item" data-pid="{{.VAA01}}">
+                    <div class="td-1">{{.VAA05}}</div>
+                    <div class="td-2">{{.VAE02}}</div>
+                    <div class="td-3">{{.VAA04}}</div>
+                    <div class="td-4">{{.Date}}</div>
+                </div>
+                {{end}}
+            </div>
+            <div class="line-1"></div>
+            <div class="line-2"></div>
+            <div class="line-3"></div>
+        </div>
+
+        <div class="sel-box">
+            <div class="input-bar">
+                <input type="radio" id="timeSel" name="sel" checked>
+                <label for="timeSel">时间范围:</label>
+                <input type="text" class="date-input" id="date3">
+                <span class="line">-</span>
+                <input type="text" class="date-input2" id="date4">
+            </div>
+            <div class="input-bar">
+                <input type="radio" id="id1" name="sel">
+                <label for="id1">登记号:</label>
+                <input type="text" class="input-txt" id="rgtNum">
+            </div>
+            <div class="input-bar">
+                <input type="radio" id="id2" name="sel">
+                <label for="id2">住院号:</label>
+                <input type="text" class="input-txt" id="hospNum">
+            </div>
+            <div class="input-bar">
+                <input type="radio" id="name" name="sel">
+                <label for="name">姓名:</label>
+                <input type="text" class="input-txt" id="patName" placeholder="姓名或者拼音首字母">
+            </div>
+            <div class="search-btn" id="history-search-btn" data-did="{{.Userinfo.DepartmentID}}">
+                查找
+            </div>
+        </div>
+
+
+    </div>
+    <!-- 收缩按钮 -->
+    <div class="s-btn2">
+        <div class="top-block"></div>
+    </div>
+</div>
+{{end}}

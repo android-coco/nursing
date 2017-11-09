@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>见康云护理管理信息系统_历史病人</title>
+    <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/amazeui.css" />
+    <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/core.css" />
+    <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/menu.css" />
+    <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/admin.css" />
+    <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/page/typography.css" />
+    <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/page/form.css" />
+    <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/component.css" />
+    <link rel="stylesheet" href="/static/dist/style/css/base_pc.min.css">
+</head>
+
+<body class="pt48">
+    <div id="gopng_icon4_outer">
+        <div id="gopng_icon4"></div>
+    </div>
+    <div class="hd_tit">
+        <div class="logo"><img src="/static/dist/images/admin_pc/logo.png"></div>
+        <p class="tit">见康云护理管理信息系统_历史病人</p>
+        <div class="r_menu_list">
+            <div class="out_btn">
+                <img src="/static/dist/images/admin_pc/out.png" alt=""> 退出
+            </div>
+        </div>
+    </div>
+    <div class="history-main">
+
+        {{template "templet_history_side" .}}
+
+        <div class="admin">
+            <div class="content-page type2" data-index="2">
+                <div class="hd-menu">
+                    <ul>
+                        <li><a href="./历史_医嘱信息.html"  class="active">医嘱信息</a></li>
+                        <li><a href="./历史_生命体征.html">生命体征</a></li>
+                        <li><a href="./历史_体温单.html">体温单</a></li>
+                        <li><a href="#">护理文书</a></li>
+                    </ul>
+                </div>
+
+
+
+                <div class="content abs-hd">
+                        <div class="am-g">
+                            <div class="doctorSearch2">
+                                    <div class="pd-col-10"></div>
+                                    <div class="hd-bar">
+                                            <div class="tab-list">
+                                                    <ul>
+                                                        <li>
+                                                            <a href="./历史_医嘱信息.html" > 医嘱查询</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="./历史_医嘱信息2.html" class="active"> 执行明细</a>
+                                                       </li>
+                                                    </ul>
+                                                </div>
+
+
+                                        <div class="sel-box">
+                                            <div class="sel-filter-box">
+                                                <div class="input-box">
+                                                    <label for="">医嘱类别</label>
+                                                    <select name="" id="">
+                                                                <option selected="" value="全部">全部</option>
+                                                                <option selected="" value="药品">药品</option>
+                                                                <option selected="" value="检验">检验</option>
+                                                                <option selected="" value="诊疗">诊疗</option>
+                                                            </select>
+                                                </div>
+                                                <div class="input-box">
+                                                    <label for="">长期/临时</label>
+                                                    <select name="" id="">
+                                                            <option selected="" value="全部">全部</option>
+                                                            <option value="长期">长期</option>
+                                                            <option value="临时">临时</option>
+                                                        </select>
+                                                </div>
+
+                                                <div class="input-box">
+                                                    <label for="">医嘱执行状态</label>
+                                                    <select name="" id="">
+                                                            <option selected="" value="全部">全部</option>
+                                                            <option value="未停">未停</option>
+                                                            <option value="已停">已停</option>
+                                                            <option value="撤销">撤销</option>
+                                                        </select>
+                                                </div>
+                                                <div class="input-box">
+                                                        <label for="">用法</label>
+                                                        <select name="" id="">
+                                                                    <option selected="" value="全部">全部</option>
+                                                                    <option value="静脉注射">静脉注射</option>
+                                                                    <option value="肌注">肌注</option>
+                                                                    <option value="口服">口服</option>
+                                                                    <option value="泵入">泵入</option>
+                                                                    <option value="雾化吸收">雾化吸收</option>
+                                                                    <option value="皮下注射">皮下注射</option>
+                                                                    <option value="皮内注射">皮内注射</option>
+                                                                    <option value="腔内注射">腔内注射</option>
+                                                                    <option value="输血">输血</option>
+                                                                    <option value="灌肠">灌肠</option>
+                                                                    <option value="其它">其它</option>
+                                                            </select>
+                                                    </div>
+                                            </div>
+                                            <div class="sel-date-box">
+                                                <div class="input-box">
+                                                    <input type="radio" id="all-radio" name="date">
+                                                    <label for="all-radio">全部</label>
+                                                </div>
+                                                <div class="input-box">
+                                                    <input type="radio" id="today-radio" name="date">
+                                                    <label for="today-radio">当天</label>
+                                                </div>
+
+                                                <div class="input-box">
+                                                    <input type="radio" id="week-radio" name="date">
+                                                    <label for="week-radio">近一周</label>
+                                                </div>
+                                                <div class="input-box type2">
+                                                    <input type="radio" id="today-radio" name="date">
+                                                    <input type="text" class="date-input" id="date1">
+                                                    <span>-</span>
+                                                    <input type="text" class="date-input2" id="date2">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="doctorSearch-box">
+                                        <div class="scroll-box">
+                                            <div class="warp-box">
+                                                <div class="warp-table-box">
+                                                    <table class="cont-table fx">
+                                                        <thead class="table-hd">
+                                                            <tr>
+                                                                <th class="th1">床号</th>
+                                                                <th class="th2">姓名</th>
+                                                                <th class="th3">医嘱类别</th>
+                                                                <th class="th4">医嘱项目</th>
+                                                                <th class="th5">剂量</th>
+                                                                <th class="th6">频次</th>
+                                                                <th class="th7">用法</th>
+                                                                <th class="th8">长期/临时</th>
+                                                                <th class="th9">开始时间</th>
+                                                                <th class="th10">护士签名</th>
+                                                                <th class="th11">执行状态</th>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                    <table class="cont-table">
+                                                        <thead class="table-hd">
+                                                            <tr>
+                                                                <th class="th1">床号</th>
+                                                                <th class="th2">姓名</th>
+                                                                <th class="th3">医嘱类别</th>
+                                                                <th class="th4">医嘱项目</th>
+                                                                <th class="th5">剂量</th>
+                                                                <th class="th6">频次</th>
+                                                                <th class="th7">用法</th>
+                                                                <th class="th8">长期/临时</th>
+                                                                <th class="th9">开始时间</th>
+                                                                <th class="th10">护士签名</th>
+                                                                <th class="th11">执行状态</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr class="active">
+                                                                <td>
+                                                                    B01
+                                                                </td>
+                                                                <td>
+                                                                    王小二
+                                                                </td>
+                                                                <td class="tc">
+                                                                    全部
+                                                                </td>
+                                                                <td>
+                                                                    <p>
+                                                                        生理盐水注射(直立）/100毫升
+                                                                    </p>
+                                                                </td>
+                                                                <td class="tc">
+                                                                    <p>
+                                                                        1000
+                                                                    </p>
+                                                                </td>
+                                                                <td class="tc">q8h</td>
+                                                                <td class="tc">静滴</td>
+                                                                <td class="tc">长期</td>
+                                                                <td class="tc">
+                                                                    2017-09-18 18:00
+                                                                </td>
+                                                                <td class="tc">李护士</td>
+                                                                <td class="tc td11">
+                                                                    执行结束
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="">
+                                                                <td>
+                                                                    B01
+                                                                </td>
+                                                                <td>
+                                                                    王小二
+                                                                </td>
+                                                                <td class="tc">
+                                                                    全部
+                                                                </td>
+                                                                <td>
+                                                                    <p>
+                                                                        生理盐水注射(直立）/100毫升
+                                                                    </p>
+                                                                </td>
+                                                                <td class="tc">
+                                                                    <p>
+                                                                        1000
+                                                                    </p>
+                                                                </td>
+                                                                <td class="tc">q8h</td>
+                                                                <td class="tc">静滴</td>
+                                                                <td class="tc">长期</td>
+                                                                <td class="tc">
+                                                                    2017-09-18 18:00
+                                                                </td>
+                                                                <td class="tc">李护士</td>
+                                                                <td class="tc td11">
+                                                                    执行结束
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="">
+                                                                <td>
+                                                                    B01
+                                                                </td>
+                                                                <td>
+                                                                    王小二
+                                                                </td>
+                                                                <td class="tc">
+                                                                    全部
+                                                                </td>
+                                                                <td>
+                                                                    <p>
+                                                                        生理盐水注射(直立）/100毫升
+                                                                    </p>
+                                                                </td>
+                                                                <td class="tc">
+                                                                    <p>
+                                                                        1000
+                                                                    </p>
+                                                                </td>
+                                                                <td class="tc">q8h</td>
+                                                                <td class="tc">静滴</td>
+                                                                <td class="tc">长期</td>
+                                                                <td class="tc">
+                                                                    2017-09-18 18:00
+                                                                </td>
+                                                                <td class="tc">李护士</td>
+                                                                <td class="tc td11">
+                                                                    执行结束
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="">
+                                                                <td>
+                                                                    B01
+                                                                </td>
+                                                                <td>
+                                                                    王小二
+                                                                </td>
+                                                                <td class="tc">
+                                                                    全部
+                                                                </td>
+                                                                <td>
+                                                                    <p>
+                                                                        生理盐水注射(直立）/100毫升
+                                                                    </p>
+                                                                </td>
+                                                                <td class="tc">
+                                                                    <p>
+                                                                        1000
+                                                                    </p>
+                                                                </td>
+                                                                <td class="tc">q8h</td>
+                                                                <td class="tc">静滴</td>
+                                                                <td class="tc">长期</td>
+                                                                <td class="tc">
+                                                                    2017-09-18 18:00
+                                                                </td>
+                                                                <td class="tc">李护士</td>
+                                                                <td class="tc td11">
+                                                                    执行结束
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="">
+                                                                <td>
+                                                                    B01
+                                                                </td>
+                                                                <td>
+                                                                    王小二
+                                                                </td>
+                                                                <td class="tc">
+                                                                    全部
+                                                                </td>
+                                                                <td>
+                                                                    <p>
+                                                                        生理盐水注射(直立）/100毫升
+                                                                    </p>
+                                                                </td>
+                                                                <td class="tc">
+                                                                    <p>
+                                                                        1000
+                                                                    </p>
+                                                                </td>
+                                                                <td class="tc">q8h</td>
+                                                                <td class="tc">静滴</td>
+                                                                <td class="tc">长期</td>
+                                                                <td class="tc">
+                                                                    2017-09-18 18:00
+                                                                </td>
+                                                                <td class="tc">李护士</td>
+                                                                <td class="tc td11">
+                                                                    执行结束
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="">
+                                                                <td>
+                                                                    B01
+                                                                </td>
+                                                                <td>
+                                                                    王小二
+                                                                </td>
+                                                                <td class="tc">
+                                                                    全部
+                                                                </td>
+                                                                <td>
+                                                                    <p>
+                                                                        生理盐水注射(直立）/100毫升
+                                                                    </p>
+                                                                </td>
+                                                                <td class="tc">
+                                                                    <p>
+                                                                        1000
+                                                                    </p>
+                                                                </td>
+                                                                <td class="tc">q8h</td>
+                                                                <td class="tc">静滴</td>
+                                                                <td class="tc">长期</td>
+                                                                <td class="tc">
+                                                                    2017-09-18 18:00
+                                                                </td>
+                                                                <td class="tc">李护士</td>
+                                                                <td class="tc td11">
+                                                                    执行结束
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="rowSpan">
+                                                                <td>
+                                                                    B01
+                                                                </td>
+                                                                <td>
+                                                                    王小二
+                                                                </td>
+                                                                <td class="tc">
+                                                                    全部
+                                                                </td>
+                                                                <td class="pd0">
+                                                                    <p>
+                                                                        生理盐水注射(直立）/100毫升
+                                                                    </p>
+                                                                    <p> 生理盐水注射(直立）/100毫升
+                                                                    </p>
+
+
+
+                                                                </td>
+                                                                <td class="tc pd0">
+                                                                    <p>1000</p>
+                                                                    <p>1000</p>
+                                                                </td>
+                                                                <td class="tc">q8h</td>
+                                                                <td class="tc">静滴</td>
+                                                                <td class="tc">长期</td>
+                                                                <td class="tc">
+                                                                    2017-09-18 18:00
+                                                                </td>
+                                                                <td class="tc">李护士</td>
+                                                                <td class="tc td11">
+                                                                    未执行
+                                                                </td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="r-box">
+                                                    <div class="r-tit">
+                                                        医嘱执行记录
+                                                    </div>
+                                                    <ul class="list-data">
+                                                        <li>
+                                                            <div class="block1">2017-08-31 10:00 </div>
+                                                            <div class="block2">已摆药</div>
+                                                            <div class="block3">小芳</div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="block1">2017-08-31 10:00 </div>
+                                                            <div class="block2">核药，存在错误</div>
+                                                            <div class="block3">小芳</div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="block1">2017-08-31 10:00 </div>
+                                                            <div class="block2">已摆药</div>
+                                                            <div class="block3">小芳</div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="block1">2017-08-31 10:00 </div>
+                                                            <div class="block2">已摆药</div>
+                                                            <div class="block3">小芳</div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+    </div>
+    <!-- navbar -->
+    <a href="admin-offcanvas" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"><!--<i class="fa fa-bars" aria-hidden="true"></i>--></a>
+
+    <script type="text/javascript" src="/static/dist/js/lib/jquery.min.js"></script>
+    <!--框架js-->
+    <script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/amazeui.min.js"></script>
+    <!--//遮罩层退出框-->
+    <script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/blockUI.js"></script>
+    <!--<script type="text/javascript" src="../dist/js/lib/amazeui_tmplate/charts/echarts.min.js" ></script>-->
+    <!--<script type="text/javascript" src="../dist/js/lib/amazeui_tmplate/charts/indexChart.js" ></script>-->
+
+    <script src="/static/dist/js/lib/laydate/laydate.js"></script>
+    <script src="/static/common.js"></script>
+    <script src="/static/historySideTemplet.js"></script>
+
+    <script>
+        /**
+         * 节流函数
+         */
+        var nowFn = Date.now || function() {
+            return new Date().getTime()
+        }
+
+
+        function throttle(func, wait, option) {
+            var previous = 0, //之前的时间
+                timeout, self, args, result;
+
+            var later = function() {
+                previous = nowFn();
+                timeout = null;
+                result = func.apply(self, args);
+                !timeout && (self = args = null);
+            }
+            return function() {
+                var now = nowFn();
+
+                if (!previous && option.leading === false) previous = now;
+                var diff = wait - (now - previous);
+
+                args = arguments;
+                self = this;
+                if (diff <= 0) {
+                    if (timeout) {
+                        clearTimeout(timeout);
+                        timeout = null;
+                    }
+                    result = func.apply(self, args);
+                    previous = now;
+                    !timeout && (self = args = null); //如果没有堆积的任务 则清空 self 和args
+                } else if (!timeout && option.trailing !== false) {
+                    timeout = setTimeout(later, diff)
+                } else {
+                    console.log('被抛弃了')
+                }
+                return result;
+
+            }
+        }
+        $('#jky-menu').on('open.collapse.amui', function(e) {
+            $(e.target).parents("li").addClass("jky-on")
+        })
+        $('#jky-menu').on('close.collapse.amui', function(e) {
+            $(e.target).parents("li").removeClass("jky-on")
+        })
+
+
+
+        function toggleTar() {
+            if ($('.top48').hasClass('small-type')) {
+                $('.top48').removeClass('small-type')
+                $('.jky_sidebar').removeClass('small-type')
+            } else {
+                $('.top48').addClass('small-type')
+                $('.jky_sidebar').addClass('small-type')
+            }
+
+        }
+
+
+        $('.s-btn').on('click', function() {
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+                $('.user-warp').show();
+
+            } else {
+                $(this).addClass('active');
+
+                $('.user-warp').hide();
+            }
+        })
+
+        laydate.render({
+            elem: '#date1', //指定元素
+            showBottom: false,
+            value: nowDateObj.date,
+            done: function(value, date, endDate) {
+                console.log(value); //得到日期生成的值，如：2017-08-18
+                console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+            }
+        });
+        laydate.render({
+            elem: '#date2', //指定元素
+            showBottom: false,
+            value: nowDateObj.date,
+            done: function(value, date, endDate) {
+                console.log(value); //得到日期生成的值，如：2017-08-18
+                console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+            }
+        });
+
+        /**
+        laydate.render({
+            elem: '.time-input', //指定元素
+            // showBottom: false,
+            type: 'time',
+            format: 'HH:mm',
+            value: nowDateObj.time,
+            done: function(value, date, endDate) {
+                console.log(value); //得到日期生成的值，如：2017-08-18
+                console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+            }
+        });
+        **/
+        // setTimeout(function(){
+        // $('.time-input').val(nowDateObj.time)
+        // },0)
+
+
+
+
+        $(window).on('resize', throttle(resizeFn, 500, {
+            leading: false, //配置第一次不立即执行 true 第一次执行 false 第一次不执行
+            trailing: true // 是否抛弃 还是 往后堆积
+        }))
+
+        var h = $('.doctorSearch2').height()
+        resizeFn()
+
+        function resizeFn() {
+            var $el = $('.hd-bar');
+            elH = parseFloat($el.css('height'))
+            $('.scroll-box').height(h - elH - 20 )
+            console.log(elH, h)
+        }
+        var hxScroll = 0,
+            zxScroll = 0;
+        $('.scroll-box').on('scroll', function() {
+            var sl = this.scrollLeft,
+                st = this.scrollTop
+            if (sl != hxScroll) {
+                console.log('横向滚动')
+                hxScroll = sl
+            }
+            if (st != zxScroll) {
+                console.log('纵向滚动')
+                $('.cont-table.fx').css('top', st)
+                zxScroll = st
+            }
+        })
+        var dateHtml = '<div class="date-time-box">' +
+            '<input type="text" class="date-input-td">' +
+            '<input type="text" class="time-input-td">' +
+            '</div>'
+            // var edit1
+        $('body').on('click', '.edit-btn', function() {
+            // console.log($(this).parents('tr'))
+            var l = $('tr.active').length;
+            if (l == 0) {
+                $(this).parents('tr').addClass('active')
+                $(this).parents('tr').find('.date-time-td').append(dateHtml)
+
+                laydate.render({
+                    elem: '.date-input-td', //指定元素
+                    showBottom: false,
+                    value: nowDateObj.date,
+                    done: function(value, date, endDate) {
+                        console.log(value); //得到日期生成的值，如：2017-08-18
+                        console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                        console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                    }
+                })
+
+                laydate.render({
+                    elem: '.time-input-td',
+                    type: 'time',
+                    format: 'HH:mm',
+                    value: nowDateObj.time,
+                    done: function(value, date, endDate) {
+                        console.log(value); //得到日期生成的值，如：2017-08-18
+                        console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                        console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                    }
+                })
+            } else {
+                // alert('暂时未保存，是否放弃修改');
+                // alert('修改暂时未保存,请先保存');
+                alert('修改信息还未保存')
+
+            }
+
+        });
+        $('body').on('click', '.save-btn', function() {
+            console.log($(this).parents('tr'))
+            $(this).parents('tr').removeClass('active')
+            $('.date-time-box').remove();
+
+        })
+
+        $("body").on('click','.tr-item',function(){
+            $(this).parents(".top_tabel").find(".tr-item").removeClass("active")
+            $(this).addClass("active")
+
+            const patient = $(this).data('pid')
+            console.log("病人ID："+patient)
+        })
+    </script>
+</body>
+
+</html>

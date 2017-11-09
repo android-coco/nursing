@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>见康云护理管理信息系统</title>
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/amazeui.css" />
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/core.css" />
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/menu.css" />
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/admin.css" />
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/page/typography.css" />
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/page/form.css" />
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/component.css" />
+    <link rel="stylesheet" href="../dist/style/css/base_pc.min.css">
+</head>
+
+<body class="pt48">
+    <div id="gopng_icon4_outer">
+        <div id="gopng_icon4"></div>
+    </div>
+    <div class="hd_tit">
+        <div class="logo"><img src="../dist/images/admin_pc/logo.png"></div>
+        <p class="tit">见康云护理管理信息系统_</p>
+        <div class="am-dropdown jky_dropdown" data-am-dropdown>
+            <button class="am-btn am-btn-primary am-dropdown-toggle" data-am-dropdown-toggle>内分泌科
+                <span class="jky_icon"><img src="../dist/images/admin_pc/xl.png" alt=""></span>
+            </button>
+            <ul class="am-dropdown-content">
+                <li class="am-active"><a href="#">内分泌科</a></li>
+                <li><a href="#">外科</a></li>
+                <li><a href="#">XXX科</a></li>
+                <li><a href="#">？？科</a></li>
+            </ul>
+        </div>
+        <div class="r_menu_list">
+            <div class="out_btn">
+                <img src="../dist/images/admin_pc/out.png" alt=""> 退出
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Begin page -->
+    <div class="am-topbar am-topbar-fixed-top top48">
+        <div class="am-topbar-left am-hide-sm-only">
+            <a class="username"><span>欢迎,你王小二</span><i class="zmdi zmdi-layers"></i></a>
+        </div>
+
+        <div class="contain">
+            <div class="jky-class-bar">
+
+            </div>
+            <div class="jky-tab-hd">
+                <ul>
+                    <li><a href="./账号管理1.html">创建新账号</a></li>
+                    <li class="active"><a href="./账号管理2.html">已创建</a></li>
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- end page -->
+
+
+    <div class="admin">
+        <!-- 侧边栏 -->
+        <div class="admin-sidebar am-offcanvas  am-padding-0 jky_sidebar type2" id="admin-offcanvas">
+            <div class="am-offcanvas-bar admin-offcanvas-bar">
+
+                <ul class="am-list admin-sidebar-list" id="jky-menu">
+                    <li>
+                        <a class="am-cf">
+                            <span class="jky_icon2">
+                                <img src="../dist/images/admin_pc/icon10.png" alt="">
+                            </span>
+                            <span class="tit"> 设备管理 </span>
+                            <div class="jky_icon">
+                                <img src="../dist/images/admin_pc/icon5.png" alt="">
+                            </div>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a class="am-cf">
+                            <span class="jky_icon2">
+                                <img src="../dist/images/admin_pc/icon11.png" alt="">
+                            </span>
+                            <span class="tit"> 账号管理 </span>
+                            <div class="jky_icon">
+                                <img src="../dist/images/admin_pc/icon5.png" alt="">
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="am-cf">
+                            <span class="jky_icon2">
+                                <img src="../dist/images/admin_pc/icon12.png" alt="">
+                            </span>
+                            <span class="tit"> 服务器地址 </span>
+                            <div class="jky_icon">
+                                <img src="../dist/images/admin_pc/icon5.png" alt="">
+                            </div>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+
+        <!-- main -->
+
+        <div class="content-page type2" style="margin-top: 85px;">
+            <div class="content ">
+                <div class="am-g">
+                    <div class="exists-acount">
+                        <div class="hd">
+                            <div class="sel-1">
+                                <label for="ks-sel">科室选择</label>
+                                <select name="" id="ks-sel">
+                                    <option value="1">科室一</option>
+                                    <option value="2">科室二</option>
+                                </select>
+                            </div>
+                            <div class="sel-2">
+                                <label for="ks-sel">角色</label>
+                                <select name="" id="ks-sel">
+                                    <option value="1">账号管理员</option>
+                                    <option value="2">一般用户</option>
+                                </select>
+                            </div>
+                            <div class="sel-3">
+                                <label for="ks-sel">状态</label>
+                                <select name="" id="ks-sel">
+                                    <option value="0">所有状态</option>
+                                    <option value="1">启用</option>
+                                    <option value="2">停用</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="exists-acount-cont">
+                            <div class="scroll-box">
+                                <div class="cont">
+                                    <table class="fix">
+                                        <thead>
+                                            <tr>
+                                                <th class="td-1">科室</th>
+                                                <th class="td-2">科室成员</th>
+                                                <th class="td-3">登录账号</th>
+                                                <th class="td-4">登录密码</th>
+                                                <th class="td-5">所属角色</th>
+                                                <th class="td-6">状态</th>
+                                                <th class="td-7">操作</th>
+
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th class="td-1">科室</th>
+                                                <th class="td-2">科室成员</th>
+                                                <th class="td-3">登录账号</th>
+                                                <th class="td-4">登录密码</th>
+                                                <th class="td-5">所属角色</th>
+                                                <th class="td-6">状态</th>
+                                                <th class="td-7">操作</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td class="td-1">科室一</td>
+                                                <td class="td-2">李护士长</td>
+                                                <td class="td-3">222231</td>
+                                                <td class="td-4">123456</td>
+                                                <td class="td-5">
+                                                    <div class="msg">
+                                                        账号管理员
+                                                    </div>
+                                                    <div class="sel-1">
+                                                        <select name="" id="">
+                                                            <option value="1">账号管理员</option>
+                                                            <option value="2">一般用户</option>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                                <td class="td-6">
+                                                    <div class="msg ty1">
+                                                        启用
+                                                    </div>
+                                                    <div class="sel-2">
+                                                        <select name="" id="">
+                                                            <option value="1">启用</option>
+                                                            <option value="2">停用</option>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                                <td class="td-7">
+                                                    <a href="#" class="edit-btn">修改</a>
+                                                    <a href="#" class="save-btn ty1 ">保存</a>
+                                                    <span class="line">|</span>
+                                                    <a href="#">删除</a>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="td-1">科室一</td>
+                                                <td class="td-2">李护士长</td>
+                                                <td class="td-3">222231</td>
+                                                <td class="td-4">123456</td>
+                                                <td class="td-5">
+                                                    <div class="msg">
+                                                        账号管理员
+                                                    </div>
+                                                    <div class="sel-1">
+                                                        <select name="" id="">
+                                                                <option value="1">账号管理员</option>
+                                                                <option value="2">一般用户</option>
+                                                            </select>
+                                                    </div>
+                                                </td>
+                                                <td class="td-6">
+                                                    <div class="msg ty1">
+                                                        启用
+                                                    </div>
+                                                    <div class="sel-2">
+                                                        <select name="" id="">
+                                                                <option value="1">启用</option>
+                                                                <option value="2">停用</option>
+                                                            </select>
+                                                    </div>
+                                                </td>
+                                                <td class="td-7">
+                                                    <a href="#" class="edit-btn">修改</a>
+                                                    <a href="#" class="save-btn ty1 ">保存</a>
+                                                    <span class="line">|</span>
+                                                    <a href="#">删除</a>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="td-1">科室一</td>
+                                                <td class="td-2">李护士长</td>
+                                                <td class="td-3">222231</td>
+                                                <td class="td-4">123456</td>
+                                                <td class="td-5">
+                                                    <div class="msg">
+                                                        账号管理员
+                                                    </div>
+                                                    <div class="sel-1">
+                                                        <select name="" id="">
+                                                                    <option value="1">账号管理员</option>
+                                                                    <option value="2">一般用户</option>
+                                                                </select>
+                                                    </div>
+                                                </td>
+                                                <td class="td-6">
+                                                    <div class="msg ty1">
+                                                        启用
+                                                    </div>
+                                                    <div class="sel-2">
+                                                        <select name="" id="">
+                                                                    <option value="1">启用</option>
+                                                                    <option value="2">停用</option>
+                                                                </select>
+                                                    </div>
+                                                </td>
+                                                <td class="td-7">
+                                                    <a href="#" class="edit-btn">修改</a>
+                                                    <a href="#" class="save-btn ty1 ">保存</a>
+                                                    <span class="line">|</span>
+                                                    <a href="#">删除</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+
+    <!-- navbar -->
+    <a href="admin-offcanvas" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"><!--<i class="fa fa-bars" aria-hidden="true"></i>--></a>
+
+    <script type="text/javascript" src="../dist/js/lib/jquery.min.js"></script>
+    <!--框架js-->
+    <script type="text/javascript" src="../dist/js/lib/amazeui_tmplate/amazeui.min.js"></script>
+    <!--//遮罩层退出框-->
+    <!-- <script type="text/javascript" src="../dist/js/lib/amazeui_tmplate/blockUI.js"></script> -->
+
+    <!--<script type="text/javascript" src="../dist/js/lib/amazeui_tmplate/charts/echarts.min.js" ></script>-->
+    <!--<script type="text/javascript" src="../dist/js/lib/amazeui_tmplate/charts/indexChart.js" ></script>-->
+
+
+    <script>
+        /**
+         * 节流函数
+         */
+        var nowFn = Date.now || function() {
+            return new Date().getTime()
+        }
+
+
+        function throttle(func, wait, option) {
+            var previous = 0, //之前的时间
+                timeout, self, args, result;
+
+            var later = function() {
+                previous = nowFn();
+                timeout = null;
+                result = func.apply(self, args);
+                !timeout && (self = args = null);
+            }
+            return function() {
+                var now = nowFn();
+
+                if (!previous && option.leading === false) previous = now;
+                var diff = wait - (now - previous);
+
+                args = arguments;
+                self = this;
+                if (diff <= 0) {
+                    if (timeout) {
+                        clearTimeout(timeout);
+                        timeout = null;
+                    }
+                    result = func.apply(self, args);
+                    previous = now;
+                    !timeout && (self = args = null); //如果没有堆积的任务 则清空 self 和args
+                } else if (!timeout && option.trailing !== false) {
+                    timeout = setTimeout(later, diff)
+                } else {
+                    console.log('被抛弃了')
+                }
+                return result;
+
+            }
+        }
+        $('#jky-menu').on('open.collapse.amui', function(e) {
+            $(e.target).parents("li").addClass("jky-on")
+        })
+        $('#jky-menu').on('close.collapse.amui', function(e) {
+            $(e.target).parents("li").removeClass("jky-on")
+        })
+
+
+
+        function toggleTar() {
+            if ($('.top48').hasClass('small-type')) {
+                $('.top48').removeClass('small-type')
+                $('.jky_sidebar').removeClass('small-type')
+            } else {
+                $('.top48').addClass('small-type')
+                $('.jky_sidebar').addClass('small-type')
+            }
+
+        }
+
+        $('.cont').on('click', '.hide-btn,.colse-btn', function() {
+            var $this = $(this),
+                $parentEl = $this.parents('.device-item');
+            $parentEl.find('.item-tit').removeClass('none');
+            $parentEl.find('.divice-cont').addClass('none');
+
+
+        })
+        $('.cont').on('click', '.edit-btn', function() {
+            var $this = $(this),
+                $parentEl = $this.parents('.device-item');
+            $parentEl.find('.divice-cont').removeClass('none');
+            $parentEl.find('.item-tit').addClass('none');
+
+
+        })
+
+
+
+        var hxScroll = 0,
+            zxScroll = 0;
+        $('.scroll-box').on('scroll', function() {
+            var sl = this.scrollLeft,
+                st = this.scrollTop
+            if (sl != hxScroll) {
+                console.log('横向滚动')
+                hxScroll = sl
+            }
+            if (st != zxScroll) {
+                console.log('纵向滚动')
+                $('table.fix').css('top', st)
+                zxScroll = st
+            }
+        })
+
+
+        $('body').on('click', '.edit-btn', function() {
+            $(this).parents('tr').addClass('active');
+        })
+        $('body').on('click', '.save-btn', function() {
+                $(this).parents('tr').removeClass('active');
+            })
+            /**
+            laydate.render({
+                elem: '.time-input', //指定元素
+                // showBottom: false,
+                type: 'time',
+                format: 'HH:mm',
+                value: nowDateObj.time,
+                done: function(value, date, endDate) {
+                    console.log(value); //得到日期生成的值，如：2017-08-18
+                    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                    console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                }
+            });
+            **/
+            // setTimeout(function(){
+            // $('.time-input').val(nowDateObj.time)
+            // },0)
+
+
+        // $(window).on('resize', throttle(resizeFn, 500, {
+        //     leading: false, //配置第一次不立即执行 true 第一次执行 false 第一次不执行
+        //     trailing: true // 是否抛弃 还是 往后堆积
+        // }))
+
+        // var h = $('.temperatureFrom').height()
+        // resizeFn()
+
+        // function resizeFn() {
+        //     h = $('.temperatureFrom').height()
+        //     var $el = $('.hd-bar');
+        //     elH = parseFloat($el.css('height'))
+        //     $('.temperature-box').height(h - elH - 10)
+        //     console.log(elH, h)
+        // }
+    </script>
+</body>
+
+</html>

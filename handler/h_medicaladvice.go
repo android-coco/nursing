@@ -13,6 +13,7 @@ type MedicalAdviceQuery struct {
 
 //查询医嘱
 func (c MedicalAdviceQuery) Post(w *fit.Response, r *fit.Request, p fit.Params) {
+	defer c.ResponseToJson(w)
 	r.ParseForm()
 
 	//advice_class := r.FormValue("advice_class")         //医嘱类别BDA01  关联BDA1.BDA01
@@ -30,8 +31,8 @@ func (c MedicalAdviceQuery) Post(w *fit.Response, r *fit.Request, p fit.Params) 
 	    var sql string
 	    var msg []interface{}
 
-	    sql = "VAA01 = ? and (VAF10 = ? or VAF10 = ? or VAF10 = ?)"
-	    msg = append(msg, patient_id,4,5,8)
+	    sql = "VAA01 = ? and (VAF10 = ? or VAF10 = ? or VAF10 = ? or (VAF10 = ? and BCE03D = ?))"
+	    msg = append(msg, patient_id,1,4,5,8,"")
 
 		relusts,err := model.OutAdvice(sql,msg...)
 		if err != nil{
@@ -47,7 +48,6 @@ func (c MedicalAdviceQuery) Post(w *fit.Response, r *fit.Request, p fit.Params) 
 		fit.Logger().LogError("医嘱：",relusts,err)
 	}
 
-	c.ResponseToJson(w)
 }
 
 type MedicalAdviceStateQuery struct {
@@ -71,8 +71,6 @@ func (c MedicalAdviceStateQuery) Post(w *fit.Response, r *fit.Request, p fit.Par
 		return
 	}
 	advicefits := make([]model.AdviceFit, 0)   //返回总数据
-	//var relusts []model.Advice
-	//var err error
 
 	if advice_id != ""{
 		sql :=  "VAF01 = ?"
@@ -103,9 +101,7 @@ func (c MedicalAdviceStateQuery) Post(w *fit.Response, r *fit.Request, p fit.Par
 			c.JsonData.Datas = advicefits
 		}
 	}else{
-		var sql string
-
-		sql = sql + "(VAF11 = ? and VAA01 = ? and VAF36 >= ? and VAF36 <= ? ) or (VAF11 = ? and VAA01 = ?)"
+		sql := "(VAF11 = ? and VAA01 = ? and VAF36 >= ? and VAF36 <= ? ) or (VAF11 = ? and VAA01 = ?)"
 		relusts,err := model.OutAdvice(sql,2,patient_id,starttime,endtime,1,patient_id)
 
 		if err != nil{
@@ -128,7 +124,10 @@ func (c MedicalAdviceStateQuery) Post(w *fit.Response, r *fit.Request, p fit.Par
 					if len(advicestates) !=0{
 						advicefits = append(advicefits,model.AdviceFit{i,advicestates,patients})
 					}else{
-						if i.VAF10 == 8 || i.VAF10 == 10{
+						if  i.VAF10 == 10 {  //皮试
+							advicefits = append(advicefits,model.AdviceFit{i,advicestates,patients})
+						}
+						if i.VAF10 == 8 && i.BCE03E == ""{   //开始医嘱
 							advicefits = append(advicefits,model.AdviceFit{i,advicestates,patients})
 						}
 					}
@@ -146,6 +145,7 @@ type MedicalAdviceExecute struct {
 	fit.Controller
 }
 
+//医嘱执行记录
 func (c MedicalAdviceExecute) Post(w *fit.Response, r *fit.Request, p fit.Params) {
     defer c.ResponseToJson(w)
 	advice_id := r.FormValue("advice_id")
@@ -159,11 +159,7 @@ func (c MedicalAdviceExecute) Post(w *fit.Response, r *fit.Request, p fit.Params
 		c.JsonData.ErrorMsg = "参数不完整"
 		c.JsonData.Datas = []interface{}{}
 	}else{
-		var sql string
-		var msg []interface{}
-		sql = "VAF01 = ?"
-		msg = append(msg, advice_id)
-		relusts,err := model.OutAdvice(sql,msg...)
+		relusts,err := model.OutAdvice("VAF01 = ?",advice_id)
 		if err != nil{
 			c.JsonData.Result = 2
 			c.JsonData.ErrorMsg = "查询错误"
@@ -202,6 +198,7 @@ type MedicalAdviceNewPause struct {
 	fit.Controller
 }
 
+//得到新嘱和未确认医嘱
 func (c MedicalAdviceNewPause) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 

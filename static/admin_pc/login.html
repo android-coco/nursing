@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" style="height:100%">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>见康云护理管理信息系统</title>
+    <link rel="stylesheet" href="../dist/style/lib/amazeui_tmplate/amazeui.css" />
+    <link rel="stylesheet" href="../dist/style/css/base_pc.min.css">
+</head>
+
+<body class="login-body">
+    <div class="login-cont">
+        <div class="logo-box l">
+            <div class="logo-img">
+                <img src="../dist/images/admin_pc/logo2.png" alt="">
+            </div>
+            <p class="name">
+                见康云护理管理信息系统
+            </p>
+        </div>
+        <div class="from-box r">
+            <div class="input-bar">
+                <i class="icon">
+                    <img src="../dist/images/admin_pc/icon18.png" alt="">
+                </i>
+                <input type="text" placeholder="请输入账号">
+            </div>
+            <div class="input-bar">
+                <i class="icon">
+                    <img src="../dist/images/admin_pc/icon19.png" alt="">
+                </i>
+                <input type="password" placeholder="请输入密码">
+            </div>
+            <div class="login-btn">
+                登录
+            </div>
+        </div>
+    </div>
+    <div class="modal-warp none">
+        <div class="modal-bg"></div>
+        <div class="d-sel-modal">
+
+            <p class="tit">
+                请选择科室
+            </p>
+
+            <div class="cont">
+                <ul>
+                    <li> <a href="#">血管外科</a></li>
+                    <li>
+                        <a href="#">妇产科</a>
+                    </li>
+                    <li>
+                        <a href="#">内科</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../dist/js/lib/jquery.min.js"></script>
+    <script>
+    $('.login-btn').on('click',function(){
+        $('.modal-warp').removeClass('none')
+    })
+    $('.modal-bg').on('click',function(){
+        $('.modal-warp').addClass('none')
+    })
+    </script>
+
+</body>
+
+</html>
