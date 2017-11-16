@@ -53,7 +53,11 @@
                         </div>
                         <div class="hd-bar">
                             <div class="date-box fl">
-                                <div class="sel-date-box">
+                                <div class="sel-date-box  br1">
+                                    <span>
+                                        时间：
+                                    </span>
+
                                     <div class="input-box">
                                         <input type="radio" id="today-radio" name="date">
                                         <label for="today-radio">今天</label>
@@ -66,31 +70,67 @@
                                         <input type="radio" id="today-radio" name="date">
                                         <input type="text" class="date-input">
                                     </div>
+                                    <div class="search-btn">确认</div>
                                 </div>
                                 <div class="sel-filter-box">
                                     <div class="input-box">
-                                        <label for="">长期/临时</label>
-                                        <select name="" id="">
-                                        <option selected="" value="全部">全部</option>
-                                        <option value="长期">长期</option>
-                                        <option value="临时">临时</option>
-                                    </select>
+                                        <span class="pd-20">长期/临时:</span>
+                                        <div class="input-box">
+                                            <input type="radio" id="radio1-1" name="group1">
+                                            <label for="radio1-1">长期</label>
+                                        </div>
+                                        <div class="input-box">
+                                            <input type="radio" id="radio1-2" name="group1">
+                                            <label for="radio1-2">临时</label>
+                                        </div>
+                                        <div class="input-box">
+                                            <input type="radio" id="radio1-3" name="group1">
+                                            <label for="radio1-3">全部</label>
+                                        </div>
                                     </div>
+
+                                </div>
+                                <br>
+                                <div class="sel-filter-box br1">
                                     <div class="input-box">
-                                        <label for="">用法</label>
-                                        <select name="" id="">
-                                           <option value="全部">全部</option>
-                                            <option selected="" value="静滴">静滴</option>
-                                            <option value="采血">采血</option>
-                                        </select>
+                                        <span>打印类型：</span>
+                                        <div class="input-box">
+                                            <input type="radio" id="radio2-1" name="group2">
+                                            <label for="radio1-1">执行单</label>
+                                        </div>
+                                        <div class="input-box">
+                                            <input type="radio" id="radio2-2" name="group2">
+                                            <label for="radio1-2">瓶签</label>
+                                        </div>
+                                        <div class="input-box">
+                                            <input type="checkbox" id="check2-1" name="group2-2">
+                                            <label for="check2-1">输液单</label>
+                                        </div>
+                                        <div class="input-box">
+                                            <input type="checkbox" id="check2-2" name="group2-2">
+                                            <label for="check2-2">口服单</label>
+                                        </div>
+                                        <div class="input-box">
+                                            <input type="checkbox" id="check2-3" name="group2-2">
+                                            <label for="check2-3">治疗单</label>
+                                        </div>
                                     </div>
+                                </div>
+                                <div class="sel-filter-box">
                                     <div class="input-box">
-                                        <label for="">打印状态</label>
-                                        <select name="" id="">
-                                        <option selected="" value="全部">全部</option>
-                                        <option value="未打印">未打印</option>
-                                        <option value="已打印">已打印</option>
-                                    </select>
+                                        <span class="pd-20">打印状态：</span>
+                                        <div class="input-box">
+                                            <input type="radio" id="radio3-1" name="group3">
+                                            <label for="radio3-1">未打印</label>
+                                        </div>
+                                        <div class="input-box">
+                                            <input type="radio" id="radio3-2" name="group3">
+                                            <label for="radio3-2">已打印</label>
+                                        </div>
+                                        <div class="input-box">
+                                            <input type="radio" id="radio3-3" name="group3">
+                                            <label for="radio3-3">全部</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

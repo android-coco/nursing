@@ -13,6 +13,7 @@ type ChangePasswordController struct {
 	PCController
 }
 
+/*更改密码页面*/
 func (c ChangePasswordController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 	userinfo, err := c.GetLocalUserinfo(w, r)
 	if err == nil {
@@ -25,6 +26,7 @@ func (c ChangePasswordController) Get(w *fit.Response, r *fit.Request, p fit.Par
 	}
 }
 
+/*API 更改密码*/
 func (c ChangePasswordController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 	r.ParseForm()
@@ -46,7 +48,7 @@ func (c ChangePasswordController) Post(w *fit.Response, r *fit.Request, p fit.Pa
 		return
 	}
 
-	userSlice, err_user := model.QueryUserTable(code, orginal_sha)
+	userSlice, err_user := model.CheckingUserCodeAndPwd(code, orginal_sha)
 	if err_user != nil {
 		c.RenderingJsonAutomatically(3, "Database "+err_user.Error())
 	} else if len(userSlice) == 0 {

@@ -27,6 +27,14 @@ type IdModel struct {
 	//DateTime  time.Time `json:"date_time" xorm:"created"`
 }
 
+func AbsInt(i int64) int64 {
+	if i>0{
+		return i
+	}else{
+		return -i
+	}
+}
+
 
 
 /*func (mod BaseModel) InsertData(a interface{}) error {

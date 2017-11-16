@@ -12,7 +12,7 @@ import (
 
 // 模板 template
 type NRL1Controller struct {
-	fit.Controller
+	NRLController
 }
 
 // 查看护理记录单
@@ -42,14 +42,14 @@ func (c NRL1Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 		fmt.Fprintln(w, "病人ID错误！")
 		return
 	}
-	uidInt, err1 := strconv.Atoi(uid)
+	_, err1 = strconv.Atoi(uid)
 	if err1 != nil {
 		fit.Logger().LogError("m_NR1", err1)
 		fmt.Fprintln(w, "用户ID错误！")
 		return
 	}
 
-	username, _ := model.QueryEmployeeTable(uidInt)
+	nurse, _ := model.FetchAccountWithUid(uid)
 	t := patintinfos[0].VAA1.VAA73
 	timeStr := time.Time(t).Format("2006-01-02 15:04")
 
@@ -58,7 +58,7 @@ func (c NRL1Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 	c.Data = fit.Data{
 		"Patintinfos": patintinfos,
 		"Time":        timeStr,
-		"UserName":    username[0].BCE03,
+		"UserName":    nurse.Username,
 		"NRL":         nr1,
 		"RecordDate":  rdate,
 		"RecordTime":  rtime,
@@ -101,15 +101,15 @@ func (c NRL1Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 		fmt.Fprintln(w, "病人ID错误！")
 		return
 	}
-	uidInt, err1 := strconv.Atoi(uid)
+	_, err1 := strconv.Atoi(uid)
 	if err1 != nil {
 		fmt.Fprintln(w, "用户ID错误！")
 		return
 	}
-	username, _ := model.QueryEmployeeTable(uidInt)
+	nurse, _ := model.FetchAccountWithUid(uid)
 	t := patintinfos[0].VAA1.VAA73
 	timeStr := time.Time(t).Format("2006-01-02 15:04")
-	cid := strconv.Itoa(patintinfos[0].VAA1.BCK01B)
+	cid := strconv.Itoa(patintinfos[0].VAA1.BCK01C)
 
 	rdate := time.Time(t).Format("2006-01-02")
 	rtime := time.Time(t).Format("15:04")
@@ -118,7 +118,7 @@ func (c NRL1Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 		"Time":        timeStr,
 		"RecordDate":  rdate,
 		"RecordTime":  rtime,
-		"UserName":    username[0].BCE03,
+		"UserName":    nurse.Username,
 		"Ty":          ty,
 		"Rid":         rid,
 		"NRL":         nr1,
@@ -345,16 +345,7 @@ func (c NRL1Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 
 	_, err3 := record.UpdateData(id)
 	// 文书记录
-	/*nurseRecord := model.NursingRecords{
-		Updated:     updatestr,
-		NursType:    1,
-		NursingId:   nurseId,
-		NursingName: nurseName,
-		ClassId:     classId,
-		PatientId:   patientId,
-		RecordId:    id,
-		Comment:     "修改",
-	}*/
+
 
 	_, err2 := model.UpadteNRecords(id, updatestr)
 	if err3 != nil {

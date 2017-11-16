@@ -12,6 +12,7 @@ type PCLoginController struct {
 	fit.Controller
 }
 
+/*PC 登录页*/
 func (c PCLoginController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 	c.Data = fit.Data{
 		"Baseurl": "http://127.0.0.1:8181/",
@@ -19,6 +20,7 @@ func (c PCLoginController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 	c.LoadView(w, "pc/v_login.html")
 }
 
+/*API 退出*/
 func (c PCLoginController) Logout(w *fit.Response, r *fit.Request, p fit.Params) {
 	fit.GlobalManager().SessionDestroy(w, r)
 	//c.Redirect(w, r, "/pc/login", 302)
@@ -26,6 +28,7 @@ func (c PCLoginController) Logout(w *fit.Response, r *fit.Request, p fit.Params)
 	c.ResponseToJson(w)
 }
 
+/*API 登录*/
 func (c PCLoginController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 	r.ParseForm()
@@ -38,7 +41,7 @@ func (c PCLoginController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 	} else {
 		password_sha1 := utils.Sha1Encryption(password)
 		// 查询User表（多科室多条数据,前提是BCE1表支持多科室）
-		slice_User, err_User := model.QueryUserTable(code, password_sha1)
+		slice_User, err_User := model.CheckingUserCodeAndPwd(code, password_sha1)
 		length := len(slice_User)
 		if err_User != nil {
 			c.RenderingJsonAutomatically(3, "Database "+err_User.Error())

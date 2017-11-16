@@ -12,6 +12,7 @@ type LoginController struct {
 	fit.Controller
 }
 
+/*PDA 登录API*/
 func (c LoginController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 	r.ParseForm()
@@ -23,7 +24,7 @@ func (c LoginController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 		return
 	} else {
 		// 查询User表（多科室多条数据,前提是BCE1表支持多科室）
-		slice_User, err_User := model.QueryUserTable(code, password)
+		slice_User, err_User := model.CheckingUserCodeAndPwd(code, password)
 		length := len(slice_User)
 		if err_User != nil {
 			c.RenderingJsonAutomatically(3, "Database "+err_User.Error())

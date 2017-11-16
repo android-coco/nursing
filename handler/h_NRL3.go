@@ -9,7 +9,7 @@ import (
 )
 
 type NRL3Controller struct {
-	fit.Controller
+	NRLController
 }
 
 // 模板 template PDA端
@@ -21,27 +21,26 @@ func (c NRL3Controller) Check(w *fit.Response, r *fit.Request, p fit.Params) {
 		return
 	}
 
+
 	nr3, err1 := model.QueryNRL3(rid)
 	if err1 != nil {
 		fit.Logger().LogError("m_NR3", err1)
 	}
 
 	pid := nr3.VAA01
-
-	pinfo, err := model.GetPatientInfo(strconv.FormatInt(pid, 10))
-	if err != nil {
-		fit.Logger().LogError("m_NR1", err)
-		fmt.Fprintln(w, "服务器有点繁忙！")
+	// 查询对应病人信息
+	patient, has := c.LoadPinfoWithPid(w, r, pid)
+	if !has {
 		return
 	}
+
 	recordDate := nr3.DateTime.Format("2006-01-02")
 	c.Data = fit.Data{
-		"Pinfo": pinfo[0],
+		"Pinfo": patient,
 		"NRL":   nr3,
 		"RecordDate": recordDate,
 	}
 
-	fmt.Printf("data %+v\n", c.Data)
 	c.LoadView(w, "v_nrl3.html")
 }
 
@@ -74,30 +73,16 @@ func (c NRL3Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 		return
 	}
 
-	pinfo, err := model.GetPatientInfo(pid)
-	if err != nil {
-		fit.Logger().LogError("m_NR1", err)
-		fmt.Fprintln(w, "服务器有点繁忙！")
+	// 查询对应病人信息 护士的信息
+	patient, account, has := c.LoadPinfoAndAccountWithPidUid(w, r, pid, uid)
+	if !has {
 		return
 	}
 
-	account, err2 := model.FetchAccountWithUid(uid)
-	if err2 != nil {
-		fit.Logger().LogError("nrl5", err2)
-		fmt.Fprintln(w, "参数错误！", err2)
-		return
-	}
-	//fmt.Printf("account %+v \n\n %+v\n\n", account, pinfo)
-
-
-	if len(pinfo) == 0 {
-		fmt.Fprintln(w, "参数错误！")
-		return
-	}
 
 	recordDate := nr3.DateTime.Format("2006-01-02")
 	c.Data = fit.Data{
-		"Pinfo": pinfo[0],
+		"Pinfo": patient,
 		"NRL":   nr3,
 		"Type":  ty,
 		"Rid": rid,
@@ -167,13 +152,29 @@ func (c NRL3Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params)
 		Score:    score,
 	}
 
-	_, err17 := nrl3.InsertData()
+	rid, err17 := nrl3.InsertData()
+
+
 	if err17 != nil {
 		fit.Logger().LogError("NRL3 add :", err17)
 		c.JsonData.Result = 2
 		c.JsonData.ErrorMsg = "上传失败！"
 		c.JsonData.Datas = []interface{}{}
 	} else {
+		// 文书记录
+		nurseRecord := model.NursingRecords{
+			Updated:     r.FormValue("datetime"),
+			NursType:    3,
+			NursingId:   BCE01A,
+			NursingName: BCE03A,
+			ClassId:     r.FormValue("did"),
+			PatientId:   r.FormValue("pid"),
+			RecordId:    rid,
+			Comment:     "新增",
+		}
+		_,errRecord := model.InsertNRecords(nurseRecord)
+		checkerr("nurse record err:", errRecord)
+
 		c.JsonData.Result = 0
 		c.JsonData.ErrorMsg = "上传成功！"
 		c.JsonData.Datas = []interface{}{}
@@ -193,11 +194,14 @@ func (c NRL3Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 		c.JsonData.ErrorMsg = "rid 错误！"
 		c.JsonData.Datas = []interface{}{}
 	}
-
+	// 病人ID
+	VAA01, err1 := strconv.ParseInt(r.FormValue("pid"), 10, 64)
+	// 科室ID
+	BCK01, err5 := strconv.ParseInt(r.FormValue("did"), 10, 64)
 	// 护士ID
-	//BCE01A := r.FormValue("uid")
+	BCE01A := r.FormValue("uid")
 	// 护士名
-	//BCE03A := r.FormValue("username")
+	BCE03A := r.FormValue("username")
 	// 记录时间
 	datetime, err4 := time.ParseInLocation("2006-01-02 15:04:05", r.FormValue("datetime"), time.Local)
 
@@ -214,11 +218,13 @@ func (c NRL3Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 	NRL11, err16 := strconv.Atoi(r.FormValue("NRL11"))
 	score, err18 := strconv.Atoi(r.FormValue("score"))
 
-	checkerr("nrl3 add", err4, err6, err7, err8, err9, err10, err11, err12, err13, err14, err15, err16, err18)
+	checkerr("nrl3 add",err1, err5, err4, err6, err7, err8, err9, err10, err11, err12, err13, err14, err15, err16, err18)
 
 	nrl3 := model.NRL3{
-		//BCE01A:   BCE01A,
-		//BCE03A:   BCE03A,
+		VAA01:    VAA01,
+		BCK01:    BCK01,
+		BCE01A:   BCE01A,
+		BCE03A:   BCE03A,
 		DateTime: datetime,
 		NRL01:    NRL01,
 		NRL02:    NRL02,
@@ -236,12 +242,17 @@ func (c NRL3Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 	}
 
 	_, err17 := nrl3.UpdateData(id)
+
 	if err17 != nil {
 		fit.Logger().LogError("nrl3 add :", err17)
 		c.JsonData.Result = 2
 		c.JsonData.ErrorMsg = "修改失败！"
 		c.JsonData.Datas = []interface{}{}
 	} else {
+		_, errRecord := model.UpadteNRecords(id, r.FormValue("datetime"))
+		checkerr("nurse record update err:", errRecord)
+
+
 		c.JsonData.Result = 0
 		c.JsonData.ErrorMsg = "修改成功！"
 		c.JsonData.Datas = []interface{}{}

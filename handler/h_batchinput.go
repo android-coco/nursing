@@ -7,6 +7,7 @@ import (
 	"time"
 	"errors"
 	"github.com/go-xorm/xorm"
+	"strconv"
 )
 
 type PCBatvhinputController struct{
@@ -20,18 +21,18 @@ func (c PCBatvhinputController) Get(w *fit.Response, r *fit.Request, p fit.Param
 
 		classid := userinfo.DepartmentID
 
-		Data := make(fit.Data)
+		c.Data = make(fit.Data)
+		c.Data["Userinfo"] = userinfo
+		c.Data["Menuindex"] = "4-0"
 
 		response, err_rp := model.QueryDepartmentBeds(classid, false)
 		if err_rp != nil {
 			fit.Logger().LogError("gk", err_rp)
 			return
 		}
-		Data["Patients"] = response
+		c.Data["Patients"] = response
 		fit.Logger().LogError("gk dd", len(response))
-		Data["Userinfo"] = userinfo
-		Data["Menuindex"] = "4-0"
-		c.Data = Data
+
 	}
 }
 
@@ -64,11 +65,12 @@ func (c PCBatvhinputController) Post(w *fit.Response, r *fit.Request, p fit.Para
 		return
 	}else{
 		for _,str := range maps{
-			err_as := BatchAnalysis(session,str)
+			mag,err_as := BatchAnalysis(session,str)
 			if err_as !=nil {
-				c.JsonData.Result = 1
+				session.Rollback()
+				c.JsonData.Result = mag
 				c.JsonData.ErrorMsg = "解析错误1"
-				c.JsonData.Datas = err_as
+				c.JsonData.Datas = err_as.Error()
 				return
 			}
 		}
@@ -84,350 +86,460 @@ func (c PCBatvhinputController) Post(w *fit.Response, r *fit.Request, p fit.Para
 	}
 }
 
-func BatchAnalysis(session *xorm.Session,strData map[string]string) error{
+func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 
-	var nurse_id       string
-	var nurse_name     string
-	var patient_id     string
-	var testtime       fit.JsonTime
-
-	var thm_value      string    //体温
-	var thm_type       string
-
-	var pulse_value    string    //脉搏
-	var pulse_briefness string
-
-	var breathe_value  string    //呼吸
-	var breathe_scene  string
-
-	var pressure_dia   string    //血压
-	var pressure_sys   string
-	var pressure_scene string
-
-	var heartrate_value string   //心率
-
-	var spo2h_value    string    //血氧
-
-	var glucose_value  string    //血糖
-
-	var weight_value   string    //体重
-	var weight_scene   string
-
-	var height_value   string    //身高
-	var height_scene   string
-
-	var skin_value     string    //皮试
-
-	var incident_scene string   //事件
-
-	//var intake_value   string   //入量
-	//var intake_type    string   //入量类型
-
-
+	var nurse_id        int
+	var nurse_name      string
+	var patient_id      int
+	var test_time       fit.JsonTime
 
 	if v, ok := strData["nurse_id"]; ok {
-		nurse_id = v
+		k,err  := strconv.Atoi(v)
+		if err != nil{
+			return 1,err
+		}else{
+			nurse_id = k
+		}
 	} else {
-		return errors.New("没有nurse_id")
+		return 2,errors.New("没有nurse_id")
 	}
 
 	if v, ok := strData["nurse_name"]; ok {
 		nurse_name = v
 	} else {
-		return errors.New("nurse_name")
+		return 3,errors.New("nurse_name")
 	}
 
 	if v, ok := strData["patient_id"]; ok {
-		patient_id = v
-	} else {
-		return errors.New("没有patient_id")
-	}
-
-	if v, ok := strData["testtime"]; ok {
-		texttime, err := time.ParseInLocation("2006-01-02 15:04:05",v,time.Local)
-		if err != nil {
-			return errors.New("没有testtime")
-		} else {
-			testtime = fit.JsonTime(texttime)
+		k,err  := strconv.Atoi(v)
+		if err != nil{
+			return 4,err
+		}else{
+			patient_id = k
 		}
 	} else {
-		return errors.New("没有testtime")
+		return 5,errors.New("没有patient_id")
 	}
+
+	if v, ok := strData["test_time"]; ok {
+		texttime, err := time.ParseInLocation("2006-01-02 15:04:05",v,time.Local)
+		if err != nil {
+			return 6,err
+		} else {
+			test_time = fit.JsonTime(texttime)
+		}
+	} else {
+		return 7,errors.New("没有test_time")
+	}
+
+
+	var thm_value       string    //体温
+	var thm_type        int
+	var thm_scene       int
 
 	if v, ok := strData["thm_value"]; ok {
 		thm_value = v
 	} else {
-		return errors.New("thm_value")
+		return 8,errors.New("thm_value")
 	}
 
 	if v, ok := strData["thm_type"]; ok {
-		thm_type = v
+		k,err  := strconv.Atoi(v)
+		if err != nil{
+			return 9,err
+		}else{
+			thm_type = k
+		}
 	} else {
-		return errors.New("thm_type")
+		return 10,errors.New("thm_type")
 	}
+
+	if v, ok := strData["thm_scene"]; ok {
+		k,err  := strconv.Atoi(v)
+		if err != nil{
+			return 11,err
+		}else{
+			thm_scene = k
+		}
+	} else {
+		return 12,errors.New("thm_scene")
+	}
+
+	if thm_value != "" || thm_scene >= 8 {
+		var item model.NurseChat
+		item.NurseName = nurse_name
+		item.NurseId  =  nurse_id
+		item.PatientId = patient_id
+		item.TestTime = fit.JsonTime(test_time)
+
+		item.HeadType = model.Temperature_Type
+		item.Value = thm_value
+		item.Type = thm_type
+		item.Other = thm_scene
+
+		msg,err := model.IputChat(session,item)
+		if(err!=nil){
+			return msg,err
+		}
+	}
+
+
+	var pulse_value     string    //脉搏
+	var pulse_briefness int
 
 	if v, ok := strData["pulse_value"]; ok {
 		pulse_value = v
 	} else {
-		return errors.New("pulse_value")
+		return 13,errors.New("pulse_value")
 	}
 
 	if v, ok := strData["pulse_briefness"]; ok {
-		pulse_briefness = v
+		k,err  := strconv.Atoi(v)
+		if err != nil{
+			return 14,err
+		}else{
+			pulse_briefness = k
+		}
 	} else {
-		return errors.New("pulse_briefness")
+		return 15,errors.New("pulse_briefness")
 	}
+
+	if pulse_value != "" {
+		var item model.NurseChat
+		item.NurseName = nurse_name
+		item.NurseId  =  nurse_id
+		item.PatientId = patient_id
+		item.TestTime = fit.JsonTime(test_time)
+
+		item.HeadType = model.Pulse_Type
+		item.Value = pulse_value
+		item.Type = 0
+		item.Other = pulse_briefness
+
+		msg,err := model.IputChat(session,item)
+		if(err!=nil){
+			return msg,err
+		}
+	}
+
+
+	var breathe_value   string    //呼吸
+	var breathe_scene   int
 
 	if v, ok := strData["breathe_value"]; ok {
 		breathe_value = v
 	} else {
-		return errors.New("breathe_value")
+		return 16,errors.New("breathe_value")
 	}
 
 	if v, ok := strData["breathe_scene"]; ok {
-		breathe_scene = v
+		k,err  := strconv.Atoi(v)
+		if err != nil{
+			return 17,err
+		}else{
+			breathe_scene = k
+		}
 	} else {
-		return errors.New("breathe_scene")
+		return 18,errors.New("breathe_scene")
+	}
+
+	if breathe_value != "" {
+		var item model.NurseChat
+		item.NurseName = nurse_name
+		item.NurseId  =  nurse_id
+		item.PatientId = patient_id
+		item.TestTime = fit.JsonTime(test_time)
+
+		item.HeadType = model.Breathe_Type
+		item.Value = breathe_value
+		item.Type = 0
+		item.Other = breathe_scene
+
+		msg,err := model.IputChat(session,item)
+		if(err!=nil){
+			return msg,err
+		}
+	}
+
+	var shit_value   string     //大便
+	var shit_scene   int
+
+	if v, ok := strData["shit_value"]; ok {
+		shit_value = v
+	} else {
+		return 19,errors.New("shit_value")
+	}
+
+	if v, ok := strData["shit_scene"]; ok {
+		k,err  := strconv.Atoi(v)
+		if err != nil{
+			return 20,err
+		}else{
+			shit_scene = k
+		}
+	} else {
+		return 21,errors.New("shit_scene")
+	}
+
+	if shit_value != "" {
+		var item model.NurseChat
+		item.NurseName = nurse_name
+		item.NurseId  =  nurse_id
+		item.PatientId = patient_id
+		item.TestTime = fit.JsonTime(test_time)
+
+		item.HeadType = model.Shit_Type
+		item.Value = shit_value
+		item.Type = 0
+		item.Other = shit_scene
+
+		msg,err := model.IputChat(session,item)
+		if(err!=nil){
+			return msg,err
+		}
+	}
+
+
+	var pressure_sys      string    //高压
+	var pressure_dia      string    //低压
+	var pressure_scene    int
+
+	if v, ok := strData["pressure_sys"]; ok {
+		pressure_sys = v
+	} else {
+		return 22,errors.New("pressure_value")
 	}
 
 	if v, ok := strData["pressure_dia"]; ok {
 		pressure_dia = v
 	} else {
-		return errors.New("pressure_dia")
-	}
-
-	if v, ok := strData["pressure_sys"]; ok {
-		pressure_sys = v
-	} else {
-		return errors.New("pressure_sys")
+		return 22,errors.New("pressure_dia")
 	}
 
 	if v, ok := strData["pressure_scene"]; ok {
-		pressure_scene = v
+		k,err  := strconv.Atoi(v)
+		if err != nil{
+			return 23,err
+		}else{
+			pressure_scene = k
+		}
 	} else {
-		return errors.New("pressure_scene")
+		return 24,errors.New("pressure_scene")
 	}
+
+	if (pressure_sys != "" && pressure_dia != "") || pressure_scene != 0{
+		var item model.NurseChat
+		item.NurseName = nurse_name
+		item.NurseId  =  nurse_id
+		item.PatientId = patient_id
+		item.TestTime = fit.JsonTime(test_time)
+
+		item.HeadType = model.Pressure_Type
+		item.Value = pressure_sys + "/" + pressure_dia
+		item.Type = 0
+		item.Other = pressure_scene
+
+		msg,err := model.IputChat(session,item)
+		if(err!=nil){
+			return msg,err
+		}
+	}
+
+	var heartrate_value string   //心率
 
 	if v, ok := strData["heartrate_value"]; ok {
 		heartrate_value = v
 	} else {
-		return errors.New("heartrate_value")
+		return 25,errors.New("heartrate_value")
 	}
 
-	if v, ok := strData["spo2h_value"]; ok {
-		spo2h_value = v
-	} else {
-		return errors.New("spo2h_value")
+	if heartrate_value != "" {
+		var item model.NurseChat
+		item.NurseName = nurse_name
+		item.NurseId  =  nurse_id
+		item.PatientId = patient_id
+		item.TestTime = fit.JsonTime(test_time)
+
+		item.HeadType = model.Heartrate_Type
+		item.Value = heartrate_value
+		item.Type = 0
+		item.Other = 0
+
+		msg,err := model.IputChat(session,item)
+		if(err!=nil){
+			return msg,err
+		}
 	}
 
-	if v, ok := strData["glucose_value"]; ok {
-		glucose_value = v
-	} else {
-		return errors.New("glucose_value")
-	}
+	var weight_value    string    //体重
+	var weight_scene    int
 
 	if v, ok := strData["weight_value"]; ok {
 		weight_value = v
 	} else {
-		return errors.New("weight_value")
+		return 26,errors.New("weight_value")
 	}
 
 	if v, ok := strData["weight_scene"]; ok {
-		weight_scene = v
+		k,err  := strconv.Atoi(v)
+		if err != nil{
+			return 27,err
+		}else{
+			weight_scene = k
+		}
 	} else {
-		return errors.New("weight_scene")
+		return 28,errors.New("weight_scene")
 	}
+
+	if weight_value != "" || weight_scene != 0{
+		var item model.NurseChat
+		item.NurseName = nurse_name
+		item.NurseId  =  nurse_id
+		item.PatientId = patient_id
+		item.TestTime = fit.JsonTime(test_time)
+
+		item.HeadType = model.Weight_Type
+		item.Value = weight_value
+		item.Type = 0
+		item.Other = weight_scene
+
+		msg,err := model.IputChat(session,item)
+		if(err!=nil){
+			return msg,err
+		}
+	}
+
+	var height_value    string    //身高
+	var height_scene    int
 
 	if v, ok := strData["height_value"]; ok {
 		height_value = v
 	} else {
-		return errors.New("height_value")
+		return 29,errors.New("height_value")
 	}
 
 	if v, ok := strData["height_scene"]; ok {
-		height_scene = v
+		k,err  := strconv.Atoi(v)
+		if err != nil{
+			return 30,err
+		}else{
+			height_scene = k
+		}
 	} else {
-		return errors.New("height_scene")
+		return 31,errors.New("height_scene")
 	}
 
+	if height_value != "" || height_scene != 0{
+		var item model.NurseChat
+		item.NurseName = nurse_name
+		item.NurseId  =  nurse_id
+		item.PatientId = patient_id
+		item.TestTime = fit.JsonTime(test_time)
+
+		item.HeadType = model.Height_Type
+		item.Value = height_value
+		item.Type = 0
+		item.Other = height_scene
+
+		msg,err := model.IputChat(session,item)
+		if(err!=nil){
+			return msg,err
+		}
+	}
+
+	var skin_value     string    //皮试
 	if v, ok := strData["skin_value"]; ok {
 		skin_value = v
 	} else {
-		return errors.New("skin_value")
+		return 32,errors.New("skin_value")
 	}
+
+	if skin_value != "" {
+		var item model.NurseChat
+		item.NurseName = nurse_name
+		item.NurseId  =  nurse_id
+		item.PatientId = patient_id
+		item.TestTime = fit.JsonTime(test_time)
+
+		item.HeadType = model.Skin_Type
+		item.Value = skin_value
+		item.Type = 0
+		item.Other = 0
+
+		msg,err := model.IputChat(session,item)
+		if(err!=nil){
+			return msg,err
+		}
+	}
+
+	var other_value   string    //其他
+	if v, ok := strData["other_value"]; ok {
+		other_value = v
+	} else {
+		return 33,errors.New("other_value")
+	}
+
+	if other_value != "" {
+		var item model.NurseChat
+		item.NurseName = nurse_name
+		item.NurseId  =  nurse_id
+		item.PatientId = patient_id
+		item.TestTime = fit.JsonTime(test_time)
+
+		item.HeadType = model.Other_Type
+		item.Value = other_value
+		item.Type = 0
+		item.Other = 0
+
+		msg,err := model.IputChat(session,item)
+		if(err!=nil){
+			return msg,err
+		}
+	}
+
+	var incident_scene int   //事件
+	var incident_time fit.JsonTime  //事件时间
 
 	if v, ok := strData["incident_scene"]; ok {
-		incident_scene = v
+		k,err  := strconv.Atoi(v)
+		if err != nil{
+			return 34,err
+		}else{
+			incident_scene = k
+		}
 	} else {
-		return errors.New("incident_scene")
+		return 35,errors.New("incident_scene")
 	}
 
-	if nurse_id =="" || nurse_name == "" || patient_id == "" {
-		return errors.New("参数不完整")
+	if v, ok := strData["incident_time"]; ok {
+		texttime, err := time.ParseInLocation("2006-01-02 15:04:05",v,time.Local)
+		if err != nil {
+			return 36,errors.New("没有incident_time")
+		} else {
+			incident_time = fit.JsonTime(texttime)
+		}
+	} else {
+		return 1,errors.New("没有incident_time")
 	}
 
+	if incident_scene != 0 {
+		var item model.NurseChat
+		item.NurseName = nurse_name
+		item.NurseId  =  nurse_id
+		item.PatientId = patient_id
+		item.TestTime = fit.JsonTime(incident_time)
 
-	var tem_item = &model.Temperature{}
-	tem_item.NurseId = nurse_id
-	tem_item.NurseName = nurse_name
-	tem_item.PatientId = patient_id
-	tem_item.Testtime = testtime
-	tem_item.Value    = thm_value
-	tem_item.Ttemptype = thm_type
+		item.HeadType = model.Incident_Type
+		item.Value = ""
+		item.Type = 0
+		item.Other = incident_scene
 
-	if thm_value != ""{
-		err := model.InsertTemperature(session,tem_item);
-		if err != nil{
-			return err
+		msg,err := model.IputChat(session,item)
+		if(err!=nil){
+			return msg,err
 		}
 	}
 
-	var pulse_item = &model.Pulse{}
-	pulse_item.NurseId = nurse_id
-	pulse_item.NurseName = nurse_name
-	pulse_item.PatientId = patient_id
-	pulse_item.Testtime = testtime
-	pulse_item.Value    = pulse_value
-	pulse_item.Whetherbriefness = pulse_briefness
-
-	if pulse_value!= ""{
-		err := model.InsertPulse(session,pulse_item);
-		if err != nil{
-			return err
-		}
-	}
-
-	var breathe_item = &model.Breathe{}
-	breathe_item.NurseId = nurse_id
-	breathe_item.NurseName = nurse_name
-	breathe_item.PatientId = patient_id
-	breathe_item.Testtime = testtime
-	breathe_item.Value    = breathe_value
-	breathe_item.Recordscene = breathe_scene
-
-	if breathe_value!= ""{
-		err := model.InsertBreathe(session,breathe_item);
-		if err != nil{
-			return err
-		}
-	}
-
-	var pressure_item = &model.Pressure{}
-	pressure_item.NurseId = nurse_id
-	pressure_item.NurseName = nurse_name
-	pressure_item.PatientId = patient_id
-	pressure_item.Testtime = testtime
-	pressure_item.Diavalue = pressure_dia
-	pressure_item.Sysvalue = pressure_sys
-	pressure_item.Recordscene = pressure_scene
-
-	if pressure_dia!= "" || pressure_sys !=""{
-		err := model.InsertPressure(session,pressure_item);
-		if err != nil{
-			return err
-		}
-	}
-
-	var heartrate_item = &model.Heartrate{}
-	heartrate_item.NurseId = nurse_id
-	heartrate_item.NurseName = nurse_name
-	heartrate_item.PatientId = patient_id
-	heartrate_item.Testtime = testtime
-	heartrate_item.Value =  heartrate_value
-
-	if heartrate_value!= "" {
-		err := model.InsertHeartrate(session,heartrate_item);
-		if err != nil{
-			return err
-		}
-	}
-
-	var spo2h_item = &model.Spo2h{}
-	spo2h_item.NurseId = nurse_id
-	spo2h_item.NurseName = nurse_name
-	spo2h_item.PatientId = patient_id
-	spo2h_item.Testtime = testtime
-	spo2h_item.Value = spo2h_value
-
-	if spo2h_value!= "" {
-		err := model.InsertSpo2h(session,spo2h_item);
-		if err != nil{
-			return err
-		}
-	}
-
-	var glucose_item = &model.Glucose{}
-	glucose_item.NurseId = nurse_id
-	glucose_item.NurseName = nurse_name
-	glucose_item.PatientId = patient_id
-	glucose_item.Testtime = testtime
-	glucose_item.Value = glucose_value
-
-	if glucose_value!= "" {
-		err := model.InsertGlucose(session,glucose_item);
-		if err != nil{
-			return err
-		}
-	}
-
-	var weight_item = &model.Weight{}
-	weight_item.NurseId = nurse_id
-	weight_item.NurseName = nurse_name
-	weight_item.PatientId = patient_id
-	weight_item.Testtime = testtime
-	weight_item.Value = weight_value
-	weight_item.Recordscene = weight_scene
-
-	if weight_value!= "" {
-		err := model.InsertWeight(session,weight_item);
-		if err != nil{
-			return err
-		}
-	}
-
-	var height_item = &model.Height{}
-	height_item.NurseId = nurse_id
-	height_item.NurseName = nurse_name
-	height_item.PatientId = patient_id
-	height_item.Testtime = testtime
-	height_item.Value = height_value
-	height_item.Recordscene = height_scene
-
-	if height_value!= "" {
-		err := model.InsertHeight(session,height_item);
-		if err != nil{
-			return err
-		}
-	}
-
-	var skin_item = &model.Skin{}
-	skin_item.NurseId = nurse_id
-	skin_item.NurseName = nurse_name
-	skin_item.PatientId = patient_id
-	skin_item.Testtime = testtime
-	skin_item.Value = skin_value
-
-	if skin_value!= "" {
-		err := model.InsertSkin(session,skin_item);
-		if err != nil{
-			return err
-		}
-	}
-
-	var incident_item = &model.Incident{}
-	incident_item.NurseId = nurse_id
-	incident_item.NurseName = nurse_name
-	incident_item.PatientId = patient_id
-	incident_item.Testtime = testtime
-	incident_item.Recordscene = incident_scene
-
-	if incident_scene!= "" {
-		err := model.InsertIncident(session,incident_item);
-		if err != nil{
-			return err
-		}
-	}
-
-	return nil
+	return 0,nil
 }
 

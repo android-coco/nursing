@@ -5,6 +5,7 @@ import (
 	"time"
 	"nursing/model"
 	"encoding/json"
+	"fmt"
 )
 
 type PCSuccessController struct {
@@ -17,7 +18,7 @@ func (c PCSuccessController) Get(w *fit.Response, r *fit.Request, p fit.Params) 
 	if err == nil {
 		defer c.LoadViewSafely(w, r, "pc/v_succession.html", "pc/header_side.html", "pc/header_top.html")
 
-		starttime :=  r.FormValue("starttime")
+		starttime :=  r.FormValue("datatime")
 
 		if starttime == "" {
 			t := time.Now()
@@ -223,12 +224,13 @@ func (c PCSuccessController) Post(w *fit.Response, r *fit.Request, p fit.Params)
 
 
 	delets := r.FormValue("Comment_Delet")
+	fmt.Println(len(delets))
 	if len(delets) != 0 {
 		var maps []string
-		err := json.Unmarshal([]byte(commentshift), &maps)
+		err := json.Unmarshal([]byte(delets), &maps)
 		if err != nil {
 			c.JsonData.Result = 1
-			c.JsonData.ErrorMsg = "格式错误4"
+			c.JsonData.ErrorMsg = "格式错误5"
 			c.JsonData.Datas = err
 			return
 		} else {
@@ -237,7 +239,7 @@ func (c PCSuccessController) Post(w *fit.Response, r *fit.Request, p fit.Params)
 				if (err != nil) {
 					session.Rollback()
 					c.JsonData.Result = 2
-					c.JsonData.ErrorMsg = "参数错误4"
+					c.JsonData.ErrorMsg = "参数错误5"
 					c.JsonData.Datas = err
 					fit.Logger().LogError("fffffff",commentshift,err)
 					return

@@ -38,15 +38,23 @@
                     <div class="cont-batchInput">
                         <div class="hd-bar">
                             <div class="date-box fl">
-                                <div class="icon">
-                                    <img src="/static/dist/images/admin_pc/icon20.png" alt="" />
-                                </div>
-                                <input type="text" class="am-form-field  date-input" />
-                                <input type="text" class="am-form-field  time-input" />
+                                <span>测量日期：</span>
+                                <input type="text" class="am-form-field  date-input" id="testTime"/>
+                                <span>&nbsp;&nbsp;&nbsp;&nbsp;时段：</span>
+                                <select class="time-block" id="timeBlock">
+                                    <option value="04:00:00">4</option>
+                                    <option selected="" value="08:00:00">8</option>
+                                    <option value="12:00:00">12</option>
+                                    <option value="16:00:00">16</option>
+                                    <option value="20:00:00">20</option>
+                                    <option value="23:59:59">24</option>
+                                </select>
+                                <a  class="search-btn">确定</a>
                             </div>
                             <div class="sel-bar fl">
+                                <div class="txt">患者列表:</div>
                                 <div class="check-bar">
-                                    <input type="radio" id="c1" name="filter-sel">
+                                    <input type="radio" id="c1" name="filter-sel" checked>
                                     <label for="c1">全部患者</label>
                                 </div>
                                 <div class="check-bar">
@@ -62,8 +70,7 @@
                             <div class="btn-warp fr">
                                 <div class="btn-group ">
                                     <a href="" class="btn">打印</a>
-                                    <a href="" class="btn">导出</a>
-                                    <a href="" class="btn type2">保存</a>
+                                    <a href="" class="btn type2" id="save-btn">保存</a>
                                 </div>
                             </div>
 
@@ -80,21 +87,14 @@
                                                 <th class="th4" rowspan="2">体温(℃）</th>
                                                 <th class="th5" rowspan="2">脉搏(次／分）</th>
                                                 <th class="th6" rowspan="2">呼吸(次／分）</th>
+                                                <th class="th6-2" rowspan="2">大便（次）</th>
                                                 <th class="th7" rowspan="2">血压(mmHg）</th>
                                                 <th class="th8" rowspan="2">心率(次／分）</th>
-                                                <th class="th9" rowspan="2">入量(ml)</th>
-                                                <th class="th10 colspan3" colspan="3">出量(ml)</th>
                                                 <th class="th11" rowspan="2">体重(kg)</th>
                                                 <th class="th12" rowspan="2">身高(cm)</th>
                                                 <th class="th13" rowspan="2">皮试</th>
-                                                <th class="th14" rowspan="2">血氧饱和度(%)</th>
-                                                <th class="th15" rowspan="2">血糖(mmol/L)</th>
+                                                <th class="th14" rowspan="2">其它</th>
                                                 <th class="th16" rowspan="2">事件</th>
-                                            </tr>
-                                            <tr>
-                                                <th class="colspan3-1">尿量(ml)</th>
-                                                <th class="colspan3-1">大便(次）</th>
-                                                <th class="colspan3-1">其他(ml)</th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -108,326 +108,159 @@
                                                 <th class="th4" rowspan="2">体温(℃）</th>
                                                 <th class="th5" rowspan="2">脉搏(次／分）</th>
                                                 <th class="th6" rowspan="2">呼吸(次／分）</th>
+                                                <th class="th6-2" rowspan="2">大便（次）</th>
                                                 <th class="th7" rowspan="2">血压(mmHg）</th>
                                                 <th class="th8" rowspan="2">心率(次／分）</th>
-                                                <th class="th9" rowspan="2">入量(ml)</th>
-                                                <th class="th10 colspan3" colspan="3">出量(ml)</th>
                                                 <th class="th11" rowspan="2">体重(kg)</th>
                                                 <th class="th12" rowspan="2">身高(cm)</th>
                                                 <th class="th13" rowspan="2">皮试</th>
-                                                <th class="th14" rowspan="2">血氧饱和度(%)</th>
-                                                <th class="th15" rowspan="2">血糖(mmol/L)</th>
+                                                <th class="th14" rowspan="2">其它</th>
                                                 <th class="th16" rowspan="2">事件</th>
-                                            </tr>
-                                            <tr>
-                                                <th class="colspan3-1">尿量(ml)</th>
-                                                <th class="colspan3-1">大便(次）</th>
-                                                <th class="colspan3-1">其他(ml)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
 
                                         {{range .Patients}}
-                                            <tr>
+                                            <tr data-pid="{{.VAA01}}" data-nid="12" data-nname="123">
                                                 <td class="pd8"><span>{{.BCQ04}}</span></td>
                                                 <td class="pd8"><span>{{.VAA05}}</span></td>
                                                 <td class="pd8"><span>{{.VAA10}}</span></td>
                                                 <td>
                                                     <div class="table-input-bar">
-                                                        <input type="text" id="row1_input1" class="input1">
-                                                        <select id="row1_input2" class="abs">
-                                                            <option selected="" value=" ">&nbsp;</option>
-                                                            <option value="腋温">腋温</option>
-                                                            <option value="耳温">耳温</option>
-                                                            <option value="口温">口温</option>
-                                                            <option value="肛温">肛温</option>
-                                                            <option value="额温">额温</option>
-                                                            <option value="不升">不升</option>
-                                                            <option value="外出">外出</option>
-                                                            <option value="检查">检查</option>
-                                                            <option value="请假">请假</option>
-                                                            <option value="拒试">拒试</option>
-                                                            <option value="无法测">无法测</option>
-                                                            <option value="不在">不在</option>
+                                                        <input type="text"  class="input1 thmValue">
+                                                        <select  class="abs type1 thmType">
+                                                            <option selected="" value="0">&nbsp;</option>
+                                                            <option value="1">腋温</option>
+                                                            <option value="2">耳温</option>
+                                                            <option value="3">口温</option>
+                                                            <option value="4">肛温</option>
+                                                            <option value="5">额温</option>
+                                                        </select>
+                                                        <select  class="abs thmScene">
+                                                            <option value="0">&nbsp;</option>
+                                                            <option value="1">物理降温</option>
+                                                            <option value="2">药物降温</option>
+                                                            <option value="3">冰毯降温</option>
+                                                            <option value="4">停冰毯降温</option>
+                                                            <option value="5">药物+物理降温</option>
+                                                            <option value="6">无降温</option>
+                                                            <option value="7">不升</option>
+                                                            <option value="8">外出</option>
+                                                            <option value="9">检查</option>
+                                                            <option value="10">请假</option>
+                                                            <option value="11">拒试</option>
+                                                            <option value="12">无法测</option>
+                                                            <option value="13">不在</option>
                                                         </select>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="table-input-bar">
-                                                        <input type="text" id="row1_input3" class="input1">
+                                                        <input type="text"  class="input1 pulseValue">
                                                         <div class="check-bar">
-                                                            <input type="checkbox" id="row1_input4">
+                                                            <input type="checkbox" id="row1_input4" class="pulseBriefness">
                                                             <label for="row1_input4">短绌</label>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="table-input-bar">
-                                                        <input type="text" id="row1_input5" class="input1">
-                                                        <select id="row1_input6" class="abs">
-                                                            <option selected="" value=" ">&nbsp;</option>
-                                                            <option value="辅助呼吸">辅助呼吸</option>
-                                                            <option value="停辅助呼吸">停辅助呼吸</option>
+                                                        <input type="text"  class="input1 breatheValue">
+                                                        <select  class="abs breatheScene">
+                                                            <option selected="" value="0">&nbsp;</option>
+                                                            <option value="1">辅助呼吸</option>
+                                                            <option value="2">停辅助呼吸</option>
                                                         </select>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="table-input-bar">
-                                                        <input class="i1" type="text" id="row1_input7">/
-                                                        <input class="i1" type="text" id="row1_input8">
-                                                        <select id="row1_input9" class="abs">
-                                                            <option selected="" value=" ">&nbsp;</option>
-                                                            <option value="外出">外出</option>
-                                                            <option value="检查">检查</option>
-                                                            <option value="请假">请假</option>
-                                                            <option value="拒试">拒试</option>
-                                                            <option value="无法测">无法测</option>
-                                                            <option value="不在">不在</option>
+                                                        <input type="text" class="input1 shitValue">
+                                                        <select  class="abs shitScene">
+                                                            <option selected="" value="0">&nbsp;</option>
+                                                            <option value="1">*</option>
+                                                            <option value="2">/E</option>
+                                                            <option value="3">*/E</option>
+                                                            <option value="4">1，1/E</option>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="table-input-bar">
+                                                        <input class="i1 pressureSys" type="text" id="row1_input7">/
+                                                        <input class="i1 pressureDia" type="text" id="row1_input8">
+                                                        <select id="row1_input9" class="abs pressureScene">
+                                                            <option selected="" value="0">&nbsp;</option>
+                                                            <option value="1">外出</option>
+                                                            <option value="2">检查</option>
+                                                            <option value="3">请假</option>
+                                                            <option value="4">拒试</option>
+                                                            <option value="5">无法测</option>
+                                                            <option value="6">不在</option>
                                                         </select>
                                                     </div>
                                                 </td>
                                                 <td class="pd0">
                                                     <div class="table-input-bar">
-                                                        <input class="input2 ft-center" type="text" id="row1_input10">
+                                                        <input class="input2 ft-center heartrateValue" type="text" id="row1_input10">
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="table-input-bar">
-                                                        <input type="text" id="row1_input11">
-                                                        <select id="row1_input12" class="abs">
-                                                            <option selected="" value=" ">&nbsp;</option>
-                                                            <option value="输入液量">输入液量</option>
-                                                            <option value="饮食">饮食</option>
-                                                            <option value="饮水">饮水</option>
-                                                            <option value="其它">其它</option>
+                                                        <input type="text" id="row1_input18" class="weightValue">
+                                                        <select id="row1_input19" class="abs weightScene">
+                                                            <option selected="" value="0"> </option>
+                                                            <option value="1">卧床</option>
+                                                            <option value="2">轮椅</option>
+                                                            <option value="3">平车</option>
                                                         </select>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="table-input-bar">
-                                                        <input type="text" id="row1_input13">
-                                                        <select id="row1_input14" class="abs">
-                                                            <option selected="" value=" ">&nbsp;</option>
-                                                            <option value="失禁">失禁</option>
-                                                            <option value="/C">/C</option>
-                                                        </select>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="text" id="row1_input15">
-                                                        <select id="row1_input16" class="abs">
-                                                            <option selected="" value=" ">&nbsp;</option>
-                                                            <option value="失禁">失禁</option>
-                                                            <option value="/E">/E</option>
-                                                            <option value="*/E">*/E</option>
-                                                            <option value="1，1/E">1，1/E</option>
-                                                            <option value="肠镜">肠镜</option>
-                                                            <option value="人工肛门">人工肛门</option>
-                                                        </select>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="text" id="row1_input17">
-                                                        <input type="text" class="input3" id="row1_input18">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="text" id="row1_input18">
-                                                        <select id="row1_input19" class="abs">
-                                                            <option selected="" value="  ">&nbsp; </option>
-                                                            <option value="卧床">卧床</option>
-                                                            <option value="轮椅">轮椅</option>
-                                                            <option value="平车">平车</option>
-                                                        </select>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="text" id="row1_input20">
-                                                        <select id="row1_input21" class="abs">
-                                                                <option selected="" value="  ">&nbsp; </option>
-                                                                <option value="卧床">卧床</option>
-                                                                <option value="轮椅">轮椅</option>
-                                                                <option value="平车">平车</option>
+                                                        <input type="text" id="row1_input20" class="heightValue">
+                                                        <select id="row1_input21" class="abs heightScene">
+                                                                <option selected="" value="0">&nbsp; </option>
+                                                                <option value="1">卧床</option>
+                                                                <option value="2">轮椅</option>
+                                                                <option value="3">平车</option>
                                                             </select>
                                                     </div>
                                                 </td>
                                                 <td class="pd0">
                                                     <div class="table-input-bar">
-                                                        <textarea type="text" id="row1_input22"></textarea>
+                                                        <textarea type="text" class="skinValue"></textarea>
+                                                    </div>
+                                                </td>
+                                                <td class="pd0">
+                                                    <div class="table-input-bar ">
+                                                        <!--<input class="input2 ft-center" type="text" id="row1_input23">-->
+                                                        <textarea type="text" class="otherValue"></textarea>
                                                     </div>
                                                 </td>
                                                 <td class="pd0">
                                                     <div class="table-input-bar">
-                                                        <input class="input2 ft-center" type="text" id="row1_input23">
-                                                    </div>
-                                                </td>
-                                                <td class="pd0">
-                                                    <div class="table-input-bar">
-                                                        <input class="input2 ft-center" type="text" id="row1_input24">
-                                                    </div>
-                                                </td>
-                                                <td class="pd0">
-                                                    <div class="table-input-bar">
-                                                        <textarea type="text" id="row1_input25"></textarea>
+                                                        <select class="incidentScene">
+                                                            <option value="0"> </option>
+                                                            <option value="1">入院</option>
+                                                            <option value="2">出院</option>
+                                                            <option value="3">手术</option>
+                                                            <option value="4">分娩</option>
+                                                            <option value="5">出生</option>
+                                                            <option value="6">转入</option>
+                                                            <option value="7">转科</option>
+                                                            <option value="8">转院</option>
+                                                            <option value="9">死亡</option>
+                                                            <option value="10">外出</option>
+                                                        </select>
+                                                        <div class="date-box" style="display: inline-block">
+                                                            <!--<input type="text" class="am-form-field  date-input2 incidentTime1" >-->
+                                                            <input type="text" class="am-form-field  time-input2 incidentTime2" >
+                                                        </div>
                                                     </div>
                                                 </td>
                                             </tr>
                                         {{end}}
-
-                                            <!--<tr>
-                                                <td class="pd8"><span>B01</span></td>
-                                                <td class="pd8"><span>王小二</span></td>
-                                                <td class="pd8"><span>51</span></td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="text" id="row1_input1" class="input1">
-                                                        <select id="row1_input2" class="abs">
-                                                                <option selected="" value=" ">&nbsp;</option>
-                                                                <option value="腋温">腋温</option>
-                                                                <option value="耳温">耳温</option>
-                                                                <option value="口温">口温</option>
-                                                                <option value="肛温">肛温</option>
-                                                                <option value="额温">额温</option>
-                                                                <option value="不升">不升</option>
-                                                                <option value="外出">外出</option>
-                                                                <option value="检查">检查</option>
-                                                                <option value="请假">请假</option>
-                                                                <option value="拒试">拒试</option>
-                                                                <option value="无法测">无法测</option>
-                                                                <option value="不在">不在</option>
-                                                            </select>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="text" id="row1_input3" class="input1">
-                                                        <div class="check-bar">
-                                                            <input type="checkbox" id="row1_input4">
-                                                            <label for="row1_input4">短绌</label>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="text" id="row1_input5" class="input1">
-                                                        <select id="row1_input6" class="abs">
-                                                                <option selected="" value=" ">&nbsp;</option>
-                                                                <option value="辅助呼吸">辅助呼吸</option>
-                                                                <option value="停辅助呼吸">停辅助呼吸</option>
-                                                            </select>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input class="i1" type="text" id="row1_input7">/
-                                                        <input class="i1" type="text" id="row1_input8">
-                                                        <select id="row1_input9" class="abs">
-                                                                <option selected="" value=" ">&nbsp;</option>
-                                                                <option value="外出">外出</option>
-                                                                <option value="检查">检查</option>
-                                                                <option value="请假">请假</option>
-                                                                <option value="拒试">拒试</option>
-                                                                <option value="无法测">无法测</option>
-                                                                <option value="不在">不在</option>
-                                                            </select>
-                                                    </div>
-                                                </td>
-                                                <td class="pd0">
-                                                    <div class="table-input-bar">
-                                                        <input class="input2 ft-center" type="text" id="row1_input10">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="text" id="row1_input11">
-                                                        <select id="row1_input12" class="abs">
-                                                                <option selected="" value=" ">&nbsp;</option>
-                                                                <option value="输入液量">输入液量</option>
-                                                                <option value="饮食">饮食</option>
-                                                                <option value="饮水">饮水</option>
-                                                                <option value="其它">其它</option>
-                                                            </select>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="text" id="row1_input13">
-                                                        <select id="row1_input14" class="abs">
-                                                                <option selected="" value=" ">&nbsp;</option>
-                                                                <option value="失禁">失禁</option>
-                                                                <option value="/C">/C</option>
-                                                            </select>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="text" id="row1_input15">
-                                                        <select id="row1_input16" class="abs">
-                                                                <option selected="" value=" ">&nbsp;</option>
-                                                                <option value="失禁">失禁</option>
-                                                                <option value="/E">/E</option>
-                                                                <option value="*/E">*/E</option>
-                                                                <option value="1，1/E">1，1/E</option>
-                                                                <option value="肠镜">肠镜</option>
-                                                                <option value="人工肛门">人工肛门</option>
-                                                            </select>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="text" id="row1_input17">
-                                                        <input type="text" class="input3" id="row1_input18">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="text" id="row1_input18">
-                                                        <select id="row1_input19" class="abs">
-                                                                <option selected="" value="  ">&nbsp; </option>
-                                                                <option value="卧床">卧床</option>
-                                                                <option value="轮椅">轮椅</option>
-                                                                <option value="平车">平车</option>
-                                                            </select>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="text" id="row1_input20">
-                                                        <select id="row1_input21" class="abs">
-                                                                    <option selected="" value="  ">&nbsp; </option>
-                                                                    <option value="卧床">卧床</option>
-                                                                    <option value="轮椅">轮椅</option>
-                                                                    <option value="平车">平车</option>
-                                                                </select>
-                                                    </div>
-                                                </td>
-                                                <td class="pd0">
-                                                    <div class="table-input-bar">
-                                                        <textarea type="text" id="row1_input22"></textarea>
-                                                    </div>
-                                                </td>
-                                                <td class="pd0">
-                                                    <div class="table-input-bar">
-                                                        <input class="input2 ft-center" type="text" id="row1_input23">
-                                                    </div>
-                                                </td>
-                                                <td class="pd0">
-                                                    <div class="table-input-bar">
-                                                        <input class="input2 ft-center" type="text" id="row1_input24">
-                                                    </div>
-                                                </td>
-                                                <td class="pd0">
-                                                    <div class="table-input-bar">
-                                                        <textarea type="text" id="row1_input25"></textarea>
-                                                    </div>
-                                                </td>
-                                            </tr>-->
-
-
                                         </tbody>
                                     </table>
                                 </div>
@@ -576,12 +409,33 @@
                 console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
             }
         });
-        // setTimeout(function(){
-        // $('.time-input').val(nowDateObj.time)
-        // },0)
 
 
-
+        lay('.date-input2').each(function(){
+            laydate.render({
+                elem: this,
+                showBottom: false,
+                value: nowDateObj.date,
+                done: function(value, date, endDate) {
+                    console.log(value); //得到日期生成的值，如：2017-08-18
+                    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                    console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                }
+            });
+        });
+        lay('.time-input2').each(function(){
+            laydate.render({
+                elem: this,
+                type: 'time',
+                format: 'HH:mm',
+                value: nowDateObj.time,
+                done: function(value, date, endDate) {
+                    console.log(value); //得到日期生成的值，如：2017-08-18
+                    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                    console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                }
+            });
+        });
 
         $(window).on('resize', throttle(resizeFn, 500, {
             leading: false, //配置第一次不立即执行 true 第一次执行 false 第一次不执行
@@ -611,6 +465,62 @@
                 $('.cont-table.fx').css('top', st)
                 zxScroll = st
             }
+        })
+
+
+
+        $("#save-btn").on("click",function(){
+            var testTime = $.trim($("#testTime").val()) || "",
+                timeBlcok = $.trim($("#timeBlock").val()) || "";
+            var res = [];
+            $("tbody").find("tr").each(function(i,el){
+                res[i]={};
+                res[i]["patient_id"] = $.trim($(el).data("pid")) || ""
+                res[i]["nurse_id"]= $.trim($(el).data("nid")) || ""
+                res[i]["nurse_name"]= $.trim($(el).data("nname")) || ""
+                res[i]["test_time"]=$.trim(testTime) +" "+ $.trim(timeBlcok)
+                res[i]["thm_value"] =$.trim($(el).find(".thmValue").val())  || ""
+                res[i]["thm_type"] =$.trim($(el).find(".thmType").val())  || ""
+                res[i]["thm_scene"] =$.trim($(el).find(".thmScene").val())  || ""
+                res[i]["pulse_value"] = $.trim($(el).find(".pulseValue").val())  || ""
+                if($(el).find(".pulseBriefness").is(":checked")){
+                    res[i]["pulse_briefness"] ="1"
+                }else{
+                    res[i]["pulse_briefness"] ="0"
+                }
+                res[i]["breathe_value"] = $.trim($(el).find(".breatheValue").val())  || ""
+                res[i]["breathe_scene"] =$.trim($(el).find(".breatheScene").val())  || ""
+                res[i]["shit_value"] = $.trim($(el).find(".shitValue").val())  || ""
+                res[i]["shit_scene"] = $.trim($(el).find(".shitScene").val())  || ""
+                res[i]["pressure_dia"] = $.trim($(el).find(".pressureDia").val())|| ""
+                res[i]["pressure_sys"] =$.trim($(el).find(".pressureSys").val())  || ""
+
+                res[i]["pressure_scene"] = $.trim($(el).find(".pressureScene").val())  || ""
+                res[i]["heartrate_value"] = $.trim($(el).find(".heartrateValue").val())  || ""
+                res[i]["weight_value"] = $.trim($(el).find(".weightValue").val())  || ""
+                res[i]["weight_scene"] = $.trim($(el).find(".weightScene").val())  || ""
+                res[i]["height_value"] = $.trim($(el).find(".heightValue").val())  || ""
+                res[i]["height_scene"] = $.trim($(el).find(".heightScene").val())  || ""
+                res[i]["skin_value"] = $.trim($(el).find(".skinValue").val())  || ""
+                res[i]["other_value"] = $.trim($(el).find(".otherValue").val())  || ""
+                res[i]["incident_scene"] = $.trim($(el).find(".incidentScene").val())  || ""
+                res[i]["incident_time"] = $.trim(testTime) +" "+ $.trim($(el).find(".incidentTime2").val()) +":00"
+            })
+
+            console.log(JSON.stringify(res))
+
+            var reqData ={
+                value:JSON.stringify(res)
+            }
+
+            $.post("/pc/batvhinput", reqData, function (json, status) {
+                //console.log(json, status);
+                if (json.result == 0 ) {
+                    alert(json.errmsg)
+                } else  {
+                    alert(json.result + json.errmsg+json.Ddatas)
+                }
+            }, 'json');
         })
     </script>
 </body>

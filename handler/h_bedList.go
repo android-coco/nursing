@@ -13,6 +13,7 @@ type BedListController struct {
 	fit.Controller
 }
 
+/*PDA 床位列表API*/
 func (c BedListController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 	r.ParseForm()
@@ -40,7 +41,6 @@ func (c BedListController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 func (c *BedListController) RenderingJsonAutomatically(result int, errMsg string) {
 	c.RenderingJson(result, errMsg, make([]interface{}, 0))
 }
-
 func (c *BedListController) RenderingJson(result int, errMsg string, datas interface{}) {
 	c.JsonData.Datas = datas
 	c.JsonData.ErrorMsg = errMsg

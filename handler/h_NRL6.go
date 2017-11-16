@@ -9,7 +9,7 @@ import (
 )
 
 type NRL6Controller struct {
-	fit.Controller
+	NRLController
 }
 
 // 模板 template PDA端
@@ -28,16 +28,15 @@ func (c NRL6Controller) Check(w *fit.Response, r *fit.Request, p fit.Params) {
 
 	pid := nr6.VAA01
 
-	pinfo, err := model.GetPatientInfo(strconv.FormatInt(pid, 10))
-	if err != nil {
-		fit.Logger().LogError("m_NR1", err)
-		fmt.Fprintln(w, "服务器有点繁忙！")
+	// 查询对应病人信息
+	patient, has := c.LoadPinfoWithPid(w, r, pid)
+	if !has {
 		return
 	}
 
 	recordDate := nr6.DateTime.Format("2006-01-02")
 	c.Data = fit.Data{
-		"Pinfo": pinfo[0],
+		"Pinfo": patient,
 		"NRL":   nr6,
 		"RecordDate": recordDate,
 	}
@@ -75,30 +74,16 @@ func (c NRL6Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 		return
 	}
 
-	pinfo, err := model.GetPatientInfo(pid)
-	if err != nil {
-		fit.Logger().LogError("m_NR1", err)
-		fmt.Fprintln(w, "服务器有点繁忙！")
+	// 查询对应病人信息 护士的信息
+	patient, account, has := c.LoadPinfoAndAccountWithPidUid(w, r, pid, uid)
+	if !has {
 		return
 	}
 
-	account, err2 := model.FetchAccountWithUid(uid)
-	if err2 != nil {
-		fit.Logger().LogError("nrl5", err2)
-		fmt.Fprintln(w, "参数错误！", err2)
-		return
-	}
-	//fmt.Printf("account %+v \n\n %+v\n\n", account, pinfo)
-
-
-	if len(pinfo) == 0 {
-		fmt.Fprintln(w, "参数错误！")
-		return
-	}
 
 	recordDate := nr6.DateTime.Format("2006-01-02")
 	c.Data = fit.Data{
-		"Pinfo": pinfo[0],
+		"Pinfo": patient,
 		"NRL":   nr6,
 		"Type":  ty,
 		"Rid": rid,
@@ -116,7 +101,7 @@ func (c NRL6Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params)
 	// 病人ID
 	VAA01, err1 := strconv.ParseInt(r.FormValue("pid"), 10, 64)
 	// 护士ID
-	BCE01A := r.FormValue("nid")
+	BCE01A := r.FormValue("uid")
 	// 护士名
 	BCE03A := r.FormValue("username")
 	// 记录时间
@@ -125,22 +110,26 @@ func (c NRL6Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params)
 	BCK01, err5 := strconv.ParseInt(r.FormValue("did"), 10, 64)
 	// 文书ID（修改时需要）
 	//recordId := r.FormValue("rid")
-	NRL01, err6 := strconv.Atoi(r.FormValue("NRL01"))
-	NRL02, err7 := strconv.Atoi(r.FormValue("NRL02"))
-	NRL03, err8 := strconv.Atoi(r.FormValue("NRL03"))
-	NRL04, err9 := strconv.Atoi(r.FormValue("NRL04"))
-	NRL05, err10 := strconv.Atoi(r.FormValue("NRL05"))
-	NRL06, err11 := strconv.Atoi(r.FormValue("NRL06"))
-	NRL07A, err12 := strconv.Atoi(r.FormValue("NRL07A"))
-	NRL07B, err13 := strconv.Atoi(r.FormValue("NRL07B"))
-	score, err14 := strconv.Atoi(r.FormValue("score"))
+	NRL01 := r.FormValue("NRL01")
+	NRL02 := r.FormValue("NRL02")
+	NRL03 := r.FormValue("NRL03")
+	NRL04 := r.FormValue("NRL04")
+	NRL05 := r.FormValue("NRL05")
+	NRL06 := r.FormValue("NRL06")
+	NRL07 := r.FormValue("NRL07")
+	NRL08 := r.FormValue("NRL08")
+	NRL09 := r.FormValue("NRL09")
+	NRL10 := r.FormValue("NRL10")
+	NRL11 := r.FormValue("NRL11")
+	NRL12 := r.FormValue("NRL12")
+	NRL13 := r.FormValue("NRL13")
+	//NRL14 := r.FormValue("NRL14")
+	NRL15A := r.FormValue("NRL15A")
+	NRL15B := r.FormValue("NRL15B")
+	score := r.FormValue("score")
 
-	/*if err1 != nil || err4 != nil ||
-		err5 != nil || err6 != nil || err7 != nil || err8 != nil || err9 != nil ||
-		err10 != nil || err11 != nil || err12 != nil || err13 != nil  {
-		fit.Logger().LogError("nrl3 add", err1, err4, err5, err6, err7, err8, err9, err10, err11, err12, err13, err14, err15, err16)
-	}*/
-	checkerr("nrl6 add", err1, err4, err5, err6, err7, err8, err9, err10, err11, err12, err13, err14)
+
+	checkerr("nrl6 add", err1, err4, err5)
 
 	if VAA01 == 0 || BCE01A == "" || BCE03A == "" {
 		c.JsonData.Result = 1
@@ -161,18 +150,41 @@ func (c NRL6Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params)
 		NRL04:    NRL04,
 		NRL05:    NRL05,
 		NRL06:    NRL06,
-		NRL07A:    NRL07A,
-		NRL07B:    NRL07B,
+		NRL07:    NRL07,
+		NRL08:    NRL08,
+		NRL09:    NRL09,
+		NRL10:    NRL10,
+		NRL11:    NRL11,
+		NRL12:    NRL12,
+		NRL13:    NRL13,
+		//NRL14:    NRL14,
+		NRL15A:    NRL15A,
+		NRL15B:    NRL15B,
 		Score:    score,
 	}
 
-	_, err17 := nrl6.InsertData()
+	rid, err17 := nrl6.InsertData()
+
 	if err17 != nil {
 		fit.Logger().LogError("NRL6 add :", err17)
 		c.JsonData.Result = 2
 		c.JsonData.ErrorMsg = "上传失败！"
 		c.JsonData.Datas = []interface{}{}
 	} else {
+		// 文书记录
+		nurseRecord := model.NursingRecords{
+			Updated:     r.FormValue("datetime"),
+			NursType:    6,
+			NursingId:   BCE01A,
+			NursingName: BCE03A,
+			ClassId:     r.FormValue("did"),
+			PatientId:   r.FormValue("pid"),
+			RecordId:    rid,
+			Comment:     "新增",
+		}
+		_,errRecord := model.InsertNRecords(nurseRecord)
+		checkerr("nurse record err:", errRecord)
+
 		c.JsonData.Result = 0
 		c.JsonData.ErrorMsg = "上传成功！"
 		c.JsonData.Datas = []interface{}{}
@@ -192,29 +204,42 @@ func (c NRL6Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 		c.JsonData.ErrorMsg = "rid 错误！"
 		c.JsonData.Datas = []interface{}{}
 	}
-
+	// 病人ID
+	VAA01, err1 := strconv.ParseInt(r.FormValue("pid"), 10, 64)
+	// 科室ID
+	BCK01, err5 := strconv.ParseInt(r.FormValue("did"), 10, 64)
 	// 护士ID
-	//BCE01A := r.FormValue("nid")
+	BCE01A := r.FormValue("nid")
 	// 护士名
-	//BCE03A := r.FormValue("username")
+	BCE03A := r.FormValue("username")
 	// 记录时间
 	datetime, err4 := time.ParseInLocation("2006-01-02 15:04:05", r.FormValue("datetime"), time.Local)
 
-	NRL01, err6 := strconv.Atoi(r.FormValue("NRL01"))
-	NRL02, err7 := strconv.Atoi(r.FormValue("NRL02"))
-	NRL03, err8 := strconv.Atoi(r.FormValue("NRL03"))
-	NRL04, err9 := strconv.Atoi(r.FormValue("NRL04"))
-	NRL05, err10 := strconv.Atoi(r.FormValue("NRL05"))
-	NRL06, err11 := strconv.Atoi(r.FormValue("NRL06"))
-	NRL07A, err12 := strconv.Atoi(r.FormValue("NRL07A"))
-	NRL07B, err13 := strconv.Atoi(r.FormValue("NRL07B"))
-	score, err14 := strconv.Atoi(r.FormValue("score"))
+	NRL01 := r.FormValue("NRL01")
+	NRL02 := r.FormValue("NRL02")
+	NRL03 := r.FormValue("NRL03")
+	NRL04 := r.FormValue("NRL04")
+	NRL05 := r.FormValue("NRL05")
+	NRL06 := r.FormValue("NRL06")
+	NRL07 := r.FormValue("NRL07")
+	NRL08 := r.FormValue("NRL08")
+	NRL09 := r.FormValue("NRL09")
+	NRL10 := r.FormValue("NRL10")
+	NRL11 := r.FormValue("NRL11")
+	NRL12 := r.FormValue("NRL12")
+	NRL13 := r.FormValue("NRL13")
+	//NRL14 := r.FormValue("NRL14")
+	NRL15A := r.FormValue("NRL15A")
+	NRL15B := r.FormValue("NRL15B")
+	score := r.FormValue("score")
 
-	checkerr("nrl6 update", err4, err6, err7, err8, err9, err10, err11, err12, err13, err14)
+	checkerr("nrl6 update",err1, err5, err4)
 
 	nrl6 := model.NRL6{
-		//BCE01A:   BCE01A,
-		//BCE03A:   BCE03A,
+		VAA01:    VAA01,
+		BCK01:    BCK01,
+		BCE01A:   BCE01A,
+		BCE03A:   BCE03A,
 		DateTime: datetime,
 		NRL01:    NRL01,
 		NRL02:    NRL02,
@@ -222,8 +247,16 @@ func (c NRL6Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 		NRL04:    NRL04,
 		NRL05:    NRL05,
 		NRL06:    NRL06,
-		NRL07A:    NRL07A,
-		NRL07B:    NRL07B,
+		NRL07:    NRL07,
+		NRL08:    NRL08,
+		NRL09:    NRL09,
+		NRL10:    NRL10,
+		NRL11:    NRL11,
+		NRL12:    NRL12,
+		NRL13:    NRL13,
+		//NRL14:    NRL14,
+		NRL15A:    NRL15A,
+		NRL15B:    NRL15B,
 		Score:    score,
 	}
 
@@ -234,6 +267,9 @@ func (c NRL6Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 		c.JsonData.ErrorMsg = "修改失败！"
 		c.JsonData.Datas = []interface{}{}
 	} else {
+		_, errRecord := model.UpadteNRecords(id, r.FormValue("datetime"))
+		checkerr("nurse record update err:", errRecord)
+
 		c.JsonData.Result = 0
 		c.JsonData.ErrorMsg = "修改成功！"
 		c.JsonData.Datas = []interface{}{}

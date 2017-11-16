@@ -130,7 +130,7 @@
                             <div class="user-list">
                                 <ul>
                                     {{range $key, $val := .Beds}}
-                                    <li data-id="{{$key}}" data-msg="{{$val.VAA01}}">
+                                    <li data-id="{{$key}}" data-msg="{{$val.VAA01}}" class="{{if eq  $.PInfo.VAA01 $val.VAA01}}active{{end}}">
                                         <div class="l">
                                             <label>{{$val.BCQ04}}</label>
                                         </div>
@@ -1008,8 +1008,8 @@
         $("#weekindex-span").text(weekindex);
 
         $("#weekindex").on("change",function(){
-            console.log("???");
-            console.log($(this).val());
+            // console.log("???");
+            // console.log($(this).val());
             var weekindex = $(this).val();
             window.location.href = "/pc/templist?pid=" + pid + "&num=" + weekindex;
         });

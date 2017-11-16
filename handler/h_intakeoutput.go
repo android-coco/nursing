@@ -17,6 +17,7 @@ type IntakeOutputQueryController struct {
 	fit.Controller
 }
 
+/*API 提交出入量*/
 func (c IntakeOutputCollectController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 	r.ParseForm()
@@ -99,6 +100,7 @@ func (c *IntakeOutputCollectController) RenderingJson(result int, errMsg string,
 	c.JsonData.Result = result
 }
 
+/*查询出入量*/
 func (c IntakeOutputQueryController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 	r.ParseForm()

@@ -13,6 +13,7 @@ type NRL4 struct {
 	BCE01A   string    `xorm:"comment(NursingId责任护士ID)"`
 	BCE03A   string    `xorm:"comment(NursingName责任护士签名)"`
 	DateTime time.Time `xorm:"comment(记录时间)"`
+	DateStr  string    `xorm:"-"`
 	NRL01    int       `xorm:"comment(年龄评分)"`
 	NRL02    int       `xorm:"comment(体重评分)"`
 	NRL03    int       `xorm:"comment(运动能力评分)"`
@@ -39,7 +40,7 @@ func (m *NRL4) InsertData() (int64, error) {
 
 func (m NRL4) UpdateData(id int64) (int64, error) {
 	// "BCK01","VAA01","BCE01A","BCE03A",
-	return fit.MySqlEngine().Id(id).Cols("DateTime","NRL01","NRL02","NRL03","NRL04","NRL05","NRL06","NRL07","NRL08","Score").Update(&m)
+	return fit.MySqlEngine().ID(id).AllCols().Omit("ID").Update(&m)
 }
 
 func QueryNRL4(rid string) (NRL4, error)  {
@@ -50,4 +51,33 @@ func QueryNRL4(rid string) (NRL4, error)  {
 	} else {
 		return nr4, nil
 	}
+}
+
+
+// pc端接口
+func PCQueryNRL4(pid, datestr1, datestr2 string, pagenum int) ([]NRL4, error) {
+	var mods []NRL4
+	var err error
+	if datestr2 == "" || datestr1 == "" {
+		err = fit.MySqlEngine().Table("NRL4").Where("VAA01 = ?", pid).Limit(9, (pagenum - 1) * 9).Find(&mods)
+	} else {
+		err = fit.MySqlEngine().Table("NRL4").Where("VAA01 = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Limit(9, (pagenum - 1) * 9).Find(&mods)
+	}
+	if err != nil {
+		return nil, err
+	}
+	for key,_ := range mods {
+		val := mods[key]
+		mods[key].DateStr = val.DateTime.Format("2006-01-02")
+	}
+	return mods, nil
+}
+
+func PCQUeryNRL4PageCount(pid, datestr1, datestr2 string) (counts int64, err error)  {
+	if datestr2 == "" || datestr1 == "" {
+		counts,err = fit.MySqlEngine().Table("NRL4").Where("VAA01 = ?", pid).Count()
+	} else {
+		counts,err = fit.MySqlEngine().Table("NRL4").Where("VAA01 = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Count()
+	}
+	return counts, err
 }

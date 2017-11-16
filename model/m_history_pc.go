@@ -1,3 +1,5 @@
+//  Created by JP
+
 package model
 
 import (
@@ -14,7 +16,7 @@ type HistoryPatient struct {
 	Date  string    `json:"dcgDate"`
 }
 
-/*根据出院时间区间查找*/
+/*根据出院时间区间查找历史病人*/
 func SearchHistoryParientsWithTimeInterval(startTime, endTime string, did int) ([]HistoryPatient, error) {
 	response := make([]HistoryPatient, 0)
 	err := fit.SQLServerEngine().SQL("select VAE1.VAA01, VAE1.VAE02, VAE1.VAE26, VAA1.VAA04, VAA1.VAA05 from VAE1, VAA1 where VAE1.BCK01D = ? and (VAE1.VAE26 between ? and ?) and VAA1.VAA01 = VAE1.VAA01", did, startTime, endTime).Find(&response)

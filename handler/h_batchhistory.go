@@ -4,329 +4,286 @@ import (
 	"nursing/model"
 	"fit"
 	"time"
-	"encoding/json"
+	/*"encoding/json"*/
 	/*"strconv"*/
+	"strconv"
+	"strings"
 )
 
-/*//体征数据
-type signvalue struct{
-	Testtime    fit.JsonTime `json:"testtime" xorm:"notnull comment(测试时间)"`
-	model.IntakeOutput  `xorm:"extends"`  // 出入量
-
-}*/
-
+//体征历史数据
 type PCBatvhHistoryController struct{
 	PCController
 }
 
-func (c PCBatvhHistoryController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
+func (c PCBatvhHistoryController) TZHistory(w *fit.Response, r *fit.Request, p fit.Params) {
 	userinfo, err := c.GetLocalUserinfo(w, r)
 	if err == nil {
 		defer c.LoadViewSafely(w, r, "pc/v_batchinput2.html", "pc/header_side.html", "pc/header_top.html")
+		c.Data = make(fit.Data)
+
+		c.Data["Userinfo"] = userinfo
+		c.Data["Menuindex"] = "4-0"
 
 		classid := userinfo.DepartmentID
-
-		Data := make(fit.Data)
 
 		response, err_rp := model.QueryDepartmentBeds(classid, false)
 		if err_rp != nil {
 			fit.Logger().LogError("gk", err_rp)
 			return
 		}
-		Data["Patients"] = response
+
+		PatientHistorys := make([]model.PatientHistory,0)   //病人信息
 
 		starttime :=  r.FormValue("starttime")
 		endtime   :=  r.FormValue("endtime")
+		startframe :=  r.FormValue("startframe")
+		endframe   :=  r.FormValue("endframe")
+		patient_id := r.FormValue("patient_id")   //VAA01病人ID
 
 		if starttime == ""|| endtime == ""{
-		t := time.Now()
-		st := time.Date(t.Year(), t.Month(), 3, 0, 0, 0, 0, t.Location())
-		et := time.Date(t.Year(), t.Month(), 3, 23, 59, 59, 0, t.Location())
-		//t.Day()
-		starttime = st.Format("2006-01-02 15:04:05")
-		endtime   = et.Format("2006-01-02 15:04:05")
+		    t := time.Now()
+		    st := time.Date(t.Year(), t.Month(), t.Day(), 6, 0, 0, 0, t.Location())
+		    et := time.Date(t.Year(), t.Month(), t.Day(), 10, 0, 0, 0, t.Location())
+
+		    starttime = st.Format("2006-01-02 15:04:05")
+		    endtime   = et.Format("2006-01-02 15:04:05")
+		    c.Data["key"] = 1
+			c.Data["startframe"] = "8"
+			c.Data["endframe"] = "8"
+
+			for _,v := range  response{
+				var ph model.PatientHistory
+				ph.PatientId = v.VAA01
+				ph.BedCoding = v.BCQ04
+				ph.Name = v.VAA05
+				ph.Age = strconv.Itoa(v.VAA10)
+				ph.Checked = 1
+				PatientHistorys = append(PatientHistorys,ph)
+			}
+		}else{
+			c.Data["key"] = 2
+			c.Data["starttime"] = starttime
+			c.Data["endtime"] = endtime
+			c.Data["startframe"] = startframe
+			c.Data["endframe"] = endframe
+			c.Data["patientids"] = patient_id
+
+
+			st , _:= time.ParseInLocation("2006-01-02 15:04:05", starttime+" 00:00:00" ,time.Local)
+			et , _:= time.ParseInLocation("2006-01-02 15:04:05", endtime+" 00:00:00"  ,time.Local)
+
+			switch startframe {
+			case "4":
+				st = time.Date(st.Year(), st.Month(), st.Day(), 2, 0, 0, 0, st.Location())
+			case "8":
+				st = time.Date(st.Year(), st.Month(), st.Day(), 6, 0, 0, 0, st.Location())
+			case "12":
+				st = time.Date(st.Year(), st.Month(), st.Day(), 10, 0, 0, 0, st.Location())
+			case "16":
+				st = time.Date(st.Year(), st.Month(), st.Day(), 14, 0, 0, 0, st.Location())
+			case "20":
+				st = time.Date(st.Year(), st.Month(), st.Day(), 18, 0, 0, 0, st.Location())
+			case "24":
+				st = time.Date(st.Year(), st.Month(), st.Day(), 22, 0, 0, 0, st.Location())
+			}
+
+			switch endframe {
+			case "4":
+				et = time.Date(et.Year(), et.Month(), et.Day(), 6, 0, 0, 0, st.Location())
+			case "8":
+				et = time.Date(et.Year(), et.Month(), et.Day(), 10, 0, 0, 0, st.Location())
+			case "12":
+				et = time.Date(et.Year(), et.Month(), et.Day(), 14, 0, 0, 0, st.Location())
+			case "16":
+				et = time.Date(et.Year(), et.Month(), et.Day(), 18, 0, 0, 0, st.Location())
+			case "20":
+				et = time.Date(et.Year(), et.Month(), et.Day(), 22, 0, 0, 0, st.Location())
+			case "24":
+				et = et.Add(1)
+				et = time.Date(et.Year(), et.Month(), et.Day(), 2, 0, 0, 0, st.Location())
+			}
+
+			starttime = st.Format("2006-01-02 15:04:05")
+			endtime   = et.Format("2006-01-02 15:04:05")
+			fit.Logger().LogError("ghffdref",starttime,endtime)
+
+			patientids := strings.Split(patient_id,",")
+			map_patientids := make(map[string]string)
+			for _,v := range patientids{
+				map_patientids[v]=v
+			}
+			fit.Logger().LogError("ghffdref",len(patientids))
+			for _,v := range  response{
+				var ph model.PatientHistory
+				ph.PatientId = v.VAA01
+				ph.BedCoding = v.BCQ04
+				ph.Name = v.VAA05
+				ph.Age = strconv.Itoa(v.VAA10)
+				if _, ok := map_patientids[strconv.Itoa(v.VAA01)];ok{
+					ph.Checked = 1
+				}else{
+					ph.Checked = 0
+				}
+				PatientHistorys = append(PatientHistorys,ph)
+			}
+
 		}
 
-		var signhistorys []SignHistory
+		var signhistorys []model.TemperatrureChatHistory     //体温表数据
 
-        for _,ii := range response{
+        if patient_id == ""{
+			for _,ii := range PatientHistorys{
 
-        	signhistory_map := make(map[string]*SignHistory )
+				signhistory_map := make(map[string]*model.TemperatrureChatHistory )
 
-		var sql string
-		var msg []interface{}
+				var sql string
+				var msg []interface{}
 
-		sql = sql + "testtime >= ? and testtime <= ? and PatientId = ?"
-		msg = append(msg,starttime, endtime,ii.VAA01)
+				sql = sql + "testtime >= ? and testtime <= ? and PatientId = ?"
+				msg = append(msg,starttime, endtime,ii.PatientId)
 
-			item, err := model.OutTemperature(sql, msg...)
-			if err != nil {
-				c.JsonData.Result = 1
-				c.JsonData.ErrorMsg = "查询错误"
-				c.JsonData.Datas = err
-				return
-			} else {
-				for _,i := range item{
-					if v, ok := signhistory_map[i.Testtime.String()]; ok {
-						v.Thm = i
-					} else {
-						var  signhistory SignHistory
-						signhistory.Thm = i
-						signhistory.Texttime = i.Testtime.String()
-						signhistory.PCBedDup = ii
-						signhistory_map[i.Testtime.String()] = &signhistory
+				item, err := model.OutTemperatureHistory(sql, msg...)
+				if err != nil {
+					c.JsonData.Result = 1
+					c.JsonData.ErrorMsg = "查询错误"
+					return
+				} else {
+					for _,i := range item{
+						if v, ok := signhistory_map[time.Time(i.DateTime).Format("2006-01-02") + " 时段:" + strconv.Itoa(i.TypeTime)]; ok {
+							_,boo := model.TransformTemperatrureCH(i,v)
+							if boo {
+                                for j := 0;j<10;j++ {
+									if v, ok := signhistory_map[time.Time(i.DateTime).Format("2006-01-02") + " 时段:" + strconv.Itoa(i.TypeTime) + strconv.Itoa(j)]; ok {
+										_,boo := model.TransformTemperatrureCH(i,v)
+										if !boo {
+											break
+										}
+									} else {
+										var chat model.TemperatrureChatHistory
+										chat.PatientId = ii.PatientId
+										chat.PatientBed = ii.BedCoding
+										chat.PatientAge = ii.Age
+										chat.PatientName = ii.Name
+										chat.TestTime =  time.Time(i.DateTime).Format("2006-01-02")+" "+model.BackIntervalTime(i.TypeTime)
+										chat.DateTime = time.Time(i.DateTime).Format("2006-01-02")
+										chat.TimeFrame = strconv.Itoa(i.TypeTime)
+										er,_ := model.TransformTemperatrureCH(i,&chat)
+										if er != nil{
+											continue
+										}
+										signhistory_map[time.Time(i.DateTime).Format("2006-01-02") + " 时段:" + strconv.Itoa(i.TypeTime) + strconv.Itoa(j)] = &chat
+										break
+									}
+								}
+							}
+						} else {
+							var chat model.TemperatrureChatHistory
+							chat.PatientId = ii.PatientId
+							chat.PatientBed = ii.BedCoding
+							chat.PatientAge = ii.Age
+							chat.PatientName = ii.Name
+							chat.TestTime =  time.Time(i.DateTime).Format("2006-01-02")+" "+model.BackIntervalTime(i.TypeTime)
+							chat.DateTime = time.Time(i.DateTime).Format("2006-01-02")
+							chat.TimeFrame = strconv.Itoa(i.TypeTime)
+							er,_ := model.TransformTemperatrureCH(i,&chat)
+							if er != nil{
+								continue
+							}
+							signhistory_map[time.Time(i.DateTime).Format("2006-01-02") + " 时段:" + strconv.Itoa(i.TypeTime)] = &chat
+						}
 					}
 				}
-			}
-			fit.Logger().LogError("hhhhhhh",len(item))
+				fit.Logger().LogError("hhhhhhh",len(item))
 
-
-			item1, err1 := model.OutPulse(sql, msg...)
-			if err1 != nil {
-				c.JsonData.Result = 1
-				c.JsonData.ErrorMsg = "查询错误1"
-				c.JsonData.Datas = err1
-				return
-			} else {
-				for _,i := range item1{
-					if v, ok := signhistory_map[i.Testtime.String()]; ok {
-						v.Pulse = i
-					} else {
-						var  signhistory SignHistory
-						signhistory.Pulse = i
-						signhistory.Texttime = i.Testtime.String()
-						signhistory.PCBedDup = ii
-						signhistory_map[i.Testtime.String()] = &signhistory
-					}
+				for _,j :=range  signhistory_map{
+					signhistorys = append(signhistorys,*j)
 				}
 			}
+		}else{
+				for _,ii := range PatientHistorys{
 
+					signhistory_map := make(map[string]*model.TemperatrureChatHistory )
 
-			item2, err2 := model.OutBreathe(sql, msg...)
-			if err2 != nil {
-				c.JsonData.Result = 1
-				c.JsonData.ErrorMsg = "查询错误2"
-				c.JsonData.Datas = err2
-				return
-			} else {
-				for _,i := range item2{
-					if v, ok := signhistory_map[i.Testtime.String()]; ok {
-						v.Breathe = i
+					var sql string
+					var msg []interface{}
+
+					sql = sql + "testtime >= ? and testtime <= ? and PatientId = ?"
+					msg = append(msg,starttime, endtime,ii.PatientId)
+
+					if ii.Checked == 0 {
+						break
+					}
+
+					fit.Logger().LogError("bbbbbbbb",ii.PatientId)
+
+					item, err := model.OutTemperatureHistory(sql, msg...)
+					if err != nil {
+						c.JsonData.Result = 1
+						c.JsonData.ErrorMsg = "查询错误0"
+						c.JsonData.Datas = err
+						return
 					} else {
-						var  signhistory SignHistory
-						signhistory.Breathe = i
-						signhistory.Texttime = i.Testtime.String()
-						signhistory.PCBedDup = ii
-						signhistory_map[i.Testtime.String()] = &signhistory
+						for _,i := range item{
+							if v, ok := signhistory_map[time.Time(i.DateTime).Format("2006-01-02") + " 时段:" + strconv.Itoa(i.TypeTime)]; ok {
+								_,boo := model.TransformTemperatrureCH(i,v)
+								if boo {
+									for j := 0;j<10;j++ {
+										if v, ok := signhistory_map[time.Time(i.DateTime).Format("2006-01-02") + " 时段:" + strconv.Itoa(i.TypeTime) + strconv.Itoa(j)]; ok {
+											_,boo := model.TransformTemperatrureCH(i,v)
+											if !boo {
+												break
+											}
+										} else {
+											var chat model.TemperatrureChatHistory
+											chat.PatientId = ii.PatientId
+											chat.PatientBed = ii.BedCoding
+											chat.PatientAge = ii.Age
+											chat.PatientName = ii.Name
+											chat.TestTime =  time.Time(i.DateTime).Format("2006-01-02")+" "+model.BackIntervalTime(i.TypeTime)
+											chat.DateTime = time.Time(i.DateTime).Format("2006-01-02")
+											chat.TimeFrame = strconv.Itoa(i.TypeTime)
+											er,_ := model.TransformTemperatrureCH(i,&chat)
+											if er != nil{
+												continue
+											}
+											signhistory_map[time.Time(i.DateTime).Format("2006-01-02") + " 时段:" + strconv.Itoa(i.TypeTime) + strconv.Itoa(j)] = &chat
+											break
+										}
+									}
+								}
+							} else {
+								var chat model.TemperatrureChatHistory
+								chat.PatientId = ii.PatientId
+								chat.PatientBed = ii.BedCoding
+								chat.PatientAge = ii.Age
+								chat.PatientName = ii.Name
+								chat.TestTime = time.Time(i.DateTime).Format("2006-01-02")+" "+model.BackIntervalTime(i.TypeTime)
+								chat.DateTime = time.Time(i.DateTime).Format("2006-01-02")
+								chat.TimeFrame = strconv.Itoa(i.TypeTime)
+								er,_ := model.TransformTemperatrureCH(i,&chat)
+								if er != nil{
+									continue
+								}
+								signhistory_map[time.Time(i.DateTime).Format("2006-01-02") + " 时段:" + strconv.Itoa(i.TypeTime)] = &chat
+							}
+						}
+					}
+					fit.Logger().LogError("hhhhhhh",len(item))
+
+					for _,j :=range  signhistory_map{
+						signhistorys = append(signhistorys,*j)
 					}
 				}
-			}
-
-
-			item3, err3 := model.OutPressure(sql, msg...)
-			if err3 != nil {
-				c.JsonData.Result = 1
-				c.JsonData.ErrorMsg = "查询错误3"
-				c.JsonData.Datas = err3
-				return
-			} else {
-				for _,i := range item3{
-					if v, ok := signhistory_map[i.Testtime.String()]; ok {
-						v.Pressure = i
-					} else {
-						var  signhistory SignHistory
-						signhistory.Pressure = i
-						signhistory.Texttime = i.Testtime.String()
-						signhistory.PCBedDup = ii
-						signhistory_map[i.Testtime.String()] = &signhistory
-					}
-				}
-			}
-
-
-
-			item4, err4 := model.OutHeartrate(sql, msg...)
-			if err4 != nil {
-				c.JsonData.Result = 1
-				c.JsonData.ErrorMsg = "查询错误4"
-				c.JsonData.Datas = err4
-				return
-			} else {
-				for _,i := range item4{
-					if v, ok := signhistory_map[i.Testtime.String()]; ok {
-						v.Heartrate = i
-					} else {
-						var  signhistory SignHistory
-						signhistory.Heartrate = i
-						signhistory.Texttime = i.Testtime.String()
-						signhistory.PCBedDup = ii
-						signhistory_map[i.Testtime.String()] = &signhistory
-					}
-				}
-			}
-
-
-
-			item5, err5 := model.OutSpo2h(sql, msg...)
-			if err5 != nil {
-				c.JsonData.Result = 1
-				c.JsonData.ErrorMsg = "查询错误5"
-				c.JsonData.Datas = err5
-				return
-			} else {
-				for _,i := range item5{
-					if v, ok := signhistory_map[i.Testtime.String()]; ok {
-						v.Spo2h = i
-					} else {
-						var  signhistory SignHistory
-						signhistory.Spo2h = i
-						signhistory.Texttime = i.Testtime.String()
-						signhistory.PCBedDup = ii
-						signhistory_map[i.Testtime.String()] = &signhistory
-					}
-				}
-			}
-
-
-			item6, err6 := model.OutGlucose(sql, msg...)
-			if err6 != nil {
-				c.JsonData.Result = 1
-				c.JsonData.ErrorMsg = "查询错误6"
-				c.JsonData.Datas = err6
-				return
-			} else {
-				for _,i := range item6{
-					if v, ok := signhistory_map[i.Testtime.String()]; ok {
-						v.Glucose = i
-					} else {
-						var  signhistory SignHistory
-						signhistory.Glucose = i
-						signhistory.Texttime = i.Testtime.String()
-						signhistory.PCBedDup = ii
-						signhistory_map[i.Testtime.String()] = &signhistory
-					}
-				}
-			}
-
-
-			item7, err7 := model.OutWeight(sql, msg...)
-			if err7 != nil {
-				c.JsonData.Result = 1
-				c.JsonData.ErrorMsg = "查询错误7"
-				c.JsonData.Datas = err7
-				return
-			} else {
-				for _,i := range item7{
-					if v, ok := signhistory_map[i.Testtime.String()]; ok {
-						v.Weight = i
-					} else {
-						var  signhistory SignHistory
-						signhistory.Weight = i
-						signhistory.Texttime = i.Testtime.String()
-						signhistory.PCBedDup = ii
-						signhistory_map[i.Testtime.String()] = &signhistory
-					}
-				}
-			}
-
-
-			item8, err8 := model.OutHeight(sql, msg...)
-			if err8 != nil {
-				c.JsonData.Result = 1
-				c.JsonData.ErrorMsg = "查询错误8"
-				c.JsonData.Datas = err8
-				return
-			} else {
-				for _,i := range item8{
-					if v, ok := signhistory_map[i.Testtime.String()]; ok {
-						v.Height = i
-					} else {
-						var  signhistory SignHistory
-						signhistory.Height = i
-						signhistory.Texttime = i.Testtime.String()
-						signhistory.PCBedDup = ii
-						signhistory_map[i.Testtime.String()] = &signhistory
-					}
-				}
-			}
-
-
-			item9, err9 := model.OutSkin(sql, msg...)
-			if err9 != nil {
-				c.JsonData.Result = 1
-				c.JsonData.ErrorMsg = "查询错误9"
-				c.JsonData.Datas = err9
-				return
-			} else {
-				for _,i := range item9{
-					if v, ok := signhistory_map[i.Testtime.String()]; ok {
-						v.Skin = i
-					} else {
-						var  signhistory SignHistory
-						signhistory.Skin = i
-						signhistory.Texttime = i.Testtime.String()
-						signhistory.PCBedDup = ii
-						signhistory_map[i.Testtime.String()] = &signhistory
-					}
-				}
-			}
-
-			item11, err11 := model.OutIncident(sql, msg...)
-			if err11 != nil {
-				c.JsonData.Result = 1
-				c.JsonData.ErrorMsg = "查询错误11"
-				c.JsonData.Datas = err11
-				return
-			} else {
-				for _,i := range item11{
-					if v, ok := signhistory_map[i.Testtime.String()]; ok {
-						v.Incident = i
-					} else {
-						var  signhistory SignHistory
-						signhistory.Incident = i
-						signhistory.Texttime = i.Testtime.String()
-						signhistory.PCBedDup = ii
-						signhistory_map[i.Testtime.String()] = &signhistory
-					}
-				}
-			}
-
-			item12, err_iov :=  model.QueryIntakeOrOutputVolumeWithPatient(ii.VAA01, starttime, endtime)
-			if err_iov != nil {
-				// sql出错
-				c.JsonData.Result = 1
-				c.JsonData.ErrorMsg = "查询错误11"
-				c.JsonData.Datas = err11
-				return
-			} else {
-				for _,i := range item12{
-					if v, ok := signhistory_map[i.Testtime]; ok {
-						v.IntakeOutput = append(v.IntakeOutput,i)
-
-					} else {
-						var  signhistory SignHistory
-						signhistory.IntakeOutput = append(signhistory.IntakeOutput,i)
-						signhistory.Texttime = i.Testtime
-						signhistory.PCBedDup = ii
-						signhistory_map[i.Testtime] = &signhistory
-					}
-				}
-			}
-
-		  for _,j :=range  signhistory_map{
-			  signhistorys = append(signhistorys,*j)
-			  fit.Logger().LogError("gggggg",j.IntakeOutput)
-		  }
 		}
 
-		Data["signhistorys"]=signhistorys
-		Data["Menuindex"] = "4-0"
-		Data["Userinfo"] = userinfo
-		c.Data = Data
+		c.Data["Patients"] = PatientHistorys
+		c.Data["signhistorys"]=signhistorys
+		fit.Logger().LogError("jjjj",len(signhistorys))
 	}
 }
 
-func (c PCBatvhHistoryController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
+
+/*func (c PCBatvhHistoryController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 
 	patient_id := r.FormValue("patient_id")   //VAA01病人ID
@@ -348,11 +305,11 @@ func (c PCBatvhHistoryController) Post(w *fit.Response, r *fit.Request, p fit.Pa
 		c.JsonData.Datas = []interface{}{}
 		return
 	}else{
-		var signhistorys []model.SignHistory1
+		var signhistorys []model.TemperatrureChatHistory
 
 		for _,ii := range patientids{
 
-			signhistory_map := make(map[string]*model.SignHistory1 )
+			signhistory_map := make(map[string]*model.TemperatrureChatHistory )
 
 			var sql string
 			var msg []interface{}
@@ -368,7 +325,7 @@ func (c PCBatvhHistoryController) Post(w *fit.Response, r *fit.Request, p fit.Pa
 				return
 			}
 
-			item, err := model.OutTemperature(sql, msg...)
+			item, err := model.OutTemperatureHistory(sql, msg...)
 			if err != nil {
 				c.JsonData.Result = 1
 				c.JsonData.ErrorMsg = "查询错误0"
@@ -376,267 +333,25 @@ func (c PCBatvhHistoryController) Post(w *fit.Response, r *fit.Request, p fit.Pa
 				return
 			} else {
 				for _,i := range item{
-					if v, ok := signhistory_map[i.Testtime.String()]; ok {
-						v.ThmValue = i.Value
-						v.ThmType  = i.Ttemptype
+					if v, ok := signhistory_map[i.TestTime.String()]; ok {
+						model.TransformTemperatrureCH(i,v)
 					} else {
-						var  signhistory model.SignHistory1
-						signhistory.TextTime= i.Testtime.String()
-						signhistory.ThmValue= i.Value
-						signhistory.ThmType = i.Ttemptype
-						signhistory.PatientInfoDup = patient
-						signhistory_map[i.Testtime.String()] = &signhistory
+						var chat model.TemperatrureChatHistory
+						chat.PatientId = int(patient.VAA01)
+						chat.PatientBed = patient.BCQ04
+						chat.PatientAge = patient.VAA101
+						chat.PatientName = patient.VAA05
+						chat.TestTime = i.TestTime.String()
+						er := model.TransformTemperatrureCH(i,&chat)
+						if er != nil{
+							continue
+						}
+						signhistory_map[i.TestTime.String()] = &chat
 					}
 			}
 			}
 			fit.Logger().LogError("hhhhhhh",len(item))
 
-
-			item1, err1 := model.OutPulse(sql, msg...)
-			if err1 != nil {
-				c.JsonData.Result = 1
-				c.JsonData.ErrorMsg = "查询错误1"
-				c.JsonData.Datas = err1
-				return
-			} else {
-				for _,i := range item1{
-					if v, ok := signhistory_map[i.Testtime.String()]; ok {
-						v.PulseValue = i.Value
-						v.PulseBriefness = i.Whetherbriefness
-					} else {
-						var  signhistory model.SignHistory1
-						signhistory.TextTime= i.Testtime.String()
-						signhistory.PatientInfoDup = patient
-						signhistory.PulseValue = i.Value
-						signhistory.PulseBriefness = i.Whetherbriefness
-						signhistory_map[i.Testtime.String()] = &signhistory
-					}
-				}
-			}
-
-
-			item2, err2 := model.OutBreathe(sql, msg...)
-			if err2 != nil {
-				c.JsonData.Result = 1
-				c.JsonData.ErrorMsg = "查询错误2"
-				c.JsonData.Datas = err2
-				return
-			} else {
-				for _,i := range item2{
-					if v, ok := signhistory_map[i.Testtime.String()]; ok {
-						v.BreatheValue = i.Value
-						v.BreatheScene = i.Recordscene
-					} else {
-						var  signhistory model.SignHistory1
-						signhistory.TextTime= i.Testtime.String()
-						signhistory.PatientInfoDup = patient
-						signhistory.BreatheValue = i.Value
-						signhistory.BreatheScene = i.Recordscene
-						signhistory_map[i.Testtime.String()] = &signhistory
-					}
-				}
-			}
-
-
-			item3, err3 := model.OutPressure(sql, msg...)
-			if err3 != nil {
-				c.JsonData.Result = 1
-				c.JsonData.ErrorMsg = "查询错误3"
-				c.JsonData.Datas = err3
-				return
-			} else {
-				for _,i := range item3{
-					if v, ok := signhistory_map[i.Testtime.String()]; ok {
-						v.PressureDia = i.Diavalue
-						v.PressureSys = i.Sysvalue
-						v.PressureScene = i.Recordscene
-					} else {
-						var  signhistory model.SignHistory1
-						signhistory.TextTime= i.Testtime.String()
-						signhistory.PatientInfoDup = patient
-						signhistory.PressureDia = i.Diavalue
-						signhistory.PressureSys = i.Sysvalue
-						signhistory.PressureScene = i.Recordscene
-						signhistory_map[i.Testtime.String()] = &signhistory
-					}
-				}
-			}
-
-
-
-			item4, err4 := model.OutHeartrate(sql, msg...)
-			if err4 != nil {
-				c.JsonData.Result = 1
-				c.JsonData.ErrorMsg = "查询错误4"
-				c.JsonData.Datas = err4
-				return
-			} else {
-				for _,i := range item4{
-					if v, ok := signhistory_map[i.Testtime.String()]; ok {
-						v.HeartrateValue = i.Value
-					} else {
-						var  signhistory model.SignHistory1
-						signhistory.TextTime= i.Testtime.String()
-						signhistory.PatientInfoDup = patient
-						signhistory.HeartrateValue = i.Value
-						signhistory_map[i.Testtime.String()] = &signhistory
-					}
-				}
-			}
-
-
-
-			item5, err5 := model.OutSpo2h(sql, msg...)
-			if err5 != nil {
-				c.JsonData.Result = 1
-				c.JsonData.ErrorMsg = "查询错误5"
-				c.JsonData.Datas = err5
-				return
-			} else {
-				for _,i := range item5{
-					if v, ok := signhistory_map[i.Testtime.String()]; ok {
-						v.Spo2hValue = i.Value
-					} else {
-						var  signhistory model.SignHistory1
-						signhistory.TextTime= i.Testtime.String()
-						signhistory.PatientInfoDup = patient
-						signhistory.Spo2hValue = i.Value
-						signhistory_map[i.Testtime.String()] = &signhistory
-					}
-				}
-			}
-
-
-			item6, err6 := model.OutGlucose(sql, msg...)
-			if err6 != nil {
-				c.JsonData.Result = 1
-				c.JsonData.ErrorMsg = "查询错误6"
-				c.JsonData.Datas = err6
-				return
-			} else {
-				for _,i := range item6{
-					if v, ok := signhistory_map[i.Testtime.String()]; ok {
-						v.GlucoseValue = i.Value
-					} else {
-						var  signhistory model.SignHistory1
-						signhistory.TextTime= i.Testtime.String()
-						signhistory.PatientInfoDup = patient
-						signhistory.GlucoseValue = i.Value
-						signhistory_map[i.Testtime.String()] = &signhistory
-					}
-				}
-			}
-
-
-			item7, err7 := model.OutWeight(sql, msg...)
-			if err7 != nil {
-				c.JsonData.Result = 1
-				c.JsonData.ErrorMsg = "查询错误7"
-				c.JsonData.Datas = err7
-				return
-			} else {
-				for _,i := range item7{
-					if v, ok := signhistory_map[i.Testtime.String()]; ok {
-						v.WeightValue = i.Value
-						v.WeightScene = i.Recordscene
-					} else {
-						var  signhistory model.SignHistory1
-						signhistory.TextTime= i.Testtime.String()
-						signhistory.PatientInfoDup = patient
-						signhistory.WeightValue = i.Value
-						signhistory.WeightScene = i.Recordscene
-						signhistory_map[i.Testtime.String()] = &signhistory
-					}
-				}
-			}
-
-
-			item8, err8 := model.OutHeight(sql, msg...)
-			if err8 != nil {
-				c.JsonData.Result = 1
-				c.JsonData.ErrorMsg = "查询错误8"
-				c.JsonData.Datas = err8
-				return
-			} else {
-				for _,i := range item8{
-					if v, ok := signhistory_map[i.Testtime.String()]; ok {
-						v.HeightValue = i.Value
-						v.HeightScene = i.Recordscene
-					} else {
-						var  signhistory model.SignHistory1
-						signhistory.TextTime= i.Testtime.String()
-						signhistory.PatientInfoDup = patient
-						signhistory.HeightValue = i.Value
-						signhistory.HeightScene = i.Recordscene
-						signhistory_map[i.Testtime.String()] = &signhistory
-					}
-				}
-			}
-
-
-			item9, err9 := model.OutSkin(sql, msg...)
-			if err9 != nil {
-				c.JsonData.Result = 1
-				c.JsonData.ErrorMsg = "查询错误9"
-				c.JsonData.Datas = err9
-				return
-			} else {
-				for _,i := range item9{
-					if v, ok := signhistory_map[i.Testtime.String()]; ok {
-						v.SkinValue = i.Value
-					} else {
-						var  signhistory model.SignHistory1
-						signhistory.TextTime= i.Testtime.String()
-						signhistory.PatientInfoDup = patient
-						signhistory.SkinValue = i.Value
-						signhistory_map[i.Testtime.String()] = &signhistory
-					}
-				}
-			}
-
-			item11, err11 := model.OutIncident(sql, msg...)
-			if err11 != nil {
-				c.JsonData.Result = 1
-				c.JsonData.ErrorMsg = "查询错误11"
-				c.JsonData.Datas = err11
-				return
-			} else {
-				for _,i := range item11{
-					if v, ok := signhistory_map[i.Testtime.String()]; ok {
-						v.IncidentScene = i.Recordscene
-					} else {
-						var  signhistory model.SignHistory1
-						signhistory.TextTime= i.Testtime.String()
-						signhistory.PatientInfoDup = patient
-						signhistory.IncidentScene = i.Recordscene
-						signhistory_map[i.Testtime.String()] = &signhistory
-					}
-				}
-			}
-
-			/*vv,_:=strconv.Atoi(ii)
-			item12, err_iov :=  model.QueryIntakeOrOutputVolumeWithPatient(vv, starttime, endtime)
-			if err_iov != nil {
-				// sql出错
-				c.JsonData.Result = 1
-				c.JsonData.ErrorMsg = "查询错误11"
-				c.JsonData.Datas = err11
-				return
-			} else {
-				for _,i := range item12{
-					if v, ok := signhistory_map[i.Testtime]; ok {
-						v.IntakeOutput = append(v.IntakeOutput,i)
-
-					} else {
-						var  signhistory SignHistory
-						signhistory.IntakeOutput = append(signhistory.IntakeOutput,i)
-						signhistory.Texttime = i.Testtime
-						signhistory.PCBedDup = ii
-						signhistory_map[i.Testtime] = &signhistory
-					}
-				}
-
-		    }*/
 			for _,j :=range  signhistory_map{
 				signhistorys = append(signhistorys,*j)
 			}
@@ -646,28 +361,7 @@ func (c PCBatvhHistoryController) Post(w *fit.Response, r *fit.Request, p fit.Pa
 		c.JsonData.ErrorMsg = "获取成功"
 		c.JsonData.Datas = signhistorys
 	}
-}
-
-
-
-
-type SignHistory struct{
-	PCBedDup          interface{}        //个人信息
-	Texttime          string             //测试时间
-	Thm               model.Temperature  //体温数据
-	Pulse             model.Pulse        //脉搏
-	Breathe           model.Breathe      //呼吸
-	Pressure          model.Pressure     //血压
-	Heartrate         model.Heartrate    //心率
-	Spo2h             model.Spo2h        //血氧
-	Glucose           model.Glucose      //血糖
-	Weight            model.Weight       //体重
-	Height            model.Height       //身高
-	Skin              model.Skin         //皮试
-	Incident          model.Incident     //事件
-	IntakeOutput      []model.IntakeOutput //出入量
-
-}
+}*/
 
 
 

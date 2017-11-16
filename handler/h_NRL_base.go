@@ -3,7 +3,6 @@ package handler
 import (
 	"fit"
 	"nursing/model"
-	"time"
 	"fmt"
 	"strconv"
 )
@@ -13,7 +12,45 @@ type NRLController struct {
 }
 
 // 模板 template PDA端
-func (c NRLController) Check(w *fit.Response, r *fit.Request, p fit.Params) {
+func (c *NRLController) LoadPinfoWithPid(w *fit.Response, r *fit.Request, pid int64) (model.PatientInfo, bool)  {
+	pinfo, err := model.GetPatientInfo(strconv.FormatInt(pid, 10))
+	if err != nil {
+		fit.Logger().LogError("GetPatientInfo :", err)
+		fmt.Fprintln(w, "无法查询到相关病人的信息，err：", err.Error())
+		return model.PatientInfo{}, false
+	}
+	if len(pinfo) == 0 {
+		fit.Logger().LogError("PatientInfo is empty")
+		fmt.Fprintln(w, "无法查询到相关病人的信息.")
+		return model.PatientInfo{}, false
+	}
+	return pinfo[0], true
+}
+
+
+func (c *NRLController) LoadPinfoAndAccountWithPidUid(w *fit.Response, r *fit.Request, pid, uid string) (model.PatientInfo, model.Account, bool)  {
+	pinfo, err := model.GetPatientInfo(pid)
+	if err != nil {
+		fit.Logger().LogError("GetPatientInfo :", err)
+		fmt.Fprintln(w, "无法查询到相关病人的信息，err：", err.Error())
+		return model.PatientInfo{}, model.Account{}, false
+	}
+	if len(pinfo) == 0 {
+		fit.Logger().LogError("PatientInfo is empty")
+		fmt.Fprintln(w, "无法查询到相关病人的信息.")
+		return model.PatientInfo{}, model.Account{}, false
+	}
+
+	account, err2 := model.FetchAccountWithUid(uid)
+	if err2 != nil {
+		fit.Logger().LogError("NRL PDA err：", err2)
+		fmt.Fprintln(w, "用户信息获取失败！", err2)
+		return model.PatientInfo{}, model.Account{}, false
+	}
+	return pinfo[0], account, true
+}
+
+/*func (c NRLController) Check(w *fit.Response, r *fit.Request, p fit.Params) {
 	// 文书id
 	rid := r.FormValue("rid")
 	if "" == rid {
@@ -251,5 +288,5 @@ func (c NRLController) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Param
 		c.JsonData.ErrorMsg = "修改成功！"
 		c.JsonData.Datas = []interface{}{}
 	}
-}
+}*/
 

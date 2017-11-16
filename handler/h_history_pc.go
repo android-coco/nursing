@@ -1,3 +1,5 @@
+//  Created by JP
+
 package handler
 
 import (
@@ -12,6 +14,7 @@ type PCHistoryController struct {
 	PCController
 }
 
+/*API 搜索历史病人*/
 func (c PCHistoryController) SearchPatients(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 	r.ParseForm()
@@ -94,6 +97,7 @@ func (c *PCHistoryController) RenderingJson(result int, errMsg string, datas int
 	c.JsonData.Result = result
 }
 
+/*历史病人页面（医嘱）*/
 func (c PCHistoryController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 	userinfo, err := c.GetLocalUserinfo(w, r)
 	if err == nil {
@@ -115,6 +119,7 @@ func (c PCHistoryController) Get(w *fit.Response, r *fit.Request, p fit.Params) 
 	}
 }
 
+/*体温页面*/
 func (c PCHistoryController) Temperature(w *fit.Response, r *fit.Request, p fit.Params) {
 	userinfo, err := c.GetLocalUserinfo(w, r)
 	if err == nil {
@@ -136,6 +141,7 @@ func (c PCHistoryController) Temperature(w *fit.Response, r *fit.Request, p fit.
 	}
 }
 
+/*声明体征页面*/
 func (c PCHistoryController) Signs(w *fit.Response, r *fit.Request, p fit.Params) {
 	userinfo, err := c.GetLocalUserinfo(w, r)
 	if err == nil {
@@ -157,6 +163,7 @@ func (c PCHistoryController) Signs(w *fit.Response, r *fit.Request, p fit.Params
 	}
 }
 
+/*医嘱页面*/
 func (c PCHistoryController) Advice(w *fit.Response, r *fit.Request, p fit.Params) {
 	userinfo, err := c.GetLocalUserinfo(w, r)
 	if err == nil {

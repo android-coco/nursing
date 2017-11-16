@@ -12,7 +12,7 @@ func init() {
 	// PDA接口
 	pdalist()
 
-	// 护理记录
+	// 护理记录单 pda端
 	nrlist()
 
 	// pc 端
@@ -26,8 +26,6 @@ func init() {
 func pdalist() {
 	fit.Router().AddRouter("/", &handler.MainController{}, "get,post:GetFunc")
 	fit.Router().AddRouter("/login", new(handler.LoginController))
-	fit.Router().AddRouter("/signsiput", new(handler.SignsiputController))
-	fit.Router().AddRouter("/signsout", new(handler.SignsoutController))
 
 	fit.Router().AddRouter("/warn/add", new(handler.WarnController))
 	fit.Router().AddRouter("/warn/del", new(handler.WarnController), "get,post:DelWarn")
@@ -49,6 +47,9 @@ func pdalist() {
 
 	fit.Router().AddRouter("/deviceiput", new(handler.DeviceiputController))
 	fit.Router().AddRouter("/deviceout", new(handler.DeviceoutController))
+
+	fit.Router().AddRouter("/inputnursechat", new(handler.NurseChatInputController))  //护理体温单提交
+	fit.Router().AddRouter("/outnursechat", new(handler.NurseChatOutputController))  //获取护理体温单数据
 }
 
 func nrlist() {
@@ -59,10 +60,14 @@ func nrlist() {
 	fit.Router().AddRouter("/record/nr1/add", new(handler.NRL1Controller), "get,post:AddRecord")
 	fit.Router().AddRouter("/record/nr1/update", new(handler.NRL1Controller), "get,post:UpdateRecord")
 	// 首次护理记录单
-	fit.Router().AddRouter("/record/nr2/add", new(handler.FirstNursingRecordController))
-	fit.Router().AddRouter("/record/nr2/edit", new(handler.FirstNursingRecordController))
-	fit.Router().AddRouter("/record/nr2", new(handler.QueryFirstNursingRecordController))
-	fit.Router().AddRouter("/record/nr2/exist", new(handler.QueryFirstNursingRecordController), "get:Exist")
+	fit.Router().AddRouter("/record/nr2", new(handler.NRL2Controller), "get,post:Check")
+	fit.Router().AddRouter("/record/nr2/edit", new(handler.NRL2Controller), "get,post:Edit")
+	fit.Router().AddRouter("/record/nr2/update", new(handler.NRL2Controller), "get,post:AddRecord")
+	//fit.Router().AddRouter("/record/nr2/update", new(handler.NRL2Controller), "get,post:UpdateRecord")
+	//fit.Router().AddRouter("/record/nr2/add", new(handler.FirstNursingRecordController))
+	//fit.Router().AddRouter("/record/nr2/edit", new(handler.FirstNursingRecordController))
+	//fit.Router().AddRouter("/record/nr2", new(handler.QueryFirstNursingRecordController))
+	//fit.Router().AddRouter("/record/nr2/exist", new(handler.QueryFirstNursingRecordController), "get:Exist")
 
 	//基本生活活动能力BADL
 	fit.Router().AddRouter("/record/nr3", new(handler.NRL3Controller), "get,post:Check")
@@ -81,6 +86,8 @@ func nrlist() {
 	fit.Router().AddRouter("/record/nr5/edit", new(handler.NRL5Controller), "get,post:Edit")
 	fit.Router().AddRouter("/record/nr5/add", new(handler.NRL5Controller), "get,post:AddRecord")
 	fit.Router().AddRouter("/record/nr5/update", new(handler.NRL5Controller), "get,post:UpdateRecord")
+	//查询是否存在某个班次的深静脉血栓护理观察单
+	fit.Router().AddRouter("/record/nr5/exist", new(handler.NRL5Controller), "get,post:Exist")
 
 	//压疮风险因素评估表
 	fit.Router().AddRouter("/record/nr6", new(handler.NRL6Controller), "get,post:Check")
@@ -93,6 +100,8 @@ func nrlist() {
 	fit.Router().AddRouter("/record/nr7/edit", new(handler.NRL7Controller), "get,post:Edit")
 	fit.Router().AddRouter("/record/nr7/add", new(handler.NRL7Controller), "get,post:AddRecord")
 	fit.Router().AddRouter("/record/nr7/update", new(handler.NRL7Controller), "get,post:UpdateRecord")
+	//fit.Router().AddRouter("/record/nr7/addtitle", new(handler.NRL7Controller), "get,post:InsertTitle")
+	fit.Router().AddRouter("/record/nr7/updatetitle", new(handler.NRL7Controller), "get,post:UpdateTitle")
 
 	//疼痛强度评分量表
 	fit.Router().AddRouter("/record/nr8", new(handler.NRL8Controller), "get,post:Check")
@@ -105,6 +114,7 @@ func nrlist() {
 func pclist() {
 	// PC主页
 	fit.Router().AddRouter("/pc/home", new(handler.PCHomeController))
+	fit.Router().AddRouter("/pc/home/api", new(handler.PCBedController))
 	fit.Router().AddRouter("/pc/login", new(handler.PCLoginController))
 	fit.Router().AddRouter("/pc/logout", new(handler.PCLoginController), "get:Logout")
 
@@ -136,7 +146,7 @@ func pclist() {
 
 	// 体征录入
 	fit.Router().AddRouter("/pc/batvhinput", new(handler.PCBatvhinputController))
-	fit.Router().AddRouter("/pc/patvhhistory", new(handler.PCBatvhHistoryController))
+	fit.Router().AddRouter("/pc/patvhhistory", new(handler.PCBatvhHistoryController), "get,post:TZHistory")
 
 	//各种打印页预览
 	//腕带
@@ -161,7 +171,12 @@ func pclist() {
 
 func pcnrlist()  {
 	// pc 端
-	//fit.Router().AddRouter("/pc/record/nrl1", new(handler.PCNRL1Controller), "get,post:NRLRecord")
-	fit.Router().AddRouter("/pc/record/nrl2", new(handler.PNRL2Controller), "get,post:NRLRecord")
+	fit.Router().AddRouter("/pc/record/nrl1", new(handler.PCNRL1Controller), "get,post:NRLRecord")
+	fit.Router().AddRouter("/pc/record/nrl2", new(handler.PCNRL2Controller), "get,post:NRLRecord")
 	fit.Router().AddRouter("/pc/record/nrl3", new(handler.PCNRL3Controller), "get,post:NRLRecord")
+	fit.Router().AddRouter("/pc/record/nrl4", new(handler.PCNRL4Controller), "get,post:NRLRecord")
+	fit.Router().AddRouter("/pc/record/nrl5", new(handler.PCNRL5Controller), "get,post:NRLRecord")
+	fit.Router().AddRouter("/pc/record/nrl6", new(handler.PCNRL6Controller), "get,post:NRLRecord")
+	fit.Router().AddRouter("/pc/record/nrl7", new(handler.PCNRL7Controller), "get,post:NRLRecord")
+	fit.Router().AddRouter("/pc/record/nrl8", new(handler.PCNRL8Controller), "get,post:NRLRecord")
 }

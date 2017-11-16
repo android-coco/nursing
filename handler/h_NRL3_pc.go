@@ -4,7 +4,6 @@ import (
 	"fit"
 	"nursing/model"
 	"fmt"
-	"strconv"
 )
 
 type PCNRL3Controller struct {
@@ -12,83 +11,79 @@ type PCNRL3Controller struct {
 }
 
 func (c PCNRL3Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Params) {
-	// 护士信息
-	userinfo, err := c.GetLocalUserinfo(w, r)
-	if err != nil {
-		fmt.Fprintln(w, "参数错误！  user info error", err)
-	}
-	beds, err := model.QueryDepartmentBeds(userinfo.DepartmentID, false)
-
-	fmt.Printf("bed1 : %+v\n", beds)
-	if err != nil {
-		fit.Logger().LogError("pc nrl2", err)
-	}
-
-	// 病人id  病人信息
-	pid := r.FormValue("pid")
-	var pInfo model.PCBedDup
-	if pid == "" {
-		pidnum := beds[0].VAA01
-		pid = strconv.Itoa(pidnum)
-
-		url := "/pc/record/nrl3?pid=" + pid
-		c.Redirect(w, r, url, 302)
+	// 护士信息 床位表 病人id  病人信息
+	userinfo, beds, pid, pInfo, has := c.GetBedsAndUserinfo(w, r, "3")
+	if !has {
 		return
 	}
 
-	fmt.Println("pid", pid)
-	// 病人信息
-	for _, val := range beds {
-		if strconv.Itoa(val.VAA01) == pid {
-			pInfo = val
-			break
-		}
-	}
-	if pInfo.VAA01 == 0 {
-		fit.Logger().LogError("pc nrl3 pInfo is empty")
-		fmt.Fprintln(w, "参数错误！  user info error", err)
+	datestr1, datestr2, pageindex, pagenum, err := c.GetPageInfo(w, r, "3", pid)
+	if err != nil {
+		fit.Logger().LogError("nrl page info :", err)
 		return
 	}
+	/*// 时间
+	date1, errs := strconv.ParseInt(r.FormValue("sdate"), 10, 64)
+	date2, erre := strconv.ParseInt(r.FormValue("edate"), 10, 64)
+	datestr1 := time.Unix(date1 / 1000 - 60 * 60 * 8, 0).Format("2006-01-02 15:04:05")
+	datestr2 := time.Unix(date2 / 1000 + 60 * 60 * 16, 0).Format("2006-01-02 15:04:05")
+	if errs != nil || erre != nil {
+		datestr1 = ""
+		datestr2 = ""
+	}
+	fmt.Println("-----", date1,date2, datestr1, datestr2)
 
-	count, errCount := model.PCQUeryNRL3PageCount(pid)
+	// 总条数
+	count, errCount := model.PCQUeryNRL3PageCount(pid, datestr1, datestr2)
 	if errCount != nil {
-		fmt.Fprintln(w, "参数错误！  user info error", err)
+		fmt.Fprintln(w, "参数错误！  user info error")
 		return
 	}
 
-	pageNum := count/9 + 1
+	fmt.Println("count:", count)
+	//总页数
+	pageNum := int(count / 9) + 1
+	//当前页数
 	index := r.FormValue("num")
 	pageindex, errnum := strconv.Atoi(index)
 	if errnum != nil {
-		pageindex = pageNum
+		pageindex = int(pageNum)
 		fit.Logger().LogError("")
 	}
-	fmt.Println(count, "---", pageNum, "---", pageindex)
+	if pageindex < 1 {
+		pageindex = 1
+	} else if pageindex > pageNum {
+		pageindex = pageNum
+	}
+	fmt.Println("count:", count, "pageNum:", pageNum, "pageindex:", pageindex)
 
 	// 护理单
-	mods, errl3 := model.PCQueryNRL3(pid, pageindex)
-	if errl3 != nil {
-		fmt.Fprintln(w, "参数错误！  user info error", err)
+	mods, err13 := model.PCQueryNRL3(pid, datestr1, datestr2, pageindex)
+
+	if err13 != nil {
+		fmt.Fprintln(w, "参数错误！  user info error")
 		return
 	}
-	fmt.Printf("mods %+v\n\n %d\n\n", mods, len(mods))
+	fmt.Printf("mods %+v\n\n %d\n\n", mods, len(mods))*/
+
+
+	// 护理单
+	mods, err13 := model.PCQueryNRL3(pid, datestr1, datestr2, pageindex)
+	if err13 != nil {
+		fmt.Fprintln(w, "参数错误！  user info error")
+		return
+	}
+
 
 	c.Data = fit.Data{
 		"Userinfo":  userinfo, // 护士信息
 		"PInfo":     pInfo,    // 病人信息
 		"Beds":      beds,     // 床位list
 		"NRLList":   mods,
-		"PageNum":   pageNum,
+		"PageNum":   pagenum,
 		"PageIndex": pageindex,
 		"Menuindex": "7-3",
 	}
 
-	//fmt.Printf("data ------ : %+v\n", c.Data)
-
 	c.LoadViewSafely(w, r, "pc/v_nrl3.html", "pc/header_side.html", "pc/header_top.html")
-	//c.LoadView(w, "pc/v_nrl3.html", "pc/header_side.html", "pc/header_top.html")
-}
-
-func Test() string {
-	return "heheehhe"
 }

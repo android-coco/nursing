@@ -38,13 +38,14 @@
         <div class="content-page type2" data-index="2" style="margin-top: 88px;">
             <div class="content ">
                 <div class="am-g">
-                    <div class="history-batchInput">
+                    <form   method = 'post'  action="/pc/patvhhistory" style="display: block;height: 100%;" id="search-from">
+                        <div class="history-batchInput">
                         <div class="s-btn">
                             <!-- <img src="../dist/images/admin_pc/icon22.png" alt=""> -->
                         </div>
                         <div class="user-warp">
                             <div class="tit-bar">
-                                <input type="checkbox" id="all-btn"> <label for="all-btn">全部患者</label>
+                                <input type="checkbox" id="all-btn" checked> <label for="all-btn">全部患者</label>
                             </div>
 
                             <div class="user-bar">
@@ -59,12 +60,12 @@
                                 <div class="user-list">
                                     {{range .Patients}}
                                     <ul>
-                                        <li data-id="01" data-msg="你病了！！！">
+                                        <li data-id="{{.PatientId}}" >
                                             <div class="l">
-                                                <input type="checkbox"><label>{{.BCQ04}}</label>
+                                                <input type="checkbox" {{if eq .Checked 1 }} checked {{end}}><label>{{.BedCoding}}</label>
                                             </div>
                                             <div class="r">
-                                                {{.VAA05}}
+                                                {{.Name}}
                                             </div>
                                         </li>
                                     </ul>
@@ -74,16 +75,37 @@
                         </div>
                         <div class="hd-bar">
                             <div class="date-box fl">
-                                <div class="icon">
-                                    <img src="/static/dist/images/admin_pc/icon20.png" alt="" />
-                                </div>
-                                <input type="text" class="am-form-field  date-input" id="date1" />
-                                <span class="line">—</span>
-                                <input type="text" class="am-form-field  date-input" id="date2" />
+                                <!--<div class="icon">-->
+                                    <!--<img src="/static/dist/images/admin_pc/icon20.png" alt="" />-->
+                                <!--</div>-->
+
+
+                                <input type="text" class="am-form-field  date-input startTime" id="date1" />
+                                <span>时段：</span>
+                                <select class="time-block startTimeBlcok">
+                                    <option  value="4" {{if eq .startframe "4" }} selected="" {{end}} >4</option>
+                                    <option value="8"  {{if eq .startframe "8" }} selected="" {{end}}>8</option>
+                                    <option value="12" {{if eq .startframe "12" }} selected="" {{end}}>12</option>
+                                    <option value="16" {{if eq .startframe "16" }} selected="" {{end}}>16</option>
+                                    <option value="20" {{if eq .startframe "20" }} selected="" {{end}}>20</option>
+                                    <option value="24" {{if eq .startframe "24" }} selected="" {{end}}>24</option>
+                                </select>
+                                <i class="line">——</i>
+                                <input type="text" class="am-form-field  date-input endTime" id="date2" />
+                                <span>时段：</span>
+                                <select class="time-block endTimeBlock">
+                                    <option value="4"  {{if eq .endframe "4" }} selected="" {{end}}>4</option>
+                                    <option value="8"  {{if eq .endframe "8" }} selected="" {{end}}>8</option>
+                                    <option value="12" {{if eq .endframe "12" }} selected="" {{end}}>12</option>
+                                    <option value="16" {{if eq .endframe "16" }} selected="" {{end}}>16</option>
+                                    <option value="20" {{if eq .endframe "20" }} selected="" {{end}}>20</option>
+                                    <option value="24" {{if eq .endframe "24" }} selected="" {{end}}>24</option>
+                                </select>
+                                <a  class="search-btn" id="search-btn">确定</a>
                             </div>
                             <div class="btn-group fr">
                                 <a href="" class="btn">打印</a>
-                                <a href="" class="btn">导出</a>
+                                <!--<a href="" class="btn">导出</a>-->
                                 <!-- <a href="" class="btn type2">保存</a> -->
                             </div>
                         </div>
@@ -96,27 +118,21 @@
                                                 <th class="th1" rowspan="2">床号</th>
                                                 <th class="th2" rowspan="2">姓名</th>
                                                 <th class="th3" rowspan="2">年龄</th>
-                                                <th class="th18" rowspan="2">测量时间</th>
+                                                <th class="th18" rowspan="2">时间</th>
                                                 <th class="th4" rowspan="2">体温(℃）</th>
                                                 <th class="th5" rowspan="2">脉搏(次／分）</th>
                                                 <th class="th6" rowspan="2">呼吸(次／分）</th>
+                                                <th class="th9" rowspan="2">大便（次）</th>
                                                 <th class="th7" rowspan="2">血压(mmHg）</th>
                                                 <th class="th8" rowspan="2">心率(次／分）</th>
-                                                <th class="th9" rowspan="2">入量(ml)</th>
-                                                <th class="th10 colspan3" colspan="3">出量(ml)</th>
                                                 <th class="th11" rowspan="2">体重(kg)</th>
                                                 <th class="th12" rowspan="2">身高(cm)</th>
                                                 <th class="th13" rowspan="2">皮试</th>
-                                                <th class="th14" rowspan="2">血氧饱和度(%)</th>
-                                                <th class="th15" rowspan="2">血糖(mmol/L)</th>
+                                                <th class="th14" rowspan="2">其他</th>
                                                 <th class="th16" rowspan="2">事件</th>
                                                 <th class="th17" rowspan="2">操作</th>
                                             </tr>
-                                            <tr>
-                                                <th class="colspan3-1">尿量(ml)</th>
-                                                <th class="colspan3-1">大便(次）</th>
-                                                <th class="colspan3-1">其他(ml)</th>
-                                            </tr>
+
                                         </thead>
                                     </table>
                                     <table class="cont-table">
@@ -125,247 +141,259 @@
                                                 <th class="th1" rowspan="2">床号</th>
                                                 <th class="th2" rowspan="2">姓名</th>
                                                 <th class="th3" rowspan="2">年龄</th>
-                                                <th class="th18" rowspan="2">测量时间</th>
-                                                <th class="th4" rowspan="2">体温(℃)</th>
-                                                <th class="th5" rowspan="2">脉搏(次／分)</th>
-                                                <th class="th6" rowspan="2">呼吸(次／分)</th>
-                                                <th class="th7" rowspan="2">血压(mmHg)</th>
-                                                <th class="th8" rowspan="2">心率(次／分)</th>
-                                                <th class="th9" rowspan="2">入量(ml)</th>
-                                                <th class="th10 colspan3" colspan="3">出量(ml)</th>
+                                                <th class="th18" rowspan="2">时间</th>
+                                                <th class="th4" rowspan="2">体温(℃）</th>
+                                                <th class="th5" rowspan="2">脉搏(次／分）</th>
+                                                <th class="th6" rowspan="2">呼吸(次／分）</th>
+                                                <th class="th9" rowspan="2">大便（次）</th>
+                                                <th class="th7" rowspan="2">血压(mmHg）</th>
+                                                <th class="th8" rowspan="2">心率(次／分）</th>
                                                 <th class="th11" rowspan="2">体重(kg)</th>
                                                 <th class="th12" rowspan="2">身高(cm)</th>
                                                 <th class="th13" rowspan="2">皮试</th>
-                                                <th class="th14" rowspan="2">血氧饱和度(%)</th>
-                                                <th class="th15" rowspan="2">血糖(mmol/L)</th>
+                                                <th class="th14" rowspan="2">其他</th>
                                                 <th class="th16" rowspan="2">事件</th>
                                                 <th class="th17" rowspan="2">操作</th>
                                             </tr>
-                                            <tr>
-                                                <th class="colspan3-1">尿量(ml)</th>
-                                                <th class="colspan3-1">大便(次）</th>
-                                                <th class="colspan3-1">其他(ml)</th>
-                                            </tr>
                                         </thead>
-
                                         <tbody>
-
                                         {{range .signhistorys}}
-                                            <tr>
-                                                <td class="pd8"><span>{{.PCBedDup.BCQ04}}</span></td>
-                                                <td class="pd8"><span>{{.PCBedDup.VAA05}}</span></td>
-                                                <td class="pd8"><span>{{.PCBedDup.VAA10}}</span></td>
+                                            <tr data-pid="{{.PatientId}}" data-nid="12" data-nname="123">
+                                                <td class="pd8"><span>{{.PatientBed}}</span></td>
+                                                <td class="pd8"><span>{{.PatientName}}</span></td>
+                                                <td class="pd8"><span>{{.PatientAge}}</span></td>
                                                 <td class="date-time-td">
+                                                    <div class="text-msg">
+                                                        {{.DateTime}} 时段:{{.TimeFrame}}
+                                                    </div>
+                                                    <div class="table-input-bar"  style="text-align: center" >
+                                                        {{.DateTime}} 时段:{{.TimeFrame}}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="table-input-bar">
+                                                        <input type="text" id="row1_input1" class="input1 thmValue" value="{{.ThmValue}}">
+                                                        <select  class="abs type1 thmType">
+                                                            <option {{if eq .ThmType 0 }} selected="" {{end}} value="0">&nbsp;</option>
+                                                            <option {{if eq .ThmType 1 }} selected="" {{end}} value="1">腋温</option>
+                                                            <option {{if eq .ThmType 2 }} selected="" {{end}} value="2">耳温</option>
+                                                            <option {{if eq .ThmType 3 }} selected="" {{end}} value="3">口温</option>
+                                                            <option {{if eq .ThmType 4 }} selected="" {{end}} value="4">肛温</option>
+                                                            <option {{if eq .ThmType 5 }} selected="" {{end}} value="5">额温</option>
+                                                        </select>
+                                                        <select  class="abs thmScene">
+                                                            <option {{if eq .ThmScene 0 }} selected="" {{end}} value="0">&nbsp;</option>
+                                                            <option {{if eq .ThmScene 1 }} selected="" {{end}} value="1">物理降温</option>
+                                                            <option {{if eq .ThmScene 2 }} selected="" {{end}} value="2">药物降温</option>
+                                                            <option {{if eq .ThmScene 3 }} selected="" {{end}} value="3">冰毯降温</option>
+                                                            <option {{if eq .ThmScene 4 }} selected="" {{end}} value="4">停冰毯降温</option>
+                                                            <option {{if eq .ThmScene 5 }} selected="" {{end}} value="5">药物+物理降温</option>
+                                                            <option {{if eq .ThmScene 6 }} selected="" {{end}} value="6">无降温</option>
+                                                            <option {{if eq .ThmScene 7 }} selected="" {{end}} value="7">不升</option>
+                                                            <option {{if eq .ThmScene 8 }} selected="" {{end}} value="8">外出</option>
+                                                            <option {{if eq .ThmScene 9 }} selected="" {{end}} value="9">检查</option>
+                                                            <option {{if eq .ThmScene 10 }} selected="" {{end}} value="10">请假</option>
+                                                            <option {{if eq .ThmScene 11 }} selected="" {{end}} value="11">拒试</option>
+                                                            <option {{if eq .ThmScene 12 }} selected="" {{end}} value="12">无法测</option>
+                                                            <option {{if eq .ThmScene 13 }} selected="" {{end}} value="13">不在</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="text-msg">
+                                                        {{.ThmValue}}
+                                                        {{if eq .ThmType 1 }} 腋温 {{end}}
+                                                        {{if eq .ThmType 2 }} 耳温 {{end}}
+                                                        {{if eq .ThmType 3 }} 口温 {{end}}
+                                                        {{if eq .ThmType 4 }} 肛温 {{end}}
+                                                        {{if eq .ThmType 5 }} 额温 {{end}}
 
-                                                    <div class="text-msg">
-                                                        {{.Texttime}}
+                                                        {{if eq .ThmScene 1 }} 物理降温 {{end}}
+                                                        {{if eq .ThmScene 2 }} 药物降温 {{end}}
+                                                        {{if eq .ThmScene 3 }} 冰毯降温 {{end}}
+                                                        {{if eq .ThmScene 4 }} 停冰毯降温 {{end}}
+                                                        {{if eq .ThmScene 5 }} 药物+物理降温 {{end}}
+                                                        {{if eq .ThmScene 6 }} 无降温 {{end}}
+                                                        {{if eq .ThmScene 7 }} 不升 {{end}}
+                                                        {{if eq .ThmScene 8 }} 外出 {{end}}
+                                                        {{if eq .ThmScene 9 }} 检查 {{end}}
+                                                        {{if eq .ThmScene 10 }} 请假 {{end}}
+                                                        {{if eq .ThmScene 11 }} 拒试 {{end}}
+                                                        {{if eq .ThmScene 12 }} 无法测 {{end}}
+                                                        {{if eq .ThmScene 12 }} 不在 {{end}}
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="table-input-bar">
-                                                        <input type="text" id="row1_input1" class="input1" value="{{.Thm.Value}}">
-                                                        <select id="row1_input2" class="abs">
-                                                                        <option selected="" value="">&nbsp;</option>
-                                                                        <option value="腋温">腋温</option>
-                                                                        <option value="耳温">耳温</option>
-                                                                        <option value="口温">口温</option>
-                                                                        <option value="肛温">肛温</option>
-                                                                        <option value="额温">额温</option>
-                                                                        <option value="不升">不升</option>
-                                                                        <option value="外出">外出</option>
-                                                                        <option value="检查">检查</option>
-                                                                        <option value="请假">请假</option>
-                                                                        <option value="拒试">拒试</option>
-                                                                        <option value="无法测">无法测</option>
-                                                                        <option value="不在">不在</option>
-                                                                    </select>
-                                                    </div>
-                                                    <div class="text-msg">
-                                                        {{.Thm.Value}} {{if eq .Thm.Ttemptype "1" }} 腋温 {{end}}{{if eq .Thm.Ttemptype "2" }} 耳温 {{end}}{{if eq .Thm.Ttemptype "3" }} 口温 {{end}}{{if eq .Thm.Ttemptype "4" }} 肛温 {{end}}{{if eq .Thm.Ttemptype "5" }} 额温 {{end}}
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="text" id="row1_input3" class="input1" value="{{.Pulse.Value}}">
+                                                        <input type="text" id="row1_input3" class="input1 pulseValue" value="{{.PulseValue}}">
                                                         <div class="check-bar">
-                                                            <input type="checkbox" id="row1_input4" >
+                                                            <input type="checkbox" id="row1_input4" class="pulseBriefness">
                                                             <label for="row1_input4">
                                                                 短绌
                                                             </label>
                                                         </div>
                                                     </div>
                                                     <div class="text-msg">
-                                                        {{.Pulse.Value}} {{if eq .Pulse.Whetherbriefness "1" }} 短绌 {{end}}
+                                                        {{.PulseValue}}
+                                                        {{if eq .PulseBriefness 1 }} 短绌 {{end}}
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="table-input-bar">
-                                                        <input type="text" id="row1_input5" class="input1" value="{{.Breathe.Value}}">
-                                                        <select id="row1_input6" class="abs">
-                                                                        <option value=" " {{if eq .Breathe.Whethertbm ""}} selected="" {{end}}>&nbsp;</option>
-                                                                        <option value="辅助呼吸" {{if eq .Breathe.Whethertbm "1"}} selected="" {{end}}>辅助呼吸</option>
-                                                                        <option value="停辅助呼吸" {{if eq .Breathe.Whethertbm "0"}} selected="" {{end}}>停辅助呼吸</option>
-                                                                    </select>
+                                                        <input type="text" id="row1_input5" class="input1 breatheValue" value="{{.BreatheValue}}">
+                                                        <select id="row1_input6" class="abs breatheScene">
+                                                            <option value="0" {{if eq .BreatheScene 0}} selected="" {{end}} value="0">&nbsp;</option>
+                                                            <option value="1" {{if eq .BreatheScene 1}} selected="" {{end}} value="1">辅助呼吸</option>
+                                                            <option value="2" {{if eq .BreatheScene 2}} selected="" {{end}} value="2">停辅助呼吸</option>
+                                                        </select>
                                                     </div>
                                                     <div class="text-msg">
-                                                        {{.Breathe.Value}} {{if eq .Breathe.Whethertbm "1" }} 辅助呼吸 {{end}} {{if eq .Breathe.Whethertbm "0" }} 停辅助呼吸 {{end}}
+                                                        {{.BreatheValue}}
+                                                        {{if eq .BreatheScene 1 }} 辅助呼吸 {{end}}
+                                                        {{if eq .BreatheScene 2 }} 停辅助呼吸 {{end}}
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="table-input-bar">
-                                                        <input class="i1" type="text" id="row1_input7" value="{{.Pressure.Diavalue}}">/
-                                                        <input class="i1" type="text" id="row1_input8" value="{{.Pressure.Sysvalue}}">
-                                                        <select id="row1_input9" class="abs">
-                                                                        <option value=" " {{if eq .Pressure.Recordscene "" }}  selected="" {{end}}>&nbsp;</option>
-                                                                        <option value="外出" {{if eq .Pressure.Recordscene "1" }}  selected="" {{end}}>外出</option>
-                                                                        <option value="检查" {{if eq .Pressure.Recordscene "2" }}  selected="" {{end}}>检查</option>
-                                                                        <option value="请假" {{if eq .Pressure.Recordscene "3" }}  selected="" {{end}}>请假</option>
-                                                                        <option value="拒试" {{if eq .Pressure.Recordscene "4" }}  selected="" {{end}}>拒试</option>
-                                                                        <option value="无法测" {{if eq .Pressure.Recordscene "5" }}  selected="" {{end}}>无法测</option>
-                                                                        <option value="不在" {{if eq .Pressure.Recordscene "6" }}  selected="" {{end}}>不在</option>
-                                                                    </select>
+                                                        <input type="text" id="row1_input11" class="input1 shitValue" value="{{.ShitValue}}">
+                                                        <select id="row1_input12" class="abs shitScene">
+                                                            <option {{if eq .ShitScene 0 }} selected="" {{end}} value="0">&nbsp;</option>
+                                                            <option {{if eq .ShitScene 1 }} selected="" {{end}} value="1">*</option>
+                                                            <option {{if eq .ShitScene 2 }} selected="" {{end}} value="2">/E</option>
+                                                            <option {{if eq .ShitScene 3 }} selected="" {{end}} value="3">*/E</option>
+                                                            <option {{if eq .ShitScene 4 }} selected="" {{end}} value="4">1，1/E</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="text-msg">
+                                                        {{.ShitValue}}
+                                                        {{if eq .ShitScene 1 }} * {{end}}
+                                                        {{if eq .ShitScene 2 }} /E {{end}}
+                                                        {{if eq .ShitScene 3 }} */E {{end}}
+                                                        {{if eq .ShitScene 4 }} 1，1/E {{end}}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="table-input-bar">
+                                                        <input class="i1 pressureSys" type="text" id="row1_input7" value="{{.PressureSys}}">/
+                                                        <input class="i1 pressureDia" type="text" id="row1_input8" value="{{.PressureDia}}">
+                                                        <select id="row1_input9" class="abs pressureScene">
+                                                            <option value="0" {{if eq .PressureScene 0 }}  selected="" {{end}}>&nbsp;</option>
+                                                            <option value="1" {{if eq .PressureScene 1 }}  selected="" {{end}}>外出</option>
+                                                            <option value="2" {{if eq .PressureScene 2 }}  selected="" {{end}}>检查</option>
+                                                            <option value="3" {{if eq .PressureScene 3 }}  selected="" {{end}}>请假</option>
+                                                            <option value="4" {{if eq .PressureScene 4 }}  selected="" {{end}}>拒试</option>
+                                                            <option value="5" {{if eq .PressureScene 5 }}  selected="" {{end}}>无法测</option>
+                                                            <option value="6" {{if eq .PressureScene 6 }}  selected="" {{end}}>不在</option>
+                                                        </select>
                                                     </div>
                                                     <div class="text-msg">
-                                                        {{.Pressure.Diavalue}} / {{.Pressure.Sysvalue}} {{if eq .Pressure.Recordscene "1" }} 外出 {{end}}{{if eq .Pressure.Recordscene "2" }} 检查 {{end}}{{if eq .Pressure.Recordscene "3" }} 请假 {{end}}{{if eq .Pressure.Recordscene "4" }} 拒试 {{end}}{{if eq .Pressure.Recordscene "5" }} 无法侧 {{end}}{{if eq .Pressure.Recordscene "6" }} 未测 {{end}}
+                                                        {{.PressureSys}} / {{.PressureDia}}
+                                                        {{if eq .PressureScene 1 }} 外出 {{end}}
+                                                        {{if eq .PressureScene 2 }} 检查 {{end}}
+                                                        {{if eq .PressureScene 3 }} 请假 {{end}}
+                                                        {{if eq .PressureScene 4 }} 拒试 {{end}}
+                                                        {{if eq .PressureScene 5 }} 无法侧 {{end}}
+                                                        {{if eq .PressureScene 6 }} 未测 {{end}}
                                                     </div>
                                                 </td>
                                                 <td class="pd0">
                                                     <div class="table-input-bar">
-                                                        <input class="input2 ft-center" type="text" id="row1_input10" value="{{.Heartrate.Value}}">
+                                                        <input class="input2 ft-center heartrateValue" type="text" id="row1_input10" value="{{.HeartrateValue}}">
                                                     </div>
                                                     <div class="text-msg">
-                                                        {{.Heartrate.Value}}
+                                                        {{.HeartrateValue}}
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="table-input-bar">
-                                                        <input type="text" id="row1_input11">
-                                                        <select id="row1_input12" class="abs">
-                                                                        <option selected="" value=" ">&nbsp;</option>
-                                                                        <option value="输入液量">输入液量</option>
-                                                                        <option value="饮食">饮食</option>
-                                                                        <option value="饮水">饮水</option>
-                                                                        <option value="其它">其它</option>
+                                                        <input type="text" id="row1_input18" class="weightValue" value="{{.WeightValue}}">
+                                                        <select id="row1_input19" class="abs weightScene">
+                                                                        <option value="0" {{if eq .WeightScene 0 }} selected="" {{end}}>&nbsp; </option>
+                                                                        <option value="1" {{if eq .WeightScene 1 }} selected="" {{end}}>卧床</option>
+                                                                        <option value="2" {{if eq .WeightScene 2 }} selected="" {{end}}>轮椅</option>
+                                                                        <option value="3" {{if eq .WeightScene 3 }} selected="" {{end}}>平车</option>
+                                                                    </select>
+                                                    </div>
+                                                    <div class="text-msg">
+                                                        {{.WeightValue}}
+                                                        {{if eq .WeightScene 1 }} 卧床 {{end}}
+                                                        {{if eq .WeightScene 2 }} 轮椅 {{end}}
+                                                        {{if eq .WeightScene 3 }} 平车 {{end}}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="table-input-bar">
+                                                        <input type="text" id="row1_input20" class="heightValue" value="{{.HeightValue}}">
+                                                        <select id="row1_input21" class="abs heightScene">
+                                                                        <option  value="0" {{if eq .HeightScene 0 }} selected="" {{end}}>&nbsp; </option>
+                                                                        <option value="1" {{if eq .HeightScene 1 }} selected="" {{end}}>卧床</option>
+                                                                        <option value="2" {{if eq .HeightScene 2 }} selected="" {{end}}>轮椅</option>
+                                                                        <option value="3" {{if eq .HeightScene 3 }} selected="" {{end}}>平车</option>
                                                                     </select>
                                                     </div>
 
                                                     <div class="text-msg">
-                                                        {{range  .IntakeOutput}}
-                                                        {{if (eq .Type 1)}} {{.Value}}  {{end}}
-                                                        {{end}}
+                                                        {{.HeightValue}}
+                                                        {{if eq .HeightScene 1 }} 卧床 {{end}}
+                                                        {{if eq .HeightScene 2 }} 轮椅 {{end}}
+                                                        {{if eq .HeightScene 3 }} 平车 {{end}}
                                                     </div>
                                                 </td>
-                                                <td>
+                                                <td class="pd0">
                                                     <div class="table-input-bar">
-                                                        <input type="text" id="row1_input13">
-                                                        <select id="row1_input14" class="abs">
-                                                                        <option selected="" value=" ">&nbsp;</option>
-                                                                        <option value="失禁">失禁</option>
-                                                                        <option value="/C">/C</option>
-                                                                    </select>
+                                                        <textarea type="text" id="row1_input22" class="skinValue">{{.SkinValue}}</textarea>
                                                     </div>
                                                     <div class="text-msg">
-                                                        {{range  .IntakeOutput}}
-                                                        {{if and (eq .Type 2) (eq .Subtype 2)}} {{.Value}} {{end}}
-                                                        {{end}}
+                                                        {{.SkinValue}}
                                                     </div>
                                                 </td>
-                                                <td>
+                                                <td class="pd0">
                                                     <div class="table-input-bar">
-                                                        <input type="text" id="row1_input15">
-                                                        <select id="row1_input16" class="abs">
-                                                                        <option selected="" value=" ">&nbsp;</option>
-                                                                        <option value="失禁">失禁</option>
-                                                                        <option value="/E">/E</option>
-                                                                        <option value="*/E">*/E</option>
-                                                                        <option value="1，1/E">1，1/E</option>
-                                                                        <option value="肠镜">肠镜</option>
-                                                                        <option value="人工肛门">人工肛门</option>
-                                                                    </select>
+                                                        <textarea type="text" class="otherValue">{{.OtherValue}}</textarea>
                                                     </div>
                                                     <div class="text-msg">
-                                                        {{range  .IntakeOutput}}
-                                                        {{if and (eq .Type 2) (eq .Subtype 3)}} {{.Value}} {{end}}
-                                                        {{end}}
+                                                        {{.OtherValue}}
                                                     </div>
                                                 </td>
-                                                <td>
+                                                <td class="pd0">
                                                     <div class="table-input-bar">
-                                                        <input type="text" id="row1_input17">
-                                                        <input type="text" class="input3" id="row1_input18">
-                                                    </div>
-                                                    <div class="text-msg">
-                                                        {{range  .IntakeOutput}}
-                                                        {{if and (eq .Type 2) (eq .Subtype 1)}} {{.Value}} {{end}}
-                                                        {{end}}
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="text" id="row1_input18" value="{{.Weight.Value}}">
-                                                        <select id="row1_input19" class="abs">
-                                                                        <option value=" " {{if eq .Weight.Recordscene "" }} selected="" {{end}}>&nbsp; </option>
-                                                                        <option value="卧床" {{if eq .Weight.Recordscene "1" }} selected="" {{end}}>卧床</option>
-                                                                        <option value="轮椅" {{if eq .Weight.Recordscene "2" }} selected="" {{end}}>轮椅</option>
-                                                                        <option value="平车" {{if eq .Weight.Recordscene "3" }} selected="" {{end}}>平车</option>
-                                                                    </select>
-                                                    </div>
-                                                    <div class="text-msg">
-                                                        {{.Weight.Value}} {{if eq .Weight.Recordscene "1" }} 卧床 {{end}}{{if eq .Weight.Recordscene "2" }} 轮椅 {{end}}{{if eq .Weight.Recordscene "3" }} 平车 {{end}}
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="text" id="row1_input20" value="{{.Height.Value}}">
-                                                        <select id="row1_input21" class="abs">
-                                                                        <option  value=" " {{if eq .Height.Recordscene "" }} selected="" {{end}}>&nbsp; </option>
-                                                                        <option value="卧床" {{if eq .Height.Recordscene "1" }} selected="" {{end}}>卧床</option>
-                                                                        <option value="轮椅" {{if eq .Height.Recordscene "2" }} selected="" {{end}}>轮椅</option>
-                                                                        <option value="平车" {{if eq .Height.Recordscene "3" }} selected="" {{end}}>平车</option>
-                                                                    </select>
+                                                    <select class="incidentScene">
+                                                        <option {{if eq .IncidentScene 0 }} selected="" {{end}} value="0">&nbsp; </option>
+                                                        <option {{if eq .IncidentScene 1 }} selected="" {{end}} value="1">入院</option>
+                                                        <option {{if eq .IncidentScene 2 }} selected="" {{end}} value="2">出院</option>
+                                                        <option {{if eq .IncidentScene 3 }} selected="" {{end}} value="3">手术</option>
+                                                        <option {{if eq .IncidentScene 4 }} selected="" {{end}} value="4">分娩</option>
+                                                        <option {{if eq .IncidentScene 5 }} selected="" {{end}} value="5">出生</option>
+                                                        <option {{if eq .IncidentScene 6 }} selected="" {{end}} value="6">转入</option>
+                                                        <option {{if eq .IncidentScene 7 }} selected="" {{end}} value="7">转科</option>
+                                                        <option {{if eq .IncidentScene 8 }} selected="" {{end}} value="8">转院</option>
+                                                        <option {{if eq .IncidentScene 9 }} selected="" {{end}} value="9">死亡</option>
+                                                        <option {{if eq .IncidentScene 10 }} selected="" {{end}} value="10">外出</option>
+                                                    </select>
+                                                        <div class="date-box" style="display: inline-block">
+                                                            <!--<input type="text" class="am-form-field  date-input2 type2 incidentTime1">-->
+                                                            <input type="text" class="am-form-field  time-input2 type2 incidentTime2">
+                                                        </div>
                                                     </div>
 
                                                     <div class="text-msg">
-                                                        {{.Height.Value}} {{if eq .Height.Recordscene "1" }} 卧床 {{end}}{{if eq .Height.Recordscene "2" }} 轮椅 {{end}}{{if eq .Height.Recordscene "3" }} 平车 {{end}}
-                                                    </div>
-                                                </td>
-                                                <td class="pd0">
-                                                    <div class="table-input-bar">
-                                                        <textarea type="text" id="row1_input22">{{.Skin.Value}}</textarea>
-                                                    </div>
-                                                    <div class="text-msg">
-                                                        {{.Skin.Value}}
-                                                    </div>
-                                                </td>
-                                                <td class="pd0">
-                                                    <div class="table-input-bar">
-                                                        <input class="input2 ft-center" type="text" id="row1_input23" value="{{.Spo2h.Value}}">
-                                                    </div>
-                                                    <div class="text-msg">
-                                                        {{.Spo2h.Value}}
-                                                    </div>
-                                                </td>
-                                                <td class="pd0">
-                                                    <div class="table-input-bar">
-                                                        <input class="input2 ft-center" type="text" id="row1_input24" value="{{.Glucose.Value}}">
-                                                    </div>
-                                                    <div class="text-msg">
-                                                        {{.Glucose.Value}}
-                                                    </div>
-                                                </td>
-                                                <td class="pd0">
-                                                    <div class="table-input-bar">
-                                                        <textarea type="text" id="row1_input25"></textarea>
-                                                    </div>
-
-                                                    <div class="text-msg">
-                                                        {{if eq .Incident.Recordscene "1" }} 入院 {{end}}{{if eq .Incident.Recordscene "2" }} 出院 {{end}}{{if eq .Incident.Recordscene "3" }} 手术 {{end}}{{if eq .Incident.Recordscene "4" }} 分娩 {{end}}{{if eq .Incident.Recordscene "5" }} 出生 {{end}}{{if eq .Incident.Recordscene "6" }} 转入 {{end}}{{if eq .Incident.Recordscene "7" }} 转科 {{end}}{{if eq .Incident.Recordscene "8" }} 转院 {{end}}{{if eq .Incident.Recordscene "9" }} 死亡 {{end}}{{if eq .Incident.Recordscene "10" }} 外出 {{end}}
+                                                        <!--<p class="txt"><span class="sle-txt">出院</span> <span class="dattiem-txt">2017-09-10 80:00</span> </p>-->
+                                                        {{if eq .IncidentScene 1 }} 入院 {{end}}
+                                                        {{if eq .IncidentScene 2 }} 出院 {{end}}
+                                                        {{if eq .IncidentScene 3 }} 手术 {{end}}
+                                                        {{if eq .IncidentScene 4 }} 分娩 {{end}}
+                                                        {{if eq .IncidentScene 5 }} 出生 {{end}}
+                                                        {{if eq .IncidentScene 6 }} 转入 {{end}}
+                                                        {{if eq .IncidentScene 7 }} 转科 {{end}}
+                                                        {{if eq .IncidentScene 8 }} 转院 {{end}}
+                                                        {{if eq .IncidentScene 9 }} 死亡 {{end}}
+                                                        {{if eq .IncidentScene 10 }} 外出 {{end}}
+                                                        {{.IncidentTime}}
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="btn-group2">
                                                         <div class="l">
-                                                            <a href="javascript:;" class="save-btn">保存</a>
+                                                            <a href="javascript:;" class="save-btn" data-ty="{{.TestTime}}" data-ss="{{.DateTime}}">保存</a>
                                                             <a href="javascript:;" class="edit-btn">
                                                                 <i class="am-icon-pencil"></i> 编辑
                                                             </a>
@@ -375,221 +403,6 @@
                                                 </td>
                                             </tr>
                                         {{end}}
-
-                                            <!--<tr>
-                                                <td class="pd8"><span>B01</span></td>
-                                                <td class="pd8"><span>王小二</span></td>
-                                                <td class="pd8"><span>51</span></td>
-                                                <td class="date-time-td">
-
-                                                    <div class="text-msg">
-                                                        2017-10-11 44:00
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="text" id="row2_input1" class="input1">
-                                                        <select id="row2_input2" class="abs">
-                                                        <option selected="" value=" ">&nbsp;</option>
-                                                        <option value="腋温">腋温</option>
-                                                        <option value="耳温">耳温</option>
-                                                        <option value="口温">口温</option>
-                                                        <option value="肛温">肛温</option>
-                                                        <option value="额温">额温</option>
-                                                        <option value="不升">不升</option>
-                                                        <option value="外出">外出</option>
-                                                        <option value="检查">检查</option>
-                                                        <option value="请假">请假</option>
-                                                        <option value="拒试">拒试</option>
-                                                        <option value="无法测">无法测</option>
-                                                        <option value="不在">不在</option>
-                                                    </select>
-                                                    </div>
-                                                    <div class="text-msg">
-                                                        31 口温
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="text" id="row2_input3" class="input1">
-                                                        <div class="check-bar">
-                                                            <input type="checkbox" id="row2_input4">
-                                                            <label for="row2_input4">短绌</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="text-msg">
-                                                        123 短绌
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="text" id="row2_input5" class="input1">
-                                                        <select id="row2_input6" class="abs">
-                                <option selected="" value=" ">&nbsp;</option>
-                                <option value="辅助呼吸">辅助呼吸</option>
-                                <option value="停辅助呼吸">停辅助呼吸</option>
-                            </select>
-                                                    </div>
-                                                    <div class="text-msg">
-                                                        123 停辅助呼吸
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input class="i1" type="text" id="row2_input7">/
-                                                        <input class="i1" type="text" id="row2_input8">
-                                                        <select id="row2_input9" class="abs">
-                                <option selected="" value=" ">&nbsp;</option>
-                                <option value="外出">外出</option>
-                                <option value="检查">检查</option>
-                                <option value="请假">请假</option>
-                                <option value="拒试">拒试</option>
-                                <option value="无法测">无法测</option>
-                                <option value="不在">不在</option>
-                            </select>
-                                                    </div>
-                                                    <div class="text-msg">
-                                                        123 / 123 请假
-                                                    </div>
-                                                </td>
-                                                <td class="pd0">
-                                                    <div class="table-input-bar">
-                                                        <input class="input2 ft-center" type="text" id="row2_input10">
-                                                    </div>
-                                                    <div class="text-msg">
-                                                        123123
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="text" id="row2_input11">
-                                                        <select id="row2_input12" class="abs">
-                                <option selected="" value=" ">&nbsp;</option>
-                                <option value="输入液量">输入液量</option>
-                                <option value="饮食">饮食</option>
-                                <option value="饮水">饮水</option>
-                                <option value="其它">其它</option>
-                            </select>
-                                                    </div>
-
-                                                    <div class="text-msg">
-                                                        123 饮食
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="text" id="row2_input13">
-                                                        <select id="row2_input14" class="abs">
-                                <option selected="" value=" ">&nbsp;</option>
-                                <option value="失禁">失禁</option>
-                                <option value="/C">/C</option>
-                            </select>
-                                                    </div>
-                                                    <div class="text-msg">
-                                                        123 失禁
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="text" id="row2_input15">
-                                                        <select id="row2_input16" class="abs">
-                                <option selected="" value=" ">&nbsp;</option>
-                                <option value="失禁">失禁</option>
-                                <option value="/E">/E</option>
-                                <option value="*/E">*/E</option>
-                                <option value="1，1/E">1，1/E</option>
-                                <option value="肠镜">肠镜</option>
-                                <option value="人工肛门">人工肛门</option>
-                            </select>
-                                                    </div>
-                                                    <div class="text-msg">
-                                                        123 人工肛门
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="text" id="row2_input17">
-                                                        <input type="text" class="input3" id="row2_input18">
-                                                    </div>
-                                                    <div class="text-msg">
-                                                        XSDSASD XSDSASD
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="text" id="row2_input18">
-                                                        <select id="row2_input19" class="abs">
-                                <option selected="" value="  ">&nbsp; </option>
-                                <option value="卧床">卧床</option>
-                                <option value="轮椅">轮椅</option>
-                                <option value="平车">平车</option>
-                            </select>
-                                                    </div>
-                                                    <div class="text-msg">
-                                                        XSDSASD 卧床
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="text" id="row2_input20">
-                                                        <select id="row2_input21" class="abs">
-                                <option selected="" value="  ">&nbsp; </option>
-                                <option value="卧床">卧床</option>
-                                <option value="轮椅">轮椅</option>
-                                <option value="平车">平车</option>
-                            </select>
-                                                    </div>
-
-                                                    <div class="text-msg">
-                                                        XSDSASD 卧床
-                                                    </div>
-                                                </td>
-                                                <td class="pd0">
-                                                    <div class="table-input-bar">
-                                                        <textarea type="text" id="row2_input22"></textarea>
-                                                    </div>
-                                                    <div class="text-msg">
-                                                        皮试皮试皮试皮试
-                                                    </div>
-                                                </td>
-                                                <td class="pd0">
-                                                    <div class="table-input-bar">
-                                                        <input class="input2 ft-center" type="text" id="row2_input23">
-                                                    </div>
-                                                    <div class="text-msg">
-                                                        120
-                                                    </div>
-                                                </td>
-                                                <td class="pd0">
-                                                    <div class="table-input-bar">
-                                                        <input class="input2 ft-center" type="text" id="row2_input24">
-                                                    </div>
-                                                    <div class="text-msg">
-                                                        123
-                                                    </div>
-                                                </td>
-                                                <td class="pd0">
-                                                    <div class="table-input-bar">
-                                                        <textarea type="text" id="row2_input25"></textarea>
-                                                    </div>
-
-                                                    <div class="text-msg">
-                                                        事件事件
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="btn-group2">
-                                                        <div class="l">
-                                                            <a href="javascript:;" class="save-btn">保存</a>
-                                                            <a href="javascript:;" class="edit-btn">
-                                                                <i class="am-icon-pencil"></i> 编辑
-                                                            </a>
-                                                        </div>
-                                                        <a href="javascript:;" class="del-btn"><i class="am-icon-trash"></i>删除</a>
-                                                    </div>
-                                                </td>
-                                            </tr>-->
-
                                         </tbody>
                                     </table>
                                 </div>
@@ -597,7 +410,13 @@
                         </div>
 
                     </div>
+                        <input type="hidden" name="starttime" id="starttime">
+                        <input type="hidden" name="endtime" id="endtime">
+                        <input type="hidden" name="startframe" id="startframe">
+                        <input type="hidden" name="endframe" id="endframe">
+                        <input type="hidden" name="patient_id" id="patient_id">
 
+                    </form>
                 </div>
             </div>
         </div>
@@ -606,6 +425,7 @@
 
     </div>
     </div>
+
 
     <!-- navbar -->
     <a href="admin-offcanvas" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"><!--<i class="fa fa-bars" aria-hidden="true"></i>--></a>
@@ -719,26 +539,55 @@
                 return i;
             }
         }
-        laydate.render({
-            elem: '#date1', //指定元素
-            showBottom: false,
-            value: nowDateObj.date,
-            done: function(value, date, endDate) {
-                console.log(value); //得到日期生成的值，如：2017-08-18
-                console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-                console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
-            }
-        });
-        laydate.render({
-            elem: '#date2', //指定元素
-            showBottom: false,
-            value: nowDateObj.date,
-            done: function(value, date, endDate) {
-                console.log(value); //得到日期生成的值，如：2017-08-18
-                console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-                console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
-            }
-        });
+
+        var keyType = {{.key}};
+        if(keyType !=1){
+            laydate.render({
+                elem: '#date1', //指定元素
+                showBottom: false,
+                value: {{.starttime}},
+                done: function(value, date, endDate) {
+                    console.log(value); //得到日期生成的值，如：2017-08-18
+                    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                    console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                }
+            });
+
+            laydate.render({
+                elem: '#date2', //指定元素
+                showBottom: false,
+                value: {{.endtime}},
+                done: function(value, date, endDate) {
+                    console.log(value); //得到日期生成的值，如：2017-08-18
+                    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                    console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                }
+            });
+
+        }else{
+            laydate.render({
+                elem: '#date1', //指定元素
+                showBottom: false,
+                value: nowDateObj.date,
+                done: function(value, date, endDate) {
+                    console.log(value); //得到日期生成的值，如：2017-08-18
+                    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                    console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                }
+            });
+
+            laydate.render({
+                elem: '#date2', //指定元素
+                showBottom: false,
+                value: nowDateObj.date,
+                done: function(value, date, endDate) {
+                    console.log(value); //得到日期生成的值，如：2017-08-18
+                    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                    console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                }
+            });
+        }
+
         /**
         laydate.render({
             elem: '.time-input', //指定元素
@@ -787,55 +636,220 @@
                 zxScroll = st
             }
         })
-        var dateHtml = '<div class="date-time-box">' +
-            '<input type="text" class="date-input-td">' +
-            '<input type="text" class="time-input-td">' +
-            '</div>'
+
             // var edit1
         $('body').on('click', '.edit-btn', function() {
             // console.log($(this).parents('tr'))
             var l = $('tr.active').length;
             if (l == 0) {
                 $(this).parents('tr').addClass('active')
-                $(this).parents('tr').find('.date-time-td').append(dateHtml)
 
-                laydate.render({
-                    elem: '.date-input-td', //指定元素
-                    showBottom: false,
-                    value: nowDateObj.date,
-                    done: function(value, date, endDate) {
-                        console.log(value); //得到日期生成的值，如：2017-08-18
-                        console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-                        console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
-                    }
-                })
 
-                laydate.render({
-                    elem: '.time-input-td',
-                    type: 'time',
-                    format: 'HH:mm',
-                    value: nowDateObj.time,
-                    done: function(value, date, endDate) {
-                        console.log(value); //得到日期生成的值，如：2017-08-18
-                        console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-                        console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
-                    }
-                })
             } else {
                 // alert('暂时未保存，是否放弃修改');
                 // alert('修改暂时未保存,请先保存');
                 alert('修改信息还未保存')
 
             }
-
         });
-        $('body').on('click', '.save-btn', function() {
-            console.log($(this).parents('tr'))
-            $(this).parents('tr').removeClass('active')
-            $('.date-time-box').remove();
 
+
+        laydate.render({
+            elem: '.date-input-td', //指定元素
+            showBottom: false,
+            value: nowDateObj.date,
+            done: function(value, date, endDate) {
+                console.log(value); //得到日期生成的值，如：2017-08-18
+                console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+            }
+        })
+
+        laydate.render({
+            elem: '.time-input-td',
+            type: 'time',
+            format: 'HH:mm',
+            value: nowDateObj.time,
+            done: function(value, date, endDate) {
+                console.log(value); //得到日期生成的值，如：2017-08-18
+                console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+            }
+        })
+
+
+
+
+
+
+        lay('.date-input2').each(function(){
+            laydate.render({
+                elem: this,
+                showBottom: false,
+                value: nowDateObj.date,
+                done: function(value, date, endDate) {
+                    console.log(value); //得到日期生成的值，如：2017-08-18
+                    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                    console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                }
+            });
+        });
+        lay('.time-input2').each(function(){
+            laydate.render({
+                elem: this,
+                type: 'time',
+                format: 'HH:mm',
+                value: nowDateObj.time,
+                done: function(value, date, endDate) {
+                    console.log(value); //得到日期生成的值，如：2017-08-18
+                    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                    console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                }
+            });
+        });
+
+
+
+        $("body").on("click",".save-btn",function(){
+            $(this).parents('tr').removeClass('active')
+            var $tr = $(this).parents("tr");
+
+            var res = [];
+                res[0]={};
+                res[0]["patient_id"] = $.trim( $tr.data("pid")) || ""
+                res[0]["nurse_id"]= $.trim( $tr.data("nid")) || ""
+                res[0]["nurse_name"]= $.trim( $tr.data("nname")) || ""
+                res[0]["test_time"]= $(this).data("ty")
+                res[0]["thm_value"] =$.trim($tr.find(".thmValue").val())  || ""
+                res[0]["thm_type"] =$.trim($tr.find(".thmType").val())  || ""
+                res[0]["thm_scene"] =$.trim($tr.find(".thmScene").val())  || ""
+                res[0]["pulse_value"] = $.trim($tr.find(".pulseValue").val())  || ""
+                if($tr.find(".pulseBriefness").is(":checked")){
+                    res[0]["pulse_briefness"] ="1"
+                }else{
+                    res[0]["pulse_briefness"] ="0"
+                }
+                res[0]["breathe_value"] = $.trim($tr.find(".breatheValue").val())  || ""
+                res[0]["breathe_scene"] =$.trim($tr.find(".breatheScene").val())  || ""
+                res[0]["shit_value"] = $.trim($tr.find(".shitValue").val())  || ""
+                res[0]["shit_scene"] = $.trim($tr.find(".shitScene").val())  || ""
+                res[0]["pressure_dia"] = $.trim($tr.find(".pressureDia").val())|| ""
+                res[0]["pressure_sys"] =$.trim($tr.find(".pressureSys").val())  || ""
+
+                res[0]["pressure_scene"] = $.trim($tr.find(".pressureScene").val())  || ""
+                res[0]["heartrate_value"] = $.trim($tr.find(".heartrateValue").val())  || ""
+                res[0]["weight_value"] = $.trim($tr.find(".weightValue").val())  || ""
+                res[0]["weight_scene"] = $.trim($tr.find(".weightScene").val())  || ""
+                res[0]["height_value"] = $.trim($tr.find(".heightValue").val())  || ""
+                res[0]["height_scene"] = $.trim($tr.find(".heightScene").val())  || ""
+                res[0]["skin_value"] = $.trim($tr.find(".skinValue").val())  || ""
+                res[0]["other_value"] = $.trim($tr.find(".otherValue").val())  || ""
+                res[0]["incident_scene"] = $.trim($tr.find(".incidentScene").val())  || ""
+                res[0]["incident_time"] = $(this).data("ss") +" "+ $.trim($tr.find(".incidentTime2").val()) +":00"
+
+
+            console.log(JSON.stringify(res))
+
+            var reqData ={
+                value:JSON.stringify(res)
+            }
+
+            $.post("/pc/batvhinput", reqData, function (json, status) {
+                //console.log(json, status);
+                if (json.result == 0 ) {
+                    alert(json.errmsg)
+                } else  {
+                    alert(json.result + json.errmsg+json.Ddatas)
+                }
+            }, 'json');
         })
     </script>
+
+<script>
+    $("#all-btn").on("click", function () {
+        if($(this).prop("checked")){
+            $(".user-bar").find("input[type=checkbox]").prop("checked",true);
+        }else{
+            $(".user-bar").find("input[type=checkbox]").prop("checked",false);
+        }
+    })
+    $("body").on("click",".user-bar input[type=checkbox]",function(){
+        var checklist = $(".user-bar input[type=checkbox]");
+        var len = checklist.length,sum=0;
+        checklist.each(function(i,el){
+            if($(el).prop("checked")){
+                sum++;
+            }
+        })
+        if(len == sum){
+            $("#all-btn").prop("checked",true)
+        }else{
+            $("#all-btn").prop("checked",false)
+        }
+    })
+    $(".user-bar").on("click","li",function(){
+        console.log("??")
+        var $check = $(this).find("input[type=checkbox]")
+//        console.log($check.prop("checked"))
+        var isCheck = $check.prop("checked")
+        $check.prop("checked",!isCheck)
+    })
+
+
+
+
+//    var startTimeObj ={
+//        "4":"02:00:00",
+//        "8":"06:00:00",
+//        "12":"10:00:00",
+//        "16":"14:00:00",
+//        "20":"18:00:00",
+//        "24":"22:00:00"
+//    }
+//    var endTimeObj ={
+//        "4":"06:00:00",
+//        "8":"10:00:00",
+//        "12":"14:00:00",
+//        "16":"18:00:00",
+//        "20":"22:00:00",
+//        "24":"02:00:00"
+//    }
+
+    $("#search-btn").on("click",function(){
+        var userArr = []
+        $(".user-bar").find("input[type=checkbox]:checked").each(function(i,el){
+            userArr.push($(el).parents("li").data("id").toString());
+        })
+        console.log(userArr)
+
+        $("#patient_id").val(userArr)
+
+//        var startTime = $("#date1").val()+" "+startTimeObj[$(".startTimeBlcok").val()]
+//        var endTime = "";
+//        if($(".endTimeBlock").val()=="24"){
+//            var dateStr = $("#date2").val()
+//            var dateObj = new Date(dateStr)
+//            endTime = fromatDate(dateObj.getTime()+86400000).date +" "+endTimeObj[$(".endTimeBlock").val()]
+//        }else{
+//            endTime = $("#date2").val()+" "+endTimeObj[$(".endTimeBlock").val()]
+//        }
+        var startTime = $("#date1").val(),
+            endTime=$("#date2").val(),
+            startframe=$(".startTimeBlcok").val(),
+            endframe= $(".endTimeBlock").val();
+
+        console.log(startTime,endTime)
+
+        $("#starttime").val(startTime)
+        $("#endtime").val(endTime)
+        $("#startframe").val(startframe)
+        $("#endframe").val(endframe)
+        $("#search-from").submit();
+    })
+
+
+</script>
+
 </body>
 
 </html>

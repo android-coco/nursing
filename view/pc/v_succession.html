@@ -496,20 +496,42 @@
             return i;
         }
     }
+    var urlDataTime = getURLParam("datatime");
+    if(urlDataTime){
+        urlDataTime = decodeURI(urlDataTime)
+        console.log(fromatDate(urlDataTime),urlDataTime)
+        laydate.render({
+            elem: '.date-input', //指定元素
+            showBottom: false,
+            value: fromatDate(urlDataTime).date,
+            done: function (value, date, endDate) {
+//            console.log(value); //得到日期生成的值，如：2017-08-18
+//            console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+//            console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+//
+//            console.log("kai zi sb")
+                location.href="./succession?datatime="+value+" 00:00:00"
+                // window.location.href = "";
+            }
+        });
+    }else{
+        laydate.render({
+            elem: '.date-input', //指定元素
+            showBottom: false,
+            value: nowDateObj.date,
+            done: function (value, date, endDate) {
+//            console.log(value); //得到日期生成的值，如：2017-08-18
+//            console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+//            console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+//
+//            console.log("kai zi sb")
+                location.href="./succession?datatime="+value+" 00:00:00"
+                // window.location.href = "";
+            }
+        });
+    }
 
-    laydate.render({
-        elem: '.date-input', //指定元素
-        showBottom: false,
-        value: nowDateObj.date,
-        done: function (value, date, endDate) {
-            console.log(value); //得到日期生成的值，如：2017-08-18
-            console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-            console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
 
-            console.log("kai zi sb")
-            // window.location.href = "";
-        }
-    });
 
     function createRow(index) {
 
@@ -628,11 +650,18 @@
         setRow(id, $(this))
     })
 
+    var CommentDelet = []
+
     //del
     $('body').on('click','.del',function(){
         if($(this).parents('.td-row').find('.row1-sel').data('isdel')=="1"){
             alert("不能删除")
         }else{
+            var ty = $(this).parents('.td-row').data("ty")
+            ty = ty.toString()
+            if(ty!="0"){
+                CommentDelet.push(ty);
+            }
             $(this).parents('.td-row').remove();
         }
 
@@ -840,12 +869,18 @@
              console.log("***: ",nursing_a)
 
             console.log(str_c);
-             $.post("/pc/succession", {
+            var reqData ={
                  Day_Shift:str_d,
                  Night_Shift:str_n,
                  Graveyard_Shift:str_g,
-                 Comment_Shift:str_c
-             }, function (json, status) {
+                 Comment_Shift:str_c,
+                 Comment_Delet:JSON.stringify(CommentDelet)
+             }
+//             if(CommentDelet.length){
+//                 reqData.Comment_Delet=JSON.stringify(CommentDelet)
+//             }
+//
+             $.post("/pc/succession", reqData, function (json, status) {
                  //console.log(json, status);
                   if (json.result == 0 ) {
                       alert(json.errmsg)
@@ -857,51 +892,26 @@
 
 
         function getData(){
-            //var res = [];
-            var res = "[";
+            var res = [];
             var datatime = $('#datatime').val() + " 00:00:00";
             var classid = nurse.DepartmentID;
+            classid = classid.toString()
             $('.td-row').each(function(i,el){
-                /*res[i]={}
+                res[i]={};
                 res[i]['datatime'] = datatime || "";
                 res[i]['classid'] = classid || "";
                 res[i]['bedid'] = $.trim($(el).find('.first.bedId').text()) || "";
                 res[i]['patientname'] = $.trim($(el).find('.userName').text()) || "";
+                res[i]['patientid'] = $(el).data("id").toString() || "";
                 res[i]['piagnosis'] = $.trim($(el).find('.cont').text()) || "";
                 res[i]['typte'] = $(el).find('.sel-input').val() || "";
                 res[i]['comment1'] = $(el).find('.cont2').find('.textarea-input').val() || "";
                 res[i]['comment2'] = $(el).find('.cont3').find('.textarea-input').val() || "";
-                res[i]['comment3'] = $(el).find('.cont4').find('.textarea-input').val() || "";*/
-
-                var c1 = datatime || "";
-                var c2 = classid || "";
-                var c3 = $.trim($(el).find('.first.bedId').text()) || "";
-                var c4 = $.trim($(el).find('.userName').text()) || "";
-                var c5 = $.trim($(el).find('.cont').text()) || "";
-                var c6 = $(el).find('.sel-input').val() || "";
-                var c7 = $(el).find('.cont2').find('.textarea-input').val() || "";
-                var c8 = $(el).find('.cont3').find('.textarea-input').val() || "";
-                var c9 = $(el).find('.cont4').find('.textarea-input').val() || "";
-                var c10 = $(el).data("id")|| "";
-
-                var str_c = '{ "datatime": "' + c1 + '"'    //时间
-                    + ', "classid": "' + c2 + '"'          //科室ID
-                    + ', "bedid": "' + c3  + '"'           //床位号
-                    + ', "patientname": "' + c4 + '"'      //病人名称
-                    + ', "patientid": "' + c10 + '"'      //病人id
-                    + ', "piagnosis": "' + c5 + '"'        //诊断
-                    + ', "typte": "' + c6 + '"'            //选择类型
-                    + ', "comment1": "' + c7 + '"'         //第一个空
-                    + ', "comment2": "' + c8 + '"'         //第二个空
-                    + ', "comment3": "' + c9 + '" }';      //第三个空
-                if(i == 0){
-                    res = res + str_c
-                }else{
-                    res = res + "," + str_c
-                }
+                res[i]['comment3'] = $(el).find('.cont4').find('.textarea-input').val() || "";
             })
-            res = res + "]"
-            return res
+            console.log(res)
+            return JSON.stringify(res)
+
         }
     });
 

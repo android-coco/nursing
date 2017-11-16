@@ -89,9 +89,9 @@ func (c MainController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 	//results, err := fit.SQLServerEngine().Query("select * from user1")
 	//fit.Logger().LogInfo("MainController:",results, err)
 
-	//results := make([]VAA,0)
-	//err1 := fit.SQLServerEngine().SQL("select * from VAA1").Find(&results)
-	//fit.Logger().LogInfo("MainController:",results[0].VAA05, err1)
+	results := make([]VAA,0)
+	err1 := fit.SQLServerEngine().SQL("select * from VAA1").Find(&results)
+	fit.Logger().LogInfo("MainController:",results[0].VAA05, err1)
 
 	//c.JsonData.Result = 0
 	//c.JsonData.ErrorMsg = "OK"

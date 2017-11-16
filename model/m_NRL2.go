@@ -5,11 +5,16 @@ package model
 import (
 	"fit"
 )
+
 // 首次护理记录单
 type NRL2 struct {
-	ID     int    `xorm:"comment(文书id)"`
+	ID     int    `xorm:"pk autoincr comment(文书id)"`
 	BCK01  int64  `xorm:"comment(classid科室id)"`
-	VAA01  int    `xorm:"comment(patientid病人id)"`
+	VAA01  int64  `xorm:"comment(patientid病人id)"`
+	NRL38  string `xorm:"comment(recordDate记录时间)"`
+	BCE01A string `xorm:"comment(NursingId责任护士ID)"`
+	BCE03A string `xorm:"comment(NursingName责任护士签名)"`
+
 	NRL02  string `xorm:"comment(education教育程度)"`
 	NRL03  string `xorm:"comment(datasource资料来源)"`
 	NRL04  string `xorm:"comment(caregiver日常照顾者)"`
@@ -58,19 +63,13 @@ type NRL2 struct {
 	NRL35  string `xorm:"comment(shiftChange交接班重点)"`
 	NRL36  string `xorm:"comment(focus提醒医生给予关注)"`
 	NRL37  string `xorm:"comment(care提醒医生给予关爱)"`
-	NRL38  string `xorm:"comment(recordDate记录时间)"`
-	BCE01A string `xorm:"comment(NursingId责任护士ID)"`
-
-	BCE03A string `xorm:"comment(NursingName责任护士签名)"`
-
 	NRL39A string `xorm:"comment(审核时间)"`
 	NRL39B string `xorm:"comment(审核护士id)"`
 	NRL39C string `xorm:"comment(审核护士签名)"`
-
 }
 
 /*插入 首次护理记录*/
-func (nrl2 *NRL2) InsertToDatabase() (int,error) {
+func (nrl2 *NRL2) InsertToDatabase() (int, error) {
 	_, err := fit.MySqlEngine().InsertOne(nrl2)
 	nrl_id := 0
 	if err == nil {
@@ -83,28 +82,29 @@ func (nrl2 *NRL2) InsertToDatabase() (int,error) {
 
 /*查询是否存在某个病人的首次护理单*/
 func IsExistNRL2(withPatientId string) (bool, error) {
-	has,err := fit.MySqlEngine().SQL("select id from NRL2 where VAA01 = ?", withPatientId).Exist()
+	has, err := fit.MySqlEngine().SQL("select id from NRL2 where VAA01 = ?", withPatientId).Exist()
 	if err == nil && has {
 		return true, nil
-	} else  {
+	} else {
 		return false, err
 	}
 
 }
 
-func (nrl2 *NRL2)UpdateRecordDatas(withNrlId int64) error  {
-	_, err := fit.MySqlEngine().Table("NRL2").Where("id = ?",withNrlId).Cols("NRL02","NRL03","NRL04","NRL05","NRL06","NRL06A","NRL07","NRL07A","NRL08","NRL09","NRL10","NRL11","NRL12","NRL12A","NRL13","NRL14","NRL14A","NRL15","NRL16","NRL16A","NRL17","NRL17A","NRL18","NRL19","NRL20","NRL20A","NRL21","NRL22","NRL23","NRL24","NRL25","NRL26","NRL27","NRL28","NRL29","NRL30","NRL30A","NRL31","NRL32","NRL33","NRL34","NRL35","NRL36","NRL37","NRL38","NRL39A","NRL39B","NRL39C").Update(nrl2)
+func (nrl2 *NRL2) UpdateRecordDatas(withNrlId int64) error {
+	//Cols("NRL02", "NRL03", "NRL04", "NRL05", "NRL06", "NRL06A", "NRL07", "NRL07A", "NRL08", "NRL09", "NRL10", "NRL11", "NRL12", "NRL12A", "NRL13", "NRL14", "NRL14A", "NRL15", "NRL16", "NRL16A", "NRL17", "NRL17A", "NRL18", "NRL19", "NRL20", "NRL20A", "NRL21", "NRL22", "NRL23", "NRL24", "NRL25", "NRL26", "NRL27", "NRL28", "NRL29", "NRL30", "NRL30A", "NRL31", "NRL32", "NRL33", "NRL34", "NRL35", "NRL36", "NRL37", "NRL38", "NRL39A", "NRL39B", "NRL39C")
+	_, err := fit.MySqlEngine().Table("NRL2").Where("id = ?", withNrlId).AllCols().Omit("ID").Update(nrl2)
 	return err
 }
 
 func QueryNRL2(withNRLId string) (NRL2, error) {
 	var nrl2 NRL2
-	_,err := fit.MySqlEngine().SQL("select * from NRL2 where id = ?", withNRLId).Get(&nrl2)
+	_, err := fit.MySqlEngine().SQL("select * from NRL2 where id = ?", withNRLId).Get(&nrl2)
 	return nrl2, err
 }
 
 func QueryNRL2WithPid(pid string) (NRL2, error) {
 	var nrl2 NRL2
-	_,err := fit.MySqlEngine().SQL("select * from NRL2 where VAA01 = ?", pid).Get(&nrl2)
+	_, err := fit.MySqlEngine().SQL("select * from NRL2 where VAA01 = ?", pid).Get(&nrl2)
 	return nrl2, err
 }

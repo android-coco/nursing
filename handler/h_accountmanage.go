@@ -14,7 +14,7 @@ type AccountManageController struct {
 	PCController
 }
 
-/*账号管理页面*/
+/*账号管理页面（创建账号）*/
 func (c AccountManageController) Manage(w *fit.Response, r *fit.Request, p fit.Params) {
 	userinfo, err := c.GetLocalUserinfo(w, r)
 	if err == nil {
@@ -26,7 +26,7 @@ func (c AccountManageController) Manage(w *fit.Response, r *fit.Request, p fit.P
 		bck01 := userinfo.DepartmentID
 		if userinfo.Authority > 1 {
 			// 获取科室列表
-			departments, err_dep := model.QueryDepartmentList() //科室信息
+			departments, err_dep := model.QueryDepartmentList(true) //科室信息
 			if err_dep != nil {
 				fmt.Fprintln(w, "接口好像出了一点问题 err_dep:"+err_dep.Error())
 			} else {
@@ -43,12 +43,13 @@ func (c AccountManageController) Manage(w *fit.Response, r *fit.Request, p fit.P
 			c.Data["Users"] = users
 		}
 
-		_ = c.LoadViewSafely(w, r, "pc/v_account_manage_create.html")
+		_ = c.LoadViewSafely(w, r, "pc/v_account_manage_create.html", "pc/header_side.html", "pc/header_top.html")
 	} else {
 		fmt.Fprintln(w, "服务器有点繁忙！")
 	}
 }
 
+/*账号管理页面（已创建）*/
 func (c AccountManageController) List(w *fit.Response, r *fit.Request, p fit.Params) {
 	userinfo, err := c.GetLocalUserinfo(w, r)
 	if err == nil {
@@ -60,7 +61,7 @@ func (c AccountManageController) List(w *fit.Response, r *fit.Request, p fit.Par
 		bck01 := userinfo.DepartmentID
 		if userinfo.Authority > 1 {
 			// 获取科室列表
-			departments, err_dep := model.QueryDepartmentList() //科室信息
+			departments, err_dep := model.QueryDepartmentList(true) //科室信息
 			if err_dep != nil {
 				fmt.Fprintln(w, "接口好像出了一点问题 err_dep:"+err_dep.Error())
 			} else {
@@ -78,12 +79,13 @@ func (c AccountManageController) List(w *fit.Response, r *fit.Request, p fit.Par
 			c.Data["Users"] = users
 		}
 
-		_ = c.LoadViewSafely(w, r, "pc/v_account_manage_update.html")
+		_ = c.LoadViewSafely(w, r, "pc/v_account_manage_update.html", "pc/header_side.html", "pc/header_top.html")
 	} else {
 		fmt.Fprintln(w, "服务器有点繁忙！")
 	}
 }
 
+/*API 创建账号*/
 func (c AccountManageController) Create(w *fit.Response, r *fit.Request, p fit.Params) {
 	// 新建账号
 	defer c.ResponseToJson(w)
@@ -175,6 +177,7 @@ func (c AccountManageController) Create(w *fit.Response, r *fit.Request, p fit.P
 	c.RenderingJson(0, "创建成功："+fmt.Sprintf("%d", length)+"，创建失败："+fmt.Sprintf("%d", len(failure)), failure)
 }
 
+/*API 更改账号状态*/
 func (c AccountManageController) Update(w *fit.Response, r *fit.Request, p fit.Params) {
 
 	// 修改账号的权限和状态
@@ -236,7 +239,7 @@ func (c AccountManageController) Update(w *fit.Response, r *fit.Request, p fit.P
 	}
 }
 
-/*获取未创建的账号*/
+/*API 获取未创建的账号*/
 func (c AccountManageController) Uncreated(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 	r.ParseForm()
@@ -259,7 +262,7 @@ func (c AccountManageController) Uncreated(w *fit.Response, r *fit.Request, p fi
 	}
 }
 
-/*获取已创建的账号*/
+/*API 获取已创建的账号*/
 func (c AccountManageController) Created(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 	r.ParseForm()

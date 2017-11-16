@@ -4,60 +4,31 @@ import (
 	"fit"
 	"fmt"
 	"nursing/model"
-	"strconv"
+
 	"encoding/json"
 	"strings"
 	"time"
 )
 
-type PNRL2Controller struct {
+type PCNRL2Controller struct {
 	PCController
 }
 
-func (c PNRL2Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Params) {
-	// 护士信息
-	userinfo, err := c.GetLocalUserinfo(w, r)
-	if err != nil {
-		fmt.Fprintln(w, "参数错误！  user info error", err)
+func (c PCNRL2Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Params) {
+
+	// 护士信息 床位表 病人id  病人信息
+	userinfo, beds, pid, pInfo, has := c.GetBedsAndUserinfo(w,r, "2")
+	if !has {
 		return
 	}
-	beds, err := model.QueryDepartmentBeds(userinfo.DepartmentID, false)
+	var err error
 
-	//fmt.Printf("bed1 : %+v\n", beds)
-	if err != nil {
-		fit.Logger().LogError("pc nrl2", err)
-	}
-
-	// 病人id  病人信息
-	var pInfo model.PCBedDup
-	pid := r.FormValue("pid")
-	if pid == "" {
-		pidnum := beds[0].VAA01
-		pid = strconv.Itoa(pidnum)
-
-		url := "/pc/record/nrl2?pid=" + pid
-		c.Redirect(w, r, url, 302)
-		return
-	}
-
-	//fmt.Println("pid", pid)
-	// 病人信息
-	for _, val := range beds {
-		if strconv.Itoa(val.VAA01) == pid {
-			pInfo = val
-			break
-		}
-	}
-	if pInfo.VAA01 == 0 {
-		fmt.Fprintln(w, "参数错误！  user info error", err)
-		return
-	}
 
 	// 护理单
 	flag, errExist := model.IsExistNRL2(pid)
 	if errExist != nil {
-		fit.Logger().LogError("pc nr2 is exist nrl2?", err)
-		fmt.Fprintln(w, "参数错误！  user info error", err)
+		fit.Logger().LogError("pc nr2 is exist nrl2?", errExist)
+		fmt.Fprintln(w, "参数错误！  user info error", errExist)
 		return
 	}
 

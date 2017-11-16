@@ -36,7 +36,7 @@ func (c PCWarnController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 			"Userinfo": userinfo,
 			"Warns":    tcDetails,
 		}
-		_ = c.LoadViewSafely(w, r, "pc/v_remind_admin.html")
+		_ = c.LoadViewSafely(w, r, "pc/v_remind_admin.html", "pc/header_side.html", "pc/header_top.html")
 	} else {
 		fmt.Fprintln(w, "服务器有点繁忙！")
 	}

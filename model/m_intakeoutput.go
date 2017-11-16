@@ -62,17 +62,14 @@ type IntakeOutput struct {
 	OtherDesc     string `xorm:"comment(其它出量的补充描述)"`
 }
 
-// inert one intake or output volume into database
+// 插入
 func (iot *IntakeOutput) CollectIntakeOrOutputVolume() error {
 	_, err := fit.MySqlEngine().Table("IntakeOutput").InsertOne(iot)
 	return err
 }
 
 /*
-	patientId: patient's id
-	tp： IntakeOutputTypeIntake，IntakeOutputTypeOutput
-	page： minValue is 0，maximum return 10 data from db
-	return slice of type IntakeOutput
+	根据类型查询出入量，page = -1时不分页
 */
 func QueryIntakeOrOutputVolume(patientId string, tp int, page int) ([]IntakeOutputDup, error) {
 	responseObj := make([]IntakeOutputDup, 0)
@@ -87,7 +84,7 @@ func QueryIntakeOrOutputVolume(patientId string, tp int, page int) ([]IntakeOutp
 	}
 }
 
-// query datas where type is equal to IntakeOutputTypeIntake or IntakeOutputTypeOutput
+// 所有的出入量
 func QueryIntakeOrOutputVolumeAll(patientId string, page int) ([]IntakeOutputDup, error) {
 	responseObj := make([]IntakeOutputDup, 0)
 	if page >= 0 {
@@ -101,6 +98,7 @@ func QueryIntakeOrOutputVolumeAll(patientId string, page int) ([]IntakeOutputDup
 	}
 }
 
+/*根据时间段查询出入量*/
 func QueryIntakeOrOutputVolumeWithPatient(pid int, startTime string, endTime string) ([]IntakeOutput, error) {
 	response := make([]IntakeOutput, 0)
 	err := fit.MySqlEngine().SQL("SELECT IntakeOutput.patientid,IntakeOutput.type,IntakeOutput.subtype,IntakeOutput.operationtype,IntakeOutput.`desc`,IntakeOutput.`value`,IntakeOutput.testtime from IntakeOutput WHERE IntakeOutput.patientid = ? and IntakeOutput.testtime BETWEEN ? AND ?",pid, startTime, endTime).Find(&response)

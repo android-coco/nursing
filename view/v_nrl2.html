@@ -29,22 +29,22 @@
         <ul>
             {{$time := .VAA73}}<!-- 入院时间 -->
             <li class="b1">
-                姓名:<span>{{.Patient.VAA1.VAA05}}</span>
+                姓名:<span>{{.Pinfo.VAA1.VAA05}}</span>
             </li>
             <li class="b1">
-                性别:<span>{{.Patient.Gender}}</span>
+                性别:<span>{{.Pinfo.Gender}}</span>
             </li>
             <li class="b1">
-                年龄:<span>{{.Patient.VAA1.VAA10}}岁</span>
+                年龄:<span>{{.Pinfo.VAA1.VAA10}}岁</span>
             </li>
             <li class="b1">
-                科室:<span>{{.Patient.BCK03}}</span>
+                科室:<span>{{.Pinfo.BCK03C}}</span>
             </li>
             <li class="b1">
-                床号:<span>{{.Patient.VAA1.BCQ04}}</span>
+                床号:<span>{{.Pinfo.VAA1.BCQ04}}</span>
             </li>
             <li class="b1">
-                住院号:<span>{{.Patient.VAA1.VAA04}}</span>
+                住院号:<span>{{.Pinfo.VAA1.VAA04}}</span>
             </li>
             <li class="b2">
                 入院日期:<span>{{$time}}</span>
@@ -53,52 +53,52 @@
                 职业:<span>未知</span>
             </li>
             <li class="b1">
-                民族/宗教:<span>{{.Patient.VAA1.ABQ02}}</span>
+                民族/宗教:<span>{{.Pinfo.VAA1.ABQ02}}</span>
             </li>
             <li class="b2">
-                诊断:<span>{{.Patient.VAO2.VAO15}}</span>
+                诊断:<span>{{.Pinfo.VAO2.VAO15}}</span>
             </li>
         </ul>
     </div>
 
     <div class="m-line"></div>
-
-    <div class="m-check1">
+    <!-- 教育程度 -->
+    <div class="m-check1" id="c1">
         <p class="tit">
             教育程度
         </p>
         <ul>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c1-v1" name="check1" {{if eq .NRL.NRL02 "1"}}checked{{end}}>
+                    <input type="radio" disabled id="c1-v1" name="check1" {{if eq .NRL.NRL02 "1"}}checked{{end}} data-v="1">
                     <label for="c1-v1" class="icon"></label>
                 </div>
                 <label for="c1-v1">文盲</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c1-v2" name="check1" {{if eq .NRL.NRL02 "2"}}checked{{end}}>
+                    <input type="radio" disabled id="c1-v2" name="check1" {{if eq .NRL.NRL02 "2"}}checked{{end}} data-v="2">
                     <label for="c1-v2" class="icon"></label>
                 </div>
                 <label for="c1-v2">小学</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c1-v3" name="check1" {{if eq .NRL.NRL02 "3"}}checked{{end}}>
+                    <input type="radio" disabled id="c1-v3" name="check1" {{if eq .NRL.NRL02 "3"}}checked{{end}} data-v="3">
                     <label for="c1-v3" class="icon"></label>
                 </div>
                 <label for="c1-v3">中学</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c1-v4" name="check1" {{if eq .NRL.NRL02 "4"}}checked{{end}}>
+                    <input type="radio" disabled id="c1-v4" name="check1" {{if eq .NRL.NRL02 "4"}}checked{{end}} data-v="4">
                     <label for="c1-v4" class="icon"></label>
                 </div>
                 <label for="c1-v4">中专</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c1-v5" name="check1" {{if eq .NRL.NRL02 "5"}}checked{{end}}>
+                    <input type="radio" disabled id="c1-v5" name="check1" {{if eq .NRL.NRL02 "5"}}checked{{end}} data-v="5">
                     <label for="c1-v5" class="icon"></label>
                 </div>
                 <label for="c1-v5">大专以上</label>
@@ -106,36 +106,36 @@
         </ul>
     </div>
 
-
-    <div class="m-check1">
+    <!-- 资料来源 -->
+    <div class="m-check1" id="c2">
         <p class="tit">
             资料来源
         </p>
         <ul>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c2-v1" name="check2" {{if eq .NRL.NRL03 "1"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c2-v1" name="check2" data-v="1" >
                     <label for="c2-v1" class="icon"></label>
                 </div>
                 <label for="c2-v1">患者</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c2-v2" name="check2" {{if eq .NRL.NRL03 "2"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c2-v2" name="check2" data-v="2" >
                     <label for="c2-v2" class="icon"></label>
                 </div>
                 <label for="c2-v2">家属</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c2-v3" name="check2" {{if eq .NRL.NRL03 "3"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c2-v3" name="check2" data-v="3" >
                     <label for="c2-v3" class="icon"></label>
                 </div>
                 <label for="c2-v3">朋友</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c2-v4" name="check2" {{if eq .NRL.NRL03 "4"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c2-v4" name="check2" data-v="4">
                     <label for="c2-v4" class="icon"></label>
                 </div>
                 <label for="c2-v4">其他</label>
@@ -145,64 +145,65 @@
 
 
     <div class="m-line"></div>
-    <div class="m-check1">
+    <!-- 日常照顾者： -->
+    <div class="m-check1" id="c3">
         <p class="tit">
             日常照顾者：
         </p>
         <ul>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c3-v1" name="check3" {{if eq .NRL.NRL04 "1"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c3-v1" name="check3"  data-v="1">
                     <label for="c3-v1" class="icon"></label>
                 </div>
                 <label for="c3-v1">自我照顾</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c3-v2" name="check3" {{if eq .NRL.NRL04 "2"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c3-v2" name="check3"  data-v="2">
                     <label for="c3-v2" class="icon"></label>
                 </div>
                 <label for="c3-v2">夫/妻</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c3-v3" name="check3" {{if eq .NRL.NRL04 "3"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c3-v3" name="check3"  data-v="3">
                     <label for="c3-v3" class="icon"></label>
                 </div>
                 <label for="c3-v3">父母</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c3-v4" name="check3" {{if eq .NRL.NRL04 "4"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c3-v4" name="check3"  data-v="4">
                     <label for="c3-v4" class="icon"></label>
                 </div>
                 <label for="c3-v4">子女</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c3-v5" name="check3" {{if eq .NRL.NRL04 "5"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c3-v5" name="check3"  data-v="5">
                     <label for="c3-v5" class="icon"></label>
                 </div>
                 <label for="c3-v5">亲戚</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c3-v6" name="check3" {{if eq .NRL.NRL04 "6"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c3-v6" name="check3"  data-v="6">
                     <label for="c3-v6" class="icon"></label>
                 </div>
                 <label for="c3-v6">朋友</label>
             </li>
 
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c3-v7" name="check3" {{if eq .NRL.NRL04 "7"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c3-v7" name="check3"  data-v="7">
                     <label for="c3-v7" class="icon"></label>
                 </div>
                 <label for="c3-v7">保姆</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c3-v8" name="check3" {{if eq .NRL.NRL04 "8"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c3-v8" name="check3"  data-v="8">
                     <label for="c3-v8" class="icon"></label>
                 </div>
                 <label for="c3-v8">其他</label>
@@ -211,35 +212,37 @@
     </div>
 
     <div class="m-line"></div>
-    <div class="m-check1">
+    <!-- 入院方式 -->
+
+    <div class="m-check1" id="c4">
         <p class="tit">
             入院方式
         </p>
         <ul>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c4-v1" name="check4" {{if eq .NRL.NRL05 "1"}}checked{{end}}>
+                    <input type="radio" disabled id="c4-v1" name="check4" {{if eq .NRL.NRL05 "1"}}checked{{end}} data-v="1">
                     <label for="c4-v1" class="icon"></label>
                 </div>
                 <label for="c4-v1">步行</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c4-v2" name="check4" {{if eq .NRL.NRL05 "2"}}checked{{end}}>
+                    <input type="radio" disabled id="c4-v2" name="check4" {{if eq .NRL.NRL05 "2"}}checked{{end}} data-v="2">
                     <label for="c4-v2" class="icon"></label>
                 </div>
                 <label for="c4-v2">扶行</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c4-v3" name="check4" {{if eq .NRL.NRL05 "3"}}checked{{end}}>
+                    <input type="radio" disabled id="c4-v3" name="check4" {{if eq .NRL.NRL05 "3"}}checked{{end}} data-v="3">
                     <label for="c4-v3" class="icon"></label>
                 </div>
                 <label for="c4-v3">轮椅</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c4-v4" name="check4" {{if eq .NRL.NRL05 "4"}}checked{{end}}>
+                    <input type="radio" disabled id="c4-v4" name="check4" {{if eq .NRL.NRL05 "4"}}checked{{end}} data-v="4">
                     <label for="c4-v4" class="icon"></label>
                 </div>
                 <label for="c4-v4">平车</label>
@@ -248,8 +251,8 @@
         </ul>
     </div>
     <div class="m-line"></div>
-
-    <div class="m-check2">
+    <!-- 过敏史： -->
+    <div class="m-check2 radio-grup" id="c5">
         <p class="tit">
             过敏史：
         </p>
@@ -257,7 +260,7 @@
             <li>
 
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c5-v1" name="check5" {{if eq .NRL.NRL06 "1"}}checked{{end}}>
+                    <input type="radio" disabled id="c5-v1" name="check5" {{if eq .NRL.NRL06 "1"}}checked{{end}}  data-v="1" class="c5">
                     <label for="c5-v1" class="icon"></label>
                 </div>
                 <label for="c5-v1">无</label>
@@ -266,45 +269,51 @@
             <li>
                 <div class="m-check-warp">
                     <div class="m-input-radio">
-                        <input type="radio" disabled id="c5-v2" name="check5" {{if eq .NRL.NRL06 "2"}}checked{{end}}>
+                        <input type="radio" disabled id="c5-v2" name="check5" {{if eq .NRL.NRL06 "2"}}checked{{end}} data-v="2" class="c5 main-sel">
                         <label for="c5-v2" class="icon"></label>
                     </div>
                     <label for="c5-v2">有</label>
                 </div>
-                <ul>
+                <ul id="c5-c2" class="child-sel disabled-box">
                     <li class="b1">
                         ( 过敏源：
-                        <div class="m-input-radio">
-                            <input type="radio" disabled id="c5-v2-v1" {{if eq .NRL06A "1"}}checked{{end}}>
+                        <div class="m-input-checkbox">
+                            <input type="checkbox" disabled  id="c5-v2-v1" name="c5-v2" data-v="1" class="main-sel">
                             <label for="c5-v2-v1" class="icon"></label>
                         </div>
                         <label for="c5-v2-v1">食物，种类</label>
-                        <input type="text" disabled class="m-input-txt" {{if eq .NRL06A "1"}}value="{{.NRL06B}}"{{end}}>
+                        <span class="child-sel disabled-box">
+                            <input type="text" class="m-input-txt">
+                        </span>
 
                     </li>
                     <li class="b2">
-                        <div class="m-input-radio">
-                            <input type="radio" disabled id="c5-v2-v2" {{if eq .NRL06A "2"}}checked{{end}}>
+                        <div class="m-input-checkbox">
+                            <input type="checkbox"  id="c5-v2-v2" disabled name="c5-v2" data-v="2"  class="main-sel">
                             <label for="c5-v2-v2" class="icon"></label>
                         </div>
                         <label for="c5-v2-v2">药物</label>
-                        <input type="text" disabled class="m-input-txt" {{if eq .NRL06A "2"}}value="{{.NRL06B}}"{{end}}></li>
-
+                        <span class="child-sel disabled-box">
+                            <input type="text" class="m-input-txt" ></li>
+                        </span>
 
                     <li class="b2">
-                        <div class="m-input-radio">
-                            <input type="radio" disabled id="c5-v2-v3" {{if eq .NRL06A "3"}}checked{{end}}>
+                        <div class="m-input-checkbox">
+                            <input type="checkbox" disabled id="c5-v2-v3"   name="c5-v2" data-v="3" class="main-sel">
                             <label for="c5-v2-v3" class="icon"></label>
                         </div>
                         <label for="c5-v2-v3">其他</label>
-                        <input type="text" disabled class="m-input-txt" {{if eq .NRL06A "3"}}value="{{.NRL06B}}"{{end}}>)</li>
+                        <span class="child-sel disabled-box">
+                            <input type="text" class="m-input-txt" >
+                        </span>)
+                    </li>
 
                 </ul>
 
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c5-v3" name="check5" {{if eq .NRL.NRL06 "3"}}checked{{end}}>
+                    <input type="radio" disabled id="c5-v3" name="check5" {{if eq .NRL.NRL06 "3"}}checked{{end}} data-v="3" class="c5">
                     <label for="c5-v3" class="icon"></label>
                 </div>
                 <label for="c5-v3">不明确</label>
@@ -315,36 +324,36 @@
 
 
     <div class="m-line"></div>
-
-    <div class="m-check1 t1">
+    <!-- 医疗费用支付方式： -->
+    <div class="m-check1 t1 radio-grup" id="c6">
         <p class="tit">
             医疗费用支付方式：
         </p>
         <ul>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c6-v1" name="check6" {{if eq .NRL.NRL07 "1"}}checked{{end}}>
+                    <input type="radio" disabled id="c6-v1" name="check6" {{if eq .NRL.NRL07 "1"}}checked{{end}} data-v="1">
                     <label for="c6-v1" class="icon"></label>
                 </div>
                 <label for="c6-v1">自费</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c6-v2" name="check6" {{if eq .NRL.NRL07 "2"}}checked{{end}}>
+                    <input type="radio" disabled id="c6-v2" name="check6" {{if eq .NRL.NRL07 "2"}}checked{{end}} data-v="2">
                     <label for="c6-v2" class="icon"></label>
                 </div>
                 <label for="c6-v2">公费医疗</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c6-v3" name="check6" {{if eq .NRL.NRL07 "3"}}checked{{end}}>
+                    <input type="radio" disabled id="c6-v3" name="check6" {{if eq .NRL.NRL07 "3"}}checked{{end}} data-v="3">
                     <label for="c6-v3" class="icon"></label>
                 </div>
                 <label for="c6-v3">医保</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c6-v4" name="check6" {{if eq .NRL.NRL07 "4"}}checked{{end}}>
+                    <input type="radio" disabled id="c6-v4" name="check6" {{if eq .NRL.NRL07 "4"}}checked{{end}} data-v="4">
                     <label for="c6-v4" class="icon"></label>
                 </div>
                 <label for="c6-v4">社保</label>
@@ -352,25 +361,27 @@
 
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c6-v5" name="check6" {{if eq .NRL.NRL07 "5"}}checked{{end}}>
+                    <input type="radio" disabled id="c6-v5" name="check6" {{if eq .NRL.NRL07 "5"}}checked{{end}} data-v="5">
                     <label for="c6-v5" class="icon"></label>
                 </div>
                 <label for="c6-v5">商业保险</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c6-v6" name="check6" {{if eq .NRL.NRL07 "6"}}checked{{end}}>
+                    <input type="radio" disabled id="c6-v6" name="check6" {{if eq .NRL.NRL07 "6"}}checked{{end}} data-v="6">
                     <label for="c6-v6" class="icon"></label>
                 </div>
                 <label for="c6-v6">他人赔付</label>
             </li>
             <li class="b1">
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c6-v7" name="check6" {{if eq .NRL.NRL07 "7"}}checked{{end}}>
+                    <input type="radio" disabled id="c6-v7"  name="check6" class="main-sel" {{if eq .NRL.NRL07 "7"}}checked{{end}} data-v="7">
                     <label for="c6-v7" class="icon"></label>
                 </div>
                 <label for="c6-v7">其他</label>
-                <input type="text" disabled class="m-input-txt" {{if eq .NRL.NRL07 "7"}}value="{{.NRL.NRL07A}}"{{end}}>
+                <span class="child-sel disabled-box">
+                    <input type="text" class="m-input-txt" {{if eq .NRL.NRL07 "7"}}value="{{.NRL.NRL07A}}"{{end}}>
+                </span>
 
             </li>
         </ul>
@@ -382,39 +393,40 @@
     <div class="m-tit b">
         <p class="tit">一、护理评估</p>
     </div>
+    <!-- 意识状态： -->
     <div class="m-check3">
         <p class="tit">
             意识状态：
         </p>
-        <ul>
+        <ul id="c7">
             <li class="tit">呼之：</li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c7-v1" name="check7" {{if eq .NRL.NRL08 "1"}}checked{{end}}>
+                    <input type="radio" disabled id="c7-v1" name="check7" {{if eq .NRL.NRL08 "1"}}checked{{end}}  data-v="1">
                     <label for="c7-v1" class="icon"></label>
                 </div>
                 <label for="c7-v1">能应</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c7-v2" name="check7" {{if eq .NRL.NRL08 "2"}}checked{{end}}>
+                    <input type="radio" disabled id="c7-v2" name="check7" {{if eq .NRL.NRL08 "2"}}checked{{end}}  data-v="2">
                     <label for="c7-v2" class="icon"></label>
                 </div>
                 <label for="c7-v2">不应</label>
             </li>
         </ul>
-        <ul>
+        <ul id="c8">
             <li class="tit">对答：</li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c8-v1" name="check8" {{if eq .NRL.NRL09 "1"}}checked{{end}}>
+                    <input type="radio" disabled id="c8-v1" name="check8" {{if eq .NRL.NRL09 "1"}}checked{{end}} data-v="1">
                     <label for="c8-v1" class="icon"></label>
                 </div>
                 <label for="c8-v1">切题</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c8-v2" name="check8" {{if eq .NRL.NRL09 "2"}}checked{{end}}>
+                    <input type="radio" disabled id="c8-v2" name="check8" {{if eq .NRL.NRL09 "2"}}checked{{end}} data-v="2">
                     <label for="c8-v2" class="icon"></label>
                 </div>
                 <label for="c8-v2">不切题</label>
@@ -423,43 +435,43 @@
     </div>
     <div class="m-line"></div>
 
-
+    <!-- 饮食： -->
     <div class="m-check1">
         <p class="tit">
             饮食：
         </p>
-        <ul>
+        <ul id="c9">
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c9-v1" name="check9" {{if eq .NRL.NRL10 "1"}}checked{{end}}>
+                    <input type="radio" disabled id="c9-v1" name="check9" {{if eq .NRL.NRL10 "1"}}checked{{end}} data-v="1">
                     <label for="c9-v1" class="icon"></label>
                 </div>
                 <label for="c9-v1">自行进食</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c9-v2" name="check9" {{if eq .NRL.NRL10 "2"}}checked{{end}}>
+                    <input type="radio" disabled id="c9-v2" name="check9" {{if eq .NRL.NRL10 "2"}}checked{{end}} data-v="2">
                     <label for="c9-v2" class="icon"></label>
                 </div>
                 <label for="c9-v2">协助进食</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c9-v3" name="check9" {{if eq .NRL.NRL10 "3"}}checked{{end}}>
+                    <input type="radio" disabled id="c9-v3" name="check9" {{if eq .NRL.NRL10 "3"}}checked{{end}} data-v="3">
                     <label for="c9-v3" class="icon"></label>
                 </div>
                 <label for="c9-v3">经鼻胃管</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c9-v4" name="check9" {{if eq .NRL.NRL10 "4"}}checked{{end}}>
+                    <input type="radio" disabled id="c9-v4" name="check9" {{if eq .NRL.NRL10 "4"}}checked{{end}} data-v="4">
                     <label for="c9-v4" class="icon"></label>
                 </div>
                 <label for="c9-v4">经鼻肠管</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c9-v5" name="check9" {{if eq .NRL.NRL10 "5"}}checked{{end}}>
+                    <input type="radio" disabled id="c9-v5" name="check9" {{if eq .NRL.NRL10 "5"}}checked{{end}} data-v="5">
                     <label for="c9-v5" class="icon"></label>
                 </div>
                 <label for="c9-v5">胃肠造瘘管</label>
@@ -467,18 +479,18 @@
         </ul>
 
 
-        <ul class="t2">
+        <ul class="t2" id="c10">
             <li class="tit">咀嚼困难：</li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c10-v1" name="check10" {{if eq .NRL.NRL11 "1"}}checked{{end}}>
+                    <input type="radio" disabled id="c10-v1" name="check10" {{if eq .NRL.NRL11 "1"}}checked{{end}} data-v="1">
                     <label for="c10-v1" class="icon"></label>
                 </div>
                 <label for="c10-v1">无</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c10-v2" name="check10" {{if eq .NRL.NRL11 "2"}}checked{{end}}>
+                    <input type="radio" disabled id="c10-v2" name="check10" {{if eq .NRL.NRL11 "2"}}checked{{end}} data-v="2">
                     <label for="c10-v2" class="icon"></label>
                 </div>
                 <label for="c10-v2">有</label>
@@ -487,62 +499,65 @@
     </div>
 
     <div class="m-line"></div>
+    <!-- 口腔黏膜： -->
     <div class="m-check1 t1">
         <p class="tit">
             口腔黏膜：
         </p>
-        <ul>
+        <ul id="c11">
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c11-v1" name="check11" {{if eq .NRL.NRL12 "1"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox"  id="c11-v1" disabled name="check11"  data-v="1">
                     <label for="c11-v1" class="icon"></label>
                 </div>
                 <label for="c11-v1">完整</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c11-v2" name="check11" {{if eq .NRL.NRL12 "2"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c11-v2" name="check11"  data-v="2">
                     <label for="c11-v2" class="icon"></label>
                 </div>
                 <label for="c11-v2">溃疡</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c11-v3" name="check11" {{if eq .NRL.NRL12 "3"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox"  id="c11-v3" disabled name="check11"  data-v="3">
                     <label for="c11-v3" class="icon"></label>
                 </div>
                 <label for="c11-v3">白斑</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c11-v4" name="check11" {{if eq .NRL.NRL12 "4"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" id="c11-v4" disabled name="check11"  data-v="4">
                     <label for="c11-v4" class="icon"></label>
                 </div>
                 <label for="c11-v4">红肿</label>
             </li>
             <li class="b2">
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c11-v5" name="check11" {{if eq .NRL.NRL12 "5"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox"  id="c11-v5" disabled name="check11"  class="main-sel"   data-v="5">
                     <label for="c11-v5" class="icon"></label>
                 </div>
                 <label for="c11-v5">其他</label>
-                <input type="text" disabled class="m-input-txt" {{if eq .NRL.NRL12 "5"}}value="{{.NRL.NRL12A}}"{{end}}>
+                <span class="child-sel disabled-box">
+                	<input type="text" disabled class="m-input-txt" value="{{.NRL.NRL12A}}">
+                 </span>
             </li>
         </ul>
 
 
-        <ul class="t2">
+        <ul class="t2" id="c12">
             <li class="tit">吞咽困难：</li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c12-v1" name="check12" {{if eq .NRL.NRL13 "1"}}checked{{end}}>
+                    <input type="radio" disabled id="c12-v1" name="check12" {{if eq .NRL.NRL13 "1"}}checked{{end}} data-v="1">
                     <label for="c12-v1" class="icon"></label>
                 </div>
                 <label for="c12-v1">无</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c12-v2" name="check12" {{if eq .NRL.NRL13 "2"}}checked{{end}}>
+                    <input type="radio" disabled id="c12-v2" name="check12" {{if eq .NRL.NRL13 "2"}}checked{{end}} data-v="2">
                     <label for="c12-v2" class="icon"></label>
                 </div>
                 <label for="c12-v2">有</label>
@@ -550,71 +565,73 @@
         </ul>
     </div>
     <div class="m-line"></div>
-
+    <!-- 睡眠： -->
     <div class="m-check1 t1">
         <p class="tit">
             睡眠：
         </p>
-        <ul>
+        <ul id="c13">
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c13-v1" name="check13" {{if eq .NRL.NRL14 "1"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox"  id="c13-v1" disabled name="check13" data-v="1">
                     <label for="c13-v1" class="icon"></label>
                 </div>
                 <label for="c13-v1">正常 </label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c13-v2" name="check13" {{if eq .NRL.NRL14 "2"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c13-v2" name="check13"  data-v="2">
                     <label for="c13-v2" class="icon"></label>
                 </div>
                 <label for="c13-v2">难入眠</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c13-v3" name="check13" {{if eq .NRL.NRL14 "3"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c13-v3" name="check13" data-v="3">
                     <label for="c13-v3" class="icon"></label>
                 </div>
                 <label for="c13-v3">易醒</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c13-v4" name="check13" {{if eq .NRL.NRL14 "4"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c13-v4" name="check13"  data-v="4">
                     <label for="c13-v4" class="icon"></label>
                 </div>
                 <label for="c13-v4">早醒</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c13-v5" name="check13" {{if eq .NRL.NRL14 "5"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c13-v5" name="check13" data-v="5">
                     <label for="c13-v5" class="icon"></label>
                 </div>
                 <label for="c13-v5">多梦</label>
             </li>
 
             <li class="b1">
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c13-v6" name="check13" {{if eq .NRL.NRL14 "6"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox"  id="c13-v6" disabled name="check13" class="main-sel"   data-v="6">
                     <label for="c13-v6" class="icon"></label>
                 </div>
                 <label for="c13-v6">使用辅助药物</label>
-                <input type="text" disabled class="m-input-txt" {{if eq .NRL.NRL14 "6"}}value="{{.NRL.NRL14A}}"{{end}}>
+                <span class="child-sel disabled-box">
+                <input type="text" disabled class="m-input-txt"  value="{{.NRL.NRL14A}}">
+                </span>
             </li>
         </ul>
 
 
-        <ul class="t2">
+        <ul class="t2" id="c14">
             <li class="tit">醒后疲劳感：</li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c14-v1" name="check14" {{if eq .NRL.NRL15 "1"}}checked{{end}}>
+                    <input type="radio" disabled id="c14-v1" name="check14" {{if eq .NRL.NRL15 "1"}}checked{{end}} data-v="1">
                     <label for="c14-v1" class="icon"></label>
                 </div>
                 <label for="c14-v1">无</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c14-v2" name="check14" {{if eq .NRL.NRL15 "2"}}checked{{end}}>
+                    <input type="radio" disabled id="c14-v2" name="check14" {{if eq .NRL.NRL15 "2"}}checked{{end}} data-v="2">
                     <label for="c14-v2" class="icon"></label>
                 </div>
                 <label for="c14-v2">有</label>
@@ -624,108 +641,113 @@
 
 
     <div class="m-line"></div>
+    <!-- 排尿： -->
     <div class="m-check1 t1">
         <p class="tit">
             排尿：
         </p>
-        <ul>
+        <ul id="c15">
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c15-v1" name="check15" {{if eq .NRL.NRL16 "1"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c15-v1" name="check15"  data-v="1">
                     <label for="c15-v1" class="icon"></label>
                 </div>
                 <label for="c15-v1">未发现异常 </label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c15-v2" name="check15" {{if eq .NRL.NRL16 "2"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c15-v2" name="check15"  data-v="2">
                     <label for="c15-v2" class="icon"></label>
                 </div>
                 <label for="c15-v2">尿频</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c15-v3" name="check15" {{if eq .NRL.NRL16 "3"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c15-v3" name="check15"  data-v="3">
                     <label for="c15-v3" class="icon"></label>
                 </div>
                 <label for="c15-v3">尿急</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c15-v4" name="check15" {{if eq .NRL.NRL16 "4"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c15-v4" name="check15"  data-v="4">
                     <label for="c15-v4" class="icon"></label>
                 </div>
                 <label for="c15-v4">尿痛</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c15-v5" name="check15" {{if eq .NRL.NRL16 "5"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c15-v5" name="check15"  data-v="5">
                     <label for="c15-v5" class="icon"></label>
                 </div>
                 <label for="c15-v5">尿失禁</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c15-v6" name="check15" {{if eq .NRL.NRL16 "6"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c15-v6" name="check15"  data-v="6">
                     <label for="c15-v6" class="icon"></label>
                 </div>
                 <label for="c15-v6">尿潴留</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c15-v7" name="check15" {{if eq .NRL.NRL16 "7"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox"  id="c15-v7" disabled name="check15" data-v="7">
                     <label for="c15-v7" class="icon"></label>
                 </div>
                 <label for="c15-v7">留置尿管</label>
             </li>
 
             <li class="b2">
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c15-v8" name="check15" {{if eq .NRL.NRL16 "8"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c15-v8" name="check15"  class="main-sel" data-v="8">
                     <label for="c15-v8" class="icon"></label>
                 </div>
                 <label for="c15-v8">其他</label>
-                <input type="text" disabled class="m-input-txt" {{if eq .NRL.NRL16 "8"}}value="{{.NRL.NRL16A}}"{{end}}>
+                <span class="child-sel disabled-box">
+                    <input type="text" disabled class="m-input-txt" value="{{.NRL.NRL16A}}">
+                </span>
             </li>
         </ul>
     </div>
     <div class="m-line"></div>
+    <!-- 排便： -->
+
     <div class="m-check1 t1">
         <p class="tit">
             排便：
         </p>
         <div class="m-input-bar">
-            <span>次数：</span>
-            <input type="text" disabled class="m-input-txt" value="{{.NRL18A}}">
-            <span>次/天（1次/  </span>
-            <input type="text" disabled class="m-input-txt" value="{{.NRL18B}}">
+            <label for="i1">次数：</label>
+            <input type="number" disabled class="m-input-txt number" value="{{.NRL18A}}" id="i1">
+            <span>次/天</span><label for="i2">（1次/ </label>
+            <input type="number" disabled class="m-input-txt number" value="{{.NRL18B}}" id="i2">
             <span>天）</span>
         </div>
-        <ul>
+        <ul id="c16" class="radio-grup">
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c16-v1" name="check16" {{if eq .NRL.NRL17 "1"}}checked{{end}}>
+                    <input type="radio" disabled id="c16-v1" name="check16" {{if eq .NRL.NRL17 "1"}}checked{{end}}  data-v="1">
                     <label for="c16-v1" class="icon"></label>
                 </div>
                 <label for="c16-v1">便秘</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c16-v2" name="check16" {{if eq .NRL.NRL17 "2"}}checked{{end}}>
+                    <input type="radio" disabled id="c16-v2" name="check16" {{if eq .NRL.NRL17 "2"}}checked{{end}}  data-v="2">
                     <label for="c16-v2" class="icon"></label>
                 </div>
                 <label for="c16-v2">腹泻</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c16-v3" name="check16" {{if eq .NRL.NRL17 "3"}}checked{{end}}>
+                    <input type="radio" disabled id="c16-v3" name="check16" {{if eq .NRL.NRL17 "3"}}checked{{end}}  data-v="3">
                     <label for="c16-v3" class="icon"></label>
                 </div>
                 <label for="c16-v3">失禁</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c16-v4" name="check16" {{if eq .NRL.NRL17 "4"}}checked{{end}}>
+                    <input type="radio" disabled id="c16-v4" name="check16" {{if eq .NRL.NRL17 "4"}}checked{{end}}  data-v="4">
                     <label for="c16-v4" class="icon"></label>
                 </div>
                 <label for="c16-v4">造瘘</label>
@@ -733,31 +755,34 @@
 
             <li class="b2">
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c16-v5" name="check16" {{if eq .NRL.NRL17 "5"}}checked{{end}}>
+                    <input type="radio" disabled id="c16-v5" name="check16" class="main-sel"  {{if eq .NRL.NRL17 "5"}}checked{{end}} data-v="5">
                     <label for="c16-v5" class="icon"></label>
                 </div>
                 <label for="c16-v5">其他</label>
+                <span class="child-sel disabled-box">
                 <input type="text" disabled class="m-input-txt" {{if eq .NRL.NRL17 "5"}}value="{{.NRL.NRL17A}}"{{end}}>
+                </span>
             </li>
         </ul>
     </div>
     <div class="m-line"></div>
+    <!-- 四肢活动： -->
 
     <div class="m-check1">
         <p class="tit">
             四肢活动：
         </p>
-        <ul>
+        <ul id="c17" class="radio-grup">
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c17-v1" name="check17" {{if eq .NRL.NRL19 "1"}}checked{{end}}>
+                    <input type="radio" disabled id="c17-v1" name="check17" {{if eq .NRL.NRL19 "1"}}checked{{end}} class="c17" data-v="1">
                     <label for="c17-v1" class="icon"></label>
                 </div>
                 <label for="c17-v1">自如</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c17-v2" name="check17" {{if eq .NRL.NRL19 "2"}}checked{{end}}>
+                    <input type="radio" disabled id="c17-v2" name="check17" {{if eq .NRL.NRL19 "2"}}checked{{end}} class="c17" data-v="2">
                     <label for="c17-v2" class="icon"></label>
                 </div>
                 <label for="c17-v2">无力</label>
@@ -765,38 +790,38 @@
             <li class="b1 tbar1" style="margin-top:.48rem;">
                 <div class="m-check-warp">
                     <div class="m-input-radio">
-                        <input type="radio" disabled id="c17-v3" name="check17" {{if eq .NRL.NRL19 "3"}}checked{{end}}>
+                        <input type="radio"  id="c17-v3" disabled name="check17" {{if eq .NRL.NRL19 "3"}}checked{{end}} class="c17 main-sel" data-v="3">
                         <label for="c17-v3" class="icon"></label>
                     </div>
                     <label for="c17-v3">偏瘫</label>
                 </div>
-                <ul>
+                <ul id="c17-c2" class="child-sel disabled-box">
                     <li>(
-                        <div class="m-input-radio">
-                            <input type="radio" disabled id="c17-v3-v1" name="check17-2" {{if eq .NRL.NRL19 "3"}}{{if eq .NRL.LimbsId "1"}}checked{{end}}{{end}}>
+                        <div class="m-input-checkbox">
+                            <input type="checkbox" disabled id="c17-v3-v1" name="check17-2"  data-v="1">
                             <label for="c17-v3-v1" class="icon"></label>
                         </div>
                         <label for="c17-v3-v1">左上肢</label>
                     </li>
                     <li>&nbsp;
-                        <div class="m-input-radio">
-                            <input type="radio" disabled id="c17-v3-v2" name="check17-2" {{if eq .NRL.NRL19 "3"}}{{if eq .NRL.LimbsId "2"}}checked{{end}}{{end}}>
+                        <div class="m-input-checkbox">
+                            <input type="checkbox" disabled id="c17-v3-v2" name="check17-2"  data-v="2">
                             <label for="c17-v3-v2" class="icon"></label>
                         </div>
                         <label for="c17-v3-v2">左下肢</label>
                     </li>
                     <li>
                         &nbsp;
-                        <div class="m-input-radio">
-                            <input type="radio" disabled id="c17-v3-v3" name="check17-2" {{if eq .NRL.NRL19 "3"}}{{if eq .NRL.LimbsId "3"}}checked{{end}}{{end}}>
+                        <div class="m-input-checkbox">
+                            <input type="checkbox" disabled id="c17-v3-v3" name="check17-2"  data-v="3">
                             <label for="c17-v3-v3" class="icon"></label>
                         </div>
                         <label for="c17-v3-v3">右上肢</label>
                     </li>
                     <li>
                         &nbsp;
-                        <div class="m-input-radio">
-                            <input type="radio" disabled id="c17-v3-v4" name="check17-2" {{if eq .NRL.NRL19 "3"}}{{if eq .NRL.LimbsId "4"}}checked{{end}}{{end}}>
+                        <div class="m-input-checkbox">
+                            <input type="checkbox" disabled id="c17-v3-v4" name="check17-2" data-v="4">
                             <label for="c17-v3-v4" class="icon"></label>
                         </div>
                         <label for="c17-v3-v4">右下肢</label> )
@@ -805,7 +830,7 @@
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c17-v4" name="check17" {{if eq .NRL.NRL19 "4"}}checked{{end}}>
+                    <input type="radio" disabled id="c17-v4" name="check17" {{if eq .NRL.NRL19 "4"}}checked{{end}} class="c17" data-v="4">
                     <label for="c17-v4" class="icon"></label>
                 </div>
                 <label for="c17-v4">截瘫</label>
@@ -813,7 +838,7 @@
 
             <li class="b2">
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c17-v5" name="check17" {{if eq .NRL.NRL19 "5"}}checked{{end}}>
+                    <input type="radio" disabled id="c17-v5" name="check17" {{if eq .NRL.NRL19 "5"}}checked{{end}} class="c17" data-v="5">
                     <label for="c17-v5" class="icon"></label>
                 </div>
                 <label for="c17-v5">全瘫</label>
@@ -821,22 +846,22 @@
         </ul>
     </div>
     <div class="m-line"></div>
-
-    <div class="m-check1 t1">
+    <!-- 自理能力： -->
+    <div class="m-check1 t1 radio-grup">
         <p class="tit">
             自理能力：
         </p>
-        <ul class="t3">
+        <ul class="t3" id="c18">
             <li class="b3">
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c18-v1" name="check18" {{if eq .NRL.NRL20 "1"}}checked{{end}}>
+                    <input type="radio" disabled id="c18-v1" name="check18" {{if eq .NRL.NRL20 "1"}}checked{{end}} data-v="1">
                     <label for="c18-v1" class="icon"></label>
                 </div>
                 <label for="c18-v1">完全自理</label>
             </li>
             <li class="b3">
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c18-v2" name="check18" {{if eq .NRL.NRL20 "2"}}checked{{end}}>
+                    <input type="radio" disabled id="c18-v2" name="check18" {{if eq .NRL.NRL20 "2"}}checked{{end}} data-v="2">
                     <label for="c18-v2" class="icon"></label>
                 </div>
                 <label for="c18-v2">完全不能自理</label>
@@ -844,11 +869,14 @@
 
             <li class="b1">
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c18-v3" name="check18" {{if eq .NRL.NRL20 "3"}}checked{{end}}>
+                    <input type="radio" disabled id="c18-v3" name="check18" class="main-sel" {{if eq .NRL.NRL20 "3"}}checked{{end}} data-v="3">
                     <label for="c18-v3" class="icon"></label>
                 </div>
                 <label for="c18-v3">部分自理</label>
-                <input type="text" disabled class="m-input-txt" {{if eq .NRL.NRL20 "3"}}value="{{.NRL.NRL20A}}"{{end}}>
+                <span class="child-sel disabled-box">
+                <input type="text" disabled class="m-input-txt"  {{if eq .NRL.NRL20 "3"}}value="{{.NRL.NRL20A}}"{{end}}>
+                </span>
+
             </li>
         </ul>
     </div>
@@ -856,86 +884,86 @@
 
     <div class="m-line"></div>
 
-
+    <!-- 皮肤状况： -->
     <div class="m-check1 t1">
         <p class="tit">
             皮肤状况：
         </p>
-        <ul>
+        <ul id="c19">
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c19-v1" name="check19" {{if eq .NRL.NRL21 "1"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c19-v1" name="check19"  data-v="1">
                     <label for="c19-v1" class="icon"></label>
                 </div>
                 <label for="c19-v1">完整 </label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c19-v2" name="check19" {{if eq .NRL.NRL21 "2"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c19-v2" name="check19"   data-v="2">
                     <label for="c19-v2" class="icon"></label>
                 </div>
                 <label for="c19-v2">苍白</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c19-v3" name="check19" {{if eq .NRL.NRL21 "3"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c19-v3" name="check19"  data-v="3">
                     <label for="c19-v3" class="icon"></label>
                 </div>
                 <label for="c19-v3">黄疸</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c19-v4" name="check19" {{if eq .NRL.NRL21 "4"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c19-v4" name="check19" data-v="4">
                     <label for="c19-v4" class="icon"></label>
                 </div>
                 <label for="c19-v4">潮红</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c19-v5" name="check19" {{if eq .NRL.NRL21 "5"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c19-v5" name="check19"  data-v="5">
                     <label for="c19-v5" class="icon"></label>
                 </div>
                 <label for="c19-v5">紫绀</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c19-v6" name="check19" {{if eq .NRL.NRL21 "6"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c19-v6" name="check19"  data-v="6">
                     <label for="c19-v6" class="icon"></label>
                 </div>
                 <label for="c19-v6">干燥</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c19-v7" name="check19" {{if eq .NRL.NRL21 "7"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c19-v7" name="check19"  data-v="7">
                     <label for="c19-v7" class="icon"></label>
                 </div>
                 <label for="c19-v7">出血点</label>
             </li>
 
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c19-v8" name="check19" {{if eq .NRL.NRL21 "8"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c19-v8" name="check19" data-v="8">
                     <label for="c19-v8" class="icon"></label>
                 </div>
                 <label for="c19-v8">压疮</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c19-v9" name="check19" {{if eq .NRL.NRL21 "9"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c19-v9" name="check19" data-v="9">
                     <label for="c19-v9" class="icon"></label>
                 </div>
                 <label for="c19-v9">破损</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c19-v10" name="check19" {{if eq .NRL.NRL21 "10"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled  id="c19-v10" name="check19" data-v="10">
                     <label for="c19-v10" class="icon"></label>
                 </div>
-                <label for="c19-v8">水肿</label>
+                <label for="c19-v10">水肿</label>
             </li>
             <li>
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c19-v11" name="check19" {{if eq .NRL.NRL21 "11"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled  id="c19-v11" name="check19" data-v="11">
                     <label for="c19-v11" class="icon"></label>
                 </div>
                 <label for="c19-v11">皮疹</label>
@@ -944,12 +972,14 @@
 
         <div class="m-msg-bar">
             <span>详细描述：</span>
-            <input type="text" disabled class="m-input-txt" {{if eq .NRL.NRL21 "11"}}value="{{.NRL.NRL22}}"{{end}}>
+            <input type="text" class="m-input-txt" value="{{.NRL.NRL22}}" id="i3">
+			 <!--     <input type="text" disabled class="m-input-txt" {{if eq .NRL.NRL21 "11"}}value="{{.NRL.NRL22}}"{{end}}>-->
         </div>
     </div>
 
     <div class="m-line"></div>
 
+    <!-- 语言沟通： -->
 
     <div class="m-check1 t1">
         <p class="tit">
@@ -957,27 +987,27 @@
         </p>
         <div class="m-msg-bar type1" style="margin-top:0">
             <span>最常用语言/语种：</span>
-            <input type="text" disabled class="m-input-txt" style="width:4rem" value="{{.NRL.NRL23}}">
+            <input type="text" disabled class="m-input-txt"  id="i4" style="width:4rem" value="{{.NRL.NRL23}}">
         </div>
-        <ul class="t4">
+        <ul class="t4" id="c20">
             <li class="tit">语言表达：</li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c20-v1" name="check20" {{if eq .NRL.NRL24 "1"}}checked{{end}}>
+                    <input type="radio" disabled id="c20-v1" name="check20" {{if eq .NRL.NRL24 "1"}}checked{{end}} data-v="1">
                     <label for="c20-v1" class="icon"></label>
                 </div>
                 <label for="c20-v1">清楚 </label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c20-v2" name="check20" {{if eq .NRL.NRL24 "2"}}checked{{end}}>
+                    <input type="radio" disabled id="c20-v2" name="check20" {{if eq .NRL.NRL24 "2"}}checked{{end}} data-v="2">
                     <label for="c20-v2" class="icon"></label>
                 </div>
                 <label for="c20-v2">含糊</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c20-v3" name="check20" {{if eq .NRL.NRL24 "3"}}checked{{end}}>
+                    <input type="radio" disabled id="c20-v3" name="check20" {{if eq .NRL.NRL24 "3"}}checked{{end}}  data-v="3">
                     <label for="c20-v3" class="icon"></label>
                 </div>
                 <label for="c20-v3">失语</label>
@@ -999,11 +1029,11 @@
         <p class="tit">
             生活习惯：
         </p>
-        <ul class="t5">
+        <ul class="t5 radio-grup" id="c21">
             <li class="tit">吸烟：</li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c21-v1" name="check21" {{if eq .NRL.NRL25 "1"}}checked{{end}}>
+                    <input type="radio" disabled id="c21-v1" name="check21" {{if eq .NRL.NRL25 "1"}}checked{{end}} data-v="1">
                     <label for="c21-v1" class="icon"></label>
                 </div>
                 <label for="c21-v1">无 </label>
@@ -1012,19 +1042,21 @@
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c21-v2" name="check21" {{if eq .NRL.NRL25 "2"}}checked{{end}}>
+                    <input type="radio" disabled id="c21-v2" name="check21"  class="main-sel" {{if eq .NRL.NRL25 "2"}}checked{{end}} data-v="2">
                     <label for="c21-v2" class="icon"></label>
                 </div>
                 <label for="c21-v2">有，</label>
-                <input type="text" disabled class="m-input-txt" value="{{.NRL.NRL26}}">
+                <span class="child-sel disabled-box">
+                    <input type="number" disabled class="m-input-txt number" value="{{.NRL.NRL26}}">
+                </span>
                 <span>支/天</span>
             </li>
         </ul>
-        <ul class="t5">
+        <ul class="t5 radio-grup"  id="c22">
             <li class="tit">嗜酒：</li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c22-v1" name="check22" {{if eq .NRL.NRL27 "1"}}checked{{end}}>
+                    <input type="radio" disabled id="c22-v1" name="check22" {{if eq .NRL.NRL27 "1"}}checked{{end}} data-v="1">
                     <label for="c22-v1" class="icon"></label>
                 </div>
                 <label for="c22-v1">无 </label>
@@ -1033,11 +1065,13 @@
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" disabled id="c22-v2" name="check22" {{if eq .NRL.NRL27 "2"}}checked{{end}}>
+                    <input type="radio" disabled id="c22-v2" name="check22"  class="main-sel" {{if eq .NRL.NRL27 "2"}}checked{{end}} data-v="2">
                     <label for="c22-v2" class="icon"></label>
                 </div>
                 <label for="c22-v2">有，</label>
-                <input type="text" disabled class="m-input-txt" value="{{.NRL.NRL28}}">
+                <span class="child-sel disabled-box">
+                    <input type="number" disabled class="m-input-txt number" value="{{.NRL.NRL28}}">
+                </span>
                 <span>两/天</span>
             </li>
         </ul>
@@ -1058,66 +1092,68 @@
     <div class="m-tit b">
         <p class="tit">二、住院告知</p>
     </div>
-
+    <!--住院告知-->
     <div class="m-check1 t1">
-        <ul class="t6">
+        <ul class="t6" id="c23">
             <li class="b3">
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c23-v1" name="check23" {{if eq .NRL.NRL30 "1"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c23-v1" name="check23"  data-v="1">
                     <label for="c23-v1" class="icon"></label>
                 </div>
                 <label for="c23-v1">住院通知 </label>
             </li>
             <li class="b3">
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c23-v2" name="check23" {{if eq .NRL.NRL30 "2"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c23-v2" name="check23"  data-v="2">
                     <label for="c23-v2" class="icon"></label>
                 </div>
                 <label for="c23-v2">物品管理</label>
             </li>
             <li class="b3">
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c23-v3" name="check23" {{if eq .NRL.NRL30 "3"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c23-v3" name="check23"   data-v="3">
                     <label for="c23-v3" class="icon"></label>
                 </div>
                 <label for="c23-v3">作息</label>
             </li>
             <li class="b3">
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c23-v4" name="check23" {{if eq .NRL.NRL30 "4"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c23-v4" name="check23"  data-v="4">
                     <label for="c23-v4" class="icon"></label>
                 </div>
                 <label for="c23-v4">探陪</label>
             </li>
             <li class="b3">
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c23-v5" name="check23" {{if eq .NRL.NRL30 "5"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c23-v5" name="check23"   data-v="5">
                     <label for="c23-v5" class="icon"></label>
                 </div>
                 <label for="c23-v5">订餐</label>
             </li>
             <li class="b3">
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c23-v6" name="check23" {{if eq .NRL.NRL30 "6"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c23-v6" name="check23"  data-v="6">
                     <label for="c23-v6" class="icon"></label>
                 </div>
                 <label for="c23-v6">介绍主管医生</label>
             </li>
             <li class="b3">
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c23-v7" name="check23" {{if eq .NRL.NRL30 "7"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c23-v7" name="check23"  data-v="7">
                     <label for="c23-v7" class="icon"></label>
                 </div>
                 <label for="c23-v7">介绍主管护士</label>
             </li>
 
             <li class="b2">
-                <div class="m-input-radio">
-                    <input type="radio" disabled id="c23-v8" name="check23" {{if eq .NRL.NRL30 "8"}}checked{{end}}>
+                <div class="m-input-checkbox">
+                    <input type="checkbox" disabled id="c23-v8" name="check23"  class="main-sel"  data-v="8">
                     <label for="c23-v8" class="icon"></label>
                 </div>
                 <label for="c23-v8">其他</label>
-                <input type="text" disabled class="m-input-txt" {{if eq .NRL.NRL30 "8"}}value="{{.NRL.NRL30A}}"{{end}}>
+                <span class="child-sel disabled-box">
+                    <input type="text" disabled class="m-input-txt" value="{{.NRL.NRL30A}}">
+                </span>
             </li>
         </ul>
     </div>
@@ -1190,39 +1226,88 @@
         <span>责任护士签名：</span>
         <span class="name">{{.NRL.BCE03A}}</span>
     </div>
+    <div class="m-autograph2">
+        <span class="tit">审核护士签名：</span>
+        <input class="m-input-txt type2" disabled id="qname" value="{{.NRL.NRL39C}}">
+    </div>
 </div>
 <div class="m-pd100"></div>
 
-<script type="tmpl" id="item">
-        <div class="item">
-            <ul>
-                <li><label class="pd" for="--"><span class="icon">-</span>名称：</label>
-                    <input id="--" type="text" class="m-input-txt"></li>
-                <li><label for="--">结果：</label>
-                    <input id="--" type="text" class="m-input-txt type1"></li>
-            </ul>
-        </div>
-    </script>
 
 <script src="/static/dist/js/base.js"></script>
 <script>
-    function addItem(index) {
-        var $item = $($('#item').text())
-        $item.find('.icon').text(index)
-        console.log($item.find('li').eq(1).find('label'))
-        $item.find('li').eq(0).find('label').attr('for', 'i4-v' + index + '-1')
-        $item.find('li').eq(0).find('input').attr('id', 'i4-v' + index + '-1')
-        $item.find('li').eq(1).find('label').attr('for', 'i4-v' + index + '-2')
-        $item.find('li').eq(1).find('input').attr('id', 'i4-v' + index + '-2')
-        $('#warp').append($item)
+    // 过敏史,json字符串
+    var NRL06AJSONStr = {{.NRL.NRL06A}};
+    setCheckBoxJson("#c5-c2",NRL06AJSONStr)
+    function setCheckBoxJson(el,jsonStr){
+        // $(el).find("input[type=checkbox]").each(function(i,el){
+        //     $.each(valArr,function (i2,val) {
+        //         if($(el).data("v") == valArr[i2]){
+        //             $(el).prop("checked",true)
+        //         }
+        //     })
+        // })
+        if(jsonStr){
+            var jsonObj = JSON.parse(jsonStr);
+            $.each(jsonObj,function (key,val) {
+                $(el).find("input[type=checkbox]").each(function(i,el){
+                    if($(el).data("v")==key){
+                        $(el).prop("checked",true)
+                        // console.log(val)
+                        // console.log( $(el).parents("li").eq(0).find(".m-input-txt"))
+                        $(el).parents("li").eq(0).find(".m-input-txt").val(val)
+                    }
+                })
+            })
+        }
+
+
+
     }
 
-    $('.add-btn').on('click', function() {
-        var index = $(this).data('item');
-        index = parseInt(index) + 1
-        addItem(index)
-        $(this).data('item', index)
-    })
+    //多选填值
+    // 资料来源
+    var NNRL03Str = {{.NRL.NRL03}};
+    setCheckBox("#c2",NNRL03Str.split(","))
+
+    // 日常照顾者
+    var NRL04Str = {{.NRL.NRL04}};
+    setCheckBox("#c3",NRL04Str.split(","))
+
+    // 口腔黏膜
+    var NRL12Str = {{.NRL.NRL12}};
+    setCheckBox("#c11",NRL12Str.split(","))
+
+    // 睡眠
+    var NRL14Str = {{.NRL.NRL14}};
+    setCheckBox("#c13",NRL14Str.split(","))
+
+    // 排尿
+    var NRL16Str = {{.NRL.NRL16}};
+    setCheckBox("#c15",NRL16Str.split(","))
+
+    // 关联肢体表
+    var LimbsIdStr = {{.NRL.LimbsId}};
+    setCheckBox("#c17-c2",LimbsIdStr.split(","))
+
+    // 皮肤状况
+    var NRL21Str = {{.NRL.NRL21}};
+    setCheckBox("#c19",NRL21Str.split(","))
+
+    // 住院告知
+    var NRL30Str = {{.NRL.NRL30}};
+    setCheckBox("#c23",NRL30Str.split(","))
+
+    function setCheckBox(id,valArr){
+        $(id).find("input[type=checkbox]").each(function(i,el){
+            $.each(valArr,function (i2,val) {
+                if($(el).data("v") == valArr[i2]){
+                    $(el).prop("checked",true)
+                }
+            })
+        })
+    }
+
 </script>
 
 </body>

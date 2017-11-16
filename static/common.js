@@ -39,4 +39,55 @@ function setMenu(index){
 }
 
 
-setMenu(menuIndex)
+setMenu(menuIndex);
+
+// jky 获取URL参数
+function getURLParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) {
+        return (r[2]);
+    }
+    return null;
+}
+
+
+// 获取当前时间 YYYY-MM-DD
+function getNowDate() {
+    var str = "";
+    var nowdate = new Date();
+    str = nowdate.getFullYear() + "-" + addZero(nowdate.getMonth() + 1) + "-" + addZero(nowdate.getDate());
+    return str;
+}
+
+// 获取当前时间 YYYY-MM-DD hh:mm
+function getNowDateTime () {
+    var res = {},
+        nowD = new Date();
+    res.date = nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
+    res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
+    return res
+}
+
+
+// 格式化时间
+function fromatDate(date){
+    var res = {};
+    var nowD = Date();
+    if(date){
+        nowD= new Date(date);
+    }else{
+        nowD = new Date();
+    }
+    res.date = nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
+    res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
+    return res
+}
+
+function addZero(i) {
+    if (i < 10) {
+        return "0" + i;
+    } else {
+        return i;
+    }
+}

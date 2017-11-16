@@ -42,7 +42,7 @@ func IputSuccession(session *xorm.Session,strData map[string]string) error {
 	var item = &Succession{}
 
 	if v, ok := strData["datatime"]; ok {
-		texttime, err := time.Parse("2006-01-02 15:04:05", v)
+		texttime, err := time.ParseInLocation("2006-01-02 15:04:05", v ,time.Local)
 		if err != nil {
 			return errors.New("没有datatime")
 		} else {
@@ -207,7 +207,7 @@ func IputSuccessionDetails(session *xorm.Session,strData map[string]string) erro
 	var item = &SuccessionDetails{}
 
 	if v, ok := strData["datatime"]; ok {
-		texttime, err := time.Parse("2006-01-02 15:04:05", v)
+		texttime, err := time.ParseInLocation("2006-01-02 15:04:05", v ,time.Local)
 		if err != nil {
 			return errors.New("没有datatime")
 		} else {

@@ -19,7 +19,7 @@ func (c PCAccessController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 			"Userinfo": userinfo,
 			"Accesses": access,
 		}
-		_ = c.LoadViewSafely(w, r, "pc/v_access_manage.html", "pc/header_top.html")
+		_ = c.LoadViewSafely(w, r, "pc/v_access_manage.html", "pc/header_side.html", "pc/header_top.html")
 	} else {
 		fmt.Fprintln(w, "服务器有点繁忙！")
 	}

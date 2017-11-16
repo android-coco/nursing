@@ -12,9 +12,10 @@ type DepartmentController struct {
 	fit.Controller
 }
 
+/*API 或者科室列表*/
 func (c DepartmentController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
-	departments, err := model.QueryDepartmentList()
+	departments, err := model.QueryDepartmentList(true)
 	if err != nil {
 		c.RenderingJsonAutomatically(3, "Database "+err.Error())
 	} else {

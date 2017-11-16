@@ -1,0 +1,967 @@
+{{template "header_top" .}}
+<!-- end page -->
+<div class="admin">
+    <!--<div class="am-g">-->
+    <!-- ========== Left Sidebar Start ========== -->
+    <!--<div class="left side-menu am-hide-sm-only am-u-md-1 am-padding-0">
+        <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 548px;">
+            <div class="sidebar-inner slimscrollleft" style="overflow: hidden; width: auto; height: 548px;">-->
+    <!-- sidebar start -->
+    {{template "header_side" .}}
+    <!-- sidebar end -->
+    <!--</div>
+        </div>
+    </div>-->
+    <!-- ========== Left Sidebar end ========== -->
+    <!--	<div class="am-g">-->
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <div class="content-page jky-table-page doc-input1" data-index="1">
+        <div class="s-btn">
+            <!-- <img src="/static/dist/images/admin_pc/icon22.png" alt=""> -->
+        </div>
+        <div class="user-bar">
+            <div class="tit">
+                <div class="l">
+                    床号
+                </div>
+                <div class="r">
+                    姓名
+                </div>
+            </div>
+            <div class="user-list">
+                <ul>
+                    {{range $key, $val := .Beds}}
+                    <li data-id="{{$key}}" data-msg="{{$val.VAA01}}" class="{{if eq  $.PInfo.VAA01 $val.VAA01}}active{{end}}">
+                        <div class="l">
+                            <label>{{$val.BCQ04}}</label>
+                        </div>
+                        <div class="r">
+                            {{$val.VAA05}}
+                        </div>
+                    </li>
+                    {{end}}
+                </ul>
+            </div>
+        </div>
+        <!-- Start content -->
+        <div class="content doc-input4-cont">
+            <div class="tit-warp">
+                <div class="tit-bar">
+                    <div class="date-box fl">
+                        <div class="icon">
+                            <img src="/static/dist/images/admin_pc/icon20.png" alt="">
+                        </div>
+                        <input type="text" class="am-form-field  date-input" id="date1" lay-key="1">
+                        <span class="line">—</span>
+                        <input type="text" class="am-form-field  date-input" id="date2" lay-key="2">
+
+                        <a class="all-btn" href="/pc/record/nrl8?pid={{.PInfo.VAA01}}">所有记录</a>
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn type2 createCol">新建</a>
+                        <a class="btn">打印</a>
+                    </div>
+                    <p class="tit">深圳万丰医院疼痛强度评分量表</p>
+
+
+                </div>
+            </div>
+            <div class="scroll-box">
+                <div class="doc-cont">
+                    <p class="row-txt">
+                        <span><label>床号：</label>{{.PInfo.BCQ04}}</span>
+                        <span><label>姓名：</label>{{.PInfo.VAA05}}</span>
+                        <span><label>性别：</label>{{.PInfo.Gender}}</span>
+                        <span><label>年龄：</label>{{.PInfo.VAA10}}岁</span>
+                        <span><label>住院号：</label>{{.PInfo.VAA04}}</span>
+                        <span><label>诊断：</label>{{.PInfo.VAO15}}</span>
+                    </p>
+
+                    <!-- cont -->
+                    <div class="doc-table">
+                        <dl class="col-tit">
+                            <dd>日期</dd>
+                            <dd>时间</dd>
+                            <dd>疼痛评分量表选择</dd>
+                            <dd>疼痛评分</dd>
+                            <dd>责任护士签名</dd>
+                            <dd>审核人签名</dd>
+                            <dd class="last">操作</dd>
+                        </dl>
+                        <dl class="line-bg">
+                            <dd></dd>
+                            <dd></dd>
+                            <dd></dd>
+                            <dd></dd>
+                            <dd></dd>
+                            <dd></dd>
+                            <dd class="last"></dd>
+                        </dl>
+                        <div class="cont" id="tab-list">
+                            {{range $k, $val := .NRLList}}
+                            <ul class="col-cont">
+                                <li>
+                                    <p class="txt">{{$val.DateStr}}</p>
+                                    <div class="sel-box date">
+
+                                    </div>
+                                </li>
+                                <li>
+                                    <p class="txt">{{$val.TimeStr}}</p>
+                                    <div class="sel-box time"></div>
+                                </li>
+                                <li>
+                                    <p class="txt">VRS</p>
+                                    <div class="sel-box category">
+                                        <select class="category-sel">
+                                            <option value="0">&nbsp;</option>
+                                            <option value="1" {{if eq $val.NRL05 "1"}}selected{{end}}>VRS</option>
+                                            <option value="2" {{if eq $val.NRL05 "2"}}selected{{end}}>NRS</option>
+                                            <option value="3" {{if eq $val.NRL05 "3"}}selected{{end}}>Wong-Baker</option>
+                                            <option value="4" {{if eq $val.NRL05 "4"}}selected{{end}}>FPS-R</option>
+                                        </select>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p class="txt ">I级</p>
+                                    <div class="sel-box grade">
+                                        <select class="type1 none">
+                                            <option value="1" {{if eq $val.NRL01 "1"}}selected{{end}}>0级</option>
+                                            <option value="2" {{if eq $val.NRL01 "2"}}selected{{end}}>I级</option>
+                                            <option value="3" {{if eq $val.NRL01 "3"}}selected{{end}}>II级</option>
+                                            <option value="4" {{if eq $val.NRL01 "4"}}selected{{end}}>III级</option>
+                                        </select>
+                                        <select class="type2 none">
+                                            <option value="0"></option>
+                                            <option value="1" {{if eq $val.NRL02 "1"}}selected{{end}}>0</option>
+                                            <option value="2" {{if eq $val.NRL02 "2"}}selected{{end}}>1</option>
+                                            <option value="3" {{if eq $val.NRL02 "3"}}selected{{end}}>2</option>
+                                            <option value="4" {{if eq $val.NRL02 "4"}}selected{{end}}>3</option>
+                                            <option value="5" {{if eq $val.NRL02 "5"}}selected{{end}}>4</option>
+                                            <option value="6" {{if eq $val.NRL02 "6"}}selected{{end}}>5</option>
+                                            <option value="7" {{if eq $val.NRL02 "7"}}selected{{end}}>6</option>
+                                            <option value="8" {{if eq $val.NRL02 "8"}}selected{{end}}>7</option>
+                                            <option value="9" {{if eq $val.NRL02 "9"}}selected{{end}}>8</option>
+                                            <option value="10" {{if eq $val.NRL02 "10"}}selected{{end}}>9</option>
+                                            <option value="11" {{if eq $val.NRL02 "11"}}selected{{end}}>10</option>
+                                        </select>
+                                        <select class="type3 none">
+                                            <option value="0"></option>
+                                            <option value="1" {{if eq $val.NRL03 "1"}}selected{{end}}>0</option>
+                                            <option value="2" {{if eq $val.NRL03 "2"}}selected{{end}}>2</option>
+                                            <option value="3" {{if eq $val.NRL03 "3"}}selected{{end}}>4</option>
+                                            <option value="4" {{if eq $val.NRL03 "4"}}selected{{end}}>6</option>
+                                            <option value="5" {{if eq $val.NRL03 "5"}}selected{{end}}>8</option>
+                                            <option value="6" {{if eq $val.NRL03 "6"}}selected{{end}}>10</option>
+                                        </select>
+                                        <select class="type4 none">
+                                            <option value="0"></option>
+                                            <option value="1" {{if eq $val.NRL04 "1"}}selected{{end}}>0</option>
+                                            <option value="2" {{if eq $val.NRL04 "2"}}selected{{end}}>1</option>
+                                            <option value="3" {{if eq $val.NRL04 "3"}}selected{{end}}>2</option>
+                                            <option value="4" {{if eq $val.NRL04 "4"}}selected{{end}}>3</option>
+                                            <option value="5" {{if eq $val.NRL04 "5"}}selected{{end}}>4</option>
+                                            <option value="6" {{if eq $val.NRL04 "6"}}selected{{end}}>5</option>
+                                            <option value="7" {{if eq $val.NRL04 "7"}}selected{{end}}>6</option>
+                                            <option value="8" {{if eq $val.NRL04 "8"}}selected{{end}}>7</option>
+                                            <option value="9" {{if eq $val.NRL04 "9"}}selected{{end}}>8</option>
+                                            <option value="10" {{if eq $val.NRL04 "10"}}selected{{end}}>9</option>
+                                            <option value="11" {{if eq $val.NRL04 "11"}}selected{{end}}>10</option>
+                                        </select>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p class="txt2">{{$val.BCE03A}}</p>
+                                </li>
+                                <li>
+                                    <p class="txt">{{$val.NRL06B}}</p>
+                                    <div class="sel-box">
+                                        <input type="text" class="name-input">
+                                    </div>
+                                </li>
+                                <li class="last">
+                                    <a href="#1" class="save-btn"><span>保存</span></a>
+                                    <a href="#1" class="edit-btn">
+                                        <i class="am-icon-pencil"></i><span>编辑</span>
+                                    </a>
+                                    <a href="#1" class="del-btn"><i class="am-icon-trash"></i><span>删除</span></a>
+
+                                </li>
+                            </ul>
+                            {{end}}
+                        </div>
+                    </div>
+                    <!-- 分页栏 -->
+                    <div class="page-bar">
+                        <span>页面位置</span>
+                        <ul>
+                            <li>
+                                <a id="leftLast-btn">
+                                    <img src="/static/dist/images/admin_pc/icon43.png" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                <a id="left-btn">
+                                    <img src="/static/dist/images/admin_pc/icon44.png" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                第<input type="text" class="pageNum" value="{{.PageIndex}}"> 页
+                                <a id="go-btn">Go</a>
+                            </li>
+                            <li>
+                                <a id="right-btn">
+                                    <img src="/static/dist/images/admin_pc/icon45.png" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                <a id="rightLast-btn">
+                                    <img src="/static/dist/images/admin_pc/icon46.png" alt="">
+                                </a>
+                            </li>
+                        </ul>
+                        <span>共<i class="pageSum">{{.PageNum}}</i>页</span>
+                    </div>
+
+                    <!-- 备注 -->
+                    <div class="remarks-box">
+                        <div class="img-box">
+                            <p class="tit2">诉言词量表（VRS）</p>
+                            <p class="txt2">0级： 无痛。</p>
+                            <p class="txt2">I级（轻度）：有疼痛但可忍受，能正常生活，睡眠不受干扰。</p>
+                            <p class="txt2">II级（中度）：疼痛明显，不能忍受，要求使用止痛剂睡眠受干扰。</p>
+                            <p class="txt2">III级（重度）：疼痛剧烈，不能忍受，睡眠受严重干扰，可伴有自主神经紊乱或被动体位。</p>
+                        </div>
+                        <div class="pd-20"></div>
+                        <div class="img-box">
+                            <p class="tit">数字评定量表（NRS）</p>
+                            <ul class="list">
+                                <li>
+                                    <div class="line"></div>
+                                    0
+                                    <div>无痛</div>
+                                </li>
+                                <li>
+                                    <div class="line"></div> 1</li>
+                                <li>
+                                    <div class="line"></div> 2</li>
+                                <li>
+                                    <div class="line"></div> 3</li>
+                                <li>
+                                    <div class="line"></div> 4</li>
+                                <li>
+                                    <div class="line"></div> 5
+                                    <div>轻度疼痛</div>
+                                </li>
+                                <li>
+                                    <div class="line"></div> 6</li>
+                                <li>
+                                    <div class="line"></div> 7</li>
+                                <li>
+                                    <div class="line"></div> 8</li>
+                                <li>
+                                    <div class="line"></div> 9</li>
+                                <li>
+                                    <div class="line"></div> 10
+                                    <div>剧痛</div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="pd-20"></div>
+
+                        <div class="img-box">
+                            <p class="tit"> 面部表情量表（Wong-Baker） </p>
+                            <div class="img">
+                                <img src="/static/dist/images/admin_pc/tmp1.jpg" alt="">
+                            </div>
+                            <ul class="list2">
+                                <li>
+                                    0
+                                    <div>无痛</div>
+                                </li>
+                                <li>
+                                    2
+                                    <div>轻微疼痛</div>
+                                </li>
+                                <li>
+                                    4
+                                    <div>轻度疼痛</div>
+                                </li>
+                                <li>
+                                    6
+                                    <div>中度疼痛</div>
+                                </li>
+                                <li>
+                                    8
+                                    <div>重度疼痛</div>
+                                </li>
+                                <li>
+                                    10
+                                    <div>剧痛</div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="pd-20"></div>
+
+                        <div class="img-box">
+                            <p class="tit">面部表情量表（FPS-R）</p>
+                            <div class="img">
+                                <img src="/static/dist/images/admin_pc/tmp2.jpg" alt="">
+                            </div>
+                            <ul class="list3">
+                                <li style="width: 50px;">
+                                    <div>无痛</div>
+                                </li>
+                                <li  style="width: 150px;">
+
+                                    <div>轻度疼痛</div>
+                                </li>
+                                <li  style="width: 150px;">
+
+                                    <div>中度疼痛</div>
+                                </li>
+                                <li  style="width: 165px;">
+
+                                    <div>重度疼痛</div>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="pd-20"></div>
+
+                        <div>
+                            <p class="tit">备注：</p>
+                            <p class="txt">1. 评估时机: 发生疼痛时随时评估，疼痛治疗干预后评估，疼痛过程中至少每30min评估一次。</p>
+                            <p class="txt">2. 评分标准：根据患者的疼痛情况选择合适的疼痛评估方法与工具。</p>
+                        </div>
+
+                    </div>
+                    <div class="pd-20"></div>
+
+                </div>
+
+            </div>
+        </div>
+        <!-- end right Content here -->
+        <!--</div>-->
+    </div>
+    <!-- </div> -->
+
+
+
+    <script type="text/template" id="col">
+        <ul>
+            <li class="tr11">
+                <div class="cont-warp">
+                    <p class="txt">2017-10-10</p>
+                    <div class="sel-input"></div>
+                </div>
+            </li>
+            <li class="tr1">
+                <div class="cont-warp">
+                    <p class="txt">10</p>
+                    <div class="sel-input">
+                        <select class="c1">
+                            <option value="1">0</option>
+                            <option value="2">5</option>
+                            <option value="3">10</option>
+                        </select>
+                    </div>
+                </div>
+            </li>
+            <li class="tr2">
+                <div class="cont-warp">
+                    <p class="txt">10</p>
+                    <div class="sel-input">
+                        <select class="c2">
+                            <option value="1">0</option>
+                            <option value="2">5</option>
+                            <option value="3">10</option>
+                        </select>
+                    </div>
+                </div>
+            </li>
+            <li class="tr3">
+                <div class="cont-warp">
+                    <p class="txt">10</p>
+                    <div class="sel-input">
+                        <select class="c3">
+                            <option value="1">0</option>
+                            <option value="2">5</option>
+                        </select>
+                    </div>
+                </div>
+            </li>
+            <li class="tr4">
+                <div class="cont-warp">
+                    <p class="txt">10</p>
+                    <div class="sel-input">
+                        <select class="c4">
+                            <option value="1">0</option>
+                            <option value="2">5</option>
+                            <option value="3">10</option>
+                        </select>
+                    </div>
+                </div>
+            </li>
+            <li class="tr5">
+                <div class="cont-warp">
+                    <p class="txt">10</p>
+                    <div class="sel-input">
+                        <select class="c5">
+                            <option value="1">0</option>
+                            <option value="2">5</option>
+                            <option value="3">10</option>
+                        </select>
+                    </div>
+                </div>
+            </li>
+            <li class="tr6">
+                <div class="cont-warp">
+                    <p class="txt">10</p>
+                    <div class="sel-input">
+                        <select class="c6">
+                            <option value="1">0</option>
+                            <option value="2">5</option>
+                            <option value="3">10</option>
+                            <option value="4">15</option>
+                        </select>
+                    </div>
+                </div>
+            </li>
+            <li class="tr7">
+                <div class="cont-warp">
+                    <p class="txt">10</p>
+                    <div class="sel-input">
+                        <select class="c7">
+                            <option value="1">0</option>
+                            <option value="2">5</option>
+                            <option value="3">10</option>
+                            <option value="4">15</option>
+                        </select>
+                    </div>
+                </div>
+            </li>
+            <li class="tr8">
+                <div class="cont-warp">
+                    <p class="txt">10</p>
+                    <div class="sel-input">
+                        <select class="c8">
+                            <option value="1">0</option>
+                            <option value="2">5</option>
+                            <option value="3">10</option>
+                        </select>
+                    </div>
+                </div>
+            </li>
+            <li class="tr9">
+                <div class="cont-warp">
+                    <p class="txt">10</p>
+                    <div class="sel-input">
+                        <select class="c9">
+                            <option value="1">0</option>
+                            <option value="2">5</option>
+                            <option value="3">10</option>
+                        </select>
+                    </div>
+                </div>
+            </li>
+            <li class="tr10">
+                <div class="cont-warp">
+                    <p class="txt">10</p>
+                    <div class="sel-input">
+                        <select class="c10">
+                            <option value="1">0</option>
+                            <option value="2">5</option>
+                        </select>
+                    </div>
+                </div>
+            </li>
+
+            <li class="bt-tit">
+                <div class="cont-warp">
+                    <p class="txt">10</p>
+                    <div class="sel-input"></div>
+                </div>
+            </li>
+
+            <li class="bt-tit2">
+                <div class="cont-warp">
+                    <p class="txt2">黄护士</p>
+                    <div class="sel-input"></div>
+                </div>
+            </li>
+
+            <li class="bt-tit3">
+                <div class="cont-warp">
+                    <p class="txt">一级护理</p>
+                    <div class="sel-input">
+                        <select class="c7">
+                            <option value="1">一级护理</option>
+                            <option value="2">二级护理</option>
+                        </select>
+                    </div>
+                </div>
+            </li>
+            <li class="bt-tit4">
+                <div class="cont-warp">
+
+                    <a href="#1" class="save-btn"><span>保存</span></a>
+                    <a href="#1" class="edit-btn">
+                        <i class="am-icon-pencil"></i><span>编辑</span>
+                    </a>
+                    <a href="#1" class="del-btn"><i class="am-icon-trash"></i><span>删除</span></a>
+
+                </div>
+            </li>
+        </ul>
+    </script>
+
+    <!-- navbar -->
+    <a href="admin-offcanvas" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}">
+        <!--<i class="fa fa-bars" aria-hidden="true"></i>--></a>
+    <script type="text/javascript" src="/static/dist/js/lib/jquery.min.js"></script>
+    <!--框架js-->
+    <script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/amazeui.min.js"></script>
+    <script src="/static/dist/js/lib/laydate/laydate.js"></script>
+    <!--//遮罩层退出框-->
+    <script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/blockUI.js"></script>
+    <script type="text/javascript" src="/static/common.js" ></script>
+    <!--<script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/charts/indexChart.js" ></script>-->
+    <script>
+        $('#jky-menu').on('open.collapse.amui', function(e) {
+            $(e.target).parents("li").addClass("jky-on")
+        })
+        $('#jky-menu').on('close.collapse.amui', function(e) {
+            $(e.target).parents("li").removeClass("jky-on")
+        })
+
+
+
+        var nowDateObj = nowDate()
+
+        function nowDate() {
+            var res = {},
+                nowD = new Date();
+            res.date = nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
+            res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
+            return res
+        }
+
+        function addZero(i) {
+            if (i < 10) {
+                return "0" + i;
+            } else {
+                return i;
+            }
+        }
+        // laydate.render({
+        //     elem: '.date-input', //指定元素
+        //     showBottom: false,
+        //     value: nowDateObj.date,
+        //     done: function(value, date, endDate) {
+        //         console.log(value); //得到日期生成的值，如：2017-08-18
+        //         console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+        //         console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+        //     }
+        // });
+
+
+
+
+        // var numInputFn = jky.util.throttle(function () {
+        //     if (isNaN(parseFloat($(this).val()))) {
+        //         $(this).val("")
+        //     } else {
+        //         $(this).val(parseFloat($(this).val()))
+        //     }
+        // }, 500)
+
+        /**
+         * 节流函数
+         */
+        var nowFn = Date.now || function() {
+            return new Date().getTime()
+        }
+
+
+        function throttle(func, wait, option) {
+            var previous = 0, //之前的时间
+                timeout, self, args, result;
+
+            var later = function() {
+                previous = nowFn();
+                timeout = null;
+                result = func.apply(self, args);
+                !timeout && (self = args = null);
+            }
+            return function() {
+                var now = nowFn();
+
+                if (!previous && option.leading === false) previous = now;
+                var diff = wait - (now - previous);
+
+                args = arguments;
+                self = this;
+                if (diff <= 0) {
+                    if (timeout) {
+                        clearTimeout(timeout);
+                        timeout = null;
+                    }
+                    result = func.apply(self, args);
+                    previous = now;
+                    !timeout && (self = args = null); //如果没有堆积的任务 则清空 self 和args
+                } else if (!timeout && option.trailing !== false) {
+                    timeout = setTimeout(later, diff)
+                } else {
+                    console.log('被抛弃了')
+                }
+                return result;
+
+            }
+        }
+
+
+        var $inputNum = $('.tit2,.tit3,.tit4').find('input')
+        $inputNum.on('input', throttle(function() {
+            if (isNaN(parseFloat($(this).val()))) {
+                $(this).val("")
+            } else {
+                $(this).val(parseFloat($(this).val()))
+            }
+        }, 500, {
+            leading: false, //配置第一次不立即执行 true 第一次执行 false 第一次不执行
+            trailing: true // 是否抛弃 还是 往后堆积
+        }))
+
+        function toggleTar() {
+            if ($('.top48').hasClass('small-type')) {
+                $('.top48').removeClass('small-type')
+                $('.jky_sidebar').removeClass('small-type')
+            } else {
+                $('.top48').addClass('small-type')
+                $('.jky_sidebar').addClass('small-type')
+            }
+        }
+
+
+        $('.s-btn').on('click', function() {
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+                $('.user-bar').show();
+                $('.doc-input4-cont').css('margin-left', 244)
+            } else {
+                $(this).addClass('active');
+                $('.doc-input4-cont').css('margin-left', 0)
+                $('.user-bar').hide();
+            }
+        })
+
+
+
+        laydate.render({
+            elem: '.date', //指定元素
+            showBottom: false,
+            value: nowDateObj.date,
+            done: function(value, date, endDate) {
+                console.log(value); //得到日期生成的值，如：2017-08-18
+                console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+            }
+        });
+
+        laydate.render({
+            elem: '.time', //指定元素
+            // showBottom: false,
+            type: 'time',
+            format: 'HH:mm',
+            value: nowDateObj.time,
+            done: function(value, date, endDate) {
+                console.log(value); //得到日期生成的值，如：2017-08-18
+                console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+            }
+        });
+        laydate.render({
+            elem: '.date2', //指定元素
+            showBottom: false,
+            value: nowDateObj.date,
+            done: function(value, date, endDate) {
+                console.log(value); //得到日期生成的值，如：2017-08-18
+                console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+            }
+        });
+
+        laydate.render({
+            elem: '.time2', //指定元素
+            // showBottom: false,
+            type: 'time',
+            format: 'HH:mm',
+            value: nowDateObj.time,
+            done: function(value, date, endDate) {
+                console.log(value); //得到日期生成的值，如：2017-08-18
+                console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+            }
+        });
+
+
+        $('body').on('click', '.edit-btn', function() {
+            if ($('.list').find('ul.active').length > 0) {
+                alert("请先保存信息")
+            } else {
+                var $ul = $(this).parents('ul')
+                $ul.addClass("active")
+                $date = $("<input class='date-input-td'>")
+                $ul.find('.tr11').find('.cont-warp').find('.sel-input').html($date)
+                laydate.render({
+                    elem: '.date-input-td', //指定元素
+                    showBottom: false,
+                    value: nowDateObj.date,
+                    done: function(value, date, endDate) {
+                        console.log(value); //得到日期生成的值，如：2017-08-18
+                        console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                        console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                    }
+                });
+
+
+            }
+
+        })
+        $('body').on('click', '.save-btn', function() {
+            var $ul = $(this).parents('ul')
+
+            $ul.removeClass("active")
+            $ul.find('.tr11').find('.cont-warp').find('.sel-input').html("")
+        })
+        $('body').on('click', '.del-btn', function() {
+            confirm("是否确认删除")
+        })
+
+        $('body').on('click', '.createCol', function() {
+            var elTxt = $('#col').text()
+            $(elTxt)
+        })
+
+
+        $('body').on('change', '.category-sel', function() {
+            $('.grade').find('select').addClass("none")
+            $('.grade').find('.type' + $(this).val()).removeClass("none")
+        })
+    </script>
+
+    <script>
+        $(function () {
+            // 起止时间
+            var hospitalDate = {{.PInfo.HospitalDate}};
+            hospitalDate = hospitalDate.substr(0, 10);
+            var nowDate = nowDateObj.date;
+
+            var date1, date2 = 0;
+            var a = new Date(hospitalDate);
+            date1 = a.getTime();
+            var b = new Date(nowDate);
+            date2 = b.getTime();
+
+            var sdate = getURLParam("sdate");
+            var edate = getURLParam("edate");
+            if (sdate == null || sdate == "0" || edate == null ||  edate == "0") {
+                sdate = hospitalDate;
+                edate = nowDate;
+            } else {
+                date1 = sdate;
+                date2 = edate;
+
+                sdate = fromatDate(parseInt(sdate)).date;
+                edate = fromatDate(parseInt(edate)).date;
+            }
+
+            laydate.render({
+                elem: '#date1', //指定元素
+                showBottom: false,
+                value: sdate,
+                done: function(value, date, endDate) {
+
+                    var a = new Date(value);
+                    date1 = a.getTime();
+                    reloadSheet();
+                }
+            });
+
+            laydate.render({
+                elem: '#date2', //指定元素
+                showBottom: false,
+                value: edate,
+                done: function(value, date, endDate) {
+
+                    var a = new Date(value);
+                    date2 = a.getTime();
+                    console.log("date ", date1, date2);
+                    reloadSheet();
+                }
+            });
+
+            // 总页数
+            var pagenum = parseInt({{.PageNum}});
+            // 当前页数
+            var index = parseInt({{.PageIndex}});
+            var pid = parseInt({{.PInfo.VAA01}});
+
+            var baseurl = "/pc/record/nrl8?";
+
+            console.log("hhee--" + pid + "--" + index + "--" + pagenum);
+
+            $("#leftLast-btn").attr("href", baseurl + "pid=" + pid + "&num=" + 1  + "&sdate=" + date1 + "&edate=" + date2);
+            if (index <= 1) {
+                index = 1;
+                $("#left-btn").attr("href", baseurl + "pid=" + pid + "&num=" + index + "&sdate=" + date1 + "&edate=" + date2);
+            } else {
+                $("#left-btn").attr("href", baseurl + "pid=" + pid + "&num=" + (index - 1) + "&sdate=" + date1 + "&edate=" + date2);
+            }
+            if (index >= pagenum) {
+                index = pagenum;
+                $("#right-btn").attr("href", baseurl + "pid=" + pid + "&num=" + index + "&sdate=" + date1 + "&edate=" + date2);
+            } else {
+                $("#right-btn").attr("href", baseurl + "pid=" + pid + "&num=" + (index + 1) + "&sdate=" + date1 + "&edate=" + date2);
+            }
+
+            $("#rightLast-btn").attr("href", baseurl + "pid=" + pid + "&num=" + pagenum + "&sdate=" + date1 + "&edate=" + date2);
+
+
+            function reloadSheet() {
+                window.location.href =  baseurl + "pid=" + pid + "&num=" + index + "&sdate=" + date1 + "&edate=" + date2;
+            }
+
+            $("#go-btn").on("click", function () {
+                var val = $(".pageNum").val();
+                // console.log("heheheh", val);
+                window.location.href = baseurl + "pid=" + pid + "&num=" + val + "&sdate=" + date1 + "&edate=" + date2;
+            });
+
+            $(".user-list").on("click", "li", function () {
+                var pid = $(this).data('msg');
+                console.log($(this).data('msg'));
+                window.location.href = baseurl + "pid=" + pid;
+            })
+
+        });
+    </script>
+
+    <script>
+        var nowD = getNowDateTime();
+        var datestr = nowD.date;
+        var timestr = nowD.time;
+        var username = {{.Userinfo.Name}}; // 护士姓名
+        $(".btn.type2.createCol").on("click", function () {
+            console.log("gk sb");
+            var isOk = ($(".list").find(".active").length == 0);
+            if(!isOk){
+                alert("请先保存数据")
+                return false;
+            }
+
+            var html = '<ul class="col-cont">\n' +
+                    '                                <li>\n' +
+                    '                                    <p class="txt">' + datestr + '</p>\n' +
+                    '                                    <div class="sel-box date">\n' +
+                    '                                    </div>\n' +
+                    '                                </li>\n' +
+                    '                                <li>\n' +
+                    '                                    <p class="txt">' + timestr + '</p>\n' +
+                    '                                    <div class="sel-box time"></div>\n' +
+                    '                                </li>\n' +
+                    '                                <li>\n' +
+                    '                                    <p class="txt">VRS</p>\n' +
+                    '                                    <div class="sel-box category">\n' +
+                    '                                        <select class="category-sel">\n' +
+                    '                                            <option value="0">&nbsp;</option>\n' +
+                    '                                            <option value="1">VRS</option>\n' +
+                    '                                            <option value="2">NRS</option>\n' +
+                    '                                            <option value="3">Wong-Baker</option>\n' +
+                    '                                            <option value="4">FPS-R</option>\n' +
+                    '                                        </select>\n' +
+                    '                                    </div>\n' +
+                    '                                </li>\n' +
+                    '                                <li>\n' +
+                    '                                    <p class="txt ">I级</p>\n' +
+                    '                                    <div class="sel-box grade">\n' +
+                    '                                        <select class="type1 none">\n' +
+                    '                                            <option value="1">0级</option>\n' +
+                    '                                            <option value="2">I级</option>\n' +
+                    '                                            <option value="3">II级</option>\n' +
+                    '                                            <option value="4">III级</option>\n' +
+                    '                                        </select>\n' +
+                    '                                        <select class="type2 none">\n' +
+                    '                                            <option value="0"></option>\n' +
+                    '                                            <option value="1">0</option>\n' +
+                    '                                            <option value="2">1</option>\n' +
+                    '                                            <option value="3">2</option>\n' +
+                    '                                            <option value="4">3</option>\n' +
+                    '                                            <option value="5">4</option>\n' +
+                    '                                            <option value="6">5</option>\n' +
+                    '                                            <option value="7">6</option>\n' +
+                    '                                            <option value="8">7</option>\n' +
+                    '                                            <option value="9">8</option>\n' +
+                    '                                            <option value="10">9</option>\n' +
+                    '                                            <option value="11">10</option>\n' +
+                    '                                        </select>\n' +
+                    '                                        <select class="type3 none">\n' +
+                    '                                            <option value="0"></option>\n' +
+                    '                                            <option value="1">0</option>\n' +
+                    '                                            <option value="2">2</option>\n' +
+                    '                                            <option value="3">4</option>\n' +
+                    '                                            <option value="4">6</option>\n' +
+                    '                                            <option value="5">8</option>\n' +
+                    '                                            <option value="6">10</option>\n' +
+                    '                                        </select>\n' +
+                    '                                        <select class="type4 none">\n' +
+                    '                                            <option value="0"></option>\n' +
+                    '                                            <option value="1">0</option>\n' +
+                    '                                            <option value="2">1</option>\n' +
+                    '                                            <option value="3">2</option>\n' +
+                    '                                            <option value="4">3</option>\n' +
+                    '                                            <option value="5">4</option>\n' +
+                    '                                            <option value="6">5</option>\n' +
+                    '                                            <option value="7">6</option>\n' +
+                    '                                            <option value="8">7</option>\n' +
+                    '                                            <option value="9">8</option>\n' +
+                    '                                            <option value="10">9</option>\n' +
+                    '                                            <option value="11">10</option>\n' +
+                    '                                        </select>\n' +
+                    '                                    </div>\n' +
+                    '                                </li>\n' +
+                    '                                <li>\n' +
+                    '                                    <p class="txt2">' + username + '</p>\n' +
+                    '                                </li>\n' +
+                    '                                <li>\n' +
+                    '                                    <p class="txt"></p>\n' +
+                    '                                    <div class="sel-box">\n' +
+                    '                                        <input type="text" class="name-input">\n' +
+                    '                                    </div>\n' +
+                    '                                </li>\n' +
+                    '                                <li class="last">\n' +
+                    '                                    <a href="#1" class="save-btn"><span>保存</span></a>\n' +
+                    '                                    <a href="#1" class="edit-btn">\n' +
+                    '                                        <i class="am-icon-pencil"></i><span>编辑</span>\n' +
+                    '                                    </a>\n' +
+                    '                                    <a href="#1" class="del-btn"><i class="am-icon-trash"></i><span>删除</span></a>\n' +
+                    '\n' +
+                    '                                </li>\n' +
+                    '                            </ul>';
+
+            $("#tab-list").append(html)
+        });
+
+        // for (var i = 1; i < 10; i++) {
+        //     $(".list ul").find(".c"+i).find("option:selected").each(function(i,el){
+        //         // console.log("??")
+        //         $(el).parents("li").find(".txt").text($(el).text())
+        //     })
+        // }
+    </script>
+</body>
+
+</html>

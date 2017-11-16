@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 
 {{template "header_top" .}}
 
@@ -34,7 +33,7 @@
             <div class="user-list">
                 <ul>
                     {{range $key, $val := .Beds}}
-                    <li data-id="{{$key}}" data-msg="{{$val.VAA01}}">
+                    <li data-id="{{$key}}" data-msg="{{$val.VAA01}}" class="{{if eq  $.PInfo.VAA01 $val.VAA01}}active{{end}}">
                         <div class="l">
                             <label>{{$val.BCQ04}}</label>
                         </div>
@@ -57,7 +56,7 @@
                         <input type="text" class="am-form-field  date-input" id="left-date" lay-key="1">
                         <span class="line">—</span>
                         <input type="text" class="am-form-field  date-input" id="right-date" lay-key="2">
-                        <a href="" class="all-btn">所有记录</a>
+                        <a class="all-btn" href="/pc/record/nrl3?pid={{.PInfo.VAA01}}">所有记录</a>
                     </div>
                     <div class="btn-group">
                         <a  class="btn type2 createCol">新建</a>
@@ -856,13 +855,14 @@
                                 </a>
                             </li>
                             <li>
-                                第
-                                <input type="text" class="pageNum" value="{{.PageIndex}}"> 页
+                                第 <input type="text" class="pageNum" value="{{.PageIndex}}"> 页
+                                <a id="go-btn">Go</a>
                             </li>
                             <li>
                                 <a id="right-btn">
                                     <img src="/static/dist/images/admin_pc/icon45.png" alt="">
                                 </a>
+
                             </li>
                             <li>
                                 <a id="rightLast-btn">
@@ -870,7 +870,7 @@
                                 </a>
                             </li>
                         </ul>
-                        <span>共<i class="pageSum">5</i>页</span>
+                        <span>共<i class="pageSum">{{.PageNum}}</i>页</span>
                     </div>
 
                     <!-- 备注 -->
@@ -1099,30 +1099,9 @@
 
 
 
-        var nowDateObj = nowDate()
+        var nowDateObj = getNowDateTime();
 
-        function nowDate() {
-            var res = {},
-                nowD = new Date();
-            res.date = nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
-            res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
-            return res
-        }
 
-        function addZero(i) {
-            if (i < 10) {
-                return "0" + i;
-            } else {
-                return i;
-            }
-        }
-
-        function getNowDate() {
-            var str = "";
-            var nowdate = new Date();
-            str = nowdate.getFullYear() + "-" + addZero(nowdate.getMonth() + 1) + "-" + addZero(nowdate.getDate());
-            return str;
-        }
 
         // var numInputFn = jky.util.throttle(function () {
         //     if (isNaN(parseFloat($(this).val()))) {
@@ -1303,32 +1282,45 @@
 
     <script>
         $(function () {
-            function getURLParam(name) {
-                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-                var r = window.location.search.substr(1).match(reg)
-                if (r != null) {
-                    return unescape(r[2])
-                }
-                return null
-            }
-
-            var hospitalDate = {{.PInfo.HospitalDate}};
-            hospitalDate = hospitalDate.substr(0, 10);
 
             // 起止时间
+            var hospitalDate = {{.PInfo.HospitalDate}};
+            hospitalDate = hospitalDate.substr(0, 10);
+            var nowDate = nowDateObj.date;
+
             var date1, date2 = 0;
             var a = new Date(hospitalDate);
             date1 = a.getTime();
+            var b = new Date(nowDate);
+            date2 = b.getTime();
+
+
+            var sdate = getURLParam("sdate");
+            var edate = getURLParam("edate");
+            console.log("----", sdate, edate);
+            if (sdate == null || sdate == "0" || edate == null ||  edate == "0") {
+                sdate = hospitalDate;
+                edate = nowDate;
+            } else {
+                date1 = sdate;
+                date2 = edate;
+
+                sdate = fromatDate(parseInt(sdate)).date;
+                edate = fromatDate(parseInt(edate)).date;
+            }
+
             laydate.render({
                 elem: '#left-date', //指定元素
                 showBottom: false,
-                value: hospitalDate,
+                value: sdate,
                 done: function(value, date, endDate) {
                     console.log(value); //得到日期生成的值，如：2017-08-18
                     console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
                     console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+
                     var a = new Date(value);
                     date1 = a.getTime();
+                    reloadSheet(date1, date2);
                 }
             });
             // var a=new Date("2017-08-02")
@@ -1336,220 +1328,25 @@
             laydate.render({
                 elem: '#right-date', //指定元素
                 showBottom: false,
-                value: nowDateObj.date,
+                value: edate,
                 done: function(value, date, endDate) {
                     console.log(value); //得到日期生成的值，如：2017-08-18
                     console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
                     console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+
                     var a = new Date(value);
                     date2 = a.getTime();
-                    console.log("s e date ", date1, date2)
+                    console.log("date ", date1, date2)
+                    reloadSheet(date1, date2);
                 }
             });
-            
-            
-            function reloadSheet(date1, date2, pagenum) {
-                
-            }
-
-            var nrllist = {{.NRLList}};
-            console.log(nrllist);
 
 
-            var nowstr = getNowDate();
-            var username = {{.Userinfo.Name}}; // 护士姓名
-            console.log( "---------", nowstr, "---------")
 
-            $(".btn.type2.createCol").on("click", function () {
-                console.log("hehehe");
-                var isOk = ($(".list").find(".active").length == 0);
-                if(!isOk){
-                    alert("请先保存数据")
-                    return false;
-                }
-                var html = '<ul class="active">\n' +
-                    '                                <li class="tr11">\n' +
-                    '                                    <div class="cont-warp">\n' +
-                    '                                        <p class="txt">' + nowstr + '</p>\n' +
-                    '                                        <div class="sel-input"></div>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <li class="tr1">\n' +
-                    '                                    <div class="cont-warp">\n' +
-                    '                                        <p class="txt"></p>\n' +
-                    '                                        <div class="sel-input">\n' +
-                    '                                            <select class="c1">\n' +
-                    '                                                <option value="0"></option>\n' +
-                    '                                                <option value="1">0</option>\n' +
-                    '                                                <option value="2">5</option>\n' +
-                    '                                                <option value="3">10</option>\n' +
-                    '                                            </select>\n' +
-                    '                                        </div>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <li class="tr2">\n' +
-                    '                                    <div class="cont-warp">\n' +
-                    '                                        <p class="txt"></p>\n' +
-                    '                                        <div class="sel-input">\n' +
-                    '                                            <select class="c2">\n' +
-                    '                                                <option value="0"></option>\n' +
-                    '                                                <option value="1">0</option>\n' +
-                    '                                                <option value="2">5</option>\n' +
-                    '                                                <option value="3">10</option>\n' +
-                    '                                            </select>\n' +
-                    '                                        </div>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <li class="tr3">\n' +
-                    '                                    <div class="cont-warp">\n' +
-                    '                                        <p class="txt"></p>\n' +
-                    '                                        <div class="sel-input">\n' +
-                    '                                            <select class="c3">\n' +
-                    '                                                <option value="0"></option>\n' +
-                    '                                                <option value="1">0</option>\n' +
-                    '                                                <option value="2">5</option>\n' +
-                    '                                            </select>\n' +
-                    '                                        </div>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <li class="tr4">\n' +
-                    '                                    <div class="cont-warp">\n' +
-                    '                                        <p class="txt"></p>\n' +
-                    '                                        <div class="sel-input">\n' +
-                    '                                            <select class="c4">\n' +
-                    '                                                <option value="0"></option>\n' +
-                    '                                                <option value="1">0</option>\n' +
-                    '                                                <option value="2">5</option>\n' +
-                    '                                                <option value="3">10</option>\n' +
-                    '                                            </select>\n' +
-                    '                                        </div>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <li class="tr5">\n' +
-                    '                                    <div class="cont-warp">\n' +
-                    '                                        <p class="txt"></p>\n' +
-                    '                                        <div class="sel-input">\n' +
-                    '                                            <select class="c5">\n' +
-                    '                                                <option value="0"></option>\n' +
-                    '                                                <option value="1">0</option>\n' +
-                    '                                                <option value="2">5</option>\n' +
-                    '                                                <option value="3">10</option>\n' +
-                    '                                            </select>\n' +
-                    '                                        </div>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <li class="tr6">\n' +
-                    '                                    <div class="cont-warp">\n' +
-                    '                                        <p class="txt"></p>\n' +
-                    '                                        <div class="sel-input">\n' +
-                    '                                            <select class="c6">\n' +
-                    '                                                <option value="0"></option>\n' +
-                    '                                                <option value="1">0</option>\n' +
-                    '                                                <option value="2">5</option>\n' +
-                    '                                                <option value="3">10</option>\n' +
-                    '                                                <option value="4">15</option>\n' +
-                    '                                            </select>\n' +
-                    '                                        </div>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <li class="tr7">\n' +
-                    '                                    <div class="cont-warp">\n' +
-                    '                                        <p class="txt"></p>\n' +
-                    '                                        <div class="sel-input">\n' +
-                    '                                            <select class="c7">\n' +
-                    '                                                <option value="0"></option>\n' +
-                    '\n' +
-                    '                                                <option value="1">0</option>\n' +
-                    '                                                <option value="2">5</option>\n' +
-                    '                                                <option value="3">10</option>\n' +
-                    '                                                <option value="4">15</option>\n' +
-                    '                                            </select>\n' +
-                    '                                        </div>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <li class="tr8">\n' +
-                    '                                    <div class="cont-warp">\n' +
-                    '                                        <p class="txt"></p>\n' +
-                    '                                        <div class="sel-input">\n' +
-                    '                                            <select class="c8">\n' +
-                    '                                                <option value="0"></option>\n' +
-                    '                                                <option value="1">0</option>\n' +
-                    '                                                <option value="2">5</option>\n' +
-                    '                                                <option value="3">10</option>\n' +
-                    '                                            </select>\n' +
-                    '                                        </div>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <li class="tr9">\n' +
-                    '                                    <div class="cont-warp">\n' +
-                    '                                        <p class="txt"></p>\n' +
-                    '                                        <div class="sel-input">\n' +
-                    '                                            <select class="c9">\n' +
-                    '                                                <option value="0"></option>\n' +
-                    '                                                <option value="1">0</option>\n' +
-                    '                                                <option value="2">5</option>\n' +
-                    '                                                <option value="3">10</option>\n' +
-                    '                                            </select>\n' +
-                    '                                        </div>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <li class="tr10">\n' +
-                    '                                    <div class="cont-warp">\n' +
-                    '                                        <p class="txt"></p>\n' +
-                    '                                        <div class="sel-input">\n' +
-                    '                                            <select class="c10">\n' +
-                    '                                                <option value="0"></option>\n' +
-                    '                                                <option value="1">0</option>\n' +
-                    '                                                <option value="2">5</option>\n' +
-                    '                                            </select>\n' +
-                    '                                        </div>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <li class="bt-tit">\n' +
-                    '                                    <div class="cont-warp">\n' +
-                    '                                        <p class="txt"></p>\n' +
-                    '                                        <div class="sel-input"></div>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <li class="bt-tit2">\n' +
-                    '                                    <div class="cont-warp">\n' +
-                    '                                        <p class="txt2">' + username + '</p>\n' +
-                    '                                        <div class="sel-input"></div>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <li class="bt-tit3">\n' +
-                    '                                    <div class="cont-warp">\n' +
-                    '                                        <p class="txt">一级护理</p>\n' +
-                    '                                        <div class="sel-input">\n' +
-                    '                                            <select class="c7">\n' +
-                    '                                                <option value="0"></option>\n' +
-                    '                                                <option value="1">一级护理</option>\n' +
-                    '                                                <option value="2">二级护理</option>\n' +
-                    '                                            </select>\n' +
-                    '                                        </div>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <li class="bt-tit4">\n' +
-                    '                                    <div class="cont-warp">\n' +
-                    '                                        <a href="" class="save-btn"><span>保存</span></a>\n' +
-                    '                                        <a href="" class="edit-btn">\n' +
-                    '                                            <i class="am-icon-pencil"></i><span>编辑</span>\n' +
-                    '                                        </a>\n' +
-                    '                                        <a href="" class="del-btn"><i class="am-icon-trash"></i><span>删除</span></a>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                            </ul>';
-                $("#tab-list").append(html);
-            });
 
-            for (var i = 1; i < 10; i++) {
-                $(".list ul").find(".c"+i).find("option:selected").each(function(i,el){
-                    // console.log("??")
-                    $(el).parents("li").find(".txt").text($(el).text())
-                })
-            }
-
+            // 总页数
             var pagenum = {{.PageNum}};
+            // 当前页数
             var index = parseInt(getURLParam("num"));
             if (isNaN(index)) {
                 index = {{.PageIndex}};
@@ -1557,28 +1354,250 @@
             var pagenum = num > 0 ? num:pagenum;
             var pid = getURLParam("pid") || 0;
             if (pid == 0) {
-                var pinfo1 = {{.PInfo}};
-                pid = parseInt(pinfo1["patient_id"])
+                // var pinfo1 = {{.PInfo.VAA01}};
+                pid = parseInt({{.PInfo.VAA01}});
             }
-            console.log("hhee" + pid + "--" + index + "--" + pagenum);
+            console.log("hhee--" + pid + "--" + index + "--" + pagenum);
 
-            $("#leftLast-btn").attr("href", "/pc/record/nrl3?pid=" + pid + "&num=" + 1);
+            $("#leftLast-btn").attr("href", "/pc/record/nrl3?pid=" + pid + "&num=" + 1  + "&sdate=" + date1 + "&edate=" + date2);
             if (index <= 1) {
                 index = 1;
-                $("#left-btn").attr("href", "/pc/record/nrl3?pid=" + pid + "&num=" + index);
+                $("#left-btn").attr("href", "/pc/record/nrl3?pid=" + pid + "&num=" + index + "&sdate=" + date1 + "&edate=" + date2);
             } else {
-                $("#left-btn").attr("href", "/pc/record/nrl3?pid=" + pid + "&num=" + (index - 1));
+                $("#left-btn").attr("href", "/pc/record/nrl3?pid=" + pid + "&num=" + (index - 1) + "&sdate=" + date1 + "&edate=" + date2);
             }
             if (index >= pagenum) {
                 index = pagenum;
-                $("#right-btn").attr("href", "/pc/record/nrl3?pid=" + pid + "&num=" + index);
+                $("#right-btn").attr("href", "/pc/record/nrl3?pid=" + pid + "&num=" + index + "&sdate=" + date1 + "&edate=" + date2);
             } else {
-                $("#right-btn").attr("href", "/pc/record/nrl3?pid=" + pid + "&num=" + (index + 1));
+                $("#right-btn").attr("href", "/pc/record/nrl3?pid=" + pid + "&num=" + (index + 1) + "&sdate=" + date1 + "&edate=" + date2);
             }
 
-            $("#rightLast-btn").attr("href", "/pc/record/nrl3?pid=" + pid + "&num=" + pagenum);
+            $("#rightLast-btn").attr("href", "/pc/record/nrl3?pid=" + pid + "&num=" + pagenum + "&sdate=" + date1 + "&edate=" + date2);
+
+
+
+            function reloadSheet(date1, date2) {
+                // date1 = date1 / 1000;
+                // date2 = date2 / 1000;
+                window.location.href = "/pc/record/nrl3?pid=" + pid + "&num=" + pagenum + "&sdate=" + date1 + "&edate=" + date2;
+            }
+
+            $("#go-btn").on("click", function () {
+                var val = $(".pageNum").val();
+                // console.log("heheheh", val);
+                window.location.href = "/pc/record/nrl3?pid=" + pid + "&num=" + val + "&sdate=" + date1 + "&edate=" + date2;
+            });
+
+
+            $(".user-list").on("click", "li", function () {
+                var pid = $(this).data('msg');
+                console.log($(this).data('msg'));
+                window.location.href = "/pc/record/nrl3?pid=" + pid;
+            })
+
+
 
         });
+
+
+
+
+    </script>
+
+    <script>
+        var nowstr = getNowDate();
+        var username = {{.Userinfo.Name}}; // 护士姓名
+
+
+        $(".btn.type2.createCol").on("click", function () {
+            console.log("hehehe");
+            var isOk = ($(".list").find(".active").length == 0);
+            if(!isOk){
+                alert("请先保存数据")
+                return false;
+            }
+            var html = '<ul class="active">\n' +
+                '                                <li class="tr11">\n' +
+                '                                    <div class="cont-warp">\n' +
+                '                                        <p class="txt">' + nowstr + '</p>\n' +
+                '                                        <div class="sel-input"></div>\n' +
+                '                                    </div>\n' +
+                '                                </li>\n' +
+                '                                <li class="tr1">\n' +
+                '                                    <div class="cont-warp">\n' +
+                '                                        <p class="txt"></p>\n' +
+                '                                        <div class="sel-input">\n' +
+                '                                            <select class="c1">\n' +
+                '                                                <option value="0"></option>\n' +
+                '                                                <option value="1">0</option>\n' +
+                '                                                <option value="2">5</option>\n' +
+                '                                                <option value="3">10</option>\n' +
+                '                                            </select>\n' +
+                '                                        </div>\n' +
+                '                                    </div>\n' +
+                '                                </li>\n' +
+                '                                <li class="tr2">\n' +
+                '                                    <div class="cont-warp">\n' +
+                '                                        <p class="txt"></p>\n' +
+                '                                        <div class="sel-input">\n' +
+                '                                            <select class="c2">\n' +
+                '                                                <option value="0"></option>\n' +
+                '                                                <option value="1">0</option>\n' +
+                '                                                <option value="2">5</option>\n' +
+                '                                                <option value="3">10</option>\n' +
+                '                                            </select>\n' +
+                '                                        </div>\n' +
+                '                                    </div>\n' +
+                '                                </li>\n' +
+                '                                <li class="tr3">\n' +
+                '                                    <div class="cont-warp">\n' +
+                '                                        <p class="txt"></p>\n' +
+                '                                        <div class="sel-input">\n' +
+                '                                            <select class="c3">\n' +
+                '                                                <option value="0"></option>\n' +
+                '                                                <option value="1">0</option>\n' +
+                '                                                <option value="2">5</option>\n' +
+                '                                            </select>\n' +
+                '                                        </div>\n' +
+                '                                    </div>\n' +
+                '                                </li>\n' +
+                '                                <li class="tr4">\n' +
+                '                                    <div class="cont-warp">\n' +
+                '                                        <p class="txt"></p>\n' +
+                '                                        <div class="sel-input">\n' +
+                '                                            <select class="c4">\n' +
+                '                                                <option value="0"></option>\n' +
+                '                                                <option value="1">0</option>\n' +
+                '                                                <option value="2">5</option>\n' +
+                '                                                <option value="3">10</option>\n' +
+                '                                            </select>\n' +
+                '                                        </div>\n' +
+                '                                    </div>\n' +
+                '                                </li>\n' +
+                '                                <li class="tr5">\n' +
+                '                                    <div class="cont-warp">\n' +
+                '                                        <p class="txt"></p>\n' +
+                '                                        <div class="sel-input">\n' +
+                '                                            <select class="c5">\n' +
+                '                                                <option value="0"></option>\n' +
+                '                                                <option value="1">0</option>\n' +
+                '                                                <option value="2">5</option>\n' +
+                '                                                <option value="3">10</option>\n' +
+                '                                            </select>\n' +
+                '                                        </div>\n' +
+                '                                    </div>\n' +
+                '                                </li>\n' +
+                '                                <li class="tr6">\n' +
+                '                                    <div class="cont-warp">\n' +
+                '                                        <p class="txt"></p>\n' +
+                '                                        <div class="sel-input">\n' +
+                '                                            <select class="c6">\n' +
+                '                                                <option value="0"></option>\n' +
+                '                                                <option value="1">0</option>\n' +
+                '                                                <option value="2">5</option>\n' +
+                '                                                <option value="3">10</option>\n' +
+                '                                                <option value="4">15</option>\n' +
+                '                                            </select>\n' +
+                '                                        </div>\n' +
+                '                                    </div>\n' +
+                '                                </li>\n' +
+                '                                <li class="tr7">\n' +
+                '                                    <div class="cont-warp">\n' +
+                '                                        <p class="txt"></p>\n' +
+                '                                        <div class="sel-input">\n' +
+                '                                            <select class="c7">\n' +
+                '                                                <option value="0"></option>\n' +
+                '\n' +
+                '                                                <option value="1">0</option>\n' +
+                '                                                <option value="2">5</option>\n' +
+                '                                                <option value="3">10</option>\n' +
+                '                                                <option value="4">15</option>\n' +
+                '                                            </select>\n' +
+                '                                        </div>\n' +
+                '                                    </div>\n' +
+                '                                </li>\n' +
+                '                                <li class="tr8">\n' +
+                '                                    <div class="cont-warp">\n' +
+                '                                        <p class="txt"></p>\n' +
+                '                                        <div class="sel-input">\n' +
+                '                                            <select class="c8">\n' +
+                '                                                <option value="0"></option>\n' +
+                '                                                <option value="1">0</option>\n' +
+                '                                                <option value="2">5</option>\n' +
+                '                                                <option value="3">10</option>\n' +
+                '                                            </select>\n' +
+                '                                        </div>\n' +
+                '                                    </div>\n' +
+                '                                </li>\n' +
+                '                                <li class="tr9">\n' +
+                '                                    <div class="cont-warp">\n' +
+                '                                        <p class="txt"></p>\n' +
+                '                                        <div class="sel-input">\n' +
+                '                                            <select class="c9">\n' +
+                '                                                <option value="0"></option>\n' +
+                '                                                <option value="1">0</option>\n' +
+                '                                                <option value="2">5</option>\n' +
+                '                                                <option value="3">10</option>\n' +
+                '                                            </select>\n' +
+                '                                        </div>\n' +
+                '                                    </div>\n' +
+                '                                </li>\n' +
+                '                                <li class="tr10">\n' +
+                '                                    <div class="cont-warp">\n' +
+                '                                        <p class="txt"></p>\n' +
+                '                                        <div class="sel-input">\n' +
+                '                                            <select class="c10">\n' +
+                '                                                <option value="0"></option>\n' +
+                '                                                <option value="1">0</option>\n' +
+                '                                                <option value="2">5</option>\n' +
+                '                                            </select>\n' +
+                '                                        </div>\n' +
+                '                                    </div>\n' +
+                '                                </li>\n' +
+                '                                <li class="bt-tit">\n' +
+                '                                    <div class="cont-warp">\n' +
+                '                                        <p class="txt"></p>\n' +
+                '                                        <div class="sel-input"></div>\n' +
+                '                                    </div>\n' +
+                '                                </li>\n' +
+                '                                <li class="bt-tit2">\n' +
+                '                                    <div class="cont-warp">\n' +
+                '                                        <p class="txt2">' + username + '</p>\n' +
+                '                                        <div class="sel-input"></div>\n' +
+                '                                    </div>\n' +
+                '                                </li>\n' +
+                '                                <li class="bt-tit3">\n' +
+                '                                    <div class="cont-warp">\n' +
+                '                                        <p class="txt">一级护理</p>\n' +
+                '                                        <div class="sel-input">\n' +
+                '                                            <select class="c7">\n' +
+                '                                                <option value="0"></option>\n' +
+                '                                                <option value="1">一级护理</option>\n' +
+                '                                                <option value="2">二级护理</option>\n' +
+                '                                            </select>\n' +
+                '                                        </div>\n' +
+                '                                    </div>\n' +
+                '                                </li>\n' +
+                '                                <li class="bt-tit4">\n' +
+                '                                    <div class="cont-warp">\n' +
+                '                                        <a href="" class="save-btn"><span>保存</span></a>\n' +
+                '                                        <a href="" class="edit-btn">\n' +
+                '                                            <i class="am-icon-pencil"></i><span>编辑</span>\n' +
+                '                                        </a>\n' +
+                '                                        <a href="" class="del-btn"><i class="am-icon-trash"></i><span>删除</span></a>\n' +
+                '                                    </div>\n' +
+                '                                </li>\n' +
+                '                            </ul>';
+            $("#tab-list").append(html);
+        });
+
+        for (var i = 1; i < 10; i++) {
+            $(".list ul").find(".c"+i).find("option:selected").each(function(i,el){
+                // console.log("??")
+                $(el).parents("li").find(".txt").text($(el).text())
+            })
+        }
     </script>
 
 </body>

@@ -4,6 +4,29 @@ import (
 	"time"
 	"fit"
 )
+
+//护理记录单 表头
+type NRL1Title struct {
+	ID    int64  `xorm:"pk autoincr comment(文书id)"`
+	BCK01 int64  `xorm:"comment(classid科室id)"`
+	VAA01 int64  `xorm:"comment(patientid病人id)"`
+
+	NRT01 string `xorm:"comment(表头1，1=意识，2=BADL评分，3=DVT评分，4=跌倒评分，5=压疮评分，6=疼痛评分，7=门冬胰岛素，8=瞳孔左mm，9=瞳孔右mm，10=吸氧L/min，11=自定义)"`
+	NRT01V string `xorm:"comment(表头1，自定义内容)"`
+	NRT02 string `xorm:"comment(表头2，1=意识，2=BADL评分，3=DVT评分，4=跌倒评分，5=压疮评分，6=疼痛评分，7=门冬胰岛素，8=瞳孔左mm，9=瞳孔右mm，10=吸氧L/min，11=自定义)"`
+	NRT02V string `xorm:"comment(表头2，自定义内容)"`
+	NRT03 string `xorm:"comment(表头3，1=意识，2=BADL评分，3=DVT评分，4=跌倒评分，5=压疮评分，6=疼痛评分，7=门冬胰岛素，8=瞳孔左mm，9=瞳孔右mm，10=吸氧L/min，11=自定义)"`
+	NRT03V string `xorm:"comment(表头3，1=意识，自定义内容)"`
+	NRT04 string `xorm:"comment(表头4，1=意识，2=BADL评分，3=DVT评分，4=跌倒评分，5=压疮评分，6=疼痛评分，7=门冬胰岛素，8=瞳孔左mm，9=瞳孔右mm，10=吸氧L/min，11=自定义)"`
+	NRT04V string `xorm:"comment(表头4，1=意识，自定义内容)"`
+	NRT05 string `xorm:"comment(表头5，1=意识，2=BADL评分，3=DVT评分，4=跌倒评分，5=压疮评分，6=疼痛评分，7=门冬胰岛素，8=瞳孔左mm，9=瞳孔右mm，10=吸氧L/min，11=自定义)"`
+	NRT05V string `xorm:"comment(表头5，1=意识，自定义内容)"`
+	NRT06 string `xorm:"comment(表头6，1=意识，2=BADL评分，3=DVT评分，4=跌倒评分，5=压疮评分，6=疼痛评分，7=门冬胰岛素，8=瞳孔左mm，9=瞳孔右mm，10=吸氧L/min，11=自定义)"`
+	NRT06V string `xorm:"comment(表头6，1=意识，自定义内容)"`
+	NRT07 string `xorm:"comment(表头7，1=意识，2=BADL评分，3=DVT评分，4=跌倒评分，5=压疮评分，6=疼痛评分，7=门冬胰岛素，8=瞳孔左mm，9=瞳孔右mm，10=吸氧L/min，11=自定义)"`
+	NRT07V string `xorm:"comment(表头7，1=意识，自定义内容)"`
+}
+
 //护理记录单
 type NRL1 struct {
 	Id          int64
@@ -39,7 +62,7 @@ type NRL1 struct {
 	NRA15A      string    // 自定义项：标题
 	NRA15B      string    // 自定义项：内容
 	//NRA16A      string    // 自定义项：标题
-	NRA16B      string    // 瞳孔 1=灵敏，2=迟钝，3=消失
+	NRA16B string // 瞳孔 1=灵敏，2=迟钝，3=消失
 }
 
 /*type NRL1 struct {
@@ -119,8 +142,6 @@ func (m NRL1) QueryNRL1ByDate(startDate, endDate string, page int) ([]NRL1, erro
 	return nrl1List, err
 }
 
-
-
 /*
 // 护理记录单录入
 1=体温
@@ -174,9 +195,8 @@ func GetNRL1Data(ty, pid string, day time.Time) ([]map[string]string, error) {
 	//	sqlstr = "SELECT * FROM " + tablename + "WHERE `type` = 2 AND `patientid` = ? AND `testtime` >= ? AND `testtime` < ? ORDER BY `testtime` DESC LIMIT 1"
 	//}
 
-
 	time1 := time.Date(day.Year(), day.Month(), day.Day(), 0, 0, 0, 0, loc)
-	time2 := time.Date(day.Year(), day.Month(), day.Day() + 1, 0, 0, 0, 0, loc)
+	time2 := time.Date(day.Year(), day.Month(), day.Day()+1, 0, 0, 0, 0, loc)
 	resultmap, err := fit.MySqlEngine().QueryString(sqlstr, pid, time1.Format("2006-01-02 15:04:05"), time2.Format("2006-01-02 15:04:05"))
 	if err != nil {
 		fit.Logger().LogError("temp chart ", err)
@@ -187,4 +207,32 @@ func GetNRL1Data(ty, pid string, day time.Time) ([]map[string]string, error) {
 	//}
 
 	return resultmap, nil
+}
+
+// pc端接口
+func PCQueryNRL1(pid, datestr1, datestr2 string, pagenum int) ([]NRL1, error) {
+	var mods []NRL1
+	var err error
+	if datestr2 == "" || datestr1 == "" {
+		err = fit.MySqlEngine().Table("NRL5").Where("VAA01 = ?", pid).Limit(9, (pagenum-1)*9).Asc("datetime", "NRL01").Find(&mods)
+	} else {
+		err = fit.MySqlEngine().Table("NRL5").Where("VAA01 = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Limit(9, (pagenum-1)*9).Find(&mods)
+	}
+	if err != nil {
+		return nil, err
+	}
+	//for key,_ := range mods {
+	//	val := mods[key]
+	//	mods[key].DateStr = val.DateTime.Format("2006-01-02")
+	//}
+	return mods, nil
+}
+
+func PCQueryNRL1PageCount(pid, datestr1, datestr2 string) (counts int64, err error) {
+	if datestr2 == "" || datestr1 == "" {
+		counts, err = fit.MySqlEngine().Table("NRL1").Where("Patientid = ?", pid).Count()
+	} else {
+		counts, err = fit.MySqlEngine().Table("NRL1").Where("VAA01 = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Count()
+	}
+	return counts, err
 }

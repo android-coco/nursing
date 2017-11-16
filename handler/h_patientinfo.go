@@ -12,6 +12,7 @@ type PatientInfoController struct {
 	fit.Controller
 }
 
+/*API 获取病人信息*/
 func (c PatientInfoController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 	r.ParseForm()

@@ -1129,8 +1129,32 @@ body {
   margin-bottom: 20px;
   margin-right: 70px;
 }
+.cont-batchInput .hd-bar span {
+  font-size: 14px;
+  vertical-align: middle;
+}
 .cont-batchInput .hd-bar .btn-group {
   margin-bottom: 20px;
+}
+.cont-batchInput .hd-bar .time-block {
+  font-size: 14px;
+  border: 1px solid #ddd;
+  width: 56px;
+  height: 30px;
+  border-radius: 4px;
+}
+.cont-batchInput .hd-bar .search-btn {
+  background-color: #fff;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  vertical-align: middle;
+  display: inline-block;
+  margin-left: 10px;
+  padding: 0 10px;
+  border-radius: 4px;
+  line-height: 25px;
+  color: #333;
+  cursor: pointer;
 }
 .cont-batchInput .hd-bar .btn-warp {
   text-align: right;
@@ -1140,16 +1164,24 @@ body {
 }
 .cont-batchInput .hd-bar .sel-bar .check-bar {
   display: inline-block;
-  margin-right: 38px;
+  margin-right: 18px;
 }
 .cont-batchInput .hd-bar .sel-bar .check-bar label {
-  margin-left: 10px;
+  margin-left: 4px;
   font-size: 14px;
   vertical-align: middle;
 }
+.cont-batchInput .hd-bar .sel-bar input[type="radio"] {
+  margin: 0;
+  vertical-align: middle;
+}
+.cont-batchInput .hd-bar .sel-bar .txt {
+  font-size: 14px;
+  display: inline-block;
+}
 .cont-batchInput .cont-warp {
   overflow: auto;
-  width: 2300px;
+  width: 1910px;
 }
 .cont-batchInput .scroll-box {
   padding: 10px;
@@ -1160,7 +1192,7 @@ body {
 }
 .cont-batchInput .cont-table-div {
   display: block;
-  width: 2300px;
+  width: 1910px;
   float: left;
   position: relative;
 }
@@ -1182,11 +1214,7 @@ body {
   z-index: 9;
 }
 .cont-batchInput .cont-table.fx th {
-  height: 80px !important;
-}
-.cont-batchInput .cont-table.fx th.th10.colspan3,
-.cont-batchInput .cont-table.fx th.colspan3-1 {
-  height: 40px !important;
+  height: 79px !important;
 }
 .cont-batchInput .cont-table thead {
   height: 78px;
@@ -1217,7 +1245,10 @@ body {
 .cont-batchInput .cont-table thead .th3 {
   width: 56px;
 }
-.cont-batchInput .cont-table thead .th4,
+.cont-batchInput .cont-table thead .th4 {
+  width: 196px;
+}
+.cont-batchInput .cont-table thead .th6-2,
 .cont-batchInput .cont-table thead .th6,
 .cont-batchInput .cont-table thead .th9,
 .cont-batchInput .cont-table thead .th11,
@@ -1242,8 +1273,7 @@ body {
 .cont-batchInput .cont-table thead .th14 {
   width: 110px;
 }
-.cont-batchInput .cont-table thead .th15,
-.cont-batchInput .cont-table thead .th16 {
+.cont-batchInput .cont-table thead .th15 {
   width: 110px;
 }
 .cont-batchInput .cont-table thead .th17 {
@@ -1251,6 +1281,37 @@ body {
 }
 .cont-batchInput .cont-table thead .th18 {
   width: 200px;
+}
+.cont-batchInput .cont-table thead .th16 {
+  width: 224px;
+}
+.cont-batchInput .cont-table .date-box {
+  vertical-align: middle;
+}
+.cont-batchInput .cont-table .date-box .date-input2 {
+  border: 1px solid #ddd;
+  display: inline-block;
+  width: 74px;
+  height: 30px;
+  padding: 2px;
+  border-right: 0;
+  font-size: 13px;
+  text-align: center;
+}
+.cont-batchInput .cont-table .date-box .date-input2.type2 {
+  border: 1px solid #fff;
+}
+.cont-batchInput .cont-table .date-box .time-input2 {
+  border: 1px solid #ddd;
+  display: inline-block;
+  width: 50px;
+  height: 30px;
+  padding: 2px;
+  font-size: 13px;
+  text-align: center;
+}
+.cont-batchInput .cont-table .date-box .time-input2.type2 {
+  border: 1px solid #fff;
 }
 .cont-batchInput .cont-table tbody tr {
   border-bottom: 1px solid #ddd;
@@ -1284,7 +1345,12 @@ body {
 .cont-batchInput .table-input-bar select {
   margin-left: 4px;
   width: 76px;
+  height: 30px;
   border: 1px solid #ddd;
+  font-size: 14px;
+}
+.cont-batchInput .table-input-bar select.type1 {
+  width: auto;
 }
 .cont-batchInput .table-input-bar input[type="text"].input2 {
   width: 100%;
@@ -1413,13 +1479,25 @@ body {
 .history-batchInput .hd-bar .btn-group {
   margin-top: 20px;
 }
+.history-batchInput .hd-bar span {
+  font-size: 14px;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+.history-batchInput .hd-bar .time-block {
+  font-size: 14px;
+  border: 1px solid #ddd;
+  width: 56px;
+  height: 30px;
+  border-radius: 4px;
+}
 .history-batchInput .batchInput-box {
   margin-left: -234px;
   margin-right: 10px;
   overflow: auto;
 }
 .history-batchInput .batchInput-box .warp-box {
-  width: 2500px;
+  width: 2258px;
   position: relative;
 }
 .history-batchInput .batchInput-box .cont-table {
@@ -1434,11 +1512,7 @@ body {
   z-index: 9;
 }
 .history-batchInput .batchInput-box .cont-table.fx th {
-  height: 80px !important;
-}
-.history-batchInput .batchInput-box .cont-table.fx th.th10.colspan3,
-.history-batchInput .batchInput-box .cont-table.fx th.colspan3-1 {
-  height: 40px !important;
+  height: 79px !important;
 }
 .history-batchInput .batchInput-box .cont-table thead {
   height: 78px;
@@ -1469,7 +1543,10 @@ body {
 .history-batchInput .batchInput-box .cont-table thead .th3 {
   width: 56px;
 }
-.history-batchInput .batchInput-box .cont-table thead .th4,
+.history-batchInput .batchInput-box .cont-table thead .th4 {
+  width: 196px;
+}
+.history-batchInput .batchInput-box .cont-table thead .th6-2,
 .history-batchInput .batchInput-box .cont-table thead .th6,
 .history-batchInput .batchInput-box .cont-table thead .th9,
 .history-batchInput .batchInput-box .cont-table thead .th11,
@@ -1494,8 +1571,7 @@ body {
 .history-batchInput .batchInput-box .cont-table thead .th14 {
   width: 110px;
 }
-.history-batchInput .batchInput-box .cont-table thead .th15,
-.history-batchInput .batchInput-box .cont-table thead .th16 {
+.history-batchInput .batchInput-box .cont-table thead .th15 {
   width: 110px;
 }
 .history-batchInput .batchInput-box .cont-table thead .th17 {
@@ -1503,6 +1579,37 @@ body {
 }
 .history-batchInput .batchInput-box .cont-table thead .th18 {
   width: 200px;
+}
+.history-batchInput .batchInput-box .cont-table thead .th16 {
+  width: 224px;
+}
+.history-batchInput .batchInput-box .cont-table .date-box {
+  vertical-align: middle;
+}
+.history-batchInput .batchInput-box .cont-table .date-box .date-input2 {
+  border: 1px solid #ddd;
+  display: inline-block;
+  width: 74px;
+  height: 30px;
+  padding: 2px;
+  border-right: 0;
+  font-size: 13px;
+  text-align: center;
+}
+.history-batchInput .batchInput-box .cont-table .date-box .date-input2.type2 {
+  border: 1px solid #fff;
+}
+.history-batchInput .batchInput-box .cont-table .date-box .time-input2 {
+  border: 1px solid #ddd;
+  display: inline-block;
+  width: 50px;
+  height: 30px;
+  padding: 2px;
+  font-size: 13px;
+  text-align: center;
+}
+.history-batchInput .batchInput-box .cont-table .date-box .time-input2.type2 {
+  border: 1px solid #fff;
 }
 .history-batchInput .batchInput-box .cont-table tbody tr {
   border-bottom: 1px solid #ddd;
@@ -1536,7 +1643,12 @@ body {
 .history-batchInput .batchInput-box .table-input-bar select {
   margin-left: 4px;
   width: 76px;
+  height: 30px;
   border: 1px solid #ddd;
+  font-size: 14px;
+}
+.history-batchInput .batchInput-box .table-input-bar select.type1 {
+  width: auto;
 }
 .history-batchInput .batchInput-box .table-input-bar input[type="text"].input2 {
   width: 100%;
@@ -1632,6 +1744,19 @@ body {
 .history-batchInput .date-time-box .time-input-td {
   width: 60px;
   margin-left: -1px;
+}
+.history-batchInput .search-btn {
+  background-color: #fff;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  vertical-align: middle;
+  display: inline-block;
+  margin-left: 10px;
+  padding: 0 10px;
+  border-radius: 4px;
+  line-height: 25px;
+  color: #333;
+  cursor: pointer;
 }
 .history-batchInput .batchInput-box .active {
   background-color: #fdedd0;
@@ -1788,10 +1913,16 @@ body {
   margin-right: 10px;
 }
 .doctorSplit .hd-bar .date-box .sel-date-box {
-  width: 130px;
   margin-top: 10px;
   display: inline-block;
   vertical-align: top;
+  min-width: 450px;
+}
+.doctorSplit .hd-bar .date-box .sel-date-box span {
+  color: #999;
+  font-size: 12px;
+  vertical-align: middle;
+  min-width: 70px;
 }
 .doctorSplit .hd-bar .date-box .sel-date-box .input-box {
   display: inline-block;
@@ -1823,27 +1954,75 @@ body {
   border-radius: 4px;
   border: 1px solid #ddd;
 }
+.doctorSplit .hd-bar .date-box .sel-date-box .search-btn {
+  background-color: #fff;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  vertical-align: middle;
+  display: inline-block;
+  margin-left: 0;
+  padding: 0 10px;
+  border-radius: 4px;
+  line-height: 30px;
+  color: #333;
+  cursor: pointer;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+  line-height: 28px;
+  /* border-left: 0; */
+  position: relative;
+  left: -1px;
+}
+.doctorSplit .hd-bar .date-box .br1 {
+  position: relative;
+  min-width: 450px;
+}
+.doctorSplit .hd-bar .date-box .br1:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  border-right: 1px solid #ddd;
+  height: 14px;
+  top: 50%;
+  margin-top: -7px;
+  right: 0;
+}
 .doctorSplit .hd-bar .date-box .sel-filter-box {
   display: inline-block;
   margin-top: 10px;
   vertical-align: top;
 }
-.doctorSplit .hd-bar .date-box .sel-filter-box label {
-  font-size: 14px;
+.doctorSplit .hd-bar .date-box .sel-filter-box span {
+  color: #999;
+  font-size: 12px;
   vertical-align: middle;
-  margin: 0;
+  display: inline-block;
+  min-width: 70px;
 }
-.doctorSplit .hd-bar .date-box .sel-filter-box select {
-  font-size: 14px;
-  display: block;
-  height: 30px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+.doctorSplit .hd-bar .date-box .sel-filter-box span.pd-20 {
+  margin-left: 20px;
 }
 .doctorSplit .hd-bar .date-box .sel-filter-box .input-box {
   display: inline-block;
   margin-right: 10px;
   line-height: 26px;
+}
+.doctorSplit .hd-bar .date-box .sel-filter-box .input-box.type2 {
+  margin-right: 0;
+}
+.doctorSplit .hd-bar .date-box .sel-filter-box .input-box.type2 input[type=radio],
+.doctorSplit .hd-bar .date-box .sel-filter-box .input-box.type2 input[type=checkbox] {
+  vertical-align: middle;
+}
+.doctorSplit .hd-bar .date-box .sel-filter-box .input-box label {
+  font-size: 14px;
+  vertical-align: middle;
+  margin: 0;
+}
+.doctorSplit .hd-bar .date-box .sel-filter-box .input-box input[type=radio],
+.doctorSplit .hd-bar .date-box .sel-filter-box .input-box input[type=checkbox] {
+  vertical-align: middle;
+  margin: 0 6px 0 0;
 }
 .doctorSplit .doctorSplit-box {
   width: 100%;
@@ -1997,10 +2176,14 @@ body {
 }
 .doctorSearch .hd-bar .sel-box .sel-date-box,
 .doctorSearch2 .hd-bar .sel-box .sel-date-box {
-  width: 258px;
   margin-bottom: 8px;
   display: inline-block;
   vertical-align: top;
+}
+.doctorSearch .hd-bar .sel-box .sel-date-box span,
+.doctorSearch2 .hd-bar .sel-box .sel-date-box span {
+  color: #999;
+  font-size: 14px;
 }
 .doctorSearch .hd-bar .sel-box .sel-date-box .input-box,
 .doctorSearch2 .hd-bar .sel-box .sel-date-box .input-box {
@@ -2042,6 +2225,20 @@ body {
   border: 1px solid #ddd;
   font-size: 14px;
 }
+.doctorSearch .hd-bar .sel-box .sel-date-box .search-btn,
+.doctorSearch2 .hd-bar .sel-box .sel-date-box .search-btn {
+  background-color: #fff;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  vertical-align: middle;
+  display: inline-block;
+  margin-left: 10px;
+  padding: 0 10px;
+  border-radius: 4px;
+  line-height: 25px;
+  color: #333;
+  cursor: pointer;
+}
 .doctorSearch .hd-bar .sel-box .sel-filter-box,
 .doctorSearch2 .hd-bar .sel-box .sel-filter-box {
   display: inline-block;
@@ -2053,14 +2250,16 @@ body {
   font-size: 14px;
   vertical-align: middle;
   margin: 0;
+  color: #999;
 }
 .doctorSearch .hd-bar .sel-box .sel-filter-box select,
 .doctorSearch2 .hd-bar .sel-box .sel-filter-box select {
   font-size: 14px;
-  display: block;
+  display: inline-block;
   height: 30px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  color: #333;
 }
 .doctorSearch .hd-bar .sel-box .sel-filter-box .input-box,
 .doctorSearch2 .hd-bar .sel-box .sel-filter-box .input-box {
@@ -3482,28 +3681,28 @@ body {
   height: 100%;
 }
 .doc-input1 .doc-input1-cont.content {
-  padding: 66px 5px 0 5px;
+  padding: 118px 5px 0 5px;
 }
 .doc-input1 .doc-input1-cont .tit-bar {
   width: 100%;
   position: relative;
-  top: -66px;
+  top: -118px;
 }
 .doc-input1 .doc-input1-cont .tit-bar .tit {
   text-align: center;
-  line-height: 66px;
   font-size: 16px;
   color: #333;
+  line-height: 46px;
+  clear: both;
 }
 .doc-input1 .doc-input1-cont .tit-bar .btn-group {
-  line-height: 66px;
-  position: absolute;
-  right: 10px;
+  float: right;
+  line-height: 46px;
 }
 .doc-input1 .doc-input1-cont .scroll-box {
   height: 100%;
   position: relative;
-  top: -76px;
+  top: -118px;
   bottom: 140px;
   overflow: auto;
 }
@@ -5725,6 +5924,949 @@ body {
 .doc-input1 .doc-input6-cont .scroll-box .doc-cont .pd-20 {
   padding-top: 20px;
 }
+.doc-input1 .doc-input7-cont {
+  position: relative;
+  height: 100%;
+  margin-left: 244px;
+}
+.doc-input1 .doc-input7-cont.content {
+  padding: 118px 5px 0 5px;
+}
+.doc-input1 .doc-input7-cont .tit-warp {
+  width: 100%;
+  position: relative;
+  top: -118px;
+}
+.doc-input1 .doc-input7-cont .tit-bar {
+  width: 100%;
+}
+.doc-input1 .doc-input7-cont .tit-bar .tit {
+  text-align: center;
+  line-height: 46px;
+  font-size: 16px;
+  color: #333;
+}
+.doc-input1 .doc-input7-cont .tit-bar .fl {
+  float: left;
+}
+.doc-input1 .doc-input7-cont .tit-bar .date-box {
+  float: left;
+  line-height: 46px;
+}
+.doc-input1 .doc-input7-cont .tit-bar .date-box .all-btn {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 14px;
+  color: #333;
+  padding: 0 8px;
+  line-height: 30px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+.doc-input1 .doc-input7-cont .tit-bar .date-box .date-input {
+  width: 90px;
+  font-size: 14px;
+}
+.doc-input1 .doc-input7-cont .tit-bar .btn-group {
+  float: right;
+  line-height: 46px;
+}
+.doc-input1 .doc-input7-cont .tit-bar .btn-group a {
+  cursor: pointer;
+}
+.doc-input1 .doc-input7-cont .tit-bar .btn-group .btn {
+  margin-right: 10px;
+}
+.doc-input1 .doc-input7-cont .tit-bar .btn-group .btn:nth-last-child(1) {
+  margin: 0;
+}
+.doc-input1 .doc-input7-cont .tit-bar .tit {
+  clear: both;
+  color: #333;
+  font-size: 16px;
+}
+.doc-input1 .doc-input7-cont .scroll-box {
+  height: 100%;
+  position: relative;
+  top: -118px;
+  bottom: 140px;
+  overflow: auto;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont {
+  width: 1200px;
+  margin: 0 auto;
+  overflow: auto;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .row-txt {
+  line-height: 26px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .row-txt span {
+  color: #333;
+  padding-right: 28px;
+  font-size: 14px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .row-txt span label {
+  color: #666;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .row-txt2 {
+  line-height: 26px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .row-txt2 .m-check2 {
+  font-size: 0;
+  display: inline-block;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .row-txt2 .m-check2 .tit {
+  color: #666;
+  font-size: 14px;
+  display: inline-block;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .row-txt2 .m-check2 .tit3 {
+  font-size: 14px;
+  color: #333;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .row-txt2 .m-check2 ul {
+  display: inline-block;
+  margin: 0;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .row-txt2 .m-check2 li {
+  font-size: 14px;
+  color: #333;
+  display: inline-block;
+  padding-right: 16px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .row-txt2 .m-check2 li.pd-0 {
+  padding-right: 0;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .row-txt2 .m-check2 li label {
+  cursor: pointer;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .row-txt2 .m-check2 .m-input-txt {
+  width: 65px;
+  height: 22px;
+  line-height: 22px;
+  font-size: 14px;
+  vertical-align: 3px;
+  color: #333;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .row-txt2 .m-check2 .m-input-txt.type2 {
+  width: 148px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .row-txt2 .m-check2 .m-input-txt.type3 {
+  width: 156px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .row-txt2 .m-check2 .m-input-txt.type4 {
+  width: 112px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .row-txt2 .m-check2 .m-input-txt.type5 {
+  width: 685px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .row-txt2 .m-check2 input[type=number] {
+  vertical-align: sub;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .row-txt2 .m-check2 .m-input-bar {
+  display: inline-block;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .row-txt2 .m-check2 label {
+  font-size: 14px;
+  color: #333;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .row-txt2 .m-check2 span {
+  font-size: 14px;
+  color: #333;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .row-txt2 .m-check2 .m-msg-bar {
+  display: inline-block;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table {
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  width: 300px;
+  font-size: 14px;
+  color: #666;
+  float: left;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table td {
+  border-right: 1px solid #ddd;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table tr .cont-warp {
+  border-bottom: 1px solid #ddd;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .td1 .cont-warp {
+  width: 90px;
+  text-align: center;
+  padding: 0 10px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .td2 .cont-warp {
+  width: 210px;
+  height: 34px;
+  line-height: 34px;
+  padding-left: 10px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .td2 .cont-warp p {
+  line-height: 34px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tit-tr .td1 .cont-warp {
+  width: 100%;
+  height: 34px;
+  line-height: 34px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tit-tr2 .cont-warp {
+  width: 100%;
+  height: 34px;
+  line-height: 34px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr1 .td1 .cont-warp,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr2 .td1 .cont-warp,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr6 .td1 .cont-warp,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr4 .td1 .cont-warp {
+  padding-top: 12px;
+  height: 68px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr3 .td1 .cont-warp,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr5 .td1 .cont-warp {
+  padding-top: 54px;
+  height: 170px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr7 .cont-warp {
+  padding-left: 10px;
+  line-height: 28px;
+  height: 28px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr7-2 .cont-warp,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr7-4 .cont-warp,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr7-6 .cont-warp,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr7-7 .cont-warp,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr7-11 .cont-warp,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr7-12 .cont-warp,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr7-14 .cont-warp,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr7-16 .cont-warp,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr7-17 .cont-warp,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr7-19 .cont-warp,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr7-21 .cont-warp,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr7-22 .cont-warp,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr7-24 .cont-warp {
+  padding-left: 10px;
+  line-height: 26px;
+  height: 56px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr7-25 .cont-warp,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr7-26 .cont-warp {
+  padding-left: 0;
+  height: 56px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr7-25 .cont-warp textarea,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr7-26 .cont-warp textarea {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #fff;
+  line-height: 20px;
+  font-size: 14px;
+  display: block;
+  resize: none;
+  padding: 4px 6px;
+  cursor: pointer;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr7-25 .cont-warp textarea:hover,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr7-26 .cont-warp textarea:hover {
+  border-color: #0072e7;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr7-25 .cont-warp textarea:disabled,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr7-26 .cont-warp textarea:disabled {
+  background-color: #fff;
+  cursor: initial;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr7-25 .cont-warp textarea:disabled:hover,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .tr7-26 .cont-warp textarea:disabled:hover {
+  border-color: #fff;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .bt-tit .cont-warp,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .bt-tit2 .cont-warp,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .bt-tit3 .cont-warp {
+  height: 34px;
+  line-height: 34px;
+  text-align: center;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .bt-tit .cont-warp .txt,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .bt-tit2 .cont-warp .txt,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .bt-tit3 .cont-warp .txt {
+  line-height: 34px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .bt-tit .cont-warp .txt2,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .bt-tit2 .cont-warp .txt2,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .bt-tit3 .cont-warp .txt2 {
+  line-height: 34px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .bt-tit4 .cont-warp {
+  height: 70px;
+  line-height: 70px;
+  text-align: center;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .doc-table .bt-tit4 .cont-warp .txt {
+  line-height: 70px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box {
+  float: left;
+  font-size: 14px;
+  border-top: 1px solid #ddd;
+  width: 672px;
+  position: relative;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .line-box {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .line-box .tr .cont-warp {
+  height: 34px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .line-box .tr.type .cont-warp {
+  height: 56px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .line-box .tr.type2 .cont-warp {
+  height: 28px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .line-box .null .cont-warp,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .line-box .bt-tit .cont-warp {
+  height: 34px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .line-box .bt-tit2 .cont-warp {
+  height: 34px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .line-box .bt-tit4 .cont-warp {
+  height: 70px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .line-box .cont-warp {
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list {
+  overflow: auto;
+  border-right: 1px solid #ddd;
+  position: relative;
+  z-index: 1;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list .td .cont-warp {
+  height: 34px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list .td .cont-warp p {
+  line-height: 34px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list .td.type {
+  border-bottom: 1px solid #ddd;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+  height: 34px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list .td.type .m-input-radio2 {
+  height: 33px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list .td.type2 {
+  border-bottom: 1px solid #ddd;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+  height: 28px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list .td.type2 .m-input-radio2 {
+  height: 27px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list .td.type3 {
+  border-bottom: 1px solid #ddd;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+  height: 56px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list .td.type3 .m-input-radio2 {
+  height: 55px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list .null .cont-warp {
+  height: 34px;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  border-right: 0;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list > ul {
+  width: 84px;
+  border-right: 1px solid #ddd;
+  float: left;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list ul:nth-child(8) .cont-warp {
+  border-right: 0;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list ul li {
+  position: relative;
+  overflow: auto;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list ul .sel-input {
+  display: none;
+  height: 100%;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list ul .sel-input .input-txt {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #fef7eb;
+  background-color: #fef7eb;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list ul .sel-input .input-txt:hover {
+  border-color: #0072e7;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list ul.active {
+  background-color: #fef7eb;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list ul.active .sel-input {
+  display: block;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list ul.active .txt {
+  display: none;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list ul.active .save-btn {
+  display: block;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list ul.active .edit-btn {
+  display: none;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list ul.active .m-input-radio2 .icon {
+  border: 1px solid #fef7eb;
+  cursor: pointer;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list ul.active .m-input-radio2:hover .icon {
+  border: 1px solid #0072e7;
+  background-image: url(../../images/admin_pc/icon48.png);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 18px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list ul.active .null .cont-warp {
+  border-bottom: 1px solid #ddd;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list .bt-tit .cont-warp,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list .bt-tit2 .cont-warp,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list .bt-tit3 .cont-warp,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list .bt-tit4 .cont-warp {
+  height: 34px;
+  text-align: center;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list .bt-tit4 .cont-warp {
+  border-bottom: 0;
+  height: 69px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list .bt-tit4 .cont-warp .txt {
+  line-height: 69px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list .save-btn {
+  color: #0072e7;
+  display: none;
+  line-height: 32px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list .save-btn span {
+  text-decoration: underline;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list .edit-btn {
+  color: #ed8c02;
+  font-size: 14px;
+  display: block;
+  line-height: 32px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list .edit-btn span {
+  text-decoration: underline;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list .del-btn {
+  font-size: 14px;
+  color: #d91f01;
+  display: block;
+  line-height: 32px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list .del-btn span {
+  text-decoration: underline;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .page-bar {
+  font-size: 12px;
+  color: #333;
+  padding: 20px 0;
+  clear: both;
+  text-align: center;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .page-bar ul,
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .page-bar li {
+  display: inline-block;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .page-bar li {
+  padding: 0 4px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .page-bar .pageNum {
+  width: 40px;
+  height: 24px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+  color: #0072e7;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .page-bar .pageSum {
+  padding: 0 10px;
+  font-style: normal;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .remarks-box {
+  overflow: auto;
+  font-size: 12px;
+  color: #333;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .remarks-box .l {
+  float: left;
+  width: 60%;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .remarks-box .r {
+  float: left;
+  width: 40%;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .remarks-box .tit {
+  color: #0072e7;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .pd-20 {
+  padding-top: 20px;
+}
+.doc-input1 .doc-input8-cont {
+  position: relative;
+  height: 100%;
+  margin-left: 244px;
+}
+.doc-input1 .doc-input8-cont.content {
+  padding: 96px 5px 0 5px;
+}
+.doc-input1 .doc-input8-cont .tit-warp {
+  width: 100%;
+  position: relative;
+  top: -96px;
+}
+.doc-input1 .doc-input8-cont .tit-bar {
+  width: 100%;
+}
+.doc-input1 .doc-input8-cont .tit-bar .tit {
+  text-align: center;
+  line-height: 46px;
+  font-size: 16px;
+  color: #333;
+}
+.doc-input1 .doc-input8-cont .tit-bar .fl {
+  float: left;
+}
+.doc-input1 .doc-input8-cont .tit-bar .date-box {
+  float: left;
+  line-height: 46px;
+}
+.doc-input1 .doc-input8-cont .tit-bar .date-box .all-btn {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 14px;
+  color: #333;
+  padding: 0 8px;
+  line-height: 30px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+.doc-input1 .doc-input8-cont .tit-bar .date-box .date-input {
+  width: 90px;
+  font-size: 14px;
+}
+.doc-input1 .doc-input8-cont .tit-bar .btn-group {
+  float: right;
+  line-height: 46px;
+}
+.doc-input1 .doc-input8-cont .tit-bar .btn-group a {
+  cursor: pointer;
+}
+.doc-input1 .doc-input8-cont .tit-bar .btn-group .btn {
+  margin-right: 10px;
+}
+.doc-input1 .doc-input8-cont .tit-bar .btn-group .btn:nth-last-child(1) {
+  margin: 0;
+}
+.doc-input1 .doc-input8-cont .tit-bar .btn-group .type3 {
+  color: #fea202;
+  border: 1px solid #fea202;
+}
+.doc-input1 .doc-input8-cont .tit-bar .tit {
+  clear: both;
+  color: #333;
+  font-size: 16px;
+}
+.doc-input1 .doc-input8-cont .scroll-box {
+  height: 100%;
+  position: relative;
+  top: -96px;
+  bottom: 140px;
+  overflow: auto;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont {
+  margin: 0 auto;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .row-txt {
+  line-height: 26px;
+  min-width: 1024px;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .row-txt span {
+  color: #333;
+  padding-right: 28px;
+  font-size: 14px;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .row-txt span label {
+  color: #666;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .row-txt2 {
+  line-height: 26px;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .row-txt2 .m-check2 {
+  font-size: 0;
+  display: inline-block;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .row-txt2 .m-check2 .tit {
+  color: #666;
+  font-size: 14px;
+  display: inline-block;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .row-txt2 .m-check2 .tit3 {
+  font-size: 14px;
+  color: #333;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .row-txt2 .m-check2 ul {
+  display: inline-block;
+  margin: 0;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .row-txt2 .m-check2 li {
+  font-size: 14px;
+  color: #333;
+  display: inline-block;
+  padding-right: 16px;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .row-txt2 .m-check2 li.pd-0 {
+  padding-right: 0;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .row-txt2 .m-check2 li label {
+  cursor: pointer;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .row-txt2 .m-check2 .m-input-txt {
+  width: 65px;
+  height: 22px;
+  line-height: 22px;
+  font-size: 14px;
+  vertical-align: 3px;
+  color: #333;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .row-txt2 .m-check2 .m-input-txt.type2 {
+  width: 148px;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .row-txt2 .m-check2 .m-input-txt.type3 {
+  width: 156px;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .row-txt2 .m-check2 .m-input-txt.type4 {
+  width: 112px;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .row-txt2 .m-check2 .m-input-txt.type5 {
+  width: 685px;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .row-txt2 .m-check2 input[type=number] {
+  vertical-align: sub;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .row-txt2 .m-check2 .m-input-bar {
+  display: inline-block;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .row-txt2 .m-check2 label {
+  font-size: 14px;
+  color: #333;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .row-txt2 .m-check2 span {
+  font-size: 14px;
+  color: #333;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .row-txt2 .m-check2 .m-msg-bar {
+  display: inline-block;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table {
+  color: #333;
+  font-size: 14px;
+  border: 1px solid #ddd;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table thead {
+  background-color: #d8e5f2;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table thead th {
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  text-align: center;
+  font-weight: normal;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table thead th .cont-warp {
+  min-height: 80px;
+  display: block;
+  padding: 28px 0;
+  position: relative;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table thead th .cont-warp.h40 {
+  min-height: 40px;
+  line-height: 40px;
+  padding: 0;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table thead .unit {
+  color: #999;
+  display: block;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table thead.active .sel-box {
+  display: block;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table thead.active .txt {
+  display: none;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table thead.active .edit-btn {
+  display: none;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table thead.active .save-btn,
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table thead.active .cancel-btn {
+  display: inline-block;
+  width: 40%;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table td {
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  text-align: center;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table tr.active {
+  background-color: #fef7eb;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table tr.active .edit-btn {
+  display: none;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table tr.active .save-btn {
+  display: inline-block;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table tr.active .cont-warp {
+  display: block;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table tr.active .show-txt {
+  display: none;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table tbody .cont-warp {
+  display: none;
+  text-align: center;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table tbody .date-input2,
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table tbody .time-input2 {
+  border: 1px solid #ddd;
+  background-color: #fff;
+  width: 80%;
+  margin: 10px 0;
+  text-align: center;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table tbody .show-txt {
+  padding: 10px 0;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table tbody .input-txt {
+  border: 1px solid #fef7eb;
+  background-color: #fef7eb;
+  width: 100%;
+  height: 75px;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table tbody .input-txt:hover {
+  border-color: #0072e7;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table tbody .input-txt2 {
+  border: 1px solid #fef7eb;
+  background-color: #fef7eb;
+  width: 24px;
+  height: 30px;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table tbody .input-txt2:hover {
+  border-color: #0072e7;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table tbody .input-textarea {
+  height: 75px;
+  width: 100%;
+  border: 1px solid #fef7eb;
+  background-color: #fef7eb;
+  display: block;
+  resize: none;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table tbody .input-textarea:hover {
+  border-color: #0072e7;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table .sel-box {
+  display: none;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table .edit-btn {
+  color: #ed8c02;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table .edit-btn span {
+  text-decoration: underline;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table .del-btn {
+  padding-left: 20px;
+  color: #d91f01;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table .del-btn span {
+  text-decoration: underline;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table .save-btn {
+  color: #0072e7;
+  text-decoration: underline;
+  display: none;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table .cancel-btn {
+  color: #333;
+  text-decoration: underline;
+  display: none;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table .w180 {
+  width: 180px;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table .w150 {
+  width: 150px;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table .w130 {
+  width: 130px;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table .w100 {
+  width: 100px;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table .w75 {
+  width: 75px;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table .w60 {
+  width: 60px;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table .w64 {
+  width: 64px;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table .w48 {
+  width: 48px;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table .w46 {
+  width: 46px;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table .sel-box {
+  position: absolute;
+  top: 6px;
+  width: 100%;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table .sel-box select {
+  width: 65px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table .sel-box .input-txt {
+  width: 65px;
+  border: 1px solid #ddd;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .page-bar {
+  font-size: 12px;
+  color: #333;
+  padding: 20px 0;
+  clear: both;
+  text-align: center;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .page-bar ul,
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .page-bar li {
+  display: inline-block;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .page-bar li {
+  padding: 0 4px;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .page-bar .pageNum {
+  width: 40px;
+  height: 24px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+  color: #0072e7;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .page-bar .pageSum {
+  padding: 0 10px;
+  font-style: normal;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .remarks-box {
+  overflow: auto;
+  font-size: 12px;
+  color: #333;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .remarks-box .l {
+  float: left;
+  width: 60%;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .remarks-box .r {
+  float: left;
+  width: 40%;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .remarks-box .tit {
+  color: #0072e7;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .pd-20 {
+  padding-top: 20px;
+}
+.doc-input1.type2 {
+  background-color: #fff;
+  position: absolute;
+  top: 106px;
+  bottom: 0;
+  width: 100%;
+  padding: 0;
+}
+.doc-input1.type2 .doc-input1-cont.content {
+  margin-left: 0;
+}
+.doc-input1.type2 .doc-input2-cont.content {
+  margin-left: 0;
+}
+.doc-input1.type2 .doc-input3-cont.content {
+  margin-left: 0;
+}
+.doc-input1.type2 .doc-input4-cont.content {
+  margin-left: 0;
+}
+.doc-input1.type2 .doc-input5-cont.content {
+  margin-left: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.doc-input1.type2 .doc-input6-cont.content {
+  margin-left: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.doc-input1.type2 .doc-input7-cont.content {
+  margin-left: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.doc-input1.type2 .doc-input8-cont.content {
+  margin-left: 0px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.sel-page-bar {
+  background-color: #fff;
+  margin-top: 10px;
+  height: 46px;
+  line-height: 40px;
+  border-bottom: 1px solid #ddd;
+  padding: 0 14px;
+}
+.sel-page-bar span {
+  font-size: 14px;
+  color: #333;
+}
+.sel-page-bar select {
+  width: 372px;
+  height: 30px;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  font-size: 14px;
+  color: #333;
+}
 .user-bar {
   border: 1px solid #dedede;
   width: 224px;
@@ -5926,4 +7068,219 @@ body {
 }
 .m-input-radio2 input[type=radio]:disabled + label.icon {
   border-color: #999;
+}
+.m-input-checkbox {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.m-input-checkbox input[type=checkbox] {
+  display: none;
+}
+.m-input-checkbox .icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 1px solid #000;
+  background-color: #fff;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+}
+.m-input-checkbox .icon:after {
+  content: '';
+  width: 9px;
+  height: 5px;
+  position: absolute;
+  top: 30%;
+  left: 4px;
+  border: 2px solid #4895ef;
+  border-top: none;
+  border-right: none;
+  background: transparent;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  -webkit-transform: rotate(-45deg) translate(0, -50%);
+     -moz-transform: rotate(-45deg) translate(0, -50%);
+      -ms-transform: rotate(-45deg) translate(0, -50%);
+          transform: rotate(-45deg) translate(0, -50%);
+}
+.m-input-checkbox input[type=checkbox]:disabled + label.icon {
+  border-color: #999;
+}
+.m-input-checkbox input[type=checkbox]:checked + label.icon:after {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+.m-modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+}
+.m-modal .cont {
+  width: 886px;
+  height: 542px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -443px;
+  margin-top: -271px;
+  box-shadow: 0px 0 64px 0px rgba(82, 77, 77, 0.35);
+  border-radius: 14px;
+  padding-top: 40px;
+  overflow: hidden;
+}
+.m-modal .cont .hd {
+  line-height: 40px;
+  color: #fff;
+  padding-left: 20px;
+  background-color: #4895ef;
+  position: absolute;
+  width: 100%;
+  top: 0;
+}
+.m-modal .cont .main-box {
+  height: 100%;
+  background-color: #fff;
+}
+.m-modal .cont .main-box .l {
+  float: left;
+  width: 450px;
+  height: 100%;
+}
+.m-modal .cont .main-box .l .date-box {
+  margin: 20px 0 20px 14px;
+}
+.m-modal .cont .main-box .l .date-input {
+  width: 92px;
+  font-size: 12px;
+  text-align: center;
+}
+.m-modal .cont .main-box .l .time-input {
+  width: 50px;
+  font-size: 12px;
+  text-align: center;
+}
+.m-modal .cont .main-box .l .sub-btn {
+  width: 70px;
+  height: 30px;
+  line-height: 30px;
+  border: 1px solid #ddd;
+  text-align: center;
+  font-size: 14px;
+  display: inline-block;
+  background-color: #f8f8f8;
+  color: #333;
+  vertical-align: middle;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+.m-modal .cont .main-box .l .sum-box {
+  padding: 0 14px 0 48px;
+  overflow: auto;
+}
+.m-modal .cont .main-box .l .sum-box ul {
+  display: block;
+  width: 100%;
+}
+.m-modal .cont .main-box .l .sum-box ul li {
+  width: 50%;
+  float: left;
+  font-size: 14px;
+}
+.m-modal .cont .main-box .l .sum-box ul li.fill {
+  width: 100%;
+}
+.m-modal .cont .main-box .l .sum-box ul li .tit {
+  color: #333;
+  display: inline-block;
+  width: 72px;
+}
+.m-modal .cont .main-box .l .sum-box ul li .val {
+  color: #4895ef;
+}
+.m-modal .cont .main-box .l .bt {
+  padding-top: 40px;
+}
+.m-modal .cont .main-box .l .bt .bar {
+  padding-bottom: 10px;
+  text-align: center;
+}
+.m-modal .cont .main-box .l .bt .bar input[type=checkbox] {
+  margin-right: 6px;
+}
+.m-modal .cont .main-box .l .bt .btn-group {
+  text-align: center;
+}
+.m-modal .cont .main-box .l .bt .btn-group .qx-btn,
+.m-modal .cont .main-box .l .bt .btn-group .ok-btn {
+  width: 86px;
+  line-height: 30px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  color: #333;
+  text-align: center;
+  display: inline-block;
+}
+.m-modal .cont .main-box .l .bt .btn-group .ok-btn {
+  background-color: #fea202;
+  border-color: #fea202;
+  color: #fff;
+  margin-left: 30px;
+}
+.m-modal .cont .main-box .r {
+  float: left;
+  width: 436px;
+  height: 100%;
+  background-color: #f8f8f8;
+  overflow-y: scroll;
+  padding: 0 10px 10px 10px;
+}
+.m-modal .cont .main-box .r li p {
+  font-size: 14px;
+  line-height: 26px;
+  color: #333;
+}
+.m-modal .cont .main-box .r li p .b1 {
+  display: inline-block;
+  width: 25%;
+}
+.m-modal .cont .main-box .r li p .b2 {
+  display: inline-block;
+  width: 35%;
+}
+.m-modal .cont .main-box .r li p .b3 {
+  display: inline-block;
+  width: 20%;
+}
+.m-modal .cont .main-box .r li p .b4 {
+  display: inline-block;
+  width: 16%;
+}
+.m-modal .cont .main-box .r .tit {
+  position: relative;
+  font-size: 16px;
+  padding-left: 8px;
+  line-height: 30px;
+  color: #333;
+  margin-top: 15px;
+}
+.m-modal .cont .main-box .r .tit:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  width: 3px;
+  height: 16px;
+  background-color: #0072e7;
+  top: 50%;
+  margin-top: -8px;
+  left: 0;
 }

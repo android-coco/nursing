@@ -38,7 +38,7 @@
                 年龄:<span>{{.Pinfo.VAA10}}岁</span>
             </li>
             <li class="b1">
-                科室:<span>{{.Pinfo.BCK03}}</span>
+                科室:<span>{{.Pinfo.BCK03C}}</span>
             </li>
             <li class="b1">
                 床号:<span>{{.Pinfo.BCQ04}}</span>
@@ -58,10 +58,10 @@
         <p class="tit">
             陪护情况：
         </p>
-        <ul>
+        <ul class="radio-grup">
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" id="c1-v1" name="check1" data-v="1" class="c1">
+                    <input type="radio" id="c1-v1" name="check1" data-v="1" class="c1" {{if eq .NRL.NRL08 "1"}}checked{{end}}>
                     <label for="c1-v1" class="icon"></label>
                 </div>
                 <label for="c1-v1">无</label>
@@ -69,16 +69,16 @@
             <li>
                 <div class="m-check-warp">
                     <div class="m-input-radio">
-                        <input type="radio" id="c1-v2" name="check1" data-v="2" class="c1">
+                        <input type="radio" id="c1-v2" name="check1" data-v="2" class="c1 main-sel" {{if eq .NRL.NRL08 "2"}}checked{{end}}>
                         <label for="c1-v2" class="icon"></label>
                     </div>
-                    <label for="c1-v2">有</label>
+                    <label for="c1-v2" style="padding-left:5px">有</label>
                 </div>
-                <ul id="c1-c2">
+                <ul id="c1-c2" class="child-sel disabled-box">
                     <li class="b3">
                         （
-                        <div class="m-input-radio">
-                            <input type="radio" id="c1-v2-v1" name="c1-v2" data-v="1">
+                        <div class="m-input-checkbox">
+                            <input type="checkbox" id="c1-v2-v1" name="c1-v2" data-v="1">
                             <label for="c1-v2-v1" class="icon"></label>
                         </div>
                         <label for="c1-v2-v1">家属</label>
@@ -86,28 +86,29 @@
 
                     </li>
                     <li class="b3">
-                        <div class="m-input-radio">
-                            <input type="radio" id="c1-v2-v2" name="c1-v2" data-v="2">
+                        <div class="m-input-checkbox">
+                            <input type="checkbox" id="c1-v2-v2" name="c1-v2" data-v="2">
                             <label for="c1-v2-v2" class="icon"></label>
                         </div>
                         <label for="c1-v2-v2">保姆</label>
                     </li>
 
                     <li class="b3">
-                        <div class="m-input-radio">
-                            <input type="radio" id="c1-v2-v3" name="c1-v2" data-v="2">
+                        <div class="m-input-checkbox">
+                            <input type="checkbox" id="c1-v2-v3" name="c1-v2" data-v="3">
                             <label for="c1-v2-v3" class="icon"></label>
                         </div>
                         <label for="c1-v2-v3">护工</label>
                     </li>
-                    <li class="">
-                        &nbsp;&nbsp;
-                        <div class="m-input-radio">
-                            <input type="radio" id="c1-v2-v4" name="c1-v2" data-v="3">
+                    <li>                        &nbsp;&nbsp;
+                        <div class="m-input-checkbox">
+                            <input type="checkbox" id="c1-v2-v4" name="c1-v2" data-v="4" class="main-sel">
                             <label for="c1-v2-v4" class="icon"></label>
                         </div>
                         <label for="c1-v2-v4">其他</label>
-                        <input type="text" class="m-input-txt">）
+                        <span class="child-sel" >
+                            <input type="text" id="qt-txt" class="m-input-txt" value="{{.NRL.NRL08B}}">）
+                        </span>
                     </li>
 
                 </ul>
@@ -132,14 +133,14 @@
         <ul>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" id="c2-v1" name="check2" data-v="1">
+                    <input type="radio" id="c2-v1" name="check2" data-v="1" {{if eq .NRL.NRL01 "1"}}checked{{end}}>
                     <label for="c2-v1" class="icon"></label>
                 </div>
                 <label for="c2-v1">否=0</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" id="c2-v2" name="check2" data-v="2">
+                    <input type="radio" id="c2-v2" name="check2" data-v="2" {{if eq .NRL.NRL01 "2"}}checked{{end}}>
                     <label for="c2-v2" class="icon"></label>
                 </div>
                 <label for="c2-v2">是=25</label>
@@ -157,14 +158,14 @@
         <ul>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" id="c3-v1" name="check3" data-v="1">
+                    <input type="radio" id="c3-v1" name="check3" data-v="1" {{if eq .NRL.NRL02 "1"}}checked{{end}}>
                     <label for="c3-v1" class="icon"></label>
                 </div>
                 <label for="c3-v1">否=0</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" id="c3-v2" name="check3" data-v="2">
+                    <input type="radio" id="c3-v2" name="check3" data-v="2" {{if eq .NRL.NRL02 "2"}}checked{{end}}>
                     <label for="c3-v2" class="icon"></label>
                 </div>
                 <label for="c3-v2">是=15</label>
@@ -182,35 +183,35 @@
         <ul class="t6">
             <li class="b3" style="width:40%;margin-top:0;">
                 <div class="m-input-radio">
-                    <input type="radio" id="c4-v1" name="check4" data-v="1">
+                    <input type="radio" id="c4-v1" name="check4" data-v="1" {{if eq .NRL.NRL03 "1"}}checked{{end}}>
                     <label for="c4-v1" class="icon"></label>
                 </div>
                 <label for="c4-v1">不需要=0</label>
             </li>
             <li class="b3" style="width:60%;margin-top:0;">
                 <div class="m-input-radio">
-                    <input type="radio" id="c4-v2" name="check4" data-v="2">
+                    <input type="radio" id="c4-v2" name="check4" data-v="2" {{if eq .NRL.NRL03 "2"}}checked{{end}}>
                     <label for="c4-v2" class="icon"></label>
                 </div>
                 <label for="c4-v2">完全卧床=0</label>
             </li>
             <li class="b3" style="width:40%">
                 <div class="m-input-radio">
-                    <input type="radio" id="c4-v3" name="check4" data-v="3">
+                    <input type="radio" id="c4-v3" name="check4" data-v="3" {{if eq .NRL.NRL03 "3"}}checked{{end}}>
                     <label for="c4-v3" class="icon"></label>
                 </div>
                 <label for="c4-v3">有人扶持=0</label>
             </li>
             <li class="b3" style="width:60%">
                 <div class="m-input-radio">
-                    <input type="radio" id="c4-v4" name="check4" data-v="4">
+                    <input type="radio" id="c4-v4" name="check4" data-v="4" {{if eq .NRL.NRL03 "4"}}checked{{end}}>
                     <label for="c4-v4" class="icon"></label>
                 </div>
                 <label for="c4-v4">拐杖／手杖/四角叉=15</label>
             </li>
             <li class="b3" style="width:40%">
                 <div class="m-input-radio">
-                    <input type="radio" id="c4-v5" name="check4" data-v="5">
+                    <input type="radio" id="c4-v5" name="check4" data-v="5" {{if eq .NRL.NRL03 "5"}}checked{{end}}>
                     <label for="c4-v5" class="icon"></label>
                 </div>
                 <label for="c4-v5">依扶家具=30</label>
@@ -228,14 +229,14 @@
         <ul>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" id="c5-v1" name="check5" data-v="1">
+                    <input type="radio" id="c5-v1" name="check5" data-v="1" {{if eq .NRL.NRL04 "1"}}checked{{end}}>
                     <label for="c5-v1" class="icon"></label>
                 </div>
                 <label for="c5-v1">否=0</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" id="c5-v2" name="check5" data-v="2">
+                    <input type="radio" id="c5-v2" name="check5" data-v="2" {{if eq .NRL.NRL04 "2"}}checked{{end}}>
                     <label for="c5-v2" class="icon"></label>
                 </div>
                 <label for="c5-v2">是=20</label>
@@ -254,35 +255,35 @@
         <ul class="t6">
             <li class="b3" style="width:40%;margin-top:0;">
                 <div class="m-input-radio">
-                    <input type="radio" id="c6-v1" name="check6" data-v="1">
+                    <input type="radio" id="c6-v1" name="check6" data-v="1" {{if eq .NRL.NRL05 "1"}}checked{{end}}>
                     <label for="c6-v1" class="icon"></label>
                 </div>
                 <label for="c6-v1">正常=0</label>
             </li>
             <li class="b3" style="width:60%;margin-top:0;">
                 <div class="m-input-radio">
-                    <input type="radio" id="c6-v2" name="check6" data-v="2">
+                    <input type="radio" id="c6-v2" name="check6" data-v="2" {{if eq .NRL.NRL05 "2"}}checked{{end}}>
                     <label for="c6-v2" class="icon"></label>
                 </div>
                 <label for="c6-v2">卧床=0</label>
             </li>
             <li class="b3" style="width:40%">
                 <div class="m-input-radio">
-                    <input type="radio" id="c6-v3" name="check6" data-v="3">
+                    <input type="radio" id="c6-v3" name="check6" data-v="3" {{if eq .NRL.NRL05 "3"}}checked{{end}}>
                     <label for="c6-v3" class="icon"></label>
                 </div>
                 <label for="c6-v3">轮椅代步=0</label>
             </li>
             <li class="b3" style="width:60%">
                 <div class="m-input-radio">
-                    <input type="radio" id="c6-v4" name="check6" data-v="4">
+                    <input type="radio" id="c6-v4" name="check6" data-v="4" {{if eq .NRL.NRL05 "4"}}checked{{end}}>
                     <label for="c6-v4" class="icon"></label>
                 </div>
                 <label for="c6-v4">双下肢软弱无力=10</label>
             </li>
             <li class="b3" style="width:60%">
                 <div class="m-input-radio">
-                    <input type="radio" id="c6-v5" name="check6" data-v="5">
+                    <input type="radio" id="c6-v5" name="check6" data-v="5" {{if eq .NRL.NRL05 "5"}}checked{{end}}>
                     <label for="c6-v5" class="icon"></label>
                 </div>
                 <label for="c6-v5">残疾或功能障碍=20</label>
@@ -301,14 +302,14 @@
         <ul>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" id="c7-v1" name="check7" data-v="1" class="c1">
+                    <input type="radio" id="c7-v1" name="check7" data-v="1" class="c1" {{if eq .NRL.NRL06 "1"}}checked{{end}}>
                     <label for="c7-v1" class="icon"></label>
                 </div>
                 <label for="c7-v1">了解自己的能力／量力而行=0</label>
             </li>
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" id="c7-v2" name="check7" data-v="2" class="c1">
+                    <input type="radio" id="c7-v2" name="check7" data-v="2" class="c1" {{if eq .NRL.NRL06 "2"}}checked{{end}}>
                     <label for="c7-v2" class="icon"></label>
                 </div>
                 <label for="c7-v2">高估自己／忘记自己的限制=15</label>
@@ -512,18 +513,18 @@
                         <input type="checkbox" id="c8-v25" name="check8" data-v="25" class="c1">
                         <label for="c8-v25" class="icon"></label>
                     </div>
-                    <div class="warp-textarea">
-                        <textarea class="m-input-textarea"></textarea>
+                    <div class="warp-textarea ">
+                        <textarea data-type="{{ .Title.NRT01}}" class="m-input-textarea" id="hl-1" {{if eq .Title.NRT01 "11"}}disabled{{end}}>{{if eq .Title.NRT01 "11"}}{{.Title.NRT01V}}{{end}}</textarea>
                     </div>
                 </li>
 
                 <li>
                     <div class="m-input-checkbox" style="margin-top:0.15rem">
-                        <input type="checkbox" id="c8-v26" name="check8" data-v="26" class="c1">
+                        <input type="checkbox" id="c8-v26" name="check8" data-v="26" class="c1  ">
                         <label for="c8-v26" class="icon"></label>
                     </div>
-                    <div class="warp-textarea">
-                        <textarea class="m-input-textarea"></textarea>
+                    <div class="warp-textarea ">
+                        <textarea  data-type="{{ .Title.NRT02}}" class="m-input-textarea" id="hl-2" {{if eq .Title.NRT02 "11"}}disabled{{end}}>{{if eq .Title.NRT02 "11"}}{{.Title.NRT02V}}{{end}}</textarea>
                     </div>
 
                 </li>
@@ -551,7 +552,7 @@
     </div>
     <div class="m-autograph2">
         <span class="tit">审核护士签名：</span>
-        <input type="text" class="m-input-txt type2">
+        <input type="text" class="m-input-txt type2" id="qname" value="{{.NRL.NRL09B}}">
     </div>
     <div class="m-pd40"></div>
 
@@ -572,24 +573,13 @@
 
 <div class="m-pd100"></div>
 
-<script type="tmpl" id="item">
-        <div class="item">
-            <ul>
-                <li><label class="pd" for="--"><span class="icon">-</span>名称：</label>
-                    <input id="--" type="text" class="m-input-txt"></li>
-                <li><label for="--">结果：</label>
-                    <input id="--" type="text" class="m-input-txt type1"></li>
-            </ul>
-        </div>
-    </script>
 
-<script src="../dist/js/base.js"></script>
+<script src="/static/dist/js/base.js"></script>
 <script>
-    var type = 1;
-
     // setTime('{"date":"2017-01-02","time":"21:00"}')
     function setTime(dataStr) {
-        var data = JSON.parse(dataStr)
+        // var data = JSON.parse(dataStr)
+        var data = dataStr || {}
         var $mTime = $('.m-time');
         data.date && $mTime.find('.date').text(data.date)
         data.time && $mTime.find('.time').text(data.time)
@@ -597,10 +587,11 @@
 
     function nowDate() {
         var res = {},
-            nowD = new Date();
+                nowD = new Date();
         res.date = nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
         res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
-        return JSON.stringify(res)
+        // return JSON.stringify(res)
+        return res
     }
 
     function addZero(i) {
@@ -611,18 +602,51 @@
         }
     }
 
-    if (type = 1) {
+
+    var type = {{.Type}};
+    if (type == "1") {
         setTime(nowDate())
     }
 
-    var numInputFn = jky.util.throttle(function() {
-        if (isNaN(parseFloat($(this).val()))) {
-            $(this).val("")
-        } else {
-            $(this).val(parseFloat($(this).val()))
+    //安卓调用
+    $(function(){
+        $(".m-time").find('.date').on('click',function(){
+            // WebJs_SetDate()
+            if(window.android!=null && typeof(window.android)!="undefined"){
+                window.android.WebJs_SetDate();
+            }else{
+                alert("js对象注入失败")
+            }
+
+        })
+        $(".m-time").find('.time').on('click',function(){
+            // WebJs_SetTime()
+            if(window.android!=null && typeof(window.android)!="undefined"){
+                window.android.WebJs_SetTime();
+            }else{
+                alert("js对象注入失败")
+            }
+        })
+    })
+
+
+
+    //单选可取消单选
+    $("input[type=radio]:checked").data('check',1)
+    $('input[type=radio]').on('click',function(){
+        var ischeck = $(this).data("check");
+        if(!ischeck){
+            $(this).parents('ul').find("input[type=radio]").data("check","0")
+            $(this).data("check","1");
+        }else{
+            $(this).prop('checked',false);
+            $(this).data("check","0");
         }
-    }, 500)
-    $('input[type=number]').on('input', numInputFn)
+    })
+
+
+
+
 
 
     function reqAPI(type) {
@@ -630,40 +654,21 @@
 
         function init() {
             data = {
-                "nurse_id": "10010",
-                "nurse_name": "王小二",
-                "patient_id": "124",
-                "department_id": "102"
-                // "nrl_id":"10.11"
+                /***---------------------**/
+                // 护士ID
+                "uid": {{.Account.Employeeid}},
+                // 护士名
+                "username": {{.Account.Username}},
+                //病人id
+                "pid": {{.Pinfo.VAA01}},
+                // 科室id
+                "did": {{.Pinfo.BCK01B}},
+                // "nrl_id":{{.Rid}}
+                /***---------------------**/
             }
-        }
-
-        function setData() {
-            init() //重置数据
-            setDataDateTime();
-            setDatavNRL02();
-            setDatavNRL03();
-            setDatavNRL04();
-            setDatavNRL05();
-            setDatavNRL06();
-            setDatavNRL07();
-            setDatavNRL08();
-            setDatavNRL09();
-            setDatavNRL10();
-            setDatavNRL12();
-            setDatavNRL13();
-            setDatavNRL14();
-            setDatavNRL15();
-            setDatavNRL16();
-            setDatavNRL17();
-            setDatavNRL19();
-            setDatavNRL20();
-            setDatavNRL21();
-            setDatavNRL23();
-            setDatavNRL25();
-            setDatavNRL29();
-            setDatavNRL30();
-            setDataEnd();
+            if(type=="2"){
+                data["rid"] = {{.Rid}}
+            }
         }
 
         //设置日期
@@ -671,266 +676,233 @@
             var $mTime = $('.m-time')
             dateStr = $mTime.find('.date').text()
             timeStr = $mTime.find('.time').text()
-            if (dateStr && timeStr) {
-                data.datetime = dateStr + " " + timeStr + ":00"
+            if (dateStr) {
+                data.datetime = dateStr + " "+timeStr+":00"
+            }
+        }
+
+        function setData() {
+            init() //重置数据
+            setDataDateTime();
+            //-----
+
+            setDatavNRL08();
+
+            setDatavNRL01();
+            setDatavNRL02();
+            setDatavNRL03();
+            setDatavNRL04();
+            setDatavNRL05();
+            setDatavNRL06();
+            setDatavNRL07();
+
+            setDatavNRL09B();
+
+            sumFen();
+
+            // 判断是否是没设置值
+            if(type=="1"){
+                var num = 0;
+                $.each(data,function(i,n){
+                    num++;
+                })
+                //总共5个固定参数,如果没填长度就为5
+                if(num==5){
+                    return false;
+                }else{
+                    return true;
+                }
+            }else{
+                return true;
             }
         }
 
 
-        // 设置教育程度
-        function setDatavNRL02() {
+        //获取总分
+        function sumFen() {
+            var $fen = $('.m-zofen').find(".fen")
+            fenStr = $fen.text()
+            // timeStr = $mTime.find('.time').text()
+            if (fenStr!="") {
+                data.score = fenStr
+            }
+        }
+
+        // 陪护情况
+        function setDatavNRL08(){
             var $check = $("#c1").find('input[type=radio]:checked');
-            $check.length && (data.NRL02 = $check.data('v'))
+            $check.length && (data.NRL08 = $check.data('v'));
+            if($check.data('v')=="2"){
+                var $check2 = $("#c1-c2").find('input[type=checkbox]:checked');
+                if($check2.length){
+                    var res = [];
+                    $check2.each(function(i,el){
+                        res.push($(el).data('v'));
+                        if($(el).data('v') == "4"){ //如果是第四项
+                            var qtVal = $.trim($("#qt-txt").val());
+                            qtVal && (data.NRL08B = qtVal)
+                        }
+                    });
+                    data.NRL08A =res.join(",")
+                }
+            }
         }
 
-        // 资料来源
-        function setDatavNRL03() {
+
+        // 跌倒史（3个月内）：
+        function setDatavNRL01(){
             var $check = $("#c2").find('input[type=radio]:checked');
-            $check.length && (data.NRL03 = $check.data('v'))
+            $check.length && (data.NRL01 = $check.data('v'));
         }
 
-        // 日常照顾者：
-        function setDatavNRL04() {
+        // 超过1个医学诊断
+        function setDatavNRL02(){
             var $check = $("#c3").find('input[type=radio]:checked');
-            $check.length && (data.NRL04 = $check.data('v'))
+            $check.length && (data.NRL02 = $check.data('v'));
         }
 
-        // 入院方式
-        function setDatavNRL05() {
+        // 使用助行器具
+        function setDatavNRL03(){
             var $check = $("#c4").find('input[type=radio]:checked');
-            $check.length && (data.NRL05 = $check.data('v'))
+            $check.length && (data.NRL03 = $check.data('v'));
         }
 
-        // 过敏史：
-        function setDatavNRL06() {
-            var $check = $("#c5").find('.c5[type=radio]:checked');
-            if ($check.length != 0) {
-                data.NRL06 = $check.data('v');
-                if ($check.data('v') == 2) {
-                    var $check2 = $("#c5-c2").find('input[type=radio]:checked'),
-                        check2Data = {},
-                        check2Val = $check2.parents("li").find("input[type=text]");
-                    if ($check2.length) {
-                        check2Data[$check2.data('v')] = $.trim(check2Val.val());
-                        data.NRL06A = JSON.stringify(check2Data)
-                    }
-                }
-            }
+        // 静脉输液／肝素锁
+        function setDatavNRL04(){
+            var $check = $("#c5").find('input[type=radio]:checked');
+            $check.length && (data.NRL04 = $check.data('v'));
         }
 
-        // 医疗费用支付方式：
-        function setDatavNRL07() {
+
+        // 步态
+        function setDatavNRL05(){
             var $check = $("#c6").find('input[type=radio]:checked');
-            $check.length && (data.NRL07 = $check.data('v'))
-            if ($check.data('v') == "7") {
-                var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
-                checkVal && (data.NRL07A = checkVal)
-            }
+            $check.length && (data.NRL05 = $check.data('v'));
         }
 
-        // 意识状态
-        function setDatavNRL08() {
+        // 认知状态
+        function setDatavNRL06(){
             var $check = $("#c7").find('input[type=radio]:checked');
-            $check.length && (data.NRL08 = $check.data('v'))
+            $check.length && (data.NRL06 = $check.data('v'));
         }
 
-        function setDatavNRL09() {
-            var $check = $("#c8").find('input[type=radio]:checked');
-            $check.length && (data.NRL09 = $check.data('v'))
-        }
 
-        //饮食
-        function setDatavNRL10() {
-            var $check = $("#c9").find('input[type=radio]:checked');
-            $check.length && (data.NRL10 = $check.data('v'))
-            var $check2 = $("#c10").find('input[type=radio]:checked');
-            $check2.length && (data.NRL11 = $check2.data('v'))
-        }
 
-        // 口腔黏膜：
-        function setDatavNRL12() {
-            var $check = $("#c11").find('input[type=radio]:checked');
-            $check.length && (data.NRL12 = $check.data('v'))
-            if ($check.data('v') == "5") {
-                var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
-                checkVal && (data.NRL12A = checkVal)
+        // 跌倒护理措施
+        function setDatavNRL07(){
+            var $check = $("#c8").find('input[type=checkbox]:checked');
+            if($check.length){
+                var res = [];
+                $check.each(function(i,el){
+                    res.push($(el).data('v'));
+                })
+                // console.log(res)
+                data.NRL07 =res.join(",")
             }
         }
 
-        function setDatavNRL13() {
-            var $check = $("#c12").find('input[type=radio]:checked');
-            $check.length && (data.NRL13 = $check.data('v'))
-        }
 
-        // 睡眠
-        function setDatavNRL14() {
-            var $check = $("#c13").find('input[type=radio]:checked');
-            $check.length && (data.NRL14 = $check.data('v'))
-            if ($check.data('v') == "6") {
-                var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
-                checkVal && (data.NRL14A = checkVal)
-            }
-        }
 
-        function setDatavNRL15() {
-            var $check = $("#c14").find('input[type=radio]:checked');
-            $check.length && (data.NRL15 = $check.data('v'))
-        }
 
-        // 排尿
-        function setDatavNRL16() {
-            var $check = $("#c15").find('input[type=radio]:checked');
-            $check.length && (data.NRL16 = $check.data('v'))
-            if ($check.data('v') == "8") {
-                var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
-                checkVal && (data.NRL16A = checkVal)
-            }
-        }
+        // 审核护士签名
+        function setDatavNRL09B(){
+            var NRL09B = $.trim($("#qname").val());
+            NRL09B && (data.NRL09B = NRL09B);
 
-        // 排便
-        function setDatavNRL17() {
-            var i1 = $.trim($("#i1").val()),
-                i2 = $.trim($("#i2").val());
-            if (i1 || i2) {
-                var res = '';
-                i2 ? (res = i1 + "," + i2) : (res = i1)
-                data.NRL18 = res
-
-            }
-
-            var $check = $("#c16").find('input[type=radio]:checked');
-            $check.length && (data.NRL17 = $check.data('v'))
-            if ($check.data('v') == "5") {
-                var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
-                checkVal && (data.NRL17A = checkVal)
-            }
-
-        }
-
-        // 四肢活动：
-        function setDatavNRL19() {
-            var $check = $("#c17").find('.c17[type=radio]:checked');
-            if ($check.length != 0) {
-                data.NRL19 = $check.data('v');
-                if ($check.data('v') == 3) {
-                    var $check2 = $("#c17-c2").find('input[type=radio]:checked');
-                    $check2.length && (data.LimbsId = $check2.data('v'))
-                }
-            }
-        }
-
-        // 自理能力：
-        function setDatavNRL20() {
-            var $check = $("#c18").find('input[type=radio]:checked');
-            $check.length && (data.NRL20 = $check.data('v'))
-            if ($check.data('v') == "3") {
-                var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
-                checkVal && (data.NRL20A = checkVal)
-            }
-        }
-
-        // 皮肤状况：
-        function setDatavNRL21() {
-            var $check = $("#c19").find('input[type=radio]:checked');
-            $check.length && (data.NRL20 = $check.data('v'))
-            var iText = $.trim($("#i3").val())
-            iText && (data.NRL22 = iText)
-        }
-
-        // 语言沟通：
-        function setDatavNRL23() {
-            var iText = $.trim($("#i4").val())
-            iText && (data.NRL23 = iText)
-            var $check = $("#c20").find('input[type=radio]:checked');
-            $check.length && (data.NRL24 = $check.data('v'))
-        }
-
-        // 生活习惯：
-        function setDatavNRL25() {
-            var $check = $("#c21").find('input[type=radio]:checked');
-            $check.length && (data.NRL25 = $check.data('v'));
-            if ($check.data('v') == "2") {
-                var checkVal = $.trim($check.parents("li").find("input[type=number]").val());
-                checkVal && (data.NRL26 = checkVal)
-            }
-            var $check2 = $("#c22").find('input[type=radio]:checked');
-            $check2.length && (data.NRL27 = $check2.data('v'));
-            if ($check2.data('v') == "2") {
-                var checkVal2 = $.trim($check2.parents("li").find("input[type=number]").val());
-                checkVal2 && (data.NRL28 = checkVal2)
-            }
-        }
-
-        // 其它症状和体征：
-        function setDatavNRL29() {
-            var resTxt = $('#i5').val() //$.trim()
-            resTxt && (data.NRL29 = resTxt)
-        }
-
-        // 住院告知
-        function setDatavNRL30() {
-            var $check = $("#c23").find('input[type=radio]:checked');
-            $check.length && (data.NRL30 = $check.data('v'))
-            if ($check.data('v') == "8") {
-                var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
-                checkVal && (data.NRL30A = checkVal)
-            }
-        }
-
-        // 基础护理 专科护理 患者安全  其它 护理交班重点 提醒医生给予关注 提醒家属给予关爱
-        function setDataEnd() {
-            $('#i6').val() && (data.NRL31 = $('#i6').val())
-            $('#i7').val() && (data.NRL32 = $('#i7').val())
-            $('#i8').val() && (data.NRL33 = $('#i8').val())
-            $('#i9').val() && (data.NRL34 = $('#i9').val())
-            $('#i10').val() && (data.NRL35 = $('#i10').val())
-            $('#i11').val() && (data.NRL36 = $('#i11').val())
-            $('#i12').val() && (data.NRL37 = $('#i12').val())
         }
 
         var api = '',
-            typeStr = '';
+                typeStr = '';
         if (type == 1) {
-            api = "/record/nr2/add"
+            api = "/record/nr7/add"
             typeStr = '保存'
         } else if (type == 2) {
-            api = "/record/nr1/update"
+            api = "/record/nr7/update"
             typeStr = '修改'
         }
         return function saveFrom() {
-            setData();
 
-            $.ajax({
-                url: api,
-                data: data,
-                type: "POST",
-                success: function(data) {
-                    console.log(data);
-                    if (data) {
-                        switch (data.result) {
-                            case 0:
-                                jky.util.toast(typeStr + "成功！", 1500);
-                                break;
-                            case 2:
-                                jky.util.toast(typeStr + "失败，请重试！", 1500);
-                                break;
-                            default:
-                                jky.util.toast("未知错误！", 1000)
+            var isOk = setData();
+            if(isOk) {
+                $.ajax({
+                    url: api,
+                    data: data,
+                    type: "POST",
+                    success: function (data) {
+                        console.log(data);
+                        if (data) {
+                            switch (data.result) {
+                                case 0:
+                                    jky.util.toast(typeStr + "成功！", 1500, function () {
+                                        if (window.android != null && typeof(window.android) != "undefined") {
+                                            window.android.WebJs_Finish();
+                                        } else {
+                                            alert("js对象注入失败")
+                                        }
+                                    });
+                                    break;
+                                case 2:
+                                    jky.util.toast(typeStr + "失败，请重试！", 1500);
+                                    break;
+                                default:
+                                    jky.util.toast("未知错误！", 1000)
+                            }
                         }
-                    }
-                },
-                error: function(e) {
-                    console.log("ajax err:", e)
-                },
-                dataType: "json"
-            })
+                    },
+                    error: function (e) {
+                        console.log("ajax err:", e)
+                    },
+                    dataType: "json"
+                })
+
+
+                var hl1 = $.trim($("#hl-1").val()),
+                    hl2 = $.trim($("#hl-2").val());
+
+                var titData = {
+                    "pid":data.pid,
+                    "did":data.did,
+                    "datetime":data.datetime
+                }
+
+                console.log(hl1 && $("#hl-2").data("type")!="11")
+
+                if(hl1 && $("#hl-1").data("type") !="11"){
+                    titData.NRT01 = "11"
+                    titData.NRT01V = hl1
+                }
+                if(hl2 && $("#hl-2").data("type")!="11"){
+                    titData.NRT02 = "11"
+                    titData.NRT02V = hl2
+                }
+                num = 0
+                $.each(titData,function(i,val){
+                    num++;
+                });
+                if(num>3){
+                    $.ajax({
+                        "url":"/record/nr7/updatetitle",
+                        data: titData,
+                        type: "POST",
+                        success: function (data) {
+                            console.log("???")
+                        },
+                        error:function(e){
+
+                        },
+                        dataType:"json"
+                    })
+                }
+
+            }else{
+                jky.util.toast("请填写内容", 1500)
+            }
         }
     }
 
-    var reqAPIFN = reqAPI(1);
+    var reqAPIFN = reqAPI(type);
 
-
-
+    //tab下拉
     $('.tab-tit').on('click', function() {
         if ($(this).hasClass('active')) {
             $(this).removeClass('active');
@@ -941,17 +913,135 @@
         }
     })
 
-    $('input[type=radio]').on('click', function() {
-        var ischeck = $(this).data("check");
-        if (!ischeck) {
-            $(this).parents('ul').find("input[type=radio]").data("check", "0")
-            $(this).data("check", "1");
 
-        } else {
-            $(this).prop('checked', false);
-            $(this).data("check", "0");
+    // 分数计算
+    $(function(){
+        var  scoreHash = {
+            "option2":{ //跌倒史（3个月内）
+                "1":0,
+                "2":25,
+            },
+            "option3":{ //超过1个医学诊断
+                "1":0,
+                "2":15,
+            },
+            "option4":{  //使用助行器具
+                "1":0,
+                "2":0,
+                "3":0,
+                "4":15,
+                "5":30,
+            },
+            "option5":{ //静脉输液／肝素锁
+                "1":0,
+                "2":20
+            },
+            "option6":{ //步态
+                "1":0,
+                "2":0,
+                "3":0,
+                "4":10,
+                "5":20,
+            },
+            "option7":{ //摩擦力和剪切力
+                "1":0,
+                "2":15
+            }
+        }
+
+        function sumScore(){
+            // var i =10; //10题
+            var optionVal = [],sum="";
+            for(var i=2;i<8;i++){
+                // console.log($('#c'+i).find('input[type=radio]:checked').data('v'))
+                // console.log(scoreHash["option"+i])
+                // console.log($('#c'+i))
+                optionVal.push(scoreHash["option"+i][$('#c'+i).find('input[type=radio]:checked').data('v')])
+            }
+
+            $.each(optionVal,function(i,n){
+                if(n!=undefined&& parseFloat(n)!=NaN){
+                    if(sum == ""){
+                        sum = 0;
+                    }
+                    sum +=  parseFloat(n)
+                }
+            })
+            return sum;
+        }
+
+        $('input[type=radio]').on('click',function(){
+            $('.m-zofen').find('.fen').text(sumScore())
+        })
+
+        if(type=="2"){
+            $('.m-zofen').find('.fen').text(sumScore())
         }
     })
+
+    //多选填值
+
+    //多选填值
+    var NRL08AStr = {{.NRL.NRL08A}};// 陪护情况
+    var NRL07Str = {{.NRL.NRL07}};// 护理措施
+
+    setCheckBox("#c1-c2",NRL08AStr.split(","))
+    setCheckBox("#c8",NRL07Str.split(","))
+
+
+    function setCheckBox(id,valArr){
+        $(id).find("input[type=checkbox]").each(function(i,el){
+            $.each(valArr,function (i2,val) {
+                if($(el).data("v") == valArr[i2]){
+                    $(el).prop("checked",true)
+                }
+            })
+        })
+    }
+
+
+    //设置禁用input
+    // $(".disabled-box").find("input").prop("disabled",true)
+    $(".main-sel").each(function(i,el){
+        switchStyle(el)
+    })
+
+    $(".main-sel").on("click",function(){
+        switchStyle(this)
+    })
+
+    function switchStyle(el){
+        var $li = $(el).parents("li").eq(0)
+        if($(el).prop('checked') ){
+            $li.children(".child-sel").removeClass("disabled-box");
+            // disabled-box
+            $li.children(".child-sel").find("input,textarea").each(function(i,el){
+                if($(el).parents(".disabled-box").eq(0).length==0){
+                    $(el).prop("disabled",false)
+                }
+            })
+        }else{
+            $li.children(".child-sel").addClass("disabled-box");
+            // $li.children(".child-sel").find("input").prop("disabled",true)
+            $li.children(".child-sel").find("input,textarea").each(function(i,el){
+                if($(el).parents(".disabled-box").eq(0).length!=0){
+                    $(el).prop("disabled",true)
+                    $(el).val("")
+                    $(el).prop("checked",false)
+                }
+            })
+
+        }
+    }
+
+    $(".radio-grup").on("click",function(){
+         $(this).find(".main-sel").each(function(i,el){
+             switchStyle(el)
+         })
+    })
+
+
+
 </script>
 
 </body>

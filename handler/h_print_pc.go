@@ -41,7 +41,7 @@ func (c PCWristStrapController) Get(w *fit.Response, r *fit.Request, p fit.Param
 	} else {
 		sex = "未知"
 	}
-	c.Data = fit.Data{"Datas": WristStrap{patients[0].BCQ04, patients[0].VAA05, sex, fmt.Sprint(patients[0].VAA10), patients[0].BCK03, pid, patients[0].VAA04}}
+	c.Data = fit.Data{"Datas": WristStrap{patients[0].BCQ04, patients[0].VAA05, sex, fmt.Sprint(patients[0].VAA10), patients[0].BCK03C, pid, patients[0].VAA04}}
 	c.LoadView(w, "pc/v_wdprint.html")
 }
 

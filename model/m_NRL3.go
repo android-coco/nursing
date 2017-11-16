@@ -57,7 +57,7 @@ func (m *NRL3) InsertData() (int64, error) {
 
 func (m NRL3) UpdateData(id int64) (int64, error) {
 	// "BCK01", "VAA01", "BCE01A", "BCE03A",
-	return fit.MySqlEngine().ID(id).Cols( "DateTime", "NRL01", "NRL02", "NRL03", "NRL04", "NRL05", "NRL06", "NRL07", "NRL08", "NRL09", "NRL10", "NRL11", "NRL12","Score").Update(&m)
+	return fit.MySqlEngine().ID(id).AllCols().Omit("ID").Update(&m)
 }
 
 func QueryNRL3(rid string) (NRL3, error) {
@@ -71,9 +71,14 @@ func QueryNRL3(rid string) (NRL3, error) {
 }
 
 // pc端接口
-func PCQueryNRL3(pid string, pagenum int) ([]NRL3, error) {
+func PCQueryNRL3(pid, datestr1, datestr2 string, pagenum int) ([]NRL3, error) {
 	var mods []NRL3
-	err := fit.MySqlEngine().Table("NRL3").Where("VAA01 = ?", pid).Limit(9, (pagenum - 1) * 9).Find(&mods)
+	var err error
+	if datestr2 == "" || datestr1 == "" {
+		err = fit.MySqlEngine().Table("NRL3").Where("VAA01 = ?", pid).Limit(9, (pagenum - 1) * 9).Find(&mods)
+	} else {
+		err = fit.MySqlEngine().Table("NRL3").Where("VAA01 = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Limit(9, (pagenum - 1) * 9).Find(&mods)
+	}
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +88,59 @@ func PCQueryNRL3(pid string, pagenum int) ([]NRL3, error) {
 	return mods, nil
 }
 
-func PCQUeryNRL3PageCount(pid string) (int, error)  {
-	counts,err := fit.MySqlEngine().Table("NRL3").Where("VAA01 = ?", pid).Count()
-	return int(counts), err
+func PCQUeryNRL3PageCount(pid, datestr1, datestr2 string) (counts int64, err error)  {
+	if datestr2 == "" || datestr1 == "" {
+		counts,err = fit.MySqlEngine().Table("NRL3").Where("VAA01 = ?", pid).Count()
+	} else {
+		counts,err = fit.MySqlEngine().Table("NRL3").Where("VAA01 = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Count()
+	}
+	return counts, err
 }
+
+func PCQUeryNRLPageCount(nrlType, pid, datestr1, datestr2 string) (counts int64, err error)  {
+	tablename := "NRL" + nrlType
+	if datestr2 == "" || datestr1 == "" {
+		counts,err = fit.MySqlEngine().Table(tablename).Where("VAA01 = ?", pid).Count()
+	} else {
+		counts,err = fit.MySqlEngine().Table(tablename).Where("VAA01 = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Count()
+	}
+	return counts, err
+}
+
+
+/*
+func PCQueryNRL(pid, datestr1, datestr2, nrlType string, pagenum int, mods interface{}) (err error) {
+
+	t := reflect.TypeOf(mods)
+	if k := t.Kind(); k != reflect.Slice {  //判断是否是为切片类型
+		err = errors.New("invalid type, you should type in slice")
+		return
+	}
+	fmt.Println("**************", reflect.TypeOf(mods).Kind().String())
+	v := reflect.ValueOf(mods)
+	var mods11 interface{}
+	fmt.Println("*******", mods11)
+	switch nrlType {
+	case "3":
+		mods11 := v.Interface().([]NRL3)
+		fmt.Println("#####", mods11)
+	default:
+		err = errors.New("invalid nrlType")
+		return
+	}
+	fmt.Println("#####******", mods11)
+	if datestr2 == "" || datestr1 == "" {
+		err = fit.MySqlEngine().Table("NRL3").Where("VAA01 = ?", pid).Limit(9, (pagenum - 1) * 9).Find(&mods11)
+	} else {
+		err = fit.MySqlEngine().Table("NRL3").Where("VAA01 = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Limit(9, (pagenum - 1) * 9).Find(&mods)
+	}
+	//if err != nil {
+	//	return
+	//}
+
+	fmt.Println("+++",mods11, err)
+	//for key,_ := range mods {
+	//	mods[key].DateStr = mods[key].NormParse3()
+	//}
+	return
+}*/

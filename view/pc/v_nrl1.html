@@ -1,0 +1,1169 @@
+{{template "header_top" .}}
+<!-- end page -->
+<div class="admin">
+    <!--<div class="am-g">-->
+    <!-- ========== Left Sidebar Start ========== -->
+    <!--<div class="left side-menu am-hide-sm-only am-u-md-1 am-padding-0">
+        <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 548px;">
+            <div class="sidebar-inner slimscrollleft" style="overflow: hidden; width: auto; height: 548px;">-->
+    <!-- sidebar start -->
+    {{template "header_side" .}}
+    <!-- sidebar end -->
+    <!--</div>
+        </div>
+    </div>-->
+    <!-- ========== Left Sidebar end ========== -->
+    <!--	<div class="am-g">-->
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <div class="content-page jky-table-page doc-input1" data-index="1">
+        <div class="s-btn">
+            <!-- <img src="/static/dist/images/admin_pc/icon22.png" alt=""> -->
+        </div>
+        <div class="user-bar">
+            <div class="tit">
+                <div class="l">
+                    床号
+                </div>
+                <div class="r">
+                    姓名
+                </div>
+            </div>
+            <div class="user-list">
+                <ul>
+                    <li data-id="01" data-msg="你病了！！！">
+                        <div class="l">
+                            T01
+                        </div>
+                        <div class="r">
+                            王小二
+                        </div>
+                    </li>
+                    <li data-id="02">
+                        <div class="l">
+                            T01
+                        </div>
+                        <div class="r">
+                            王小二
+                        </div>
+                    </li>
+                    <li data-id="03" data-msg="你病2了！！！">
+                        <div class="l">
+                            T01
+                        </div>
+                        <div class="r">
+                            王小二
+                        </div>
+                    </li>
+                    <li data-id="04" data-msg="你病了3！！！">
+                        <div class="l">
+                            T01
+                        </div>
+                        <div class="r">
+                            王小二
+                        </div>
+                    </li>
+                    <li data-id="05">
+                        <div class="l">
+                            T01
+                        </div>
+                        <div class="r">
+                            王小二
+                        </div>
+                    </li>
+                    <li data-id="06">
+                        <div class="l">
+                            T01
+                        </div>
+                        <div class="r">
+                            王小二
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- Start content -->
+        <div class="content doc-input8-cont">
+            <div class="tit-warp">
+                <div class="tit-bar">
+                    <div class="date-box fl">
+                        <div class="icon">
+                            <img src="/static/dist/images/admin_pc/icon20.png" alt="">
+                        </div>
+                        <input type="text" class="am-form-field  date-input" id="date1" lay-key="1">
+                        <span class="line">—</span>
+                        <input type="text" class="am-form-field  date-input" id="date2" lay-key="2">
+                        <a href="" class="all-btn">所有记录</a>
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn type3 ">出入量统计</a>
+                        <a class="btn type2 createCol">新建</a>
+                        <a class="btn">打印</a>
+                    </div>
+                    <p class="tit">深圳万丰医院护理记录单</p>
+                </div>
+            </div>
+            <div class="scroll-box">
+                <div class="doc-cont">
+                    <p class="row-txt">
+                        <span><label>床号：</label>T06</span>
+                        <span><label>姓名：</label>489632</span>
+                        <span><label>性别：</label>女</span>
+                        <span><label>年龄：</label>23岁</span>
+                        <span><label>住院号：</label>489632</span>
+                        <span><label>科室：</label>内科</span>
+                        <span><label>诊断：</label>慢性硬膜下血肿</span>
+                        <span><label>入院日期：</label>2017-08-06</span>
+                    </p>
+
+                    <div class="doc-table">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th rowspan="2">
+                                    <div class="cont-warp w100">
+                                        日期
+                                    </div>
+                                </th>
+                                <th rowspan="2">
+                                    <div class="cont-warp w60">
+                                        时间
+                                    </div>
+                                </th>
+                                <th rowspan="2">
+                                    <div class="cont-warp w46">
+                                        体温<span class="unit">(℃)</span>
+                                    </div>
+                                </th>
+                                <th rowspan="2">
+                                    <div class="cont-warp w64">脉搏<span class="unit">(次/分)</span></div>
+                                </th>
+                                <th rowspan="2">
+                                    <div class="cont-warp w64">呼吸<span class="unit">(次/分)</span></div>
+                                </th>
+                                <th rowspan="2">
+                                    <div class="cont-warp w64">血压<span class="unit">(mmHg)</span></div>
+                                </th>
+                                <th rowspan="2">
+                                    <div class="cont-warp w75">
+                                        <div class="txt"></div>
+                                        <div class="sel-box">
+                                            <select>
+                                                <option value=" ">&nbsp;</option>
+                                                <option  value="1">意识</option>
+                                                <option value="2">BADL评分</option><!--  基本生活 -->
+                                                <option value="3">DVT评分</option> <!-- 深静脉血栓-->
+                                                <option value="4">跌倒评分</option>
+                                                <option value="5">压疮评分</option>
+                                                <option value="6">疼痛评分</option>
+                                                <option value="7">门冬胰岛素u</option>
+                                                <option value="8">瞳孔左mm</option>
+                                                <option value="9">瞳孔右mm</option>
+                                                <option value="10">吸氧L/min</option>
+                                                <option value="11">自定义</option>
+                                            </select>
+                                            <input type="text" class="input-txt none">
+
+                                        </div>
+                                    </div>
+                                </th>
+                                <th rowspan="2">
+                                    <div class="cont-warp w75">
+                                        <div class="txt"></div>
+                                        <div class="sel-box">
+                                            <select>
+                                                <option value=" ">&nbsp;</option>
+                                                <option  value="1">意识</option>
+                                                <option value="2">BADL评分</option><!--  基本生活 -->
+                                                <option value="3">DVT评分</option> <!-- 深静脉血栓-->
+                                                <option value="4">跌倒评分</option>
+                                                <option value="5">压疮评分</option>
+                                                <option value="6">疼痛评分</option>
+                                                <option value="7">门冬胰岛素u</option>
+                                                <option value="8">瞳孔左mm</option>
+                                                <option value="9">瞳孔右mm</option>
+                                                <option value="10">吸氧L/min</option>
+                                                <option value="11">自定义</option>
+                                            </select>
+                                            <input type="text" class="input-txt none">
+
+                                        </div>
+                                    </div>
+                                </th>
+                                <th rowspan="2">
+                                    <div class="cont-warp w75">
+                                        <div class="txt"></div>
+                                        <div class="sel-box">
+                                            <select>
+                                                <option value=" ">&nbsp;</option>
+                                                <option  value="1">意识</option>
+                                                <option value="2">BADL评分</option><!--  基本生活 -->
+                                                <option value="3">DVT评分</option> <!-- 深静脉血栓-->
+                                                <option value="4">跌倒评分</option>
+                                                <option value="5">压疮评分</option>
+                                                <option value="6">疼痛评分</option>
+                                                <option value="7">门冬胰岛素u</option>
+                                                <option value="8">瞳孔左mm</option>
+                                                <option value="9">瞳孔右mm</option>
+                                                <option value="10">吸氧L/min</option>
+                                                <option value="11">自定义</option>
+                                            </select>
+                                            <input type="text" class="input-txt none">
+
+                                        </div>
+                                    </div>
+                                </th>
+                                <th rowspan="2">
+                                    <div class="cont-warp w48">
+                                        血氧<span class="unit">(%)</span>
+                                    </div>
+                                </th>
+                                <th colspan="2">
+                                    <div class="cont-warp w130 h40">入量</div>
+                                </th>
+                                <th colspan="2">
+                                    <div class="cont-warp w130 h40">出量</div>
+                                </th>
+                                <th rowspan="2">
+                                    <div class="cont-warp w75">
+                                        血糖<span class="unit">(mmol/l)</span>
+                                    </div>
+                                </th>
+                                <th rowspan="2">
+                                    <div class="cont-warp w75">
+                                        <div class="txt"></div>
+                                        <div class="sel-box">
+                                            <select>
+                                                <option value=" ">&nbsp;</option>
+                                                <option  value="1">意识</option>
+                                                <option value="2">BADL评分</option><!--  基本生活 -->
+                                                <option value="3">DVT评分</option> <!-- 深静脉血栓-->
+                                                <option value="4">跌倒评分</option>
+                                                <option value="5">压疮评分</option>
+                                                <option value="6">疼痛评分</option>
+                                                <option value="7">门冬胰岛素u</option>
+                                                <option value="8">瞳孔左mm</option>
+                                                <option value="9">瞳孔右mm</option>
+                                                <option value="10">吸氧L/min</option>
+                                                <option value="11">自定义</option>
+                                            </select>
+                                            <input type="text" class="input-txt none">
+                                        </div>
+                                    </div>
+                                </th>
+                                <th rowspan="2">
+                                    <div class="cont-warp w75">
+                                        <div class="txt"></div>
+                                        <div class="sel-box">
+                                            <select>
+                                                <option value=" ">&nbsp;</option>
+                                                <option  value="1">意识</option>
+                                                <option value="2">BADL评分</option><!--  基本生活 -->
+                                                <option value="3">DVT评分</option> <!-- 深静脉血栓-->
+                                                <option value="4">跌倒评分</option>
+                                                <option value="5">压疮评分</option>
+                                                <option value="6">疼痛评分</option>
+                                                <option value="7">门冬胰岛素u</option>
+                                                <option value="8">瞳孔左mm</option>
+                                                <option value="9">瞳孔右mm</option>
+                                                <option value="10">吸氧L/min</option>
+                                                <option value="11">自定义</option>
+                                            </select>
+
+                                            <input type="text" class="input-txt none">
+
+                                        </div>
+                                    </div>
+                                </th>
+                                <th rowspan="2">
+                                    <div class="cont-warp w75">
+                                        <div class="txt"></div>
+                                        <div class="sel-box">
+                                            <select>
+                                                <option value=" ">&nbsp;</option>
+                                                <option  value="1">意识</option>
+                                                <option value="2">BADL评分</option><!--  基本生活 -->
+                                                <option value="3">DVT评分</option> <!-- 深静脉血栓-->
+                                                <option value="4">跌倒评分</option>
+                                                <option value="5">压疮评分</option>
+                                                <option value="6">疼痛评分</option>
+                                                <option value="7">门冬胰岛素u</option>
+                                                <option value="8">瞳孔左mm</option>
+                                                <option value="9">瞳孔右mm</option>
+                                                <option value="10">吸氧L/min</option>
+                                                <option value="11">自定义</option>
+                                            </select>
+                                            <input type="text" class="input-txt none">
+
+                                        </div>
+                                    </div>
+                                </th>
+                                <th rowspan="2">
+                                    <div class="cont-warp w75">
+                                        <div class="txt"></div>
+                                        <div class="sel-box">
+                                            <select>
+                                                <option value=" ">&nbsp;</option>
+                                                <option  value="1">意识</option>
+                                                <option value="2">BADL评分</option><!--  基本生活 -->
+                                                <option value="3">DVT评分</option> <!-- 深静脉血栓-->
+                                                <option value="4">跌倒评分</option>
+                                                <option value="5">压疮评分</option>
+                                                <option value="6">疼痛评分</option>
+                                                <option value="7">门冬胰岛素u</option>
+                                                <option value="8">瞳孔左mm</option>
+                                                <option value="9">瞳孔右mm</option>
+                                                <option value="10">吸氧L/min</option>
+                                                <option value="11">自定义</option>
+                                            </select>
+                                            <input type="text" class="input-txt none">
+
+                                        </div>
+                                    </div>
+                                </th>
+                                <th rowspan="2">
+                                    <div class="cont-warp w180">
+                                        病情记录
+                                    </div>
+                                </th>
+                                <th rowspan="2">
+                                    <div class="cont-warp w75">护士签名</div>
+                                </th>
+                                <th class="w150" rowspan="2">
+                                    <div class="cont-warp w150">
+                                        <a href="#1" class="save-btn"><span>保存</span></a>
+                                        <a href="#1" class="cancel-btn">取消</a>
+                                        <a href="#1" class="edit-btn">
+                                            <i class="am-icon-pencil"></i><span>编辑</span>
+                                        </a>
+                                        <!-- <a href="#1" class="del-btn"><i class="am-icon-trash"></i><span>删除</span></a> -->
+                                    </div>
+
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div class="cont-warp h40">
+                                        内容
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="cont-warp h40">
+                                        量(ml)
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="cont-warp h40">
+                                        内容
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="cont-warp h40">
+                                        量(ml)
+                                    </div>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <div class="show-txt">
+                                        2017-08-26
+                                    </div>
+                                    <div class="cont-warp">
+                                        <input type="text" class="date-input2">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="show-txt">
+                                        04:00
+                                    </div>
+                                    <div class="cont-warp">
+                                        <input type="text" class="time-input2">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="show-txt">
+                                        36.6
+                                    </div>
+                                    <div class="cont-warp">
+                                        <input type="text" class="input-txt">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="show-txt">
+                                        65
+                                    </div>
+                                    <div class="cont-warp">
+                                        <input type="text" class="input-txt">
+
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="show-txt">
+                                        26
+                                    </div>
+                                    <div class="cont-warp">
+                                        <input type="text" class="input-txt">
+
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="show-txt">
+                                        112/85
+                                    </div>
+                                    <div class="cont-warp">
+                                        <input type="text" class="input-txt2"> /
+                                        <input type="text" class="input-txt2">
+                                    </div>
+                                </td>
+                                <td class="custom">
+                                    <div class="show-txt">
+                                        自自定义
+                                    </div>
+                                    <div class="cont-warp">
+                                        <select class="v1 none">
+                                            <option value=" ">&nbsp;</option>
+                                            <option selected="" value="清醒">清醒</option>
+                                            <option value="嗜睡">嗜睡</option>
+                                            <option value="昏睡">昏睡</option>
+                                            <option value="浅昏迷">浅昏迷</option>
+                                            <option value="深昏迷">深昏迷</option>
+                                            <option value="意识混浊">意识混浊</option>
+                                            <option value="谵妄状态">谵妄状态</option>
+                                        </select>
+                                        <div class="fen v2 none">66</div>
+                                        <input type="text" class="input-txt v3 none">
+
+                                    </div>
+                                </td>
+                                <td class="custom">
+                                    <div class="show-txt">
+                                        自自定义
+
+                                    </div>
+                                    <div class="cont-warp">
+                                        <select class="v1 none">
+                                            <option value=" ">&nbsp;</option>
+                                            <option selected="" value="清醒">清醒</option>
+                                            <option value="嗜睡">嗜睡</option>
+                                            <option value="昏睡">昏睡</option>
+                                            <option value="浅昏迷">浅昏迷</option>
+                                            <option value="深昏迷">深昏迷</option>
+                                            <option value="意识混浊">意识混浊</option>
+                                            <option value="谵妄状态">谵妄状态</option>
+                                        </select>
+                                        <div class="fen v2 none">66</div>
+                                        <input type="text" class="input-txt v3 none">
+
+                                    </div>
+                                </td>
+                                <td class="custom">
+                                    <div class="show-txt">
+                                        自自定义
+
+                                    </div>
+                                    <div class="cont-warp">
+                                        <select class="v1 none">
+                                            <option value=" ">&nbsp;</option>
+                                            <option selected="" value="清醒">清醒</option>
+                                            <option value="嗜睡">嗜睡</option>
+                                            <option value="昏睡">昏睡</option>
+                                            <option value="浅昏迷">浅昏迷</option>
+                                            <option value="深昏迷">深昏迷</option>
+                                            <option value="意识混浊">意识混浊</option>
+                                            <option value="谵妄状态">谵妄状态</option>
+                                        </select>
+                                        <div class="fen v2 none">66</div>
+                                        <input type="text" class="input-txt v3 none">
+
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="show-txt">
+                                        85
+                                    </div>
+
+                                    <div class="cont-warp">
+                                        <input type="text" class="input-txt">
+
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <div class="show-txt">
+                                        饮水
+                                    </div>
+
+                                    <div class="cont-warp">
+                                        <input type="text" class="input-txt">
+
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <div class="show-txt">
+                                        110
+                                    </div>
+
+                                    <div class="cont-warp">
+                                        <input type="text" class="input-txt">
+
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <div class="show-txt">
+                                        饮水
+                                    </div>
+                                    <div class="cont-warp">
+                                        <input type="text" class="input-txt">
+
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="show-txt">
+                                        110
+                                    </div>
+                                    <div class="cont-warp">
+                                        <div class="cont-warp">
+                                            <input type="text" class="input-txt">
+
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="show-txt">
+                                        10
+                                    </div>
+                                    <div class="cont-warp">
+                                        <div class="cont-warp">
+                                            <input type="text" class="input-txt">
+
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="custom">
+                                    <div class="show-txt">
+                                        自自定义
+                                    </div>
+                                    <div class="cont-warp">
+                                        <select class="v1 none">
+                                            <option value=" ">&nbsp;</option>
+                                            <option selected="" value="清醒">清醒</option>
+                                            <option value="嗜睡">嗜睡</option>
+                                            <option value="昏睡">昏睡</option>
+                                            <option value="浅昏迷">浅昏迷</option>
+                                            <option value="深昏迷">深昏迷</option>
+                                            <option value="意识混浊">意识混浊</option>
+                                            <option value="谵妄状态">谵妄状态</option>
+                                        </select>
+                                        <div class="fen v2 none">66</div>
+                                        <input type="text" class="input-txt v3 none">
+
+                                    </div>
+                                </td>
+                                <td class="custom">
+                                    <div class="show-txt">
+                                        自自定义
+
+                                    </div>
+                                    <div class="cont-warp">
+                                        <select class="v1 none">
+                                            <option value=" ">&nbsp;</option>
+                                            <option selected="" value="清醒">清醒</option>
+                                            <option value="嗜睡">嗜睡</option>
+                                            <option value="昏睡">昏睡</option>
+                                            <option value="浅昏迷">浅昏迷</option>
+                                            <option value="深昏迷">深昏迷</option>
+                                            <option value="意识混浊">意识混浊</option>
+                                            <option value="谵妄状态">谵妄状态</option>
+                                        </select>
+                                        <div class="fen v2 none">66</div>
+                                        <input type="text" class="input-txt v3 none">
+
+                                    </div>
+                                </td>
+                                <td class="custom">
+                                    <div class="show-txt">
+                                        自自定义
+
+                                    </div>
+                                    <div class="cont-warp">
+                                        <select class="v1 none">
+                                            <option value=" ">&nbsp;</option>
+                                            <option selected="" value="清醒">清醒</option>
+                                            <option value="嗜睡">嗜睡</option>
+                                            <option value="昏睡">昏睡</option>
+                                            <option value="浅昏迷">浅昏迷</option>
+                                            <option value="深昏迷">深昏迷</option>
+                                            <option value="意识混浊">意识混浊</option>
+                                            <option value="谵妄状态">谵妄状态</option>
+                                        </select>
+                                        <div class="fen v2 none">66</div>
+                                        <input type="text" class="input-txt v3 none">
+
+                                    </div>
+                                </td>
+                                <td class="custom">
+                                    <div class="show-txt">
+                                        自自定义
+
+                                    </div>
+                                    <div class="cont-warp">
+                                        <select class="v1 none">
+                                            <option value=" ">&nbsp;</option>
+                                            <option selected="" value="清醒">清醒</option>
+                                            <option value="嗜睡">嗜睡</option>
+                                            <option value="昏睡">昏睡</option>
+                                            <option value="浅昏迷">浅昏迷</option>
+                                            <option value="深昏迷">深昏迷</option>
+                                            <option value="意识混浊">意识混浊</option>
+                                            <option value="谵妄状态">谵妄状态</option>
+                                        </select>
+                                        <div class="fen v2 none">66</div>
+                                        <input type="text" class="input-txt v3 none">
+
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="show-txt">
+                                        病情严重，自动转行
+                                    </div>
+                                    <div class="cont-warp">
+                                        <div class="cont-warp">
+                                            <textarea class="input-textarea"></textarea>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="show-txt">
+                                        王护士
+
+                                    </div>
+                                    <div class="cont-warp">
+
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="cz">
+                                        <a href="#1" class="save-btn"><span>保存</span></a>
+                                        <a href="#1" class="edit-btn">
+                                            <i class="am-icon-pencil"></i><span>编辑</span>
+                                        </a>
+                                        <a href="#1" class="del-btn"><i class="am-icon-trash"></i><span>删除</span></a>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+
+                    </div>
+
+
+                    <!-- 分页栏 -->
+                    <div class="page-bar">
+                        <span>页面位置</span>
+                        <ul>
+                            <li>
+                                <a href="">
+                                    <img src="/static/dist/images/admin_pc/icon43.png" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <img src="/static/dist/images/admin_pc/icon44.png" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                第
+                                <input type="text" class="pageNum"> 页
+                            </li>
+                            <li>
+                                <a href="">
+                                    <img src="/static/dist/images/admin_pc/icon45.png" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <img src="/static/dist/images/admin_pc/icon46.png" alt="">
+                                </a>
+                            </li>
+                        </ul>
+                        <span>共<i class="pageSum">5</i>页</span>
+                    </div>
+
+
+                    <div class="pd-20"></div>
+
+                </div>
+
+            </div>
+        </div>
+        <!-- end right Content here -->
+        <!--</div>-->
+    </div>
+    <!-- </div> -->
+
+
+
+</div>
+<div class="m-modal none">
+    <div class="bg">
+    </div>
+    <div class="cont">
+        <p class="hd">
+            出入量统计
+        </p>
+        <div class="main-box">
+            <div class="l">
+                <div class="date-box">
+                    <div class="icon">
+                        <img src="/static/dist/images/admin_pc/icon20.png" alt="">
+                    </div>
+                    <input type="text" class="am-form-field  date-input">
+                    <input type="text" class="am-form-field  time-input">
+                    <span class="line">—</span>
+                    <input type="text" class="am-form-field  date-input">
+                    <input type="text" class="am-form-field  time-input">
+
+                    <a href="" class="sub-btn">确认统计</a>
+                </div>
+                <div class="sum-box">
+                    <ul>
+                        <li>
+                            <span class="tit">输入液量:</span> <span class="val">400ml</span>
+                        </li>
+                        <li>
+                            <span class="tit">尿量:</span> <span class="val">400ml</span>
+                        </li>
+                        <li>
+                            <span class="tit">饮水:</span> <span class="val">400ml</span>
+                        </li>
+                        <li>
+                            <span class="tit">其他:</span> <span class="val">400ml</span>
+                        </li>
+                        <li>
+                            <span class="tit">饮食:</span> <span class="val">400ml</span>
+                        </li>
+                        <li>
+                            <span class="tit">出量总计:</span> <span class="val">400ml</span>
+                        </li>
+                        <li class="fill">
+                            <span class="tit">其他:</span> <span class="val">400ml</span>
+                        </li>
+                        <li class="fill">
+                            <span class="tit">入量总计:</span> <span class="val">400ml</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bt">
+                    <div class="bar">
+                        <input type="checkbox" id="tb"><label for="tb">同步到体温单</label>
+                    </div>
+                    <div class="btn-group">
+                        <a href="#1" class="qx-btn">取消</a>
+                        <a href="#1" class="ok-btn">确认</a>
+                    </div>
+                </div>
+            </div>
+            <div class="r">
+                <p class="tit">
+                    入量
+                </p>
+                <ul>
+                    <li>
+                        <p>
+                            <span class="b1">08-26 22:00</span>
+                            <span class="b2">输入液量</span>
+                            <span class="b3">100ml</span>
+                            <span class="b4">李护士</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <span class="b1">08-26 22:00</span>
+                            <span class="b2">输入液量</span>
+                            <span class="b3">100ml</span>
+                            <span class="b4">李护士</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <span class="b1">08-26 22:00</span>
+                            <span class="b2">输入液量</span>
+                            <span class="b3">100ml</span>
+                            <span class="b4">李护士</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <span class="b1">08-26 22:00</span>
+                            <span class="b2">输入液量</span>
+                            <span class="b3">100ml</span>
+                            <span class="b4">李护士</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <span class="b1">08-26 22:00</span>
+                            <span class="b2">输入液量</span>
+                            <span class="b3">100ml</span>
+                            <span class="b4">李护士</span>
+                        </p>
+                    </li>
+                </ul>
+                <p class="tit">
+                    出量
+                </p>
+                <ul>
+                    <li>
+                        <p>
+                            <span class="b1">08-26 22:00</span>
+                            <span class="b2">输入液量</span>
+                            <span class="b3">100ml</span>
+                            <span class="b4">李护士</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <span class="b1">08-26 22:00</span>
+                            <span class="b2">其他（胃管引流量）</span>
+                            <span class="b3">100ml</span>
+                            <span class="b4">李护士</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <span class="b1">08-26 22:00</span>
+                            <span class="b2">输入液量</span>
+                            <span class="b3">100ml</span>
+                            <span class="b4">李护士</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <span class="b1">08-26 22:00</span>
+                            <span class="b2">输入液量</span>
+                            <span class="b3">100ml</span>
+                            <span class="b4">李护士</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <span class="b1">08-26 22:00</span>
+                            <span class="b2">输入液量</span>
+                            <span class="b3">100ml</span>
+                            <span class="b4">李护士</span>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/static/dist/js/lib/jquery.min.js"></script>
+<!--框架js-->
+<script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/amazeui.min.js"></script>
+<script src="/static/dist/js/lib/laydate/laydate.js"></script>
+<!--//遮罩层退出框-->
+<script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/blockUI.js"></script>
+<script type="text/javascript" src="/static/common.js" ></script>
+<!--<script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/charts/indexChart.js" ></script>-->
+<script>
+    $('#jky-menu').on('open.collapse.amui', function(e) {
+        $(e.target).parents("li").addClass("jky-on")
+    })
+    $('#jky-menu').on('close.collapse.amui', function(e) {
+        $(e.target).parents("li").removeClass("jky-on")
+    })
+
+
+
+    var nowDateObj = nowDate()
+
+    function nowDate() {
+        var res = {},
+                nowD = new Date();
+        res.date = nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
+        res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
+        return res
+    }
+
+    function addZero(i) {
+        if (i < 10) {
+            return "0" + i;
+        } else {
+            return i;
+        }
+    }
+    // laydate.render({
+    //     elem: '.date-input', //指定元素
+    //     showBottom: false,
+    //     value: nowDateObj.date,
+    //     done: function(value, date, endDate) {
+    //         console.log(value); //得到日期生成的值，如：2017-08-18
+    //         console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+    //         console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+    //     }
+    // });
+
+
+
+
+    // var numInputFn = jky.util.throttle(function () {
+    //     if (isNaN(parseFloat($(this).val()))) {
+    //         $(this).val("")
+    //     } else {
+    //         $(this).val(parseFloat($(this).val()))
+    //     }
+    // }, 500)
+
+    /**
+     * 节流函数
+     */
+    var nowFn = Date.now || function() {
+        return new Date().getTime()
+    }
+
+
+    function throttle(func, wait, option) {
+        var previous = 0, //之前的时间
+                timeout, self, args, result;
+
+        var later = function() {
+            previous = nowFn();
+            timeout = null;
+            result = func.apply(self, args);
+            !timeout && (self = args = null);
+        }
+        return function() {
+            var now = nowFn();
+
+            if (!previous && option.leading === false) previous = now;
+            var diff = wait - (now - previous);
+
+            args = arguments;
+            self = this;
+            if (diff <= 0) {
+                if (timeout) {
+                    clearTimeout(timeout);
+                    timeout = null;
+                }
+                result = func.apply(self, args);
+                previous = now;
+                !timeout && (self = args = null); //如果没有堆积的任务 则清空 self 和args
+            } else if (!timeout && option.trailing !== false) {
+                timeout = setTimeout(later, diff)
+            } else {
+                console.log('被抛弃了')
+            }
+            return result;
+
+        }
+    }
+
+
+    var $inputNum = $('.tit2,.tit3,.tit4').find('input')
+    $inputNum.on('input', throttle(function() {
+        if (isNaN(parseFloat($(this).val()))) {
+            $(this).val("")
+        } else {
+            $(this).val(parseFloat($(this).val()))
+        }
+    }, 500, {
+        leading: false, //配置第一次不立即执行 true 第一次执行 false 第一次不执行
+        trailing: true // 是否抛弃 还是 往后堆积
+    }))
+
+    function toggleTar() {
+        if ($('.top48').hasClass('small-type')) {
+            $('.top48').removeClass('small-type')
+            $('.jky_sidebar').removeClass('small-type')
+        } else {
+            $('.top48').addClass('small-type')
+            $('.jky_sidebar').addClass('small-type')
+        }
+    }
+
+
+    $('.s-btn').on('click', function() {
+        if ($(this).hasClass('active')) {
+            $(this).removeClass('active');
+            $('.user-bar').show();
+            $('.doc-input8-cont').css('margin-left', 244)
+        } else {
+            $(this).addClass('active');
+            $('.doc-input8-cont').css('margin-left', 0)
+            $('.user-bar').hide();
+        }
+    })
+
+
+
+
+
+    lay('.date-input2').each(function() {
+        laydate.render({
+            elem: this,
+            showBottom: false,
+            value: nowDateObj.date,
+            done: function(value, date, endDate) {
+                console.log(value); //得到日期生成的值，如：2017-08-18
+                console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+            }
+        });
+    });
+    lay('.time-input2').each(function() {
+        laydate.render({
+            elem: this,
+            type: 'time',
+            format: 'HH:mm',
+            value: nowDateObj.time,
+            done: function(value, date, endDate) {
+                console.log(value); //得到日期生成的值，如：2017-08-18
+                console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+            }
+        });
+    });
+
+
+    $('body').on('click', '.edit-btn', function() {
+        if ($('.list').find('ul.active').length > 0) {
+            alert("请先保存信息")
+        } else {
+            var $ul = $(this).parents('ul')
+            $ul.addClass("active")
+            $date = $("<input class='date-input-td'>")
+            $ul.find('.tr11').find('.cont-warp').find('.sel-input').html($date)
+            laydate.render({
+                elem: '.date-input-td', //指定元素
+                showBottom: false,
+                value: nowDateObj.date,
+                done: function(value, date, endDate) {
+                    console.log(value); //得到日期生成的值，如：2017-08-18
+                    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                    console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                }
+            });
+
+
+        }
+
+    })
+    $('body').on('click', '.save-btn', function() {
+        var $ul = $(this).parents('ul')
+
+        $ul.removeClass("active")
+        $ul.find('.tr11').find('.cont-warp').find('.sel-input').html("")
+    })
+    $('body').on('click', '.del-btn', function() {
+        confirm("是否确认删除")
+    })
+
+    $('body').on('click', '.createCol', function() {
+        var elTxt = $('#col').text()
+        $(elTxt)
+    })
+
+    $("body").on('click', ".m-input-radio2", function() {
+        //只有编辑的时候点击才生效
+        if ($(this).parents("ul").hasClass("active")) {
+
+            if ($(this).hasClass("active")) {
+                $(this).removeClass("active");
+            } else {
+                if ($(this).parents(".check-group").length == 0) {
+                    $(this).parents(".radio-group").find(".m-input-radio2").removeClass("active");
+                }
+
+                $(this).addClass("active");
+            }
+        } else {
+            return false;
+        }
+    })
+
+    // -----------------------表头事件----------------
+
+    $("thead").on('change', ".sel-box select", function() {
+        if ($(this).val() == "custom") {
+            $(this).parents(".sel-box").find(".input-txt").removeClass("none")
+        } else {
+            $(this).parents(".sel-box").find(".input-txt").addClass("none")
+        }
+    })
+    $("thead").on("click", ".save-btn", function() {
+        var $thead = $("thead");
+        $thead.find("select").each(function(i, el) {
+            var res = "";
+            if ($(el).val() == "11") {
+                res = $(el).parents(".sel-box").find(".input-txt").val();
+            } else {
+                // res = $(el).val();
+                res = $(el).find("option:selected").text();
+
+            }
+            $(el).parents("th").find(".txt").text(res)
+        })
+
+        $thead.removeClass("active");
+    })
+
+
+    $("thead").on("click", ".edit-btn", function() {
+        var $thead = $("thead");
+        $thead.addClass("active");
+        $("thead").find(".txt").each(function(i, el) {
+            if ($.trim($(el).text()) != "") {
+                $(el).parents("th").find(".sel-box").addClass("none");
+                $(el).parents("th").find(".txt").css("display", "block");
+                // $(el).parents("th").find("select,input").prop("disabled",true)
+            }
+        })
+    })
+    // -----------------------end表头事件----------------
+
+
+    $("tbody").on("click", ".edit-btn", function() {
+        var $tr = $(this).parents("tr");
+        $tr.addClass("active")
+        $("thead").find("select").each(function(i, el) {
+            val = $.trim($(el).val());
+            if (val != "") {
+                if (val == 1) {
+                    $tr.find(".custom").eq(i).find("select").removeClass("none")
+                } else if (val < 7) {
+                    $tr.find(".custom").eq(i).find(".fen").removeClass("none")
+                } else {
+                    $tr.find(".custom").eq(i).find(".input-txt").removeClass("none")
+                }
+            }
+        })
+
+    })
+
+    $("tbody").on("click", ".save-btn", function() {
+        $(this).parents("tr").removeClass("active")
+    })
+
+    $(".qx-btn").on("click",function(){
+        $(".m-modal").addClass("none")
+    })
+
+
+    $(".btn-group").on("click",".type3",function(){
+        $(".m-modal").removeClass("none")
+    })
+</script>
+</body>
+
+</html>

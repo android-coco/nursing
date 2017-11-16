@@ -1951,3 +1951,37 @@ div.m-input-textarea {
     font-size: 18.66666667px;
   }
 }
+.disabled-box {
+  color: #999;
+}
+.disabled-box input[type="text"]:disabled,
+.disabled-box input[type="number"]:disabled,
+.disabled-box input[type="checkbox"]:disabled {
+  border-color: #ebebeb;
+  -webkit-transition: .4s all;
+  -moz-transition: .4s all;
+  transition: .4s all;
+}
+.disabled-box .m-input-textarea:disabled {
+  background-color: #d0d0d0;
+  -webkit-transition: .4s all;
+  -moz-transition: .4s all;
+  transition: .4s all;
+}
+.disabled-box .msg-txt,
+.disabled-box .img-span {
+  color: #999 !important;
+}
+.disabled-box .line-h {
+  border-color: #ebebeb !important;
+}
+.disabled-box .line-s {
+  border-color: #ebebeb !important;
+}
+.none .m-input-txt {
+  border-color: #ebebeb;
+}
+.tit .m-input-radio.big {
+  float: initial;
+  margin: 0px;
+}

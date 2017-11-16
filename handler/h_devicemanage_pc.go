@@ -14,7 +14,7 @@ type DeviceManageController struct {
 
 func (c DeviceManageController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 	userinfo, err := c.GetLocalUserinfo(w, r)        //用户信息
-	departments, err1 := model.QueryDepartmentList() //科室信息
+	departments, err1 := model.QueryDepartmentList(true) //科室信息
 	if err == nil && err1 == nil {
 		devices, _ := model.GetAllDevices()
 		for i := range devices {

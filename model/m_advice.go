@@ -42,6 +42,16 @@ type MedicalAdviceDup struct {
 	VAF01 int64 // 医嘱记录ID
 }
 
+func DatetimeNow() (dateNow time.Time) {
+	t := time.Now()
+	dateNow = time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
+	return
+}
+
+//func FetchMedicalAdviceForPatient(pid int64, type_i int, method int, status int) ([]Advice, error) {
+//
+//}
+
 func OutAdvice(sql string, msg ...interface{}) ([]Advice, error) {
 	advices := make([]Advice, 0)
 	err := fit.MySqlEngine().Table("VAF2").Where(sql, msg...).Find(&advices)
@@ -64,8 +74,7 @@ func GetNonExecutionAdvice(patient_id int) ([]Advice, error) {
 	if err != nil || len(advices) == 0 {
 		return advices, err
 	} else {
-		t := time.Now()
-		starttime := time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
+		starttime := DatetimeNow()
 
 		results := make([]Advice, 0)
 		for _, i := range advices {
@@ -89,7 +98,8 @@ func IsExistNewMedicalAdvice(pid int) int {
 	mAdvice := make([]MedicalAdviceDup, 0)
 	t := time.Now()
 	starttime := time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
-	err_db := fit.SQLServerEngine().SQL("SELECT VAF01 FROM VAF2 WHERE VAA01 = ? and VAF10 = 8 and BCE03D = '' and (VAF11 = 1 or (VAF11 = 2 and VAF36 >= ?))", pid, starttime).Find(&mAdvice)
+	//err_db := fit.SQLServerEngine().SQL("SELECT VAF01 FROM VAF2 WHERE VAA01 = ? and VAF10 = 8 and BCE03D = '' and (VAF11 = 1 or (VAF11 = 2 and VAF36 >= ?))", pid, starttime).Find(&mAdvice)
+	err_db := fit.SQLServerEngine().SQL("SELECT VAF01 FROM VAF2 WHERE VAF04 = '2' and VAA01 = ? and VAF10 = '3' and (VAF11 = 1 or (VAF11 = 2 and VAF36 >= ?))", pid, starttime).Find(&mAdvice)
 
 	length := len(mAdvice)
 	if length == 0 {
@@ -169,3 +179,5 @@ func UpdateAdviceState(sql string, advicestate AdviceState, msg ...interface{}) 
 	_, err := fit.MySqlEngine().Table("AdviceState").Where(sql, msg...).Update(&advicestate)
 	return err
 }
+
+

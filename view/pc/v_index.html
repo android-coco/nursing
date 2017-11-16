@@ -71,7 +71,7 @@
                                     <div class="tit">{{$val.BCQ04}}</div>
                                     <div class="cont">
                                         <p> <span class="name">{{$val.VAA05}}</span>&nbsp;&nbsp;&nbsp; {{$val.Gender}}&nbsp;&nbsp;&nbsp; {{$val.VAA10}}岁&nbsp;&nbsp;&nbsp; {{$val.BDP02}}</p>
-                                        <p class="id"> <span>{{$val.BCK03}}   id：{{$val.VAA01}}</span></p>
+                                        <p class="id"> <span>{{$val.BCK03C}}   id：{{$val.VAA01}}</span></p>
                                         <p class="msg"> <span>{{$val.VAO15}}</span></p>
                                         <p><span class="name-tit">责任医生：</span><span class="ysname">{{$val.BCE03C}}</span></p>
                                         <div class="icon-bar">
@@ -148,8 +148,8 @@
                                 <td class="t-c">{{$val.Gender}}</td>
                                 <td class="t-c">{{$val.VAA10}}</td>
                                 <td class="t-c">{{$val.VAA01}}</td>
-                                <td class='t-c {{if eq $val.AAG01 "0"}}t1{{else if eq $val.AAG01 "1"}}t2{{else if eq $val.AAG01 "2"}}t3{{else if eq $val.AAG01 "3"}}t4{{else if eq $val.AAG01 "4"}}t5{{end}}'>
-                                    {{if eq $val.AAG01 "0"}}特级护理{{else if eq $val.AAG01 "1"}}一级护理{{else if eq $val.AAG01 "2"}}二级护理{{else if eq $val.AAG01 "3"}}三级护理{{else if eq $val.AAG01 "4"}}无护理级别{{end}}
+                                <td class='t-c {{if eq $val.AAG01 "0"}}t1{{else if eq $val.AAG01 "1"}}t2{{else if eq $val.AAG01 "2"}}t3{{else if eq $val.AAG01 "3"}}t4{{else}}t5{{end}}'>
+                                    {{if eq $val.AAG01 "0"}}特级护理{{else if eq $val.AAG01 "1"}}一级护理{{else if eq $val.AAG01 "2"}}二级护理{{else if eq $val.AAG01 "3"}}三级护理{{else}}无护理级别{{end}}
                                 </td>
                                 <td>{{$val.VAO15}}</td>
                                 <td>{{$val.BCE03C}}</td>
@@ -349,7 +349,7 @@
             refreshData(5);
         });*/
         /*function refreshData(type) {
-            var classid = {{.Userinfo.DepartmentID}};
+            var classid = //.Userinfo.DepartmentID;
 
             var url = "/pc/home/beds?department_id=" + classid + "&type=" + type;
             $.get(url, function (json) {

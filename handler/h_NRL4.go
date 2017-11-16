@@ -9,7 +9,7 @@ import (
 )
 
 type NRL4Controller struct {
-	fit.Controller
+	NRLController
 }
 
 // 模板 template PDA端
@@ -28,16 +28,15 @@ func (c NRL4Controller) Check(w *fit.Response, r *fit.Request, p fit.Params) {
 
 	pid := nr4.VAA01
 
-	pinfo, err := model.GetPatientInfo(strconv.FormatInt(pid, 10))
-	if err != nil {
-		fit.Logger().LogError("m_NR1", err)
-		fmt.Fprintln(w, "服务器有点繁忙！")
+	// 查询对应病人信息
+	patient, has := c.LoadPinfoWithPid(w, r, pid)
+	if !has {
 		return
 	}
 
 	recordDate := nr4.DateTime.Format("2006-01-02")
 	c.Data = fit.Data{
-		"Pinfo":      pinfo[0],
+		"Pinfo":      patient,
 		"NRL":        nr4,
 		"RecordDate": recordDate,
 	}
@@ -74,27 +73,15 @@ func (c NRL4Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 		return
 	}
 
-	pinfo, err := model.GetPatientInfo(pid)
-	if err != nil {
-		fit.Logger().LogError("m_NR1", err)
-		fmt.Fprintln(w, "服务器有点繁忙！")
-		return
-	}
-	if len(pinfo) == 0 {
-		fmt.Fprintln(w, "参数错误！")
-		return
-	}
-
-	account, err2 := model.FetchAccountWithUid(uid)
-	if err2 != nil {
-		fit.Logger().LogError("nrl5", err2)
-		fmt.Fprintln(w, "参数错误！", err2)
+	// 查询对应病人信息 护士的信息
+	patient, account, has := c.LoadPinfoAndAccountWithPidUid(w, r, pid, uid)
+	if !has {
 		return
 	}
 
 	recordDate := nr4.DateTime.Format("2006-01-02")
 	c.Data = fit.Data{
-		"Pinfo":      pinfo[0],
+		"Pinfo":      patient,
 		"NRL":        nr4,
 		"Type":       ty,
 		"Rid":        rid,
@@ -119,8 +106,7 @@ func (c NRL4Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params)
 	datetime, err4 := time.ParseInLocation("2006-01-02 15:04:05", r.FormValue("datetime"), time.Local)
 	// 科室ID
 	BCK01, err5 := strconv.ParseInt(r.FormValue("did"), 10, 64)
-	// 文书ID（修改时需要）
-	//recordId := r.FormValue("rid")
+
 	NRL01, err6 := strconv.Atoi(r.FormValue("NRL01"))
 	NRL02, err7 := strconv.Atoi(r.FormValue("NRL02"))
 	NRL03, err8 := strconv.Atoi(r.FormValue("NRL03"))
@@ -155,13 +141,28 @@ func (c NRL4Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params)
 		Score:    score,
 	}
 
-	_, err17 := nrl4.InsertData()
+	rid, err17 := nrl4.InsertData()
+
 	if err17 != nil {
 		fit.Logger().LogError("NRL4 add :", err17)
 		c.JsonData.Result = 2
 		c.JsonData.ErrorMsg = "上传失败！"
 		c.JsonData.Datas = []interface{}{}
 	} else {
+		// 文书记录
+		nurseRecord := model.NursingRecords{
+			Updated:     r.FormValue("datetime"),
+			NursType:    4,
+			NursingId:   BCE01A,
+			NursingName: BCE03A,
+			ClassId:     r.FormValue("did"),
+			PatientId:   r.FormValue("pid"),
+			RecordId:    rid,
+			Comment:     "新增",
+		}
+		_,errRecord := model.InsertNRecords(nurseRecord)
+		checkerr("nurse record err:", errRecord)
+
 		c.JsonData.Result = 0
 		c.JsonData.ErrorMsg = "上传成功！"
 		c.JsonData.Datas = []interface{}{}
@@ -181,11 +182,14 @@ func (c NRL4Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 		c.JsonData.ErrorMsg = "rid 错误！"
 		c.JsonData.Datas = []interface{}{}
 	}
-
+	// 病人ID
+	VAA01, err1 := strconv.ParseInt(r.FormValue("pid"), 10, 64)
+	// 科室ID
+	BCK01, err5 := strconv.ParseInt(r.FormValue("did"), 10, 64)
 	// 护士ID
-	//BCE01A := r.FormValue("uid")
+	BCE01A := r.FormValue("uid")
 	// 护士名
-	//BCE03A := r.FormValue("username")
+	BCE03A := r.FormValue("username")
 	// 记录时间
 	datetime, err4 := time.ParseInLocation("2006-01-02 15:04:05", r.FormValue("datetime"), time.Local)
 
@@ -198,11 +202,13 @@ func (c NRL4Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 	NRL07, err12 := strconv.Atoi(r.FormValue("NRL07"))
 	score, err13 := strconv.Atoi(r.FormValue("score"))
 
-	checkerr("nrl4 add", err4, err6, err7, err8, err9, err10, err11, err12, err13)
+	checkerr("nrl4 add",err1, err5, err4, err6, err7, err8, err9, err10, err11, err12, err13)
 
 	nrl4 := model.NRL4{
-		//BCE01A:   BCE01A,
-		//BCE03A:   BCE03A,
+		VAA01:    VAA01,
+		BCK01:    BCK01,
+		BCE01A:   BCE01A,
+		BCE03A:   BCE03A,
 		DateTime: datetime,
 		NRL01:    NRL01,
 		NRL02:    NRL02,
@@ -215,41 +221,20 @@ func (c NRL4Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 	}
 
 	_, err17 := nrl4.UpdateData(id)
+
+
 	if err17 != nil {
 		fit.Logger().LogError("nrl4 add :", err17)
 		c.JsonData.Result = 2
 		c.JsonData.ErrorMsg = "修改失败！"
 		c.JsonData.Datas = []interface{}{}
 	} else {
+		_, errRecord := model.UpadteNRecords(id, r.FormValue("datetime"))
+		checkerr("nurse record update err:", errRecord)
+
 		c.JsonData.Result = 0
 		c.JsonData.ErrorMsg = "修改成功！"
 		c.JsonData.Datas = []interface{}{}
 	}
 }
 
-/*
-import "fit"
-
-type NRL4Controller struct {
-	fit.Controller
-}
-
-// 模板 template PDA端
-func (c NRL4Controller) Check(w *fit.Response, r *fit.Request, p fit.Params)  {
-
-}
-
-func (c NRL4Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params)  {
-
-}
-
-// 接口
-// 添加护理记录单
-func (c NRL4Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params) {
-
-}
-
-// 修改护理记录单
-func (c NRL4Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Params) {
-
-}*/

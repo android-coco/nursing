@@ -7,6 +7,9 @@ import (
 	"nursing/model"
 	"errors"
 	"fmt"
+	"strconv"
+
+	"time"
 )
 
 type PCHandlerInterface interface {
@@ -103,19 +106,97 @@ func (c *PCController)GetLocalUserinfo(w *fit.Response, r *fit.Request) (userinf
 /*
 护理单 PC用
 */
-func (c PCController) NRLRecord(w *fit.Response, r *fit.Request, p fit.Params) (userinfo model.UserInfoDup, beds []model.PCBedDup, err error) {
+// 护士信息 床位表   病人id  病人信息
+func (c *PCController) GetBedsAndUserinfo(w *fit.Response, r *fit.Request, nrlType string) (userinfo model.UserInfoDup, beds []model.PCBedDup, pid string, pInfo model.PCBedDup, isHas bool) {
 	// 护士信息
+	isHas = false
+	var err error
 	userinfo, err = c.GetLocalUserinfo(w, r)
 	if err != nil {
 		fmt.Fprintln(w, "参数错误！  user info error", err)
-		return userinfo, nil,err
+		return
 	}
 
 	beds, err = model.QueryDepartmentBeds(userinfo.DepartmentID, false)
 	if err != nil {
-		fit.Logger().LogError("pc nrl2", err)
-		return userinfo, nil, err
+		fit.Logger().LogError("query beds err:", err)
+		return
+	}
+	//fmt.Printf("bed1 : %+v\n", beds)
+	//fmt.Println("user info :", userinfo)
+	//fmt.Println("beds:", beds)
+
+	pid = r.FormValue("pid")
+	if pid == "" {
+		if len(beds) == 0 {
+			fit.Logger().LogError("beds is empty")
+			return
+		}
+
+		pidnum := beds[0].VAA01
+		pid = strconv.Itoa(pidnum)
+		url := "/pc/record/nrl" + nrlType + "?pid=" + pid
+		c.Redirect(w, r, url, 302)
+		return userinfo, beds, pid, pInfo, false
 	}
 
-	return userinfo, beds, nil
+	// 病人信息
+	for _, val := range beds {
+		if strconv.Itoa(val.VAA01) == pid {
+			pInfo = val
+			break
+		}
+	}
+
+	if pInfo.VAA01 == 0 {
+		fit.Logger().LogError("pc nrl pInfo is empty")
+		fmt.Fprintln(w, "参数错误！  patient info error")
+		return userinfo, beds, pid, pInfo, false
+	}
+
+	return userinfo, beds, pid, pInfo, true
 }
+
+// pc 文书 翻页处理时间的页码的
+func (c *PCController) GetPageInfo(w *fit.Response, r *fit.Request, nrlType, pid string) (datestr1, datestr2  string ,pageindex, pagenum int, err error)  {
+	// 时间
+	date1, errs := strconv.ParseInt(r.FormValue("sdate"), 10, 64)
+	date2, erre := strconv.ParseInt(r.FormValue("edate"), 10, 64)
+	if errs != nil || erre != nil {
+		datestr1 = ""
+		datestr2 = ""
+	} else {
+		datestr1 = time.Unix(date1 / 1000 - 60 * 60 * 8, 0).Format("2006-01-02 15:04:05")
+		datestr2 = time.Unix(date2 / 1000 + 60 * 60 * 16, 0).Format("2006-01-02 15:04:05")
+	}
+	//fmt.Println("-----", date1,date2, datestr1, datestr2)
+
+	// 总条数
+	count, errCount := model.PCQUeryNRLPageCount(nrlType,pid, datestr1, datestr2)
+	if errCount != nil {
+		fmt.Fprintln(w, "nrl list err :", errCount)
+		fit.Logger().LogError("nrl page info :", errCount)
+		err = errCount
+		return
+	}
+
+	//fmt.Println("count:", count)
+	//总页数
+	pagenum = int(count / 9) + 1
+	//当前页数
+	index := r.FormValue("num")
+	pageindex, errnum := strconv.Atoi(index)
+	if errnum != nil {
+		pageindex = int(pagenum)
+	}
+	if pageindex < 1 {
+		pageindex = 1
+	} else if pageindex > pagenum {
+		pageindex = pagenum
+	}
+	//fmt.Println("count:", count, "pageNum:", pagenum, "pageindex:", pageindex)
+
+	return
+}
+
+
