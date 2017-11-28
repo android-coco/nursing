@@ -4,6 +4,8 @@ package model
 import (
 	//"fit"
 	//"fmt"
+	"fmt"
+	"fit"
 )
 
 type I_BaseMoel interface {
@@ -54,3 +56,34 @@ func (mod BaseModel) GetData(a interface{}) (b interface{}) {
 func (mod BaseModel) UpdateData(a interface{}) (b interface{}, err error)  {
 	return fit.MySqlEngine().Update(a)
 }*/
+
+
+/*JP 用法查询是否存在某条记录*/
+type IsExist struct {
+	Exist int // 是否存在
+}
+
+/*
+查询满足条件的数据是否存在
+mysql:  		数据库引擎,true=MySql,false=SqlServer
+tableName:  	表名
+where：  		条件
+*/
+func IsExistRecord(mysql bool, tableName, where string) IsExist {
+	isEx := IsExist{}
+	if mysql == true {
+		sqlStr := fmt.Sprintf("select (count(1) > 0) as Exist from %s where %s", tableName, where)
+		_, err := fit.MySqlEngine().SQL(sqlStr).Get(&isEx)
+		if err != nil {
+			fit.Logger().LogError("***JK***IsExistRecord***",err.Error())
+		}
+		return isEx
+	} else {
+		sqlStr := fmt.Sprintf("if exists (select 1 from %s where %s) select '1' as Exist else select '0' as Exist", tableName, where)
+		_, err := fit.SQLServerEngine().SQL(sqlStr).Get(&isEx)
+		if err != nil {
+			fit.Logger().LogError("***JK***IsExistRecord***",err.Error())
+		}
+		return isEx
+	}
+}

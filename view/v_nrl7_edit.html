@@ -29,22 +29,22 @@
     <div class="m-msg">
         <ul>
             <li class="b1">
-                姓名:<span>{{.Pinfo.VAA05}}</span>
+                姓名:<span>{{.PInfo.VAA05}}</span>
             </li>
             <li class="b1">
-                性别:<span>{{.Pinfo.Gender}}</span>
+                性别:<span>{{.PInfo.Gender}}</span>
             </li>
             <li class="b1">
-                年龄:<span>{{.Pinfo.VAA10}}岁</span>
+                年龄:<span>{{.PInfo.VAA10}}岁</span>
             </li>
             <li class="b1">
-                科室:<span>{{.Pinfo.BCK03C}}</span>
+                科室:<span>{{.PInfo.BCK03C}}</span>
             </li>
             <li class="b1">
-                床号:<span>{{.Pinfo.BCQ04}}</span>
+                床号:<span>{{.PInfo.BCQ04}}</span>
             </li>
             <li class="b1">
-                住院号:<span>{{.Pinfo.VAA04}}</span>
+                住院号:<span>{{.PInfo.VAA04}}</span>
             </li>
         </ul>
     </div>
@@ -58,10 +58,10 @@
         <p class="tit">
             陪护情况：
         </p>
-        <ul class="radio-grup">
+        <ul class="radio-grup table-tit">
             <li>
                 <div class="m-input-radio">
-                    <input type="radio" id="c1-v1" name="check1" data-v="1" class="c1" {{if eq .NRL.NRL08 "1"}}checked{{end}}>
+                    <input type="radio" id="c1-v1" name="check1" data-v="1" class="c1" {{if eq .NRLTitle.NRL08 "1"}}checked{{end}} disabled>
                     <label for="c1-v1" class="icon"></label>
                 </div>
                 <label for="c1-v1">无</label>
@@ -69,25 +69,23 @@
             <li>
                 <div class="m-check-warp">
                     <div class="m-input-radio">
-                        <input type="radio" id="c1-v2" name="check1" data-v="2" class="c1 main-sel" {{if eq .NRL.NRL08 "2"}}checked{{end}}>
+                        <input type="radio" id="c1-v2" name="check1" data-v="2" class="c1 main-sel" {{if eq .NRLTitle.NRL08 "2"}}checked{{end}} disabled>
                         <label for="c1-v2" class="icon"></label>
                     </div>
                     <label for="c1-v2" style="padding-left:5px">有</label>
                 </div>
-                <ul id="c1-c2" class="child-sel disabled-box">
+                <ul id="c1-c2" class="child-sel disabled-box" style="padding-top: 2px;">
                     <li class="b3">
-                        （
+                        &nbsp;(
                         <div class="m-input-checkbox">
-                            <input type="checkbox" id="c1-v2-v1" name="c1-v2" data-v="1">
+                            <input type="checkbox" id="c1-v2-v1" name="c1-v2" data-v="1" disabled>
                             <label for="c1-v2-v1" class="icon"></label>
                         </div>
                         <label for="c1-v2-v1">家属</label>
-
-
                     </li>
                     <li class="b3">
                         <div class="m-input-checkbox">
-                            <input type="checkbox" id="c1-v2-v2" name="c1-v2" data-v="2">
+                            <input type="checkbox" id="c1-v2-v2" name="c1-v2" data-v="2" disabled>
                             <label for="c1-v2-v2" class="icon"></label>
                         </div>
                         <label for="c1-v2-v2">保姆</label>
@@ -95,19 +93,19 @@
 
                     <li class="b3">
                         <div class="m-input-checkbox">
-                            <input type="checkbox" id="c1-v2-v3" name="c1-v2" data-v="3">
+                            <input type="checkbox" id="c1-v2-v3" name="c1-v2" data-v="3" disabled>
                             <label for="c1-v2-v3" class="icon"></label>
                         </div>
                         <label for="c1-v2-v3">护工</label>
                     </li>
                     <li>                        &nbsp;&nbsp;
                         <div class="m-input-checkbox">
-                            <input type="checkbox" id="c1-v2-v4" name="c1-v2" data-v="4" class="main-sel">
+                            <input type="checkbox" id="c1-v2-v4" name="c1-v2" data-v="4" class="main-sel" disabled>
                             <label for="c1-v2-v4" class="icon"></label>
                         </div>
                         <label for="c1-v2-v4">其他</label>
                         <span class="child-sel" >
-                            <input type="text" id="qt-txt" class="m-input-txt" value="{{.NRL.NRL08B}}">）
+                            <input type="text" id="qt-txt" class="m-input-txt" value="{{.NRLTitle.NRL08B}}" disabled>)
                         </span>
                     </li>
 
@@ -118,7 +116,7 @@
 
     </div>
     <p class="msg-bar">
-        诊断内容：<span>慢性硬膜血肿</span>
+        诊断内容：<span>{{.PInfo.VAO15}}</span>
     </p>
     <div class="m-tit">
         <p class="tit">评估项目</p>
@@ -207,7 +205,7 @@
                     <input type="radio" id="c4-v4" name="check4" data-v="4" {{if eq .NRL.NRL03 "4"}}checked{{end}}>
                     <label for="c4-v4" class="icon"></label>
                 </div>
-                <label for="c4-v4">拐杖／手杖/四角叉=15</label>
+                <label for="c4-v4">拐杖/手杖/四角叉=15</label>
             </li>
             <li class="b3" style="width:40%">
                 <div class="m-input-radio">
@@ -224,7 +222,7 @@
 
     <div class="m-check1" id="c5">
         <p class="tit">
-            静脉输液／肝素锁:
+            静脉输液/肝素锁:
         </p>
         <ul>
             <li>
@@ -305,14 +303,14 @@
                     <input type="radio" id="c7-v1" name="check7" data-v="1" class="c1" {{if eq .NRL.NRL06 "1"}}checked{{end}}>
                     <label for="c7-v1" class="icon"></label>
                 </div>
-                <label for="c7-v1">了解自己的能力／量力而行=0</label>
+                <label for="c7-v1">了解自己的能力/量力而行=0</label>
             </li>
             <li>
                 <div class="m-input-radio">
                     <input type="radio" id="c7-v2" name="check7" data-v="2" class="c1" {{if eq .NRL.NRL06 "2"}}checked{{end}}>
                     <label for="c7-v2" class="icon"></label>
                 </div>
-                <label for="c7-v2">高估自己／忘记自己的限制=15</label>
+                <label for="c7-v2">高估自己/忘记自己的限制=15</label>
             </li>
         </ul>
 
@@ -350,7 +348,7 @@
                         <input type="checkbox" id="c8-v2" name="check8" data-v="2" class="c1">
                         <label for="c8-v2" class="icon"></label>
                     </div>
-                    <label for="c8-v2">2、入院时向患者/家属/陪护介绍病室环境及安全 措施</label>
+                    <label for="c8-v2">2、入院时向患者/家属/陪护介绍病室环境及安全措施</label>
                 </li>
                 <li>
                     <div class="m-input-checkbox">
@@ -364,7 +362,7 @@
                         <input type="checkbox" id="c8-v4" name="check8" data-v="4" class="c1">
                         <label for="c8-v4" class="icon"></label>
                     </div>
-                    <label for="c8-v4">4、教育患者/家属/陪护预防跌倒的方法及注意事 项</label>
+                    <label for="c8-v4">4、教育患者/家属/陪护预防跌倒的方法及注意事项</label>
                 </li>
                 <li>
                     <div class="m-input-checkbox">
@@ -385,8 +383,7 @@
                         <input type="checkbox" id="c8-v7" name="check8" data-v="7" class="c1">
                         <label for="c8-v7" class="icon"></label>
                     </div>
-                    <label for="c8-v7">7、按医嘱留陪护一名，在夜间将陪人床紧邻患者床
-                        栏放置</label>
+                    <label for="c8-v7">7、按医嘱留陪护一名，在夜间将陪人床紧邻患者床栏放置</label>
                 </li>
                 <li>
                     <div class="m-input-checkbox">
@@ -414,14 +411,14 @@
                         <input type="checkbox" id="c8-v11" name="check8" data-v="11" class="c1">
                         <label for="c8-v11" class="icon"></label>
                     </div>
-                    <label for="c8-v11">11、告知患者有护士/家属/陪护协助下方可下床 活动</label>
+                    <label for="c8-v11">11、告知患者有护士/家属/陪护协助下方可下床活动</label>
                 </li>
                 <li>
                     <div class="m-input-checkbox">
                         <input type="checkbox" id="c8-v12" name="check8" data-v="12" class="c1">
                         <label for="c8-v12" class="icon"></label>
                     </div>
-                    <label for="c8-v12">12、患者下床前，确认已穿防滑的鞋子，并与床边 悬摆双脚至少2分钟</label>
+                    <label for="c8-v12">12、患者下床前，确认已穿防滑的鞋子，并与床边悬摆双脚至少2分钟</label>
                 </li>
                 <li>
                     <div class="m-input-checkbox">
@@ -435,7 +432,7 @@
                         <input type="checkbox" id="c8-v14" name="check8" data-v="14" class="c1">
                         <label for="c8-v14" class="icon"></label>
                     </div>
-                    <label for="c8-v14">14、使用平车外出检查的患者，应加安全带及上防 护栏</label>
+                    <label for="c8-v14">14、使用平车外出检查的患者，应加安全带及上防护栏</label>
                 </li>
                 <li>
                     <div class="m-input-checkbox">
@@ -449,7 +446,7 @@
                         <input type="checkbox" id="c8-v16" name="check8" data-v="16" class="c1">
                         <label for="c8-v16" class="icon"></label>
                     </div>
-                    <label for="c8-v16">16、步态不稳的患者外出检查必须由家属及护送人 员陪同</label>
+                    <label for="c8-v16">16、步态不稳的患者外出检查必须由家属及护送人员陪同</label>
                 </li>
                 <li>
                     <div class="m-input-checkbox">
@@ -470,7 +467,7 @@
                         <input type="checkbox" id="c8-v19" name="check8" data-v="19" class="c1">
                         <label for="c8-v19" class="icon"></label>
                     </div>
-                    <label for="c8-v19">19、评估患者现用药物的效果及副作用，及时做好 宣教</label>
+                    <label for="c8-v19">19、评估患者现用药物的效果及副作用，及时做好宣教</label>
                 </li>
                 <li>
                     <div class="m-input-checkbox">
@@ -491,21 +488,21 @@
                         <input type="checkbox" id="c8-v22" name="check8" data-v="22" class="c1">
                         <label for="c8-v22" class="icon"></label>
                     </div>
-                    <label for="c8-v22">22、睡床高低要适当，从床垫面至地板高度45-4 8cm </label>
+                    <label for="c8-v22">22、睡床高低要适当，从床垫面至地板高度45-48cm </label>
                 </li>
                 <li>
                     <div class="m-input-checkbox">
                         <input type="checkbox" id="c8-v23" name="check8" data-v="23" class="c1">
                         <label for="c8-v23" class="icon"></label>
                     </div>
-                    <label for="c8-v23">23、必要时经患者或家属同意使用约束带  </label>
+                    <label for="c8-v23">23、必要时经患者或家属同意使用约束带</label>
                 </li>
                 <li>
                     <div class="m-input-checkbox">
                         <input type="checkbox" id="c8-v24" name="check8" data-v="24" class="c1">
                         <label for="c8-v24" class="icon"></label>
                     </div>
-                    <label for="c8-v24">24、加强床上护理，协助擦浴，开餐，床上洗头及 二便护理，加强肌肉训练   </label>
+                    <label for="c8-v24">24、加强床上护理，协助擦浴，开餐，床上洗头及二便护理，加强肌肉训练   </label>
                 </li>
 
                 <li>
@@ -514,7 +511,7 @@
                         <label for="c8-v25" class="icon"></label>
                     </div>
                     <div class="warp-textarea ">
-                        <textarea data-type="{{ .Title.NRT01}}" class="m-input-textarea" id="hl-1" {{if eq .Title.NRT01 "11"}}disabled{{end}}>{{if eq .Title.NRT01 "11"}}{{.Title.NRT01V}}{{end}}</textarea>
+                        <textarea data-type="{{ .NRLTitle.NRT01}}" class="m-input-textarea" id="hl-1" {{if eq .NRLTitle.NRT01 "11"}}disabled{{end}}>{{if eq .NRLTitle.NRT01 "11"}}{{.NRLTitle.NRT01V}}{{end}}</textarea>
                     </div>
                 </li>
 
@@ -524,7 +521,7 @@
                         <label for="c8-v26" class="icon"></label>
                     </div>
                     <div class="warp-textarea ">
-                        <textarea  data-type="{{ .Title.NRT02}}" class="m-input-textarea" id="hl-2" {{if eq .Title.NRT02 "11"}}disabled{{end}}>{{if eq .Title.NRT02 "11"}}{{.Title.NRT02V}}{{end}}</textarea>
+                        <textarea  data-type="{{ .NRLTitle.NRT02}}" class="m-input-textarea" id="hl-2" {{if eq .NRLTitle.NRT02 "11"}}disabled{{end}}>{{if eq .NRLTitle.NRT02 "11"}}{{.NRLTitle.NRT02V}}{{end}}</textarea>
                     </div>
 
                 </li>
@@ -561,11 +558,10 @@
             备注：
         </div>
         <p>
-            1. 评估护士在对应时间内评估结果。</p>
-        <p> 2. 凡入院患者均需做跌倒风险评估，对跌倒评估总分
-            <25分者（低风险），记录在护理记录单首页，暂不需 持续评估；总分25-45分者（中度风险），一周内每 48h评估一次，以后每周评估一次；总分>45分者（ 高风险）首次评估后至少每天评估一次；评估中为中 度风险和高风险患者分值记录在此表和护理记录单上， 做好交接；其它视具体情况评估，发生跌倒事件时， 应重新评估并记录。
+            1. 评估护士在对应时间内将评估结果填写在相应的空格内。</p>
+        <p> 2. 凡入院患者均需做跌倒风险评估，对跌倒评估总分<25分者（低风险），记录在护理记录单首页，暂不需持续评估；总分25-45分者（中度风险），一周内每48h评估一次，以后每周评估一次；总分>45分者（ 高风险）首次评估后至少每天评估一次；评估中为中度风险和高风险患者分值记录在此表和护理记录单上，做好交接；其它视具体情况评估，发生跌倒事件时，应重新评估并记录。
         </p>
-        <p> 3. 凡高危患者（年龄≥65岁、意识不清、运动障碍、 视力障碍、服用镇静催眠药物等）需进行动态跌倒风 险评估。
+        <p> 3. 凡高危患者（年龄≥65岁、意识不清、运动障碍、 视力障碍、服用镇静催眠药物等）需进行动态跌倒风险评估。
         </p>
         <p> 4、护理措施如未有涵盖者请在空白栏加以说明，特殊情况可记录在护理记录中</p>
     </div>
@@ -636,11 +632,11 @@
     $('input[type=radio]').on('click',function(){
         var ischeck = $(this).data("check");
         if(!ischeck){
-            $(this).parents('ul').find("input[type=radio]").data("check","0")
-            $(this).data("check","1");
+            $(this).parents('ul').find("input[type=radio]").data("check",0)
+            $(this).data("check",1);
         }else{
             $(this).prop('checked',false);
-            $(this).data("check","0");
+            $(this).data("check",0);
         }
     })
 
@@ -660,9 +656,9 @@
                 // 护士名
                 "username": {{.Account.Username}},
                 //病人id
-                "pid": {{.Pinfo.VAA01}},
+                "pid": {{.PInfo.VAA01}},
                 // 科室id
-                "did": {{.Pinfo.BCK01B}},
+                "did": {{.PInfo.BCK01C}},
                 // "nrl_id":{{.Rid}}
                 /***---------------------**/
             }
@@ -686,7 +682,7 @@
             setDataDateTime();
             //-----
 
-            setDatavNRL08();
+            // setDatavNRL08();
 
             setDatavNRL01();
             setDatavNRL02();
@@ -728,25 +724,7 @@
             }
         }
 
-        // 陪护情况
-        function setDatavNRL08(){
-            var $check = $("#c1").find('input[type=radio]:checked');
-            $check.length && (data.NRL08 = $check.data('v'));
-            if($check.data('v')=="2"){
-                var $check2 = $("#c1-c2").find('input[type=checkbox]:checked');
-                if($check2.length){
-                    var res = [];
-                    $check2.each(function(i,el){
-                        res.push($(el).data('v'));
-                        if($(el).data('v') == "4"){ //如果是第四项
-                            var qtVal = $.trim($("#qt-txt").val());
-                            qtVal && (data.NRL08B = qtVal)
-                        }
-                    });
-                    data.NRL08A =res.join(",")
-                }
-            }
-        }
+
 
 
         // 跌倒史（3个月内）：
@@ -811,6 +789,26 @@
 
         }
 
+        // 陪护情况
+        function setDatavNRL08(titData){
+            var $check = $("#c1").find('input[type=radio]:checked');
+            $check.length && (titData["NRL08"] = $check.data('v'));
+            if($check.data('v')=="2"){
+                var $check2 = $("#c1-c2").find('input[type=checkbox]:checked');
+                if($check2.length){
+                    var res = [];
+                    $check2.each(function(i,el){
+                        res.push($(el).data('v'));
+                        if($(el).data('v') == "4"){ //如果是第四项
+                            var qtVal = $.trim($("#qt-txt").val());
+                            qtVal && (titData["NRL08B"] = qtVal)
+                        }
+                    });
+                    titData["NRL08A"] =res.join(",")
+                }
+            }
+        }
+
         var api = '',
                 typeStr = '';
         if (type == 1) {
@@ -865,8 +863,12 @@
                     "datetime":data.datetime
                 }
 
-                console.log(hl1 && $("#hl-2").data("type")!="11")
 
+                // console.log(hl1 && $("#hl-2").data("type")!="11")
+                if(!isActiveTit){
+                    console.log("???")
+                    setDatavNRL08(titData)
+                }
                 if(hl1 && $("#hl-1").data("type") !="11"){
                     titData.NRT01 = "11"
                     titData.NRT01V = hl1
@@ -885,7 +887,7 @@
                         data: titData,
                         type: "POST",
                         success: function (data) {
-                            console.log("???")
+                            console.log(data)
                         },
                         error:function(e){
 
@@ -979,10 +981,10 @@
         }
     })
 
-    //多选填值
+
 
     //多选填值
-    var NRL08AStr = {{.NRL.NRL08A}};// 陪护情况
+    var NRL08AStr = {{.NRLTitle.NRL08A}};// 陪护情况
     var NRL07Str = {{.NRL.NRL07}};// 护理措施
 
     setCheckBox("#c1-c2",NRL08AStr.split(","))
@@ -1000,14 +1002,26 @@
     }
 
 
+    var isActiveTit = {{.NRLTitle.NRL08}}
+
+    if(!isActiveTit){
+        $(".table-tit").find("input").prop("disabled",false)
+    }else{
+        $(".table-tit").find(".main-sel").removeClass("main-sel")
+        $(".table-tit").find(".child-sel").removeClass("child-sel")
+    }
+
+
+
+
     //设置禁用input
     // $(".disabled-box").find("input").prop("disabled",true)
     $(".main-sel").each(function(i,el){
-        switchStyle(el)
+            switchStyle(el)
     })
 
     $(".main-sel").on("click",function(){
-        switchStyle(this)
+            switchStyle(this)
     })
 
     function switchStyle(el){

@@ -52,14 +52,16 @@
                         <div class="icon">
                             <img src="/static/dist/images/admin_pc/icon20.png" alt="">
                         </div>
-                        <input type="text" class="am-form-field  date-input" id="date1" lay-key="1">
+                        <input type="text" class="am-form-field  date-input" id="date1">
                         <span class="line">—</span>
-                        <input type="text" class="am-form-field  date-input" id="date2" lay-key="2">
-                        <a href="" class="all-btn">所有记录</a>
+                        <input type="text" class="am-form-field  date-input" id="date2">
+                        <a href="/pc/record/nrl7?pid={{.PInfo.VAA01}}" class="all-btn">所有记录</a>
                     </div>
                     <div class="btn-group">
+                        {{ if eq .PageNum .PageIndex}}
                         <a class="btn type2 createCol">新建</a>
-                        <a class="btn">打印</a>
+                        {{end}}
+                        <a class="btn print">打印</a>
                     </div>
                     <p class="tit">患者跌到风险评估护理单</p>
                 </div>
@@ -76,7 +78,7 @@
                         {{/*<span><label>诊断：</label>{{.PInfo.VAO15}}</span>*/}}
                     </p>
 
-                    <div class="row-txt2">
+                    <div class="row-txt2 table-tit" >
                         <!-- 陪护情况 -->
                         <div class="m-check2" id="c1">
                             <p class="tit">
@@ -85,7 +87,7 @@
                             <ul>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c1-v1" name="check5" data-v="1" class="c5" {{if eq .NRL08 "1"}}checked{{end}}>
+                                        <input type="radio" id="c1-v1" name="check5" data-v="1" class="c5" {{if eq .NRLTitle.NRL08 "1"}}checked{{end}} disabled>
                                         <label for="c1-v1" class="icon"></label>
                                     </div>
                                     <label for="c1-v1">无</label>
@@ -94,16 +96,16 @@
                                 <li>
                                     <!-- <div class="m-check-warp"> -->
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c1-v2" name="check5" data-v="2" class="c5" {{if eq .NRL08 "2"}}checked{{end}}>
+                                        <input type="radio" id="c1-v2" name="check5" data-v="2" class="c5 main-sel" {{if eq .NRLTitle.NRL08 "2"}}checked{{end}} disabled>
                                         <label for="c1-v2" class="icon"></label>
                                     </div>
                                     <label for="c1-v2">有</label>
                                     <!-- </div> -->
-                                    <ul id="c1-c2">
+                                    <ul id="c1-c2" class="child-sel disabled-box">
                                         <li class="b1">
                                             (
                                             <div class="m-input-checkbox">
-                                                <input type="checkbox" id="c1-v2-v1" name="c1-v2" data-v="1" {{if eq .NRL08A "1"}}checked{{end}}>
+                                                <input type="checkbox" id="c1-v2-v1" name="c1-v2" data-v="1" {{if eq .NRLTitle.NRL08A "1"}}checked{{end}} disabled>
                                                 <label for="c1-v2-v1" class="icon"></label>
                                             </div>
                                             <label for="c1-v2-v1">家属</label>
@@ -111,14 +113,14 @@
                                         </li>
                                         <li class="b2">
                                             <div class="m-input-checkbox">
-                                                <input type="checkbox" id="c1-v2-v2" name="c1-v2" data-v="2" {{if eq .NRL08A "2"}}checked{{end}}>
+                                                <input type="checkbox" id="c1-v2-v2" name="c1-v2" data-v="2" {{if eq .NRLTitle.NRL08A "2"}}checked{{end}} disabled>
                                                 <label for="c1-v2-v2" class="icon"></label>
                                             </div>
                                             <label for="c1-v2-v2">保姆</label>
                                         </li>
                                         <li class="b2">
                                             <div class="m-input-checkbox">
-                                                <input type="checkbox" id="c1-v2-v3" name="c1-v2" data-v="3" {{if eq .NRL08A "3"}}checked{{end}}>
+                                                <input type="checkbox" id="c1-v2-v3" name="c1-v2" data-v="3" {{if eq .NRLTitle.NRL08A "3"}}checked{{end}} disabled>
                                                 <label for="c1-v2-v3" class="icon"></label>
                                             </div>
                                             <label for="c1-v2-v3">护工</label>
@@ -126,11 +128,13 @@
 
                                         <li class="b2">
                                             <div class="m-input-checkbox">
-                                                <input type="checkbox" id="c1-v2-v4" name="c1-v2" data-v="4" {{if eq .NRL08A "4"}}checked{{end}}>
+                                                <input type="checkbox" id="c1-v2-v4" name="c1-v2" data-v="4" class="main-sel" {{if eq .NRLTitle.NRL08A "4"}}checked{{end}} disabled>
                                                 <label for="c1-v2-v4" class="icon"></label>
                                             </div>
                                             <label for="c1-v2-v4">其它</label>
-                                            <input type="text" class="m-input-txt" value="{{.NRL08B}}">)
+                                            <span class="child-sel" >
+                                            <input type="text" id="qt-txt" class="m-input-txt" value="{{.NRLTitle.NRL08B}}" disabled>)
+                                            </span>
                                         </li>
 
                                     </ul>
@@ -157,7 +161,7 @@
                             </td>
                         </tr>
                         <tr class="tit-tr">
-                            <td class="td1" colspan="2">
+                            <td class="td1 null" colspan="2">
                                 <div class="cont-warp">评估项目</div>
                             </td>
                         </tr>
@@ -505,7 +509,8 @@
                         <tr class="tr7 tr7-25">
                             <td colspan="2">
                                 <div class="cont-warp">
-                                    <textarea name=""></textarea>
+                                    <textarea  data-type="{{ .NRLTitle.NRT01}}"  id="hl-1" {{if eq .NRLTitle.NRT01 "11"}}disabled{{end}}>{{if eq .NRLTitle.NRT01 "11"}}{{.NRLTitle.NRT01V}}{{end}}</textarea>
+
                                     <!-- <textarea disabled name=""></textarea> -->
                                 </div>
                             </td>
@@ -514,8 +519,9 @@
                         <tr class="tr7 tr7-26">
                             <td colspan="2">
                                 <div class="cont-warp">
+
                                     <!-- <textarea  name=""></textarea> -->
-                                    <textarea disabled name=""></textarea>
+                                    <textarea   data-type="{{ .NRLTitle.NRT02}}"  id="hl-2" {{if eq .NRLTitle.NRT02 "11"}}disabled{{end}}>{{if eq .NRLTitle.NRT02 "11"}}{{.NRLTitle.NRT02V}}{{end}}</textarea>
 
                                 </div>
                             </td>
@@ -717,20 +723,24 @@
                         </ul>
 
 
-                        <div class="list">
+                        <div class="list" id="tab-list">
                             {{range $k, $val := .NRLList}}
-                            <ul>
+                            <ul class="data-col" data-rid="{{$val.ID}}">
                                 <li class="td">
                                     <div class="cont-warp">
-                                        <p class="txt">2017-10-10</p>
-                                        <div class="sel-input"></div>
+                                        <p class="txt">{{$val.DateStr}}</p>
+                                        <div class="sel-input">
+                                            <input type="text" class="td-date-input" data-date="{{$val.DateStr}}" value="{{$val.DateStr}}">
+                                        </div>
                                     </div>
                                 </li>
 
                                 <li class="td">
                                     <div class="cont-warp">
-                                        <p class="txt">10</p>
-                                        <div class="sel-input"></div>
+                                        <p class="txt">{{$val.TimeStr}}</p>
+                                        <div class="sel-input">
+                                            <input type="text" class="td-time-input" data-time="{{$val.TimeStr}}" value="{{$val.TimeStr}}">
+                                        </div>
                                     </div>
                                 </li>
 
@@ -738,16 +748,16 @@
                                     <div class="cont-warp"></div>
                                 </li>
                                 <!-- 跌倒史（3个月内）s -->
-                                <li>
+                                <li class="fen-item">
                                     <div class="cont-warp c1">
                                         <ul class="radio-group">
                                             <li class="td type">
-                                                <div class="m-input-radio2 active">
+                                                <div class="m-input-radio2 {{if eq $val.NRL01 "1"}}active{{end}}">
                                                     <label class="icon" data-v="1"></label>
                                                 </div>
                                             </li>
                                             <li class="td type">
-                                                <div class="m-input-radio2">
+                                                <div class="m-input-radio2 {{if eq $val.NRL01 "2"}}active{{end}}">
                                                     <label class="icon" data-v="2"></label>
                                                 </div>
                                             </li>
@@ -755,16 +765,16 @@
                                     </div>
                                 </li>
                                 <!-- 超过1个医学诊断 -->
-                                <li>
+                                <li class="fen-item">
                                     <div class="cont-warp c2">
                                         <ul class="radio-group">
                                             <li class="td type">
-                                                <div class="m-input-radio2 active">
+                                                <div class="m-input-radio2 {{if eq $val.NRL02 "1"}}active{{end}}">
                                                     <label class="icon" data-v="1"></label>
                                                 </div>
                                             </li>
                                             <li class="td type">
-                                                <div class="m-input-radio2">
+                                                <div class="m-input-radio2 {{if eq $val.NRL02 "2"}}active{{end}}">
                                                     <label class="icon" data-v="2"></label>
                                                 </div>
                                             </li>
@@ -772,31 +782,31 @@
                                     </div>
                                 </li>
                                 <!-- 使用助行器具 -->
-                                <li>
+                                <li class="fen-item">
                                     <div class="cont-warp c3">
                                         <ul class="radio-group">
                                             <li class="td type">
-                                                <div class="m-input-radio2 active">
+                                                <div class="m-input-radio2 {{if eq $val.NRL03 "1"}}active{{end}}">
                                                     <label class="icon" data-v="1"></label>
                                                 </div>
                                             </li>
                                             <li class="td type">
-                                                <div class="m-input-radio2">
+                                                <div class="m-input-radio2 {{if eq $val.NRL03 "2"}}active{{end}}">
                                                     <label class="icon" data-v="2"></label>
                                                 </div>
                                             </li>
                                             <li class="td type">
-                                                <div class="m-input-radio2">
+                                                <div class="m-input-radio2 {{if eq $val.NRL03 "3"}}active{{end}}">
                                                     <label class="icon" data-v="3"></label>
                                                 </div>
                                             </li>
                                             <li class="td type">
-                                                <div class="m-input-radio2">
+                                                <div class="m-input-radio2 {{if eq $val.NRL03 "4"}}active{{end}}">
                                                     <label class="icon" data-v="4"></label>
                                                 </div>
                                             </li>
                                             <li class="td type">
-                                                <div class="m-input-radio2">
+                                                <div class="m-input-radio2 {{if eq $val.NRL03 "5"}}active{{end}}">
                                                     <label class="icon" data-v="5"></label>
                                                 </div>
                                             </li>
@@ -804,16 +814,16 @@
                                     </div>
                                 </li>
                                 <!-- 静脉输液／肝素锁 -->
-                                <li>
+                                <li class="fen-item">
                                     <div class="cont-warp c4">
                                         <ul class="radio-group">
                                             <li class="td type">
-                                                <div class="m-input-radio2 active">
+                                                <div class="m-input-radio2 {{if eq $val.NRL04 "1"}}active{{end}}">
                                                     <label class="icon" data-v="1"></label>
                                                 </div>
                                             </li>
                                             <li class="td type">
-                                                <div class="m-input-radio2">
+                                                <div class="m-input-radio2 {{if eq $val.NRL04 "2"}}active{{end}}">
                                                     <label class="icon" data-v="2"></label>
                                                 </div>
                                             </li>
@@ -821,31 +831,31 @@
                                     </div>
                                 </li>
                                 <!-- 步态 -->
-                                <li>
+                                <li class="fen-item">
                                     <div class="cont-warp c5">
                                         <ul class="radio-group">
                                             <li class="td type">
-                                                <div class="m-input-radio2 active">
+                                                <div class="m-input-radio2 {{if eq $val.NRL05 "1"}}active{{end}}">
                                                     <label class="icon" data-v="1"></label>
                                                 </div>
                                             </li>
                                             <li class="td type">
-                                                <div class="m-input-radio2">
+                                                <div class="m-input-radio2 {{if eq $val.NRL05 "2"}}active{{end}}">
                                                     <label class="icon" data-v="2"></label>
                                                 </div>
                                             </li>
                                             <li class="td type">
-                                                <div class="m-input-radio2">
+                                                <div class="m-input-radio2 {{if eq $val.NRL05 "3"}}active{{end}}">
                                                     <label class="icon" data-v="3"></label>
                                                 </div>
                                             </li>
                                             <li class="td type">
-                                                <div class="m-input-radio2">
+                                                <div class="m-input-radio2 {{if eq $val.NRL05 "4"}}active{{end}}">
                                                     <label class="icon" data-v="4"></label>
                                                 </div>
                                             </li>
                                             <li class="td type">
-                                                <div class="m-input-radio2">
+                                                <div class="m-input-radio2 {{if eq $val.NRL05 "5"}}active{{end}}">
                                                     <label class="icon" data-v="5"></label>
                                                 </div>
                                             </li>
@@ -853,16 +863,16 @@
                                     </div>
                                 </li>
                                 <!-- 认知状态 -->
-                                <li>
+                                <li class="fen-item">
                                     <div class="cont-warp c6">
                                         <ul class="radio-group">
                                             <li class="td type">
-                                                <div class="m-input-radio2 active">
+                                                <div class="m-input-radio2 {{if eq $val.NRL06 "1"}}active{{end}}">
                                                     <label class="icon" data-v="1"></label>
                                                 </div>
                                             </li>
                                             <li class="td type">
-                                                <div class="m-input-radio2">
+                                                <div class="m-input-radio2 {{if eq $val.NRL06 "2"}}active{{end}}">
                                                     <label class="icon" data-v="2"></label>
                                                 </div>
                                             </li>
@@ -872,9 +882,14 @@
 
                                 <li class="td">
                                     <div class="cont-warp">
-                                        <p class="txt2">
-                                            280
+                                        <p class="txt sumFen">
+                                        {{$val.Score}}
                                         </p>
+                                        <div class="sel-input">
+                                            <p class="sumFen">
+                                            {{$val.Score}}
+                                            </p>
+                                        </div>
                                     </div>
                                 </li>
 
@@ -887,9 +902,9 @@
                                 <!-- 护理措施 -->
                                 <li>
                                     <div class="cont-warp c7">
-                                        <ul class="check-group">
+                                        <ul class="check-group" data-val="{{$val.NRL07}}">
                                             <li class="td type2">
-                                                <div class="m-input-radio2 active">
+                                                <div class="m-input-radio2">
                                                     <label class="icon" data-v="1"></label>
                                                 </div>
                                             </li>
@@ -1024,26 +1039,26 @@
 
                                 <li class="bt-tit2">
                                     <div class="cont-warp">
-                                        <p class="txt2">黄护士</p>
+                                        <p class="txt2" style="line-height: 34px">{{$val.BCE03A}}</p>
 
                                     </div>
                                 </li>
                                 <li class="bt-tit3">
                                     <div class="cont-warp">
-                                        <p class="txt">黄护士</p>
+                                        <p class="txt">{{$val.NRL09B}}</p>
                                         <div class="sel-input">
-                                            <input type="text" class="input-txt">
+                                            <input type="text" class="input-txt" value="{{$val.NRL09B}}" style="text-align: center">
                                         </div>
                                     </div>
                                 </li>
                                 <li class="bt-tit4">
                                     <div class="cont-warp">
 
-                                        <a href="#1" class="save-btn"><span>保存</span></a>
-                                        <a href="#1" class="edit-btn">
+                                        <a href="#1" class="save-btn" data-isjump="0" data-isnew="0"><span>保存</span></a>
+                                        <a href="#1" class="edit-btn" data-id="{{$val.BCE01A}}">
                                             <i class="am-icon-pencil"></i><span>编辑</span>
                                         </a>
-                                        <a href="#1" class="del-btn"><i class="am-icon-trash"></i><span>删除</span></a>
+                                        <a href="#1" class="del-btn" data-id="{{$val.BCE01A}}"><i class="am-icon-trash"></i><span>删除</span></a>
 
                                     </div>
                                 </li>
@@ -1051,6 +1066,9 @@
                             {{end}}
                         </div>
 
+                        <div class="list none" id="tab-list2">
+
+                        </div>
                     </div>
                     <!-- 分页栏 -->
                     <div class="page-bar">
@@ -1087,19 +1105,20 @@
                     <!-- 备注 -->
                     <div class="remarks-box">
                         <div>
-                            <p class="tit">该表使用说明：</p>
+                            <p class="tit">备注:</p>
                             <p class="txt">
-                                1. 对所有新入院、转入、转科、大手术后患者当天内必须完成初次压疮风险因素评估（用Braden压疮风险评估表）；对高龄、消瘦、水肿、瘫痪、大小便失禁、昏迷、长期卧床等“压疮高风险患者”，定期进行压疮风险因素评估；最高23分，15-18分为低风险，13-14分为中风险，10-12分为高风险，
-                                <9分为非常风险 </p>
+                                1. 评估护士在对应时间内将评估结果填写在相应的空格内。 </p>
                             <p class="txt">
-                                2. 评估周期： </p>
-                            <p class="txt"></p>①所有病人都需要评估； </p>
-                            <p class="txt"></p>②入院时立即评估，当评分13~18分时，此后每48h评估一次，为期1星期； </p>
-                            <p class="txt"></p>③长期护理的患者应在第一个4周内每周评估一次，之后每月评估一次； </p>
-                            <p class="txt"></p>④当病人情况有变化及时评估，然后每星期再进行评估； </p>
-                            <p class="txt"></p>⑤≤12分每天评估，18分作为预测有压疮发生风险的诊断价值，评分≤18分应采取预防压疮的措施 </p>
+                                2. 凡入院患者均需做跌倒风险评估，对跌倒评估总分<25分者（低风险），记录在护理记录单首页，暂不需持续评估；总分25-45分者（中度风险），一周内每48h评估一次，以后每周评估一次；总分>45分者（ 高风险）首次评估后至少每天评估一次；评估中为中度风险和高风险患者分值记录在此表和护理记录单上，做好交接；其它视具体情况评估，发生跌倒事件时，应重新评估并记录。 </p>
+                            <p class="txt">3. 凡高危患者（年龄≥65岁、意识不清、运动障碍、 视力障碍、服用镇静催眠药物等）需进行动态跌倒风险评估。 </p>
+                            <p class="txt">4、护理措施如未有涵盖者请在空白栏加以说明，特殊情况可记录在护理记录中 </p>
 
                         </div>
+
+
+
+
+
 
                     </div>
                     <div class="pd-20"></div>
@@ -1117,106 +1136,386 @@
     <!-- navbar -->
     <a href="admin-offcanvas" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}">
         <!--<i class="fa fa-bars" aria-hidden="true"></i>--></a>
+
+    <script type="application/json" id="col">
+
+        <ul class="data-col active">
+            <li class="td">
+                <div class="cont-warp">
+                    <p class="txt"><%= datestr%></p>
+                    <div class="sel-input">
+                        <input type="text" class="td-date-input"  data-date="<%= datestr%>">
+                    </div>
+                </div>
+            </li>
+
+            <li class="td">
+                <div class="cont-warp">
+                    <p class="txt"><%= timestr%></p>
+                    <div class="sel-input">
+                        <input type="text" class="td-time-input"  data-time="<%= timestr%>">
+                    </div>
+                </div>
+            </li>
+
+            <li class="null">
+                <div class="cont-warp"></div>
+            </li>
+
+            <li class="fen-item">
+                <div class="cont-warp c1">
+                    <ul class="radio-group">
+                        <li class="td type">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="1"></label>
+                            </div>
+                        </li>
+                        <li class="td type">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="2"></label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="fen-item">
+                <div class="cont-warp c2">
+                    <ul class="radio-group">
+                        <li class="td type">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="1"></label>
+                            </div>
+                        </li>
+                        <li class="td type">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="2"></label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="fen-item">
+                <div class="cont-warp c3">
+                    <ul class="radio-group">
+                        <li class="td type">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="1"></label>
+                            </div>
+                        </li>
+                        <li class="td type">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="2"></label>
+                            </div>
+                        </li>
+                        <li class="td type">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="3"></label>
+                            </div>
+                        </li>
+                        <li class="td type">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="4"></label>
+                            </div>
+                        </li>
+                        <li class="td type">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="5"></label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="fen-item">
+                <div class="cont-warp c4">
+                    <ul class="radio-group">
+                        <li class="td type">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="1"></label>
+                            </div>
+                        </li>
+                        <li class="td type">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="2"></label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="fen-item">
+                <div class="cont-warp c5">
+                    <ul class="radio-group">
+                        <li class="td type">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="1"></label>
+                            </div>
+                        </li>
+                        <li class="td type">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="2"></label>
+                            </div>
+                        </li>
+                        <li class="td type">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="3"></label>
+                            </div>
+                        </li>
+                        <li class="td type">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="4"></label>
+                            </div>
+                        </li>
+                        <li class="td type">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="5"></label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="fen-item">
+                <div class="cont-warp c6">
+                    <ul class="radio-group">
+                        <li class="td type">
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="1"></label>
+                            </div>
+                        </li>
+                        <li class="td type">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="2"></label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="td">
+                <div class="cont-warp">
+                    <p class="txt sumFen"></p>
+                    <div class="sel-input">
+                        <p class="sumFen"></p>
+                    </div>
+                </div>
+            </li>
+
+            <li class="td null">
+                <div class="cont-warp">
+                </div>
+            </li>
+
+            <li>
+                <div class="cont-warp c7">
+                    <ul class="check-group">
+                        <li class="td type2">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="1"></label>
+                            </div>
+                        </li>
+                        <li class="td type3">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="2"></label>
+                            </div>
+                        </li>
+                        <li class="td type2">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="3"></label>
+                            </div>
+                        </li>
+                        <li class="td type3">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="4"></label>
+                            </div>
+                        </li>
+                        <li class="td type2">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="5"></label>
+                            </div>
+                        </li>
+                        <li class="td type3">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="6"></label>
+                            </div>
+                        </li>
+                        <li class="td type3">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="7"></label>
+                            </div>
+                        </li>
+                        <li class="td type2">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="8"></label>
+                            </div>
+                        </li>
+                        <li class="td type2">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="9"></label>
+                            </div>
+                        </li>
+                        <li class="td type2">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="10"></label>
+                            </div>
+                        </li>
+                        <li class="td type3">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="11"></label>
+                            </div>
+                        </li>
+                        <li class="td type3">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="12"></label>
+                            </div>
+                        </li>
+                        <li class="td type2">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="13"></label>
+                            </div>
+                        </li>
+                        <li class="td type3">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="14"></label>
+                            </div>
+                        </li>
+                        <li class="td type2">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="15"></label>
+                            </div>
+                        </li>
+                        <li class="td type3">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="16"></label>
+                            </div>
+                        </li>
+                        <li class="td type3">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="17"></label>
+                            </div>
+                        </li>
+                        <li class="td type2">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="18"></label>
+                            </div>
+                        </li>
+                        <li class="td type3">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="19"></label>
+                            </div>
+                        </li>
+                        <li class="td type2">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="20"></label>
+                            </div>
+                        </li>
+                        <li class="td type3">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="21"></label>
+                            </div>
+                        </li>
+                        <li class="td type3">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="22"></label>
+                            </div>
+                        </li>
+                        <li class="td type2">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="23"></label>
+                            </div>
+                        </li>
+                        <li class="td type3">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="24"></label>
+                            </div>
+                        </li>
+                        <li class="td type3">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="25"></label>
+                            </div>
+                        </li>
+                        <li class="td type3">
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="26"></label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="bt-tit2">
+                <div class="cont-warp">
+                    <p class="txt2"><%=username%></p>
+
+                </div>
+            </li>
+            <li class="bt-tit3">
+                <div class="cont-warp">
+                    <p class="txt"></p>
+                    <div class="sel-input">
+                        <input type="text" class="input-txt" style="text-align: center">
+                    </div>
+                </div>
+            </li>
+            <li class="bt-tit4">
+                <div class="cont-warp">
+
+                    <a href="#1" class="save-btn" data-isjump="<%= isJump %>" data-isnew="1"><span>保存</span></a>
+                    <a href="#1" class="edit-btn" >
+                        <i class="am-icon-pencil"></i><span>编辑</span>
+                    </a>
+                    <a href="#1" class="del-btn" ><i class="am-icon-trash"></i><span>删除</span></a>
+
+                </div>
+            </li>
+        </ul>
+    </script>
+
     <script type="text/javascript" src="/static/dist/js/lib/jquery.min.js"></script>
     <!--框架js-->
     <script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/amazeui.min.js"></script>
     <script src="/static/dist/js/lib/laydate/laydate.js"></script>
-    <!--//遮罩层退出框-->
-    <script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/blockUI.js"></script>
+    <!--前端模板引擎-->
+    <script src="/static/dist/js/lib/template-web.js"></script>
     <script type="text/javascript" src="/static/common.js" ></script>
     <!--<script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/charts/indexChart.js" ></script>-->
     <script>
-        $('#jky-menu').on('open.collapse.amui', function(e) {
-            $(e.target).parents("li").addClass("jky-on")
-        })
-        $('#jky-menu').on('close.collapse.amui', function(e) {
-            $(e.target).parents("li").removeClass("jky-on")
-        })
+
+        //打印
+        $(".print").on("click", function () {
+            // 起止时间
+            var hospitalDate = {{.PInfo.HospitalDate}};
+            hospitalDate = hospitalDate.substr(0, 10);
+            var nowDate = nowDateObj.date;
+
+            var date1, date2 = 0;
+            var a = new Date(hospitalDate);
+            date1 = a.getTime();
+            var b = new Date(nowDate);
+            date2 = b.getTime();
 
 
-
-        var nowDateObj = nowDate()
-
-        function nowDate() {
-            var res = {},
-                    nowD = new Date();
-            res.date = nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
-            res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
-            return res
-        }
-
-        function addZero(i) {
-            if (i < 10) {
-                return "0" + i;
+            var sdate = getURLParam("sdate");
+            var edate = getURLParam("edate");
+            console.log("----", sdate, edate);
+            if (sdate == null || sdate == "0" || edate == null || edate == "0") {
+                sdate = hospitalDate;
+                edate = nowDate;
             } else {
-                return i;
+                date1 = sdate;
+                date2 = edate;
+
+                sdate = fromatDate(parseInt(sdate)).date;
+                edate = fromatDate(parseInt(edate)).date;
             }
-        }
-        // laydate.render({
-        //     elem: '.date-input', //指定元素
-        //     showBottom: false,
-        //     value: nowDateObj.date,
-        //     done: function(value, date, endDate) {
-        //         console.log(value); //得到日期生成的值，如：2017-08-18
-        //         console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-        //         console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
-        //     }
-        // });
+            window.open("/pc/nrl7print?pid=" + {{.PInfo.VAA01}}+"&num=-1&sdate=" + date1 + "&edate=" + date2);
+        });
 
 
 
-
-        // var numInputFn = jky.util.throttle(function () {
-        //     if (isNaN(parseFloat($(this).val()))) {
-        //         $(this).val("")
-        //     } else {
-        //         $(this).val(parseFloat($(this).val()))
-        //     }
-        // }, 500)
-
-        /**
-         * 节流函数
-         */
-        var nowFn = Date.now || function() {
-            return new Date().getTime()
-        }
-
-
-        function throttle(func, wait, option) {
-            var previous = 0, //之前的时间
-                    timeout, self, args, result;
-
-            var later = function() {
-                previous = nowFn();
-                timeout = null;
-                result = func.apply(self, args);
-                !timeout && (self = args = null);
-            }
-            return function() {
-                var now = nowFn();
-
-                if (!previous && option.leading === false) previous = now;
-                var diff = wait - (now - previous);
-
-                args = arguments;
-                self = this;
-                if (diff <= 0) {
-                    if (timeout) {
-                        clearTimeout(timeout);
-                        timeout = null;
-                    }
-                    result = func.apply(self, args);
-                    previous = now;
-                    !timeout && (self = args = null); //如果没有堆积的任务 则清空 self 和args
-                } else if (!timeout && option.trailing !== false) {
-                    timeout = setTimeout(later, diff)
-                } else {
-                    console.log('被抛弃了')
-                }
-                return result;
-
-            }
-        }
+        var nowDateObj = fromatDate();
 
 
         var $inputNum = $('.tit2,.tit3,.tit4').find('input')
@@ -1254,94 +1553,394 @@
             }
         })
 
-
-
-        laydate.render({
-            elem: '.date', //指定元素
-            showBottom: false,
-            value: nowDateObj.date,
-            done: function(value, date, endDate) {
-                console.log(value); //得到日期生成的值，如：2017-08-18
-                console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-                console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
-            }
+        lay('.td-date-input').each(function() {
+            var dateV = $(this).data("date"),
+                    $self=$(this);
+            laydate.render({
+                elem: this,
+                showBottom: false,
+                value: dateV,
+                done: function(value, date, endDate) {
+                    $self.data("date",value)
+                }
+            });
         });
-
-        laydate.render({
-            elem: '.time', //指定元素
-            // showBottom: false,
-            type: 'time',
-            format: 'HH:mm',
-            value: nowDateObj.time,
-            done: function(value, date, endDate) {
-                console.log(value); //得到日期生成的值，如：2017-08-18
-                console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-                console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
-            }
-        });
-        laydate.render({
-            elem: '.date2', //指定元素
-            showBottom: false,
-            value: nowDateObj.date,
-            done: function(value, date, endDate) {
-                console.log(value); //得到日期生成的值，如：2017-08-18
-                console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-                console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
-            }
-        });
-
-        laydate.render({
-            elem: '.time2', //指定元素
-            // showBottom: false,
-            type: 'time',
-            format: 'HH:mm',
-            value: nowDateObj.time,
-            done: function(value, date, endDate) {
-                console.log(value); //得到日期生成的值，如：2017-08-18
-                console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-                console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
-            }
+        lay('.td-time-input').each(function() {
+            var dateV = $(this).data("time"),
+                    $self=$(this);
+            laydate.render({
+                elem: this,
+                type: 'time',
+                format: 'HH:mm',
+                value: dateV,
+                done: function(value, date, endDate) {
+                    $self.data("time",value)
+                }
+            });
         });
 
 
+        // 编辑
         $('body').on('click', '.edit-btn', function() {
-            if ($('.list').find('ul.active').length > 0) {
-                alert("请先保存信息")
-            } else {
-                var $ul = $(this).parents('ul')
-                $ul.addClass("active")
-                $date = $("<input class='date-input-td'>")
-                $ul.find('.tr11').find('.cont-warp').find('.sel-input').html($date)
-                laydate.render({
-                    elem: '.date-input-td', //指定元素
-                    showBottom: false,
-                    value: nowDateObj.date,
-                    done: function(value, date, endDate) {
-                        console.log(value); //得到日期生成的值，如：2017-08-18
-                        console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-                        console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+
+            var userId = {{.Userinfo.UID}}
+            var yId = $(this).data("id")
+
+            if(!userId){
+                alert("err: 用户信息错误");
+                return false
+            }else if(!yId){
+                alert("err: 用户信息错误");
+                return false
+            }
+
+            if(yId == userId){
+                if ($('.list').find('ul.active').length > 0) {
+                    alert("请先保存信息")
+                } else {
+                    var $ul = $(this).parents('ul')
+                    $ul.addClass("active")
+
+                    // $date = $("<input class='date-input-td'>")
+                    // $ul.find('.tr11').find('.cont-warp').find('.sel-input').html($date)
+                }
+            }else{
+                alert("您没有权限编辑！");
+            }
+        })
+
+        function setDataText($el){
+            var $t1 =$el.find(".td-date-input").parents("li").find(".txt");
+            $t1.text($.trim($el.find(".td-date-input").data("date")))
+            var $t2 =$el.find(".td-time-input").parents("li").find(".txt");
+            $t2.text($.trim($el.find(".td-time-input").data("time")))
+            var $t3 =$el.find(".bt-tit3").find(".txt");
+            $t3.text($.trim($el.find(".bt-tit3").find(".input-txt").val()))
+        }
+
+
+        // 保存
+        $('body').on('click', '.save-btn', function() {
+            var isNew = false;
+            if($(this).data("isnew")=="1"){
+                isNew = true;
+                api = "/record/nr7/add"
+                typeStr = '保存'
+            }else{
+                api = "/record/nr7/update"
+                typeStr = '修改'
+            }
+
+            var data = {
+                // 护士ID
+                "uid": {{.Userinfo.UID}},
+                // 护士名
+                "username": {{.Userinfo.Name}},
+                //病人id
+                "pid": {{.PInfo.VAA01}},
+                //科室id
+                "did":  {{.PInfo.BCK01C}},
+            }
+
+            var $cont = $(this).parents('ul')
+
+            setDataDateTime(data,$cont)
+            //NRL01-NRL06
+            setDatavRadio(data,$cont)
+            // NRL07
+            setDatavCheckBox(data, $cont)
+            // Score
+            setDatavScore(data,$cont)
+            //NRL09B
+            setDatavNRL09B(data,$cont)
+
+            // console.log(data)
+
+
+            if(isNew){
+                var num = 0;
+                $.each(data,function(i,n){
+                    num++;
+                })
+                //总共5个固定参数,如果没填长度就为5
+                if(num==5){
+                    alert("请填写内容！")
+                    return false;
+                }
+                var $this= $(this)
+                req(api,data,function(){
+                    alert("保存成功")
+                    if($this.data("isjump")!="1"){
+                        reqTableTit(data,function(){
+                        })
+                        setTimeout(function(){
+                            location.reload()
+                        },0)
+
+
+                    }else{
+                        var baseurl = "/pc/record/nrl7?",
+                            index = parseInt({{.PageIndex}})+1,
+                            pid = parseInt({{.PInfo.VAA01}}),
+                            date1=getURLParam("sdate"),
+                            date2=getURLParam("edate"),
+                            urlStr = baseurl + "pid=" + pid + "&num=" + index;
+
+                        if(date1){
+                            urlStr =urlStr+"&sdate=" + date1
+                        }
+                        if(date2){
+                            urlStr =urlStr+"&edate=" + date2
+                        }
+                        reqTableTit(data,function(){
+                        })
+
+                        setTimeout(function() {
+                            location.href= urlStr
+                        })
+
                     }
-                });
 
+                })
+            }else{
+                data.rid = $cont.data("rid")
+                var $el = $(this)
+                req(api,data,function(){
+                    alert("修改成功")
+                    setDataText($cont)
+                    $cont.removeClass("active")
+                })
+                reqTableTit(data,function(res){
+                    console.log(res.datas)
+                    if(res.datas){
+                        if(res.datas.NRL08 && res.datas.NRL08!="0"){
+                            $(".table-tit").find("input").prop("disabled",true)
+                            $("#c1-c2").addClass("disabled-box")
+                            isActiveTit = true
+                        }
+                        if(res.datas.NRT01 && res.datas.NRT01=="11"){
+                            $("#hl-1").prop("disabled",true)
+                            $("#hl-1").data("type","11")
+                        }
+                        if(res.datas.NRT02 && res.datas.NRT02=="11"){
+                            $("#hl-2").prop("disabled",true)
+                            $("#hl-2").data("type","11")
+                        }
+                    }
 
+                })
             }
 
         })
-        $('body').on('click', '.save-btn', function() {
-            var $ul = $(this).parents('ul')
 
-            $ul.removeClass("active")
-            $ul.find('.tr11').find('.cont-warp').find('.sel-input').html("")
-        })
+        function reqTableTit(data,cb){
+            // -------------------------------------------------------------
+            // 表头提交
+            var hl1 = $.trim($("#hl-1").val()),
+                    hl2 = $.trim($("#hl-2").val());
+
+            var titData = {
+                "pid":data.pid,
+                "did":data.did,
+                "datetime":data.datetime
+            }
+
+            if(!isActiveTit){
+                setDatavNRL08(titData)
+            }
+
+            if(hl1 && $("#hl-1").data("type") !="11"){
+                titData.NRT01 = "11"
+                titData.NRT01V = hl1
+            }
+            if(hl2 && $("#hl-2").data("type")!="11"){
+                titData.NRT02 = "11"
+                titData.NRT02V = hl2
+            }
+            num = 0
+            $.each(titData,function(i,val){
+                num++;
+            });
+            console.log(num)
+            if(num>3){
+                $.ajax({
+                    "url":"/record/nr7/updatetitle",
+                    data: titData,
+                    type: "POST",
+                    success: function (data) {
+                        // console.log(data)
+                        cb(data)
+                    },
+                    error:function(e){
+                        alert("err:table tit error");
+                    },
+                    dataType:"json"
+                })
+            }
+        }
+
+            // 陪护情况
+            function setDatavNRL08(titData){
+                var $check = $("#c1").find('input[type=radio]:checked');
+                $check.length && (titData["NRL08"] = $check.data('v'));
+                if($check.data('v')=="2"){
+                    var $check2 = $("#c1-c2").find('input[type=checkbox]:checked');
+                    if($check2.length){
+                        var res = [];
+                        $check2.each(function(i,el){
+                            res.push($(el).data('v'));
+                            if($(el).data('v') == "4"){ //如果是第四项
+                                var qtVal = $.trim($("#qt-txt").val());
+                                qtVal && (titData["NRL08B"] = qtVal)
+                            }
+                        });
+                        titData["NRL08A"] =res.join(",")
+                    }
+                }
+            }
+
+        //设置日期
+        function setDataDateTime(data,$el) {
+            var $mTime = $el
+            dateStr = $.trim($mTime.find('.td-date-input').val())
+            timeStr = $.trim($mTime.find('.td-time-input').val())
+
+            if (dateStr) {
+                data.datetime = dateStr + " "+ timeStr + ":00"
+            }
+        }
+
+
+        function setDatavRadio(data,$el){
+            for(var i = 1; i < 7;i++){
+                var $radio = $el.find(".c"+i).find(".m-input-radio2.active");
+                if($radio.length){
+                    var elV = $radio.find("label").data("v").toString();
+                    // console.log(elV)
+                    elV && (data["NRL"+addZero(i)] = elV)
+                }
+            }
+        }
+
+
+        //护理措施
+        function setDatavCheckBox(data,$el){
+            $el.find(".check-group").each(function(i,el){
+                // var index = addZero(i+7)
+                var res = [];
+                $(el).find(".m-input-radio2.active").each(function(i2,el2){
+                    res.push($.trim($(el2).find("label").data("v")))
+                })
+                if(res.length>0){
+                    data["NRL07"] = res.join(",")
+                }
+            })
+        }
+
+        //总分
+        function setDatavScore(data,$el){
+            var scoreVal =$.trim($el.find(".sel-input .sumFen").text())
+            if(scoreVal){
+                data.score =scoreVal
+            }
+        }
+
+        //审核人签名
+        function setDatavNRL09B(data,$el){
+            var checkVal = $.trim($el.find(".bt-tit3").find(".input-txt").val())
+            if(checkVal){
+                data.NRL09B = checkVal;
+            }
+        }
+
+
+        function req(api,data,cb) {
+            $.ajax({
+                url: api,
+                data: data,
+                type: "POST",
+                success: function (data) {
+                    console.log(data);
+                    if (data) {
+                        switch (data.result) {
+                            case 0:
+                                cb();
+                                break;
+                            default:
+                                alert(data.errmsg)
+                        }
+                    }
+                },
+                error: function (e) {
+                    console.log("ajax err:", e)
+                },
+                dataType: "json"
+            })
+
+        }
+
+        // 删除
         $('body').on('click', '.del-btn', function() {
-            confirm("是否确认删除")
+            var rid = $(this).parents("ul").data("rid") || 0;
+            if(rid){ //是否是已存在的真实数据
+                var userId = {{.Userinfo.UID}}
+                var yId = $(this).data("id")
+                if(!userId){
+                    alert("err: 用户信息错误");
+                    return false
+                }else if(!yId){
+                    alert("err: 用户信息错误");
+                    return false
+                }
+                if(yId == userId){
+                    var isDel = confirm("是否确认删除");
+                    var data = {}
+                    if(isDel){
+                        data.rid = rid;
+                        $.ajax({
+                            url: "/record/nr7/delete",
+                            data: data,
+                            type: "POST",
+                            success: function (data) {
+                                console.log(data);
+                                if (data) {
+                                    switch (data.result) {
+                                        case 0:
+                                            location.reload();
+                                            break;
+                                        default:
+                                            alert(data.errmsg)
+                                    }
+                                }
+                            },
+                            error: function (e) {
+                                console.log("ajax err:", e)
+                            },
+                            dataType: "json"
+                        })
+                    }
+                }else{
+                    alert("您没有权限删除！");
+                    return false
+                }
+            }else{
+                $(this).parents("ul").remove()
+                $cont = $("#tab-list2");
+                // 是否过页
+                var isPage = $(this).parents("ul").find(".save-btn").data("isjump").toString();
+                if(isPage=="1") {
+
+                    $("#tab-list2").addClass("none")
+                    $("#tab-list").removeClass("none");
+
+                    $(".pageSum").text(parseInt($(".pageSum").text()) - 1)
+                    $(".pageNum").val(parseInt($(".pageSum").text()))
+                }
+            }
         })
 
-        $('body').on('click', '.createCol', function() {
-            var elTxt = $('#col').text()
-            $(elTxt)
-        })
 
+        //多选单选
         $("body").on('click', ".m-input-radio2", function() {
             //只有编辑的时候点击才生效
             if ($(this).parents("ul").hasClass("active")) {
@@ -1359,6 +1958,74 @@
                 return false;
             }
         })
+
+
+        // 计算分数
+        var  scoreHash = {
+            "option2":{ //跌倒史（3个月内）
+                "1":0,
+                "2":25,
+            },
+            "option3":{ //超过1个医学诊断
+                "1":0,
+                "2":15,
+            },
+            "option4":{  //使用助行器具
+                "1":0,
+                "2":0,
+                "3":0,
+                "4":15,
+                "5":30,
+            },
+            "option5":{ //静脉输液／肝素锁
+                "1":0,
+                "2":20
+            },
+            "option6":{ //步态
+                "1":0,
+                "2":0,
+                "3":0,
+                "4":10,
+                "5":20,
+            },
+            "option7":{ //摩擦力和剪切力
+                "1":0,
+                "2":15
+            }
+        }
+        function sumScore($el){
+            var optionVal = [],sum="";
+            console.log($el.find(".fen-item .m-input-radio2.active"))
+            $el.find(".fen-item .m-input-radio2.active").each(function(i,el){
+                // console.log($el.find("label"))
+                var val = $.trim($(el).find("label").data("v"))
+                if( val!=0 && val!="0"){
+                    optionVal.push(scoreHash["option"+(i+2)][val])
+                }
+            })
+            console.log(optionVal)
+            $.each(optionVal,function(i,n){
+                if(n!=undefined&& parseFloat(n)!=NaN){
+                    if(sum == ""){
+                        sum = 0;
+                    }
+                    sum +=  parseFloat(n)
+                }
+            })
+            return sum;
+        }
+
+        $("body").on("click",".fen-item .m-input-radio2",function(){
+            //只有编辑的时候点击才生效
+            var $parentCol = $(this).parents(".data-col")
+            if ($parentCol.hasClass("active")) {
+                var sum  = sumScore($parentCol)
+                $parentCol.find(".sumFen").text(sum)
+            }
+        })
+
+
+
     </script>
 
     <script>
@@ -1420,384 +2087,205 @@
 
             var baseurl = "/pc/record/nrl7?";
 
-            console.log("hhee--" + pid + "--" + index + "--" + pagenum);
+            var  tempindex = index;
+            $("#leftLast-btn").on("click",function () {
+                tempindex = 1;
+                reloadSheet()
+            });
 
-            $("#leftLast-btn").attr("href", baseurl + "pid=" + pid + "&num=" + 1  + "&sdate=" + date1 + "&edate=" + date2);
-            if (index <= 1) {
-                index = 1;
-                $("#left-btn").attr("href", baseurl + "pid=" + pid + "&num=" + index + "&sdate=" + date1 + "&edate=" + date2);
-            } else {
-                $("#left-btn").attr("href", baseurl + "pid=" + pid + "&num=" + (index - 1) + "&sdate=" + date1 + "&edate=" + date2);
-            }
-            if (index >= pagenum) {
-                index = pagenum;
-                $("#right-btn").attr("href", baseurl + "pid=" + pid + "&num=" + index + "&sdate=" + date1 + "&edate=" + date2);
-            } else {
-                $("#right-btn").attr("href", baseurl + "pid=" + pid + "&num=" + (index + 1) + "&sdate=" + date1 + "&edate=" + date2);
-            }
+            $("#left-btn").on("click",function () {
+                if (index <= 1) {
+                    tempindex = 1;
+                } else {
+                    tempindex = index-1;
+                }
+                reloadSheet();
+            });
 
-            $("#rightLast-btn").attr("href", baseurl + "pid=" + pid + "&num=" + pagenum + "&sdate=" + date1 + "&edate=" + date2);
+            $("#right-btn").on("click",function () {
+                if (index >= pagenum) {
+                    tempindex = pagenum;
+                } else {
+                    tempindex = index+1;
+                }
+                reloadSheet();
+            });
 
 
-            function reloadSheet() {
-                window.location.href =  baseurl + "pid=" + pid + "&num=" + index + "&sdate=" + date1 + "&edate=" + date2;
-            }
+            $("#rightLast-btn").on("click",function () {
+                tempindex = pagenum;
+                reloadSheet()
+            });
 
             $("#go-btn").on("click", function () {
                 var val = $(".pageNum").val();
-                // console.log("heheheh", val);
-                window.location.href = baseurl + "pid=" + pid + "&num=" + val + "&sdate=" + date1 + "&edate=" + date2;
+                tempindex = val;
+                reloadSheet()
             });
+
+            function reloadSheet() {
+                if($(".data-col.active").length>0){
+                    alert("请先保存数据！");
+                    return false;
+                }
+                index = tempindex;
+                window.location.href =  baseurl + "pid=" + pid + "&num=" + index + "&sdate=" + date1 + "&edate=" + date2;
+            };
 
             $(".user-list").on("click", "li", function () {
                 var pid = $(this).data('msg');
                 console.log($(this).data('msg'));
                 window.location.href = baseurl + "pid=" + pid;
             })
-
+        {{/*var aaaaa = {{.NRLTitle}};*/}}
+        {{/*console.log(aaaaa);*/}}
         });
     </script>
 
     <script>
-        var nowstr = getNowDateTime();
         var username = {{.Userinfo.Name}}; // 护士姓名
+        var nowD = getNowDateTime();
+        var datestr = nowD.date;
+        var timestr = nowD.time;
         $(".btn.type2.createCol").on("click", function () {
-            console.log("gk sb");
-            // var isOk = ($(".list").find(".active").length == 0);
-            // if(!isOk){
-            //     alert("请先保存数据")
-            //     return false;
-            // }
 
-            var html = '<ul>\n' +
-                    '                                <li class="td">\n' +
-                    '                                    <div class="cont-warp">\n' +
-                    '                                        <p class="txt">' + nowstr.date + '</p>\n' +
-                    '                                        <div class="sel-input"></div>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <li class="td">\n' +
-                    '                                    <div class="cont-warp">\n' +
-                    '                                        <p class="txt">' + nowstr.time + '</p>\n' +
-                    '                                        <div class="sel-input"></div>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <li class="null">\n' +
-                    '                                    <div class="cont-warp"></div>\n' +
-                    '                                </li>\n' +
-                    '                                <!-- 跌倒史（3个月内）s -->\n' +
-                    '                                <li>\n' +
-                    '                                    <div class="cont-warp c1">\n' +
-                    '                                        <ul class="radio-group">\n' +
-                    '                                            <li class="td type">\n' +
-                    '                                                <div class="m-input-radio2 active">\n' +
-                    '                                                    <label class="icon" data-v="1"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="2"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                        </ul>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <!-- 超过1个医学诊断 -->\n' +
-                    '                                <li>\n' +
-                    '                                    <div class="cont-warp c2">\n' +
-                    '                                        <ul class="radio-group">\n' +
-                    '                                            <li class="td type">\n' +
-                    '                                                <div class="m-input-radio2 active">\n' +
-                    '                                                    <label class="icon" data-v="1"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="2"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                        </ul>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <!-- 使用助行器具 -->\n' +
-                    '                                <li>\n' +
-                    '                                    <div class="cont-warp c3">\n' +
-                    '                                        <ul class="radio-group">\n' +
-                    '                                            <li class="td type">\n' +
-                    '                                                <div class="m-input-radio2 active">\n' +
-                    '                                                    <label class="icon" data-v="1"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="2"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="3"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="4"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="5"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                        </ul>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <!-- 静脉输液／肝素锁 -->\n' +
-                    '                                <li>\n' +
-                    '                                    <div class="cont-warp c4">\n' +
-                    '                                        <ul class="radio-group">\n' +
-                    '                                            <li class="td type">\n' +
-                    '                                                <div class="m-input-radio2 active">\n' +
-                    '                                                    <label class="icon" data-v="1"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="2"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                        </ul>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <!-- 步态 -->\n' +
-                    '                                <li>\n' +
-                    '                                    <div class="cont-warp c5">\n' +
-                    '                                        <ul class="radio-group">\n' +
-                    '                                            <li class="td type">\n' +
-                    '                                                <div class="m-input-radio2 active">\n' +
-                    '                                                    <label class="icon" data-v="1"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="2"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="3"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="4"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="5"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                        </ul>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <!-- 认知状态 -->\n' +
-                    '                                <li>\n' +
-                    '                                    <div class="cont-warp c6">\n' +
-                    '                                        <ul class="radio-group">\n' +
-                    '                                            <li class="td type">\n' +
-                    '                                                <div class="m-input-radio2 active">\n' +
-                    '                                                    <label class="icon" data-v="1"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="2"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                        </ul>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <li class="td">\n' +
-                    '                                    <div class="cont-warp">\n' +
-                    '                                        <p class="txt2">\n' +
-                    '                                            280\n' +
-                    '                                        </p>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <li class="td null">\n' +
-                    '                                    <div class="cont-warp">\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <!-- 护理措施 -->\n' +
-                    '                                <li>\n' +
-                    '                                    <div class="cont-warp c7">\n' +
-                    '                                        <ul class="check-group">\n' +
-                    '                                            <li class="td type2">\n' +
-                    '                                                <div class="m-input-radio2 active">\n' +
-                    '                                                    <label class="icon" data-v="1"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type3">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="2"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type2">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="3"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type3">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="4"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type2">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="5"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type3">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="6"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type3">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="7"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type2">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="8"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type2">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="9"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type2">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="10"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type3">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="11"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type3">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="12"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type2">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="13"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type3">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="14"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type2">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="15"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type3">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="16"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type3">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="17"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type2">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="18"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type3">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="19"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type2">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="20"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type3">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="21"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type3">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="22"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type2">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="23"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type3">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="24"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type3">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="25"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                            <li class="td type3">\n' +
-                    '                                                <div class="m-input-radio2">\n' +
-                    '                                                    <label class="icon" data-v="26"></label>\n' +
-                    '                                                </div>\n' +
-                    '                                            </li>\n' +
-                    '                                        </ul>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <li class="bt-tit2">\n' +
-                    '                                    <div class="cont-warp">\n' +
-                    '                                        <p class="txt2">' + username + '</p>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <li class="bt-tit3">\n' +
-                    '                                    <div class="cont-warp">\n' +
-                    '                                        <p class="txt">黄护士</p>\n' +
-                    '                                        <div class="sel-input">\n' +
-                    '                                            <input type="text" class="input-txt">\n' +
-                    '                                        </div>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                                <li class="bt-tit4">\n' +
-                    '                                    <div class="cont-warp">\n' +
-                    '                                        <a href="#1" class="save-btn"><span>保存</span></a>\n' +
-                    '                                        <a href="#1" class="edit-btn">\n' +
-                    '                                            <i class="am-icon-pencil"></i><span>编辑</span>\n' +
-                    '                                        </a>\n' +
-                    '                                        <a href="#1" class="del-btn"><i class="am-icon-trash"></i><span>删除</span></a>\n' +
-                    '                                    </div>\n' +
-                    '                                </li>\n' +
-                    '                            </ul>';
+            if($(".data-col.active").length>0){
+                alert("请先保存数据！")
+                return false;
+            }
 
-            $("#tab-list").append(html)
+            var $cont = $("#tab-list");
+            var isJump = "0";
+
+            if($cont.find(".data-col").length>=8){
+                $cont = $("#tab-list2");
+                $("#tab-list").addClass("none")
+                $("#tab-list2").removeClass("none")
+                isJump = "1";
+                $(".pageSum").text(parseInt($(".pageSum").text())+1)
+                $(".pageNum").val(parseInt($(".pageSum").text()))
+            }
+            var data = {
+                datestr:datestr,
+                timestr:timestr,
+                username:username,
+                isJump:isJump
+            }
+
+            var html = template("col",data);
+
+            $cont.append(html)
+
+            lay('.td-date-input').each(function() {
+                var dateV = $(this).data("date"),
+                        $self=$(this);
+                laydate.render({
+                    elem: this,
+                    showBottom: false,
+                    value: dateV,
+                    done: function(value, date, endDate) {
+                        $self.data("date",value)
+                    }
+                });
+            });
+            lay('.td-time-input').each(function() {
+                var dateV = $(this).data("time"),
+                        $self=$(this);
+                laydate.render({
+                    elem: this,
+                    type: 'time',
+                    format: 'HH:mm',
+                    value: dateV,
+                    done: function(value, date, endDate) {
+                        $self.data("time",value)
+                    }
+                });
+            });
+
         });
 
-        for (var i = 1; i < 10; i++) {
-            $(".list ul").find(".c"+i).find("option:selected").each(function(i,el){
-                // console.log("??")
-                $(el).parents("li").find(".txt").text($(el).text())
+
+        // 多选填值
+        $("body").find(".check-group").each(function(i,el){
+            var valStr = $(el).data("val")
+            var valArr =[]
+            if(valStr){
+                valStr = valStr.toString();
+                valArr= valStr.split(",")
+            }
+            var $self = $(el);
+            $self.find("li").each(function (i,el) {
+                var elV = $(el).find(".m-input-radio2 ").find("label").data("v").toString();
+                $.each(valArr, function(i,val){
+                    if(elV == val){
+                        $(el).find(".m-input-radio2").addClass("active")
+                    }
+                })
+            })
+        })
+
+        var isActiveTit = {{.NRLTitle.NRL08}}
+
+        if(!isActiveTit){
+            $(".table-tit").find("input").prop("disabled",false)
+        }else{
+            $(".table-tit").find(".main-sel").removeClass("main-sel")
+            $(".table-tit").find(".child-sel").removeClass("child-sel")
+        }
+
+        //多选填值
+        var NRL08AStr = {{.NRLTitle.NRL08A}};// 陪护情况
+        setCheckBox("#c1-c2",NRL08AStr.split(","))
+        function setCheckBox(id,valArr){
+            $(id).find("input[type=checkbox]").each(function(i,el){
+                $.each(valArr,function (i2,val) {
+                    if($(el).data("v") == valArr[i2]){
+                        $(el).prop("checked",true)
+                    }
+                })
             })
         }
+
+
+        //设置禁用input
+        // $(".disabled-box").find("input").prop("disabled",true)
+        $(".main-sel").each(function(i,el){
+            switchStyle(el)
+        })
+
+        $(".main-sel").on("click",function(){
+            switchStyle(this)
+        })
+
+        function switchStyle(el){
+            var $li = $(el).parents("li").eq(0)
+            if($(el).prop('checked') ){
+                $li.children(".child-sel").removeClass("disabled-box");
+                // disabled-box
+                $li.children(".child-sel").find("input,textarea").each(function(i,el){
+                    if($(el).parents(".disabled-box").eq(0).length==0){
+                        $(el).prop("disabled",false)
+                    }
+                })
+            }else{
+                $li.children(".child-sel").addClass("disabled-box");
+                // $li.children(".child-sel").find("input").prop("disabled",true)
+                $li.children(".child-sel").find("input,textarea").each(function(i,el){
+                    if($(el).parents(".disabled-box").eq(0).length!=0){
+                        $(el).prop("disabled",true)
+                        $(el).val("")
+                        $(el).prop("checked",false)
+                    }
+                })
+
+            }
+        }
+
+        $(".radio-grup").on("click",function(){
+            $(this).find(".main-sel").each(function(i,el){
+                switchStyle(el)
+            })
+        })
 
     </script>
 </body>

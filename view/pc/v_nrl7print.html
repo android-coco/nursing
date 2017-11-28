@@ -1,0 +1,1152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>患者跌到风险评估护理单</title>
+    <style type="text/css">
+        <!--
+        -->
+        p {
+            margin: 4px 0;
+        }
+
+        .STYLE1 {
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        .kg {
+            padding-top: 10px;
+        }
+
+        .icon {
+            background-image: url(/static/dist/images/admin_pc/icon47.png);
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 18px;
+        }
+    </style>
+    <script src="/static/dist/js/lib/jquery.min.js"></script>
+    <script src="/static/dist/js/lib/jquery.qrcode.min.js"></script>
+    <script type="text/javascript">
+
+        function Str(str1, str2) {
+            var x = str1.split(",")
+            var isOk = false;
+            for (var i=0;i<x.length;i++){
+                if(x[i] == str2){
+                    isOk = true;
+                    break;
+                }
+            }
+            return isOk;
+        }
+        $(function () {
+            var page = {{.PageNum}}//多少页
+            var datas = {{.NRLList}}//数据
+            loadData(page, datas);
+        });
+
+        function loadData(page, datas) {
+            var len = datas.length;
+            var html = "";
+            console.log(page, datas)
+            if (len > 0) {
+                for (var i = 0; i < page; i++) {
+                    html+="<p align=\"center\" class=\"STYLE1\">患者跌到风险评估护理单</p>\n" +
+                            "<p align=\"left\">\n" +
+                            "    <label>床号：</label>\n" +
+                            "{{.PInfo.BCQ04}}\n" +
+                            "    <label>姓名：</label>\n" +
+                            "{{.PInfo.VAA05}}\n" +
+                            "    <label>性别：</label>\n" +
+                            "{{.PInfo.Gender}}\n" +
+                            "    <label>年龄：</label>\n" +
+                            "{{.PInfo.VAA10}}岁\n" +
+                            "    <label>住院号：</label>\n" +
+                            "{{.PInfo.VAA04}} \n" +
+                            "    <label>诊断：</label>\n" +
+                            "{{.PInfo.VAO15}}</p>\n";
+
+                            html+="<p align=\"left\">陪护情况\n"+
+                                    "    <input type=\"checkbox\" name=\"checkbox\" value=\"checkbox\" {{if eq .NRLTitle.NRL08 "1"}}checked{{end}} disabled/>\n"+
+                            "    无\n"+
+                            "    <input type=\"checkbox\" name=\"checkbox2\" value=\"checkbox\" {{if eq .NRLTitle.NRL08 "2"}}checked{{end}} disabled/>\n"+
+                            "    有(\n"+
+                            "    <input type=\"checkbox\" name=\"checkbox3\" value=\"checkbox\" {{if eq .NRLTitle.NRL08A "1"}}checked{{end}} disabled/>\n"+
+                            "    家属\n"+
+                            "    <input type=\"checkbox\" name=\"checkbox4\" value=\"checkbox\" {{if eq .NRLTitle.NRL08A "2"}}checked{{end}} disabled/>\n"+
+                            "    保姆\n"+
+                            "    <input type=\"checkbox\" name=\"checkbox5\" value=\"checkbox\" {{if eq .NRLTitle.NRL08A "3"}}checked{{end}} disabled/>\n"+
+                            "    护工\n"+
+                            "    <label for=\"c1-v2-v4\">\n"+
+                            "        <input type=\"checkbox\" name=\"checkbox6\" value=\"checkbox\" {{if eq .NRLTitle.NRL08A "4"}}checked{{end}} disabled/>\n"+
+                            "        其它  &nbsp;&nbsp;&nbsp;{{.NRLTitle.NRL08B}}&nbsp;&nbsp;&nbsp;</label>\n"+
+                            "    )</p>\n"+
+                            "<p align=\"left\">\n"+
+                            "    <label>诊断：</label>\n"+
+                            "    糖尿病？ </p>";
+
+                            html+="<div align=\"left\">\n" +
+                                    "  <table width=\"1064\" border=\"1\"  cellspacing=\"0\" bordercolor=\"#666666\">\n" +
+                                    "    <tr>\n" +
+                                    "      <td height=\"41\" colspan=\"2\"><div align=\"center\"><strong>日期</strong></div></td>\n" +
+                                    "      <td width=\"100\"><div align=\"center\">"+((datas[i * 7 + 0]||"")&&(datas[i * 7 + 0].DateStr || " "))+"</div></td>\n" +
+                                    "      <td width=\"100\"><div align=\"center\">"+((datas[i * 7 + 1]||"")&&(datas[i * 7 + 1].DateStr || " "))+"</div></td>\n" +
+                                    "      <td width=\"100\"><div align=\"center\">"+((datas[i * 7 + 2]||"")&&(datas[i * 7 + 2].DateStr || " "))+"</div></td>\n" +
+                                    "      <td width=\"100\"><div align=\"center\">"+((datas[i * 7 + 3]||"")&&(datas[i * 7 + 3].DateStr || " "))+"</div></td>\n" +
+                                    "      <td width=\"100\"><div align=\"center\">"+((datas[i * 7 + 4]||"")&&(datas[i * 7 + 4].DateStr || " "))+"</div></td>\n" +
+                                    "      <td width=\"100\"><div align=\"center\">"+((datas[i * 7 + 5]||"")&&(datas[i * 7 + 5].DateStr || " "))+"</div></td>\n" +
+                                    "      <td width=\"100\"><div align=\"center\">"+((datas[i * 7 + 6]||"")&&(datas[i * 7 + 6].DateStr || " "))+"</div></td>\n" +
+                                    "    </tr>\n" +
+                                    "    <tr>\n" +
+                                    "      <td height=\"37\" colspan=\"2\"><div align=\"center\"><strong>时间</strong></div></td>\n" +
+                                    "      <td width=\"100\"><div align=\"center\">"+((datas[i * 7 + 0]||"")&&(datas[i * 7 + 0].TimeStr || " "))+"</div></td>\n" +
+                                    "      <td width=\"100\"><div align=\"center\">"+((datas[i * 7 + 1]||"")&&(datas[i * 7 + 1].TimeStr || " "))+"</div></td>\n" +
+                                    "      <td width=\"100\"><div align=\"center\">"+((datas[i * 7 + 2]||"")&&(datas[i * 7 + 2].TimeStr || " "))+"</div></td>\n" +
+                                    "      <td width=\"100\"><div align=\"center\">"+((datas[i * 7 + 3]||"")&&(datas[i * 7 + 3].TimeStr || " "))+"</div></td>\n" +
+                                    "      <td width=\"100\"><div align=\"center\">"+((datas[i * 7 + 4]||"")&&(datas[i * 7 + 4].TimeStr || " "))+"</div></td>\n" +
+                                    "      <td width=\"100\"><div align=\"center\">"+((datas[i * 7 + 5]||"")&&(datas[i * 7 + 5].TimeStr || " "))+"</div></td>\n" +
+                                    "      <td width=\"100\"><div align=\"center\">"+((datas[i * 7 + 6]||"")&&(datas[i * 7 + 6].TimeStr || " "))+"</div></td>\n" +
+                                    "    </tr>\n" +
+                                    "    <tr>\n" +
+                                    "      <td colspan=\"2\"><div align=\"center\"><strong>评估项目</strong></div></td>\n" +
+                                    "      <td colspan=\"7\"><div align=\"center\"></div></td>\n" +
+                                    "    </tr>\n" +
+                                    "    <tr>\n" +
+                                    "      <td width=\"145\" rowspan=\"2\"><div align=\"center\">跌倒史（3个月内）</div></td>\n" +
+                                    "      <td width=\"167\" height=\"39\"><div>\n" +
+                                    "          <p>无=0</p>\n" +
+                                    "      </div></td>\n" +
+                                    "      <td width=\"100\" class="+((datas[i * 7 + 0].NRL01 == 1) && "icon")+"><div align=\"center\"></div></td>\n" +
+                                    "      <td width=\"100\" class="+((datas[i * 7 + 1].NRL01 == 1) && "icon")+"><div align=\"center\"></div></td>\n" +
+                                    "      <td width=\"100\" class="+((datas[i * 7 + 2].NRL01 == 1) && "icon")+"><div align=\"center\"></div></td>\n" +
+                                    "      <td width=\"100\" class="+((datas[i * 7 + 3].NRL01 == 1) && "icon")+"><div align=\"center\"></div></td>\n" +
+                                    "      <td width=\"100\" class="+((datas[i * 7 + 4].NRL01 == 1) && "icon")+"><div align=\"center\"></div></td>\n" +
+                                    "      <td width=\"100\" class="+((datas[i * 7 + 5].NRL01 == 1) && "icon")+"><div align=\"center\"></div></td>\n" +
+                                    "      <td width=\"100\" class="+((datas[i * 7 + 6].NRL01 == 1) && "icon")+"><div align=\"center\"></div></td>\n" +
+                                    "    </tr>\n" +
+                                    "    <tr>\n" +
+                                    "      <td height=\"41\"><div>\n" +
+                                    "          <p>有=25</p>\n" +
+                                    "      </div></td>\n" +
+                                    "      <td width=\"100\" class="+((datas[i * 7 + 0].NRL01 == 2) && "icon")+"><div align=\"center\"></div></td>\n" +
+                                    "      <td width=\"100\" class="+((datas[i * 7 + 1].NRL01 == 2) && "icon")+"><div align=\"center\"></div></td>\n" +
+                                    "      <td width=\"100\" class="+((datas[i * 7 + 2].NRL01 == 2) && "icon")+"><div align=\"center\"></div></td>\n" +
+                                    "      <td width=\"100\" class="+((datas[i * 7 + 3].NRL01 == 2) && "icon")+"><div align=\"center\"></div></td>\n" +
+                                    "      <td width=\"100\" class="+((datas[i * 7 + 4].NRL01 == 2) && "icon")+"><div align=\"center\"></div></td>\n" +
+                                    "      <td width=\"100\" class="+((datas[i * 7 + 5].NRL01 == 2) && "icon")+"><div align=\"center\"></div></td>\n" +
+                                    "      <td width=\"100\" class="+((datas[i * 7 + 6].NRL01 == 2) && "icon")+"><div align=\"center\"></div></td>\n" +
+                                    "    </tr>\n" +
+                                    "    <tr>\n" +
+                                    "      <td rowspan=\"2\"><div align=\"center\">超过1个医学诊断</div></td>\n" +
+                                    "      <td height=\"39\"><div>\n" +
+                                    "          <p>否=0</p>\n" +
+                                    "      </div></td>\n";
+
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"100\" class="+((datas[i * 7 + j].NRL02 == 1) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+
+                                    html+="</tr>\n" +
+                                    "    <tr>\n" +
+                                    "      <td height=\"40\"><div>\n" +
+                                    "          <p>是=15</p>\n" +
+                                    "      </div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"100\" class="+((datas[i * 7 + j].NRL02 == 2) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="</tr>\n" +
+                                    "    <tr>\n" +
+                                    "      <td rowspan=\"5\"><div align=\"center\">使用助行器具</div></td>\n" +
+                                    "      <td height=\"36\"><div>\n" +
+                                    "          <p>不需要=0</p>\n" +
+                                    "      </div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"100\" class="+((datas[i * 7 + j].NRL03 == 1) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="</tr>\n" +
+                                    "    <tr>\n" +
+                                    "      <td height=\"35\"><div>\n" +
+                                    "          <p>完全卧床=0</p>\n" +
+                                    "      </div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"100\" class="+((datas[i * 7 + j].NRL03 == 2) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="</tr>\n" +
+                                    "    <tr>\n" +
+                                    "      <td height=\"40\"><div>\n" +
+                                    "          <p>有人扶持=0</p>\n" +
+                                    "      </div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"100\" class="+((datas[i * 7 + j].NRL03 == 3) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="    </tr>\n" +
+                                    "    <tr>\n" +
+                                    "      <td height=\"35\"><div>\n" +
+                                    "          <p>拐杖／手杖/四角叉=15</p>\n" +
+                                    "      </div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"100\" class="+((datas[i * 7 + j].NRL03 == 4) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                   html+="    </tr>\n" +
+                                    "    <tr>\n" +
+                                    "      <td><div>\n" +
+                                    "          <p>依扶家具=30</p>\n" +
+                                    "      </div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"100\" class="+((datas[i * 7 + j].NRL03 == 5) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="    </tr>\n" +
+                                    "    <tr>\n" +
+                                    "      <td rowspan=\"2\"><div align=\"center\">静脉输液／肝素锁</div></td>\n" +
+                                    "      <td><div>\n" +
+                                    "          <p>否=0</p>\n" +
+                                    "      </div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"100\" class="+((datas[i * 7 + j].NRL04 == 1) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="    </tr>\n" +
+                                    "    <tr>\n" +
+                                    "      <td><div>\n" +
+                                    "          <p>是=20</p>\n" +
+                                    "      </div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"100\" class="+((datas[i * 7 + j].NRL04 == 2) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="    </tr>\n" +
+                                    "    <tr>\n" +
+                                    "      <td rowspan=\"5\"><div align=\"center\">步态</div></td>\n" +
+                                    "      <td height=\"36\"><div>\n" +
+                                    "          <p>正常=0</p>\n" +
+                                    "      </div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        //html+="<td width=\"100\" class="+((datas[i * 7 + j].NRL05 == 1 && "icon")+"><div align=\"center\"></div></td>";
+                                        html+="<td width=\"100\" class="+((datas[i * 7 + j].NRL05 == 1) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="</tr>\n" +
+                                    "    <tr>\n" +
+                                    "      <td height=\"45\"><div>\n" +
+                                    "          <p>卧床=0</p>\n" +
+                                    "      </div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        // html+="<td width=\"100\" class="+((datas[i * 7 + j].NRL05 == 2 && "icon")+"><div align=\"center\"></div></td>";
+                                        html+="<td width=\"100\" class="+((datas[i * 7 + j].NRL05 == 2) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="    </tr>\n" +
+                                    "    <tr>\n" +
+                                    "      <td height=\"48\"><div>\n" +
+                                    "          <p>轮椅代步=0</p>\n" +
+                                    "      </div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        // html+="<td width=\"100\" class="+((datas[i * 7 + j].NRL05 == 3 && "icon")+"><div align=\"center\"></div></td>";
+                                        html+="<td width=\"100\" class="+((datas[i * 7 + j].NRL05 == 3) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="    </tr>\n" +
+                                    "    <tr>\n" +
+                                    "      <td height=\"49\"><div>\n" +
+                                    "          <p>双下肢软弱无力=10</p>\n" +
+                                    "      </div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        //html+="<td width=\"100\" class="+((datas[i * 7 + j].NRL05 == 4 && "icon")+"><div align=\"center\"></div></td>";
+                                        html+="<td width=\"100\" class="+((datas[i * 7 + j].NRL05 == 4) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="    </tr>\n" +
+                                    "    <tr>\n" +
+                                    "      <td height=\"41\"><div>\n" +
+                                    "          <p>残疾或功能障碍=20</p>\n" +
+                                    "      </div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        //html+="<td width=\"100\" class="+((datas[i * 7 + j].NRL05 == 5 && "icon")+"><div align=\"center\"></div></td>";
+                                        html+="<td width=\"100\" class="+((datas[i * 7 + j].NRL05 == 5) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="    </tr>\n" +
+                                    "    <tr>\n" +
+                                    "      <td rowspan=\"2\"><div align=\"center\">认知状态</div></td>\n" +
+                                    "      <td height=\"44\"><div>\n" +
+                                    "          <p>了解自己的能力／量力而行=0</p>\n" +
+                                    "      </div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"100\" class="+((datas[i * 7 + j].NRL06 == 1) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="    </tr>\n" +
+                                    "    <tr>\n" +
+                                    "      <td height=\"41\"><div>\n" +
+                                    "          <p>高估自己／忘记自己的限制=15</p>\n" +
+                                    "      </div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"100\" class="+((datas[i * 7 + j].NRL06 == 2) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="    </tr>\n" +
+                                    "    <tr>\n" +
+                                    "      <td height=\"38\" colspan=\"2\"><div align=\"center\">合计分数</div></td>\n" +
+                                    "      <td width=\"97\"><div align=\"center\">"+(datas[i * 7+0].Score || " ")+"</div></td>\n" +
+                                    "      <td width=\"102\"><div align=\"center\">"+(datas[i * 7+1].Score || " ")+"</div></td>\n" +
+                                    "      <td width=\"108\"><div align=\"center\">"+(datas[i * 7+2].Score || " ")+"</div></td>\n" +
+                                    "      <td width=\"102\"><div align=\"center\">"+(datas[i * 7+3].Score || " ")+"</div></td>\n" +
+                                    "      <td width=\"105\"><div align=\"center\">"+(datas[i * 7+4].Score || " ")+"</div></td>\n" +
+                                    "      <td width=\"100\"><div align=\"center\">"+(datas[i * 7+5].Score || " ")+"</div></td>\n" +
+                                    "      <td width=\"100\"><div align=\"center\">"+(datas[i * 7+6].Score || " ")+"</div></td>\n" +
+                                    "    </tr>\n" +
+                                    "    <tr>\n" +
+                                    "      <td height=\"44\" colspan=\"2\"><div align=\"center\">责任护士签名</div></td>\n" +
+                                    "      <td width=\"97\"><div align=\"center\">"+(datas[i * 7+0].BCE03A || " ")+"</div></td>\n" +
+                                    "      <td width=\"102\"><div align=\"center\">"+(datas[i * 7+1].BCE03A || " ")+"</div></td>\n" +
+                                    "      <td width=\"108\"><div align=\"center\">"+(datas[i * 7+2].BCE03A || " ")+"</div></td>\n" +
+                                    "      <td width=\"102\"><div align=\"center\">"+(datas[i * 7+3].BCE03A || " ")+"</div></td>\n" +
+                                    "      <td width=\"105\"><div align=\"center\">"+(datas[i * 7+4].BCE03A || " ")+"</div></td>\n" +
+                                    "      <td width=\"100\"><div align=\"center\">"+(datas[i * 7+5].BCE03A || " ")+"</div></td>\n" +
+                                    "      <td width=\"100\"><div align=\"center\">"+(datas[i * 7+6].BCE03A || " ")+"</div></td>\n" +
+                                    "    </tr>\n" +
+                                    "    <tr>\n" +
+                                    "      <td height=\"39\" colspan=\"2\"><div align=\"center\">审核护士签名</div></td>\n" +
+                                    "      <td width=\"97\"><div align=\"center\">"+(datas[i * 7+0].NRL09B || " ")+"</div></td>\n" +
+                                    "      <td width=\"102\"><div align=\"center\">"+(datas[i * 7+1].NRL09B || " ")+"</div></td>\n" +
+                                    "      <td width=\"108\"><div align=\"center\">"+(datas[i * 7+2].NRL09B || " ")+"</div></td>\n" +
+                                    "      <td width=\"102\"><div align=\"center\">"+(datas[i * 7+3].NRL09B || " ")+"</div></td>\n" +
+                                    "      <td width=\"105\"><div align=\"center\">"+(datas[i * 7+4].NRL09B || " ")+"</div></td>\n" +
+                                    "      <td width=\"100\"><div align=\"center\">"+(datas[i * 7+5].NRL09B || " ")+"</div></td>\n" +
+                                    "      <td width=\"100\"><div align=\"center\">"+(datas[i * 7+6].NRL09B || " ")+"</div></td>\n" +
+                                    "    </tr>\n" +
+                                    "  </table>\n" +
+                                    "</div>\n" +
+                                    "<p align=\"left\">备注:</p>\n" +
+                                    "<p align=\"left\">1. 评估护士在对应时间内将评估结果填写在相应的空格内。</p>\n" +
+                                    "<p align=\"left\">2. 凡入院患者均需做跌倒风险评估，对跌倒评估总分<25分者（低风险），记录在护理记录单首页，暂不需持续评估；</p>\n" +
+                                    "<p align=\"left\">总分25-45分者（中度风险），一周内每48h评估一次，以后每周评估一次；总分>45分者（ 高风险）首次评估后至少每天评估一次；</p>\n" +
+                                    "<p align=\"left\">评估中为中度风险和高风险患者分值记录在此表和护理记录单上，做好交接；其它视具体情况评估，发生跌倒事件时，应重新评估并记录。</p>\n" +
+                                    "<p>3. 凡高危患者（年龄≥65岁、意识不清、运动障碍、 视力障碍、服用镇静催眠药物等）需进行动态跌倒风险评估。</p>\n" +
+                                    "<p>4、护理措施如未有涵盖者请在空白栏加以说明，特殊情况可记录在护理记录中\n</p>\n" +
+                                    "<p align=\"left\">&nbsp;</p>\n" +
+                                    "<p align=\"left\">&nbsp;</p>\n" +
+                                    "<p align=\"center\" class=\"STYLE1\">&nbsp;</p>\n" +
+                                    "<p align=\"center\" class=\"STYLE1\">&nbsp;</p>\n" +
+                                    "<p align=\"center\" class=\"STYLE1\">&nbsp;</p>\n" +
+                                    "<p align=\"center\" class=\"STYLE1\">深圳万丰医院跌倒护理措施</p>\n" +
+                                    "<table width=\"1061\" border=\"1\" cellspacing=\"0\" bordercolor=\"#666666\">\n" +
+                                    "  <tr>\n" +
+                                    "    <td width=\"369\" height=\"60\" rowspan=\"2\"><div align=\"center\">护理措施</div></td>\n" +
+                                    "    <td height=\"31\" colspan=\"7\"><div align=\"center\">实施时间</div></td>\n" +
+                                    "  </tr>\n" +
+                                    "  <tr>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\" height=\"39\"><div align=\"center\">"+((datas[i * 7 + j]||"")&&(datas[i * 7 + j].DateStr || " "))+"</div></td>";
+                                    }
+
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"44\"><div align=\"left\">1、床头悬挂“跌倒风险警示”标识</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,1) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"44\"><div align=\"left\">2、入院时向患者/家属/陪护介绍病室环境及安全措施</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,2) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"43\"><div align=\"left\">3、指导患者/家属/陪护使用呼叫铃</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,3) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"43\"><div align=\"left\">4、教育患者/家属/陪护预防跌倒的方法及注意事项</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,4) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"40\"><div align=\"left\">5、指导患者勿跨越床栏下床</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,5) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  <tr>\n" +
+                                    "    <td height=\"50\"><div align=\"left\">6、把患者需要的物品（水杯、尿壶等）放置妥当</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,6) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"50\"><div align=\"left\">7、按医嘱留陪护一名，在夜间将陪人床紧邻患者床栏放置</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,7) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"50\"><div align=\"left\">8、确保病室内，浴室内灯光明亮及地板干燥</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,8) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"45\"><div align=\"left\">9、行人道通畅，没有障碍物</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,9) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"43\"><div align=\"left\">10、患者卧床时上床栏，加强巡视</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,10) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"45\"><div align=\"left\">11、告知患者有护士/家属/陪护协助下方可下床活动</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,11) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"45\"><div align=\"left\">12、患者下床前，确认已穿防滑的鞋子，并与床边 悬摆双脚至少2分钟</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,12) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"50\"><div align=\"left\">13、助行器摆放在患者容易取用的位置</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,13) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"50\"><div align=\"left\">14、使用平车外出检查的患者，应加安全带及上防护栏</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,14) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"45\"><div align=\"left\">15、坐轮椅时系上安全带</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,15) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"43\"><div align=\"left\">16、步态不稳的患者外出检查必须由家属及护送人员陪同</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,16) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"50\"><div align=\"left\">17、给予患者合身衣物，勿穿滑底鞋，以免滑倒</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,17) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"50\"><div align=\"left\">18、指导患者穿脱袜子、鞋、裤应坐着进行</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,18) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"50\"><div align=\"left\">19、评估患者现用药物的效果及副作用，及时做好宣教</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,19) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"45\"><div align=\"left\">20、楼梯要有扶手，并有方便的照明开关</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,20) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"50\"><div align=\"left\">21、浴室、洗手间、厕座应有稳实的扶手方便进出</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,21) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"50\"><div align=\"left\">22、睡床高低要适当，从床垫面至地板高度45-4 8cm</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,22) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"40\"><div align=\"left\">23、必要时经患者或家属同意使用约束带</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,23) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"50\"><div align=\"left\">24、加强床上护理，协助擦浴，开餐，床上洗头及 二便护理，加强肌肉训练</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,24) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"30\"><div align=\"left\">"+{{.NRLTitle.NRT01V}}+"</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,25) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"31\"><div align=\"left\">"+{{.NRLTitle.NRT02V}}+"</div></td>\n";
+                                    for(var j=0;j<7; j++){
+                                        html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,26) && "icon")+"><div align=\"center\"></div></td>";
+                                    }
+                                    html+="  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"44\"><div align=\"left\">责任护士签名</div></td>\n" +
+                                    "    <td width=\"95\" height=\"44\"><div align=\"center\">"+(datas[i * 7+0].BCE03A || " ")+"</div></td>\n" +
+                                    "    <td width=\"95\" height=\"44\"><div align=\"center\">"+(datas[i * 7+1].BCE03A || " ")+"</div></td>\n" +
+                                    "    <td width=\"95\" height=\"44\"><div align=\"center\">"+(datas[i * 7+2].BCE03A || " ")+"</div></td>\n" +
+                                    "    <td width=\"95\" height=\"44\"><div align=\"center\">"+(datas[i * 7+3].BCE03A || " ")+"</div></td>\n" +
+                                    "    <td width=\"95\" height=\"44\"><div align=\"center\">"+(datas[i * 7+4].BCE03A || " ")+"</div></td>\n" +
+                                    "    <td width=\"95\" height=\"44\"><div align=\"center\">"+(datas[i * 7+5].BCE03A || " ")+"</div></td>\n" +
+                                    "    <td width=\"95\" height=\"44\"><div align=\"center\">"+(datas[i * 7+6].BCE03A || " ")+"</div></td>\n" +
+                                    "  </tr>\n" +
+                                    "  <tr>\n" +
+                                    "    <td height=\"43\"><div align=\"left\">审核护士签名</div></td>\n" +
+                                    "    <td width=\"95\" height=\"43\"><div align=\"center\">"+(datas[i * 7+0].NRL09B || " ")+"</div></td>\n" +
+                                    "    <td width=\"95\" height=\"43\"><div align=\"center\">"+(datas[i * 7+1].NRL09B || " ")+"</div></td>\n" +
+                                    "    <td width=\"95\" height=\"43\"><div align=\"center\">"+(datas[i * 7+2].NRL09B || " ")+"</div></td>\n" +
+                                    "    <td width=\"95\" height=\"43\"><div align=\"center\">"+(datas[i * 7+3].NRL09B || " ")+"</div></td>\n" +
+                                    "    <td width=\"95\" height=\"43\"><div align=\"center\">"+(datas[i * 7+4].NRL09B || " ")+"</div></td>\n" +
+                                    "    <td width=\"95\" height=\"43\"><div align=\"center\">"+(datas[i * 7+5].NRL09B || " ")+"</div></td>\n" +
+                                    "    <td width=\"95\" height=\"43\"><div align=\"center\">"+(datas[i * 7+6].NRL09B || " ")+"</div></td>\n" +
+                                    "  </tr>\n" +
+                                    "</table>\n";
+                                    // "<p align=\"center\" class=\"STYLE1\">&nbsp;</p>\n";
+                                    // "<p align=\"left\">&nbsp;</p>";
+                    //html += "<div class=\"kg\"></div>";
+                }
+            $('body').html(html)
+            }
+        }
+    </script>
+</head>
+
+<body>
+<p align="center" class="STYLE1">患者跌到风险评估护理单</p>
+<p align="left">
+    <label>科别：</label>
+    内科病区 
+    <label>床号：</label>
+    02 
+    <label>姓名：</label>
+    郭友军 
+    <label>性别：</label>
+    男 
+    <label>年龄：</label>
+    31岁 
+    <label>住院号：</label>
+    069436</p>
+<p align="left">陪护情况
+    <input type="checkbox" name="checkbox" value="checkbox" />
+    无
+    <input type="checkbox" name="checkbox2" value="checkbox" />
+    有(
+    <input type="checkbox" name="checkbox3" value="checkbox" />
+    家属
+    <input type="checkbox" name="checkbox4" value="checkbox" />
+    保姆
+    <input type="checkbox" name="checkbox5" value="checkbox" />
+    护工
+    <label for="c1-v2-v4">
+        <input type="checkbox" name="checkbox6" value="checkbox" />
+        其它&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+    <input name="text" type="text" class="m-input-txt" value="" />
+    )</p>
+<p align="left">
+    <label>诊断：</label>
+    糖尿病？ </p>
+
+<div align="left">
+    <table width="1064" border="1"  cellspacing="0" bordercolor="#666666">
+        <tr>
+            <td height="41" colspan="2"><div align="center"><strong>日期</strong></div></td>
+            <td width="97"><div align="center">2017-10-10</div></td>
+            <td width="102"><div align="center">2017-10-10</div></td>
+            <td width="108"><div align="center">2017-10-10</div></td>
+            <td width="102"><div align="center">2017-10-10</div></td>
+            <td width="105"><div align="center">2017-10-10</div></td>
+            <td width="100"><div align="center">2017-10-10</div></td>
+            <td width="100"><div align="center">2017-10-10</div></td>
+        </tr>
+        <tr>
+            <td height="37" colspan="2"><div align="center"><strong>时间</strong></div></td>
+            <td width="97"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="108"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="105"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td colspan="2"><div align="center"><strong>评估项目</strong></div></td>
+            <td colspan="7"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td width="145" rowspan="2"><div align="center">跌倒史（3个月内）</div></td>
+            <td width="167" height="39"><div>
+                <p>无=0</p>
+            </div></td>
+            <td width="97"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="108"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="105"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="41"><div>
+                <p>有=25</p>
+            </div></td>
+            <td width="97"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="108"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="105"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td rowspan="2"><div align="center">超过1个医学诊断</div></td>
+            <td height="39"><div>
+                <p>否=0</p>
+            </div></td>
+            <td width="97"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="108"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="105"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="40"><div>
+                <p>是=15</p>
+            </div></td>
+            <td width="97"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="108"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="105"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td rowspan="5"><div align="center">使用助行器具</div></td>
+            <td height="36"><div>
+                <p>不需要=0</p>
+            </div></td>
+            <td width="97"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="108"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="105"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="35"><div>
+                <p>完全卧床=0</p>
+            </div></td>
+            <td width="97"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="108"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="105"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="40"><div>
+                <p>有人扶持=0</p>
+            </div></td>
+            <td width="97"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="108"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="105"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="35"><div>
+                <p>拐杖／手杖/四角叉=15</p>
+            </div></td>
+            <td width="97"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="108"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="105"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td><div>
+                <p>依扶家具=30</p>
+            </div></td>
+            <td width="97"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="108"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="105"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td rowspan="2"><div align="center">静脉输液／肝素锁</div></td>
+            <td><div>
+                <p>否=0</p>
+            </div></td>
+            <td width="97"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="108"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="105"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td><div>
+                <p>是=20</p>
+            </div></td>
+            <td width="97"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="108"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="105"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td rowspan="5"><div align="center">步态</div></td>
+            <td height="36"><div>
+                <p>正常=0</p>
+            </div></td>
+            <td width="97"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="108"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="105"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="45"><div>
+                <p>卧床=0</p>
+            </div></td>
+            <td width="97"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="108"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="105"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="48"><div>
+                <p>轮椅代步=0</p>
+            </div></td>
+            <td width="97"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="108"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="105"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="49"><div>
+                <p>双下肢软弱无力=10</p>
+            </div></td>
+            <td width="97"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="108"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="105"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="41"><div>
+                <p>残疾或功能障碍=20</p>
+            </div></td>
+            <td width="97"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="108"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="105"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td rowspan="2"><div align="center">认知状态</div></td>
+            <td height="44"><div>
+                <p>了解自己的能力／量力而行=0</p>
+            </div></td>
+            <td width="97"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="108"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="105"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="41"><div>
+                <p>高估自己／忘记自己的限制=15</p>
+            </div></td>
+            <td width="97"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="108"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="105"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="38" colspan="2"><div align="center">合计分数</div></td>
+            <td width="97"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="108"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="105"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="44" colspan="2"><div align="center">责任护士签名</div></td>
+            <td width="97"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="108"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="105"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="39" colspan="2"><div align="center">审核护士签名</div></td>
+            <td width="97"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="108"><div align="center"></div></td>
+            <td width="102"><div align="center"></div></td>
+            <td width="105"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+            <td width="100"><div align="center"></div></td>
+        </tr>
+    </table>
+</div>
+<p align="left">备注:</p>
+<p align="left">1. 评估护士在对应时间内将评估结果填写在相应的空格内。</p>
+<p align="left">2. 凡入院患者均需做跌倒风险评估，对跌倒评估总分<25分者（低风险），记录在护理记录单首页，暂不需持续评估；</p>
+<p align="left">总分25-45分者（中度风险），一周内每48h评估一次，以后每周评估一次；总分>45分者（ 高风险）首次评估后至少每天评估一次；</p>
+<p align="left">评估中为中度风险和高风险患者分值记录在此表和护理记录单上，做好交接；其它视具体情况评估，发生跌倒事件时，应重新评估并记录。</p>
+<p>3. 凡高危患者（年龄≥65岁、意识不清、运动障碍、 视力障碍、服用镇静催眠药物等）需进行动态跌倒风险评估。</p>
+<p>4、护理措施如未有涵盖者请在空白栏加以说明，特殊情况可记录在护理记录中</p>
+<p align="left">&nbsp;</p>
+<p align="left">&nbsp;</p>
+<p align="center" class="STYLE1">&nbsp;</p>
+<p align="center" class="STYLE1">&nbsp;</p>
+<p align="center" class="STYLE1">&nbsp;</p>
+<p align="center" class="STYLE1">&nbsp;</p>
+<p align="center" class="STYLE1">&nbsp;</p>
+<p align="center" class="STYLE1">深圳万丰医院跌倒护理措施</p>
+<table width="1061" border="1" cellspacing="0" bordercolor="#666666">
+    <tr>
+        <td width="369" height="60" rowspan="2"><div align="center">护理措施</div></td>
+        <td height="31" colspan="7"><div align="center">实施时间</div></td>
+    </tr>
+    <tr>
+        <td width="93" height="39"><div align="center">2017-10-10</div></td>
+        <td width="89" height="39"><div align="center">2017-10-10</div></td>
+        <td width="100" height="39"><div align="center">2017-10-10</div></td>
+        <td width="93" height="39"><div align="center">2017-10-10</div></td>
+        <td width="96" height="39"><div align="center">2017-10-10</div></td>
+        <td width="92" height="39">2017-10-10</td>
+        <td width="95" height="39">2017-10-10</td>
+    </tr>
+    <tr>
+        <td height="44"><div align="left">1、床头悬挂“跌倒风险警示”标识</div></td>
+        <td width="93" height="44"><div align="center"></div></td>
+        <td width="89" height="44"><div align="center"></div></td>
+        <td width="100" height="44"><div align="center"></div></td>
+        <td width="93" height="44"><div align="center"></div></td>
+        <td width="96" height="44"><div align="center"></div></td>
+        <td width="92" height="44"><div align="center"></div></td>
+        <td width="95" height="44"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="44"><div align="left">2、入院时向患者/家属/陪护介绍病室环境及安全措施</div></td>
+        <td width="93" height="44"><div align="center"></div></td>
+        <td width="89" height="44"><div align="center"></div></td>
+        <td width="100" height="44"><div align="center"></div></td>
+        <td width="93" height="44"><div align="center"></div></td>
+        <td width="96" height="44"><div align="center"></div></td>
+        <td width="92" height="44"><div align="center"></div></td>
+        <td width="95" height="44"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="43"><div align="left">3、指导患者/家属/陪护使用呼叫铃</div></td>
+        <td width="93" height="43"><div align="center"></div></td>
+        <td width="89" height="43"><div align="center"></div></td>
+        <td width="100" height="43"><div align="center"></div></td>
+        <td width="93" height="43"><div align="center"></div></td>
+        <td width="96" height="43"><div align="center"></div></td>
+        <td width="92" height="43"><div align="center"></div></td>
+        <td width="95" height="43"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="43"><div align="left">4、教育患者/家属/陪护预防跌倒的方法及注意事项</div></td>
+        <td width="93" height="43"><div align="center"></div></td>
+        <td width="89" height="43"><div align="center"></div></td>
+        <td width="100" height="43"><div align="center"></div></td>
+        <td width="93" height="43"><div align="center"></div></td>
+        <td width="96" height="43"><div align="center"></div></td>
+        <td width="92" height="43"><div align="center"></div></td>
+        <td width="95" height="43"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="40"><div align="left">5、指导患者勿跨越床栏下床</div></td>
+        <td width="93" height="40"><div align="center"></div></td>
+        <td width="89" height="40"><div align="center"></div></td>
+        <td width="100" height="40"><div align="center"></div></td>
+        <td width="93" height="40"><div align="center"></div></td>
+        <td width="96" height="40"><div align="center"></div></td>
+        <td width="92" height="40"><div align="center"></div></td>
+        <td width="95" height="40"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="50"><div align="left">6、把患者需要的物品（水杯、尿壶等）放置妥当</div></td>
+        <td width="93" height="50"><div align="center"></div></td>
+        <td width="89" height="50"><div align="center"></div></td>
+        <td width="100" height="50"><div align="center"></div></td>
+        <td width="93" height="50"><div align="center"></div></td>
+        <td width="96" height="50"><div align="center"></div></td>
+        <td width="92" height="50"><div align="center"></div></td>
+        <td width="95" height="50"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="50"><div align="left">7、按医嘱留陪护一名，在夜间将陪人床紧邻患者床栏放置</div></td>
+        <td width="93" height="50"><div align="center"></div></td>
+        <td width="89" height="50"><div align="center"></div></td>
+        <td width="100" height="50"><div align="center"></div></td>
+        <td width="93" height="50"><div align="center"></div></td>
+        <td width="96" height="50"><div align="center"></div></td>
+        <td width="92" height="50"><div align="center"></div></td>
+        <td width="95" height="50"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="50"><div align="left">8、确保病室内，浴室内灯光明亮及地板干燥</div></td>
+        <td width="93" height="50"><div align="center"></div></td>
+        <td width="89" height="50"><div align="center"></div></td>
+        <td width="100" height="50"><div align="center"></div></td>
+        <td width="93" height="50"><div align="center"></div></td>
+        <td width="96" height="50"><div align="center"></div></td>
+        <td width="92" height="50"><div align="center"></div></td>
+        <td width="95" height="50"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="45"><div align="left">9、行人道通畅，没有障碍物</div></td>
+        <td width="93" height="45"><div align="center"></div></td>
+        <td width="89" height="45"><div align="center"></div></td>
+        <td width="100" height="45"><div align="center"></div></td>
+        <td width="93" height="45"><div align="center"></div></td>
+        <td width="96" height="45"><div align="center"></div></td>
+        <td width="92" height="45"><div align="center"></div></td>
+        <td width="95" height="45"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="43"><div align="left">10、患者卧床时上床栏，加强巡视</div></td>
+        <td width="93" height="43"><div align="center"></div></td>
+        <td width="89" height="43"><div align="center"></div></td>
+        <td width="100" height="43"><div align="center"></div></td>
+        <td width="93" height="43"><div align="center"></div></td>
+        <td width="96" height="43"><div align="center"></div></td>
+        <td width="92" height="43"><div align="center"></div></td>
+        <td width="95" height="43"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="45"><div align="left">11、告知患者有护士/家属/陪护协助下方可下床活动</div></td>
+        <td width="93" height="45"><div align="center"></div></td>
+        <td width="89" height="45"><div align="center"></div></td>
+        <td width="100" height="45"><div align="center"></div></td>
+        <td width="93" height="45"><div align="center"></div></td>
+        <td width="96" height="45"><div align="center"></div></td>
+        <td width="92" height="45"><div align="center"></div></td>
+        <td width="95" height="45"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="45"><div align="left">12、患者下床前，确认已穿防滑的鞋子，并与床边 悬摆双脚至少2分钟</div></td>
+        <td width="93" height="45"><div align="center"></div></td>
+        <td width="89" height="45"><div align="center"></div></td>
+        <td width="100" height="45"><div align="center"></div></td>
+        <td width="93" height="45"><div align="center"></div></td>
+        <td width="96" height="45"><div align="center"></div></td>
+        <td width="92" height="45"><div align="center"></div></td>
+        <td width="95" height="45"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="50"><div align="left">13、助行器摆放在患者容易取用的位置</div></td>
+        <td width="93" height="50"><div align="center"></div></td>
+        <td width="89" height="50"><div align="center"></div></td>
+        <td width="100" height="50"><div align="center"></div></td>
+        <td width="93" height="50"><div align="center"></div></td>
+        <td width="96" height="50"><div align="center"></div></td>
+        <td width="92" height="50"><div align="center"></div></td>
+        <td width="95" height="50"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="50"><div align="left">14、使用平车外出检查的患者，应加安全带及上防护栏</div></td>
+        <td width="93" height="50"><div align="center"></div></td>
+        <td width="89" height="50"><div align="center"></div></td>
+        <td width="100" height="50"><div align="center"></div></td>
+        <td width="93" height="50"><div align="center"></div></td>
+        <td width="96" height="50"><div align="center"></div></td>
+        <td width="92" height="50"><div align="center"></div></td>
+        <td width="95" height="50"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="45"><div align="left">15、坐轮椅时系上安全带</div></td>
+        <td width="93" height="45"><div align="center"></div></td>
+        <td width="89" height="45"><div align="center"></div></td>
+        <td width="100" height="45"><div align="center"></div></td>
+        <td width="93" height="45"><div align="center"></div></td>
+        <td width="96" height="45"><div align="center"></div></td>
+        <td width="92" height="45"><div align="center"></div></td>
+        <td width="95" height="45"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="43"><div align="left">16、步态不稳的患者外出检查必须由家属及护送人员陪同</div></td>
+        <td width="93" height="43"><div align="center"></div></td>
+        <td width="89" height="43"><div align="center"></div></td>
+        <td width="100" height="43"><div align="center"></div></td>
+        <td width="93" height="43"><div align="center"></div></td>
+        <td width="96" height="43"><div align="center"></div></td>
+        <td width="92" height="43"><div align="center"></div></td>
+        <td width="95" height="43"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="50"><div align="left">17、给予患者合身衣物，勿穿滑底鞋，以免滑倒</div></td>
+        <td width="93" height="50"><div align="center"></div></td>
+        <td width="89" height="50"><div align="center"></div></td>
+        <td width="100" height="50"><div align="center"></div></td>
+        <td width="93" height="50"><div align="center"></div></td>
+        <td width="96" height="50"><div align="center"></div></td>
+        <td width="92" height="50"><div align="center"></div></td>
+        <td width="95" height="50"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="50"><div align="left">18、指导患者穿脱袜子、鞋、裤应坐着进行</div></td>
+        <td width="93" height="50"><div align="center"></div></td>
+        <td width="89" height="50"><div align="center"></div></td>
+        <td width="100" height="50"><div align="center"></div></td>
+        <td width="93" height="50"><div align="center"></div></td>
+        <td width="96" height="50"><div align="center"></div></td>
+        <td width="92" height="50"><div align="center"></div></td>
+        <td width="95" height="50"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="50"><div align="left">19、评估患者现用药物的效果及副作用，及时做好宣教</div></td>
+        <td width="93" height="50"><div align="center"></div></td>
+        <td width="89" height="50"><div align="center"></div></td>
+        <td width="100" height="50"><div align="center"></div></td>
+        <td width="93" height="50"><div align="center"></div></td>
+        <td width="96" height="50"><div align="center"></div></td>
+        <td width="92" height="50"><div align="center"></div></td>
+        <td width="95" height="50"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="45"><div align="left">20、楼梯要有扶手，并有方便的照明开关</div></td>
+        <td width="93" height="45"><div align="center"></div></td>
+        <td width="89" height="45"><div align="center"></div></td>
+        <td width="100" height="45"><div align="center"></div></td>
+        <td width="93" height="45"><div align="center"></div></td>
+        <td width="96" height="45"><div align="center"></div></td>
+        <td width="92" height="45"><div align="center"></div></td>
+        <td width="95" height="45"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="50"><div align="left">21、浴室、洗手间、厕座应有稳实的扶手方便进出</div></td>
+        <td width="93" height="50"><div align="center"></div></td>
+        <td width="89" height="50"><div align="center"></div></td>
+        <td width="100" height="50"><div align="center"></div></td>
+        <td width="93" height="50"><div align="center"></div></td>
+        <td width="96" height="50"><div align="center"></div></td>
+        <td width="92" height="50"><div align="center"></div></td>
+        <td width="95" height="50"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="50"><div align="left">22、睡床高低要适当，从床垫面至地板高度45-4 8cm</div></td>
+        <td width="93" height="50"><div align="center"></div></td>
+        <td width="89" height="50"><div align="center"></div></td>
+        <td width="100" height="50"><div align="center"></div></td>
+        <td width="93" height="50"><div align="center"></div></td>
+        <td width="96" height="50"><div align="center"></div></td>
+        <td width="92" height="50"><div align="center"></div></td>
+        <td width="95" height="50"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="40"><div align="left">23、必要时经患者或家属同意使用约束带</div></td>
+        <td width="93" height="40"><div align="center"></div></td>
+        <td width="89" height="40"><div align="center"></div></td>
+        <td width="100" height="40"><div align="center"></div></td>
+        <td width="93" height="40"><div align="center"></div></td>
+        <td width="96" height="40"><div align="center"></div></td>
+        <td width="92" height="40"><div align="center"></div></td>
+        <td width="95" height="40"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="50"><div align="left">24、加强床上护理，协助擦浴，开餐，床上洗头及 二便护理，加强肌肉训练</div></td>
+        <td width="93" height="50"><div align="center"></div></td>
+        <td width="89" height="50"><div align="center"></div></td>
+        <td width="100" height="50"><div align="center"></div></td>
+        <td width="93" height="50"><div align="center"></div></td>
+        <td width="96" height="50"><div align="center"></div></td>
+        <td width="92" height="50"><div align="center"></div></td>
+        <td width="95" height="50"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="30"><div align="left"></div></td>
+        <td width="93" height="30"><div align="center"></div></td>
+        <td width="89" height="30"><div align="center"></div></td>
+        <td width="100" height="30"><div align="center"></div></td>
+        <td width="93" height="30"><div align="center"></div></td>
+        <td width="96" height="30"><div align="center"></div></td>
+        <td width="92" height="30"><div align="center"></div></td>
+        <td width="95" height="30"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="31"><div align="left"></div></td>
+        <td width="93" height="31"><div align="center"></div></td>
+        <td width="89" height="31"><div align="center"></div></td>
+        <td width="100" height="31"><div align="center"></div></td>
+        <td width="93" height="31"><div align="center"></div></td>
+        <td width="96" height="31"><div align="center"></div></td>
+        <td width="92" height="31"><div align="center"></div></td>
+        <td width="95" height="31"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="44"><div align="left">责任护士签名</div></td>
+        <td width="93" height="44"><div align="center"></div></td>
+        <td width="89" height="44"><div align="center"></div></td>
+        <td width="100" height="44"><div align="center"></div></td>
+        <td width="93" height="44"><div align="center"></div></td>
+        <td width="96" height="44"><div align="center"></div></td>
+        <td width="92" height="44"><div align="center"></div></td>
+        <td width="95" height="44"><div align="center"></div></td>
+    </tr>
+    <tr>
+        <td height="43"><div align="left">审核护士签名</div></td>
+        <td width="93" height="43"><div align="center"></div></td>
+        <td width="89" height="43"><div align="center"></div></td>
+        <td width="100" height="43"><div align="center"></div></td>
+        <td width="93" height="43"><div align="center"></div></td>
+        <td width="96" height="43"><div align="center"></div></td>
+        <td width="92" height="43"><div align="center"></div></td>
+        <td width="95" height="43"><div align="center"></div></td>
+    </tr>
+</table>
+<p align="center" class="STYLE1">&nbsp;</p>
+<p align="left">&nbsp;</p>
+</body>
+</html>

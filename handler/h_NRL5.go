@@ -30,7 +30,7 @@ func (c NRL5Controller) Check(w *fit.Response, r *fit.Request, p fit.Params) {
 	pid := nr5.VAA01
 
 	// 查询对应病人信息
-	patient, has := c.LoadPinfoWithPid(w, r, pid)
+	patient, has := c.LoadPInfoWithPid(w, r, pid)
 	if !has {
 		return
 	}
@@ -38,7 +38,7 @@ func (c NRL5Controller) Check(w *fit.Response, r *fit.Request, p fit.Params) {
 
 	recordDate := nr5.DateTime.Format("2006-01-02")
 	c.Data = fit.Data{
-		"Pinfo": patient,
+		"PInfo": patient,
 		"NRL":   nr5,
 		"RecordDate": recordDate,
 	}
@@ -77,14 +77,14 @@ func (c NRL5Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 	}
 
 	// 查询对应病人信息 护士的信息
-	patient, account, has := c.LoadPinfoAndAccountWithPidUid(w, r, pid, uid)
+	patient, account, has := c.LoadPInfoAndAccountWithPidUid(w, r, pid, uid)
 	if !has {
 		return
 	}
 	recordDate := nr5.DateTime.Format("2006-01-02")
 
 	c.Data = fit.Data{
-		"Pinfo": patient,
+		"PInfo": patient,
 		"NRL":   nr5,
 		"Type":  ty,
 		"Rid": rid,
@@ -108,7 +108,8 @@ func (c NRL5Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params)
 	// 记录时间
 	datetime, err4 := time.ParseInLocation("2006-01-02 15:04:05", r.FormValue("datetime"), time.Local)
 	// 科室ID
-	BCK01, err5 := strconv.ParseInt(r.FormValue("did"), 10, 64)
+	did := r.FormValue("did")
+	BCK01, err5 := strconv.Atoi(did)
 	// 文书
 
 	NRL01 := r.FormValue("NRL01")
@@ -146,6 +147,9 @@ func (c NRL5Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params)
 		c.JsonData.ErrorMsg = "参数不完整"
 		c.JsonData.Datas = []interface{}{}
 		return
+	}
+	if  !(NRL01 == "1" ||  NRL01 == "2" ||  NRL01 == "3") {
+		c.RenderingJson(2, "A,P,N不能为空", []interface{}{})
 	}
 
 	nrl5 := model.NRL5{
@@ -192,7 +196,7 @@ func (c NRL5Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params)
 
 	if err17 != nil {
 		fit.Logger().LogError("NRL5 add :", err17)
-		c.JsonData.Result = 2
+		c.JsonData.Result = 3
 		c.JsonData.ErrorMsg = "上传失败！"
 		c.JsonData.Datas = []interface{}{}
 	} else {
@@ -232,7 +236,8 @@ func (c NRL5Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 	// 病人ID
 	VAA01, err1 := strconv.ParseInt(r.FormValue("pid"), 10, 64)
 	// 科室ID
-	BCK01, err5 := strconv.ParseInt(r.FormValue("did"), 10, 64)
+	did := r.FormValue("did")
+	BCK01, err5 := strconv.Atoi(did)
 	// 护士ID
 	BCE01A := r.FormValue("uid")
 	// 护士名
@@ -316,6 +321,33 @@ func (c NRL5Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 	}
 }
 
+
+// 删除护理
+func (c NRL5Controller) DeleteRecord(w *fit.Response, r *fit.Request, p fit.Params) {
+	defer c.ResponseToJson(w)
+	// 文书ID
+	rid := r.FormValue("rid")
+	if rid == "" {
+		c.RenderingJsonAutomatically(3, "参数不完整")
+	}
+	id, err := strconv.ParseInt(rid, 10, 64)
+	if err != nil {
+		fit.Logger().LogError("Error", "nrl1 update :", err)
+		c.RenderingJsonAutomatically(3, "rid 错误！")
+		return
+	}
+
+
+	nrl := model.NRL5{}
+
+	_, err18 := nrl.DeleteData(id)
+	if err18 != nil {
+		fit.Logger().LogError("nrl delete :", err18)
+		c.RenderingJsonAutomatically(3, "删除失败！")
+	} else {
+		c.RenderingJsonAutomatically(0, "删除成功！")
+	}
+}
 
 func (c NRL5Controller) Exist(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)

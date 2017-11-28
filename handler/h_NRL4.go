@@ -29,14 +29,14 @@ func (c NRL4Controller) Check(w *fit.Response, r *fit.Request, p fit.Params) {
 	pid := nr4.VAA01
 
 	// 查询对应病人信息
-	patient, has := c.LoadPinfoWithPid(w, r, pid)
+	patient, has := c.LoadPInfoWithPid(w, r, pid)
 	if !has {
 		return
 	}
 
 	recordDate := nr4.DateTime.Format("2006-01-02")
 	c.Data = fit.Data{
-		"Pinfo":      patient,
+		"PInfo":      patient,
 		"NRL":        nr4,
 		"RecordDate": recordDate,
 	}
@@ -74,14 +74,14 @@ func (c NRL4Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 	}
 
 	// 查询对应病人信息 护士的信息
-	patient, account, has := c.LoadPinfoAndAccountWithPidUid(w, r, pid, uid)
+	patient, account, has := c.LoadPInfoAndAccountWithPidUid(w, r, pid, uid)
 	if !has {
 		return
 	}
 
 	recordDate := nr4.DateTime.Format("2006-01-02")
 	c.Data = fit.Data{
-		"Pinfo":      patient,
+		"PInfo":      patient,
 		"NRL":        nr4,
 		"Type":       ty,
 		"Rid":        rid,
@@ -105,7 +105,8 @@ func (c NRL4Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params)
 	// 记录时间
 	datetime, err4 := time.ParseInLocation("2006-01-02 15:04:05", r.FormValue("datetime"), time.Local)
 	// 科室ID
-	BCK01, err5 := strconv.ParseInt(r.FormValue("did"), 10, 64)
+	did := r.FormValue("did")
+	BCK01, err5 := strconv.Atoi(did)
 
 	NRL01, err6 := strconv.Atoi(r.FormValue("NRL01"))
 	NRL02, err7 := strconv.Atoi(r.FormValue("NRL02"))
@@ -114,9 +115,9 @@ func (c NRL4Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params)
 	NRL05, err10 := strconv.Atoi(r.FormValue("NRL05"))
 	NRL06, err11 := strconv.Atoi(r.FormValue("NRL06"))
 	NRL07, err12 := strconv.Atoi(r.FormValue("NRL07"))
-	score, err13 := strconv.Atoi(r.FormValue("score"))
+	score := r.FormValue("score")
 
-	checkerr("nrl4 add", err1, err4, err5, err6, err7, err8, err9, err10, err11, err12, err13)
+	checkerr("nrl4 add", err1, err4, err5, err6, err7, err8, err9, err10, err11, err12)
 
 	if VAA01 == 0 || BCE01A == "" || BCE03A == "" {
 		c.JsonData.Result = 1
@@ -185,7 +186,8 @@ func (c NRL4Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 	// 病人ID
 	VAA01, err1 := strconv.ParseInt(r.FormValue("pid"), 10, 64)
 	// 科室ID
-	BCK01, err5 := strconv.ParseInt(r.FormValue("did"), 10, 64)
+	did := r.FormValue("did")
+	BCK01, err5 := strconv.Atoi(did)
 	// 护士ID
 	BCE01A := r.FormValue("uid")
 	// 护士名
@@ -200,9 +202,9 @@ func (c NRL4Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 	NRL05, err10 := strconv.Atoi(r.FormValue("NRL05"))
 	NRL06, err11 := strconv.Atoi(r.FormValue("NRL06"))
 	NRL07, err12 := strconv.Atoi(r.FormValue("NRL07"))
-	score, err13 := strconv.Atoi(r.FormValue("score"))
+	score := r.FormValue("score")
 
-	checkerr("nrl4 add",err1, err5, err4, err6, err7, err8, err9, err10, err11, err12, err13)
+	checkerr("nrl4 add",err1, err5, err4, err6, err7, err8, err9, err10, err11, err12)
 
 	nrl4 := model.NRL4{
 		VAA01:    VAA01,
@@ -238,3 +240,29 @@ func (c NRL4Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 	}
 }
 
+// 删除护理
+func (c NRL4Controller) DeleteRecord(w *fit.Response, r *fit.Request, p fit.Params) {
+	defer c.ResponseToJson(w)
+	// 文书ID
+	rid := r.FormValue("rid")
+	if rid == "" {
+		c.RenderingJsonAutomatically(3, "参数不完整")
+	}
+	id, err := strconv.ParseInt(rid, 10, 64)
+	if err != nil {
+		fit.Logger().LogError("Error", "nrl1 update :", err)
+		c.RenderingJsonAutomatically(3, "rid 错误！")
+		return
+	}
+
+
+	nrl := model.NRL4{}
+
+	_, err18 := nrl.DeleteData(id)
+	if err18 != nil {
+		fit.Logger().LogError("nrl delete :", err18)
+		c.RenderingJsonAutomatically(3, "删除失败！")
+	} else {
+		c.RenderingJsonAutomatically(0, "删除成功！")
+	}
+}

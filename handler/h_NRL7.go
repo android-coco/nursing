@@ -27,7 +27,6 @@ func (c NRL7Controller) Check(w *fit.Response, r *fit.Request, p fit.Params) {
 	}
 	nrl7Title := model.NRL7Title{
 		VAA01: nr7.VAA01,
-		BCK01: nr7.BCK01,
 	}
 	pid := nr7.VAA01
 
@@ -38,7 +37,7 @@ func (c NRL7Controller) Check(w *fit.Response, r *fit.Request, p fit.Params) {
 	fmt.Println("title:", nrl7Title)
 
 	// 查询对应病人信息
-	patient, has := c.LoadPinfoWithPid(w, r, pid)
+	patient, has := c.LoadPInfoWithPid(w, r, pid)
 	if !has {
 		return
 	}
@@ -46,9 +45,9 @@ func (c NRL7Controller) Check(w *fit.Response, r *fit.Request, p fit.Params) {
 	rdate := nr7.DateTime.Format("2006-01-02")
 	rtime := nr7.DateTime.Format("15:04")
 	c.Data = fit.Data{
-		"Pinfo":      patient,
+		"PInfo":      patient,
 		"NRL":        nr7,
-		"Title":      nrl7Title, // 表头 25，26
+		"NRLTitle":      nrl7Title, // 表头 25，26
 		"RecordDate": rdate,
 		"RecordTime": rtime,
 	}
@@ -86,19 +85,17 @@ func (c NRL7Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 	}
 
 	// 查询对应病人信息 护士的信息
-	patient, account, has := c.LoadPinfoAndAccountWithPidUid(w, r, pid, uid)
+	patient, account, has := c.LoadPInfoAndAccountWithPidUid(w, r, pid, uid)
 	if !has {
 		return
 	}
 
 	nrl7Title := model.NRL7Title{
 		VAA01: nr7.VAA01,
-		BCK01: nr7.BCK01,
 	}
 	if ty == "1" {
 		nrl7Title = model.NRL7Title{
-			VAA01: int64(patient.VAA01),
-			BCK01: int64(patient.BCK01C),
+			VAA01: patient.VAA01,
 		}
 	}
 
@@ -109,14 +106,16 @@ func (c NRL7Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 
 
 	recordDate := nr7.DateTime.Format("2006-01-02")
+	recordTime := nr7.DateTime.Format("15:04")
 	c.Data = fit.Data{
-		"Pinfo":      patient,
+		"PInfo":      patient,
 		"NRL":        nr7,
-		"Title":      nrl7Title, // 表头 25，26
+		"NRLTitle":      nrl7Title, // 表头 25，26
 		"Type":       ty,
 		"Rid":        rid,
 		"Account":    account,
 		"RecordDate": recordDate,
+		"RecordTime": recordTime,
 	}
 
 	c.LoadView(w, "v_nrl7_edit.html")
@@ -135,7 +134,8 @@ func (c NRL7Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params)
 	// 记录时间
 	datetime, err4 := time.ParseInLocation("2006-01-02 15:04:05", r.FormValue("datetime"), time.Local)
 	// 科室ID
-	BCK01, err5 := strconv.ParseInt(r.FormValue("did"), 10, 64)
+	did := r.FormValue("did")
+	BCK01, err5 := strconv.Atoi(did)
 	// 文书ID（修改时需要）
 	NRL01 := r.FormValue("NRL01")
 	NRL02 := r.FormValue("NRL02")
@@ -144,9 +144,7 @@ func (c NRL7Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params)
 	NRL05 := r.FormValue("NRL05")
 	NRL06 := r.FormValue("NRL06")
 	NRL07 := r.FormValue("NRL07")
-	NRL08 := r.FormValue("NRL08")
-	NRL08A := r.FormValue("NRL08A")
-	NRL08B := r.FormValue("NRL08B")
+
 	NRL09A := r.FormValue("NRL09A")
 	NRL09B := r.FormValue("NRL09B")
 	score := r.FormValue("score")
@@ -173,9 +171,7 @@ func (c NRL7Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params)
 		NRL05:    NRL05,
 		NRL06:    NRL06,
 		NRL07:    NRL07,
-		NRL08:    NRL08,
-		NRL08A:   NRL08A,
-		NRL08B:   NRL08B,
+
 		NRL09A:   NRL09A,
 		NRL09B:   NRL09B,
 		Score:    score,
@@ -224,7 +220,8 @@ func (c NRL7Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 	// 病人ID
 	VAA01, err1 := strconv.ParseInt(r.FormValue("pid"), 10, 64)
 	// 科室ID
-	BCK01, err5 := strconv.ParseInt(r.FormValue("did"), 10, 64)
+	did := r.FormValue("did")
+	BCK01, err5 := strconv.Atoi(did)
 	// 护士ID
 	BCE01A := r.FormValue("uid")
 	// 护士名
@@ -239,9 +236,9 @@ func (c NRL7Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 	NRL05 := r.FormValue("NRL05")
 	NRL06 := r.FormValue("NRL06")
 	NRL07 := r.FormValue("NRL07")
-	NRL08 := r.FormValue("NRL08")
-	NRL08A := r.FormValue("NRL08A")
-	NRL08B := r.FormValue("NRL08B")
+	//NRL08 := r.FormValue("NRL08")
+	//NRL08A := r.FormValue("NRL08A")
+	//NRL08B := r.FormValue("NRL08B")
 	NRL09A := r.FormValue("NRL09A")
 	NRL09B := r.FormValue("NRL09B")
 	score := r.FormValue("score")
@@ -261,9 +258,9 @@ func (c NRL7Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 		NRL05:    NRL05,
 		NRL06:    NRL06,
 		NRL07:    NRL07,
-		NRL08:    NRL08,
-		NRL08A:   NRL08A,
-		NRL08B:   NRL08B,
+		//NRL08:    NRL08,
+		//NRL08A:   NRL08A,
+		//NRL08B:   NRL08B,
 		NRL09A:   NRL09A,
 		NRL09B:   NRL09B,
 		Score:    score,
@@ -276,6 +273,7 @@ func (c NRL7Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 		c.JsonData.ErrorMsg = "修改失败！"
 		c.JsonData.Datas = []interface{}{}
 	} else {
+		fmt.Println(id, datetime)
 		_, errRecord := model.UpadteNRecords(id, r.FormValue("datetime"))
 		checkerr("nurse record update err:", errRecord)
 
@@ -332,13 +330,17 @@ func (c NRL7Controller) UpdateTitle(w *fit.Response, r *fit.Request, p fit.Param
 	// 记录时间
 	datetime, err2 := time.ParseInLocation("2006-01-02 15:04:05", r.FormValue("datetime"), time.Local)
 	// 科室ID
-	BCK01, err3 := strconv.ParseInt(r.FormValue("did"), 10, 64)
+	did := r.FormValue("did")
+	BCK01, err3 := strconv.Atoi(did)
 	// 文书ID（修改时需要）
 	NRT01 := r.FormValue("NRT01")
 	NRT01V := r.FormValue("NRT01V")
 	NRT02 := r.FormValue("NRT02")
 	NRT02V := r.FormValue("NRT02V")
 
+	NRL08 := r.FormValue("NRL08")
+	NRL08A := r.FormValue("NRL08A")
+	NRL08B := r.FormValue("NRL08B")
 	checkerr("nrl7 title:", err1, err2, err3)
 
 	title := model.NRL7Title{
@@ -349,8 +351,12 @@ func (c NRL7Controller) UpdateTitle(w *fit.Response, r *fit.Request, p fit.Param
 		NRT01V:   NRT01V,
 		NRT02:    NRT02,
 		NRT02V:   NRT02V,
+
+		NRL08:    NRL08,
+		NRL08A:   NRL08A,
+		NRL08B:   NRL08B,
 	}
-	errt := title.UpdateTitle()
+	nrl7title, errt := title.PCUpdateNRT7Title()
 	if errt != nil {
 		fit.Logger().LogError("Error", "nrl1 update :", errt)
 		c.JsonData.Result = 2
@@ -358,7 +364,34 @@ func (c NRL7Controller) UpdateTitle(w *fit.Response, r *fit.Request, p fit.Param
 		c.JsonData.Datas = []interface{}{errt.Error()}
 	} else {
 		c.JsonData.Result = 0
-		c.JsonData.ErrorMsg = "nrl7 title 添加成功！"
-		c.JsonData.Datas = []interface{}{}
+		c.JsonData.ErrorMsg = "nrl7 title 修改成功！"
+		c.JsonData.Datas = nrl7title
+	}
+}
+
+// 删除护理
+func (c NRL7Controller) DeleteRecord(w *fit.Response, r *fit.Request, p fit.Params) {
+	defer c.ResponseToJson(w)
+	// 文书ID
+	rid := r.FormValue("rid")
+	if rid == "" {
+		c.RenderingJsonAutomatically(3, "参数不完整")
+	}
+	id, err := strconv.ParseInt(rid, 10, 64)
+	if err != nil {
+		fit.Logger().LogError("Error", "nrl1 update :", err)
+		c.RenderingJsonAutomatically(3, "rid 错误！")
+		return
+	}
+
+
+	nrl := model.NRL7{}
+
+	_, err18 := nrl.DeleteData(id)
+	if err18 != nil {
+		fit.Logger().LogError("nrl8 add :", err18)
+		c.RenderingJsonAutomatically(3, "删除失败！")
+	} else {
+		c.RenderingJsonAutomatically(0, "删除成功！")
 	}
 }

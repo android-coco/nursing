@@ -29,25 +29,25 @@
     <div class="m-msg">
         <ul>
             <li class="b1">
-                姓名:<span>{{.Pinfo.VAA05}}</span>
+                姓名:<span>{{.PInfo.VAA05}}</span>
             </li>
             <li class="b1">
-                性别:<span>{{.Pinfo.Gender}}</span>
+                性别:<span>{{.PInfo.Gender}}</span>
             </li>
             <li class="b1">
-                年龄:<span>{{.Pinfo.VAA10}}岁</span>
+                年龄:<span>{{.PInfo.VAA10}}岁</span>
             </li>
             <li class="b1">
-                科室:<span>{{.Pinfo.BCK03C}}</span>
+                科室:<span>{{.PInfo.BCK03C}}</span>
             </li>
             <li class="b1">
-                床号:<span>{{.Pinfo.BCQ04}}</span>
+                床号:<span>{{.PInfo.BCQ04}}</span>
             </li>
             <li class="b1">
-                住院号:<span>{{.Pinfo.VAA04}}</span>
+                住院号:<span>{{.PInfo.VAA04}}</span>
             </li>
             <li class="b2">
-                诊断内容：<span>{{.Pinfo.VAO15}}</span>
+                诊断内容：<span>{{.PInfo.VAO15}}</span>
             </li>
         </ul>
     </div>
@@ -516,11 +516,11 @@
     $('input[type=radio]').on('click',function(){
         var ischeck = $(this).data("check");
         if(!ischeck){
-            $(this).parents('ul').find("input[type=radio]").data("check","0")
-            $(this).data("check","1");
+            $(this).parents('ul').find("input[type=radio]").data("check",0)
+            $(this).data("check",1);
         }else{
             $(this).prop('checked',false);
-            $(this).data("check","0");
+            $(this).data("check",0);
         }
     })
 
@@ -535,9 +535,9 @@
                 // 护士名
                 "username": {{.Account.Username}},
                 //病人id
-                "pid": {{.Pinfo.VAA01}},
+                "pid": {{.PInfo.VAA01}},
                 // 科室id
-                "did": {{.Pinfo.BCK01C}},
+                "did": {{.PInfo.BCK01C}},
                 // "nrl_id":{{.Rid}}
                 /***---------------------**/
             }

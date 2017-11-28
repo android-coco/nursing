@@ -1,4 +1,4 @@
-var myChart = echarts.init(document.getElementById('data-main'));
+
 
 
 var colorObj = {
@@ -55,7 +55,8 @@ option = {
         // shadowColor: "#000",
         // width: 901.25,
         width:805.875,
-        height: 1000,
+        // height: 1000,
+        height:  1000,
         // left: 128.75,
         left :116.125,
         top: 0,
@@ -495,8 +496,7 @@ option = {
     ],
 };
 
-// 为echarts对象加载数据
-myChart.setOption(option);
+
 
 //生成从minNum到maxNum的随机数
 function randomNum(minNum, maxNum) {

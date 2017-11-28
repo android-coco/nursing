@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"nursing/model"
+
 	"time"
 	"fmt"
 	"crypto/sha1"
@@ -9,7 +9,7 @@ import (
 )
 
 //数据库模型转JSON 数据
-func Transfer(slice []model.I_BaseMoel) []interface{} {
+/*func Transfer(slice []model.I_BaseMoel) []interface{} {
 	var ifSlice = make([]model.I_BaseMoel, len(slice))
 	for idx, v := range slice {
 		ifSlice[idx] = v
@@ -19,7 +19,7 @@ func Transfer(slice []model.I_BaseMoel) []interface{} {
 		intfaceSlice[idx] = v
 	}
 	return intfaceSlice
-}
+}*/
 
 //  函数执行时间
 func Trace(msg string) func() {

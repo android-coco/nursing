@@ -23,7 +23,7 @@ type PatientInfo struct {
 type VAA1Dup struct {
 	VAA1         `xorm:"extends"`
 	BDP02 string `json:"type"`   // type病人类型 BDP1表 自费
-	//VAA61 int    `json:"status"` // 2: 住院
+	VAA61 int    `json:"status"` // 2: 住院
 }
 
 /*病人登录记录*/
@@ -48,6 +48,7 @@ type VAO2 struct {
 /*手术记录*/
 type VAT1 struct {
 	VAA01 int64     // 病人ID
+	VAT04 int       // 手术状态
 	VAT08 time.Time // 手术日期
 }
 
@@ -56,7 +57,7 @@ func GetPatientInfo(patientId string) ([]PatientInfo, error) {
 	responseObj := make([]PatientInfo, 0)
 	patient := VAA1Dup{}
 	// 查询病人详情
-	_, err := fit.MySqlEngine().SQL("select VAA01, VAA04, VAA05, ABW01, VAA10, BDP02, BCK01B, BCQ04, VAA73, ABQ02 from VAA1 where VAA01 = ? order by VAA01 desc", patientId).Get(&patient)
+	_, err := fit.MySqlEngine().SQL("select VAA01, VAA04, VAA05, ABW01, VAA10, BDP02, BCK01C, BCQ04, VAA73, ABQ02 from VAA1 where VAA01 = ?", patientId).Get(&patient)
 
 	if err == nil && patient.VAA01 != 0 {
 		patientInfo := PatientInfo{}
@@ -64,11 +65,11 @@ func GetPatientInfo(patientId string) ([]PatientInfo, error) {
 		// 费用：VAK1.VAK20, VAK1.VAK21 (VAK1.VAA01 = ? )
 		//_, err = fit.SQLServerEngine().SQL("select VAE1.BCE03B, VAE1.BCE03C from VAE1 where VAE1.VAA01 = ?", patientId).Limit(1, 0).Get(&patientInfo)
 
-		_, err = fit.SQLServerEngine().SQL("select VAE1.BCE03B, VAE1.BCE03C, BBY1.BCF01 as AAG01 from VAE1, BBY1 where VAE1.BCK01C = ? and VAE1.VAE44 in ('1','2') and VAE1.VAA01 = ? and BBY1.BBY01 = VAE1.AAG01 order by VAE1.VAE01 desc", patient.BCK01C, patient.VAA01).Get(&patientInfo)
+		_, err = fit.SQLServerEngine().SQL("select VAE1.BCE03B, VAE1.BCE03C, BBY1.BCF01 as AAG01 from VAE1, BBY1 where VAE1.BCK01C = ? and VAE1.VAE44 in ('1','2') and VAE1.VAA01 = ? and BBY1.BBY01 = VAE1.AAG01 order by VAE1.VAE11 desc", patient.BCK01C, patient.VAA01).Get(&patientInfo)
 		_, err = fit.SQLServerEngine().SQL("select BCK03 as BCK03C from BCK1 where BCK01 = ?", patient.BCK01C).Get(&patientInfo)
-
+		hospitalDate := patientInfo.VAA73.ParseToSecond()
 		// 查询诊断症状
-		_, err = fit.SQLServerEngine().SQL("select VAO2.VAO15 from VAO2 where VAO2.VAA01 = ? order by VAO2.VAO19 desc", patient.VAA01).Get(&patientInfo)
+		_, err = fit.SQLServerEngine().SQL("select VAO2.VAO15 from VAO2 where VAO2.VAO19 > ? and VAO2.ACF01 = 2 and VAO2.VAA01 = ? order by VAO2.VAO19 desc", hospitalDate, patient.VAA01).Get(&patient)
 
 		// 8.判断性别
 		if patientInfo.ABW01 == "1" || patientInfo.ABW01 == "M" {
@@ -89,17 +90,17 @@ func QueryPatientInfo(patientId, departmentId int) ([]PatientInfo, error) {
 	responseObj := make([]PatientInfo, 0)
 	patient := VAA1Dup{}
 	// 查询病人详情
-	_, err := fit.MySqlEngine().SQL("select VAA01, VAA04, VAA05, ABW01, VAA10, BDP02, VAA61, BCK01B, BCQ04, VAA73, ABQ02 from VAA1 where VAA61 = 2 and BCQ04 != 0 and BCK01B = ? and VAA01 = ?", departmentId, patientId).Get(&patient)
+	_, err := fit.MySqlEngine().SQL("select VAA01, VAA04, VAA05, ABW01, VAA10, BDP02, BCK01C, BCQ04, VAA73, ABQ02 from VAA1 where BCK01C = ? and VAA01 = ?", departmentId, patientId).Get(&patient)
 
 	if err == nil && patient.VAA01 != 0 {
 		patientInfo := PatientInfo{}
 		patientInfo.VAA1Dup = patient
 		// 费用：VAK1.VAK20, VAK1.VAK21 (VAK1.VAA01 = ? )
-		_, err = fit.SQLServerEngine().SQL("select VAE1.BCE03B, VAE1.BCE03C, BBY1.BCF01 as AAG01 from VAE1, BBY1 where VAE1.BCK01C = ? and VAE1.VAE44 in ('1','2') and VAE1.VAA01 = ? and BBY1.BBY01 = VAE1.AAG01 order by VAE1.VAE01 desc", patient.BCK01C, patient.VAA01).Get(&patientInfo)
-		_, err = fit.SQLServerEngine().SQL("select BCK03 as BCK03C from BCK1 where BCK01 = ?", patient.BCK01C).Get(&patientInfo)
-
+		_, err = fit.SQLServerEngine().SQL("select VAE1.BCE03B, VAE1.BCE03C, BBY1.BCF01 as AAG01 from VAE1, BBY1 where VAE1.BCK01C = ? and VAE1.VAE44 in ('1','2') and VAE1.VAA01 = ? and BBY1.BBY01 = VAE1.AAG01 order by VAE1.VAE11 desc", patient.BCK01C, patient.VAA01).Get(&patientInfo)
+		_, err = fit.SQLServerEngine().SQL("select BCK03 as BCK03C from BCK1 where BCK01 = ?", departmentId).Get(&patientInfo)
+		hospitalDate := patientInfo.VAA73.ParseToSecond()
 		// 查询诊断症状
-		_, err = fit.SQLServerEngine().SQL("select VAO2.VAO15 from VAO2 where VAO2.VAA01 = ? order by VAO2.VAO19 desc", patient.VAA01).Get(&patientInfo)
+		_, err = fit.SQLServerEngine().SQL("select VAO2.VAO15 from VAO2 where VAO2.VAO19 > ? and VAO2.ACF01 = 2 and VAO2.VAA01 = ? order by VAO2.VAO19 desc", hospitalDate, patient.VAA01).Get(&patient)
 
 		// 8.判断性别
 		if patientInfo.ABW01 == "1" || patientInfo.ABW01 == "M" {
@@ -115,10 +116,12 @@ func QueryPatientInfo(patientId, departmentId int) ([]PatientInfo, error) {
 	return responseObj, err
 }
 
-/*查询住院期间的手术记录  pid: 病人ID， date：最近一次住院的住院日期*/
-func FetchOperationRecordsDuringHospitalization(pid int64, date string) ([]VAT1, error) {
+/*查询住院期间的么个时间前后的手术记录 */
+func FetchOperationRecordsDuringHospitalization(pid int64, startdate string,enddate string) ([]VAT1, error) {
 	records := make([]VAT1, 0)
 	// VAT04 = 4 表示已结束手术
-	err := fit.SQLServerEngine().SQL("select VAA01, VAT08 from VAT1 where VAA01 = ? and VAT08 > ? and VAT04 = 4", pid, date).Find(&records)
+	err := fit.SQLServerEngine().SQL("select VAA01, VAT08 from VAT1 where VAA01 = ? and VAT08 > ? and VAT08 < ? and VAT04 in (2,3,4)", pid, startdate ,enddate).Find(&records)
 	return records, err
 }
+
+

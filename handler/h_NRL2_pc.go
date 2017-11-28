@@ -79,6 +79,8 @@ func (c PCNRL2Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Param
 	NRL39B := tempTime.Format("2006-01-02")
 	NRL39C := tempTime.Format("15:04")
 
+	fmt.Printf("user info %+v:", userinfo)
+
 	c.Data = fit.Data{
 		"Userinfo":  userinfo, // 护士信息
 		"PInfo":     pInfo,    // 病人信息

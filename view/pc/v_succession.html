@@ -1,7 +1,7 @@
 {{template "header_top" .}}
 <div class="admin">
     <!-- sidebar start -->
-    {{template "header_side" .}}
+{{template "header_side" .}}
     <!-- sidebar end -->
     <div class="content-page jky-table-page" data-index="1">
         <div class="user-bar">
@@ -14,18 +14,18 @@
                 </div>
             </div>
             <div class="user-list">
-                {{range .Patients}}
+            {{range .Patients}}
                 <ul>
                     <li data-id="{{.VAA01}}" data-msg="{{.VAO15}}">
                         <div class="l">
-                            {{.BCQ04}}
+                        {{.BCQ04}}
                         </div>
                         <div class="r">
-                            {{.VAA05}}
+                        {{.VAA05}}
                         </div>
                     </li>
                 </ul>
-                {{end}}
+            {{end}}
             </div>
         </div>
         <!-- Start content -->
@@ -39,8 +39,8 @@
                 </div>
                 <div class="cont-bar">
                     <div class="btn-group">
-                        <a href="" class="btn">打印</a>
-                        <a href="" class="btn">导出</a>
+                        <span class="btn print">打印</span>
+                    {{/*<a href="" class="btn">导出</a>*/}}
                         <button class="btn type2" id="savedata">保存</button>
                     </div>
                 </div>
@@ -55,12 +55,12 @@
                                 <div class="input-bar l">
                                     <label for="t1-t1">原有病人:</label>
                                     <input type="text" id="t1-t1" value="{{.d_NoldPatient}}" {{if .d_Disabled}} disabled
-                                           {{end}}/>
+                                    {{end}}/>
                                 </div>
                                 <div class="input-bar r">
                                     <label for="t1-t2">现有病人:</label>
                                     <input type="text" id="t1-t2" value="{{.d_NnowPatient}}" {{if .d_Disabled}} disabled
-                                           {{end}}/>
+                                    {{end}}/>
                                 </div>
                             </div>
                             <div class="row2">
@@ -77,32 +77,32 @@
                                 <div class="input-bar">
                                     <label for="t1-t5">转入:</label>
                                     <input type="text" id="t1-t5" value="{{.d_Ninto}}" {{if .d_Disabled}} disabled
-                                           {{end}}/>
+                                    {{end}}/>
                                 </div>
                                 <div class="input-bar">
                                     <label for="t1-t6">转出:</label>
                                     <input type="text" id="t1-t6" value="{{.d_Nout}}" {{if .d_Disabled}} disabled
-                                           {{end}}/>
+                                    {{end}}/>
                                 </div>
                                 <div class="input-bar f">
                                     <label for="t1-t7">手术:</label>
                                     <input type="text" id="t1-t7" value="{{.d_Nsurgery}}" {{if .d_Disabled}} disabled
-                                           {{end}}/>
+                                    {{end}}/>
                                 </div>
                                 <div class="input-bar">
                                     <label for="t1-t8">分娩:</label>
                                     <input type="text" id="t1-t8" value="{{.d_Nchildbirth}}" {{if .d_Disabled}} disabled
-                                           {{end}}/>
+                                    {{end}}/>
                                 </div>
                                 <div class="input-bar">
                                     <label for="t1-t9">危重:</label>
                                     <input type="text" id="t1-t9" value="{{.d_Ncritically}}" {{if .d_Disabled}} disabled
-                                           {{end}}/>
+                                    {{end}}/>
                                 </div>
                                 <div class="input-bar">
                                     <label for="t1-t10">死亡:</label>
                                     <input type="text" id="t1-t10" value="{{.d_Ndeath}}" {{if .d_Disabled}} disabled
-                                           {{end}}/>
+                                    {{end}}/>
                                 </div>
                                 <div class="input-bar f">
                                     <label for="t1-t11">特护:</label>
@@ -122,12 +122,12 @@
                                 <div class="input-bar l">
                                     <label for="t2-t1">原有病人:</label>
                                     <input type="text" id="t2-t1" value="{{.n_NoldPatient}}" {{if .n_Disabled}} disabled
-                                           {{end}}/>
+                                    {{end}}/>
                                 </div>
                                 <div class="input-bar r">
                                     <label for="t2-t2">现有病人:</label>
                                     <input type="text" id="t2-t2" value="{{.n_NnowPatient}}" {{if .n_Disabled}} disabled
-                                           {{end}}/>
+                                    {{end}}/>
                                 </div>
                             </div>
                             <div class="row2">
@@ -144,32 +144,32 @@
                                 <div class="input-bar">
                                     <label for="t2-t5">转入:</label>
                                     <input type="text" id="t2-t5" value="{{.n_Ninto}}" {{if .n_Disabled}} disabled
-                                           {{end}}/>
+                                    {{end}}/>
                                 </div>
                                 <div class="input-bar">
                                     <label for="t2-t6">转出:</label>
                                     <input type="text" id="t2-t6" value="{{.n_Nout}}" {{if .n_Disabled}} disabled
-                                           {{end}}/>
+                                    {{end}}/>
                                 </div>
                                 <div class="input-bar f">
                                     <label for="t2-t7">手术:</label>
                                     <input type="text" id="t2-t7" value="{{.n_Nsurgery}}" {{if .n_Disabled}} disabled
-                                           {{end}}/>
+                                    {{end}}/>
                                 </div>
                                 <div class="input-bar">
                                     <label for="t2-t8">分娩:</label>
                                     <input type="text" id="t2-t8" value="{{.n_Nchildbirth}}" {{if .n_Disabled}} disabled
-                                           {{end}}/>
+                                    {{end}}/>
                                 </div>
                                 <div class="input-bar">
                                     <label for="t2-t9">危重:</label>
                                     <input type="text" id="t2-t9" value="{{.n_Ncritically}}" {{if .n_Disabled}} disabled
-                                           {{end}}/>
+                                    {{end}}/>
                                 </div>
                                 <div class="input-bar">
                                     <label for="t2-t10">死亡:</label>
                                     <input type="text" id="t2-t10" value="{{.n_Ndeath}}" {{if .n_Disabled}} disabled
-                                           {{end}}/>
+                                    {{end}}/>
                                 </div>
                                 <div class="input-bar f">
                                     <label for="t2-t11">特护:</label>
@@ -184,18 +184,18 @@
                             </div>
                         </li>
                         <li class="tit4 last">
-                            <p class="name" > 夜班 </p>
+                            <p class="name"> 夜班 </p>
                             <p hidden id="n_type">{{1}}</p>
                             <div class="row1">
                                 <div class="input-bar l">
                                     <label for="t3-t1">原有病人:</label>
                                     <input type="text" id="t3-t1" value="{{.N_NoldPatient}}" {{if .N_Disabled}} disabled
-                                           {{end}}/>
+                                    {{end}}/>
                                 </div>
                                 <div class="input-bar r">
                                     <label for="t3-t2">现有病人:</label>
                                     <input type="text" id="t3-t2" value="{{.N_NnowPatient}}" {{if .N_Disabled}} disabled
-                                           {{end}}/>
+                                    {{end}}/>
                                 </div>
                             </div>
                             <div class="row2">
@@ -212,32 +212,32 @@
                                 <div class="input-bar">
                                     <label for="t3-t5">转入:</label>
                                     <input type="text" id="t3-t5" value="{{.N_Ninto}}" {{if .N_Disabled}} disabled
-                                           {{end}}/>
+                                    {{end}}/>
                                 </div>
                                 <div class="input-bar">
                                     <label for="t3-t6">转出:</label>
                                     <input type="text" id="t3-t6" value="{{.N_Nout}}" {{if .N_Disabled}} disabled
-                                           {{end}}/>
+                                    {{end}}/>
                                 </div>
                                 <div class="input-bar f">
                                     <label for="t3-t7">手术:</label>
                                     <input type="text" id="t3-t7" value="{{.N_Nsurgery}}" {{if .N_Disabled}} disabled
-                                           {{end}}/>
+                                    {{end}}/>
                                 </div>
                                 <div class="input-bar">
                                     <label for="t3-t8">分娩:</label>
                                     <input type="text" id="t3-t8" value="{{.N_Nchildbirth}}" {{if .N_Disabled}} disabled
-                                           {{end}}/>
+                                    {{end}}/>
                                 </div>
                                 <div class="input-bar">
                                     <label for="t3-t9">危重:</label>
                                     <input type="text" id="t3-t9" value="{{.N_Ncritically}}" {{if .N_Disabled}} disabled
-                                           {{end}}/>
+                                    {{end}}/>
                                 </div>
                                 <div class="input-bar">
                                     <label for="t3-t10">死亡:</label>
                                     <input type="text" id="t3-t10" value="{{.N_Ndeath}}" {{if .N_Disabled}} disabled
-                                           {{end}}/>
+                                    {{end}}/>
                                 </div>
                                 <div class="input-bar f">
                                     <label for="t3-t11">特护:</label>
@@ -254,11 +254,11 @@
                     </ul>
                     <div class="td-warp">
                         <!-- 行 -->
-                        {{$d_Disabled := .d_Disabled}}
-                        {{$n_Disabled := .n_Disabled}}
-                        {{$N_Disabled := .N_Disabled}}
+                    {{$d_Disabled := .d_Disabled}}
+                    {{$n_Disabled := .n_Disabled}}
+                    {{$N_Disabled := .N_Disabled}}
 
-                        {{range .Successiondetails}}
+                    {{range .Successiondetails}}
                         <div class="td-row f" data-id="{{.PatientId}}" data-ty="{{.ID}}">
                             <div class="cont1">
                                 <div class="txt-warp">
@@ -273,7 +273,10 @@
                                 </div>
                                 <div class="sel">
 
-                                    <select id="row1-sel" class="sel-input" {{if or ( or (and $d_Disabled .Comment1) (and $n_Disabled .Comment2) ) (and $N_Disabled .Comment3) }} disabled  data-isdel="1"{{end}}>
+                                    <select id="row1-sel"
+                                            class="sel-input" {{if or ( or (and $d_Disabled .Comment1) (and $n_Disabled .Comment2) ) (and $N_Disabled .Comment3) }}
+                                            disabled data-isdel="1"{{end}}>
+                                        <option {{if eq .Typte 0 }} selected="" {{end}} value="0"> </option>
                                         <option {{if eq .Typte 1 }} selected="" {{end}} value="1">入院</option>
                                         <option {{if eq .Typte 2 }} selected="" {{end}} value="2">出院</option>
                                         <option {{if eq .Typte 3 }} selected="" {{end}} value="3">转入</option>
@@ -300,7 +303,7 @@
                                           disabled {{end}}>{{.Comment3}}</textarea>
                             </div>
                         </div>
-                        {{end}}
+                    {{end}}
 
                         <!--{{range .n_Successiondetails}}
                         <div class="td-row" data-id="000">
@@ -386,11 +389,14 @@
                 <div class="autograph-bar">
                     <ul>
                         <li class="first"></li>
-                        <li><label>签名:</label> <input type="text" id="nursing_1" value="{{.d_NursingName}}" {{if $d_Disabled}}
+                        <li><label>签名:</label> <input type="text" id="nursing_1"
+                                                      value="{{.d_NursingName}}" {{if $d_Disabled}}
                                                       disabled {{end}}/></li>
-                        <li><label>签名:</label> <input type="text" id="nursing_2" value="{{.n_NursingName}}" {{if $n_Disabled}}
+                        <li><label>签名:</label> <input type="text" id="nursing_2"
+                                                      value="{{.n_NursingName}}" {{if $n_Disabled}}
                                                       disabled {{end}}/></li>
-                        <li><label>签名:</label> <input type="text" id="nursing_3" value="{{.n_NursingName}}" {{if $N_Disabled}}
+                        <li><label>签名:</label> <input type="text" id="nursing_3"
+                                                      value="{{.n_NursingName}}" {{if $N_Disabled}}
                                                       disabled {{end}}/></li>
                     </ul>
                 </div>
@@ -420,6 +426,7 @@
 
 
 
+
 </script>
 
 <script id="setRow" type="tmpl">
@@ -435,7 +442,8 @@
             </div>
             <div class="sel">
                 <select class="sel-input">
-                <option selected="" value="1">入院</option>
+                <option selected="" value="0"> </option>
+                <option value="1">入院</option>
                 <option value="2">出院</option>
                 <option value="3">转入</option>
                 <option value="4">转出</option>
@@ -447,6 +455,7 @@
                 <option value="10">一级护理</option>
                 </select>
             </div>
+
 
 
 
@@ -483,7 +492,7 @@
 
     function nowDate() {
         var res = {},
-            nowD = new Date();
+                nowD = new Date();
         res.date = nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
         res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
         return res
@@ -496,10 +505,11 @@
             return i;
         }
     }
+
     var urlDataTime = getURLParam("datatime");
-    if(urlDataTime){
+    if (urlDataTime) {
         urlDataTime = decodeURI(urlDataTime)
-        console.log(fromatDate(urlDataTime),urlDataTime)
+        console.log(fromatDate(urlDataTime), urlDataTime)
         laydate.render({
             elem: '.date-input', //指定元素
             showBottom: false,
@@ -510,11 +520,11 @@
 //            console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
 //
 //            console.log("kai zi sb")
-                location.href="./succession?datatime="+value+" 00:00:00"
+                location.href = "./succession?datatime=" + value + " 00:00:00"
                 // window.location.href = "";
             }
         });
-    }else{
+    } else {
         laydate.render({
             elem: '.date-input', //指定元素
             showBottom: false,
@@ -525,31 +535,30 @@
 //            console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
 //
 //            console.log("kai zi sb")
-                location.href="./succession?datatime="+value+" 00:00:00"
+                location.href = "./succession?datatime=" + value + " 00:00:00"
                 // window.location.href = "";
             }
         });
     }
 
 
-
     function createRow(index) {
 
-        var d_Disabled={{.d_Disabled}}
-        var n_Disabled={{.n_Disabled}}
-        var N_Disabled={{.N_Disabled}}
+        var d_Disabled ={{.d_Disabled}}
+        var n_Disabled ={{.n_Disabled}}
+        var N_Disabled ={{.N_Disabled}}
 
         var $row = $($('#newrow').text());
         // $row.data('id',id)
         $row.find('.sel-input').attr('id', 'row' + index + '-sel')
-        if(d_Disabled){
-            $row.find('.textarea-input').eq(0).attr('disabled','disabled')
+        if (d_Disabled) {
+            $row.find('.textarea-input').eq(0).attr('disabled', 'disabled')
         }
-        if(n_Disabled){
-            $row.find('.textarea-input').eq(1).attr('disabled','disabled')
+        if (n_Disabled) {
+            $row.find('.textarea-input').eq(1).attr('disabled', 'disabled')
         }
-        if(N_Disabled){
-            $row.find('.textarea-input').eq(2).attr('disabled','disabled')
+        if (N_Disabled) {
+            $row.find('.textarea-input').eq(2).attr('disabled', 'disabled')
         }
         $row.find('.textarea-input').eq(0).attr('id', 'row' + index + '-msg1')
         $row.find('.textarea-input').eq(1).attr('id', 'row' + index + '-msg2')
@@ -570,9 +579,9 @@
         }
 
         var cont = $el.data('msg'),
-            bedId = $el.find('.l').text(),
-            userName = $el.find('.r').text(),
-            $targetEl = null;
+                bedId = $el.find('.l').text(),
+                userName = $el.find('.r').text(),
+                $targetEl = null;
 
         var newRowHelper = isCreateRow();
         if (newRowHelper.res) {
@@ -603,9 +612,9 @@
 
     function isCreateRow() {
         var $tdRow = $('.td-row'),
-            res = false,
-            cout = 0,
-            index = 0;
+                res = false,
+                cout = 0,
+                index = 0;
         for (var i = 0; i < $tdRow.length; i++) {
             if (!$tdRow.eq(i).data('id')) {
                 // index = cout - 1;
@@ -633,7 +642,7 @@
         // var $userList = $('.user-list'),
         //     currentId = $userList.find('li').eq(index).data('id'),
         var $tdRow = $('.td-row'),
-            res = false;
+                res = false;
         // console.log(currentId)
         for (var i = 0; i < $tdRow.length; i++) {
             if ($tdRow.eq(i).data('id') == currentId) {
@@ -653,13 +662,13 @@
     var CommentDelet = []
 
     //del
-    $('body').on('click','.del',function(){
-        if($(this).parents('.td-row').find('.row1-sel').data('isdel')=="1"){
+    $('body').on('click', '.del', function () {
+        if ($(this).parents('.td-row').find('.row1-sel').data('isdel') == "1") {
             alert("不能删除")
-        }else{
+        } else {
             var ty = $(this).parents('.td-row').data("ty")
             ty = ty.toString()
-            if(ty!="0"){
+            if (ty != "0") {
                 CommentDelet.push(ty);
             }
             $(this).parents('.td-row').remove();
@@ -684,7 +693,7 @@
 
     function throttle(func, wait, option) {
         var previous = 0, //之前的时间
-            timeout, self, args, result;
+                timeout, self, args, result;
 
         var later = function () {
             previous = nowFn();
@@ -740,10 +749,16 @@
         }
 
     }
+    // 打印交接班
+    $(function () {
+        $('.print').on('click', function () {
+            window.open("/pc/successprint?datatime="+$('#datatime').val())
+        });
+    });
 
     //保存方法
     $(function () {
-        var  nurse = {{.Userinfo}};
+        var nurse = {{.Userinfo}};
 
         $('#savedata').on('click', function () {
             var datatime = $('#datatime').val() + " 00:00:00";//时间
@@ -795,7 +810,7 @@
             var str_d = '{ "datatime":"' + datatime + '"'
                     + ', "type": "' + 1 + '"'
                     + ', "nursingname":"' + nursing_a + '"'
-                    + ', "nursingid":"' + nurse.UID+ '"'
+                    + ', "nursingid":"' + nurse.UID + '"'
                     + ', "classid":"' + nurse.DepartmentID + '"'
                     + ', "noldpatient": "' + t1 + '"'
                     + ', "nnowpatient": "' + t2 + '"'
@@ -811,40 +826,40 @@
                     + ', "nprimarycare": "' + t12 + '" }';
 
             var str_n = '{ "datatime": "' + datatime + '"'
-                + ', "type": "' + 2 + '"'
-                + ', "nursingname": "' + nursing_b + '"'
-                + ', "nursingid": "' + nurse.UID + '"'
-                + ', "classid": "' + nurse.DepartmentID + '"'
-                + ', "noldpatient": "' + n_t1 + '"'
-                + ', "nnowpatient": "' + n_t2 + '"'
-                + ', "ninthospital": "' + n_t3 + '"'
-                + ', "nouthospital": "' + n_t4 + '"'
-                + ', "ninto": "' + n_t5 + '"'
-                + ', "nout": "' + n_t6 + '"'
-                + ', "nsurgery": "' + n_t7 + '"'
-                + ', "nchildbirth": "' + n_t8 + '"'
-                + ', "ncritically": "' + n_t9 + '"'
-                + ', "ndeath": "' + n_t10 + '"'
-                + ', "nintensivecare": "' + n_t11 + '"'
-                + ', "nprimarycare": "' + n_t12 + '" }';
+                    + ', "type": "' + 2 + '"'
+                    + ', "nursingname": "' + nursing_b + '"'
+                    + ', "nursingid": "' + nurse.UID + '"'
+                    + ', "classid": "' + nurse.DepartmentID + '"'
+                    + ', "noldpatient": "' + n_t1 + '"'
+                    + ', "nnowpatient": "' + n_t2 + '"'
+                    + ', "ninthospital": "' + n_t3 + '"'
+                    + ', "nouthospital": "' + n_t4 + '"'
+                    + ', "ninto": "' + n_t5 + '"'
+                    + ', "nout": "' + n_t6 + '"'
+                    + ', "nsurgery": "' + n_t7 + '"'
+                    + ', "nchildbirth": "' + n_t8 + '"'
+                    + ', "ncritically": "' + n_t9 + '"'
+                    + ', "ndeath": "' + n_t10 + '"'
+                    + ', "nintensivecare": "' + n_t11 + '"'
+                    + ', "nprimarycare": "' + n_t12 + '" }';
 
             var str_g = '{ "datatime": "' + datatime + '"'
-                + ', "type": "' + 3 + '"'
-                + ', "nursingname": "' + nursing_c + '"'
-                + ', "nursingid": "' + nurse.UID + '"'
-                + ', "classid": "' + nurse.DepartmentID + '"'
-                + ', "noldpatient": "' + y_t1 + '"'
-                + ', "nnowpatient": "' + y_t2 + '"'
-                + ', "ninthospital": "' + y_t3 + '"'
-                + ', "nouthospital": "' + y_t4 + '"'
-                + ', "ninto": "' + y_t5 + '"'
-                + ', "nout": "' + y_t6 + '"'
-                + ', "nsurgery": "' + y_t7 + '"'
-                + ', "nchildbirth": "' + y_t8 + '"'
-                + ', "ncritically": "' + y_t9 + '"'
-                + ', "ndeath": "' + y_t10 + '"'
-                + ', "nintensivecare": "' + y_t11 + '"'
-                + ', "nprimarycare": "' + y_t12 + '" }';
+                    + ', "type": "' + 3 + '"'
+                    + ', "nursingname": "' + nursing_c + '"'
+                    + ', "nursingid": "' + nurse.UID + '"'
+                    + ', "classid": "' + nurse.DepartmentID + '"'
+                    + ', "noldpatient": "' + y_t1 + '"'
+                    + ', "nnowpatient": "' + y_t2 + '"'
+                    + ', "ninthospital": "' + y_t3 + '"'
+                    + ', "nouthospital": "' + y_t4 + '"'
+                    + ', "ninto": "' + y_t5 + '"'
+                    + ', "nout": "' + y_t6 + '"'
+                    + ', "nsurgery": "' + y_t7 + '"'
+                    + ', "nchildbirth": "' + y_t8 + '"'
+                    + ', "ncritically": "' + y_t9 + '"'
+                    + ', "ndeath": "' + y_t10 + '"'
+                    + ', "nintensivecare": "' + y_t11 + '"'
+                    + ', "nprimarycare": "' + y_t12 + '" }';
 
             var d_Disabled = {{.d_Disabled}}
             var n_Disabled = {{.n_Disabled}}
@@ -866,38 +881,38 @@
 
             //var obj = JSON.parse(str); //由JSON字符串转换为JSON对象
             //var jk_name = {{.d_NursingName}}
-             console.log("***: ",nursing_a)
+            console.log("***: ", nursing_a)
 
             console.log(str_c);
-            var reqData ={
-                 Day_Shift:str_d,
-                 Night_Shift:str_n,
-                 Graveyard_Shift:str_g,
-                 Comment_Shift:str_c,
-                 Comment_Delet:JSON.stringify(CommentDelet)
-             }
+            var reqData = {
+                Day_Shift: str_d,
+                Night_Shift: str_n,
+                Graveyard_Shift: str_g,
+                Comment_Shift: str_c,
+                Comment_Delet: JSON.stringify(CommentDelet)
+            }
 //             if(CommentDelet.length){
 //                 reqData.Comment_Delet=JSON.stringify(CommentDelet)
 //             }
 //
-             $.post("/pc/succession", reqData, function (json, status) {
-                 //console.log(json, status);
-                  if (json.result == 0 ) {
-                      alert(json.errmsg)
-                  } else  {
-                      alert(json.errmsg)
-                  }
-             }, 'json');
+            $.post("/pc/succession", reqData, function (json, status) {
+                //console.log(json, status);
+                if (json.result == 0) {
+                    alert(json.errmsg)
+                } else {
+                    alert(json.errmsg)
+                }
+            }, 'json');
         });
 
 
-        function getData(){
+        function getData() {
             var res = [];
             var datatime = $('#datatime').val() + " 00:00:00";
             var classid = nurse.DepartmentID;
             classid = classid.toString()
-            $('.td-row').each(function(i,el){
-                res[i]={};
+            $('.td-row').each(function (i, el) {
+                res[i] = {};
                 res[i]['datatime'] = datatime || "";
                 res[i]['classid'] = classid || "";
                 res[i]['bedid'] = $.trim($(el).find('.first.bedId').text()) || "";
@@ -916,25 +931,24 @@
     });
 
 
-
 </script>
 
 <script>
-   /* $(function () {
-        $(".td-warp").find(".td-row f").each(function (i, el) {
-            el.val()
-        })
+    /* $(function () {
+         $(".td-warp").find(".td-row f").each(function (i, el) {
+             el.val()
+         })
 
-        var patient1 = $("#t1-t1").val()
+         var patient1 = $("#t1-t1").val()
 
-        $.post("",
-            {}, function (json) {
+         $.post("",
+             {}, function (json) {
 
-            }, 'json');
+             }, 'json');
 
 
-        var jsonstr = '{}'
-    })*/
+         var jsonstr = '{}'
+     })*/
 </script>
 
 </body>

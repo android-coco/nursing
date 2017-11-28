@@ -7,8 +7,8 @@
         </div>
         <div class="jky-tab-hd">
             <ul>
-                <li ><a href="/pc/medicaladvice/message">医嘱查询</a></li>
-                <li class="active"><a href="/pc/medicaladvice/Detail">执行明细</a></li>
+                <li ><a href="/pc/madvice/search">医嘱查询</a></li>
+                <li class="active"><a href="/pc/madvice/exec/state">执行明细</a></li>
             </ul>
         </div>
     </div>
@@ -38,7 +38,7 @@
                         </div>
                         <div class="user-warp">
                             <div class="tit-bar">
-                                <input type="checkbox" id="all-btn"> <label for="all-btn">全部患者</label>
+                                <input type="checkbox" id="all-btn" checked> <label for="all-btn">全部患者</label>
                             </div>
 
                             <div class="user-bar">
@@ -53,9 +53,9 @@
                                 <div class="user-list">
                                     <ul>
                                         {{range .Patients}}
-                                        <li data-id="{{.VAA01}}" data-msg="{{.VAO15}}">
+                                        <li data-id="{{.VAA01}}">
                                             <div class="l">
-                                                <input type="checkbox"><label>{{.BCQ04}}</label>
+                                                <input type="checkbox" checked><label>{{.BCQ04}}</label>
                                             </div>
                                             <div class="r">
                                                 {{.VAA05}}
@@ -72,73 +72,72 @@
                                 <div class="sel-filter-box">
                                     <div class="input-box">
                                         <label for="">医嘱类别:</label>
-                                        <select name="" id="">
-                                                    <option selected="" value="全部">全部</option>
-                                                    <option selected="" value="药品">药品</option>
-                                                    <option selected="" value="检验">检验</option>
-                                                    <option selected="" value="诊疗">诊疗</option>
-                                                </select>
+                                        <select class="adviceType" id="sel1">
+                                            <option value="0">全部</option>
+                                            <option value="N">护理</option>
+                                            <option value="T">治疗</option>
+                                            <option value="E">检查</option>
+                                            <option value="L">检验</option>
+                                            <option value="1">西药</option>
+                                            <option value="2">中成药</option>
+                                            <option value="3">中草药</option>
+                                            <option value="4">卫生材料</option>
+                                            <option value="7">体检</option>
+                                            <option value="8">方剂</option>
+                                            <option value="9">方案</option>
+                                            <option value="A">麻醉</option>
+                                            <option value="B">输血</option>
+                                            <option value="P">病理</option>
+                                            <option value="S">手术</option>
+                                            <option value="O">输氧</option>
+                                            <option value="D">营养</option>
+                                            <option value="M">材料</option>
+                                            <option value="Z">其它</option>
+                                        </select>
                                     </div>
                                     <div class="input-box">
                                         <label for="">长期/临时:</label>
-                                        <select name="" id="">
-                                                <option selected="" value="全部">全部</option>
-                                                <option value="长期">长期</option>
-                                                <option value="临时">临时</option>
+                                        <select  id="sel2" class="advicePeriod">
+                                                <option selected="" value="0">全部</option>
+                                                <option value="1">长期</option>
+                                                <option value="2">临时</option>
                                             </select>
                                     </div>
                                     <div class="input-box">
                                         <label for="">医嘱执行状态:</label>
-                                        <select name="" id="">
-                                                <option selected="" value="全部">全部</option>
-                                                <option value="未停">未停</option>
-                                                <option value="已停">已停</option>
-                                                <option value="撤销">撤销</option>
-                                            </select>
-                                    </div>
-                                    <div class="input-box">
-                                        <label for="">用法:</label>
-                                        <select name="" id="">
-                                                    <option selected="" value="全部">全部</option>
-                                                    <option value="静脉注射">静脉注射</option>
-                                                    <option value="肌注">肌注</option>
-                                                    <option value="口服">口服</option>
-                                                    <option value="泵入">泵入</option>
-                                                    <option value="雾化吸收">雾化吸收</option>
-                                                    <option value="皮下注射">皮下注射</option>
-                                                    <option value="皮内注射">皮内注射</option>
-                                                    <option value="腔内注射">腔内注射</option>
-                                                    <option value="输血">输血</option>
-                                                    <option value="灌肠">灌肠</option>
-                                                    <option value="其它">其它</option>
+                                        <select id="sel3" class="adviceState">
+                                                <option selected="" value="0">全部</option>
+                                                <option value="1">未执行</option>
+                                                <option value="2">正在执行</option>
+                                                <option value="3">已结束</option>
                                             </select>
                                     </div>
                                 </div>
                                 <br>
-                                <div class="sel-date-box">
+                                <div class="sel-date-box timeSel">
                                     <span >时间：</span>
                                     <div class="input-box">
-                                        <input type="radio" id="all-radio" name="date">
+                                        <input type="radio" id="all-radio" name="date" data-type="all" checked>
                                         <label for="all-radio">全部</label>
                                     </div>
                                     <div class="input-box">
-                                        <input type="radio" id="today-radio" name="date">
+                                        <input type="radio" id="today-radio" name="date" data-type="today">
                                         <label for="today-radio">当天</label>
                                     </div>
 
                                     <div class="input-box">
-                                        <input type="radio" id="week-radio" name="date">
+                                        <input type="radio" id="week-radio" name="date" data-type="week">
                                         <label for="week-radio">近一周</label>
                                     </div>
                                     <div class="input-box type2">
-                                        <input type="radio" id="today-radio" name="date">
-                                        <input type="text" class="date-input">
+                                        <input type="radio" id="today-radio" name="date"data-type="timeblock">
+                                        <input type="text" class="date-input" id="stime">
                                         <span>-</span>
-                                        <input type="text" class="date-input2">
+                                        <input type="text" class="date-input2" id="etime">
                                     </div>
 
                                     <span class="search-btn">
-                                        确定
+                                        搜索
                                     </span>
                                 </div>
 
@@ -181,59 +180,42 @@
                                                     <th class="th11">执行状态</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-
-                                            {{range $k,$v:=.advicefits}}
-                                                <tr  {{ if eq $k 0}} class="active" {{end}}>
+                                            <tbody class="change-div">
+                                            {{/*<tr  class="{{ if eq $k 0}} active{{end}}" >*/}}
+                                            {{range .MAdvices}}
+                                                <tr class="mad-select" data-mid="{{.Madid}}">
                                                     <td>
-                                                        {{.Patient.BCQ04}}
+                                                        {{.Bed}}
                                                     </td>
                                                     <td>
-                                                        {{.Patient.VAA05}}
+                                                        {{.PatientName}}
                                                     </td>
                                                     <td class="tc">
-                                                        {{if eq .Advice.VAF53 -1}} 普通 {{end}}
-                                                        {{if eq .Advice.VAF53  0}} 口服单 {{end}}
-                                                        {{if eq .Advice.VAF53  1}} 注射单 {{end}}
-                                                        {{if eq .Advice.VAF53  2}} 输液单 {{end}}
-                                                        {{if eq .Advice.VAF53  3}} 治疗单 {{end}}
-                                                        {{if eq .Advice.VAF53  4}} 皮试单 {{end}}
-                                                        {{if eq .Advice.VAF53  5}} 输血单 {{end}}
-                                                        {{if eq .Advice.VAF53  6}} 护理单 {{end}}
-                                                        {{if eq .Advice.VAF53  9}} 其它 {{end}}
+                                                        {{.Category}}
                                                     </td>
                                                     <td>
                                                         <p>
-                                                            {{.Advice.VAF22}}
+                                                            {{.Content}}
                                                         </p>
                                                     </td>
                                                     <td class="tc">
                                                         <p>
-                                                            {{.Advice.VAF18}}
+                                                            {{.Dosage}}
                                                         </p>
                                                     </td>
-                                                    <td class="tc">{{.Advice.VAF26}}</td>
+                                                    <td class="tc">{{.Frequency}}</td>
                                                     <td class="tc">
-                                                        {{if eq .Advice.VAF53 -1}} 普通 {{end}}
-                                                        {{if eq .Advice.VAF53  0}} 口服单 {{end}}
-                                                        {{if eq .Advice.VAF53  1}} 注射单 {{end}}
-                                                        {{if eq .Advice.VAF53  2}} 输液单 {{end}}
-                                                        {{if eq .Advice.VAF53  3}} 治疗单 {{end}}
-                                                        {{if eq .Advice.VAF53  4}} 皮试单 {{end}}
-                                                        {{if eq .Advice.VAF53  5}} 输血单 {{end}}
-                                                        {{if eq .Advice.VAF53  6}} 护理单 {{end}}
-                                                        {{if eq .Advice.VAF53  9}} 其它 {{end}}
+                                                        {{.Method}}
                                                     </td>
                                                     <td class="tc">
-                                                        {{if eq .Advice.VAF11  1}} 长期 {{end}}
-                                                        {{if eq .Advice.VAF11  2}} 临时 {{end}}
+                                                        {{if eq .TypeOf 1}} 长期 {{else}} 临时 {{end}}
                                                     </td>
                                                     <td class="tc">
-                                                        {{.Advice.VAF36}}
+                                                        {{.StartTime}}
                                                     </td>
-                                                    <td class="tc">{{.Advice.BCE03A}}</td>
+                                                    <td class="tc">{{.Nursename}}</td>
                                                     <td class="tc td11">
-                                                        执行结束
+                                                        {{.Process}}
                                                     </td>
                                                 </tr>
                                             {{end}}
@@ -247,33 +229,6 @@
                                         </div>
                                         <ul class="list-data">
 
-                                            {{if ne (len .advicefits) 0}}
-                                            {{with (index .advicefits 0)}}
-                                            {{range .Advicestates}}
-                                            <li>
-                                                <div class="block1">{{.Time}}</div>
-                                                <div class="block2">{{.State}}</div>
-                                                <div class="block3">{{.NurseName}}</div>
-                                            </li>
-                                            {{end}}
-                                            {{end}}
-                                            {{end}}
-
-                                            <!--<li>
-                                                <div class="block1">2017-08-31 10:00 </div>
-                                                <div class="block2">核药，存在错误</div>
-                                                <div class="block3">小芳</div>
-                                            </li>
-                                            <li>
-                                                <div class="block1">2017-08-31 10:00 </div>
-                                                <div class="block2">已摆药</div>
-                                                <div class="block3">小芳</div>
-                                            </li>
-                                            <li>
-                                                <div class="block1">2017-08-31 10:00 </div>
-                                                <div class="block2">已摆药</div>
-                                                <div class="block3">小芳</div>
-                                            </li>-->
                                         </ul>
                                     </div>
                                 </div>
@@ -379,10 +334,6 @@
 
                 $('.user-warp').hide();
             }
-
-
-
-
         })
 
         var nowDateObj = nowDate();
@@ -466,6 +417,177 @@
         $('.warp-table-box').on('click', 'tr', function() {
             $('.warp-table-box').find('.active').removeClass('active')
             $(this).addClass('active')
+            var mid = $(this).data("mid")
+            $.get("/pc/madvice/exec/detail", {
+                "madid":mid
+            }, function (json, status) {
+                if (json.result == 0) {
+                    var resArr = json.datas;
+                    var html = '';
+                    for (var i = 0; i < resArr.length; i++) {
+                        var obj = resArr[i]
+                        html += "<li>\n" +
+                                "<div class=\"block1\">"+obj.exectime+" </div>\n" +
+                                "<div class=\"block2\">"+obj.process+"</div>\n" +
+                                "<div class=\"block3\">"+obj.nursename+"</div>\n" +
+                                "</li>"
+                    }
+                    $(".list-data").html(html)
+                } else {
+                    alert(json.errmsg)
+                }
+            }, 'json');
+        })
+
+        // $('.subMit').click(function(){
+        //     // 动作触发后执行的代码!!
+        //     var res ={}
+        //     res["patient_id"]=$.trim( $tr.data("pid")) || ""
+        // });
+
+
+        //全选反选
+        $("#all-btn").on("click", function () {
+            if($(this).prop("checked")){
+                $(".user-bar").find("input[type=checkbox]").prop("checked",true);
+            }else{
+                $(".user-bar").find("input[type=checkbox]").prop("checked",false);
+            }
+        })
+        $("body").on("click",".user-bar input[type=checkbox]",function(){
+            var checklist = $(".user-bar input[type=checkbox]");
+            var len = checklist.length,sum=0;
+            checklist.each(function(i,el){
+                if($(el).prop("checked")){
+                    sum++;
+                }
+            })
+            if(len == sum){
+                $("#all-btn").prop("checked",true)
+            }else{
+                $("#all-btn").prop("checked",false)
+            }
+        })
+
+
+        $(".user-bar").on("click","li",function(e){
+            var eTagName=$(e.target)[0].tagName
+            var $check = $(this).find("input[type=checkbox]")
+            if(eTagName.toLowerCase() != "input"){
+
+                var isCheck = $check.prop("checked")
+                $check.prop("checked",!isCheck)
+
+                var checklist = $(".user-bar input[type=checkbox]");
+                var len = checklist.length,sum=0;
+                checklist.each(function(i,el){
+                    if($(el).prop("checked")){
+                        sum++;
+                    }
+                })
+                if(len == sum){
+                    $("#all-btn").prop("checked",true)
+                }else{
+                    $("#all-btn").prop("checked",false)
+                }
+            }
+        })
+
+
+        $('.search-btn').on('click',function () {
+            var userList = [],res={};
+            var checkedEl=$(".user-list").find("input[type=checkbox]:checked")
+            checkedEl.each(function(i,el){
+                var val = $(el).parents("li").data("id")
+                if(val){
+                    userList.push(val)
+                }
+            })
+
+            res["patients"] =  userList.join(",")
+            res["category"] = $("#sel1").val()
+            res["type"] = $("#sel2").val()
+            res["state"] = $("#sel3").val()
+
+            var typeStr = $(".timeSel").find("input[type=radio]:checked").data("type")
+            var todayDate = fromatDate().date;
+            var todayTimeStamp = (new Date(todayDate+" 00:00:00")).getTime()
+            var weekTimeStamp = todayTimeStamp - (24*60*60*1000)*6
+            var weekDate = fromatDate(weekTimeStamp).date
+
+            switch (typeStr){
+                case "all":
+                    res["starttime"] = "all"
+                    res["endtime"] = "all"
+                    break;
+                case "today":
+                    res["starttime"] = todayDate+" 00:00:00"
+                    res["endtime"] = todayDate+" 23:59:59"
+                    break;
+                case "week":
+                    res["starttime"] = weekDate+" 00:00:00"
+                    res["endtime"] = todayDate+" 23:59:59"
+                    break;
+                case "timeblock":
+                    res["starttime"] = $.trim($("#stime").val())+" 00:00:00"
+                    res["endtime"] = $.trim(todayDate)+" 23:59:59"
+                    break;
+                case "default":
+                    console.log("no type")
+            }
+            // console.log(res)
+
+            $.post("/pc/madvice/exec/search", res, function (json, status) {
+                if (json.result == 0) {
+                    var resArr = json.datas;
+                    var html = '';
+
+                    for (var i = 0; i < resArr.length; i++) {
+                        var obj = resArr[i]
+                        var typeString = obj.TypeOf == 1 ? "长期" : "临时"
+
+                        html += "<tr data-mid=\""+obj.Madid+"\">\n" +
+                                "<td>\n" +
+                                ""+obj.Bed+"\n" +
+                                "</td>\n" +
+                                "<td>\n" +
+                                ""+obj.PatientName+"\n" +
+                                "</td>\n" +
+                                "<td class=\"tc\">\n" +
+                                ""+obj.Category+"\n" +
+                                "</td>\n" +
+                                "<td>\n" +
+                                "<p>\n" +
+                                ""+obj.Content+"\n" +
+                                "</p>\n" +
+                                "</td>\n" +
+                                "<td class=\"tc\">\n" +
+                                "<p>\n" +
+                                ""+obj.Dosage+"\n" +
+                                "</p>\n" +
+                                "</td>\n" +
+                                "<td class=\"tc\">"+obj.Frequency+"</td>\n" +
+                                "<td class=\"tc\">\n" +
+                                ""+obj.Method+"\n" +
+                                "</td>\n" +
+                                "<td class=\"tc\">\n" +
+                                ""+typeString+"\n" +
+                                "</td>\n" +
+                                "<td class=\"tc\">\n" +
+                                ""+obj.StartTime+"\n" +
+                                "</td>\n" +
+                                "<td class=\"tc\">"+obj.Nursename+"</td>\n" +
+                                "<td class=\"tc td11\">\n" +
+                                ""+obj.Process+"\n" +
+                                "</td>\n" +
+                                "</tr>"
+                    }
+                    $(".change-div").html(html)
+                    $(".list-data").html("")
+                } else {
+                    alert(json.errmsg)
+                }
+            }, 'json');
         })
     </script>
 </body>

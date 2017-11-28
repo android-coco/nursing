@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/amazeui.css">
+    {{/*<link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/core.css">*/}}
+    {{/*<link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/menu.css">*/}}
+    {{/*<link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/admin.css">*/}}
+    <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/page/typography.css">
+    <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/page/form.css">
+    <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/component.css">
+    <link rel="stylesheet" href="/static/dist/style/css/base_pc.min.css">
+    <link rel="stylesheet" href="/static/dist/style/css/style-chart.min.css">
+    <style>
+        .table-data-box table .tab-cont-box .data-warp{
+            height: 700px;
+        }
+        .table-data-box table .data-box .bg_line .line-warp{
+            height: 740px;
+        }
+        .tab-tit{
+            /*font-size:20px;*/
+        }
+        .sub-msg-box .sub-tit{
+            /*font-size:20px;*/
+        }
+        .main-box{
+            padding: 10px 50px 0 50px;
+            margin:0 auto;
+        }
+        footer{
+            line-height: 40px;
+            margin:0;
+        }
+        .table-data-box table .data-box .tit-bottom .yw{
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body style="overflow: auto;">
+<div class="temperature-box">
+    <div class="scroll-box">
+        <div class="main-box">
+            <p class="tab-tit">
+                深圳万丰医院
+            </p>
+            <div class="sub-msg-box">
+                <div class="bar">
+                    <div class="l"><label></label> <span></span></div>
+                    <div class="r"><label></label><span></span></div>
+
+                </div>
+                <div class="bar" id="patient-info">
+                    <div class="l">
+                        <label>姓名</label> <span id="pinfo-name">你猜</span>
+                        <label>性别</label> <span class="t4" id="pinfo-sex">你猜</span>
+                        <label>年龄</label> <span class="t3" id="pinfo-age">你猜</span>
+                        <label>入院日期</label> <span class="t2" id="pinfo-date-year">2017</span>
+                        <label>年</label><span class="t2" id="pinfo-date-month">10</span>
+                        <label>月</label><span class="t2"
+                                              id="pinfo-date-day">10</span><label>日</label>
+                        <label>病区</label><span id="pinfo-bed1">XX区</span>
+                        <label>床号</label><span id="pinfo-bed2">N105</span>
+                        <label>住院号</label><span id="pinfo-bed3">100010</span>
+                    </div>
+                </div>
+
+                <span class="sub-tit">体温表</span>
+            </div>
+            <div class="table-data-box">
+                <table>
+                    <tbody>
+                    <tr id="date-tr">
+                        <td class="tit" colspan="2" style="width: 106.75px;margin-top:-1px">日&nbsp;&nbsp;期</td>
+                        <td class="" style="width: 106.75px;">2017-15-12</td>
+                        <td class="br-led" style="width: 106.75px;">2</td>
+                        <td class="br-led" style="width: 106.75px;">3</td>
+                        <td class="br-led" style="width: 106.75px;"></td>
+                        <td class="br-led" style="width: 106.75px;"></td>
+                        <td class="br-led" style="width: 106.75px;"></td>
+                        <td class="br-led" style="width: 106.75px;"></td>
+                    </tr>
+                    <tr id="datenum1-tr">
+                        <td class="tit" colspan="2">住院日数</td>
+                        <td class="">2017-15-12</td>
+                        <td class="br-led">2</td>
+                        <td class="br-led">3</td>
+                        <td class="br-led"></td>
+                        <td class="br-led"></td>
+                        <td class="br-led"></td>
+                        <td class="br-led"></td>
+                        <!--<td class="last-td"></td>-->
+                    </tr>
+                    <tr id="datenum2-tr">
+                        <td class="tit" colspan="2">手术或产后日数</td>
+                        <td class="">2017-15-12</td>
+                        <td class="br-led">
+
+                        </td>
+                        <td class="br-led">3</td>
+                        <td class="br-led"></td>
+                        <td class="br-led"></td>
+                        <td class="br-led"></td>
+                        <td class="br-led"></td>
+                        <!--<td class="last-td"></td>-->
+                    </tr>
+                    <tr class="time-bar">
+                        <td class="tit bt0" colspan="2">时&nbsp;&nbsp;间</td>
+                        <td class="bt0 ">
+                            <div class="time-hd">
+                                <span>上午</span>
+                                <span>下午</span>
+                            </div>
+                            <div class="time-num">
+                                <span>4</span>
+                                <span>8</span>
+                                <span>12</span>
+                                <span>4</span>
+                                <span>8</span>
+                                <span>12</span>
+                            </div>
+                        </td>
+                        <td class="bt0 br-led">
+                            <div class="time-hd">
+                                <span>上午</span>
+                                <span>下午</span>
+                            </div>
+                            <div class="time-num">
+                                <span>4</span>
+                                <span>8</span>
+                                <span>12</span>
+                                <span>4</span>
+                                <span>8</span>
+                                <span>12</span>
+                            </div>
+                        </td>
+                        <td class="bt0 br-led">
+                            <div class="time-hd">
+                                <span>上午</span>
+                                <span>下午</span>
+                            </div>
+                            <div class="time-num">
+                                <span>4</span>
+                                <span>8</span>
+                                <span>12</span>
+                                <span>4</span>
+                                <span>8</span>
+                                <span>12</span>
+                            </div>
+                        </td>
+                        <td class="bt0 br-led">
+                            <div class="time-hd">
+                                <span>上午</span>
+                                <span>下午</span>
+                            </div>
+                            <div class="time-num">
+                                <span>4</span>
+                                <span>8</span>
+                                <span>12</span>
+                                <span>4</span>
+                                <span>8</span>
+                                <span>12</span>
+                            </div>
+                        </td>
+                        <td class="bt0 br-led">
+                            <div class="time-hd">
+                                <span>上午</span>
+                                <span>下午</span>
+                            </div>
+                            <div class="time-num">
+                                <span>4</span>
+                                <span>8</span>
+                                <span>12</span>
+                                <span>4</span>
+                                <span>8</span>
+                                <span>12</span>
+                            </div>
+                        </td>
+                        <td class="bt0 br-led">
+                            <div class="time-hd">
+                                <span>上午</span>
+                                <span>下午</span>
+                            </div>
+                            <div class="time-num">
+                                <span>4</span>
+                                <span>8</span>
+                                <span>12</span>
+                                <span>4</span>
+                                <span>8</span>
+                                <span>12</span>
+                            </div>
+                        </td>
+                        <td class="bt0 br-led">
+                            <div class="time-hd">
+                                <span>上午</span>
+                                <span>下午</span>
+                            </div>
+                            <div class="time-num">
+                                <span>4</span>
+                                <span>8</span>
+                                <span>12</span>
+                                <span>4</span>
+                                <span>8</span>
+                                <span>12</span>
+                            </div>
+                        </td>
+                        <!--<td class="last-td"></td>-->
+                    </tr>
+
+
+                    <tr class="data-box">
+                        <td class="btop1" colspan="2">&nbsp;
+                            <span class="mb-tit sel" data-val="3">
+                                                        脉搏<br>
+                                                        (次/分)
+                                                    </span>
+                            <span class="wd-tit sel">
+                                                        体温
+                                                        <br>
+                                                        ℃
+                                                    </span>
+                            <div class="tit-bottom">
+                                <ul>
+                                    <li class="kw sel" data-val="1">口表<span class="icon"></span>
+                                    </li>
+                                    <li class="yw sel" data-val="0">腋表<span
+                                            class="icon">X</span></li>
+                                    <li class="gw sel" data-val="2">肛表<span class="icon"></span>
+                                    </li>
+                                    <li class="mb sel" data-val="3">脉搏<span class="icon"></span>
+                                    </li>
+                                    <li class="xl sel" data-val="4">心率<span class="icon"></span>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </td>
+                        <td colspan="7" class="tab-cont-box" id="incident-td">
+                            <div class="data-warp">
+                                {{/*height: 1200px;*/}}
+                                <div id="data-main" style="width: 921px; height: 900px;"></div>
+                            </div>
+                            <!--width:851px;-->
+
+                            <div class="bg_line">
+                                <div class="line-warp">
+                                    <div class="line">死亡</div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                </div>
+                                <div class="line-warp br-led">
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                </div>
+                                <div class="line-warp br-led">
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                </div>
+                                <div class="line-warp br-led">
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                </div>
+                                <div class="line-warp br-led">
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                </div>
+                                <div class="line-warp br-led">
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                </div>
+                                <div class="line-warp br-led">
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="hx-tr" id="hxc_bar">
+                        <td class="tit" colspan="2">呼吸(次/分)</td>
+                        <td class="btop0">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </td>
+                        <td class="btop0">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </td>
+                        <td class="btop0">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </td>
+                        <td class="btop0">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </td>
+                        <td class="btop0">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </td>
+                        <td class="btop0">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </td>
+                        <td class="btop0">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </td>
+                    </tr>
+                    <tr id="intake-tr">
+                        <td class="tit" colspan="2">输入液量(ml)</td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                    </tr>
+                    <tr id="output3-tr">
+                        <td rowspan="3">
+                            抛<br>出<br>量
+                        </td>
+                        <td class="tit">大便<br>(次)</td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                    </tr>
+                    <tr id="output2-tr">
+                        <td class="tit">尿量<br>(ml)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+                    <tr id="output1-tr">
+                        <td class="tit">其他</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="xy-bar" id="pressure-tr" style="height:47px">
+                        <td class="tit" colspan="2">血&nbsp;&nbsp;压<br>(mmHg)</td>
+                        <td>
+                            <span class="l">12</span>
+                            <div class="line"></div>
+                            <span class="r">12</span>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+                    <tr id="weight-tr">
+                        <td class="tit" colspan="2">体&nbsp;&nbsp;重<br>(kg)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr id="skin-tr">
+                        <td class="tit" colspan="2">皮&nbsp;&nbsp;试</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="tit" colspan="2">其&nbsp;&nbsp;他</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <footer>
+                    <div>
+                        第
+                        <span id="weekindex-span">1</span> 周
+                    </div>
+                </footer>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/static/dist/js/lib/jquery.min.js"></script>
+<script src="/static/dist/js/lib/echarts.common.min.js"></script>
+
+<script>
+    var temp1 = [];
+    var temp2 = [];
+    var temp3 = [];
+
+    var pulse = [];
+    var heartrate = [];
+    console.log(temp1)
+    var menuIndex = "0-0"
+
+
+</script>
+<script src="/static/dist/js/lib/echarts-data.js"></script>
+
+<script src="/static/common.js"></script>
+<script>
+    console.log(option)
+    option.grid.height=700;
+    var myChart = echarts.init(document.getElementById('data-main'));
+    // 为echarts对象加载数据
+    myChart.setOption(option);
+</script>
+
+</body>
+</html>

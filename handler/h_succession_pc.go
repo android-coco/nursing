@@ -34,7 +34,7 @@ func (c PCSuccessController) Get(w *fit.Response, r *fit.Request, p fit.Params) 
 			return
 		}
 		Data["Patients"] = response
-		fit.Logger().LogError("gk dd", len(response))
+		//fit.Logger().LogError("gk dd", response ,classid)
 
 		successions, err1 := model.OutSuccession("datatime = ? and classid = ?", starttime, classid)
 

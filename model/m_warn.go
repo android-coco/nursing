@@ -38,6 +38,7 @@ func (m Warn) ParseWarnType(value string) (WarnType, error) {
 }
 
 func (m Warn) InsertData() (int64, error) {
+	fit.Logger().LogInfo("InsertData()InsertData()InsertData()InsertData()")
 	has, err1 := fit.MySqlEngine().Where("WarnTime = ?", m.WarnTime).Exist(&Warn{})
 	if has {
 		return 0, fmt.Errorf("there has the same warn")

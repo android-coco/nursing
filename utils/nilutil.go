@@ -1,5 +1,7 @@
 package utils
 
+import "strconv"
+
 //string是否为空
 func WhetherStrNiu (str string)bool{
 	if len(str) == 0{
@@ -54,3 +56,12 @@ func Substr2(str string, start int, end int) string {
 
 	return string(rs[start:end])
 }
+
+func Int64Value(str string) (int64, error) {
+	return strconv.ParseInt(str, 10, 64)
+}
+
+func FormatInt64(num int64) string  {
+	return strconv.FormatInt(num, 10)
+}
+

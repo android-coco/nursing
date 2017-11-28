@@ -23,7 +23,7 @@
                         </div>
                         <div class="user-warp">
                             <div class="tit-bar">
-                                <input type="checkbox" id="all-btn"> <label for="all-btn">全部患者</label>
+                                <input type="checkbox" id="all-btn" checked> <label for="all-btn">全部患者</label>
                             </div>
 
                             <div class="user-bar">
@@ -38,9 +38,9 @@
                                 <div class="user-list">
                                     <ul>
                                         {{range .Patients}}
-                                        <li data-id="{{.VAA01}}" data-msg="{{.VAO15}}">
+                                        <li>
                                             <div class="l">
-                                                <input type="checkbox"><label>{{.BCQ04}}</label>
+                                                <input class="user-list-input" data-pid="{{.VAA01}}" type="checkbox" checked><label>{{.BCQ04}}</label>
                                             </div>
                                             <div class="r">
                                                 {{.VAA05}}
@@ -59,7 +59,7 @@
                                     </span>
 
                                     <div class="input-box">
-                                        <input type="radio" id="today-radio" name="date">
+                                        <input type="radio" id="today-radio" name="date" checked>
                                         <label for="today-radio">今天</label>
                                     </div>
                                     <div class="input-box">
@@ -67,75 +67,92 @@
                                         <label for="tomorrow-radio">明日</label>
                                     </div>
                                     <div class="input-box type2">
-                                        <input type="radio" id="today-radio" name="date">
+                                        <input type="radio" id="select-radio" name="date">
                                         <input type="text" class="date-input">
                                     </div>
-                                    <div class="search-btn">确认</div>
+                                    <button type="button" class="search-btn">搜索</button> >
                                 </div>
                                 <div class="sel-filter-box">
                                     <div class="input-box">
                                         <span class="pd-20">长期/临时:</span>
                                         <div class="input-box">
-                                            <input type="radio" id="radio1-1" name="group1">
-                                            <label for="radio1-1">长期</label>
+                                            <input type="radio" id="longTerm-radio" name="group1">
+                                            <label for="longTerm-radio">长期</label>
                                         </div>
                                         <div class="input-box">
-                                            <input type="radio" id="radio1-2" name="group1">
-                                            <label for="radio1-2">临时</label>
+                                            <input type="radio" id="shortTerm-radio" name="group1">
+                                            <label for="shortTerm-radio">临时</label>
                                         </div>
                                         <div class="input-box">
-                                            <input type="radio" id="radio1-3" name="group1">
-                                            <label for="radio1-3">全部</label>
+                                            <input type="radio" id="allTerm-radio" name="group1" checked>
+                                            <label for="allTerm-radio">全部</label>
                                         </div>
                                     </div>
 
                                 </div>
                                 <br>
-                                <div class="sel-filter-box br1">
+                                <div class="sel-filter-box">
                                     <div class="input-box">
                                         <span>打印类型：</span>
                                         <div class="input-box">
-                                            <input type="radio" id="radio2-1" name="group2">
-                                            <label for="radio1-1">执行单</label>
+                                            <input type="radio" id="excution" name="group2" checked>
+                                            <label for="excution">执行单</label>
                                         </div>
+                                        <span style="font-size:14px;min-width: 10px;">(</span>
                                         <div class="input-box">
-                                            <input type="radio" id="radio2-2" name="group2">
-                                            <label for="radio1-2">瓶签</label>
-                                        </div>
-                                        <div class="input-box">
-                                            <input type="checkbox" id="check2-1" name="group2-2">
+                                            <input type="checkbox" id="check2-1" name="group2-2" class="check-1">
                                             <label for="check2-1">输液单</label>
                                         </div>
                                         <div class="input-box">
-                                            <input type="checkbox" id="check2-2" name="group2-2">
+                                            <input type="checkbox" id="check2-2" name="group2-2" class="check-1">
                                             <label for="check2-2">口服单</label>
                                         </div>
                                         <div class="input-box">
-                                            <input type="checkbox" id="check2-3" name="group2-2">
-                                            <label for="check2-3">治疗单</label>
+                                            <input type="checkbox" id="check2-3" name="group2-2" class="check-1">
+                                            <label for="check2-3">注射单</label>
                                         </div>
+                                        <div class="input-box">
+                                            <input type="checkbox" id="check2-4" name="group2-2" class="check-1">
+                                            <label for="check2-4">治疗单</label>
+                                        </div>
+                                        <span style="font-size:14px; min-width: 10px;">)</span>
+                                        <div class="input-box" style="margin-left: 20px">
+                                            <input type="radio" id="label" name="group2">
+                                            <label for="label">瓶签</label>
+                                        </div>
+                                        <span style="font-size:14px;min-width: 10px;">(</span>
+                                        <div class="input-box">
+                                            <input type="checkbox" id="check3-1" name="group3-1"  class="check-2">
+                                            <label for="check3-1">输液标签</label>
+                                        </div>
+                                        <div class="input-box">
+                                            <input type="checkbox" id="check3-2" name="group3-2"  class="check-2">
+                                            <label for="check3-2">检验标签</label>
+                                        </div>
+                                        <span style="font-size:14px;min-width: 10px;">)</span>
                                     </div>
                                 </div>
+                                <br>
                                 <div class="sel-filter-box">
                                     <div class="input-box">
-                                        <span class="pd-20">打印状态：</span>
+                                        <span >打印状态：</span>
                                         <div class="input-box">
-                                            <input type="radio" id="radio3-1" name="group3">
-                                            <label for="radio3-1">未打印</label>
+                                            <input type="radio" id="nonPrint-radio" name="group3">
+                                            <label for="nonPrint-radio">未打印</label>
                                         </div>
                                         <div class="input-box">
-                                            <input type="radio" id="radio3-2" name="group3">
-                                            <label for="radio3-2">已打印</label>
+                                            <input type="radio" id="printed-radio" name="group3">
+                                            <label for="printed-radio">已打印</label>
                                         </div>
                                         <div class="input-box">
-                                            <input type="radio" id="radio3-3" name="group3">
-                                            <label for="radio3-3">全部</label>
+                                            <input type="radio" id="allPrint-radio" name="group3" checked>
+                                            <label for="allPrint-radio">全部</label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="btn-group fr">
-                                <a href="" class="btn type3">打印标签</a>
+                                <a class="btn type3">打印标签</a>
                                 <!-- <a href="" class="btn type2">保存</a> -->
                             </div>
                         </div>
@@ -153,6 +170,7 @@
                                                 <th class="th6">数量</th>
                                                 <th class="th7">频次</th>
                                                 <th class="th8">用法</th>
+                                                <th class="th11">滴速(滴/分)</th>
                                                 <th class="th9">长期/临时</th>
                                                 <th class="th10">打印状态</th>
                                             </tr>
@@ -169,45 +187,46 @@
                                                 <th class="th6">数量</th>
                                                 <th class="th7">频次</th>
                                                 <th class="th8">用法</th>
+                                                <th class="th11">滴速(滴/分)</th>
                                                 <th class="th9">长期/临时</th>
                                                 <th class="th10">打印状态</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                        {{range .advicefits}}
-                                            <tr>
-                                                <td>
-                                                    <div class="table-input-bar">
-                                                        <input type="checkbox">
-                                                        <label for="">{{.Patient.BCQ04}}</label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    {{.Patient.VAA05}}
-                                                </td>
-                                                <td>
-                                                    2017-09-18 18:00
-                                                </td>
-                                                <td>
-                                                    {{.Advice.VAF22}}
-                                                </td>
-                                                <td class="tc">
-                                                    {{.Advice.VAF18}}
-                                                </td>
-                                                <td class="tc">
-                                                    {{.Advice.VAF21}}
-                                                </td>
-                                                <td class="tc">{{.Advice.VAF26}}</td>
-                                                <td class="tc">静滴</td>
-                                                <td class="tc">
-                                                    {{if eq .Advice.VAF11  1}} 长期 {{end}}
-                                                    {{if eq .Advice.VAF11  2}} 临时 {{end}}
-                                                </td>
-                                                <td class="td10">
-                                                    <span class="l"> 已打印</span>
-                                                    <span class="r">序号1/3</span>
-                                                </td>
-                                            </tr>
+                                        <tbody class="change-div">
+                                        {{range .MAdvices}}
+                                        <tr>
+                                            <td>
+                                                <div class="table-input-bar">
+                                                    <input type="checkbox" data-mid="{{.Madid}}">
+                                                    <label for="">{{.Bed}}</label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                            {{.PatientName}}
+                                            </td>
+                                            <td>
+                                            {{.ExexTime}}
+                                            </td>
+                                            <td>
+                                            {{.Content}}
+                                            </td>
+                                            <td class="tc">
+                                            {{.Dosage}}
+                                            </td>
+                                            <td class="tc">
+                                            {{.Count}}
+                                            </td>
+                                            <td class="tc">{{.Times}}</td>
+                                            <td class="tc">{{.Method}}</td>
+                                            <td class="tc">{{.Speed}}</td>
+                                            <td class="tc">
+                                            {{if eq .TypeOf  1}} 长期 {{else}} 临时 {{end}}
+                                            </td>
+                                            <td class="td10">
+                                                <span class="l"> {{.PrintState}}</span>
+                                                <span class="r">序号{{.PrintOrdinal}}/{{.Times}}</span>
+                                            </td>
+                                        </tr>
                                         {{end}}
                                         </tbody>
                                     </table>
@@ -240,10 +259,232 @@
     <script src="/static/dist/js/lib/laydate/laydate.js"></script>
     <script src="/static/common.js"></script>
 
-    <script>
+    <script type = "text/javascript">
+
+        function getDate(diff)
+        {
+            var dt = new Date();
+            dt.setDate(dt.getDate() + diff);
+
+            return dt.getFullYear() + "-" +
+                (dt.getMonth() + 1 ) + "-" + dt.getDate() ;
+        }
+
         /**
          * 节流函数
          */
+        var qo = { print:{values:[]}};
+
+        function retriveQueryCriteria()
+        {
+            var executionList = {
+                "check2-1": 2,  //输液单 2
+                "check2-2": 0,  //口服单 0
+                "check2-3": 1,  //注射单 1
+                "check2-4": 3  //治疗单 3
+            };
+
+            var lableList = {
+                "check3-1": 0,
+                "check3-2": 1
+            };
+
+            qo.print.values = [];
+            if(qo.print.type == "excution") {
+                $(".check-1").each(function() {
+                    if($(this).prop("checked")) {
+                        qo.print.values.push(executionList[$(this).attr("id")]);
+                    }
+                });
+            }else if(qo.print.type == "label") {
+                $(".check-2").each(function() {
+                    if($(this).prop("checked")) {
+                        qo.print.values.push(lableList[$(this).attr("id")]);
+                    }
+                });
+            }
+        }
+
+
+        function setDefaultValue()
+        {
+            $('#today-radio').attr("checked", true);
+            qo.time = getDate(0);
+
+            $('#allTerm-radio').attr("checked", true);
+            qo.term = 0;
+
+            $('#executionOrder').attr("checked", true);
+            qo.print.type = "excution";
+
+            $('#allPrint-radio').attr("checked", true);
+            qo.print.status = '0';
+
+            $('.date-input').attr("disabled",true);
+
+            $(".check-1").prop("checked",true);
+            $(".check-2").prop("checked",false);
+        }
+        $(document).ready(function () {            
+
+            $("#all-btn").click(function(){
+                $("div.user-list").find("input[type='checkbox']").attr("checked", 
+                    $(this).attr('checked') === "checked" ? true: false);
+            });
+
+            //time
+            $("div.sel-date-box").find("input[type='radio']").click(function(){
+                var id = $(this).attr("id");
+                if(id == "today-radio") {
+                    qo.time = getDate(0);
+                    $('.date-input').attr("disabled",true);
+                }else if(id == "tomorrow-radio") {
+                    qo.time = getDate(1);
+                    $('.date-input').attr("disabled",true);
+
+                }else if(id == "select-radio") {
+                    $('.date-input').removeAttr("disabled");
+                }
+            });
+            //term
+            $('div.input-box').find("input[name='group1']").click(function() {
+                var id = $(this).attr("id");
+                if(id == "longTerm-radio") {
+                    qo.term = 1;
+                }else if(id == "shortTerm-radio") {
+                    qo.term = 2;
+                }else if(id == "allTerm-radio") {
+                    qo.term = 0;
+                }
+            });
+            //print type
+
+            $('div.input-box').find("input[name='group2']").change(function() {
+                var id = $(this).attr("id");
+                if(id == "excution") {
+                    qo.print.type = "excution";
+                     if($(this).prop("checked")){
+                        $(".check-1").prop("checked",true)
+                        $(".check-2").prop("checked",false)
+                    }else{
+                        $(".check-1").prop("checked",false)
+                        $(".check-2").prop("checked",true)
+                    }
+                }else if(id == "label") {
+                    qo.print.type = "label";
+                    if($(this).prop("checked")){
+                        $(".check-2").prop("checked",true)
+                        $(".check-1").prop("checked",false)
+                    }else{
+                        $(".check-2").prop("checked",false)
+                        $(".check-1").prop("checked",true)
+                    }
+                }
+
+            });
+
+            //print status
+            $('div.input-box').find("input[name='group3']").change(function() {
+                var id = $(this).attr("id");
+                if(id == "nonPrint-radio") {
+                    qo.print.status = '2';
+                }else if(id == "printed-radio") {
+                    qo.print.status = '1';
+                }else if(id == "allPrint-radio") {
+                    qo.print.status = '0';
+                }
+            });
+
+            $('.search-btn').click(function() {
+                retriveQueryCriteria();
+
+                if(qo.print.values.length == 0) {
+                    if(qo.print.type == "excution")
+                    {alert("请选择执行单类型");}
+                    else if(qo.print.type == "label")
+                        {alert("请选择瓶签类型");}
+                    return ;
+                }
+
+                var inputViews = $('.user-list').find('.user-list-input')
+                var pidArr = []
+                for (var i = 0; i < inputViews.length; i ++) {
+                    var view = inputViews[i]
+                    if (view.checked) {
+                        pidArr.push($(view).data('pid'))
+                    }
+                }
+                var params = {}
+                params['term'] = qo.term
+                params['patients'] = pidArr.join(',')
+                params['time'] = qo.time
+
+                var print = {}
+                print.status = qo.print.status
+                print.type = qo.print.type
+                print.value = qo.print.values.join(',')
+                params['print'] = JSON.stringify(print)
+
+
+                // $.ajax({
+                //     type:'POST',
+                //     url: 'pc/madvice/split/search',
+                //     data: qo
+                // });
+
+                // console.log(params)
+
+                $.post("/pc/madvice/split/search", params, function (json, status) {
+                    if (json.result == 0) {
+                        var resArr = json.datas;
+                        var html = '';
+
+                        for (var i = 0; i < resArr.length; i++) {
+                            var typeStr = resArr[i].TypeOf == 1 ? "长期" : "临时"
+                            html += "<tr>\n" +
+                                    "<td>\n" +
+                                    "<div class=\"table-input-bar\">\n" +
+                                    "<input type=\"checkbox\" data-mid=\"resArr[i].Madid\">\n" +
+                                    "<label for=\"\">"+resArr[i].Bed+"</label>\n" +
+                                    "</div>\n" +
+                                    "</td>\n" +
+                                    "<td>\n" +
+                                    +resArr[i].PatientName+"\n" +
+                                    "</td>\n" +
+                                    "<td>\n" +
+                                    +resArr[i].ExexTime+"\n" +
+                                    "</td>\n" +
+                                    "<td>\n" +
+                                    +resArr[i].Content+"\n" +
+                                    "</td>\n" +
+                                    "<td class=\"tc\">\n" +
+                                    +resArr[i].Dosage+"\n" +
+                                    "</td>\n" +
+                                    "<td class=\"tc\">\n" +
+                                    +resArr[i].Count+"\n" +
+                                    "</td>\n" +
+                                    "<td class=\"tc\">"+resArr[i].Times+"</td>\n" +
+                                    "<td class=\"tc\">"+resArr[i].Method+"</td>\n" +
+                                    "<td class=\"tc\">"+resArr[i].Speed+"</td>\n" +
+                                    "<td class=\"tc\">\n" +
+                                    +typeStr+"\n" +
+                                    "</td>\n" +
+                                    "<td class=\"td10\">\n" +
+                                    "<span class=\"l\"> "+resArr[i].PrintState+"</span>\n" +
+                                    "<span class=\"r\">序号"+resArr[i].PrintOrdinal+"/"+resArr[i].Times+"</span>\n" +
+                                    "</td>\n" +
+                                    "</tr>"
+                        }
+                        $(".change-div").html(html)
+                    } else {
+                        alert(json.errmsg)
+                    }
+                }, 'json');
+            });
+
+            setDefaultValue();
+        });
+
         var nowFn = Date.now || function() {
             return new Date().getTime()
         }
@@ -301,7 +542,6 @@
                 $('.top48').addClass('small-type')
                 $('.jky_sidebar').addClass('small-type')
             }
-
         }
 
 
@@ -315,10 +555,6 @@
 
                 $('.user-warp').hide();
             }
-
-
-
-
         })
 
         var nowDateObj = nowDate();
@@ -343,9 +579,10 @@
             showBottom: false,
             value: nowDateObj.date,
             done: function(value, date, endDate) {
+                qo.time = value;
                 console.log(value); //得到日期生成的值，如：2017-08-18
-                console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-                console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                //console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                //console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
             }
         });
 
@@ -382,23 +619,52 @@
 
 
         $('.cont-table').on('click', 'tr', function() {
-                var $checkbox = $(this).find('input[type=checkbox]')
-                if ($checkbox.is(':checked')) {
-                    $(this).removeClass("active")
-                    $checkbox.prop("checked", false)
-                } else {
+            var $checkbox = $(this).find('input[type=checkbox]')
+            if ($checkbox.is(':checked')) {
+                $(this).removeClass("active")
+                $checkbox.prop("checked", false)
+            } else {
+                $(this).addClass("active")
+                $checkbox.prop("checked", true)
+            }
+        })
 
-                    $(this).addClass("active")
-                    $checkbox.prop("checked", true)
+
+        
+        $("#radio2-1").on("click",function(){
+            if($(this).prop("checked")){
+                $(".check-1").prop("checked",true)
+                $(".check-2").prop("checked",false)
+            }else{
+                $(".check-1").prop("checked",false)
+                $(".check-2").prop("checked",true)
+
+            }
+        })
+        $("#radio2-2").on("click",function(){
+            if($(this).prop("checked")){
+                $(".check-2").prop("checked",true)
+                $(".check-1").prop("checked",false)
+
+            }else{
+                $(".check-2").prop("checked",false)
+                $(".check-1").prop("checked",true)
+
+            }
+        })
+
+        $('.type3').on('click',function () {
+            var inputs = $('.warp-box').find('input[type=checkbox]')
+            var objArr = []
+            for (var i = 0; i < inputs.length; i ++) {
+                if (inputs[i].checked) {
+                    var inputV = inputs[i]
+                    objArr.push($(inputV).data('mid'))
                 }
-            })
-            // $('.cont-table').on('click','input[type=checkbox]',function(){
-            //     if($(this).is(':checked')){
-            //         $(this).parents('tr').removeClass("active")
-            //     }else{
-            //         $(this).parents('tr').addClass("active")
-            //     }
-            // })
+            }
+            console.log("打印(医嘱ID):",objArr)
+        })
+
     </script>
 </body>
 

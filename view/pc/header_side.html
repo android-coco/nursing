@@ -43,7 +43,7 @@
             </li>
 
             <li>
-                <a class="am-cf" href="/pc/medicaladvice/split">
+                <a class="am-cf" href="/pc/madvice/split">
                             <span class="jky_icon2">
                                 <img src="/static/dist/images/admin_pc/icon11.png" alt="">
                             </span>
@@ -54,7 +54,7 @@
                 </a>
             </li>
             <li>
-                <a class="am-cf" href="/pc/medicaladvice/message">
+                <a class="am-cf" href="/pc/madvice/search">
                             <span class="jky_icon2">
                                 <img src="/static/dist/images/admin_pc/icon12.png" alt="">
                             </span>
@@ -118,15 +118,20 @@
 </div>
 
 <script>
-    var menuIndex = {{.Menuindex}}||"";
+    var menuIndex = {{.Menuindex}} || "";
     var num = JSON.parse(window.localStorage.getItem("num"));
+    if (num) {
+        document.getElementById("patient-list1").innerHTML = num.t0;
+        document.getElementById("patient-list2").innerHTML = num.t1;
+        document.getElementById("patient-list3").innerHTML = num.t2;
+        document.getElementById("patient-list4").innerHTML = num.t3;
+        document.getElementById("patient-list5").innerHTML = num.t4;
+        document.getElementById("patient-list6").innerHTML = num.t5;
+    } else {
+        // window.location.href = "/pc/home"
+    }
 
-    document.getElementById("patient-list1").innerHTML = num.t0;
-    document.getElementById("patient-list2").innerHTML = num.t1;
-    document.getElementById("patient-list3").innerHTML = num.t2;
-    document.getElementById("patient-list4").innerHTML = num.t3;
-    document.getElementById("patient-list5").innerHTML = num.t4;
-    document.getElementById("patient-list6").innerHTML = num.t5;
+
 
 </script>
 {{end}}

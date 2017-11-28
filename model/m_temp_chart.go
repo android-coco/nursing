@@ -28,58 +28,59 @@ func GetTempChart(ty, pid string, weeks []time.Time) ([]string, error) {
 	switch ty {
 	case "101":
 		jmax = 6
-		tablename = "SELECT value FROM `Temperature` "
-		condition = "AND `ttemptype` = 1 " // 腋温
+		tablename = "SELECT Value FROM `TemperatrureChat` "
+		condition = "AND `HeadType` = 1 AND `SubType` = 1" // 腋温
 	case "102":
 		jmax = 6
-		tablename = "SELECT value FROM `Temperature` "
-		condition = "AND `ttemptype` = 3 " // 口温
+		tablename = "SELECT value FROM `TemperatrureChat` "
+		condition = "AND `HeadType` = 1 AND `SubType` = 3" // 口温
 	case "103":
 		jmax = 6
-		tablename = "SELECT value FROM `Temperature` "
-		condition = "AND `ttemptype` = 4 " // 肛温
-	case "2":
+		tablename = "SELECT value FROM `TemperatrureChat` "
+		condition = "AND `HeadType` = 1 AND `SubType` = 4" // 肛温
+	case "2": // 呼吸
 		jmax = 6
-		tablename = "SELECT value FROM `Breathe` "
-	case "3":
+		tablename = "SELECT value FROM `TemperatrureChat` "
+		condition = "AND `HeadType` = 3"
+	case "3": // 脉搏
 		jmax = 6
-		tablename = "SELECT value FROM `Pulse` "
-	case "4":
+		tablename = "SELECT value FROM `TemperatrureChat` "
+	case "4": // 心率
 		jmax = 6
-		tablename = "SELECT value FROM `Heartrate` "
-	case "5":
+		tablename = "SELECT value FROM `TemperatrureChat` "
+	case "5": // 事件
 		jmax = 6
-		tablename = "SELECT value FROM `Incident` "
+		tablename = "SELECT value FROM `TemperatrureChat` "
 	case "601":
 		jmax = 1
-		tablename = "SELECT value FROM `IntakeOutput` "
+		tablename = "SELECT value FROM `IOStatistics` "
 		condition = "AND `type` = 1 " //   入量
 	case "611":
 		jmax = 1
-		tablename = "SELECT value FROM `IntakeOutput` "
+		tablename = "SELECT value FROM `IOStatistics` "
 		condition = "AND `type` = 2 AND `subtype` = 1 " // 出量 1：其他入量或其他出量/ml,
 	case "612":
 		jmax = 1
-		tablename = "SELECT value FROM `IntakeOutput` "
+		tablename = "SELECT value FROM `IOStatistics` "
 		condition = "AND `type` = 2 AND `subtype` = 2 " // 出量 2：输液入量或排尿出量/ml,
 	case "613":
 		jmax = 1
-		tablename = "SELECT value FROM `IntakeOutput` "
+		tablename = "SELECT value FROM `TemperatrureChat` "
 		condition = "AND `type` = 2 AND `subtype` = 3 " // 出量 3：饮食入量/ml或大便出量/次',
-	case "7":
+	case "7": // 血压
 		jmax = 1
-		tablename = "SELECT diavalue, sysvalue FROM `Pressure` "
-	case "8":
+		tablename = "SELECT diavalue, sysvalue FROM `TemperatrureChat` "
+	case "8": // 体重
 		jmax = 1
-		tablename = "SELECT value FROM `Weight` "
-	case "9":
+		tablename = "SELECT value FROM `TemperatrureChat` "
+	case "9": // 皮试
 		jmax = 1
-		tablename = "SELECT value FROM `Skin` "
+		tablename = "SELECT value FROM `TemperatrureChat` "
 	default:
 		tablename = ""
 	}
 
-	sqlstr := tablename + "WHERE `patientid` = ? AND `testtime` >= ? AND `testtime` < ? " + condition + "ORDER BY `testtime` DESC LIMIT 1"
+	sqlstr := tablename + "WHERE `PatientId` = ? AND `DateTime` >= ? AND `DateTime` < ? " + condition + "ORDER BY `DateTime` DESC LIMIT 1"
 
 	//if "5" == ty {
 	//	sqlstr = "SELECT * FROM " + tablename + "WHERE `type` = 1 AND `patientid` = ? AND `testtime` >= ? AND `testtime` < ? ORDER BY `testtime` DESC LIMIT 1"
@@ -128,7 +129,6 @@ func GetTempChart(ty, pid string, weeks []time.Time) ([]string, error) {
 					results = append(results, "")
 				}
 
-
 			}
 		}
 	}
@@ -146,8 +146,28 @@ func GetOperationDate(pid string) (string, error) {
 		datestr := resultmap[0]["VAT08"]
 		return datestr, nil
 	} else {
-		return "", fmt.Errorf("no operation date")
+		return "", nil
 	}
+}
+
+/*查询住院期间的手术记录 */
+func FetchOperationRecordsDate(pid int64) ([]string, error) {
+	records := make([]string, 0)
+	var rrrrrr []time.Time
+	var err error
+	fmt.Println("****************")
+	// VAT04 = 4 表示已结束手术
+	//err = fit.SQLServerEngine().SQL("select VAT08 from VAT1 where VAA01 = ? and VAT04 = 4", pid).Find(&records) .Desc("VAT08")
+	resultsmap, err := fit.SQLServerEngine().QueryString("select top 2 VAT08 from VAT1 where VAA01 = ? and VAT04 = 4 ORDER BY VAT08 DESC", pid)
+	//err = fit.SQLServerEngine().Table("VAT1").Select("VAT08").Where("VAA01 = ? and VAT04 = 4", pid).Limit(2, 1).Find(&records)
+	fmt.Println("*********: ", len(records), records, rrrrrr, resultsmap)
+	for _, val := range resultsmap {
+		records= append(records, val["VAT08"])
+	}
+	if len(records) == 2 {
+		records[1], records[0] = records[0], records[1]
+	}
+	return records, err
 }
 
 /*

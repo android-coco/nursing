@@ -40,7 +40,7 @@ func QueryNRecordsByTypeAndTime(PatientId string, NursType string, start, end st
 //更新文书记录
 func UpadteNRecords(RecordId int64,dateTime string) (int64, error) {
 	//affected, err := fit.MySqlEngine().Id(RecordId).Cols("Updated").Update(&nursing)
-	affected, err := fit.MySqlEngine().Table(new(NursingRecords)).ID(RecordId).Update(map[string]interface{}{"Updated": dateTime})
+	affected, err := fit.MySqlEngine().Table(new(NursingRecords)).Where("RecordId = ?", RecordId).Update(&NursingRecords{Id:RecordId, Updated:dateTime})
 	return affected, err
 }
 

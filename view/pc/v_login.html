@@ -80,7 +80,8 @@
                         var departmentlist = json.datas.departments;
                         console.log(departmentlist, departmentlist.length);
                         if (departmentlist.length == 1) {
-                            window.location.href = "/pc/home"
+                            // window.location.href = "/pc/home"
+                            window.location.href = "/pc/record/nrl2"
                         } else {
                             $.each(departmentlist, function (key, val) {
                                 $modleWarp.find('.cont').find('ul').empty();

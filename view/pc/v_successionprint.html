@@ -1,0 +1,536 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script src="/static/dist/js/lib/jquery.min.js"></script>
+    <script src="/static/dist/js/lib/jquery.qrcode.min.js"></script>
+    <title>交接班表</title>
+    <style>
+        p {
+            margin: 4px 0;
+        }
+
+        .STYLE1 {
+            font-size: small
+        }
+
+        .STYLE2 {
+            font-size: medium;
+        }
+        .kg{
+            padding-top: 118px;
+        }
+    </style>
+    <script type="text/javascript">
+        $(function () {
+            loadData();
+        });
+
+        function loadData() {
+            var page = {{.Page}};//界面页数
+            if(page == 0){
+                return
+            }
+            var datas = {{.Successiondetails}};//详情
+            var dateTime = {{.DateTime}}//时间
+            //白班
+            var d_1 = {{.d_NoldPatient}};
+            var d_2 = {{.d_NnowPatient}};
+            var d_3 = {{.d_NintHospital}};
+            var d_4 = {{.d_NoutHospital}};
+            var d_5 = {{.d_Ninto}};
+            var d_6 = {{.d_Nout}};
+            var d_7 = {{.d_Nsurgery}};
+            var d_8 = {{.d_Nchildbirth}};
+            var d_9 = {{.d_Ncritically}};
+            var d_10 = {{.d_Ndeath}};
+            var d_11 = {{.d_NintensiveCare}};
+            var d_12 = {{.d_NprimaryCare}};
+            var d_13 = {{.d_NursingName}};
+
+            //晚班
+            var n_1 = {{.n_NoldPatient}};
+            var n_2 = {{.n_NnowPatient}};
+            var n_3 = {{.n_NintHospital}};
+            var n_4 = {{.n_NoutHospital}};
+            var n_5 = {{.n_Ninto}};
+            var n_6 = {{.n_Nout}};
+            var n_7 = {{.n_Nsurgery}};
+            var n_8 = {{.n_Nchildbirth}};
+            var n_9 = {{.n_Ncritically}};
+            var n_10 = {{.n_Ndeath}};
+            var n_11 = {{.n_NintensiveCare}};
+            var n_12 = {{.n_NprimaryCare}};
+            var n_13 = {{.n_NursingName}};
+
+            //夜班
+            var N_1 = {{.N_NoldPatient}};
+            var N_2 = {{.N_NnowPatient}};
+            var N_3 = {{.N_NintHospital}};
+            var N_4 = {{.N_NoutHospital}};
+            var N_5 = {{.N_Ninto}};
+            var N_6 = {{.N_Nout}};
+            var N_7 = {{.N_Nsurgery}};
+            var N_8 = {{.N_Nchildbirth}};
+            var N_9 = {{.N_Ncritically}};
+            var N_10 = {{.N_Ndeath}};
+            var N_11 = {{.N_NintensiveCare}};
+            var N_12 = {{.N_NprimaryCare}};
+            var N_13 = {{.N_NursingName}};
+
+            var html = '';
+            for (var i = 0; i < page; i++) {
+                html += '<table width="815" height="1074" border="1" cellspacing="0" bordercolor="#666666">\n' +
+                        '    <tr>\n' +
+                        '        <th height="27" colspan="7" scope="col">深圳万丰医院-交接班表（内科）</th>\n' +
+                        '    </tr>\n' +
+                        '    <tr>\n' +
+                        '        <td height="24" colspan="7" scope="col"> 日期:'+dateTime+
+                        '            <div align="center"></div>\n' +
+                        '            <div align="center"></div>\n' +
+                        '            <div align="center"></div>\n' +
+                        '            <div align="center"></div>\n' +
+                        '            <div align="center"></div>\n' +
+                        '            <div align="center"></div>\n' +
+                        '        </td>\n' +
+                        '    </tr>\n' +
+                        '    <tr>\n' +
+                        '        <td width="146" rowspan="8">&nbsp;</td>\n' +
+                        '        <td height="50" colspan="2">\n' +
+                        '            <div align="center"><strong>白班</strong></div>\n' +
+                        '        </td>\n' +
+                        '        <td height="50" colspan="2">\n' +
+                        '            <div align="center"><strong>晚班</strong></div>\n' +
+                        '        </td>\n' +
+                        '        <td height="50" colspan="2">\n' +
+                        '            <div align="center"><strong>夜班</strong></div>\n' +
+                        '        </td>\n' +
+                        '    </tr>\n' +
+                        '    <tr>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">原有病人：' + d_1 + '</span></td>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">现有病人：' + d_2 + '</span></td>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">原有病人：' + n_1 + '</span></td>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">现有病人：' + n_2 + '</span></td>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">原有病人：' + N_1 + '</span></td>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">现有病人：' + N_2 + '</span></td>\n' +
+                        '    </tr>\n' +
+                        '    <tr>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">入院：' + d_3 + '</span></td>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">出院：' + d_4 + '</span></td>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">入院：' + n_3 + '</span></td>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">出院：' + n_4 + '</span></td>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">入院：' + N_3 + '</span></td>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">出院：' + N_4 + '</span></td>\n' +
+                        '    </tr>\n' +
+                        '    <tr>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">转入：' + d_5 + '</span></td>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">转出：' + d_6 + '</span></td>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">转入：' + n_5 + '</span></td>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">转出：' + n_6 + '</span></td>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">转入：' + N_5 + '</span></td>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">转出：' + N_6 + '</span></td>\n' +
+                        '    </tr>\n' +
+                        '    <tr>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">手术：' + d_7 + '</span></td>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">分娩：' + d_8 + '</span></td>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">手术：' + n_7 + '</span></td>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">分娩：' + n_8 + '</span></td>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">手术：' + N_7 + '</span></td>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">分娩：' + N_8 + '</span></td>\n' +
+                        '    </tr>\n' +
+                        '    <tr>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">危重：' + d_9 + '</span></td>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">死亡：' + d_10 + '</span></td>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">危重：' + n_9 + '</span></td>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">死亡：' + n_10 + '</span></td>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">危重：' + N_9 + '</span></td>\n' +
+                        '        <td width="60" nowrap="nowrap"><span class="STYLE2">死亡：' + N_10 + '</span></td>\n' +
+                        '    </tr>\n' +
+                        '    <tr>\n' +
+                        '        <td colspan="2" nowrap="nowrap">\n' +
+                        '            <div align="center"><span class="STYLE2">特护：' + d_11 + '</span><span class="STYLE2"></span></div>\n' +
+                        '        </td>\n' +
+                        '        <td colspan="2" nowrap="nowrap">\n' +
+                        '            <div align="center"><span class="STYLE2">特护：' + n_11 + '</span><span class="STYLE2"></span></div>\n' +
+                        '        </td>\n' +
+                        '        <td colspan="2" nowrap="nowrap">\n' +
+                        '            <div align="center"><span class="STYLE2">特护：' + N_11 + '</span><span class="STYLE2"></span></div>\n' +
+                        '        </td>\n' +
+                        '    </tr>\n' +
+                        '    <tr>\n' +
+                        '        <td colspan="2" nowrap="nowrap">\n' +
+                        '            <div align="center"><span class="STYLE2">一级护理：' + d_12 + '</span><span class="STYLE2"></span></div>\n' +
+                        '        </td>\n' +
+                        '        <td colspan="2" nowrap="nowrap">\n' +
+                        '            <div align="center"><span class="STYLE2">一级护理：' + n_12 + '</span><span class="STYLE2"></span></div>\n' +
+                        '        </td>\n' +
+                        '        <td colspan="2" nowrap="nowrap">\n' +
+                        '            <div align="center"><span class="STYLE2">一级护理：' + N_12 + '</span><span class="STYLE2"></span></div>\n' +
+                        '        </td>\n' +
+                        '    </tr>';
+                var len = datas.length;
+                if (len == 0) {
+                    for (var y = 0; y < 6; y++) {
+                        html += "<tr>" +
+                                "<td width=\"146\" height=\"60\" align=\"left\"\n" +
+                                "     ><p class=\"STYLE2\">床号：</p>\n" +
+                                "            <p class=\"STYLE2\">姓名： </p>\n" +
+                                "            <p class=\"STYLE2\">诊断：</p>\n" +
+                                "            <p class=\"STYLE2\">事件：</p>\n" +
+                                "        </td>\n" +
+                                "        <td height=\"60\" colspan=\"2\"><span class=\"STYLE2\"></span></td>\n" +
+                                "        <td height=\"60\" colspan=\"2\"><span class=\"STYLE2\"></span></td>\n" +
+                                "        <td height=\"60\" colspan=\"2\"><span class=\"STYLE2\"></span></td>\n" +
+                                "    </tr>";
+                    }
+                } else {
+                    if (page == 1) {
+                        for (var j = 0; j < len; j++) {
+                            var str = "";
+                            switch (datas[j].typte) {
+                                case 1:
+                                    str = "入院";
+                                    break;
+                                case 2:
+                                    str = "出院";
+                                    break;
+                                case 3:
+                                    str = "转入";
+                                    break;
+                                case 4:
+                                    str = "转出";
+                                    break;
+                                case 5:
+                                    str = "手术";
+                                    break;
+                                case 6:
+                                    str = "分娩";
+                                    break;
+                                case 7:
+                                    str = "病危";
+                                    break;
+                                case 8:
+                                    str = "死亡";
+                                    break;
+                                case 9:
+                                    str = "特护";
+                                    break;
+                                case 10:
+                                    str = "一级护理";
+                                    break;
+                            }
+                            var len1 = Math.abs(len - 6);//取绝对值
+                            html += "<tr>" +
+                                    "<td width=\"146\" height=\"60\" align=\"left\"\n" +
+                                    "     ><p class=\"STYLE2\">床号：" + datas[j].bedid + "</p>\n" +
+                                    "            <p class=\"STYLE2\">姓名： " + datas[j].patientname + "</p>\n" +
+                                    "            <p class=\"STYLE2\">诊断：" + datas[j].piagnosis + "</p>\n" +
+                                    "            <p class=\"STYLE2\">事件：" + str +
+                                    "</p>\n" +
+                                    "        </td>\n" +
+                                    "        <td height=\"60\" colspan=\"2\"><span class=\"STYLE2\">" + datas[j].comment1 + "</span></td>\n" +
+                                    "        <td height=\"60\" colspan=\"2\"><span class=\"STYLE2\">" + datas[j].comment2 + "</span></td>\n" +
+                                    "        <td height=\"60\" colspan=\"2\"><span class=\"STYLE2\">" + datas[j].comment3 + "</span></td>\n" +
+                                    "    </tr>";
+                            if (j == len - 1) {//最后加上空格
+                                for (var z = 0; z < len1; z++) {
+                                    html += "<tr>" +
+                                            "<td width=\"146\" height=\"60\" align=\"left\"\n" +
+                                            "     ><p class=\"STYLE2\">床号：</p>\n" +
+                                            "            <p class=\"STYLE2\">姓名： </p>\n" +
+                                            "            <p class=\"STYLE2\">诊断：</p>\n" +
+                                            "            <p class=\"STYLE2\">事件：</p>\n" +
+                                            "        </td>\n" +
+                                            "        <td height=\"60\" colspan=\"2\"><span class=\"STYLE2\"></span></td>\n" +
+                                            "        <td height=\"60\" colspan=\"2\"><span class=\"STYLE2\"></span></td>\n" +
+                                            "        <td height=\"60\" colspan=\"2\"><span class=\"STYLE2\"></span></td>\n" +
+                                            "    </tr>";
+                                }
+                            }
+                        }
+                    } else {
+                        if (i == page - 1) {
+                            console.log(6 * i + " " + len + " " + ((len - 6 * i) - 6))
+                            for (var j = 6 * i; j < len; j++) {
+                                var str = "";
+                                switch (datas[j].typte) {
+                                    case 1:
+                                        str = "入院";
+                                        break;
+                                    case 2:
+                                        str = "出院";
+                                        break;
+                                    case 3:
+                                        str = "转入";
+                                        break;
+                                    case 4:
+                                        str = "转出";
+                                        break;
+                                    case 5:
+                                        str = "手术";
+                                        break;
+                                    case 6:
+                                        str = "分娩";
+                                        break;
+                                    case 7:
+                                        str = "病危";
+                                        break;
+                                    case 8:
+                                        str = "死亡";
+                                        break;
+                                    case 9:
+                                        str = "特护";
+                                        break;
+                                    case 10:
+                                        str = "一级护理";
+                                        break;
+                                }
+                                var len1 = Math.abs((len - 6 * i) - 6);//取绝对值 看这页差多少补齐
+                                html += "<tr>" +
+                                        "<td width=\"146\" height=\"60\" align=\"left\"\n" +
+                                        "     ><p class=\"STYLE2\">床号：" + datas[j].bedid + "</p>\n" +
+                                        "            <p class=\"STYLE2\">姓名： " + datas[j].patientname + "</p>\n" +
+                                        "            <p class=\"STYLE2\">诊断：" + datas[j].piagnosis + "</p>\n" +
+                                        "            <p class=\"STYLE2\">事件：" + str +
+                                        "</p>\n" +
+                                        "        </td>\n" +
+                                        "        <td height=\"60\" colspan=\"2\"><span class=\"STYLE2\">" + datas[j].comment1 + "</span></td>\n" +
+                                        "        <td height=\"60\" colspan=\"2\"><span class=\"STYLE2\">" + datas[j].comment2 + "</span></td>\n" +
+                                        "        <td height=\"60\" colspan=\"2\"><span class=\"STYLE2\">" + datas[j].comment3 + "</span></td>\n" +
+                                        "    </tr>";
+                                if (j == len - 1) {//最后加上空格
+                                    for (var z = 0; z < len1; z++) {
+                                        html += "<tr>" +
+                                                "<td width=\"146\" height=\"60\" align=\"left\"\n" +
+                                                "     ><p class=\"STYLE2\">床号：</p>\n" +
+                                                "            <p class=\"STYLE2\">姓名： </p>\n" +
+                                                "            <p class=\"STYLE2\">诊断：</p>\n" +
+                                                "            <p class=\"STYLE2\">事件：</p>\n" +
+                                                "        </td>\n" +
+                                                "        <td height=\"60\" colspan=\"2\"><span class=\"STYLE2\"></span></td>\n" +
+                                                "        <td height=\"60\" colspan=\"2\"><span class=\"STYLE2\"></span></td>\n" +
+                                                "        <td height=\"60\" colspan=\"2\"><span class=\"STYLE2\"></span></td>\n" +
+                                                "    </tr>";
+                                    }
+                                }
+                            }
+                        } else {
+                            for (var j = 0; j < 6; j++) {
+                                var str = "";
+                                switch (datas[j].typte) {
+                                    case 1:
+                                        str = "入院";
+                                        break;
+                                    case 2:
+                                        str = "出院";
+                                        break;
+                                    case 3:
+                                        str = "转入";
+                                        break;
+                                    case 4:
+                                        str = "转出";
+                                        break;
+                                    case 5:
+                                        str = "手术";
+                                        break;
+                                    case 6:
+                                        str = "分娩";
+                                        break;
+                                    case 7:
+                                        str = "病危";
+                                        break;
+                                    case 8:
+                                        str = "死亡";
+                                        break;
+                                    case 9:
+                                        str = "特护";
+                                        break;
+                                    case 10:
+                                        str = "一级护理";
+                                        break;
+                                }
+                                html += "<tr>" +
+                                        "<td width=\"146\" height=\"60\" align=\"left\"\n" +
+                                        "     ><p class=\"STYLE2\">床号：" + datas[j].bedid + "</p>\n" +
+                                        "            <p class=\"STYLE2\">姓名： " + datas[j].patientname + "</p>\n" +
+                                        "            <p class=\"STYLE2\">诊断：" + datas[j].piagnosis + "</p>\n" +
+                                        "            <p class=\"STYLE2\">事件：" + str +
+                                        "</p>\n" +
+                                        "        </td>\n" +
+                                        "        <td height=\"60\" colspan=\"2\"><span class=\"STYLE2\">" + datas[j].comment1 + "</span></td>\n" +
+                                        "        <td height=\"60\" colspan=\"2\"><span class=\"STYLE2\">" + datas[j].comment2 + "</span></td>\n" +
+                                        "        <td height=\"60\" colspan=\"2\"><span class=\"STYLE2\">" + datas[j].comment3 + "</span></td>\n" +
+                                        "    </tr>";
+                            }
+                        }
+                    }
+                }
+                html += " <tr>\n" +
+                        "        <td width=\"146\" height=\"50\" align=\"left\"><p><span class=\"STYLE1\"><span class=\"STYLE2\"><span\n" +
+                        "                class=\"STYLE2\"></span></span></span></p></td>\n" +
+                        "        <td height=\"50\" colspan=\"2\">签名：" + d_13 + "</td>\n" +
+                        "        <td height=\"50\" colspan=\"2\"><span class=\"STYLE2\">签名：" + n_13 + "</span></td>\n" +
+                        "        <td height=\"50\" colspan=\"2\"><span class=\"STYLE2\">签名：" + N_13 + "</span></td>\n" +
+                        "    </tr>\n" +
+                        "</table>";
+                html += '<div class="kg"></div>';
+            }
+            $('body').html(html)
+        }
+    </script>
+</head>
+
+<body>
+<table width="815" height="1074" border="1" cellspacing="0" bordercolor="#666666">
+    <tr>
+        <th height="27" colspan="7" scope="col">深圳万丰医院-交接班表（内科）</th>
+    </tr>
+    <tr>
+        <td height="24" colspan="7" scope="col"> 日期：
+            <div align="center"></div>
+            <div align="center"></div>
+            <div align="center"></div>
+            <div align="center"></div>
+            <div align="center"></div>
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td width="146" rowspan="8">&nbsp;</td>
+        <td height="50" colspan="2">
+            <div align="center"><strong>白班</strong></div>
+        </td>
+        <td height="50" colspan="2">
+            <div align="center"><strong>晚班</strong></div>
+        </td>
+        <td height="50" colspan="2">
+            <div align="center"><strong>夜班</strong></div>
+        </td>
+    </tr>
+    <tr>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">原有病人：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">现有病人：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">原有病人：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">现有病人：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">原有病人：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">现有病人：</span></td>
+    </tr>
+    <tr>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">入院：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">出院：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">入院：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">出院：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">入院：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">出院：</span></td>
+    </tr>
+    <tr>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">转入：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">转出：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">转入：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">转出：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">转入：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">转出：</span></td>
+    </tr>
+    <tr>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">手术：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">分娩：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">手术：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">分娩：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">手术：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">分娩：</span></td>
+    </tr>
+    <tr>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">危重：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">死亡：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">危重：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">死亡：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">危重：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">死亡：</span></td>
+    </tr>
+    <tr>
+        <td colspan="2" nowrap="nowrap">
+            <div align="center"><span class="STYLE2">特护：</span><span class="STYLE2"></span></div>
+        </td>
+        <td colspan="2" nowrap="nowrap">
+            <div align="center"><span class="STYLE2">特护：</span><span class="STYLE2"></span></div>
+        </td>
+        <td colspan="2" nowrap="nowrap">
+            <div align="center"><span class="STYLE2">特护：</span><span class="STYLE2"></span></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" nowrap="nowrap">
+            <div align="center"><span class="STYLE2">一级护理：</span><span class="STYLE2"></span></div>
+        </td>
+        <td colspan="2" nowrap="nowrap">
+            <div align="center"><span class="STYLE2">一级护理：</span><span class="STYLE2"></span></div>
+        </td>
+        <td colspan="2" nowrap="nowrap">
+            <div align="center"><span class="STYLE2">一级护理：</span><span class="STYLE2"></span></div>
+        </td>
+    </tr>
+    <tr>
+        <td width="146" height="60" align="left"><p class="STYLE2">床号： </p>
+            <p class="STYLE2">姓名： </p>
+            <p class="STYLE2">诊断：</p>
+            <p class="STYLE2">事件：</p></td>
+        <td height="60" colspan="2"><span class="STYLE2"></span></td>
+        <td height="60" colspan="2"><span class="STYLE2"></span></td>
+        <td height="60" colspan="2"><span class="STYLE2"></span></td>
+    </tr>
+    <tr>
+        <td width="146" height="60" align="left"><p class="STYLE2">床号： </p>
+            <p class="STYLE2">姓名： </p>
+            <p class="STYLE2">诊断：</p>
+            <p class="STYLE2">事件：</p></td>
+        <td height="60" colspan="2"><span class="STYLE2"></span></td>
+        <td height="60" colspan="2"><span class="STYLE2"></span></td>
+        <td height="60" colspan="2"><span class="STYLE2"></span></td>
+    </tr>
+    <tr>
+        <td width="146" height="60" align="left"><p class="STYLE2">床号： </p>
+            <p class="STYLE2">姓名： </p>
+            <p class="STYLE2">诊断：</p>
+            <p class="STYLE2">事件：</p></td>
+        <td height="60" colspan="2"><span class="STYLE2"></span></td>
+        <td height="60" colspan="2"><span class="STYLE2"></span></td>
+        <td height="60" colspan="2"><span class="STYLE2"></span></td>
+    </tr>
+    <tr>
+        <td width="146" height="60" align="left"><p class="STYLE2">床号： </p>
+            <p class="STYLE2">姓名： </p>
+            <p class="STYLE2">诊断：</p>
+            <p class="STYLE2">事件：</p></td>
+        <td height="60" colspan="2"><span class="STYLE2"></span></td>
+        <td height="60" colspan="2"><span class="STYLE2"></span></td>
+        <td height="60" colspan="2"><span class="STYLE2"></span></td>
+    </tr>
+    <tr>
+        <td width="146" height="60" align="left"><p class="STYLE2">床号： </p>
+            <p class="STYLE2">姓名： </p>
+            <p class="STYLE2">诊断：</p>
+            <p class="STYLE2">事件：</p></td>
+        <td height="60" colspan="2"><span class="STYLE2"></span></td>
+        <td height="60" colspan="2"><span class="STYLE2"></span></td>
+        <td height="60" colspan="2"><span class="STYLE2"></span></td>
+    </tr>
+    <tr>
+        <td width="146" height="60" align="left"><p class="STYLE2">床号： </p>
+            <p class="STYLE2">姓名： </p>
+            <p class="STYLE2">诊断：</p>
+            <p class="STYLE2">事件：</p></td>
+        <td height="60" colspan="2"><span class="STYLE2"></span></td>
+        <td height="60" colspan="2"><span class="STYLE2"></span></td>
+        <td height="60" colspan="2"><span class="STYLE2"></span></td>
+    </tr>
+    <tr>
+        <td width="146" height="50" align="left"><p><span class="STYLE1"><span class="STYLE2"><span
+                class="STYLE2"></span></span></span></p></td>
+        <td height="50" colspan="2">签名：</td>
+        <td height="50" colspan="2"><span class="STYLE2">签名：</span></td>
+        <td height="50" colspan="2"><span class="STYLE2">签名：</span></td>
+    </tr>
+</table>
+</body>
+</html>

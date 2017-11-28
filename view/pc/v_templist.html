@@ -686,63 +686,18 @@
 
 <script src="/static/dist/js/lib/echarts.common.min.js"></script>
 <script src="/static/dist/js/lib/echarts-data.js"></script>
+
+<script>
+    var myChart = echarts.init(document.getElementById('data-main'));
+    // 为echarts对象加载数据
+    myChart.setOption(option);
+</script>
 <script src="/static/common.js"></script>
 <!--<script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/charts/echarts.min.js" ></script>-->
 <!--<script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/charts/indexChart.js" ></script>-->
 
 
 <script>
-    /**
-     * 节流函数
-     */
-    var nowFn = Date.now || function () {
-        return new Date().getTime()
-    }
-
-
-    function throttle(func, wait, option) {
-        var previous = 0, //之前的时间
-            timeout, self, args, result;
-
-        var later = function () {
-            previous = nowFn();
-            timeout = null;
-            result = func.apply(self, args);
-            !timeout && (self = args = null);
-        }
-        return function () {
-            var now = nowFn();
-
-            if (!previous && option.leading === false) previous = now;
-            var diff = wait - (now - previous);
-
-            args = arguments;
-            self = this;
-            if (diff <= 0) {
-                if (timeout) {
-                    clearTimeout(timeout);
-                    timeout = null;
-                }
-                result = func.apply(self, args);
-                previous = now;
-                !timeout && (self = args = null); //如果没有堆积的任务 则清空 self 和args
-            } else if (!timeout && option.trailing !== false) {
-                timeout = setTimeout(later, diff)
-            } else {
-                console.log('被抛弃了')
-            }
-            return result;
-
-        }
-    }
-
-    $('#jky-menu').on('open.collapse.amui', function (e) {
-        $(e.target).parents("li").addClass("jky-on")
-    })
-    $('#jky-menu').on('close.collapse.amui', function (e) {
-        $(e.target).parents("li").removeClass("jky-on")
-    })
-
 
     function toggleTar() {
         if ($('.top48').hasClass('small-type')) {
@@ -768,41 +723,9 @@
 
     })
 
-    var nowDateObj = nowDate();
+    var nowDateObj = fromatDate();
 
-    function nowDate() {
-        var res = {},
-            nowD = new Date();
-        res.date = nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
-        res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
-        return res
-    }
 
-    function addZero(i) {
-        if (i < 10) {
-            return "0" + i;
-        } else {
-            return i;
-        }
-    }
-
-    /**
-     laydate.render({
-            elem: '.time-input', //指定元素
-            // showBottom: false,
-            type: 'time',
-            format: 'HH:mm',
-            value: nowDateObj.time,
-            done: function(value, date, endDate) {
-                console.log(value); //得到日期生成的值，如：2017-08-18
-                console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-                console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
-            }
-        });
-     **/
-    // setTimeout(function(){
-    // $('.time-input').val(nowDateObj.time)
-    // },0)
 
 
     $(window).on('resize', throttle(resizeFn, 500, {
@@ -917,10 +840,16 @@
             }
         });
 
+        console.log(pressure);
         $("#pressure-tr").find("td").each(function (i, el) {
             if (i != 0) {
-                var value1 = pressure[i * 2 - 2];
-                var value2 = pressure[i * 2 - 1];
+                var value1 = "", value2 = "";
+                if(pressure[i-1]){
+                    value1 = pressure[i - 1].split("/")[0];
+                    value2 = pressure[i - 1].split("/")[1];
+                }
+
+                console.log(value1, value2);
                 var html = '';
                 if (value1 == "" || value2 == "") {
                     html = '<span class="l">' + value1 + '</span>' +
@@ -972,8 +901,8 @@
         })
 
 
-        /*var classid = {{.Userinfo.DepartmentID}};
-        var url = "/pc/home/beds?department_id=" + classid + "&type=0";
+        {{/*var classid = {{.Userinfo.DepartmentID}};*/}}
+        /*var url = "/pc/home/beds?department_id=" + classid + "&type=0";
         $.get(url, function (json) {
             if (json.result == 0) {
 

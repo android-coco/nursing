@@ -26,7 +26,7 @@ type BCE1 struct {
 
 /*接口返回的数据*/
 type UserInfo struct {
-	UID         uint64       `json:"user_id"`     // 员工ID
+	UID         int          `json:"user_id"`     // 员工ID
 	Code        string       `json:"code"`        // 工号
 	Name        string       `json:"name"`        // 姓名
 	Password    string       `json:"password"`    // 密码（加密）
@@ -40,7 +40,7 @@ type User struct {
 	Username     string `json:"name"`          // 姓名
 	Code         string `json:"code"`          // 工号
 	Password     string `json:"-"`             // 密码（sha1加密）
-	Employeeid   uint64 `json:"user_id"`       // 员工ID,值为0时不连到员工表
+	Employeeid   int    `json:"user_id"`       // 员工ID,值为0时不连到员工表
 	Authority    int    `json:"authority"`     // 权限等级
 	DepartmentID int    `json:"department_id"` // 科室ID
 	Status       int    `json:"status"`        // 状态，1：正常，0：停用
@@ -48,7 +48,7 @@ type User struct {
 
 /*用户详情(存入session)*/
 type UserInfoDup struct {
-	UID            uint64 // 员工ID
+	UID            int    // 员工ID
 	Code           string // 工号
 	Name           string // 姓名
 	Password       string // 密码（加密）
@@ -67,7 +67,7 @@ func CheckingUserCodeAndPwd(code, password string) ([]User, error) {
 
 /*更改密码*/
 func ChangePasswordWith(code, password, key string) error {
-	_, err_db := fit.MySqlEngine().Exec("UPDATE User SET User.password = ?, User.key = ? WHERE User.code = ?", password, key, code)
+	_, err_db := fit.MySqlEngine().Exec("UPDATE User SET User.Password = ?, User.Key = ? WHERE User.Code = ?", password, key, code)
 	return err_db
 }
 
@@ -75,9 +75,9 @@ func ChangePasswordWith(code, password, key string) error {
 func FetchAllOfTheAccountHasCreated(departmentId, authority, status, uid int) (slice []Account, err error) {
 	slice = make([]Account, 0)
 	if status == 0 {
-		err = fit.MySqlEngine().SQL("select * from User where departmentid = ? and authority = ? and employeeid != ?", departmentId, authority, uid).Find(&slice)
+		err = fit.MySqlEngine().SQL("select * from User where Departmentid = ? and Authority = ? and Employeeid != ?", departmentId, authority, uid).Find(&slice)
 	} else {
-		err = fit.MySqlEngine().SQL("select * from User where departmentid = ? and authority = ? and status = ? and employeeid != ?", departmentId, authority, status, uid).Find(&slice)
+		err = fit.MySqlEngine().SQL("select * from User where Departmentid = ? and Authority = ? and Status = ? and Employeeid != ?", departmentId, authority, status, uid).Find(&slice)
 	}
 	if err == nil {
 		for i, _ := range slice {
@@ -108,14 +108,14 @@ func FetchAllOfTheAccountNotBeenCreated(departmentId int) (slice []BCE1Dup, err 
 /*根据工号查询账号（不包含科室名）*/
 func FetchAccountWithCode(code string) (Account, error) {
 	user := Account{}
-	_, err_User := fit.MySqlEngine().Table("User").Omit("id","createdate","BCK03").Where("code = ?", code).Get(&user)
+	_, err_User := fit.MySqlEngine().Table("User").Omit("id", "createdate", "BCK03").Where("code = ?", code).Get(&user)
 	return user, err_User
 }
 
 /*根据UID查询账号（不包含科室名）*/
 func FetchAccountWithUid(uid string) (Account, error) {
 	user := Account{}
-	_, err_User := fit.MySqlEngine().Table("User").Omit("id","createdate","BCK03").Where("employeeid = ?", uid).Get(&user)
+	_, err_User := fit.MySqlEngine().Table("User").Omit("id", "createdate", "BCK03").Where("employeeid = ?", uid).Get(&user)
 	return user, err_User
 }
 
@@ -135,27 +135,27 @@ func FetchAccountFromHis(code string) (BCE1, error) {
 }
 
 /*更改账号的权限以及有效状态*/
-func (acc Account)UpdateAccountAuthorityAndStatus() error {
-	_, err := fit.MySqlEngine().Exec("update User set User.authority = ?, User.status = ? where User.employeeid = ? and User.authority < 2",acc.Authority, acc.Status, acc.Employeeid)
+func (acc Account) UpdateAccountAuthorityAndStatus() error {
+	_, err := fit.MySqlEngine().Exec("update User set User.authority = ?, User.status = ? where User.employeeid = ? and User.authority < 2", acc.Authority, acc.Status, acc.Employeeid)
 	return err
 }
 
 /*创建新账号*/
-func CreateAccountWithOriginalUserinfo(bce BCE1,authority, status int) error {
+func CreateAccountWithOriginalUserinfo(bce BCE1, authority, status int) error {
 	const pwd = "123456"
 	//var pwd_sha = utils.Sha1Encryption(pwd)
 	const pwd_sha = "7c4a8d09ca3762af61e59520943dc26494f8941b"
 	account := Account{
-		User:User{
-			Username:bce.BCE03,
-			Code:bce.BCE02,
-			Password:pwd_sha,
-			Employeeid:uint64(bce.BCE01),
-			Authority:authority,
-			DepartmentID:bce.BCK01,
-			Status:status,
+		User: User{
+			Username:     bce.BCE03,
+			Code:         bce.BCE02,
+			Password:     pwd_sha,
+			Employeeid:   bce.BCE01,
+			Authority:    authority,
+			DepartmentID: bce.BCK01,
+			Status:       status,
 		},
-		Key:pwd,
+		Key: pwd,
 	}
 	_, err := fit.MySqlEngine().Table("User").Omit("BCK03").InsertOne(&account)
 	return err

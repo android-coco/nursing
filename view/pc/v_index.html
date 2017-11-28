@@ -65,15 +65,15 @@
                                 <div class='item {{if eq $val.AAG01 "0"}}t1{{else if eq $val.AAG01 "1"}}t2{{else if eq $val.AAG01 "2"}}t3{{else if eq $val.AAG01 "3"}}t4{{else if eq $val.AAG01 "4"}}t5{{end}}'>
                                     <div class="hide-menu">
                                         <ul>
-                                            <li><a class="dy" href="/pc/wdprint?pid={{$val.VAA01}}">打印腕带</a></li>
+                                            <li><a target="view_window" class="dy" href="/pc/wdprint?pid={{$val.VAA01}}">打印腕带</a></li>
                                         </ul>
                                     </div>
                                     <div class="tit">{{$val.BCQ04}}</div>
                                     <div class="cont">
                                         <p> <span class="name">{{$val.VAA05}}</span>&nbsp;&nbsp;&nbsp; {{$val.Gender}}&nbsp;&nbsp;&nbsp; {{$val.VAA10}}岁&nbsp;&nbsp;&nbsp; {{$val.BDP02}}</p>
-                                        <p class="id"> <span>{{$val.BCK03C}}   id：{{$val.VAA01}}</span></p>
+                                        <p class="id"> <span>{{$val.BCK03C}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;住院号：{{$val.VAA04}}</span></p>
                                         <p class="msg"> <span>{{$val.VAO15}}</span></p>
-                                        <p><span class="name-tit">责任医生：</span><span class="ysname">{{$val.BCE03C}}</span></p>
+                                        <p><span class="name-tit">住院医师：</span><span class="ysname">{{$val.BCE03C}}</span></p>
                                         <div class="icon-bar">
                                             {{if eq $val.NewOrder 1}}
                                             <div class="jky-icon">
@@ -126,7 +126,7 @@
                         <th class="th5">住院号</th>
                         <th class="th6">护理级别</th>
                         <th class="th7">诊断</th>
-                        <th class="th8">主治医生</th>
+                        <th class="th8">住院医师</th>
                         <th class="th9">责任护士</th>
                         <th class="th10">入院时间</th>
                         <th class="th11">费用差额</th>
@@ -139,7 +139,7 @@
                             <tr>
                                 <td class="id">
                                     <div class="hideCe">
-                                        <a href="/pc/wdprint?pid={{$val.VAA01}}">打印腕带 </a>
+                                        <a target="view_window" href="/pc/wdprint?pid={{$val.VAA01}}">打印腕带 </a>
                                     </div>
                                     <p class="txt">{{$val.BCQ04}}</p>
                                     <div class="icon"><img src="/static/dist/images/admin_pc/icon17.png" alt=""></div>
@@ -147,7 +147,7 @@
                                 <td>{{$val.VAA05}}</td>
                                 <td class="t-c">{{$val.Gender}}</td>
                                 <td class="t-c">{{$val.VAA10}}</td>
-                                <td class="t-c">{{$val.VAA01}}</td>
+                                <td class="t-c">{{$val.VAA04}}</td>
                                 <td class='t-c {{if eq $val.AAG01 "0"}}t1{{else if eq $val.AAG01 "1"}}t2{{else if eq $val.AAG01 "2"}}t3{{else if eq $val.AAG01 "3"}}t4{{else}}t5{{end}}'>
                                     {{if eq $val.AAG01 "0"}}特级护理{{else if eq $val.AAG01 "1"}}一级护理{{else if eq $val.AAG01 "2"}}二级护理{{else if eq $val.AAG01 "3"}}三级护理{{else}}无护理级别{{end}}
                                 </td>

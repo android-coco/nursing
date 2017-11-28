@@ -49,7 +49,7 @@
                                     <option value="20:00:00">20</option>
                                     <option value="23:59:59">24</option>
                                 </select>
-                                <a  class="search-btn">确定</a>
+                                <!--<a  class="search-btn">确定</a>-->
                             </div>
                             <div class="sel-bar fl">
                                 <div class="txt">患者列表:</div>
@@ -75,7 +75,7 @@
                             </div>
 
                         </div>
-                        <div class="scroll-box">
+                        <div class="scroll-box" style="min-height: 100%">
                             <div class="cont-warp">
                                 <div class="cont-table-div">
                                     <table class="cont-table fx">
@@ -251,7 +251,6 @@
                                                             <option value="7">转科</option>
                                                             <option value="8">转院</option>
                                                             <option value="9">死亡</option>
-                                                            <option value="10">外出</option>
                                                         </select>
                                                         <div class="date-box" style="display: inline-block">
                                                             <!--<input type="text" class="am-form-field  date-input2 incidentTime1" >-->
@@ -386,16 +385,20 @@
                 return i;
             }
         }
-        laydate.render({
-            elem: '.date-input', //指定元素
-            showBottom: false,
-            value: nowDateObj.date,
-            done: function(value, date, endDate) {
-                console.log(value); //得到日期生成的值，如：2017-08-18
-                console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-                console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
-            }
-        });
+//        laydate.render({
+//            elem: '.date-input', //指定元素
+//            showBottom: false,
+//            value: nowDateObj.date,
+//            done: function(value, date, endDate) {
+//                console.log(value); //得到日期生成的值，如：2017-08-18
+//                console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+//                console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+//            }
+//        });
+
+
+
+
 
         laydate.render({
             elem: '.time-input', //指定元素
@@ -411,45 +414,21 @@
         });
 
 
-        lay('.date-input2').each(function(){
-            laydate.render({
-                elem: this,
-                showBottom: false,
-                value: nowDateObj.date,
-                done: function(value, date, endDate) {
-                    console.log(value); //得到日期生成的值，如：2017-08-18
-                    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-                    console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
-                }
-            });
-        });
-        lay('.time-input2').each(function(){
-            laydate.render({
-                elem: this,
-                type: 'time',
-                format: 'HH:mm',
-                value: nowDateObj.time,
-                done: function(value, date, endDate) {
-                    console.log(value); //得到日期生成的值，如：2017-08-18
-                    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-                    console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
-                }
-            });
-        });
+
 
         $(window).on('resize', throttle(resizeFn, 500, {
             leading: false, //配置第一次不立即执行 true 第一次执行 false 第一次不执行
             trailing: true // 是否抛弃 还是 往后堆积
         }))
 
-        var h = $('.cont-batchInput').height()
+        var h = $('.admin').height()
         resizeFn()
 
         function resizeFn() {
             var $el = $('.hd-bar');
             elH = parseFloat($el.css('height'))
             elPt = parseFloat($el.css('padding-top'))
-            $('.scroll-box').height(h - elH - elPt)
+            $('.scroll-box').height(h - elH - elPt -110)
         }
         var hxScroll = 0,
             zxScroll = 0;
@@ -504,7 +483,25 @@
                 res[i]["skin_value"] = $.trim($(el).find(".skinValue").val())  || ""
                 res[i]["other_value"] = $.trim($(el).find(".otherValue").val())  || ""
                 res[i]["incident_scene"] = $.trim($(el).find(".incidentScene").val())  || ""
-                res[i]["incident_time"] = $.trim(testTime) +" "+ $.trim($(el).find(".incidentTime2").val()) +":00"
+
+                var timeStr =  $.trim($(el).find(".incidentTime2").val())
+                var hour = parseInt(timeStr.split(":")[0])
+                var isAddDay = false;
+                if(hour<2){
+                    isAddDay = true
+                }
+
+                var date = new Date($.trim(testTime))
+                dateStr =$.trim(testTime)
+                if(isAddDay){
+                    var dateNew = new Date(date.getTime()+24*60*60*1000)
+                    dateStr = fromatDate(dateNew).date
+
+                }
+
+
+
+                res[i]["incident_time"] = dateStr +" "+ $.trim($(el).find(".incidentTime2").val()) +":00"
             })
 
             console.log(JSON.stringify(res))
@@ -522,6 +519,198 @@
                 }
             }, 'json');
         })
+
+        var hashObj={
+            "4":"04:00:00",
+            "8":"08:00:00",
+            "12":"12:00:00",
+            "16":"16:00:00",
+            "20":"20:00:00",
+            "24":"23:59:59",
+        }
+
+        $("#timeBlock").on("change",function(){
+//            var timeblock = getURLParam("timeblock");
+//            if(!timeblock){
+//                timeblock=8
+//            }
+           var timeblock = $(this).find("option:selected").text()
+            location.href="/pc/batvhinput?timeblock=" +timeblock
+        })
+        var timeblock = getURLParam("timeblock");
+        if(!timeblock){
+            timeblock="8"
+        }
+        $("#timeBlock").val(hashObj[timeblock])
+
+        var limitObj={
+            "4":{
+                min:"02:00:00",
+                max:"05:59:00",
+            },
+            "8":{
+                min:"06:00:00",
+                max:"09:59:00",
+            },
+            "12":{
+                min:"10:00:00",
+                max:"13:59:59",
+            },
+            "16":{
+                min:"14:00:00",
+                max:"17:59:59",
+            },
+            "20":{
+                min:"18:00:00",
+                max:"21:59:59",
+            },
+//            "24":{
+//                min:"22:00:00",
+//                max:"23:59:59",
+//            }
+        }
+
+        var defaultObj={
+            "4":"04:00",
+            "8":"08:00",
+            "12":"12:00",
+            "16":"16:00",
+            "20":"20:00",
+            "24":"23:59",
+        }
+
+        lay('.time-input2').each(function(){
+            var $this = $(this)
+            var option = {
+                elem: this,
+                type: 'time',
+                format: 'HH:mm',
+                value: defaultObj[timeblock],
+
+                done: function(value, date, endDate) {
+                    console.log(value); //得到日期生成的值，如：2017-08-18
+                    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                    console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                    if(timeblock=="24"){
+                        var timeSacp =(date.hours*60+date.minutes)*60 +date.seconds
+                        if(timeSacp<79200&&timeSacp>7199){
+                            alert("不在范围！！");
+
+                            setTimeout(function(){
+                                $this.val("23:59")
+                            })
+
+
+
+//                            laydate.render(option);
+
+//                            laydate.ready
+                            return false;
+                        }
+                    }
+
+
+                    //22:00:00    79200
+                    //23:59:59    86399
+                    //00:00:00    0
+                    //01:59:59    7199
+
+                },
+                "change":function(){
+                    return false;
+                }
+
+            }
+            if(timeblock!="24"){
+                option.min=limitObj[timeblock].min;
+                option.max=limitObj[timeblock].max;                
+            } 
+
+            if (timeblock == "24") {
+                var ftime = {}, stime = {};
+                ftime.min = new Date();
+                ftime.min.setHours(0);
+                ftime.max = new Date();
+                ftime.max.setHours(1);
+
+                stime.min = new Date();
+                stime.min.setHours(22);
+                stime.max = new Date();
+                stime.max.setHours(23);
+                
+                option.limitList = new Array(ftime, stime);
+                
+            }
+
+            var dateLaydate  =laydate.render(option);
+        });
+
+
+        $("#c1").on("click",function () {
+
+            var timeblock =$("#timeBlock").find("option:selected").text()
+            location.href="/pc/batvhinput?testtime="+$("#testTime").val()+"&timeblock="+timeblock+"&measuretype=1"
+
+        })
+        $("#c2").on("click",function () {
+//                measure_type := r.FormValue("measuretype")
+//                test_time := r.FormValue("testtime")
+//                interval := r.FormValue("timeblock")
+
+            var timeblock = $("#timeBlock").find("option:selected").text()
+
+            location.href="/pc/batvhinput?testtime="+$("#testTime").val()+"&timeblock="+timeblock+"&measuretype=2"
+        })
+        $("#c3").on("click",function () {
+//                location.href="/pc/batvhinput"
+            var timeblock = $("#timeBlock").find("option:selected").text()
+            location.href="/pc/batvhinput?testtime="+$("#testTime").val()+"&timeblock="+timeblock+"&measuretype=3"
+
+        })
+
+
+        var measuretype = getURLParam("measuretype");
+        if(measuretype=="2"){
+            $("#c2").prop("checked",true)
+        }else if(measuretype=="3"){
+            $("#c3").prop("checked",true)
+        }else{
+            $("#c1").prop("checked",true)
+        }
+
+        var testtime = getURLParam("testtime");
+        if(testtime){
+            console.log("testtime",testtime)
+//                testtime.
+            if(/^\d{4}-\d{2}-\d{2}$/.test(testtime)){
+                laydate.render({
+                    elem: "#testTime", //指定元素
+                    showBottom: false,
+                    value: testtime,
+                    done: function(value, date, endDate) {
+                        console.log("?")
+                        if(!measuretype){measuretype=1}
+                        var timeblock = $("#timeBlock").find("option:selected").text()
+                        location.href="/pc/batvhinput?testtime="+$("#testTime").val()+"&timeblock="+timeblock+"&measuretype="+measuretype
+                    }
+                });
+            }
+
+        }else{
+            laydate.render({
+                elem: "#testTime", //指定元素
+                showBottom: false,
+                value: nowDateObj.date,
+                done: function(value, date, endDate) {
+                    console.log("?")
+                    if(!measuretype){measuretype=1}
+                    var timeblock = $("#timeBlock").find("option:selected").text()
+                    location.href="/pc/batvhinput?testtime="+$("#testTime").val()+"&timeblock="+timeblock+"&measuretype="+measuretype
+                }
+            });
+        }
+
+
     </script>
 </body>
 

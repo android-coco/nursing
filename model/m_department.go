@@ -19,6 +19,11 @@ type BCK1 struct {
 	BCK03 string `json:"department_name"` // 科室名称
 }
 
+/*科室ID，用于查询*/
+type BCKTemp struct {
+	BCK01C int // 科室ID
+}
+
 /*
 获取医院的科室列表
 wardOnly = true 只返回病区科室，  wardOnly = false  返回全院所有的科室

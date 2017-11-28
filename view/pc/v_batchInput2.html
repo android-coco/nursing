@@ -173,7 +173,16 @@
                                                 <td>
                                                     <div class="table-input-bar">
                                                         <input type="text" id="row1_input1" class="input1 thmValue" value="{{.ThmValue}}">
-                                                        <select  class="abs type1 thmType">
+                                                        <!--<span>
+                                                            {{if eq .ThmType 1 }}腋温{{end}}
+                                                            {{if eq .ThmType 2 }}耳温{{end}}
+                                                            {{if eq .ThmType 3 }}口温{{end}}
+                                                            {{if eq .ThmType 4 }}肛温{{end}}
+                                                            {{if eq .ThmType 5 }}额温{{end}}
+
+
+                                                        </span>-->
+                                                        <select  class="abs type1 thmType" disabled>
                                                             <option {{if eq .ThmType 0 }} selected="" {{end}} value="0">&nbsp;</option>
                                                             <option {{if eq .ThmType 1 }} selected="" {{end}} value="1">腋温</option>
                                                             <option {{if eq .ThmType 2 }} selected="" {{end}} value="2">耳温</option>
@@ -225,7 +234,7 @@
                                                     <div class="table-input-bar">
                                                         <input type="text" id="row1_input3" class="input1 pulseValue" value="{{.PulseValue}}">
                                                         <div class="check-bar">
-                                                            <input type="checkbox" id="row1_input4" class="pulseBriefness">
+                                                            <input type="checkbox" id="row1_input4" class="pulseBriefness" {{if eq .PulseBriefness 1 }} checked {{end}}>
                                                             <label for="row1_input4">
                                                                 短绌
                                                             </label>
@@ -367,11 +376,10 @@
                                                         <option {{if eq .IncidentScene 7 }} selected="" {{end}} value="7">转科</option>
                                                         <option {{if eq .IncidentScene 8 }} selected="" {{end}} value="8">转院</option>
                                                         <option {{if eq .IncidentScene 9 }} selected="" {{end}} value="9">死亡</option>
-                                                        <option {{if eq .IncidentScene 10 }} selected="" {{end}} value="10">外出</option>
                                                     </select>
                                                         <div class="date-box" style="display: inline-block">
                                                             <!--<input type="text" class="am-form-field  date-input2 type2 incidentTime1">-->
-                                                            <input type="text" class="am-form-field  time-input2 type2 incidentTime2">
+                                                            <input type="text" data-timeblcok="{{.TimeFrame}}" data-time="{{.IncidentTime}}" class="am-form-field  time-input2 type2 incidentTime2">
                                                         </div>
                                                     </div>
 
@@ -386,19 +394,18 @@
                                                         {{if eq .IncidentScene 7 }} 转科 {{end}}
                                                         {{if eq .IncidentScene 8 }} 转院 {{end}}
                                                         {{if eq .IncidentScene 9 }} 死亡 {{end}}
-                                                        {{if eq .IncidentScene 10 }} 外出 {{end}}
                                                         {{.IncidentTime}}
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="btn-group2">
                                                         <div class="l">
-                                                            <a href="javascript:;" class="save-btn" data-ty="{{.TestTime}}" data-ss="{{.DateTime}}">保存</a>
+                                                            <a href="javascript:;" class="save-btn" data-ty="{{.TestTime}}" data-ss="{{.DateTime}}" data-id="{{.ThmId}},{{.PulseId}},{{.BreatheId}},{{.ShitId}},{{.PressureId}},{{.HeartrateId}},{{.WeightId}},{{.HeightId}},{{.SkinId}},{{.OtherId}},{{.IncidentId}}">保存</a>
                                                             <a href="javascript:;" class="edit-btn">
                                                                 <i class="am-icon-pencil"></i> 编辑
                                                             </a>
                                                         </div>
-                                                        <a href="javascript:;" class="del-btn"><i class="am-icon-trash"></i>删除</a>
+                                                        <a href="javascript:;" class="del-btn" data-id="{{.ThmId}},{{.PulseId}},{{.BreatheId}},{{.ShitId}},{{.PressureId}},{{.HeartrateId}},{{.WeightId}},{{.HeightId}},{{.SkinId}},{{.OtherId}},{{.IncidentId}}" data-pulseid="{{.ThmId}}"><i class="am-icon-trash"></i>删除</a>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -694,70 +701,212 @@
                 }
             });
         });
+
+        var timeHash = {
+            "4":{
+                min:"02:00:00",
+                max:"05:59:00",
+            },
+            "8":{
+                min:"06:00:00",
+                max:"09:59:00",
+            },
+            "12":{
+                min:"10:00:00",
+                max:"13:59:59",
+            },
+            "16":{
+                min:"14:00:00",
+                max:"17:59:59",
+            },
+            "20":{
+                min:"18:00:00",
+                max:"21:59:59",
+            },
+//            "24":{
+//                min:"22:00:00",
+//                max:"23:59:59",
+//            }
+        }
+
+
+        var hashObj={
+            "4":"04:00:00",
+            "8":"08:00:00",
+            "12":"12:00:00",
+            "16":"16:00:00",
+            "20":"20:00:00",
+            "24":"23:59:59",
+        }
         lay('.time-input2').each(function(){
-            laydate.render({
-                elem: this,
-                type: 'time',
-                format: 'HH:mm',
-                value: nowDateObj.time,
-                done: function(value, date, endDate) {
-                    console.log(value); //得到日期生成的值，如：2017-08-18
-                    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-                    console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+            var $this = $(this)
+//            console.log($(this).data("timeblcok"))
+            var timeBlock = $(this).data("timeblcok")
+            var timeVal = $(this).data("time")
+            if(!timeVal){
+                timeVal =  hashObj[timeBlock]
+            }
+            if(timeBlock&&timeVal){
+                timeVal = timeVal.slice(timeVal.indexOf(" ")+1)
+                timeVal  = timeVal.slice(0,timeVal.length-3);
+
+                var option= {
+                    elem: this,
+                    type: 'time',
+                    format: 'HH:mm',
+                    value: timeVal,
                 }
-            });
+
+                if(timeBlock!="24"){
+                    option.min=timeHash[timeBlock].min
+                    option.max= timeHash[timeBlock].max
+                }
+
+                option.done=function(value, date, endDate) {
+
+                    if(timeBlock=="24"){
+                        var timeSacp =(date.hours*60+date.minutes)*60 +date.seconds
+                        if(timeSacp<79200&&timeSacp>7199){
+                            alert("不在范围！！");
+                            setTimeout(function(){
+                                $this.val(timeVal)
+                            })
+
+                            return false;
+                        }
+                    }else{}
+                }
+                    laydate.render(option);
+
+
+            }else{
+
+            }
         });
 
 
 
         $("body").on("click",".save-btn",function(){
-            $(this).parents('tr').removeClass('active')
+            var $this = $(this);
             var $tr = $(this).parents("tr");
+            var idStr = $(this).data("id")
+            var idArr = idStr.split(",");
+            var res ={}
+            res["patient_id"]=$.trim( $tr.data("pid")) || ""
+            res["nurse_id"]= $.trim( $tr.data("nid")) || ""
+            res["nurse_name"]= $.trim( $tr.data("nname")) || ""
+            res["test_time"]= $(this).data("ty")
 
-            var res = [];
-                res[0]={};
-                res[0]["patient_id"] = $.trim( $tr.data("pid")) || ""
-                res[0]["nurse_id"]= $.trim( $tr.data("nid")) || ""
-                res[0]["nurse_name"]= $.trim( $tr.data("nname")) || ""
-                res[0]["test_time"]= $(this).data("ty")
-                res[0]["thm_value"] =$.trim($tr.find(".thmValue").val())  || ""
-                res[0]["thm_type"] =$.trim($tr.find(".thmType").val())  || ""
-                res[0]["thm_scene"] =$.trim($tr.find(".thmScene").val())  || ""
-                res[0]["pulse_value"] = $.trim($tr.find(".pulseValue").val())  || ""
-                if($tr.find(".pulseBriefness").is(":checked")){
-                    res[0]["pulse_briefness"] ="1"
-                }else{
-                    res[0]["pulse_briefness"] ="0"
-                }
-                res[0]["breathe_value"] = $.trim($tr.find(".breatheValue").val())  || ""
-                res[0]["breathe_scene"] =$.trim($tr.find(".breatheScene").val())  || ""
-                res[0]["shit_value"] = $.trim($tr.find(".shitValue").val())  || ""
-                res[0]["shit_scene"] = $.trim($tr.find(".shitScene").val())  || ""
-                res[0]["pressure_dia"] = $.trim($tr.find(".pressureDia").val())|| ""
-                res[0]["pressure_sys"] =$.trim($tr.find(".pressureSys").val())  || ""
+            res["thm_id"] =idArr[0]
+            res["thm_value"] =$.trim($tr.find(".thmValue").val())  || ""
+            res["thm_type"] =$.trim($tr.find(".thmType").val())  || ""
+            res["thm_scene"] =$.trim($tr.find(".thmScene").val())  || ""
 
-                res[0]["pressure_scene"] = $.trim($tr.find(".pressureScene").val())  || ""
-                res[0]["heartrate_value"] = $.trim($tr.find(".heartrateValue").val())  || ""
-                res[0]["weight_value"] = $.trim($tr.find(".weightValue").val())  || ""
-                res[0]["weight_scene"] = $.trim($tr.find(".weightScene").val())  || ""
-                res[0]["height_value"] = $.trim($tr.find(".heightValue").val())  || ""
-                res[0]["height_scene"] = $.trim($tr.find(".heightScene").val())  || ""
-                res[0]["skin_value"] = $.trim($tr.find(".skinValue").val())  || ""
-                res[0]["other_value"] = $.trim($tr.find(".otherValue").val())  || ""
-                res[0]["incident_scene"] = $.trim($tr.find(".incidentScene").val())  || ""
-                res[0]["incident_time"] = $(this).data("ss") +" "+ $.trim($tr.find(".incidentTime2").val()) +":00"
-
-
-            console.log(JSON.stringify(res))
-
-            var reqData ={
-                value:JSON.stringify(res)
+            res["pulse_id"] =idArr[1]
+            res["pulse_value"] = $.trim($tr.find(".pulseValue").val())  || ""
+            if($tr.find(".pulseBriefness").is(":checked")){
+                res["pulse_briefness"] ="1"
+            }else{
+                res["pulse_briefness"] ="0"
             }
 
-            $.post("/pc/batvhinput", reqData, function (json, status) {
+            res["breathe_id"] =idArr[2]
+            res["breathe_value"] = $.trim($tr.find(".breatheValue").val())  || ""
+            res["breathe_scene"] =$.trim($tr.find(".breatheScene").val())  || ""
+
+            res["shit_id"] =idArr[3]
+            res["shit_value"] = $.trim($tr.find(".shitValue").val())  || ""
+            res["shit_scene"] = $.trim($tr.find(".shitScene").val())  || ""
+
+            res["pressure_id"] =idArr[4]
+            res["pressure_dia"] = $.trim($tr.find(".pressureDia").val())|| ""
+            res["pressure_sys"] =$.trim($tr.find(".pressureSys").val())  || ""
+            res["pressure_scene"] = $.trim($tr.find(".pressureScene").val())  || ""
+
+            res["heartrate_id"] =idArr[5]
+            res["heartrate_value"] = $.trim($tr.find(".heartrateValue").val())  || ""
+
+            res["weight_id"] =idArr[6]
+            res["weight_value"] = $.trim($tr.find(".weightValue").val())  || ""
+            res["weight_scene"] = $.trim($tr.find(".weightScene").val())  || ""
+
+            res["height_id"] =idArr[7]
+            res["height_value"] = $.trim($tr.find(".heightValue").val())  || ""
+            res["height_scene"] = $.trim($tr.find(".heightScene").val())  || ""
+
+            res["skin_id"] =idArr[8]
+            res["skin_value"] = $.trim($tr.find(".skinValue").val())  || ""
+
+            res["other_id"] =idArr[9]
+            res["other_value"] = $.trim($tr.find(".otherValue").val())  || ""
+
+            res["incident_id"] =idArr[10]
+            res["incident_scene"] = $.trim($tr.find(".incidentScene").val())  || ""
+            res["incident_time"] = $(this).data("ss") +" "+ $.trim($tr.find(".incidentTime2").val()) +":00"
+
+//            var reqData ={
+//                value:JSON.stringify(res)
+//            }
+
+            $.post("/pc/patvhupdate", res, function (json, status) {
                 //console.log(json, status);
                 if (json.result == 0 ) {
                     alert(json.errmsg)
+
+
+                    var t1 = $this.parents("tr").find(".thmValue").val(),
+                        t2 = $this.parents("tr").find(".thmType").find("option:selected").text(),
+                    t3 = $this.parents("tr").find(".thmScene").find("option:selected").text()
+                    console.log(t1,t2,t3,  $this.parents("tr").find(".thmValue").parents("td").find(".text-msg"))
+                    $this.parents("tr").find(".thmValue").parents("td").find(".text-msg").text(t1+" "+t2+" "+t3)
+                    var t4=$this.parents("tr").find(".pulseValue").val(),
+                        t5 = $this.parents("tr").find(".pulseBriefness").is(":checked")? "短绌":"";
+                    $this.parents("tr").find(".pulseValue").parents("td").find(".text-msg").text(t4+" "+t5)
+                    var t6 = $this.parents("tr").find(".breatheValue").val(),
+                        t7 = $this.parents("tr").find(".breatheScene").find("option:selected").text()
+                    $this.parents("tr").find(".breatheValue").parents("td").find(".text-msg").text(t6+" "+t7)
+
+
+                    var t8 = $this.parents("tr").find(".shitValue").val(),
+                        t9 = $this.parents("tr").find(".pressureScene").find("option:selected").text()
+                    $this.parents("tr").find(".shitValue").parents("td").find(".text-msg").text(t8+" "+t9)
+
+                    var t10 = $this.parents("tr").find(".pressureSys").val(),
+                        t11 = $this.parents("tr").find(".pressureDia").val(),
+                        t12 = $this.parents("tr").find(".pressureScene").find("option:selected").text()
+                    $this.parents("tr").find(".pressureSys").parents("td").find(".text-msg").text(t10+"/"+t11+"  "+t12)
+
+                    var t13 = $this.parents("tr").find(".heartrateValue").val();
+                    $this.parents("tr").find(".heartrateValue").parents("td").find(".text-msg").text(t13)
+
+                    var t14 = $this.parents("tr").find(".weightValue").val(),
+                        t15 = $this.parents("tr").find(".weightScene").find("option:selected").text();
+                    $this.parents("tr").find(".weightValue").parents("td").find(".text-msg").text(t14+"  "+t15)
+
+                    var t16 = $this.parents("tr").find(".heightValue").val(),
+                        t17 = $this.parents("tr").find(".heightScene").find("option:selected").text();
+                    $this.parents("tr").find(".heightValue").parents("td").find(".text-msg").text(t16+"  "+t17)
+
+                    var t18 = $this.parents("tr").find(".skinValue").val();
+                    $this.parents("tr").find(".skinValue").parents("td").find(".text-msg").text(t18)
+
+                    var t19 = $this.parents("tr").find(".otherValue").val();
+                    $this.parents("tr").find(".otherValue").parents("td").find(".text-msg").text(t19)
+
+
+                    var t20 = $this.parents("tr").find(".incidentScene").find("option:selected").text();
+                    var t21 = $this.parents("tr").find(".incidentTime2").data("time")
+                    var t22 = $this.parents("tr").find(".incidentTime2").val()
+
+                    $this.parents("tr").find(".incidentScene").parents("td").find(".text-msg").text(t20+" "+t21.slice(0,t21.indexOf(" "))+" "+t22)
+
+
+
+
+                    $this.parents('tr').removeClass('active')
+
+
+
                 } else  {
                     alert(json.result + json.errmsg+json.Ddatas)
                 }
@@ -787,12 +936,27 @@
             $("#all-btn").prop("checked",false)
         }
     })
-    $(".user-bar").on("click","li",function(){
-        console.log("??")
+    $(".user-bar").on("click","li",function(e){
+
+        var eTagName=$(e.target)[0].tagName
         var $check = $(this).find("input[type=checkbox]")
-//        console.log($check.prop("checked"))
-        var isCheck = $check.prop("checked")
-        $check.prop("checked",!isCheck)
+        if(eTagName.toLowerCase() != "input"){
+            var isCheck = $check.prop("checked")
+            $check.prop("checked",!isCheck)
+
+            var checklist = $(".user-bar input[type=checkbox]");
+            var len = checklist.length,sum=0;
+            checklist.each(function(i,el){
+                if($(el).prop("checked")){
+                    sum++;
+                }
+            })
+            if(len == sum){
+                $("#all-btn").prop("checked",true)
+            }else{
+                $("#all-btn").prop("checked",false)
+            }
+        }
     })
 
 
@@ -847,6 +1011,34 @@
         $("#search-from").submit();
     })
 
+
+    $("body").on("click",".del-btn",function(){
+        var id = $(this).data("id")
+        var data = {}
+        data["delete_id"]=id;
+        var $this= $(this)
+        $.ajax({
+            url: "/pc/patvhdelete",
+            data: data,
+            type: "POST",
+            success: function (data) {
+//                console.log(data);
+                if (data) {
+                    switch (data.result) {
+                        case 0:
+                            $this.parents("tr").remove()
+                            break;
+                        default:
+                            alert(data.errmsg)
+                    }
+                }
+            },
+            error: function (e) {
+                console.log("ajax err:", e)
+            },
+            dataType: "json"
+        })
+    })
 
 </script>
 

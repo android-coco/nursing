@@ -21,7 +21,7 @@ func (c PCNRL7Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Param
 	if err != nil {
 		return
 	}
-
+	fmt.Println("")
 	// 护理单
 	mods, err13 := model.PCQueryNRL7(pid, datestr1, datestr2, pageindex)
 
@@ -30,18 +30,27 @@ func (c PCNRL7Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Param
 		return
 	}
 
-	var pmodel model.NRL7
-	if len(mods) > 0 {
-		pmodel = mods[len(mods)-1]
+	nrl7Title := model.NRL7Title{
+		VAA01:pInfo.VAA01,
 	}
+
+	errTitle := nrl7Title.PCQueryNRL7Title()
+	if errTitle != nil {
+		fit.Logger().LogError("PCQueryNRL1Title error :", errTitle)
+	}
+	//var pmodel model.NRL7
+	//if len(mods) > 0 {
+	//	pmodel = mods[len(mods)-1]
+	//}
 
 	c.Data = fit.Data{
 		"Userinfo":  userinfo, // 护士信息
 		"PInfo":     pInfo,    // 病人信息
 		"Beds":      beds,     // 床位list
-		"NRL08":     pmodel.NRL08,
-		"NRL08A":    pmodel.NRL08A,
-		"NRL08B":    pmodel.NRL08B,
+		"NRLTitle":  nrl7Title,
+		//"NRL08":     pmodel.NRL08,
+		//"NRL08A":    pmodel.NRL08A,
+		//"NRL08B":    pmodel.NRL08B,
 		"NRLList":   mods,
 		"PageNum":   pagenum,
 		"PageIndex": pageindex,

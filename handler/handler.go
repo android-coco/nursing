@@ -39,9 +39,12 @@ func (c *Controller) RenderingJson(result int, errMsg string, datas interface{})
 	c.JsonData.Result = result
 }
 
+	timeNow := time.Now()
+	defer func() {
+		fmt.Println("***JK: 耗时：",fmt.Sprintf("%.1f",time.Now().Sub(timeNow).Seconds()))
+	}()
+
 */
-
-
 
 type PCController struct {
 	fit.Controller
@@ -51,47 +54,44 @@ type PCController struct {
 //	fit.Controller
 //}
 
-
 /*在加载View之前校验登录状态，如果没登录会跳转到登录页*/
 func (c *PCController) LoadViewSafely(w *fit.Response, r *fit.Request, tplname ...string) (success bool) {
 	session, err_s := fit.GlobalManager().SessionStart(w, r)
 	if err_s != nil || session == nil {
 		// Session失效 重新登录
-		fit.Logger().LogError("**JP**", "Session失效 重新登录" + err_s.Error())
-		c.Redirect(w,r,"/pc/login",302)
+		fit.Logger().LogError("**JP**", "Session失效 重新登录"+err_s.Error())
+		c.Redirect(w, r, "/pc/login", 302)
 		return false
 	} else {
 		userinfo := session.Get("UserInfo")
 		if userinfo == nil {
 			// 未登录
 			fit.Logger().LogDebug("**JP**", "未登录")
-			c.Redirect(w,r,"/pc/login",302)
+			c.Redirect(w, r, "/pc/login", 302)
 			return false
 		} else {
 			// 已登录
 			fit.Logger().LogDebug("**JP**", "已登录")
-			c.LoadView(w,tplname...)
+			c.LoadView(w, tplname...)
 			return true
 		}
 	}
 }
 
-
-
 /*获取存储在本地的用户信息，并且会校验登录状态，如果没登录会跳转到登录页*/
-func (c *PCController)GetLocalUserinfo(w *fit.Response, r *fit.Request) (userinfo model.UserInfoDup, err error) {
+func (c *PCController) GetLocalUserinfo(w *fit.Response, r *fit.Request) (userinfo model.UserInfoDup, err error) {
 	ses, err_s := fit.GlobalManager().SessionStart(w, r)
 	if err_s != nil || ses == nil {
 		// Session失效 重新登录
-		fit.Logger().LogError("**JP**", "Session失效 重新登录" + err_s.Error())
-		c.Redirect(w,r,"/pc/login",302)
-		return userinfo , err_s
+		fit.Logger().LogError("**JP**", "Session失效 重新登录"+err_s.Error())
+		c.Redirect(w, r, "/pc/login", 302)
+		return userinfo, err_s
 	} else {
 		temp := ses.Get("UserInfo")
 		if temp == nil {
 			// 未登录
 			fit.Logger().LogDebug("**JP**", "未登录")
-			c.Redirect(w,r,"/pc/login",302)
+			c.Redirect(w, r, "/pc/login", 302)
 			return userinfo, errors.New("未登录，无法获取用户信息")
 		} else {
 			// 已登录
@@ -101,7 +101,6 @@ func (c *PCController)GetLocalUserinfo(w *fit.Response, r *fit.Request) (userinf
 		}
 	}
 }
-
 
 /*
 护理单 PC用
@@ -114,35 +113,38 @@ func (c *PCController) GetBedsAndUserinfo(w *fit.Response, r *fit.Request, nrlTy
 	userinfo, err = c.GetLocalUserinfo(w, r)
 	if err != nil {
 		fmt.Fprintln(w, "参数错误！  user info error", err)
+		fit.Logger().LogError("Error", "参数错误！  user info error", err)
 		return
 	}
 
 	beds, err = model.QueryDepartmentBeds(userinfo.DepartmentID, false)
 	if err != nil {
+		fmt.Fprintln(w, "query beds err:", err)
 		fit.Logger().LogError("query beds err:", err)
 		return
 	}
-	//fmt.Printf("bed1 : %+v\n", beds)
-	//fmt.Println("user info :", userinfo)
-	//fmt.Println("beds:", beds)
 
 	pid = r.FormValue("pid")
 	if pid == "" {
 		if len(beds) == 0 {
 			fit.Logger().LogError("beds is empty")
+			fmt.Fprintln(w, "beds is empty")
 			return
 		}
 
 		pidnum := beds[0].VAA01
-		pid = strconv.Itoa(pidnum)
+		pid = strconv.FormatInt(pidnum, 10)
 		url := "/pc/record/nrl" + nrlType + "?pid=" + pid
+		if nrlType == "9" {
+			url = "/pc/templist" + "?pid=" + pid
+		}
 		c.Redirect(w, r, url, 302)
 		return userinfo, beds, pid, pInfo, false
 	}
 
 	// 病人信息
 	for _, val := range beds {
-		if strconv.Itoa(val.VAA01) == pid {
+		if strconv.FormatInt(val.VAA01, 10) == pid {
 			pInfo = val
 			break
 		}
@@ -150,7 +152,7 @@ func (c *PCController) GetBedsAndUserinfo(w *fit.Response, r *fit.Request, nrlTy
 
 	if pInfo.VAA01 == 0 {
 		fit.Logger().LogError("pc nrl pInfo is empty")
-		fmt.Fprintln(w, "参数错误！  patient info error")
+		fmt.Fprintln(w, "pc nrl pInfo is empty")
 		return userinfo, beds, pid, pInfo, false
 	}
 
@@ -158,7 +160,7 @@ func (c *PCController) GetBedsAndUserinfo(w *fit.Response, r *fit.Request, nrlTy
 }
 
 // pc 文书 翻页处理时间的页码的
-func (c *PCController) GetPageInfo(w *fit.Response, r *fit.Request, nrlType, pid string) (datestr1, datestr2  string ,pageindex, pagenum int, err error)  {
+func (c *PCController) GetPageInfo(w *fit.Response, r *fit.Request, nrlType, pid string) (datestr1, datestr2 string, pageindex, pagenum int, err error) {
 	// 时间
 	date1, errs := strconv.ParseInt(r.FormValue("sdate"), 10, 64)
 	date2, erre := strconv.ParseInt(r.FormValue("edate"), 10, 64)
@@ -166,13 +168,12 @@ func (c *PCController) GetPageInfo(w *fit.Response, r *fit.Request, nrlType, pid
 		datestr1 = ""
 		datestr2 = ""
 	} else {
-		datestr1 = time.Unix(date1 / 1000 - 60 * 60 * 8, 0).Format("2006-01-02 15:04:05")
-		datestr2 = time.Unix(date2 / 1000 + 60 * 60 * 16, 0).Format("2006-01-02 15:04:05")
+		datestr1 = time.Unix(date1/1000-60*60*8, 0).Format("2006-01-02 15:04:05")
+		datestr2 = time.Unix(date2/1000+60*60*16, 0).Format("2006-01-02 15:04:05")
 	}
-	//fmt.Println("-----", date1,date2, datestr1, datestr2)
 
 	// 总条数
-	count, errCount := model.PCQUeryNRLPageCount(nrlType,pid, datestr1, datestr2)
+	count, errCount := model.PCQUeryNRLPageCount(nrlType, pid, datestr1, datestr2)
 	if errCount != nil {
 		fmt.Fprintln(w, "nrl list err :", errCount)
 		fit.Logger().LogError("nrl page info :", errCount)
@@ -180,9 +181,29 @@ func (c *PCController) GetPageInfo(w *fit.Response, r *fit.Request, nrlType, pid
 		return
 	}
 
-	//fmt.Println("count:", count)
+	var peerPage int64 = 9
+	switch nrlType {
+	case "1":
+		peerPage = 9
+	case "3":
+		peerPage = 9
+	case "4":
+		peerPage = 9
+	case "5":
+		peerPage = 5
+	case "6":
+		peerPage = 4
+	case "7":
+		peerPage = 8
+	case "8":
+		peerPage = 9
+	default:
+		peerPage = 9
+	}
+
+
 	//总页数
-	pagenum = int(count / 9) + 1
+	pagenum = int((count-1)/peerPage) + 1
 	//当前页数
 	index := r.FormValue("num")
 	pageindex, errnum := strconv.Atoi(index)
@@ -194,9 +215,7 @@ func (c *PCController) GetPageInfo(w *fit.Response, r *fit.Request, nrlType, pid
 	} else if pageindex > pagenum {
 		pageindex = pagenum
 	}
-	//fmt.Println("count:", count, "pageNum:", pagenum, "pageindex:", pageindex)
+	fmt.Println("count:", count, "pageNum:", pagenum, "pageindex:", pageindex)
 
 	return
 }
-
-

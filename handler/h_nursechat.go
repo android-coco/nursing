@@ -5,13 +5,16 @@ import (
 	"nursing/model"
 	"strconv"
 	"time"
+	"nursing/utils"
 )
 
-type NurseChatInputController struct {
+//体征PDA路由
+type NurseChatController struct {
 	fit.Controller
 }
 
-func (c NurseChatInputController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
+//pda体征录入
+func (c NurseChatController) NurseChatInput(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 
 	session := fit.MySqlEngine().NewSession()
@@ -26,7 +29,7 @@ func (c NurseChatInputController) Post(w *fit.Response, r *fit.Request, p fit.Pa
 
 	nurse_id,err_nid     := strconv.Atoi(r.FormValue("nurse_id"))
 	nurse_name           := r.FormValue("nurse_name")
-	patient_id,err_pid   := strconv.Atoi(r.FormValue("patient_id"))
+	patient_id,err_pid   := utils.Int64Value(r.FormValue("patient_id"))
 	test_time ,err_tm    := time.ParseInLocation("2006-01-02 15:04:05",r.FormValue("test_time"),time.Local)
 
 	if err_nid !=nil || err_pid !=nil|| nurse_name == "" || err_tm !=nil {
@@ -45,7 +48,7 @@ func (c NurseChatInputController) Post(w *fit.Response, r *fit.Request, p fit.Pa
 		//c.JsonData.Datas = err_tp.Error()
 		return
 	}
-	if thm_value != "" || thm_scene >= 8 {
+	if thm_value != "" || (thm_scene != 0 && thm_scene != 7) {
 		var item model.NurseChat
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
@@ -54,7 +57,7 @@ func (c NurseChatInputController) Post(w *fit.Response, r *fit.Request, p fit.Pa
 
 		item.HeadType = model.Temperature_Type
 		item.Value = thm_value
-		item.Type = thm_type
+		item.SubType = thm_type
 		item.Other = thm_scene
 
 		msg,err := model.IputChat(session,item)
@@ -75,7 +78,7 @@ func (c NurseChatInputController) Post(w *fit.Response, r *fit.Request, p fit.Pa
 		c.JsonData.Datas = err_bf.Error()
 		return
 	}
-	if pulse_value != "" {
+	if pulse_value != "" || pulse_briefness == 1{
 		var item model.NurseChat
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
@@ -84,7 +87,7 @@ func (c NurseChatInputController) Post(w *fit.Response, r *fit.Request, p fit.Pa
 
 		item.HeadType = model.Pulse_Type
 		item.Value = pulse_value
-		item.Type = 0
+		item.SubType = 0
 		item.Other = pulse_briefness
 
 		msg,err := model.IputChat(session,item)
@@ -105,7 +108,7 @@ func (c NurseChatInputController) Post(w *fit.Response, r *fit.Request, p fit.Pa
 		c.JsonData.Datas = err_bs.Error()
 		return
 	}
-	if breathe_value != "" {
+	if breathe_value != "" || breathe_scene !=0{
 		var item model.NurseChat
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
@@ -114,7 +117,7 @@ func (c NurseChatInputController) Post(w *fit.Response, r *fit.Request, p fit.Pa
 
 		item.HeadType = model.Breathe_Type
 		item.Value = breathe_value
-		item.Type = 0
+		item.SubType = 0
 		item.Other = breathe_scene
 
 		msg,err := model.IputChat(session,item)
@@ -135,7 +138,7 @@ func (c NurseChatInputController) Post(w *fit.Response, r *fit.Request, p fit.Pa
 		c.JsonData.Datas = err_ss.Error()
 		return
 	}
-	if shit_value != "" {
+	if shit_value != "" || shit_scene!=0 {
 		var item model.NurseChat
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
@@ -144,7 +147,7 @@ func (c NurseChatInputController) Post(w *fit.Response, r *fit.Request, p fit.Pa
 
 		item.HeadType = model.Shit_Type
 		item.Value = shit_value
-		item.Type = 0
+		item.SubType = 0
 		item.Other = shit_scene
 
 		msg,err := model.IputChat(session,item)
@@ -174,7 +177,7 @@ func (c NurseChatInputController) Post(w *fit.Response, r *fit.Request, p fit.Pa
 
 		item.HeadType = model.Pressure_Type
 		item.Value = pressure_value
-		item.Type = 0
+		item.SubType = 0
 		item.Other = pressure_scene
 
 		msg,err := model.IputChat(session,item)
@@ -197,7 +200,7 @@ func (c NurseChatInputController) Post(w *fit.Response, r *fit.Request, p fit.Pa
 
 		item.HeadType = model.Heartrate_Type
 		item.Value = heartrate_value
-		item.Type = 0
+		item.SubType = 0
 		item.Other = 0
 
 		msg,err := model.IputChat(session,item)
@@ -220,7 +223,7 @@ func (c NurseChatInputController) Post(w *fit.Response, r *fit.Request, p fit.Pa
 
 		item.HeadType = model.Spo2h_Type
 		item.Value = spo2h_value
-		item.Type = 0
+		item.SubType = 0
 		item.Other = 0
 
 		msg,err := model.IputChat(session,item)
@@ -242,7 +245,7 @@ func (c NurseChatInputController) Post(w *fit.Response, r *fit.Request, p fit.Pa
 		//c.JsonData.Datas = []interface{}{err_gt.Error(),err_gs.Error()}
 		return
 	}
-	if glucose_value != "" || glucose_scene != 0{
+	if glucose_value != "" || glucose_scene != 0 || glucose_type!=0{
 		var item model.NurseChat
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
@@ -251,7 +254,7 @@ func (c NurseChatInputController) Post(w *fit.Response, r *fit.Request, p fit.Pa
 
 		item.HeadType = model.Glucose_Type
 		item.Value = glucose_value
-		item.Type = glucose_type
+		item.SubType = glucose_type
 		item.Other = glucose_scene
 
 		msg,err := model.IputChat(session,item)
@@ -281,7 +284,7 @@ func (c NurseChatInputController) Post(w *fit.Response, r *fit.Request, p fit.Pa
 
 		item.HeadType = model.Weight_Type
 		item.Value = weight_value
-		item.Type = 0
+		item.SubType = 0
 		item.Other = weight_scene
 
 		msg,err := model.IputChat(session,item)
@@ -311,7 +314,7 @@ func (c NurseChatInputController) Post(w *fit.Response, r *fit.Request, p fit.Pa
 
 		item.HeadType = model.Height_Type
 		item.Value = height_value
-		item.Type = 0
+		item.SubType = 0
 		item.Other = height_scene
 
 		msg,err := model.IputChat(session,item)
@@ -334,7 +337,7 @@ func (c NurseChatInputController) Post(w *fit.Response, r *fit.Request, p fit.Pa
 
 		item.HeadType = model.Skin_Type
 		item.Value = skin_value
-		item.Type = 0
+		item.SubType = 0
 		item.Other = 0
 
 		msg,err := model.IputChat(session,item)
@@ -357,7 +360,7 @@ func (c NurseChatInputController) Post(w *fit.Response, r *fit.Request, p fit.Pa
 
 		item.HeadType = model.Other_Type
 		item.Value = other_value
-		item.Type = 0
+		item.SubType = 0
 		item.Other = 0
 
 		msg,err := model.IputChat(session,item)
@@ -386,7 +389,7 @@ func (c NurseChatInputController) Post(w *fit.Response, r *fit.Request, p fit.Pa
 
 		item.HeadType = model.Incident_Type
 		item.Value = ""
-		item.Type = 0
+		item.SubType = 0
 		item.Other = incident_scene
 
 		msg,err := model.IputChat(session,item)
@@ -409,14 +412,8 @@ func (c NurseChatInputController) Post(w *fit.Response, r *fit.Request, p fit.Pa
 	}
 }
 
-
-
-
-type NurseChatOutputController struct {
-	fit.Controller
-}
-
-func (c NurseChatOutputController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
+//pda体征获取
+func (c NurseChatController) NurseChatOutput(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 
 	patientid := r.FormValue("patientid")
@@ -450,7 +447,7 @@ func (c NurseChatOutputController) Post(w *fit.Response, r *fit.Request, p fit.P
 
 	items := make([]model.NurseChat, 0)
 
-	err := fit.MySqlEngine().SQL("select HeadType, TestTime, Type, Other, Value, PatientId, NurseId, NurseName from (SELECT HeadType, TestTime, Type, Other, Value, PatientId, NurseId, NurseName from NurseChat UNION ALL SELECT HeadType, TestTime, Type, Other, Value, PatientId, NurseId, NurseName from TemperatrureChat) alias WHERE " + sql ,msg...).Find(&items)
+	err := fit.MySqlEngine().SQL("select HeadType, TestTime, SubType, Other, Value, PatientId, NurseId, NurseName from (SELECT HeadType, TestTime, SubType, Other, Value, PatientId, NurseId, NurseName from NurseChat UNION ALL SELECT HeadType, TestTime, SubType, Other, Value, PatientId, NurseId, NurseName from TemperatrureChat) alias WHERE " + sql ,msg...).Find(&items)
 
 	if err != nil {
 		c.JsonData.Result = 1

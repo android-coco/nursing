@@ -10,6 +10,12 @@ type PCNRL8Controller struct {
 	PCController
 }
 
+type QueryPatientStruct struct {
+	PationID   string         `json:pid`           //patient ID
+	PationInfo model.PCBedDup `json:"patientInfo"` //病人信息
+	NRLList    []model.NRL8   `json:"nursingList"` //护理单
+}
+
 func (c PCNRL8Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Params) {
 	// 护士信息 床位表 病人id  病人信息
 	userinfo, beds, pid, pInfo, has := c.GetBedsAndUserinfo(w, r, "8")
@@ -41,3 +47,4 @@ func (c PCNRL8Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Param
 
 	c.LoadViewSafely(w, r, "pc/v_nrl8.html", "pc/header_side.html", "pc/header_top.html")
 }
+

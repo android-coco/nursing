@@ -34,7 +34,7 @@ func (c NRL2Controller) Check(w *fit.Response, r *fit.Request, p fit.Params) {
 
 	pid := nr2.VAA01
 	// 查询对应病人信息
-	patient, has := c.LoadPinfoWithPid(w, r, pid)
+	patient, has := c.LoadPInfoWithPid(w, r, pid)
 	if !has {
 		return
 	}
@@ -72,9 +72,12 @@ func (c NRL2Controller) Check(w *fit.Response, r *fit.Request, p fit.Params) {
 	tempTime, _ := time.ParseInLocation("2006-01-02 15:04:05", nr2.NRL38, time.Local)
 	NRL38A := tempTime.Format("2006-01-02")
 	NRL38B := tempTime.Format("15:04")
-
+	//审核时间
+	tempTime2, _ := time.ParseInLocation("2006-01-02 15:04:05", nr2.NRL39A, time.Local)
+	NRL39B := tempTime2.Format("2006-01-02")
+	NRL39C := tempTime2.Format("15:04")
 	c.Data = fit.Data{
-		"Pinfo":  patient, // 病人数据
+		"PInfo":  patient, // 病人数据
 		"NRL":    nr2,     // 护理单数据
 		"VAA73":  VAA73,   // 入院时间
 		"NRL06A": NRL06A,  // 过敏源的index
@@ -83,6 +86,8 @@ func (c NRL2Controller) Check(w *fit.Response, r *fit.Request, p fit.Params) {
 		"NRL18B": NRL18B,  // 1次/m天
 		"NRL38A": NRL38A,  // 录入护理单的年月日
 		"NRL38B": NRL38B,  // 录入护理单的时分
+		"NRL39B":    NRL39B, //审核时间
+		"NRL39C":    NRL39C,
 	}
 
 	fmt.Printf("data %+v\n", c.Data)
@@ -94,16 +99,15 @@ func (c NRL2Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 	uid := r.FormValue("uid") //护士id
 	rid := r.FormValue("rid") // 护理记录单id
 	ty := r.FormValue("type") // 1=add， 2=edit
-
 	var nr2 model.NRL2
 	if ty == "1" {
 		if "" == pid || "" == uid {
-			fmt.Fprintln(w, "参数错误！")
+			fmt.Fprintln(w, "参数错误！1")
 			return
 		}
 	} else if ty == "2" {
 		if rid == "" {
-			fmt.Fprintln(w, "参数错误！")
+			fmt.Fprintln(w, "参数错误！2")
 			return
 		}
 		var err1 error
@@ -114,12 +118,12 @@ func (c NRL2Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 		pid = strconv.FormatInt(nr2.VAA01, 10)
 		uid = nr2.BCE01A
 	} else {
-		fmt.Fprintln(w, "参数错误！")
+		fmt.Fprintln(w, "参数错误！3")
 		return
 	}
 
 	// 查询对应病人信息 护士的信息
-	patient, account, has := c.LoadPinfoAndAccountWithPidUid(w, r, pid, uid)
+	patient, account, has := c.LoadPInfoAndAccountWithPidUid(w, r, pid, uid)
 	if !has {
 		return
 	}
@@ -127,7 +131,7 @@ func (c NRL2Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 	// 入院时间
 	VAA73 := time.Time(patient.VAA73).Format("2006-01-02 15:04")
 	//fmt.Printf("account %+v \n\n %+v\n\n", account, pinfo)
-	var NRL06A, NRL06B, NRL18A, NRL18B, NRL38A, NRL38B string
+	var NRL06A, NRL06B, NRL18A, NRL18B, NRL38A, NRL38B, NRL39B, NRL39C string
 	if ty == "2" {
 		// 过敏史-过敏源-NRL06-Json字符串，key：对应index，value：对应内容
 		if nr2.NRL06 == "2" {
@@ -155,13 +159,18 @@ func (c NRL2Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 		tempTime, _ := time.ParseInLocation("2006-01-02 15:04:05", nr2.NRL38, time.Local)
 		NRL38A = tempTime.Format("2006-01-02")
 		NRL38B = tempTime.Format("15:04")
+
+		//审核时间
+		tempTime2, _ := time.ParseInLocation("2006-01-02 15:04:05", nr2.NRL39A, time.Local)
+		NRL39B = tempTime2.Format("2006-01-02")
+		NRL39C = tempTime2.Format("15:04")
 	}
 
 	c.Data = fit.Data{
 		"Type":    ty,
 		"Rid":     rid,
 		"Account": account,
-		"Pinfo":   patient, // 病人数据
+		"PInfo":   patient, // 病人数据
 		"NRL":     nr2,     // 护理单数据
 		"VAA73":   VAA73,   // 入院时间
 
@@ -171,6 +180,8 @@ func (c NRL2Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 		"NRL18B": NRL18B, // 1次/m天
 		"NRL38A": NRL38A, // 录入护理单的年月日
 		"NRL38B": NRL38B, // 录入护理单的时分
+		"NRL39B":    NRL39B, //审核时间
+		"NRL39C":    NRL39C,
 	}
 
 	c.LoadView(w, "v_nrl2_edit.html")
@@ -192,7 +203,7 @@ func (c NRL2Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params)
 	//NRL38, err4 := time.ParseInLocation("2006-01-02 15:04:05", r.FormValue("datetime"), time.Local)
 	// 科室ID
 	did := r.FormValue("did")
-	BCK01, err2 := strconv.ParseInt(did, 10, 64)
+	BCK01, err2 := strconv.Atoi(did)
 
 	// 文书ID（修改时需要）
 	recordId := r.FormValue("rid")
@@ -459,5 +470,3 @@ func (c NRL2Controller) Exist(w *fit.Response, r *fit.Request, p fit.Params) {
 		c.RenderingJsonAutomatically(4, "不存在该病人的首次护理单")
 	}
 }
-
-

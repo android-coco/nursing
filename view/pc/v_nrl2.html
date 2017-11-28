@@ -1,4 +1,3 @@
-
 {{template "header_top" .}}
 <div class="admin">
     <!--<div class="am-g">-->
@@ -7,7 +6,7 @@
         <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 548px;">
             <div class="sidebar-inner slimscrollleft" style="overflow: hidden; width: auto; height: 548px;">-->
     <!-- sidebar start -->
-    {{template "header_side" .}}
+{{template "header_side" .}}
 
     <!-- sidebar end -->
     <!--</div>
@@ -31,26 +30,29 @@
                 </div>
             </div>
             <div class="user-list">
+
                 <ul>
-                    {{range $key, $val := .Beds}}
-                    <li data-id="{{$key}}" data-msg="{{$val.VAA01}}">
+                {{range $key, $val := .Beds}}
+                    <li data-id="{{$key}}" data-msg="{{$val.VAA01}}"
+                        class="{{if eq $val.VAA01 $.PInfo.VAA01 }}active{{end}}">
                         <div class="l">
                             <label>{{$val.BCQ04}}</label>
                         </div>
                         <div class="r">
-                            {{$val.VAA05}}
+                        {{$val.VAA05}}
                         </div>
                     </li>
-                    {{end}}
+                {{end}}
                 </ul>
             </div>
         </div>
         <!-- Start content -->
+        <!--startprint--><!--注意要加上html里star和end的这两个标记-->
         <div class="content doc-input1-cont">
             <div class="tit-bar">
                 <div class="btn-group">
-                    <a href="" class="btn">打印</a>
-                    <a href="" class="btn type2">保存</a>
+                    <span class="btn print">打印</span>
+                    <span class="btn type2 save-btn">保存</span>
                 </div>
                 <p class="tit">深圳万丰医院首次护理记录单(内科）</p>
 
@@ -68,13 +70,13 @@
                             <li class="b1">
                                 年龄：<span>{{.PInfo.VAA10}}岁</span>
                             </li>
-                            <li class="b1">
+                            <li class="b1" style="min-width: 120px">
                                 科室：<span>{{.PInfo.BCK03C}}</span>
                             </li>
-                            <li class="b1">
+                            <li class="b1" style="min-width: 80px">
                                 床号：<span>{{.PInfo.BCQ04}}</span>
                             </li>
-                            <li class="b1">
+                            <li class="b1" style="min-width: 120px">
                                 住院号：<span>{{.PInfo.VAA04}}</span>
                             </li>
                             <li class="b1">
@@ -98,35 +100,40 @@
                             <ul>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c1-v1" name="check1" data-v="1" {{if eq .NRL.NRL02 "1"}}checked{{end}}>
+                                        <input type="radio" id="c1-v1" name="check1" data-v="1"
+                                               {{if eq .NRL.NRL02 "1"}}checked{{end}}>
                                         <label for="c1-v1" class="icon"></label>
                                     </div>
                                     <label for="c1-v1">文盲</label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c1-v2" name="check1" data-v="2" {{if eq .NRL.NRL02 "2"}}checked{{end}}>
+                                        <input type="radio" id="c1-v2" name="check1" data-v="2"
+                                               {{if eq .NRL.NRL02 "2"}}checked{{end}}>
                                         <label for="c1-v2" class="icon"></label>
                                     </div>
                                     <label for="c1-v2">小学</label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c1-v3" name="check1" data-v="3" {{if eq .NRL.NRL02 "3"}}checked{{end}}>
+                                        <input type="radio" id="c1-v3" name="check1" data-v="3"
+                                               {{if eq .NRL.NRL02 "3"}}checked{{end}}>
                                         <label for="c1-v3" class="icon"></label>
                                     </div>
                                     <label for="c1-v3">中学</label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c1-v4" name="check1" data-v="4" {{if eq .NRL.NRL02 "4"}}checked{{end}}>
+                                        <input type="radio" id="c1-v4" name="check1" data-v="4"
+                                               {{if eq .NRL.NRL02 "4"}}checked{{end}}>
                                         <label for="c1-v4" class="icon"></label>
                                     </div>
                                     <label for="c1-v4">中专</label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c1-v5" name="check1" data-v="5" {{if eq .NRL.NRL02 "5"}}checked{{end}}>
+                                        <input type="radio" id="c1-v5" name="check1" data-v="5"
+                                               {{if eq .NRL.NRL02 "5"}}checked{{end}}>
                                         <label for="c1-v5" class="icon"></label>
                                     </div>
                                     <label for="c1-v5">大专以上</label>
@@ -140,29 +147,29 @@
                             </p>
                             <ul>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c2-v1" name="check2" data-v="1" {{if eq .NRL.NRL03 "1"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c2-v1" name="check2" data-v="1">
                                         <label for="c2-v1" class="icon"></label>
                                     </div>
                                     <label for="c2-v1">患者</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c2-v2" name="check2" data-v="2" {{if eq .NRL.NRL03 "2"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c2-v2" name="check2" data-v="2">
                                         <label for="c2-v2" class="icon"></label>
                                     </div>
                                     <label for="c2-v2">家属</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c2-v3" name="check2" data-v="3" {{if eq .NRL.NRL03 "3"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c2-v3" name="check2" data-v="3">
                                         <label for="c2-v3" class="icon"></label>
                                     </div>
                                     <label for="c2-v3">朋友</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c2-v4" name="check2" data-v="4" {{if eq .NRL.NRL03 "4"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c2-v4" name="check2" data-v="4">
                                         <label for="c2-v4" class="icon"></label>
                                     </div>
                                     <label for="c2-v4">其他</label>
@@ -180,58 +187,58 @@
                             </p>
                             <ul>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c3-v1" name="check3" data-v="1" {{if eq .NRL.NRL04 "1"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c3-v1" name="check3" data-v="1">
                                         <label for="c3-v1" class="icon"></label>
                                     </div>
                                     <label for="c3-v1">自我照顾</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c3-v2" name="check3" data-v="2" {{if eq .NRL.NRL04 "2"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c3-v2" name="check3" data-v="2">
                                         <label for="c3-v2" class="icon"></label>
                                     </div>
                                     <label for="c3-v2">夫/妻</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c3-v3" name="check3" data-v="3" {{if eq .NRL.NRL04 "3"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c3-v3" name="check3" data-v="3">
                                         <label for="c3-v3" class="icon"></label>
                                     </div>
                                     <label for="c3-v3">父母</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c3-v4" name="check3" data-v="4" {{if eq .NRL.NRL04 "4"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c3-v4" name="check3" data-v="4">
                                         <label for="c3-v4" class="icon"></label>
                                     </div>
                                     <label for="c3-v4">子女</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c3-v5" name="check3" data-v="5" {{if eq .NRL.NRL04 "5"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c3-v5" name="check3" data-v="5">
                                         <label for="c3-v5" class="icon"></label>
                                     </div>
                                     <label for="c3-v5">亲戚</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c3-v6" name="check3" data-v="6" {{if eq .NRL.NRL04 "6"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c3-v6" name="check3" data-v="6">
                                         <label for="c3-v6" class="icon"></label>
                                     </div>
                                     <label for="c3-v6">朋友</label>
                                 </li>
 
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c3-v7" name="check3" data-v="7" {{if eq .NRL.NRL04 "7"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c3-v7" name="check3" data-v="7">
                                         <label for="c3-v7" class="icon"></label>
                                     </div>
                                     <label for="c3-v7">保姆</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c3-v8" name="check3" data-v="8" {{if eq .NRL.NRL04 "8"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c3-v8" name="check3" data-v="8">
                                         <label for="c3-v8" class="icon"></label>
                                     </div>
                                     <label for="c3-v8">其他</label>
@@ -255,28 +262,32 @@
                             <ul>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c4-v1" name="check4" data-v="1" {{if eq .NRL.NRL05 "1"}}checked{{end}}>
+                                        <input type="radio" id="c4-v1" name="check4" data-v="1"
+                                               {{if eq .NRL.NRL05 "1"}}checked{{end}}>
                                         <label for="c4-v1" class="icon"></label>
                                     </div>
                                     <label for="c4-v1">步行</label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c4-v2" name="check4" data-v="2" {{if eq .NRL.NRL05 "2"}}checked{{end}}>
+                                        <input type="radio" id="c4-v2" name="check4" data-v="2"
+                                               {{if eq .NRL.NRL05 "2"}}checked{{end}}>
                                         <label for="c4-v2" class="icon"></label>
                                     </div>
                                     <label for="c4-v2">扶行</label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c4-v3" name="check4" data-v="3" {{if eq .NRL.NRL05 "3"}}checked{{end}}>
+                                        <input type="radio" id="c4-v3" name="check4" data-v="3"
+                                               {{if eq .NRL.NRL05 "3"}}checked{{end}}>
                                         <label for="c4-v3" class="icon"></label>
                                     </div>
                                     <label for="c4-v3">轮椅</label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c4-v4" name="check4" data-v="4" {{if eq .NRL.NRL05 "4"}}checked{{end}}>
+                                        <input type="radio" id="c4-v4" name="check4" data-v="4"
+                                               {{if eq .NRL.NRL05 "4"}}checked{{end}}>
                                         <label for="c4-v4" class="icon"></label>
                                     </div>
                                     <label for="c4-v4">平车</label>
@@ -293,10 +304,11 @@
                             <p class="tit">
                                 过敏史：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             </p>
-                            <ul>
+                            <ul class="radio-grup">
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c5-v1" name="check5" data-v="1" class="c5" {{if eq .NRL.NRL06 "1"}}checked{{end}}>
+                                        <input type="radio" id="c5-v1" name="check5" data-v="1" class="c5"
+                                               {{if eq .NRL.NRL06 "1"}}checked{{end}}>
                                         <label for="c5-v1" class="icon"></label>
                                     </div>
                                     <label for="c5-v1">无</label>
@@ -305,38 +317,48 @@
                                 <li>
                                     <div class="m-check-warp">
                                         <div class="m-input-radio">
-                                            <input type="radio" id="c5-v2" name="check5" data-v="2" class="c5" {{if eq .NRL.NRL06 "2"}}checked{{end}}>
+                                            <input type="radio" id="c5-v2" name="check5" data-v="2" class="c5 main-sel"
+                                                   {{if eq .NRL.NRL06 "2"}}checked{{end}}>
                                             <label for="c5-v2" class="icon"></label>
                                         </div>
                                         <label for="c5-v2">有</label>
                                     </div>
-                                    <ul id="c5-c2">
+                                    <ul id="c5-c2" class="child-sel disabled-box">
                                         <li class="b1">
                                             ( 过敏源：
-                                            <div class="m-input-radio">
-                                                <input type="radio" id="c5-v2-v1" name="c5-v2" data-v="1" {{if eq .NRL06A "1"}}checked{{end}}>
+                                            <div class="m-input-checkbox">
+                                                <input type="checkbox" id="c5-v2-v1" name="c5-v2" data-v="1"
+                                                       class="main-sel">
                                                 <label for="c5-v2-v1" class="icon"></label>
                                             </div>
                                             <label for="c5-v2-v1">食物，种类：</label>
-                                            <input type="text" class="m-input-txt" {{if eq .NRL06A "1"}}value="{{.NRL06B}}"{{end}}>
+                                            <span class="child-sel disabled-box">
+                                                <input type="text" class="m-input-txt">
+
+                                            </span>
 
                                         </li>
                                         <li class="b2">
-                                            <div class="m-input-radio">
-                                                <input type="radio" id="c5-v2-v2" name="c5-v2" data-v="2" {{if eq .NRL06A "2"}}checked{{end}}>
+                                            <div class="m-input-checkbox">
+                                                <input type="checkbox" id="c5-v2-v2" name="c5-v2" data-v="2"
+                                                       class="main-sel">
                                                 <label for="c5-v2-v2" class="icon"></label>
                                             </div>
                                             <label for="c5-v2-v2">药物：</label>
-                                            <input type="text" class="m-input-txt" {{if eq .NRL06A "2"}}value="{{.NRL06B}}"{{end}}></li>
-
+                                            <span class="child-sel disabled-box">
+                                                <input type="text" class="m-input-txt"></li>
+                                        </span>
 
                                         <li class="b2">
-                                            <div class="m-input-radio">
-                                                <input type="radio" id="c5-v2-v3" name="c5-v2" data-v="3" {{if eq .NRL06A "3"}}checked{{end}}>
+                                            <div class="m-input-checkbox">
+                                                <input type="checkbox" id="c5-v2-v3" name="c5-v2" data-v="3"
+                                                       class="main-sel">
                                                 <label for="c5-v2-v3" class="icon"></label>
                                             </div>
                                             <label for="c5-v2-v3">其他：</label>
-                                            <input type="text" class="m-input-txt" {{if eq .NRL06A "3"}}value="{{.NRL06B}}"{{end}}>)
+                                            <span class="child-sel disabled-box">
+                                                <input type="text" class="m-input-txt">)
+                                            </span>
                                         </li>
 
                                     </ul>
@@ -344,7 +366,8 @@
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c5-v3" name="check5" data-v="3" class="c5" {{if eq .NRL.NRL06 "3"}}checked{{end}}>
+                                        <input type="radio" id="c5-v3" name="check5" data-v="3" class="c5"
+                                               {{if eq .NRL.NRL06 "3"}}checked{{end}}>
                                         <label for="c5-v3" class="icon"></label>
                                     </div>
                                     <label for="c5-v3">不明确</label>
@@ -355,7 +378,7 @@
                     </div>
                     <div class="line"></div>
 
-                    <div class="cont-row">
+                    <div class="cont-row radio-grup">
                         <!-- 医疗费用支付方式： -->
                         <div class="m-check2 t1" id="c6">
                             <p class="tit">
@@ -364,28 +387,32 @@
                             <ul>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c6-v1" name="check6" data-v="1" {{if eq .NRL.NRL07 "1"}}checked{{end}}>
+                                        <input type="radio" id="c6-v1" name="check6" data-v="1"
+                                               {{if eq .NRL.NRL07 "1"}}checked{{end}}>
                                         <label for="c6-v1" class="icon"></label>
                                     </div>
                                     <label for="c6-v1">自费</label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c6-v2" name="check6" data-v="2" {{if eq .NRL.NRL07 "2"}}checked{{end}}>
+                                        <input type="radio" id="c6-v2" name="check6" data-v="2"
+                                               {{if eq .NRL.NRL07 "2"}}checked{{end}}>
                                         <label for="c6-v2" class="icon"></label>
                                     </div>
                                     <label for="c6-v2">公费医疗</label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c6-v3" name="check6" data-v="3" {{if eq .NRL.NRL07 "3"}}checked{{end}}>
+                                        <input type="radio" id="c6-v3" name="check6" data-v="3"
+                                               {{if eq .NRL.NRL07 "3"}}checked{{end}}>
                                         <label for="c6-v3" class="icon"></label>
                                     </div>
                                     <label for="c6-v3">医保</label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c6-v4" name="check6" data-v="4" {{if eq .NRL.NRL07 "4"}}checked{{end}}>
+                                        <input type="radio" id="c6-v4" name="check6" data-v="4"
+                                               {{if eq .NRL.NRL07 "4"}}checked{{end}}>
                                         <label for="c6-v4" class="icon"></label>
                                     </div>
                                     <label for="c6-v4">社保</label>
@@ -393,25 +420,31 @@
 
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c6-v5" name="check6" data-v="5" {{if eq .NRL.NRL07 "5"}}checked{{end}}>
+                                        <input type="radio" id="c6-v5" name="check6" data-v="5"
+                                               {{if eq .NRL.NRL07 "5"}}checked{{end}}>
                                         <label for="c6-v5" class="icon"></label>
                                     </div>
                                     <label for="c6-v5">商业保险</label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c6-v6" name="check6" data-v="6" {{if eq .NRL.NRL07 "6"}}checked{{end}}>
+                                        <input type="radio" id="c6-v6" name="check6" data-v="6"
+                                               {{if eq .NRL.NRL07 "6"}}checked{{end}}>
                                         <label for="c6-v6" class="icon"></label>
                                     </div>
                                     <label for="c6-v6">他人赔付</label>
                                 </li>
                                 <li class="b1">
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c6-v7" name="check6" data-v="7" {{if eq .NRL.NRL07 "7"}}checked{{end}}>
+                                        <input type="radio" id="c6-v7" class="main-sel" name="check6" data-v="7"
+                                               {{if eq .NRL.NRL07 "7"}}checked{{end}}>
                                         <label for="c6-v7" class="icon"></label>
                                     </div>
                                     <label for="c6-v7">其他：</label>
-                                    <input type="text" class="m-input-txt type2" {{if eq .NRL.NRL07 "7"}}value="{{.NRL.NRL07A}}"{{end}}>
+                                    <span class="child-sel disabled-box">
+                                        <input type="text" class="m-input-txt type2"
+                                               {{if eq .NRL.NRL07 "7"}}value="{{.NRL.NRL07A}}"{{end}}>
+                                    </span>
                                 </li>
                             </ul>
                         </div>
@@ -435,14 +468,16 @@
                                 <li class="tit3">呼之</li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c7-v1" name="check7" data-v="1" {{if eq .NRL.NRL08 "1"}}checked{{end}}>
+                                        <input type="radio" id="c7-v1" name="check7" data-v="1"
+                                               {{if eq .NRL.NRL08 "1"}}checked{{end}}>
                                         <label for="c7-v1" class="icon"></label>
                                     </div>
                                     <label for="c7-v1">能应</label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c7-v2" name="check7" data-v="2" {{if eq .NRL.NRL08 "2"}}checked{{end}}>
+                                        <input type="radio" id="c7-v2" name="check7" data-v="2"
+                                               {{if eq .NRL.NRL08 "2"}}checked{{end}}>
                                         <label for="c7-v2" class="icon"></label>
                                     </div>
                                     <label for="c7-v2">不应;</label>
@@ -452,14 +487,16 @@
                                 <li class="tit3">&nbsp;&nbsp;&nbsp;对答</li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c8-v1" name="check8" data-v="1" {{if eq .NRL.NRL09 "1"}}checked{{end}}>
+                                        <input type="radio" id="c8-v1" name="check8" data-v="1"
+                                               {{if eq .NRL.NRL09 "1"}}checked{{end}}>
                                         <label for="c8-v1" class="icon"></label>
                                     </div>
                                     <label for="c8-v1">切题</label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c8-v2" name="check8" data-v="2" {{if eq .NRL.NRL09 "2"}}checked{{end}}>
+                                        <input type="radio" id="c8-v2" name="check8" data-v="2"
+                                               {{if eq .NRL.NRL09 "2"}}checked{{end}}>
                                         <label for="c8-v2" class="icon"></label>
                                     </div>
                                     <label for="c8-v2">不切题</label>
@@ -478,35 +515,40 @@
                             <ul id="c9">
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c9-v1" name="check9" data-v="1" {{if eq .NRL.NRL10 "1"}}checked{{end}}>
+                                        <input type="radio" id="c9-v1" name="check9" data-v="1"
+                                               {{if eq .NRL.NRL10 "1"}}checked{{end}}>
                                         <label for="c9-v1" class="icon"></label>
                                     </div>
                                     <label for="c9-v1">自行进食</label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c9-v2" name="check9" data-v="2" {{if eq .NRL.NRL10 "2"}}checked{{end}}>
+                                        <input type="radio" id="c9-v2" name="check9" data-v="2"
+                                               {{if eq .NRL.NRL10 "2"}}checked{{end}}>
                                         <label for="c9-v2" class="icon"></label>
                                     </div>
                                     <label for="c9-v2">协助进食</label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c9-v3" name="check9" data-v="3" {{if eq .NRL.NRL10 "3"}}checked{{end}}>
+                                        <input type="radio" id="c9-v3" name="check9" data-v="3"
+                                               {{if eq .NRL.NRL10 "3"}}checked{{end}}>
                                         <label for="c9-v3" class="icon"></label>
                                     </div>
                                     <label for="c9-v3">经鼻胃管</label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c9-v4" name="check9" data-v="4" {{if eq .NRL.NRL10 "4"}}checked{{end}}>
+                                        <input type="radio" id="c9-v4" name="check9" data-v="4"
+                                               {{if eq .NRL.NRL10 "4"}}checked{{end}}>
                                         <label for="c9-v4" class="icon"></label>
                                     </div>
                                     <label for="c9-v4">经鼻肠管</label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c9-v5" name="check9" data-v="5" {{if eq .NRL.NRL10 "5"}}checked{{end}}>
+                                        <input type="radio" id="c9-v5" name="check9" data-v="5"
+                                               {{if eq .NRL.NRL10 "5"}}checked{{end}}>
                                         <label for="c9-v5" class="icon"></label>
                                     </div>
                                     <label for="c9-v5">胃肠造瘘管;</label>
@@ -516,14 +558,16 @@
                                 <li class="tit3">&nbsp;&nbsp;咀嚼困难：</li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c10-v1" name="check10" data-v="1" {{if eq .NRL.NRL11 "1"}}checked{{end}}>
+                                        <input type="radio" id="c10-v1" name="check10" data-v="1"
+                                               {{if eq .NRL.NRL11 "1"}}checked{{end}}>
                                         <label for="c10-v1" class="icon"></label>
                                     </div>
                                     <label for="c10-v1">无</label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c10-v2" name="check10" data-v="2" {{if eq .NRL.NRL11 "2"}}checked{{end}}>
+                                        <input type="radio" id="c10-v2" name="check10" data-v="2"
+                                               {{if eq .NRL.NRL11 "2"}}checked{{end}}>
                                         <label for="c10-v2" class="icon"></label>
                                     </div>
                                     <label for="c10-v2">有</label>
@@ -542,40 +586,47 @@
                             </p>
                             <ul id="c11">
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c11-v1" name="check11" data-v="1" {{if eq .NRL.NRL12 "1"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c11-v1" name="check11" data-v="1"
+                                               {{if eq .NRL.NRL12 "1"}}checked{{end}}>
                                         <label for="c11-v1" class="icon"></label>
                                     </div>
                                     <label for="c11-v1">完整</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c11-v2" name="check11" data-v="2" {{if eq .NRL.NRL12 "2"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c11-v2" name="check11" data-v="2"
+                                               {{if eq .NRL.NRL12 "2"}}checked{{end}}>
                                         <label for="c11-v2" class="icon"></label>
                                     </div>
                                     <label for="c11-v2">溃疡</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c11-v3" name="check11" data-v="3" {{if eq .NRL.NRL12 "3"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c11-v3" name="check11" data-v="3"
+                                               {{if eq .NRL.NRL12 "3"}}checked{{end}}>
                                         <label for="c11-v3" class="icon"></label>
                                     </div>
                                     <label for="c11-v3">白斑</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c11-v4" name="check11" data-v="4" {{if eq .NRL.NRL12 "4"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c11-v4" name="check11" data-v="4"
+                                               {{if eq .NRL.NRL12 "4"}}checked{{end}}>
                                         <label for="c11-v4" class="icon"></label>
                                     </div>
                                     <label for="c11-v4">红肿</label>
                                 </li>
                                 <li class="b2">
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c11-v5" name="check11" data-v="5" {{if eq .NRL.NRL12 "5"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c11-v5" name="check11" class="main-sel" data-v="5"
+                                               {{if eq .NRL.NRL12 "5"}}checked{{end}}>
                                         <label for="c11-v5" class="icon"></label>
                                     </div>
                                     <label for="c11-v5">其他：</label>
-                                    <input type="text" class="m-input-txt type3" {{if eq .NRL.NRL12 "5"}}value="{{.NRL.NRL12A}}"{{end}}>;
+                                    <span class="child-sel disabled-box">
+                                        <input type="text" class="m-input-txt type3" value="{{.NRL.NRL12A}}">;
+                                    </span>
                                 </li>
                             </ul>
 
@@ -584,14 +635,16 @@
                                 <li class="tit3">吞咽困难：</li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c12-v1" name="check12" data-v="1" {{if eq .NRL.NRL13 "1"}}checked{{end}}>
+                                        <input type="radio" id="c12-v1" name="check12" data-v="1"
+                                               {{if eq .NRL.NRL13 "1"}}checked{{end}}>
                                         <label for="c12-v1" class="icon"></label>
                                     </div>
                                     <label for="c12-v1">无</label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c12-v2" name="check12" data-v="2" {{if eq .NRL.NRL13 "2"}}checked{{end}}>
+                                        <input type="radio" id="c12-v2" name="check12" data-v="2"
+                                               {{if eq .NRL.NRL13 "2"}}checked{{end}}>
                                         <label for="c12-v2" class="icon"></label>
                                     </div>
                                     <label for="c12-v2">有</label>
@@ -602,8 +655,6 @@
                     <div class="line"></div>
 
 
-
-
                     <div class="cont-row">
                         <!-- 睡眠： -->
                         <div class="m-check2 t1">
@@ -612,48 +663,56 @@
                             </p>
                             <ul id="c13">
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c13-v1" name="check13" data-v="1" {{if eq .NRL.NRL14 "1"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c13-v1" name="check13" data-v="1"
+                                               {{if eq .NRL.NRL14 "1"}}checked{{end}}>
                                         <label for="c13-v1" class="icon"></label>
                                     </div>
                                     <label for="c13-v1">正常 </label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c13-v2" name="check13" data-v="2" {{if eq .NRL.NRL14 "2"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c13-v2" name="check13" data-v="2"
+                                               {{if eq .NRL.NRL14 "2"}}checked{{end}}>
                                         <label for="c13-v2" class="icon"></label>
                                     </div>
                                     <label for="c13-v2">难入眠</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c13-v3" name="check13" data-v="3" {{if eq .NRL.NRL14 "3"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c13-v3" name="check13" data-v="3"
+                                               {{if eq .NRL.NRL14 "3"}}checked{{end}}>
                                         <label for="c13-v3" class="icon"></label>
                                     </div>
                                     <label for="c13-v3">易醒</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c13-v4" name="check13" data-v="4" {{if eq .NRL.NRL14 "4"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c13-v4" name="check13" data-v="4"
+                                               {{if eq .NRL.NRL14 "4"}}checked{{end}}>
                                         <label for="c13-v4" class="icon"></label>
                                     </div>
                                     <label for="c13-v4">早醒</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c13-v5" name="check13" data-v="5" {{if eq .NRL.NRL14 "5"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c13-v5" name="check13" data-v="5"
+                                               {{if eq .NRL.NRL14 "5"}}checked{{end}}>
                                         <label for="c13-v5" class="icon"></label>
                                     </div>
                                     <label for="c13-v5">多梦</label>
                                 </li>
 
                                 <li class="b1">
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c13-v6" name="check13" data-v="6" {{if eq .NRL.NRL14 "6"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c13-v6" class="main-sel" name="check13" data-v="6"
+                                               {{if eq .NRL.NRL14 "6"}}checked{{end}}>
                                         <label for="c13-v6" class="icon"></label>
                                     </div>
                                     <label for="c13-v6">使用辅助药物：</label>
-                                    <input type="text" class="m-input-txt type4" {{if eq .NRL.NRL14 "6"}}value="{{.NRL.NRL14A}}"{{end}}>;
+                                    <span class="child-sel disabled-box">
+                                        <input type="text" class="m-input-txt type4" value="{{.NRL.NRL14A}}">;
+                                    </span>
                                 </li>
                             </ul>
 
@@ -662,14 +721,16 @@
                                 <li class="tit3">醒后疲劳感：</li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c14-v1" name="check14" data-v="1" {{if eq .NRL.NRL15 "1"}}checked{{end}}>
+                                        <input type="radio" id="c14-v1" name="check14" data-v="1"
+                                               {{if eq .NRL.NRL15 "1"}}checked{{end}}>
                                         <label for="c14-v1" class="icon"></label>
                                     </div>
                                     <label for="c14-v1">无</label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c14-v2" name="check14" data-v="2" {{if eq .NRL.NRL15 "2"}}checked{{end}}>
+                                        <input type="radio" id="c14-v2" name="check14" data-v="2"
+                                               {{if eq .NRL.NRL15 "2"}}checked{{end}}>
                                         <label for="c14-v2" class="icon"></label>
                                     </div>
                                     <label for="c14-v2">有</label>
@@ -680,7 +741,6 @@
                     <div class="line"></div>
 
 
-
                     <div class="cont-row">
                         <div class="m-check2 t1">
                             <p class="tit">
@@ -688,62 +748,72 @@
                             </p>
                             <ul id="c15">
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c15-v1" name="check15" data-v="1" {{if eq .NRL.NRL16 "1"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c15-v1" name="check15" data-v="1"
+                                               {{if eq .NRL.NRL16 "1"}}checked{{end}}>
                                         <label for="c15-v1" class="icon"></label>
                                     </div>
                                     <label for="c15-v1">未发现异常 </label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c15-v2" name="check15" data-v="2" {{if eq .NRL.NRL16 "2"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c15-v2" name="check15" data-v="2"
+                                               {{if eq .NRL.NRL16 "2"}}checked{{end}}>
                                         <label for="c15-v2" class="icon"></label>
                                     </div>
                                     <label for="c15-v2">尿频</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c15-v3" name="check15" data-v="3" {{if eq .NRL.NRL16 "3"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c15-v3" name="check15" data-v="3"
+                                               {{if eq .NRL.NRL16 "3"}}checked{{end}}>
                                         <label for="c15-v3" class="icon"></label>
                                     </div>
                                     <label for="c15-v3">尿急</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c15-v4" name="check15" data-v="4" {{if eq .NRL.NRL16 "4"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c15-v4" name="check15" data-v="4"
+                                               {{if eq .NRL.NRL16 "4"}}checked{{end}}>
                                         <label for="c15-v4" class="icon"></label>
                                     </div>
                                     <label for="c15-v4">尿痛</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c15-v5" name="check15" data-v="5" {{if eq .NRL.NRL16 "5"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c15-v5" name="check15" data-v="5"
+                                               {{if eq .NRL.NRL16 "5"}}checked{{end}}>
                                         <label for="c15-v5" class="icon"></label>
                                     </div>
                                     <label for="c15-v5">尿失禁</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c15-v6" name="check15" data-v="6" {{if eq .NRL.NRL16 "6"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c15-v6" name="check15" data-v="6"
+                                               {{if eq .NRL.NRL16 "6"}}checked{{end}}>
                                         <label for="c15-v6" class="icon"></label>
                                     </div>
                                     <label for="c15-v6">尿潴留</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c15-v7" name="check15" data-v="7" {{if eq .NRL.NRL16 "7"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c15-v7" name="check15" data-v="7"
+                                               {{if eq .NRL.NRL16 "7"}}checked{{end}}>
                                         <label for="c15-v7" class="icon"></label>
                                     </div>
                                     <label for="c15-v7">留置尿管</label>
                                 </li>
 
                                 <li class="b2">
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c15-v8" name="check15" data-v="8" {{if eq .NRL.NRL16 "8"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c15-v8" name="check15" class="main-sel" data-v="8"
+                                               {{if eq .NRL.NRL16 "8"}}checked{{end}}>
                                         <label for="c15-v8" class="icon"></label>
                                     </div>
                                     <label for="c15-v8">其他：</label>
-                                    <input type="text" class="m-input-txt type4" {{if eq .NRL.NRL16 "8"}}value="{{.NRL.NRL16A}}"{{end}}>
+                                    <span class="child-sel disabled-box">
+                                        <input type="text" class="m-input-txt type4" value="{{.NRL.NRL16A}}">
+                                    </span>
                                 </li>
                             </ul>
                         </div>
@@ -765,31 +835,35 @@
                                 <input type="number" class="m-input-txt" id="i2" value="{{.NRL18B}}">
                                 <span>天）</span>
                             </div>
-                            <ul id="c16">
+                            <ul id="c16" class="radio-grup">
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c16-v1" name="check16" data-v="1" {{if eq .NRL.NRL17 "1"}}checked{{end}}>
+                                        <input type="radio" id="c16-v1" name="check16" data-v="1"
+                                               {{if eq .NRL.NRL17 "1"}}checked{{end}}>
                                         <label for="c16-v1" class="icon"></label>
                                     </div>
                                     <label for="c16-v1">便秘</label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c16-v2" name="check16" data-v="2" {{if eq .NRL.NRL17 "2"}}checked{{end}}>
+                                        <input type="radio" id="c16-v2" name="check16" data-v="2"
+                                               {{if eq .NRL.NRL17 "2"}}checked{{end}}>
                                         <label for="c16-v2" class="icon"></label>
                                     </div>
                                     <label for="c16-v2">腹泻</label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c16-v3" name="check16" data-v="3" {{if eq .NRL.NRL17 "3"}}checked{{end}}>
+                                        <input type="radio" id="c16-v3" name="check16" data-v="3"
+                                               {{if eq .NRL.NRL17 "3"}}checked{{end}}>
                                         <label for="c16-v3" class="icon"></label>
                                     </div>
                                     <label for="c16-v3">失禁</label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c16-v4" name="check16" data-v="4" {{if eq .NRL.NRL17 "4"}}checked{{end}}>
+                                        <input type="radio" id="c16-v4" name="check16" data-v="4"
+                                               {{if eq .NRL.NRL17 "4"}}checked{{end}}>
                                         <label for="c16-v4" class="icon"></label>
                                     </div>
                                     <label for="c16-v4">造瘘</label>
@@ -797,18 +871,21 @@
 
                                 <li class="b2">
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c16-v5" name="check16" data-v="5" {{if eq .NRL.NRL17 "5"}}checked{{end}}>
+                                        <input type="radio" id="c16-v5" name="check16" class="main-sel" data-v="5"
+                                               {{if eq .NRL.NRL17 "5"}}checked{{end}}>
                                         <label for="c16-v5" class="icon"></label>
                                     </div>
                                     <label for="c16-v5">其他：</label>
-                                    <input type="text" class="m-input-txt type4" {{if eq .NRL.NRL17 "5"}}value="{{.NRL.NRL17A}}"{{end}}>
+                                    <span class="child-sel disabled-box">
+                                        <input type="text" class="m-input-txt type4" value="{{.NRL.NRL17A}}">
+                                    </span>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="line"></div>
 
-                    <div class="cont-row">
+                    <div class="cont-row radio-grup">
                         <!-- 四肢活动： -->
 
                         <div class="m-check2">
@@ -818,14 +895,16 @@
                             <ul id="c17">
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c17-v1" name="check17" class="c17" data-v="1" {{if eq .NRL.NRL19 "1"}}checked{{end}}>
+                                        <input type="radio" id="c17-v1" name="check17" class="c17" data-v="1"
+                                               {{if eq .NRL.NRL19 "1"}}checked{{end}}>
                                         <label for="c17-v1" class="icon"></label>
                                     </div>
                                     <label for="c17-v1">自如</label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c17-v2" name="check17" class="c17" data-v="2" {{if eq .NRL.NRL19 "2"}}checked{{end}}>
+                                        <input type="radio" id="c17-v2" name="check17" class="c17" data-v="2"
+                                               {{if eq .NRL.NRL19 "2"}}checked{{end}}>
                                         <label for="c17-v2" class="icon"></label>
                                     </div>
                                     <label for="c17-v2">无力</label>
@@ -833,38 +912,43 @@
                                 <li class="b1 tbar1">
                                     <div class="m-check-warp">
                                         <div class="m-input-radio">
-                                            <input type="radio" id="c17-v3" name="check17" class="c17" data-v="3" {{if eq .NRL.NRL19 "3"}}checked{{end}}>
+                                            <input type="radio" id="c17-v3" name="check17" class="c17 main-sel"
+                                                   data-v="3" {{if eq .NRL.NRL19 "3"}}checked{{end}}>
                                             <label for="c17-v3" class="icon"></label>
                                         </div>
                                         <label for="c17-v3">偏瘫</label>
                                     </div>
-                                    <ul id="c17-c2">
+                                    <ul id="c17-c2" class="child-sel disabled-box">
                                         <li>(
-                                            <div class="m-input-radio">
-                                                <input type="radio" id="c17-v3-v1" name="check17-2" data-v="1" {{if eq .NRL.NRL19 "3"}}{{if eq .NRL.LimbsId "1"}}checked{{end}}{{end}}>
+                                            <div class="m-input-checkbox">
+                                                <input type="checkbox" id="c17-v3-v1" name="check17-2"
+                                                       data-v="1" {{if eq .NRL.NRL19 "3"}}{{if eq .NRL.LimbsId "1"}}checked{{end}}{{end}}>
                                                 <label for="c17-v3-v1" class="icon"></label>
                                             </div>
                                             <label for="c17-v3-v1">左上肢</label>
                                         </li>
                                         <li>&nbsp;
-                                            <div class="m-input-radio">
-                                                <input type="radio" id="c17-v3-v2" name="check17-2" data-v="2" {{if eq .NRL.NRL19 "3"}}{{if eq .NRL.LimbsId "2"}}checked{{end}}{{end}}>
+                                            <div class="m-input-checkbox">
+                                                <input type="checkbox" id="c17-v3-v2" name="check17-2"
+                                                       data-v="2" {{if eq .NRL.NRL19 "3"}}{{if eq .NRL.LimbsId "2"}}checked{{end}}{{end}}>
                                                 <label for="c17-v3-v2" class="icon"></label>
                                             </div>
                                             <label for="c17-v3-v2">左下肢</label>
                                         </li>
                                         <li>
                                             &nbsp;
-                                            <div class="m-input-radio">
-                                                <input type="radio" id="c17-v3-v3" name="check17-2" data-v="3" {{if eq .NRL.NRL19 "3"}}{{if eq .NRL.LimbsId "3"}}checked{{end}}{{end}}>
+                                            <div class="m-input-checkbox">
+                                                <input type="checkbox" id="c17-v3-v3" name="check17-2"
+                                                       data-v="3" {{if eq .NRL.NRL19 "3"}}{{if eq .NRL.LimbsId "3"}}checked{{end}}{{end}}>
                                                 <label for="c17-v3-v3" class="icon"></label>
                                             </div>
                                             <label for="c17-v3-v3">右上肢</label>
                                         </li>
                                         <li>
                                             &nbsp;
-                                            <div class="m-input-radio">
-                                                <input type="radio" id="c17-v3-v4" name="check17-2" data-v="4" {{if eq .NRL.NRL19 "3"}}{{if eq .NRL.LimbsId "4"}}checked{{end}}{{end}}>
+                                            <div class="m-input-checkbox">
+                                                <input type="checkbox" id="c17-v3-v4" name="check17-2"
+                                                       data-v="4" {{if eq .NRL.NRL19 "3"}}{{if eq .NRL.LimbsId "4"}}checked{{end}}{{end}}>
                                                 <label for="c17-v3-v4" class="icon"></label>
                                             </div>
                                             <label for="c17-v3-v4">右下肢</label> )
@@ -873,7 +957,8 @@
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c17-v4" name="check17" class="c17" data-v="4" {{if eq .NRL.NRL19 "4"}}checked{{end}}>
+                                        <input type="radio" id="c17-v4" name="check17" class="c17" data-v="4"
+                                               {{if eq .NRL.NRL19 "4"}}checked{{end}}>
                                         <label for="c17-v4" class="icon"></label>
                                     </div>
                                     <label for="c17-v4">截瘫</label>
@@ -881,7 +966,8 @@
 
                                 <li class="b2">
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c17-v5" name="check17" class="c17" data-v="5" {{if eq .NRL.NRL19 "5"}}checked{{end}}>
+                                        <input type="radio" id="c17-v5" name="check17" class="c17" data-v="5"
+                                               {{if eq .NRL.NRL19 "5"}}checked{{end}}>
                                         <label for="c17-v5" class="icon"></label>
                                     </div>
                                     <label for="c17-v5">全瘫</label>
@@ -891,7 +977,7 @@
                     </div>
                     <div class="line"></div>
 
-                    <div class="cont-row">
+                    <div class="cont-row radio-grup">
                         <!-- 自理能力： -->
                         <div class="m-check2 t1">
                             <p class="tit">
@@ -900,14 +986,16 @@
                             <ul class="t3" id="c18">
                                 <li class="b3">
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c18-v1" name="check18" data-v="1" {{if eq .NRL.NRL20 "1"}}checked{{end}}>
+                                        <input type="radio" id="c18-v1" name="check18" data-v="1"
+                                               {{if eq .NRL.NRL20 "1"}}checked{{end}}>
                                         <label for="c18-v1" class="icon"></label>
                                     </div>
                                     <label for="c18-v1">完全自理</label>
                                 </li>
                                 <li class="b3">
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c18-v2" name="check18" data-v="2" {{if eq .NRL.NRL20 "2"}}checked{{end}}>
+                                        <input type="radio" id="c18-v2" name="check18" data-v="2"
+                                               {{if eq .NRL.NRL20 "2"}}checked{{end}}>
                                         <label for="c18-v2" class="icon"></label>
                                     </div>
                                     <label for="c18-v2">完全不能自理</label>
@@ -915,11 +1003,15 @@
 
                                 <li class="b1">
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c18-v3" name="check18" data-v="3" {{if eq .NRL.NRL20 "3"}}checked{{end}}>
+                                        <input type="radio" id="c18-v3" name="check18" class="main-sel" data-v="3"
+                                               {{if eq .NRL.NRL20 "3"}}checked{{end}}>
                                         <label for="c18-v3" class="icon"></label>
                                     </div>
                                     <label for="c18-v3">部分自理：</label>
-                                    <input type="text" class="m-input-txt type4" {{if eq .NRL.NRL20 "3"}}value="{{.NRL.NRL20A}}"{{end}}>
+                                    <span class="child-sel disabled-box">
+                                        <input type="text" class="m-input-txt type4"
+                                               {{if eq .NRL.NRL20 "3"}}value="{{.NRL.NRL20A}}"{{end}}>
+                                    </span>
                                 </li>
                             </ul>
                         </div>
@@ -934,79 +1026,90 @@
                             </p>
                             <ul id="c19">
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c19-v1" name="check19" data-v="1" {{if eq .NRL.NRL21 "1"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c19-v1" name="check19" data-v="1"
+                                               {{if eq .NRL.NRL21 "1"}}checked{{end}}>
                                         <label for="c19-v1" class="icon"></label>
                                     </div>
                                     <label for="c19-v1">完整 </label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c19-v2" name="check19" data-v="2" {{if eq .NRL.NRL21 "2"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c19-v2" name="check19" data-v="2"
+                                               {{if eq .NRL.NRL21 "2"}}checked{{end}}>
                                         <label for="c19-v2" class="icon"></label>
                                     </div>
                                     <label for="c19-v2">苍白</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c19-v3" name="check19" data-v="3" {{if eq .NRL.NRL21 "3"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c19-v3" name="check19" data-v="3"
+                                               {{if eq .NRL.NRL21 "3"}}checked{{end}}>
                                         <label for="c19-v3" class="icon"></label>
                                     </div>
                                     <label for="c19-v3">黄疸</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c19-v4" name="check19" data-v="4" {{if eq .NRL.NRL21 "4"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c19-v4" name="check19" data-v="4"
+                                               {{if eq .NRL.NRL21 "4"}}checked{{end}}>
                                         <label for="c19-v4" class="icon"></label>
                                     </div>
                                     <label for="c19-v4">潮红</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c19-v5" name="check19" data-v="5" {{if eq .NRL.NRL21 "5"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c19-v5" name="check19" data-v="5"
+                                               {{if eq .NRL.NRL21 "5"}}checked{{end}}>
                                         <label for="c19-v5" class="icon"></label>
                                     </div>
                                     <label for="c19-v5">紫绀</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c19-v6" name="check19" data-v="6" {{if eq .NRL.NRL21 "6"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c19-v6" name="check19" data-v="6"
+                                               {{if eq .NRL.NRL21 "6"}}checked{{end}}>
                                         <label for="c19-v6" class="icon"></label>
                                     </div>
                                     <label for="c19-v6">干燥</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c19-v7" name="check19" data-v="7" {{if eq .NRL.NRL21 "7"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c19-v7" name="check19" data-v="7"
+                                               {{if eq .NRL.NRL21 "7"}}checked{{end}}>
                                         <label for="c19-v7" class="icon"></label>
                                     </div>
                                     <label for="c19-v7">出血点</label>
                                 </li>
 
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c19-v8" name="check19" data-v="8" {{if eq .NRL.NRL21 "8"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c19-v8" name="check19" data-v="8"
+                                               {{if eq .NRL.NRL21 "8"}}checked{{end}}>
                                         <label for="c19-v8" class="icon"></label>
                                     </div>
                                     <label for="c19-v8">压疮</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c19-v9" name="check19" data-v="9" {{if eq .NRL.NRL21 "9"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c19-v9" name="check19" data-v="9"
+                                               {{if eq .NRL.NRL21 "9"}}checked{{end}}>
                                         <label for="c19-v9" class="icon"></label>
                                     </div>
                                     <label for="c19-v9">破损</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c19-v10" name="check19" data-v="10" {{if eq .NRL.NRL21 "10"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c19-v10" name="check19" data-v="10"
+                                               {{if eq .NRL.NRL21 "10"}}checked{{end}}>
                                         <label for="c19-v10" class="icon"></label>
                                     </div>
                                     <label for="c19-v10">水肿</label>
                                 </li>
                                 <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c19-v11" name="check19" data-v="11" {{if eq .NRL.NRL21 "11"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c19-v11" name="check19" data-v="11"
+                                               {{if eq .NRL.NRL21 "11"}}checked{{end}}>
                                         <label for="c19-v11" class="icon"></label>
                                     </div>
                                     <label for="c19-v11">皮疹</label>
@@ -1014,8 +1117,8 @@
                             </ul>
 
                             <div class="m-msg-bar">
-                                    <span>详细描述：</span>
-                                <input type="text" class="m-input-txt type5" id="i3" {{if eq .NRL.NRL21 "11"}}value="{{.NRL.NRL22}}"{{end}}>
+                                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;详细描述：</span>
+                                <input type="text" class="m-input-txt type5" id="i3" value="{{.NRL.NRL22}}">
                             </div>
                         </div>
                     </div>
@@ -1034,24 +1137,27 @@
                                 <input type="text" class="m-input-txt type4" id="i4" value="{{.NRL.NRL23}}">
                             </div>
                             <ul class="t4" id="c20">
-                                <li class="tit3">语言表达：</li>
+                                <li class="tit3">&nbsp;&nbsp;&nbsp;&nbsp;语言表达：</li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c20-v1" name="check20" data-v="1" {{if eq .NRL.NRL24 "1"}}checked{{end}}>
+                                        <input type="radio" id="c20-v1" name="check20" data-v="1"
+                                               {{if eq .NRL.NRL24 "1"}}checked{{end}}>
                                         <label for="c20-v1" class="icon"></label>
                                     </div>
                                     <label for="c20-v1">清楚 </label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c20-v2" name="check20" data-v="2" {{if eq .NRL.NRL24 "2"}}checked{{end}}>
+                                        <input type="radio" id="c20-v2" name="check20" data-v="2"
+                                               {{if eq .NRL.NRL24 "2"}}checked{{end}}>
                                         <label for="c20-v2" class="icon"></label>
                                     </div>
                                     <label for="c20-v2">含糊</label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c20-v3" name="check20" data-v="3" {{if eq .NRL.NRL24 "3"}}checked{{end}}>
+                                        <input type="radio" id="c20-v3" name="check20" data-v="3"
+                                               {{if eq .NRL.NRL24 "3"}}checked{{end}}>
                                         <label for="c20-v3" class="icon"></label>
                                     </div>
                                     <label for="c20-v3">失语</label>
@@ -1072,11 +1178,12 @@
                             <p class="tit">
                                 生活习惯：
                             </p>
-                            <ul class="t5" id="c21">
+                            <ul class="t5 radio-grup" id="c21">
                                 <li class="tit">吸烟：</li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c21-v1" name="check21" data-v="1" {{if eq .NRL.NRL25 "1"}}checked{{end}}>
+                                        <input type="radio" id="c21-v1" name="check21" data-v="1"
+                                               {{if eq .NRL.NRL25 "1"}}checked{{end}}>
                                         <label for="c21-v1" class="icon"></label>
                                     </div>
                                     <label for="c21-v1">无 </label>
@@ -1085,30 +1192,37 @@
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c21-v2" name="check21" data-v="2" {{if eq .NRL.NRL25 "2"}}checked{{end}}>
+                                        <input type="radio" id="c21-v2" name="check21" class="main-sel" data-v="2"
+                                               {{if eq .NRL.NRL25 "2"}}checked{{end}}>
                                         <label for="c21-v2" class="icon"></label>
                                     </div>
                                     <label for="c21-v2">有，</label>
-                                    <input type="number" class="m-input-txt" value="{{.NRL.NRL26}}">
+                                    <span class="child-sel disabled-box">
+                                        <input type="number" class="m-input-txt" value="{{.NRL.NRL26}}">
+                                    </span>
                                     <span>支/天;</span>
                                 </li>
                             </ul>
-                            <ul class="t5" id="c22">
+                            <ul class="t5 radio-grup" id="c22">
                                 <li class="tit">嗜酒：</li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c22-v1" name="check22" data-v="1" {{if eq .NRL.NRL27 "1"}}checked{{end}}>
+                                        <input type="radio" id="c22-v1" name="check22" data-v="1"
+                                               {{if eq .NRL.NRL27 "1"}}checked{{end}}>
                                         <label for="c22-v1" class="icon"></label>
                                     </div>
                                     <label for="c22-v1">无 </label>
                                 </li>
                                 <li>
                                     <div class="m-input-radio">
-                                        <input type="radio" id="c22-v2" name="check22" data-v="2" {{if eq .NRL.NRL27 "2"}}checked{{end}}>
+                                        <input type="radio" id="c22-v2" name="check22" class="main-sel" data-v="2"
+                                               {{if eq .NRL.NRL27 "2"}}checked{{end}}>
                                         <label for="c22-v2" class="icon"></label>
                                     </div>
                                     <label for="c22-v2">有，</label>
-                                    <input type="number" class="m-input-txt" value="{{.NRL.NRL28}}">
+                                    <span class="child-sel disabled-box">
+                                        <input type="number" class="m-input-txt" value="{{.NRL.NRL28}}">
+                                    </span>
                                     <span>两/天</span>
                                 </li>
                             </ul>
@@ -1142,68 +1256,78 @@
                         <div class="m-check2 t1">
                             <ul class="t6" id="c23">
                                 <li class="b3">
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c23-v1" name="check23" data-v="1" {{if eq .NRL.NRL30 "1"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c23-v1" name="check23" data-v="1"
+                                               {{if eq .NRL.NRL30 "1"}}checked{{end}}>
                                         <label for="c23-v1" class="icon"></label>
                                     </div>
                                     <label for="c23-v1">住院通知 </label>
                                 </li>
                                 <li class="b3">
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c23-v2" name="check23" data-v="2" {{if eq .NRL.NRL30 "2"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c23-v2" name="check23" data-v="2"
+                                               {{if eq .NRL.NRL30 "2"}}checked{{end}}>
                                         <label for="c23-v2" class="icon"></label>
                                     </div>
                                     <label for="c23-v2">物品管理</label>
                                 </li>
                                 <li class="b3">
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c23-v3" name="check23" data-v="3" {{if eq .NRL.NRL30 "3"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c23-v3" name="check23" data-v="3"
+                                               {{if eq .NRL.NRL30 "3"}}checked{{end}}>
                                         <label for="c23-v3" class="icon"></label>
                                     </div>
                                     <label for="c23-v3">作息</label>
                                 </li>
                                 <li class="b3">
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c23-v4" name="check23" data-v="4" {{if eq .NRL.NRL30 "4"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c23-v4" name="check23" data-v="4"
+                                               {{if eq .NRL.NRL30 "4"}}checked{{end}}>
                                         <label for="c23-v4" class="icon"></label>
                                     </div>
                                     <label for="c23-v4">探陪</label>
                                 </li>
                                 <li class="b3">
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c23-v5" name="check23" data-v="5" {{if eq .NRL.NRL30 "5"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c23-v5" name="check23" data-v="5"
+                                               {{if eq .NRL.NRL30 "5"}}checked{{end}}>
                                         <label for="c23-v5" class="icon"></label>
                                     </div>
                                     <label for="c23-v5">订餐</label>
                                 </li>
                                 <li class="b3">
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c23-v6" name="check23" data-v="6" {{if eq .NRL.NRL30 "6"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c23-v6" name="check23" data-v="6"
+                                               {{if eq .NRL.NRL30 "6"}}checked{{end}}>
                                         <label for="c23-v6" class="icon"></label>
                                     </div>
                                     <label for="c23-v6">介绍主管医生</label>
                                 </li>
                                 <li class="b3">
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c23-v7" name="check23" data-v="7" {{if eq .NRL.NRL30 "7"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c23-v7" name="check23" data-v="7"
+                                               {{if eq .NRL.NRL30 "7"}}checked{{end}}>
                                         <label for="c23-v7" class="icon"></label>
                                     </div>
                                     <label for="c23-v7">介绍主管护士</label>
                                 </li>
-
+                                <br>
                                 <li class="b2 pd-0">
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c23-v8" name="check23" data-v="8" {{if eq .NRL.NRL30 "8"}}checked{{end}}>
+                                    <div class="m-input-checkbox">
+                                        <input type="checkbox" id="c23-v8" name="check23" class="main-sel" data-v="8"
+                                               {{if eq .NRL.NRL30 "8"}}checked{{end}}>
                                         <label for="c23-v8" class="icon"></label>
                                     </div>
                                     <label for="c23-v8">其他：</label>
-                                    <input type="text" class="m-input-txt type2" {{if eq .NRL.NRL30 "8"}}value="{{.NRL.NRL30A}}"{{end}}>
+                                    <span class="child-sel disabled-box">
+                                        <input type="text" style="width: 766px;" class="m-input-txt type2"
+                                               value="{{.NRL.NRL30A}}">
+                                    </span>
                                 </li>
                             </ul>
                         </div>
 
-                        <input type="text" class="m-textarea2">
+                        <!-- <input type="text" class="m-textarea2">-->
                     </div>
 
                     <div class="line"></div>
@@ -1235,14 +1359,14 @@
                         </div>
                         <div class="m-textarea3">
                             <p class="tit bule">
-                                4、其他：
+                                4、其&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 他：
                             </p>
                             <textarea id="i9">{{.NRL.NRL34}}</textarea>
                         </div>
 
                         <div class="m-textarea4">
                             <p class="tit bule">
-                                护理交接班重点：
+                                护理交接班重点：&nbsp;&nbsp;&nbsp;&nbsp;
                             </p>
                             <textarea id="i10">{{.NRL.NRL35}}</textarea>
                         </div>
@@ -1269,24 +1393,24 @@
                             <span>签名：</span>
                             <span class="name">{{.Userinfo.Name}}</span>
                         </div>
-                        <div class="m-time">
+                        <div class="m-time date-time1">
                             <span>记录时间:</span>
                             <div class="input">
-                                <span class="date">{{.NRL38A}}</span>
-                                <span class="time">{{.NRL38B}}</span>
+                                <span class="date" data-date="{{.NRL38A}}"></span>
+                                <span class="time" data-time="{{.NRL38B}}"></span>
                             </div>
                         </div>
                     </div>
                     <div class="bar">
                         <div class="m-autograph">
                             <span>审核人签名：</span>
-                            <input class="name" value="{{.NRL.NRL39C}}">
+                            <input class="name" id="qname" value="{{.NRL.NRL39C}}">
                         </div>
-                        <div class="m-time">
+                        <div class="m-time date-time2">
                             <span>审核时间:</span>
                             <div class="input">
-                                <span class="date2">{{.NRL39B}}</span>
-                                <span class="time2">{{.NRL39C}}</span>
+                                <span class="date" data-date="{{.NRL39B}}"></span>
+                                <span class="time" data-time="{{.NRL39C}}"></span>
                             </div>
                         </div>
                     </div>
@@ -1296,6 +1420,7 @@
 
         </div>
     </div>
+    <!--endprint-->
     <!-- end right Content here -->
     <!--</div>-->
 </div>
@@ -1303,160 +1428,18 @@
 
 
 <!-- navbar -->
-<a href="admin-offcanvas" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}">
+<a href="admin-offcanvas" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu"
+   data-am-offcanvas="{target: '#admin-offcanvas'}">
     <!--<i class="fa fa-bars" aria-hidden="true"></i>--></a>
 <script type="text/javascript" src="/static/dist/js/lib/jquery.min.js"></script>
 <!--框架js-->
 <script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/amazeui.min.js"></script>
+<!--时间插件-->
 <script src="/static/dist/js/lib/laydate/laydate.js"></script>
-<!--//遮罩层退出框-->
-<!--<script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/blockUI.js"></script>-->
+
 <script src="/static/common.js"></script>
-<!--<script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/charts/echarts.min.js" ></script>-->
-<!--<script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/charts/indexChart.js" ></script>-->
+
 <script>
-    $('#jky-menu').on('open.collapse.amui', function(e) {
-        $(e.target).parents("li").addClass("jky-on")
-    })
-    $('#jky-menu').on('close.collapse.amui', function(e) {
-        $(e.target).parents("li").removeClass("jky-on")
-    })
-
-
-
-    var nowDateObj = nowDate()
-
-    function nowDate() {
-        var res = {},
-            nowD = new Date();
-        res.date = nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
-        res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
-        return res
-    }
-
-    function addZero(i) {
-        if (i < 10) {
-            return "0" + i;
-        } else {
-            return i;
-        }
-    }
-    laydate.render({
-        elem: '.date-input', //指定元素
-        showBottom: false,
-        value: nowDateObj.date,
-        done: function(value, date, endDate) {
-            console.log(value); //得到日期生成的值，如：2017-08-18
-            console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-            console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
-        }
-    });
-
-    function createRow(index) {
-        var $row = $($('#newrow').text());
-        // $row.data('id',id)
-        $row.find('.textarea-input').eq(0).attr('id', 'row' + (index + 1) + '-msg1')
-        $row.find('.textarea-input').eq(1).attr('id', 'row' + (index + 1) + '-msg2')
-        $row.find('.textarea-input').eq(2).attr('id', 'row' + (index + 1) + '-msg3')
-        $('.td-warp').append($row);
-        return $row
-    }
-
-    function createTxtCont(i) {
-        var $contText = $($('#setRow').text())
-        $('.td-row').eq(i).find('.cont1').append($contText)
-    }
-
-    function setRow(id, $el) {
-        // if (isRepeat(id)) {
-        //     alert("该条数据已存在")
-        //     return false;
-        // }
-
-        var cont = $el.data('msg'),
-            bedId = $el.find('.l').text(),
-            userName = $el.find('.r').text(),
-            $targetEl = null;
-
-        var newRowHelper = isCreateRow();
-        if (newRowHelper.res) {
-            $targetEl = createRow(newRowHelper.index)
-        } else {
-            $targetEl = $('.td-row').eq(newRowHelper.index)
-        }
-
-        var renderData = {
-            id: id,
-            cont: cont,
-            userName: userName,
-            bedId: bedId,
-            index: newRowHelper.index
-        }
-        // console.log($targetEl)
-        createTxtCont(newRowHelper.index)
-
-        writeRowData($('.td-row').eq(newRowHelper.index), renderData)
-
-    }
-
-    function writeRowData($el, data) {
-        $el.data('id', data.id)
-        $el.find('.sel-input').attr('id', 'row' + (data.index + 1) + '-sel')
-        $el.find('.txt-warp').find('.userName').text(data.userName)
-        $el.find('.txt-warp').find('.cont').text(data.cont)
-        $el.find('.txt-warp').find('.bedId').text(data.bedId)
-    }
-
-    function isCreateRow() {
-        var $tdRow = $('.td-row'),
-            res = false,
-            cout = 0,
-            index = 0;
-        for (var i = 0; i < $tdRow.length; i++) {
-            if (!$tdRow.eq(i).data('id')) {
-                // index = cout - 1;
-                index = cout;
-                break;
-            } else {
-                cout++
-
-            }
-        }
-        if (cout == $tdRow.length) {
-            res = true
-            // index = cout-1;
-            index = cout;
-        } else {
-            res = false;
-        }
-        return {
-            res: res,
-            index: index
-        };
-    }
-
-    function isRepeat(currentId) {
-        // var $userList = $('.user-list'),
-        //     currentId = $userList.find('li').eq(index).data('id'),
-        var $tdRow = $('.td-row'),
-            res = false;
-        // console.log(currentId)
-        for (var i = 0; i < $tdRow.length; i++) {
-            if ($tdRow.eq(i).data('id') == currentId) {
-                res = true
-                break;
-            }
-        }
-        return res;
-    }
-
-    $('.user-list').on('click', 'li', function() {
-        var id = $(this).data('id');
-
-        setRow(id, $(this))
-    })
-
-
     // var numInputFn = jky.util.throttle(function () {
     //     if (isNaN(parseFloat($(this).val()))) {
     //         $(this).val("")
@@ -1465,52 +1448,9 @@
     //     }
     // }, 500)
 
-    /**
-     * 节流函数
-     */
-    var nowFn = Date.now || function() {
-        return new Date().getTime()
-    }
-
-
-    function throttle(func, wait, option) {
-        var previous = 0, //之前的时间
-            timeout, self, args, result;
-
-        var later = function() {
-            previous = nowFn();
-            timeout = null;
-            result = func.apply(self, args);
-            !timeout && (self = args = null);
-        }
-        return function() {
-            var now = nowFn();
-
-            if (!previous && option.leading === false) previous = now;
-            var diff = wait - (now - previous);
-
-            args = arguments;
-            self = this;
-            if (diff <= 0) {
-                if (timeout) {
-                    clearTimeout(timeout);
-                    timeout = null;
-                }
-                result = func.apply(self, args);
-                previous = now;
-                !timeout && (self = args = null); //如果没有堆积的任务 则清空 self 和args
-            } else if (!timeout && option.trailing !== false) {
-                timeout = setTimeout(later, diff)
-            } else {
-                console.log('被抛弃了')
-            }
-            return result;
-
-        }
-    }
 
     var $inputNum = $('.tit2,.tit3,.tit4').find('input')
-    $inputNum.on('input', throttle(function() {
+    $inputNum.on('input', throttle(function () {
         if (isNaN(parseFloat($(this).val()))) {
             $(this).val("")
         } else {
@@ -1521,6 +1461,7 @@
         trailing: true // 是否抛弃 还是 往后堆积
     }))
 
+    //菜单收缩
     function toggleTar() {
         if ($('.top48').hasClass('small-type')) {
             $('.top48').removeClass('small-type')
@@ -1531,8 +1472,8 @@
         }
     }
 
-
-    $('.s-btn').on('click', function() {
+    //user-bar 收缩
+    $('.s-btn').on('click', function () {
         if ($(this).hasClass('active')) {
             $(this).removeClass('active');
             $('.user-bar').show();
@@ -1544,61 +1485,687 @@
         }
 
     })
-    laydate.render({
-        elem: '.date', //指定元素
-        showBottom: false,
-        value: nowDateObj.date,
-        done: function(value, date, endDate) {
-            console.log(value); //得到日期生成的值，如：2017-08-18
-            console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-            console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
-        }
-    });
 
-    laydate.render({
-        elem: '.time', //指定元素
-        // showBottom: false,
-        type: 'time',
-        format: 'HH:mm',
-        value: nowDateObj.time,
-        done: function(value, date, endDate) {
-            console.log(value); //得到日期生成的值，如：2017-08-18
-            console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-            console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
-        }
-    });
-    laydate.render({
-        elem: '.date2', //指定元素
-        showBottom: false,
-        value: nowDateObj.date,
-        done: function(value, date, endDate) {
-            console.log(value); //得到日期生成的值，如：2017-08-18
-            console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-            console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
-        }
-    });
 
-    laydate.render({
-        elem: '.time2', //指定元素
-        // showBottom: false,
-        type: 'time',
-        format: 'HH:mm',
-        value: nowDateObj.time,
-        done: function(value, date, endDate) {
-            console.log(value); //得到日期生成的值，如：2017-08-18
-            console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-            console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
-        }
-    });
 </script>
 
 <script>
     $(function () {
+        //点击病人列表跳转
         $(".user-list").on("click", "li", function () {
             var pid = $(this).data("msg");
             window.location.href = "/pc/record/nrl2?pid=" + pid;
         })
     });
+
+    //单选可取消单选
+    $("input[type=radio]:checked").data('check', 1)
+    $('input[type=radio]').on('click', function () {
+        var ischeck = $(this).data("check");
+        if (!ischeck) {
+            $(this).parents('ul').find("input[type=radio]").data("check", 0)
+            $(this).data("check", 1);
+        } else {
+            $(this).prop('checked', false);
+            $(this).data("check", 0);
+        }
+    })
+
+
+    function reqAPI() {
+        var data = {};
+
+        function init() {
+            data = {
+                // 护士ID
+                "uid": {{.Userinfo.UID}},
+                // 护士名
+                "username": {{.Userinfo.Name}},
+                //病人id
+                "pid": {{.PInfo.VAA01}},
+                //科室id
+                "did":  {{.PInfo.BCK01C}},
+            }
+            var rid =  {{.NRL.ID}}
+            if (rid) {
+                data.rid = rid;
+            }
+        }
+
+        function setData() {
+            init() //重置数据
+            setDataDateTime();
+            setDataDateTime2();
+            setDatavNRL02();
+            setDatavNRL03();
+            setDatavNRL04();
+            setDatavNRL05();
+            setDatavNRL06();
+            setDatavNRL07();
+            setDatavNRL08();
+            setDatavNRL09();
+            setDatavNRL10();
+            setDatavNRL12();
+            setDatavNRL13();
+            setDatavNRL14();
+            setDatavNRL15();
+            setDatavNRL16();
+            setDatavNRL17();
+            setDatavNRL19();
+            setDatavNRL20();
+            setDatavNRL21();
+            setDatavNRL23();
+            setDatavNRL25();
+            setDatavNRL29();
+            setDatavNRL30();
+            setDatavNRL39C();
+            setDataEnd();
+
+
+            if (!data.rid) {
+                var num = 0;
+                $.each(data, function (i, n) {
+                    num++;
+                })
+                //总共6个固定参数,如果没填长度就为6
+                if (num == 6) {
+                    return false;
+                } else {
+                    return true;
+                }
+            } else {
+                return true;
+            }
+
+
+        }
+
+        //设置记录时间
+        function setDataDateTime() {
+            var $mTime = $('.date-time1')
+            dateStr = $mTime.find('.date').text()
+            timeStr = $mTime.find('.time').text()
+            if (dateStr && timeStr) {
+                data.datetime = dateStr + " " + timeStr + ":00"
+            }
+        }
+
+
+        // 设置审核时间
+        function setDataDateTime2() {
+            var $mTime = $('.date-time2')
+            dateStr = $mTime.find('.date').text()
+            timeStr = $mTime.find('.time').text()
+            if (dateStr && timeStr) {
+                data.NRL39A = dateStr + " " + timeStr + ":00"
+            }
+        }
+
+        // 设置教育程度
+        function setDatavNRL02() {
+            var $check = $("#c1").find('input[type=radio]:checked');
+            $check.length && (data.NRL02 = $check.data('v'))
+        }
+
+        // 资料来源
+        function setDatavNRL03() {
+
+            // var $check = $("#c2").find('input[type=radio]:checked');
+            // $check.length && (data.NRL03 = $check.data('v'))
+
+            var $check = $("#c2").find('input[type=checkbox]:checked');
+            if ($check.length) {
+                var res = [];
+                $check.each(function (i, el) {
+                    res.push($(el).data('v'));
+                })
+                // console.log(res)
+                data.NRL03 = res.join(",")
+            }
+        }
+
+        // 日常照顾者：
+        function setDatavNRL04() {
+            // var $check = $("#c3").find('input[type=radio]:checked');
+            // $check.length && (data.NRL04 = $check.data('v'))
+
+            var $check = $("#c3").find('input[type=checkbox]:checked');
+            if ($check.length) {
+                var res = [];
+                $check.each(function (i, el) {
+                    res.push($(el).data('v'));
+                })
+                // console.log(res)
+                data.NRL04 = res.join(",")
+            }
+        }
+
+        // 入院方式
+        function setDatavNRL05() {
+            var $check = $("#c4").find('input[type=radio]:checked');
+            $check.length && (data.NRL05 = $check.data('v'))
+        }
+
+        // 过敏史：
+        function setDatavNRL06() {
+            var $check = $("#c5").find('.c5[type=radio]:checked');
+            if ($check.length != 0) {
+                data.NRL06 = $check.data('v');
+                if ($check.data('v') == 2) {
+                    var $check2 = $("#c5-c2").find('input[type=checkbox]:checked'),
+                            check2Data = {};
+
+                    if ($check2.length) {
+                        $check2.each(function (i, el) {
+                            check2Data[$(el).data("v")] = $.trim($(el).parents("li").find("input[type=text]").val());
+                        })
+                        // check2Data[$check2.data('v')] = $.trim(check2Val.val());
+                        data.NRL06A = JSON.stringify(check2Data)
+                    }
+                }
+            }
+        }
+
+        // 医疗费用支付方式：
+        function setDatavNRL07() {
+            var $check = $("#c6").find('input[type=radio]:checked');
+            $check.length && (data.NRL07 = $check.data('v'))
+            if ($check.data('v') == "7") {
+                var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
+                checkVal && (data.NRL07A = checkVal)
+            }
+        }
+
+        // 意识状态
+        function setDatavNRL08() {
+            var $check = $("#c7").find('input[type=radio]:checked');
+            $check.length && (data.NRL08 = $check.data('v'))
+        }
+
+        function setDatavNRL09() {
+            var $check = $("#c8").find('input[type=radio]:checked');
+            $check.length && (data.NRL09 = $check.data('v'))
+        }
+
+        //饮食
+        function setDatavNRL10() {
+            var $check = $("#c9").find('input[type=radio]:checked');
+            $check.length && (data.NRL10 = $check.data('v'))
+            var $check2 = $("#c10").find('input[type=radio]:checked');
+            $check2.length && (data.NRL11 = $check2.data('v'))
+        }
+
+        // 口腔黏膜：
+        function setDatavNRL12() {
+            // var $check = $("#c11").find('input[type=radio]:checked');
+            // $check.length && (data.NRL12 = $check.data('v'))
+            // if ($check.data('v') == "5") {
+            //     var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
+            //     checkVal && (data.NRL12A = checkVal)
+            // }
+
+            var $check = $("#c11").find('input[type=checkbox]:checked');
+            if ($check.length) {
+                var res = [];
+                $check.each(function (i, el) {
+                    if ($(el).data('v') == "5") {
+                        var checkVal = $.trim($(el).parents("li").find("input[type=text]").val());
+                        checkVal && (data.NRL12A = checkVal)
+                    }
+                    res.push($(el).data('v'));
+                })
+                // console.log(res)
+                data.NRL12 = res.join(",")
+            }
+
+        }
+
+        function setDatavNRL13() {
+            var $check = $("#c12").find('input[type=radio]:checked');
+            $check.length && (data.NRL13 = $check.data('v'))
+        }
+
+        // 睡眠
+        function setDatavNRL14() {
+            // var $check = $("#c13").find('input[type=radio]:checked');
+            // $check.length && (data.NRL14 = $check.data('v'))
+            // if ($check.data('v') == "6") {
+            //     var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
+            //     checkVal && (data.NRL14A = checkVal)
+            // }
+
+            var $check = $("#c13").find('input[type=checkbox]:checked');
+            if ($check.length) {
+                var res = [];
+                $check.each(function (i, el) {
+                    if ($(el).data('v') == "6") {
+                        var checkVal = $.trim($(el).parents("li").find("input[type=text]").val());
+                        checkVal && (data.NRL14A = checkVal)
+                    }
+                    res.push($(el).data('v'));
+                })
+                // console.log(res)
+                data.NRL14 = res.join(",")
+            }
+        }
+
+        function setDatavNRL15() {
+            var $check = $("#c14").find('input[type=radio]:checked');
+            $check.length && (data.NRL15 = $check.data('v'))
+        }
+
+        // 排尿
+        function setDatavNRL16() {
+            // var $check = $("#c15").find('input[type=radio]:checked');
+            // $check.length && (data.NRL16 = $check.data('v'))
+            // if ($check.data('v') == "8") {
+            //     var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
+            //     checkVal && (data.NRL16A = checkVal)
+            // }
+
+            var $check = $("#c15").find('input[type=checkbox]:checked');
+            if ($check.length) {
+                var res = [];
+                $check.each(function (i, el) {
+                    if ($(el).data('v') == "8") {
+                        var checkVal = $.trim($(el).parents("li").find("input[type=text]").val());
+                        checkVal && (data.NRL16A = checkVal)
+                    }
+                    res.push($(el).data('v'));
+                })
+                // console.log(res)
+                data.NRL16 = res.join(",")
+            }
+        }
+
+        // 排便
+        function setDatavNRL17() {
+            var i1 = $("#i1").val() && parseFloat($("#i1").val()),
+                    i2 = $("#i2").val() && parseFloat($("#i2").val());
+            if (i1 || i2) {
+                var res = '';
+                i2 ? (res = i1 + "," + i2) : (res = i1)
+                data.NRL18 = res
+            }
+
+            var $check = $("#c16").find('input[type=radio]:checked');
+            $check.length && (data.NRL17 = $check.data('v'))
+            if ($check.data('v') == "5") {
+                var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
+                checkVal && (data.NRL17A = checkVal)
+            }
+
+        }
+
+        // 四肢活动：
+        function setDatavNRL19() {
+            var $check = $("#c17").find('.c17[type=radio]:checked');
+            if ($check.length != 0) {
+                data.NRL19 = $check.data('v');
+                if ($check.data('v') == 3) {
+                    // var $check2 = $("#c17-c2").find('input[type=checkbox]:checked');
+                    // $check2.length && (data.LimbsId = $check2.data('v'))
+
+                    var $check2 = $("#c17-c2").find('input[type=checkbox]:checked');
+                    if ($check2.length) {
+                        var res = [];
+                        $check2.each(function (i, el) {
+                            res.push($(el).data('v'));
+                        })
+                        // console.log(res)
+                        data.LimbsId = res.join(",")
+                    }
+                }
+            }
+        }
+
+        // 自理能力：
+        function setDatavNRL20() {
+            var $check = $("#c18").find('input[type=radio]:checked');
+            $check.length && (data.NRL20 = $check.data('v'))
+            if ($check.data('v') == "3") {
+                var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
+                checkVal && (data.NRL20A = checkVal)
+            }
+        }
+
+        // 皮肤状况：
+        function setDatavNRL21() {
+            // var $check = $("#c19").find('input[type=radio]:checked');
+            // $check.length && (data.NRL20 = $check.data('v'))
+
+            var $check = $("#c19").find('input[type=checkbox]:checked');
+            if ($check.length) {
+                var res = [];
+                $check.each(function (i, el) {
+                    res.push($(el).data('v'));
+                })
+                // console.log(res)
+                data.NRL21 = res.join(",")
+            }
+            var iText = $.trim($("#i3").val())
+            iText && (data.NRL22 = iText)
+
+        }
+
+        // 语言沟通：
+        function setDatavNRL23() {
+            var iText = $.trim($("#i4").val())
+            iText && (data.NRL23 = iText)
+            var $check = $("#c20").find('input[type=radio]:checked');
+            $check.length && (data.NRL24 = $check.data('v'))
+        }
+
+        // 生活习惯：
+        function setDatavNRL25() {
+            var $check = $("#c21").find('input[type=radio]:checked');
+            $check.length && (data.NRL25 = $check.data('v'));
+            if ($check.data('v') == "2") {
+                var checkVal = parseFloat($check.parents("li").find("input[type=number]").val());
+                checkVal && (data.NRL26 = checkVal)
+            }
+            var $check2 = $("#c22").find('input[type=radio]:checked');
+            $check2.length && (data.NRL27 = $check2.data('v'));
+            if ($check2.data('v') == "2") {
+                var checkVal2 = parseFloat($check2.parents("li").find("input[type=number]").val());
+                checkVal2 && (data.NRL28 = checkVal2)
+            }
+        }
+
+        // 其他症状和体征：
+        function setDatavNRL29() {
+            var resTxt = $('#i5').val()  //$.trim()
+            resTxt && (data.NRL29 = resTxt)
+        }
+
+        // 住院告知
+        function setDatavNRL30() {
+            // var $check = $("#c23").find('input[type=radio]:checked');
+            // $check.length && (data.NRL30 = $check.data('v'))
+            // if ($check.data('v') == "8") {
+            //     var checkVal = $.trim($check.parents("li").find("input[type=text]").val());
+            //     checkVal && (data.NRL30A = checkVal)
+            // }
+            //
+            var $check = $("#c23").find('input[type=checkbox]:checked');
+            if ($check.length) {
+                var res = [];
+                $check.each(function (i, el) {
+                    if ($(el).data('v') == "8") {
+                        var checkVal = $.trim($(el).parents("li").find("input[type=text]").val());
+                        checkVal && (data.NRL30A = checkVal)
+                    }
+                    res.push($(el).data('v'));
+                })
+                // console.log(res)
+                data.NRL30 = res.join(",")
+            }
+
+        }
+
+        // 基础护理 专科护理 患者安全  其他 护理交班重点 提醒医生给予关注 提醒家属给予关爱
+        function setDataEnd() {
+            $('#i6').val() && (data.NRL31 = $('#i6').val())
+            $('#i7').val() && (data.NRL32 = $('#i7').val())
+            $('#i8').val() && (data.NRL33 = $('#i8').val())
+            $('#i9').val() && (data.NRL34 = $('#i9').val())
+            $('#i10').val() && (data.NRL35 = $('#i10').val())
+            $('#i11').val() && (data.NRL36 = $('#i11').val())
+            $('#i12').val() && (data.NRL37 = $('#i12').val())
+        }
+
+
+        // 审核护士签名
+        function setDatavNRL39C() {
+            var NRL39C = $.trim($("#qname").val());
+            NRL39C && (data.NRL39C = NRL39C);
+
+        }
+
+        var api = '', typeStr = '';
+
+        return function saveFrom() {
+            var isOk = setData();
+
+            if (data.rid) {
+                api = "/record/nr2/update"
+                typeStr = '修改'
+            } else {
+                api = "/record/nr2/update"
+                typeStr = '保存'
+            }
+
+            if (isOk) {
+                $.ajax({
+                    url: api,
+                    data: data,
+                    type: "POST",
+                    timeout: 2000,
+                    success: function (data) {
+                        console.log(data);
+                        if (data) {
+                            switch (data.result) {
+                                case 0:
+                                    alert(typeStr + "成功！");
+                                    break;
+                                case 2:
+                                    alert(typeStr + "失败，请重试！");
+                                    break;
+                                default:
+                                    jky.util.toast(data.errmsg)
+                            }
+                        }
+                    },
+                    error: function (e, txtStatus) {
+                        if (txtStatus == 'timeout') {
+                            alert("请求超时，请重试！")
+                        }
+                        console.log("ajax err:", e)
+                    },
+                    dataType: "json"
+                })
+            } else {
+                // jky.util.toast("请填写内容", 1500)
+                alert("请填写内容")
+
+            }
+        }
+    }
+
+    //类型1：插入,2：修改
+    {{/*var type = {{.Type}};*/}}
+    {{/*if(type == "1"){*/}}
+    {{/*setTime(nowDate())*/}}
+    {{/*}*/}}
+    // var reqAPIFN = reqAPI(type);
+
+
+    var rid = {{.NRL.ID}};
+    console.log(rid)
+    if (rid) {
+        // var nowDateObj = fromatDate()
+        //
+        lay('.date').each(function () {
+            var dateStr = $(this).data("date");
+            laydate.render({
+                elem: this, //指定元素
+                showBottom: false,
+                value: dateStr,
+                done: function (value, date, endDate) {
+                    // console.log(value); //得到日期生成的值，如：2017-08-18
+                    // console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                    // console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                }
+            });
+        });
+        //
+        lay('.time').each(function () {
+            var timeStr = $(this).data("time");
+            laydate.render({
+                elem: this, //指定元素
+                // showBottom: false,
+                type: 'time',
+                format: 'HH:mm',
+                value: timeStr,
+                done: function (value, date, endDate) {
+                    // console.log(value); //得到日期生成的值，如：2017-08-18
+                    // console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                    // console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                }
+            });
+        })
+    } else {
+        var nowDateObj = fromatDate()
+
+        lay('.date').each(function () {
+            laydate.render({
+                elem: this, //指定元素
+                showBottom: false,
+                value: nowDateObj.date,
+                done: function (value, date, endDate) {
+                    // console.log(value); //得到日期生成的值，如：2017-08-18
+                    // console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                    // console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                }
+            });
+        });
+
+        lay('.time').each(function () {
+            laydate.render({
+                elem: this, //指定元素
+                // showBottom: false,
+                type: 'time',
+                format: 'HH:mm',
+                value: nowDateObj.time,
+                done: function (value, date, endDate) {
+                    // console.log(value); //得到日期生成的值，如：2017-08-18
+                    // console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                    // console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                }
+            });
+        })
+    }
+
+    $(".save-btn").on("click", reqAPI())
+
+    //打印
+    $(".print").on("click", function () {
+        window.open("/pc/nrl2print?pid=" + {{.PInfo.VAA01}});
+    });
+
+    // 过敏史,json字符串
+    var NRL06AJSONStr = {{.NRL.NRL06A}};
+    setCheckBoxJson("#c5-c2", NRL06AJSONStr)
+
+    function setCheckBoxJson(el, jsonStr) {
+        // $(el).find("input[type=checkbox]").each(function(i,el){
+        //     $.each(valArr,function (i2,val) {
+        //         if($(el).data("v") == valArr[i2]){
+        //             $(el).prop("checked",true)
+        //         }
+        //     })
+        // })
+        if (jsonStr) {
+            var jsonObj = JSON.parse(jsonStr);
+            $.each(jsonObj, function (key, val) {
+                $(el).find("input[type=checkbox]").each(function (i, el) {
+                    if ($(el).data("v") == key) {
+                        $(el).prop("checked", true)
+                        // console.log(val)
+                        // console.log( $(el).parents("li").eq(0).find(".m-input-txt"))
+                        $(el).parents("li").eq(0).find(".m-input-txt").val(val)
+                    }
+                })
+            })
+        }
+    }
+
+
+    //多选填值
+    // 资料来源
+    var NNRL03Str = {{.NRL.NRL03}};
+    setCheckBox("#c2", NNRL03Str.split(","))
+
+    // 日常照顾者
+    var NRL04Str = {{.NRL.NRL04}};
+    setCheckBox("#c3", NRL04Str.split(","))
+
+    // 口腔黏膜
+    var NRL12Str = {{.NRL.NRL12}};
+    setCheckBox("#c11", NRL12Str.split(","))
+
+    // 睡眠
+    var NRL14Str = {{.NRL.NRL14}};
+    setCheckBox("#c13", NRL14Str.split(","))
+
+    // 排尿
+    var NRL16Str = {{.NRL.NRL16}};
+    setCheckBox("#c15", NRL16Str.split(","))
+
+    // 关联肢体表
+    var LimbsIdStr = {{.NRL.LimbsId}};
+    setCheckBox("#c17-c2", LimbsIdStr.split(","))
+
+    // 皮肤状况
+    var NRL21Str = {{.NRL.NRL21}};
+    setCheckBox("#c19", NRL21Str.split(","))
+
+    // 住院告知
+    var NRL30Str = {{.NRL.NRL30}};
+    setCheckBox("#c23", NRL30Str.split(","))
+
+    function setCheckBox(id, valArr) {
+        $(id).find("input[type=checkbox]").each(function (i, el) {
+            $.each(valArr, function (i2, val) {
+                if ($(el).data("v") == valArr[i2]) {
+                    $(el).prop("checked", true)
+                }
+            })
+        })
+    }
+
+
+    //设置禁用input
+    // $(".disabled-box").find("input").prop("disabled",true)
+    $(".main-sel").each(function (i, el) {
+        switchStyle(el)
+    })
+
+    $(".main-sel").on("click", function () {
+        switchStyle(this)
+    })
+
+    function switchStyle(el) {
+        var $li = $(el).parents("li").eq(0)
+        if ($(el).prop('checked')) {
+            $li.children(".child-sel").removeClass("disabled-box");
+            // disabled-box
+            $li.children(".child-sel").find("input,textarea").each(function (i, el) {
+                if ($(el).parents(".disabled-box").eq(0).length == 0) {
+                    $(el).prop("disabled", false)
+                }
+            })
+        } else {
+            $li.children(".child-sel").addClass("disabled-box");
+            // $li.children(".child-sel").find("input").prop("disabled",true)
+            $li.children(".child-sel").find("input,textarea").each(function (i, el) {
+                if ($(el).parents(".disabled-box").eq(0).length != 0) {
+                    $(el).prop("disabled", true)
+                    $(el).val("")
+                    $(el).prop("checked", false)
+                }
+            })
+
+        }
+    }
+
+    $(".radio-grup").on("click", function () {
+        $(this).find(".main-sel").each(function (i, el) {
+            switchStyle(el)
+        })
+    })
+
+
 </script>
 </body>
 

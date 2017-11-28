@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>深圳万丰医院疼痛强度评分量表</title>
+    <script type="text/javascript" src="/static/dist/js/lib/jquery.min.js"></script>
+
+    <style type="text/css">
+        <!--
+        -->
+        p {
+            margin: 4px 0;
+        }
+
+        .STYLE2 {
+            font-size: x-large;
+            font-weight: bold;
+        }
+
+        .kg {
+            padding-top: 50px;
+        }
+    </style>
+    <script type="text/javascript">
+
+        var scoreHash = {
+            "option1": { //疼痛评分量表选择
+                "1": "VRS",
+                "2": "NRS",
+                "3": "Wong-Baker",
+                "4": "FPS-R",
+            },
+            "option2": { //疼痛评分
+                "1": "0级",
+                "2": "I级",
+                "3": "II级",
+                "4": "III级",
+            },
+
+        }
+
+        $(function () {
+            var page = {{.PageNum}}//多少页
+            var datas = {{.NRLList}}//数据
+                    loadData(page, datas);
+        });
+
+        function loadData(page, datas) {
+            var len = datas.length;
+            var html = "";
+            console.log(page, datas)
+            if (len > 0) {
+                for (var i = 0; i < page; i++) {
+                    html += "<p align=\"center\" class=\"STYLE2\">深圳万丰医院疼痛强度评分量表</p>\n" +
+                            "<p>\n" +
+                            "    <label>床号：</label>\n" +
+                            "{{.PInfo.BCQ04}}\n" +
+                            "    <label>姓名：</label>\n" +
+                            "{{.PInfo.VAA05}}\n" +
+                            "    <label>性别：</label>\n" +
+                            "{{.PInfo.Gender}}\n" +
+                            "    <label>年龄：</label>\n" +
+                            "{{.PInfo.VAA10}}岁\n" +
+                            "    <label>住院号：</label>\n" +
+                            "{{.PInfo.VAA04}} \n" +
+                            "    <label>诊断：</label>\n" +
+                            "{{.PInfo.VAO15}}</p>\n";
+                    html += "<table width=\"723\" height=\"283\" border=\"1\" cellspacing=\"0\" bordercolor=\"#666666\">\n" +
+                            "    <tr>\n" +
+                            "        <td width=\"110\" height=\"29\"><div align=\"center\">日期</div></td>\n" +
+                            "        <td width=\"110\"><div align=\"center\">时间</div></td>\n" +
+                            "        <td width=\"136\"><div align=\"center\">疼痛评分量表</div></td>\n" +
+                            "        <td width=\"84\"><div align=\"center\">疼痛评分</div></td>\n" +
+                            "        <td width=\"110\"><div align=\"center\">责任护士签名</div></td>" +
+                            "        <td width=\"133\"><div align=\"center\">审核人签名</div></td>" +
+                            "    </tr>";
+                    for (var j = 0; j < 7; j++) {
+                        html += "<tr>" +
+                                "<td width=\"110\" align=\"center\" height=\"33\">&nbsp;" + (datas[i * 7 + j].DateStr || " ") + "</td>" +
+                                "<td width=\"110\" align=\"center\" height=\"33\">&nbsp;" + (datas[i * 7 + j].TimeStr || " ") + "</td>" +
+                                "<td width=\"136\" align=\"center\" height=\"33\">&nbsp;" + (scoreHash.option1[datas[i * 7 + j].NRL05] || " ") + "</td>" +
+                                "<td width=\"84\" align=\"center\" height=\"33\">&nbsp;" + (scoreHash.option2[datas[i * 7 + j].NRL05A] || " ") + "</td>" +
+                                " <td width=\"110\" align=\"center\" height=\"33\">&nbsp;" + (datas[i * 7 + j].BCE03A || " ") + "</td>" +
+                                " <td width=\"133\" align=\"center\" height=\"33\">&nbsp;" + (datas[i * 7 + j].NRL06B || " ") + "</td>" +
+                                "</tr>";
+                    }
+                    html += "</table>" +
+                            "<div id='tail'>" +
+                            "    <p>诉言词量表（VRS）</p>" +
+                            "    <p>0级： 无痛。</p>" +
+                            "    <p>I级（轻度）：有疼痛但可忍受，能正常生活，睡眠不受干扰。</p>\n" +
+                            "    <p>II级（中度）：疼痛明显，不能忍受，要求使用止痛剂睡眠受干扰。</p>\n" +
+                            "    <p>III级（重度）：疼痛剧烈，不能忍受，睡眠受严重干扰，可伴有自主神经紊乱或被动体位。</p>\n" +
+                            "    <p><img src=\"/static/dist/images/tip.png\" width=\"697\" height=\"416\" /></p>\n" +
+                            "    <p>备注：</p>\n" +
+                            "    <p>1. 评估时机: 发生疼痛时随时评估，疼痛治疗干预后评估，疼痛过程中至少每30min评估一次。</p>\n" +
+                            "    <p>2. 评分标准：根据患者的疼痛情况选择合适的疼痛评估方法与工具。</p>\n" +
+                            "    <p>&nbsp;</p>\n" +
+                            "    <p>&nbsp;</p>\n" +
+                            "    <p>&nbsp;</p>\n" +
+                            "</div>";
+                }
+                $('body').html(html)
+            }
+
+        }
+    </script>
+</head>
+
+<body>
+<p align="center" class="STYLE2">深圳万丰医院疼痛强度评分量表</p>
+<p>
+    <label>床号：</label>
+{{.PInfo.BCQ04}}
+    <label>姓名：</label>
+{{.PInfo.VAA05}}
+    <label>性别：</label>
+{{.PInfo.Gender}}
+    <label>年龄：</label>
+{{.PInfo.VAA10}}岁
+    <label>住院号：</label>
+{{.PInfo.VAA04}} 
+    <label>诊断：</label>
+{{.PInfo.VAO15}}</p>
+<table width="723" height="283" border="1" cellspacing="0" bordercolor="#666666">
+    <tr>
+        <td width="110" height="29">
+            <div align="center">日期</div>
+        </td>
+        <td width="110">
+            <div align="center">时间</div>
+        </td>
+        <td width="136">
+            <div align="center">疼痛评分量表</div>
+        </td>
+        <td width="84">
+            <div align="center">疼痛评分</div>
+        </td>
+        <td width="110">
+            <div align="center">责任护士签名</div>
+        </td>
+        <td width="133">
+            <div align="center">审核人签名</div>
+        </td>
+    </tr>
+    <tr>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="136" height="33">&nbsp;</td>
+        <td width="84" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="133" height="33">&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="136" height="33">&nbsp;</td>
+        <td width="84" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="133" height="33">&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="136" height="33">&nbsp;</td>
+        <td width="84" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="133" height="33">&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="136" height="33">&nbsp;</td>
+        <td width="84" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="133" height="33">&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="136" height="33">&nbsp;</td>
+        <td width="84" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="133" height="33">&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="136" height="33">&nbsp;</td>
+        <td width="84" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="133" height="33">&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="136" height="33">&nbsp;</td>
+        <td width="84" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="133" height="33">&nbsp;</td>
+    </tr>
+</table>
+<div id='tail'>
+    <p>诉言词量表（VRS）</p>
+    <p>0级： 无痛。</p>
+    <p>I级（轻度）：有疼痛但可忍受，能正常生活，睡眠不受干扰。</p>
+    <p>II级（中度）：疼痛明显，不能忍受，要求使用止痛剂睡眠受干扰。</p>
+    <p>III级（重度）：疼痛剧烈，不能忍受，睡眠受严重干扰，可伴有自主神经紊乱或被动体位。</p>
+    <p><img src="/static/dist/images/tip.png" width="697" height="416"/></p>
+    <p>备注：</p>
+    <p>1. 评估时机: 发生疼痛时随时评估，疼痛治疗干预后评估，疼痛过程中至少每30min评估一次。</p>
+    <p>2. 评分标准：根据患者的疼痛情况选择合适的疼痛评估方法与工具。</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+</div>
+</body>
+</html>

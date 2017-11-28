@@ -8,9 +8,9 @@ import (
 
 // 首次护理记录单
 type NRL2 struct {
-	ID     int    `xorm:"pk autoincr comment(文书id)"`
-	BCK01  int64  `xorm:"comment(classid科室id)"`
+	ID     int64    `xorm:"pk autoincr comment(文书id)"`
 	VAA01  int64  `xorm:"comment(patientid病人id)"`
+	BCK01  int    `xorm:"comment(classid科室id)"`
 	NRL38  string `xorm:"comment(recordDate记录时间)"`
 	BCE01A string `xorm:"comment(NursingId责任护士ID)"`
 	BCE03A string `xorm:"comment(NursingName责任护士签名)"`
@@ -69,9 +69,9 @@ type NRL2 struct {
 }
 
 /*插入 首次护理记录*/
-func (nrl2 *NRL2) InsertToDatabase() (int, error) {
+func (nrl2 *NRL2) InsertToDatabase() (int64, error) {
 	_, err := fit.MySqlEngine().InsertOne(nrl2)
-	nrl_id := 0
+	var nrl_id int64
 	if err == nil {
 		slice := make([]NRL2, 0)
 		err = fit.MySqlEngine().SQL("select id from NRL2 where NRL38 = ? and VAA01 = ?", nrl2.NRL38, nrl2.VAA01).Find(&slice)
