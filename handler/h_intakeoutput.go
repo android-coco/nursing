@@ -43,50 +43,60 @@ func (c IntakeOutputCollectController) Post(w *fit.Response, r *fit.Request, p f
 	}
 
 	tp_i, err := strconv.Atoi(tp)
-	if err != nil || tp_i < 1 || tp_i > 3 {
+	if err != nil || tp_i < 15 || tp_i > 16 {
 		c.RenderingJsonAutomatically(2, "参数错误: type")
 		return
+	}
+
+	patientID, err_pid := strconv.Atoi(pid)
+	if err_pid != nil {
+		c.RenderingJsonAutomatically(2, "参数错误: patient_id")
+		return
+	}
+	nurseId, err_nid := strconv.Atoi(nid)
+	if err_nid != nil {
+		c.RenderingJsonAutomatically(2, "参数错误: nurse_id")
+		return
+	}
+
+	subtype_i, err_copy := strconv.Atoi(subtype)
+	_, err_time := time.Parse("2006-01-02 15:04:05", recordtime)
+	_, err_value := strconv.Atoi(value)
+	opertion_i, err_op := strconv.Atoi(opertion_type)
+
+	if err_time != nil {
+		c.RenderingJsonAutomatically(2, "参数错误: recordtime")
+		return
+	} else if err_value != nil {
+		c.RenderingJsonAutomatically(2, "参数错误: value")
+		return
+	} else if err_copy != nil {
+		c.RenderingJsonAutomatically(2, "参数错误: subtype")
+		return
+	} else if err_op != nil {
+		c.RenderingJsonAutomatically(2, "参数错误: opertion_type")
+		return
+	}
+
+	// 出量
+	iov := model.IntakeOutput{
+		PatientId: patientID,
+		NurseId:   nurseId,
+		NurseName: nurse_name,
+		HeadType:  tp,
+		SubType:      subtype_i,
+		Other:     opertion_i,
+		OtherStr:  other_desc,
+		Describe:  desc,
+		TestTime:  recordtime,
+		Value:     value,
+	}
+
+	err = iov.CollectIntakeOrOutputVolume()
+	if err != nil {
+		c.RenderingJsonAutomatically(3, "Database "+err.Error())
 	} else {
-		subtype_i, err_copy := strconv.Atoi(subtype)
-		_, err_time := time.Parse("2006-01-02 15:04:05", recordtime)
-		value_i, err_value := strconv.Atoi(value)
-		opertion_i, err_op := strconv.Atoi(opertion_type)
-
-		if err_time != nil {
-			c.RenderingJsonAutomatically(2, "参数错误: recordtime")
-			return
-		} else if err_value != nil {
-			c.RenderingJsonAutomatically(2, "参数错误: value")
-			return
-		} else if err_copy != nil {
-			c.RenderingJsonAutomatically(2, "参数错误: subtype")
-			return
-		} else if err_op != nil {
-			c.RenderingJsonAutomatically(2, "参数错误: opertion_type")
-			return
-		}
-
-		iot := model.IntakeOutput{
-			BaseModel: model.BaseModel{
-				PatientId: pid,
-				NurseId:   nid,
-				NurseName: nurse_name,
-			},
-			Type:          uint8(tp_i),
-			Subtype:       uint8(subtype_i),
-			OperationType: uint8(opertion_i),
-			Testtime:      recordtime,
-			Value:         uint16(value_i),
-			Desc:          desc,
-			OtherDesc:     other_desc,
-		}
-
-		err := iot.CollectIntakeOrOutputVolume()
-		if err != nil {
-			c.RenderingJsonAutomatically(3, "Database "+err.Error())
-		} else {
-			c.RenderingJsonAutomatically(0, "成功")
-		}
+		c.RenderingJsonAutomatically(0, "成功")
 	}
 }
 
@@ -114,7 +124,7 @@ func (c IntakeOutputQueryController) Get(w *fit.Response, r *fit.Request, p fit.
 	tp_i, err_tp := strconv.Atoi(tp)
 	page_i, err_dup := strconv.Atoi(page)
 
-	if err_tp != nil || tp_i < 1 || tp_i > 3 {
+	if err_tp != nil || tp_i < 15 || tp_i > 17 {
 		c.RenderingJsonAutomatically(2, "参数错误: type")
 	} else if err_dup != nil {
 		c.RenderingJsonAutomatically(2, "参数错误: page")
@@ -122,7 +132,7 @@ func (c IntakeOutputQueryController) Get(w *fit.Response, r *fit.Request, p fit.
 		var slice []model.IntakeOutputDup
 		var err error
 
-		if tp_i == model.IntakeOutputTypeIntake|model.IntakeOutputTypeOutput {
+		if tp_i == 17 {
 			slice, err = model.QueryIntakeOrOutputVolumeAll(pid, page_i)
 		} else {
 			slice, err = model.QueryIntakeOrOutputVolume(pid, tp_i, page_i)

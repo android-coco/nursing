@@ -2,10 +2,13 @@ package handler
 
 import (
 	"fit"
-	"nursing/model"
-	"time"
-	"fmt"
 	"strconv"
+	"nursing/model"
+	"fmt"
+	"time"
+	//"nursing/utils"
+	"encoding/json"
+	"nursing/utils"
 )
 
 // 护理记录单 PDA端
@@ -15,6 +18,247 @@ type NRL1Controller struct {
 	NRLController
 }
 
+// 修改护理记录单
+func (c NRL1Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Params) {
+	defer c.ResponseToJson(w)
+	//model.NRLRelatesToIO("802040")
+	//return
+	// 病人ID
+	pid := r.FormValue("pid")
+	VAA01, err1 := strconv.ParseInt(pid, 10, 64)
+	// 科室ID
+	did := r.FormValue("did")
+	BCK01, err2 := strconv.Atoi(did)
+	// 护士ID
+	BCE01A, err3 := strconv.Atoi(r.FormValue("uid"))
+	// 护士名
+	BCE03A := r.FormValue("username")
+	// 记录时间
+	datetime, err4 := time.ParseInLocation("2006-01-02 15:04:05", r.FormValue("datetime"), time.Local)
+
+	flag := checkerr("update record:", err1, err2, err3, err4)
+	if flag || BCE03A == ""{
+		c.RenderingJsonAutomatically(2, "参数不完整")
+		return
+	}
+	fmt.Println(VAA01, BCK01, BCE01A, BCE03A, datetime)
+
+	jsonstr := r.FormValue("jsonstr")
+	fmt.Println("json str :", jsonstr)
+	var mods []model.NRLData
+	//var maps []map[string]string
+	errUnmarshal := json.Unmarshal([]byte(jsonstr), &mods)
+	if errUnmarshal != nil {
+		fit.Logger().LogError("json.Unmarshal err:", errUnmarshal)
+	}
+	fmt.Printf("----mods: %+v\n", mods)
+
+	//开启事务
+	session := fit.MySqlEngine().NewSession()
+	defer session.Close()
+	errsession := session.Begin()
+	if errsession != nil {
+		fit.Logger().LogError("session err:", errsession)
+		return
+	}
+	for _, model := range mods {
+		fmt.Printf("model: %+v\n\n", model)
+
+		id := model.ID
+		//subType, err := strconv.Atoi(dict["subType"])
+		//if err != nil {
+		//	fit.Logger().LogError("json.Unmarshal parse subtype err:", err)
+		//	subType = 0
+		//}
+		//nrldata := model.NRLData{
+			//ID:        id,
+			//HeadType:  dict["headType"],
+			//SubType:   subType,
+			//NurseId:   BCE01A,
+			//NurseName: BCE03A,
+			//PatientId: VAA01,
+			//Value:     dict["value"],
+			//TestTime:  fit.JsonTime(datetime),
+		//}
+		if id == 0 {
+			model.TestTime = fit.JsonTime(datetime)
+			model.PatientId = VAA01
+			model.NurseId = BCE01A
+			model.NurseName = BCE03A
+
+			_, errInsert := session.Table("NurseChat").Insert(model)
+			if errInsert != nil {
+				fit.Logger().LogError("session insert err:", errInsert)
+				session.Rollback()
+				return
+			}
+		} else {
+			_, errUpdate := session.Table("NurseChat").ID(id).Update(&model)
+			if errUpdate != nil {
+				fit.Logger().LogError("session update err:", errUpdate)
+				session.Rollback()
+				return
+			}
+		}
+		fmt.Printf("---------------model: %+v\n\n", model)
+	}
+	errsession = session.Commit()
+	if errsession != nil {
+		fit.Logger().LogError("session Commit err:", errsession)
+		return
+	} else {
+		c.RenderingJsonAutomatically(0, "修改成功", )
+	}
+
+	//jsonbyte, err12 := json.Marshal(maps)
+	//fmt.Println("jsonmap :", string(jsonbyte), err12)
+
+}
+
+func (c NRL1Controller) UpdateTitle(w *fit.Response, r *fit.Request, p fit.Params) {
+	defer c.ResponseToJson(w)
+
+	// 病人ID
+	VAA01, err1 := strconv.ParseInt(r.FormValue("pid"), 10, 64)
+	// 科室ID
+	BCK01, err3 := strconv.Atoi(r.FormValue("did"))
+
+	// 文书ID（修改时需要）
+	NRT01 := r.FormValue("NRT01")
+	NRT01V := r.FormValue("NRT01V")
+	NRT02 := r.FormValue("NRT02")
+	NRT02V := r.FormValue("NRT02V")
+	NRT03 := r.FormValue("NRT03")
+	NRT03V := r.FormValue("NRT03V")
+	NRT04 := r.FormValue("NRT04")
+	NRT04V := r.FormValue("NRT04V")
+	NRT05 := r.FormValue("NRT05")
+	NRT05V := r.FormValue("NRT05V")
+	NRT06 := r.FormValue("NRT06")
+	NRT06V := r.FormValue("NRT06V")
+	NRT07 := r.FormValue("NRT07")
+	NRT07V := r.FormValue("NRT07V")
+
+	checkerr("nrl7 title:", err1, err3)
+
+	title := model.NRL1Title{
+		VAA01:  VAA01,
+		BCK01:  BCK01,
+		NRT01:  NRT01,
+		NRT01V: NRT01V,
+		NRT02:  NRT02,
+		NRT02V: NRT02V,
+		NRT03:  NRT03,
+		NRT03V: NRT03V,
+		NRT04:  NRT04,
+		NRT04V: NRT04V,
+		NRT05:  NRT05,
+		NRT05V: NRT05V,
+		NRT06:  NRT06,
+		NRT06V: NRT06V,
+		NRT07:  NRT07,
+		NRT07V: NRT07V,
+	}
+	errt := title.PCUpdateNRT1Title()
+	if errt != nil {
+		fit.Logger().LogError("Error", "nrl1 update :", errt)
+		c.JsonData.Result = 2
+		c.JsonData.ErrorMsg = " 错误！"
+		c.JsonData.Datas = []interface{}{errt.Error()}
+	} else {
+		c.JsonData.Result = 0
+		c.JsonData.ErrorMsg = "nrl7 title 添加成功！"
+		c.JsonData.Datas = []interface{}{}
+	}
+}
+
+// 删除护理
+func (c NRL1Controller) DeleteRecord(w *fit.Response, r *fit.Request, p fit.Params) {
+	defer c.ResponseToJson(w)
+	// 文书ID
+	/*rid := r.FormValue("rid")
+	headType := r.FormValue("headType")
+	if rid == "" || headType == "" {
+		c.RenderingJsonAutomatically(3, "参数不完整")
+	}
+	id, err := strconv.ParseInt(rid, 10, 64)
+	if err != nil {
+		fit.Logger().LogError("Error", "nrl1 update :", err)
+		c.RenderingJsonAutomatically(3, "rid 错误！")
+		return
+	}*/
+
+	jsonstr := r.FormValue("jsonstr")
+	var maps []map[string]string
+	errUnmarshal := json.Unmarshal([]byte(jsonstr), &maps)
+	if errUnmarshal != nil {
+		fit.Logger().LogError("json.Unmarshal err:", errUnmarshal)
+	}
+	fmt.Println(maps)
+
+	//开启事务
+	session := fit.MySqlEngine().NewSession()
+	defer session.Close()
+	errsession := session.Begin()
+	if errsession != nil {
+		fit.Logger().LogError("session err:", errsession)
+		return
+	}
+	for _, dict := range maps {
+		fmt.Println("---", dict)
+
+		id, errParse := utils.Int64Value(dict["ID"])
+
+		if errParse != nil {
+			fit.Logger().LogError("json.Unmarshal parse err:", errParse)
+			id = 0
+		}
+		subType, err := strconv.Atoi(dict["subType"])
+		if err != nil {
+			fit.Logger().LogError("json.Unmarshal parse subtype err:", err)
+			subType = 0
+		}
+		nrldata := model.NRLData{
+			ID:        id,
+			HeadType:  dict["headType"],
+			SubType:   subType,
+		}
+		if id == 0 {
+			_, errInsert := session.Table("NurseChat").Insert(nrldata)
+			if errInsert != nil {
+				fit.Logger().LogError("session insert err:", errParse)
+				session.Rollback()
+				return
+			}
+		} else {
+			_, errUpdate := session.Table("NurseChat").ID(id).Delete(&nrldata)
+			if errUpdate != nil {
+				fit.Logger().LogError("session update err:", errParse)
+				session.Rollback()
+				return
+			}
+		}
+		fmt.Println(nrldata)
+	}
+	errsession = session.Commit()
+	if errsession != nil {
+		fit.Logger().LogError("session Commit err:", errsession)
+		c.RenderingJsonAutomatically(0, "删除失败", )
+		return
+	} else {
+		c.RenderingJsonAutomatically(0, "删除成功", )
+	}
+
+	//err18 := model.DeleteNRLData(rid, headType)
+	//if err18 != nil {
+	//	fit.Logger().LogError("nrl8 add :", err18)
+	//	c.RenderingJsonAutomatically(3, "删除失败！")
+	//} else {
+	//	c.RenderingJsonAutomatically(0, "删除成功！")
+	//}
+}
+
+/*
 // 查看护理记录单
 func (c NRL1Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 	// 文书id
@@ -251,117 +495,5 @@ func (c NRL1Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params)
 	}
 }
 
-// 修改护理记录单
-func (c NRL1Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Params) {
-	defer c.ResponseToJson(w)
-	//strconv.ParseInt(r.FormValue("nurse_id"), 10, 64)
-	rid := r.FormValue("rid")
-	id, err := strconv.ParseInt(rid, 10, 64)
-	if err != nil {
-		fit.Logger().LogError("Error", "nrl1 update :", err)
-		c.JsonData.Result = 3
-		c.JsonData.ErrorMsg = "rid 错误！"
-		c.JsonData.Datas = []interface{}{}
-	}
-	nurseId := r.FormValue("nurse_id")
-	classId := r.FormValue("class_id")
-	nurseName := r.FormValue("nurse_name")
-	patientId := r.FormValue("patient_id")
-	updatestr := r.FormValue("datetime")
-	datetime, err1 := time.ParseInLocation("2006-01-02 15:04:05", updatestr, time.Local)
-	temperature := r.FormValue("temperature")
-	pulse := r.FormValue("pulse")
-	heartrate := r.FormValue("heartrate")
-	breathe := r.FormValue("breathe")
-	preDia := r.FormValue("pre_dia")
-	preSys := r.FormValue("pre_sys")
-	vNRA5 := r.FormValue("NRA5")
-	vNRA6A := r.FormValue("NRA6A")
-	vNRA6B := r.FormValue("NRA6B")
-	vNRA7A := r.FormValue("NRA7A")
-	vNRA7B := r.FormValue("NRA7B")
-	vNRA8 := r.FormValue("NRA8")
-	vNRA9A := r.FormValue("NRA9A")
-	vNRA9B := r.FormValue("NRA9B")
-	vNRA10A := r.FormValue("NRA10A")
-	vNRA10B := r.FormValue("NRA10B")
-	vNRA11A := r.FormValue("NRA11A")
-	vNRA11B := r.FormValue("NRA11B")
-	vNRA12A := r.FormValue("NRA12A")
-	vNRA12B := r.FormValue("NRA12B")
-	vNRA13A := r.FormValue("NRA13A")
-	vNRA13B := r.FormValue("NRA13B")
-	vNRA14A := r.FormValue("NRA14A")
-	vNRA14B := r.FormValue("NRA14B")
-	vNRA15A := r.FormValue("NRA15A")
-	vNRA15B := r.FormValue("NRA15B")
-	vNRA16B := r.FormValue("NRA16B")
 
-	if rid == "" {
-		c.JsonData.Result = 1
-		c.JsonData.ErrorMsg = "参数不完整"
-		c.JsonData.Datas = []interface{}{}
-		return
-	}
-
-	if err1 != nil {
-		fit.Logger().LogError("error", err1.Error())
-	}
-
-	record := model.NRL1{
-		PatientId:   patientId,
-		ClassId:     classId,
-		NurseName:   nurseName,
-		NurseId:     nurseId,
-		DateTime:    datetime,
-		Temperature: temperature,
-		Pulse:       pulse,
-		Heartrate:   heartrate,
-		Breathe:     breathe,
-		PressureDIA: preDia,
-		PressureSYS: preSys,
-		NRA5:        vNRA5,
-		NRA6A:       vNRA6A,
-		NRA6B:       vNRA6B,
-		NRA7A:       vNRA7A,
-		NRA7B:       vNRA7B,
-		NRA8:        vNRA8,
-		NRA9A:       vNRA9A,
-		NRA9B:       vNRA9B,
-		NRA10A:      vNRA10A,
-		NRA10B:      vNRA10B,
-		NRA11A:      vNRA11A,
-		NRA11B:      vNRA11B,
-		NRA12A:      vNRA12A,
-		NRA12B:      vNRA12B,
-		NRA13A:      vNRA13A,
-		NRA13B:      vNRA13B,
-		NRA14A:      vNRA14A,
-		NRA14B:      vNRA14B,
-		NRA15A:      vNRA15A,
-		NRA15B:      vNRA15B,
-		NRA16B:      vNRA16B,
-	}
-
-	_, err3 := record.UpdateData(id)
-	// 文书记录
-
-
-	_, err2 := model.UpadteNRecords(id, updatestr)
-	if err3 != nil {
-		fit.Logger().LogError("Error", "warn add :", err)
-		c.JsonData.Result = 2
-		c.JsonData.ErrorMsg = "修改失败！"
-		c.JsonData.Datas = []interface{}{}
-	} else {
-		if err2 != nil {
-			fit.Logger().LogError("Error", "NRL add :", err2)
-			c.JsonData.Result = 0
-			c.JsonData.ErrorMsg = "修改成功! (文书记录更新失败！)"
-			c.JsonData.Datas = []interface{}{}
-		}
-		c.JsonData.Result = 0
-		c.JsonData.ErrorMsg = "修改成功！"
-		c.JsonData.Datas = []interface{}{}
-	}
-}
+*/

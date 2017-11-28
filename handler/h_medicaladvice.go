@@ -3,270 +3,302 @@ package handler
 import (
 	"fit"
 	"nursing/model"
-	"time"
 	"strconv"
+	"nursing/utils"
+	"fmt"
 )
 
-type MedicalAdviceQuery struct {
+type MedicalAdviceController struct {
 	fit.Controller
 }
 
 
-//查询医嘱
-func (c MedicalAdviceQuery) Post(w *fit.Response, r *fit.Request, p fit.Params) {
+/*查询医嘱API PDA*/
+func (c MedicalAdviceController) Search(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 	r.ParseForm()
-	//mavType := r.FormValue("type")
-	//mavMethod := r.FormValue("method")
-	//mavStatus := r.FormValue("status")
-	patient_id := r.FormValue("patient_id")
 
-	if patient_id == "" {
+	mavType := r.FormValue("type")
+	mavCategory := r.FormValue("category")
+	mavStatus := r.FormValue("status")
+	patient_id := r.FormValue("pid")
+
+	if patient_id == "" || mavType == "" || mavCategory == "" || mavStatus == "" {
 		c.RenderingJsonAutomatically(1, "参数不完整")
 		return
 	}
 
-
-	//if patient_id == "" || mavType == "" || mavMethod == "" || mavStatus == "" {
-	//	c.RenderingJsonAutomatically(1, "参数不完整")
-	//	return
-	//}
-	//
-	//type_i, err_t := strconv.Atoi(mavType)
-	//if err_t != nil {
-	//	c.RenderingJsonAutomatically(2, "参数错误 type")
-	//	return
-	//}
-	//
-	//method_i, err_m := strconv.Atoi(mavMethod)
-	//if err_m != nil {
-	//	c.RenderingJsonAutomatically(2, "参数错误 method")
-	//	return
-	//}
-	//
-	//status_i, err_s := strconv.Atoi(mavStatus)
-	//if err_s != nil {
-	//	c.RenderingJsonAutomatically(2, "参数错误 status")
-	//	return
-	//}
-	//
-	//pid_i, err_p := strconv.Atoi(patient_id)
-	//if err_p != nil {
-	//	c.RenderingJsonAutomatically(2, "参数错误 patient_id")
-	//	return
-	//}
-
-	var sql string
-	var msg []interface{}
-
-	sql = "VAA01 = ? and (VAF10 = ? or VAF10 = ? or VAF10 = ? or (VAF10 = ? and BCE03D = ?))"
-	msg = append(msg, patient_id, 1, 4, 5, 8, "")
-
-	relusts, err := model.OutAdvice(sql, msg...)
-	if err != nil {
-		c.JsonData.Result = 2
-		c.JsonData.ErrorMsg = "查询错误"
-		c.JsonData.Datas = []interface{}{err}
-	} else {
-		c.JsonData.Result = 0
-		c.JsonData.ErrorMsg = "查询完成"
-		c.JsonData.Datas = relusts
+	type_i, err_t := strconv.Atoi(mavType)
+	if err_t != nil {
+		c.RenderingJsonAutomatically(2, "参数错误 type")
+		return
 	}
 
-	fit.Logger().LogError("医嘱：", relusts, err)
+	status_i, err_s := strconv.Atoi(mavStatus)
+	if err_s != nil {
+		c.RenderingJsonAutomatically(2, "参数错误 status")
+		return
+	}
+
+	pid_i, err_p := utils.Int64Value(patient_id)
+	if err_p != nil {
+		c.RenderingJsonAutomatically(2, "参数错误 pid")
+		return
+	}
+
+	mAdvices, err_db := model.SearchMedicalAdvice(type_i, status_i, pid_i, mavCategory)
+	if err_db == nil {
+		c.RenderingJson(0,"查询成功", mAdvices)
+	} else {
+		c.RenderingJsonAutomatically(3, "Database "+err_db.Error())
+	}
 }
 
-func (c *MedicalAdviceQuery) RenderingJsonAutomatically(result int, errMsg string) {
-	c.RenderingJson(result, errMsg, make(map[string]interface{}, 0))
+
+/*医嘱执行查询PAI PDA*/
+func (c MedicalAdviceController) ExecSearch(w *fit.Response, r *fit.Request, p fit.Params) {
+	defer c.ResponseToJson(w)
+	r.ParseForm()
+
+	mavType := r.FormValue("type")
+	mavCategory := r.FormValue("category")
+	mavStatus := r.FormValue("status")
+	patient_id := r.FormValue("pid")
+
+	if patient_id == "" || mavType == "" || mavCategory == "" || mavStatus == "" {
+		c.RenderingJsonAutomatically(1, "参数不完整")
+		return
+	}
+
+	type_i, err_t := strconv.Atoi(mavType)
+	if err_t != nil {
+		c.RenderingJsonAutomatically(2, "参数错误 type")
+		return
+	}
+
+	status_i, err_s := strconv.Atoi(mavStatus)
+	if err_s != nil {
+		c.RenderingJsonAutomatically(2, "参数错误 status")
+		return
+	}
+
+	pid_i, err_p := utils.Int64Value(patient_id)
+	if err_p != nil {
+		c.RenderingJsonAutomatically(2, "参数错误 pid")
+		return
+	}
+
+	mAdvices, err_db := model.SearchMedicalAdviceExecution(type_i, status_i, pid_i, mavCategory)
+	if err_db == nil {
+		c.RenderingJson(0,"查询成功", mAdvices)
+	} else {
+		c.RenderingJsonAutomatically(3, "Database "+err_db.Error())
+	}
 }
 
-func (c *MedicalAdviceQuery) RenderingJson(result int, errMsg string, datas interface{}) {
+/*医嘱执行明细PAI PDA*/
+func (c MedicalAdviceController) ExecDetail(w *fit.Response, r *fit.Request, p fit.Params) {
+	defer c.ResponseToJson(w)
+	r.ParseForm()
+
+	madid := r.FormValue("madid")
+	master := r.FormValue("master")
+
+	if madid == "" {
+		c.RenderingJsonAutomatically(1, "参数不完整")
+		return
+	}
+
+	madid_i, err_p := utils.Int64Value(madid)
+	if err_p != nil {
+		c.RenderingJsonAutomatically(2, "参数错误 madid")
+		return
+	}
+
+	master_i, err_m := strconv.Atoi(master)
+	if err_m != nil || master_i < 0 || master_i > 1 {
+		c.RenderingJsonAutomatically(2, "参数错误 master")
+		return
+	}
+
+
+	response, err_db := model.FetchMedicalAdviceExecutionDetail(madid_i, master_i)
+	if err_db == nil {
+		c.RenderingJson(0,"查询成功", response)
+	} else {
+		c.RenderingJsonAutomatically(3, "Database "+err_db.Error())
+	}
+}
+
+/*查询新医嘱、已停医嘱PAI PDA*/
+func (c MedicalAdviceController) StatusSearch(w *fit.Response, r *fit.Request, p fit.Params) {
+	defer c.ResponseToJson(w)
+	r.ParseForm()
+
+	mavStatus := r.FormValue("status")
+	patient_id := r.FormValue("pid")
+
+	if patient_id == "" || mavStatus == "" {
+		c.RenderingJsonAutomatically(1, "参数不完整")
+		return
+	}
+
+	status_i, err_s := strconv.Atoi(mavStatus)
+	if err_s != nil {
+		c.RenderingJsonAutomatically(2, "参数错误 status")
+		return
+	}
+	if status_i != 3 && status_i != 8 {
+		c.RenderingJsonAutomatically(2, "参数错误 status")
+		return
+	}
+
+	pid_i, err_p := utils.Int64Value(patient_id)
+	if err_p != nil {
+		c.RenderingJsonAutomatically(2, "参数错误 pid")
+		return
+	}
+
+	if status_i == 8 {
+		// 医嘱查询（已停医嘱）
+		mAdvices, err_db := model.SearchMedicalAdvice(0, 8, pid_i, "0")
+		if err_db == nil {
+			c.RenderingJson(0,"查询成功", mAdvices)
+		} else {
+			c.RenderingJsonAutomatically(3, "Database "+err_db.Error())
+		}
+	} else if status_i == 3 {
+		// 医嘱执行查询（新医嘱）
+		mAdvices, err_db := model.SearchMedicalAdviceExecution(0, 1, pid_i, "0")
+		if err_db == nil {
+			c.RenderingJson(0,"查询成功", mAdvices)
+		} else {
+			c.RenderingJsonAutomatically(3, "Database "+err_db.Error())
+		}
+	}
+}
+
+/*医嘱执行PAI PDA*/
+func (c MedicalAdviceController) Execute(w *fit.Response, r *fit.Request, p fit.Params) {
+	defer c.ResponseToJson(w)
+	r.ParseForm()
+	pid := r.FormValue("pid")
+	madid := r.FormValue("madid")
+	state := r.FormValue("state")
+	exectime := r.FormValue("exectime")
+	nid := r.FormValue("nid")
+	period := r.FormValue("period")
+	process := r.FormValue("process")
+
+	if pid == "" || madid == "" || state == "" || exectime == "" || nid == "" || period == "" || process == "" {
+		c.RenderingJsonAutomatically(1, "参数不完整")
+		return
+	}
+	pid_i, err_pid := utils.Int64Value(pid)
+	if err_pid != nil {
+		c.RenderingJsonAutomatically(2,"参数错误 pid")
+		return
+	}
+
+	mid, err_mid := utils.Int64Value(madid)
+	if err_mid != nil {
+		c.RenderingJsonAutomatically(2,"参数错误 madid")
+		return
+	}
+	if isExist := model.IsExistRecord(false, "VAF2", fmt.Sprintf("VAA01 = %d and VAF01 = %d",pid_i,mid)); isExist.Exist == 0 {
+		c.RenderingJsonAutomatically(4,"该医嘱与病人ID不匹配，无法查询到对应的医嘱记录")
+		return
+	}
+
+	uid, err_uid := strconv.Atoi(nid)
+	if err_uid != nil {
+		c.RenderingJsonAutomatically(2,"参数错误 nid")
+		return
+	}
+	account,err_acc := model.FetchAccountWithUid(nid)
+	if err_acc != nil || account.Employeeid != uid {
+		fmt.Println("***JK",uid, nid ,account, err_acc)
+		c.RenderingJsonAutomatically(4,"无法查询到对应工作人员")
+		return
+	}
+
+	if isExist := model.IsExistRecord(false, "VAE1", fmt.Sprintf("VAA01 = %d and BCK01C = %d",pid_i, account.DepartmentID)); isExist.Exist == 0 {
+		c.RenderingJsonAutomatically(4,"病人ID与用户所在病区不匹配，无法查询到对应的病人信息")
+		return
+	}
+
+	period_i, err_per := strconv.Atoi(period)
+	if err_per != nil {
+		c.RenderingJsonAutomatically(2,"参数错误 period")
+		return
+	}
+	state_i, err_st := strconv.Atoi(state)
+	if err_st != nil || state_i < 1 || state_i > 3 {
+		c.RenderingJsonAutomatically(2,"参数错误 state")
+		return
+	}
+
+
+
+	status := model.AdviceStatus {
+		Patientid:pid_i,
+		Madid:mid,
+		State:state_i,
+		Recordtime:exectime,
+		Nurseid:account.Employeeid,
+		Nursename:account.Username,
+		Period:period_i,
+		Process:process,
+	}
+	detail := model.AdviceDetail {
+		ExecTime: exectime,
+		Process:process,
+		Madid:mid,
+		Nursename:account.Username,
+		Nurseid:account.Employeeid,
+		Patientid:pid_i,
+		Period:period_i,
+	}
+
+	// 1. 存在执行记录即更新AdviceStatus，否则往AdviceStatus插入记录。
+	// 2. 往AdviceDetail插入执行明细
+	if isExist := model.IsExistRecord(true, "AdviceStatus", fmt.Sprintf("Madid = %d",mid)); isExist.Exist == 0 {
+		_, err_db := fit.MySqlEngine().Table("AdviceStatus").InsertOne(&status)
+		if err_db != nil {
+			c.RenderingJsonAutomatically(3,"Database（AdviceStatus）"+err_db.Error())
+		} else {
+			_, err_db = fit.MySqlEngine().Table("AdviceDetail").InsertOne(&detail)
+			if err_db != nil {
+				c.RenderingJsonAutomatically(3,"Database（AdviceDetail）"+err_db.Error())
+			} else {
+				res := make([]model.AdviceDetail, 1)
+				res[0] = detail
+				c.RenderingJson(0, "执行成功",res)
+			}
+		}
+	} else {
+		_, err_db := fit.MySqlEngine().Table("AdviceStatus").Where("Madid = ?",mid).Update(&status)
+		if err_db != nil {
+			c.RenderingJsonAutomatically(3,"Database（AdviceStatus）"+err_db.Error())
+		} else {
+			_, err_db = fit.MySqlEngine().Table("AdviceDetail").InsertOne(&detail)
+			if err_db != nil {
+				c.RenderingJsonAutomatically(3,"Database（AdviceDetail）"+err_db.Error())
+			} else {
+				res := make([]model.AdviceDetail, 1)
+				res[0] = detail
+				c.RenderingJson(0, "执行成功",res)
+			}
+		}
+	}
+}
+
+func (c *MedicalAdviceController) RenderingJsonAutomatically(result int, errMsg string) {
+	c.RenderingJson(result, errMsg, make([]interface{}, 0))
+}
+
+func (c *MedicalAdviceController) RenderingJson(result int, errMsg string, datas interface{}) {
 	c.JsonData.Datas = datas
 	c.JsonData.ErrorMsg = errMsg
 	c.JsonData.Result = result
-}
-
-type MedicalAdviceStateQuery struct {
-	fit.Controller
-}
-
-//查询执行医嘱
-func (c MedicalAdviceStateQuery) Post(w *fit.Response, r *fit.Request, p fit.Params) {
-	defer c.ResponseToJson(w)
-
-	patient_id := r.FormValue("patient_id") //VAA01病人ID
-	starttime := r.FormValue("starttime")   //开始时间
-	endtime := r.FormValue("endtime")       //结束时间
-
-	advice_id := r.FormValue("advice_id") //医嘱id
-
-	if patient_id == "" && (advice_id == "" && starttime == "" && endtime == "") {
-		c.JsonData.Result = 1
-		c.JsonData.ErrorMsg = "参数不完整"
-		c.JsonData.Datas = []interface{}{}
-		return
-	}
-	advicefits := make([]model.AdviceFit, 0) //返回总数据
-
-	if advice_id != "" {
-		sql := "VAF01 = ?"
-		relusts, err := model.OutAdvice(sql, advice_id)
-
-		if err != nil {
-			c.JsonData.Result = 2
-			c.JsonData.ErrorMsg = "查询错误"
-			c.JsonData.Datas = err
-			return
-		} else {
-			for k, i := range relusts {
-				sql := "advicestateId = ?"
-				advicestates, err := model.OutAdviceState(sql, i.VAF01)
-				patients, err_patient := model.GetPatientInfo(strconv.Itoa(i.VAA01))
-
-				if err != nil || err_patient != nil {
-					c.JsonData.Result = 3
-					c.JsonData.ErrorMsg = "记录查询错误"
-					c.JsonData.Datas = err
-					return
-				} else {
-					advicefits = append(advicefits, model.AdviceFit{relusts[k], advicestates, patients})
-				}
-			}
-			c.JsonData.Result = 0
-			c.JsonData.ErrorMsg = "查询成功"
-			c.JsonData.Datas = advicefits
-		}
-	} else {
-		sql := "(VAF11 = ? and VAA01 = ? and VAF36 >= ? and VAF36 <= ? ) or (VAF11 = ? and VAA01 = ?)"
-		relusts, err := model.OutAdvice(sql, 2, patient_id, starttime, endtime, 1, patient_id)
-
-		if err != nil {
-			c.JsonData.Result = 2
-			c.JsonData.ErrorMsg = "查询错误"
-			c.JsonData.Datas = err
-			return
-		} else {
-			for _, i := range relusts {
-				sql := "advicestateId = ? and time >= ? and time <= ?"
-				advicestates, err := model.OutAdviceState(sql, i.VAF01, starttime, endtime)
-				patients, err_patient := model.GetPatientInfo(strconv.Itoa(i.VAA01))
-
-				if err != nil || err_patient != nil {
-					c.JsonData.Result = 3
-					c.JsonData.ErrorMsg = "记录查询错误"
-					c.JsonData.Datas = []interface{}{err, err_patient}
-					return
-				} else {
-					if len(advicestates) != 0 {
-						advicefits = append(advicefits, model.AdviceFit{i, advicestates, patients})
-					} else {
-						if i.VAF10 == 10 { //皮试
-							advicefits = append(advicefits, model.AdviceFit{i, advicestates, patients})
-						}
-						if i.VAF10 == 8 && i.BCE03E == "" { //开始医嘱
-							advicefits = append(advicefits, model.AdviceFit{i, advicestates, patients})
-						}
-					}
-				}
-			}
-			c.JsonData.Result = 0
-			c.JsonData.ErrorMsg = "查询成功"
-			c.JsonData.Datas = advicefits
-		}
-	}
-}
-
-type MedicalAdviceExecute struct {
-	fit.Controller
-}
-
-//医嘱执行记录
-func (c MedicalAdviceExecute) Post(w *fit.Response, r *fit.Request, p fit.Params) {
-	defer c.ResponseToJson(w)
-	advice_id := r.FormValue("advice_id")
-	nurse_id := r.FormValue("nurse_id")
-	nurse_name := r.FormValue("nurse_name")
-	state := r.FormValue("state")
-	period := r.FormValue("period")
-
-	if advice_id == "" || nurse_id == "" || nurse_name == "" || state == "" || period == "" {
-		c.JsonData.Result = 1
-		c.JsonData.ErrorMsg = "参数不完整"
-		c.JsonData.Datas = []interface{}{}
-	} else {
-		relusts, err := model.OutAdvice("VAF01 = ?", advice_id)
-		if err != nil {
-			c.JsonData.Result = 2
-			c.JsonData.ErrorMsg = "查询错误"
-			c.JsonData.Datas = err
-			return
-		} else if len(relusts) == 0 {
-			c.JsonData.Result = 3
-			c.JsonData.ErrorMsg = "没有医嘱记录"
-			c.JsonData.Datas = err
-		} else {
-			var advicestate model.AdviceState
-			advicestate.PatientId = relusts[0].VAA01
-			advicestate.AdviceStateId = relusts[0].VAF01
-			advicestate.Time = fit.JsonTime(time.Now())
-			advicestate.NurseId = nurse_id
-			advicestate.NurseName = nurse_name
-			advicestate.State = state
-			advicestate.Period = period
-
-			err1 := model.InsertAdviceState(advicestate)
-			if err1 != nil {
-				c.JsonData.Result = 4
-				c.JsonData.ErrorMsg = "记录失败"
-				c.JsonData.Datas = err1
-			} else {
-				c.JsonData.Result = 0
-				c.JsonData.ErrorMsg = "记录成功"
-				c.JsonData.Datas = advicestate
-			}
-		}
-	}
-}
-
-type MedicalAdviceNewPause struct {
-	fit.Controller
-}
-
-//得到新嘱和未确认医嘱
-func (c MedicalAdviceNewPause) Post(w *fit.Response, r *fit.Request, p fit.Params) {
-	defer c.ResponseToJson(w)
-
-	newpause := r.FormValue("newpause")
-	patient_id, err := strconv.Atoi(r.FormValue("patient_id"))
-
-	if err != nil || len(newpause) == 0 {
-		c.JsonData.Result = 1
-		c.JsonData.ErrorMsg = "参数不完整"
-		c.JsonData.Datas = err
-		return
-	}
-
-	if newpause == "new" {
-		newresult, err1 := model.GetNonExecutionAdvice(patient_id)
-		if err1 != nil {
-			c.JsonData.Result = 2
-			c.JsonData.ErrorMsg = "查询错误"
-			c.JsonData.Datas = err1
-			return
-		}
-		c.JsonData.Result = 0
-		c.JsonData.ErrorMsg = "请求成功"
-		c.JsonData.Datas = newresult
-	} else {
-		pauseresult, err2 := model.GetUncertainOewAdvice(patient_id)
-		if err2 != nil {
-			c.JsonData.Result = 2
-			c.JsonData.ErrorMsg = "查询错误"
-			c.JsonData.Datas = err2
-			return
-		}
-		c.JsonData.Result = 0
-		c.JsonData.ErrorMsg = "请求成功"
-		c.JsonData.Datas = pauseresult
-	}
 }

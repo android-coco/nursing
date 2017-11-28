@@ -12,7 +12,7 @@ type NRLController struct {
 }
 
 // 模板 template PDA端
-func (c *NRLController) LoadPinfoWithPid(w *fit.Response, r *fit.Request, pid int64) (model.PatientInfo, bool)  {
+func (c *NRLController) LoadPInfoWithPid(w *fit.Response, r *fit.Request, pid int64) (model.PatientInfo, bool)  {
 	pinfo, err := model.GetPatientInfo(strconv.FormatInt(pid, 10))
 	if err != nil {
 		fit.Logger().LogError("GetPatientInfo :", err)
@@ -28,7 +28,7 @@ func (c *NRLController) LoadPinfoWithPid(w *fit.Response, r *fit.Request, pid in
 }
 
 
-func (c *NRLController) LoadPinfoAndAccountWithPidUid(w *fit.Response, r *fit.Request, pid, uid string) (model.PatientInfo, model.Account, bool)  {
+func (c *NRLController) LoadPInfoAndAccountWithPidUid(w *fit.Response, r *fit.Request, pid, uid string) (model.PatientInfo, model.Account, bool)  {
 	pinfo, err := model.GetPatientInfo(pid)
 	if err != nil {
 		fit.Logger().LogError("GetPatientInfo :", err)
@@ -73,7 +73,7 @@ func (c *NRLController) LoadPinfoAndAccountWithPidUid(w *fit.Response, r *fit.Re
 	}
 	recordDate := nr3.DateTime.Format("2006-01-02")
 	c.Data = fit.Data{
-		"Pinfo": pinfo[0],
+		"PInfo": pinfo[0],
 		"NRL":   nr3,
 		"RecordDate": recordDate,
 	}
@@ -134,7 +134,7 @@ func (c NRLController) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 
 	recordDate := nr3.DateTime.Format("2006-01-02")
 	c.Data = fit.Data{
-		"Pinfo": pinfo[0],
+		"PInfo": pinfo[0],
 		"NRL":   nr3,
 		"Type":  ty,
 		"Rid": rid,
