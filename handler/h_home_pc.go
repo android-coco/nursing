@@ -14,7 +14,7 @@ type PCHomeController struct {
 }
 
 type PCBedController struct {
-	fit.Controller
+	PCController
 }
 
 
@@ -47,6 +47,7 @@ func (c PCHomeController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 			"Beds": response["bed"],
 			"Num": response["num"],
 		}
+		//fit.Logger().LogError("Beds:",response["bed"])
 		_ = c.LoadViewSafely(w, r, "pc/v_index.html", "pc/header_side.html","pc/header_top.html")
 	} else {
 		fmt.Fprintln(w, "服务器有点繁忙！")

@@ -8,8 +8,10 @@ import (
 	"errors"
 	"github.com/go-xorm/xorm"
 	"strconv"
+	"nursing/utils"
 )
 
+//体征批量录入路由
 type PCBatvhinputController struct{
 	PCController
 }
@@ -30,12 +32,179 @@ func (c PCBatvhinputController) Get(w *fit.Response, r *fit.Request, p fit.Param
 			fit.Logger().LogError("gk", err_rp)
 			return
 		}
-		c.Data["Patients"] = response
-		fit.Logger().LogError("gk dd", len(response))
 
+		measure_type := r.FormValue("measuretype")
+		test_time := r.FormValue("testtime")
+		interval := r.FormValue("timeblock")
+
+		if measure_type == ""{
+			c.Data["Patients"] = response
+		}else if measure_type == "1"{
+			c.Data["Patients"] = response
+		}else if measure_type == "2"{
+			var PCBitems []model.PCBedDup
+
+			for _,v := range response{
+
+				whether := false
+
+				hospitaldate := v.HospitalDate
+				hospitaltime, err := time.ParseInLocation("2006-01-02",hospitaldate,time.Local)
+				testtime, err1 := time.ParseInLocation("2006-01-02",test_time,time.Local)
+				if err != nil || err1 != nil{
+					return
+				}
+
+				whetherfever,err := model.GetWhetherFever(strconv.FormatInt(v.VAA01,64),38.5)
+                if err != nil{
+					return
+				}
+				if whetherfever{
+                    bo,err := model.GetTemperatureWhetherMeasured(testtime.String(),v.VAA01,interval)
+					if err != nil {
+						return
+					}
+					if !bo && !whether{
+						whether = true
+						PCBitems = append(PCBitems,v)
+					}
+				}else{
+					whetherfever,err := model.GetWhetherFever(strconv.FormatInt(v.VAA01,64),37.5)
+					if err != nil{
+						return
+					}
+					if whetherfever{
+						if interval == "8" || interval == "12" || interval == "16" || interval == "20"{
+							bo,err := model.GetTemperatureWhetherMeasured(testtime.String(),v.VAA01,interval)
+							if err != nil {
+								return
+							}
+							if !bo && !whether{
+								whether = true
+								PCBitems = append(PCBitems,v)
+							}
+						}
+					}
+				}
+
+				if GetWhetherNew(hospitaltime,testtime) {
+					if interval == "8" || interval == "16" || interval == "20"{
+						bo,err := model.GetTemperatureWhetherMeasured(testtime.String(),v.VAA01,interval)
+						if err != nil {
+							return
+						}
+						if !bo && !whether{
+							whether = true
+							PCBitems = append(PCBitems,v)
+						}
+					}
+				}
+
+				day,_ := time.ParseDuration("24h")
+				recordbefore := testtime.Add(-day)
+				recordlater  := testtime.Add(day*3)
+				records,err := model.FetchOperationRecordsDuringHospitalization(v.VAA01,recordbefore.String(),recordlater.String())
+				if err != nil {
+					return
+				}
+				if len(records)>0{
+					record := records[0]
+					if record.VAT04 == 2{
+						if  interval == "20"{
+							bo,err := model.GetTemperatureWhetherMeasured(testtime.String(),v.VAA01,interval)
+							if err != nil {
+								return
+							}
+							if !bo && !whether{
+								whether = true
+								PCBitems = append(PCBitems,v)
+							}
+						}
+					}
+					if record.VAT04 == 3{
+						if  interval == "4"{
+							bo,err := model.GetTemperatureWhetherMeasured(testtime.String(),v.VAA01,interval)
+							if err != nil {
+								return
+							}
+							if !bo && !whether{
+								whether = true
+								PCBitems = append(PCBitems,v)
+							}
+						}
+					}
+					if record.VAT04 == 4{
+						if  interval == "8" || interval == "12" || interval == "16" || interval == "20"{
+							bo,err := model.GetTemperatureWhetherMeasured(testtime.String(),v.VAA01,interval)
+							if err != nil {
+								return
+							}
+							if !bo && !whether{
+								whether = true
+								PCBitems = append(PCBitems,v)
+							}
+						}
+					}
+				}
+
+			}
+			c.Data["Patients"] = PCBitems
+		}else if measure_type == "3"{
+			var PCBitems []model.PCBedDup
+			for _,v := range response{
+				hospitaldate := v.HospitalDate
+				hospitaltime, err := time.ParseInLocation("2006-01-02",hospitaldate,time.Local)
+				testtime, err1 := time.ParseInLocation("2006-01-02",test_time,time.Local)
+				if err != nil || err1 != nil{
+					return
+				}
+				if GetWeekOntime(hospitaltime,testtime) {
+					spl := "DateTime = ? and PatientId = ?"
+					var msg []interface{}
+					msg = append(msg,testtime,v.VAA01)
+					bo, err := model.WhetherTemperature(spl,msg...)
+					if err!= nil{
+						return
+					}
+					if !bo {
+						PCBitems = append(PCBitems,v)
+					}
+				}
+			}
+			c.Data["Patients"] = PCBitems
+		}
+
+		fit.Logger().LogError("gk dd", len(response))
 	}
 }
 
+//获取从一时间开始计算后面每周一的对比
+func GetWeekOntime(t1 time.Time,t2 time.Time) bool {
+	if t2.After(t1){
+		return false
+	}
+	d:=t2.Sub(t1).Hours()
+	if d/24*7 == 0{
+		return true
+	}else{
+		return false
+	}
+}
+
+//是否新入院，刚入院三天
+func GetWhetherNew(t1 time.Time,t2 time.Time) bool {
+	if t2.After(t1){
+		return false
+	}
+	d:=t2.Sub(t1).Hours()
+	if d < 24*3{
+		return true
+	}else{
+		return false
+	}
+}
+
+//体征批量数据录入
 func (c PCBatvhinputController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 
@@ -90,7 +259,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 
 	var nurse_id        int
 	var nurse_name      string
-	var patient_id      int
+	var patient_id      int64
 	var test_time       fit.JsonTime
 
 	if v, ok := strData["nurse_id"]; ok {
@@ -111,7 +280,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 	}
 
 	if v, ok := strData["patient_id"]; ok {
-		k,err  := strconv.Atoi(v)
+		k,err  := utils.Int64Value(v)
 		if err != nil{
 			return 4,err
 		}else{
@@ -165,7 +334,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 		return 12,errors.New("thm_scene")
 	}
 
-	if thm_value != "" || thm_scene >= 8 {
+	if thm_value != "" || (thm_scene != 0 && thm_scene != 7) {
 		var item model.NurseChat
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
@@ -174,7 +343,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 
 		item.HeadType = model.Temperature_Type
 		item.Value = thm_value
-		item.Type = thm_type
+		item.SubType = thm_type
 		item.Other = thm_scene
 
 		msg,err := model.IputChat(session,item)
@@ -204,7 +373,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 		return 15,errors.New("pulse_briefness")
 	}
 
-	if pulse_value != "" {
+	if pulse_value != "" || pulse_briefness == 1{
 		var item model.NurseChat
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
@@ -213,7 +382,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 
 		item.HeadType = model.Pulse_Type
 		item.Value = pulse_value
-		item.Type = 0
+		item.SubType = 0
 		item.Other = pulse_briefness
 
 		msg,err := model.IputChat(session,item)
@@ -243,7 +412,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 		return 18,errors.New("breathe_scene")
 	}
 
-	if breathe_value != "" {
+	if breathe_value != "" || breathe_scene !=0{
 		var item model.NurseChat
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
@@ -252,7 +421,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 
 		item.HeadType = model.Breathe_Type
 		item.Value = breathe_value
-		item.Type = 0
+		item.SubType = 0
 		item.Other = breathe_scene
 
 		msg,err := model.IputChat(session,item)
@@ -281,7 +450,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 		return 21,errors.New("shit_scene")
 	}
 
-	if shit_value != "" {
+	if shit_value != "" || shit_scene!=0 {
 		var item model.NurseChat
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
@@ -290,7 +459,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 
 		item.HeadType = model.Shit_Type
 		item.Value = shit_value
-		item.Type = 0
+		item.SubType = 0
 		item.Other = shit_scene
 
 		msg,err := model.IputChat(session,item)
@@ -336,7 +505,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 
 		item.HeadType = model.Pressure_Type
 		item.Value = pressure_sys + "/" + pressure_dia
-		item.Type = 0
+		item.SubType = 0
 		item.Other = pressure_scene
 
 		msg,err := model.IputChat(session,item)
@@ -362,7 +531,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 
 		item.HeadType = model.Heartrate_Type
 		item.Value = heartrate_value
-		item.Type = 0
+		item.SubType = 0
 		item.Other = 0
 
 		msg,err := model.IputChat(session,item)
@@ -400,7 +569,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 
 		item.HeadType = model.Weight_Type
 		item.Value = weight_value
-		item.Type = 0
+		item.SubType = 0
 		item.Other = weight_scene
 
 		msg,err := model.IputChat(session,item)
@@ -438,7 +607,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 
 		item.HeadType = model.Height_Type
 		item.Value = height_value
-		item.Type = 0
+		item.SubType = 0
 		item.Other = height_scene
 
 		msg,err := model.IputChat(session,item)
@@ -463,7 +632,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 
 		item.HeadType = model.Skin_Type
 		item.Value = skin_value
-		item.Type = 0
+		item.SubType = 0
 		item.Other = 0
 
 		msg,err := model.IputChat(session,item)
@@ -488,7 +657,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 
 		item.HeadType = model.Other_Type
 		item.Value = other_value
-		item.Type = 0
+		item.SubType = 0
 		item.Other = 0
 
 		msg,err := model.IputChat(session,item)
@@ -531,7 +700,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 
 		item.HeadType = model.Incident_Type
 		item.Value = ""
-		item.Type = 0
+		item.SubType = 0
 		item.Other = incident_scene
 
 		msg,err := model.IputChat(session,item)

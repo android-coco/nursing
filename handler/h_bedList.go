@@ -29,6 +29,7 @@ func (c BedListController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 		c.RenderingJsonAutomatically(2, "参数错误： department_id")
 		return
 	}
+
 	response, err := model.QueryDepartmentBedList(depid_i)
 
 	if err != nil {
