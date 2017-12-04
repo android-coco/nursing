@@ -4,7 +4,6 @@ import (
 	"fit"
 	"fmt"
 	"strings"
-	"time"
 )
 
 type WarnType int
@@ -52,8 +51,8 @@ func (m Warn) InsertData() (int64, error) {
 
 func Warnlist(classId string) []Warn {
 	var warns []Warn
-	params := time.Now().Format("2006-01-02") + "%"
-	fit.MySqlEngine().SQL("select * from Warn where ClassId = ? and warntime like ?", classId, params).Find(&warns)
+	//params := time.Now().Format("2006-01-02") + "%"
+	fit.MySqlEngine().SQL("select * from Warn where ClassId = ?", classId).Find(&warns)
 	//if listType == "1" { // 已完成
 	//} else { // 待执行
 	//	fit.MySqlEngine().SQL("select * from Warn where ClassId = ? and WarnTime > ?", classId, time.Now().Format("2006-01-02 15:04")).Find(&warns)

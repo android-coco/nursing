@@ -504,7 +504,9 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 		item.TestTime = fit.JsonTime(test_time)
 
 		item.HeadType = model.Pressure_Type
-		item.Value = pressure_sys + "/" + pressure_dia
+		if (pressure_sys != "" && pressure_dia != ""){
+			item.Value = pressure_sys + "/" + pressure_dia
+		}
 		item.SubType = 0
 		item.Other = pressure_scene
 

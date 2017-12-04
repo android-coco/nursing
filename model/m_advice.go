@@ -6,7 +6,6 @@ import (
 	"fmt"
 )
 
-
 /*PDA医嘱 查询结果*/
 type MedicalAdvice struct {
 	VAF01  int64                  `json:"madid"`              // 医嘱ID
@@ -20,6 +19,7 @@ type MedicalAdvice struct {
 	Method string                 `json:"method"`             // 用药途径
 	VAF23  string                 `json:"entrust"`            // 医师嘱托
 	VAF26  string                 `json:"time"`               // 次数/执行频次
+	VAF27  int                    `json:"count"`              // 次数
 	VAF36  DatetimeWithoutSeconds `json:"starttime"`          // 开始执行时间
 	BCE03A string                 `json:"creation_physician"` // 开嘱医师
 	BBX20  int                    `json:"classify"`           // 按打印单分类
@@ -96,8 +96,9 @@ func DatetimeNow() string {
 
 /*JP 登记表中的入院时间*/
 type AdmissionTime struct {
-	VAA01 int64  `json:"patientId"`     // 病人ID
-	VAE11 string `json:"admissionTime"` // 入院时间
+	VAA01  int64  `json:"patientId"`     // 病人ID
+	VAE11  string `json:"admissionTime"` // 入院时间
+	BCK01C int    `json:"did"`           // 住院病区ID
 }
 
 /*JP PDA医嘱查询*/
@@ -115,21 +116,25 @@ func SearchMedicalAdvice(typeOf, status int, pid int64, category string) ([]Medi
 	}
 
 	// 医嘱状态所有
-	condition_stat := " and a.VAF10 in (3,4,8)"
+	condition_stat := " and a.VAF10 in (3,4,8,9)"
 	if status != 0 {
 		// 医嘱状态 未停、已撤销、已停
-		condition_stat = fmt.Sprintf(" and a.VAF10 = '%d'", status)
+		if status != 8 {
+			condition_stat = fmt.Sprintf(" and a.VAF10 = '%d'", status)
+		} else {
+			condition_stat = " and a.VAF10 in (8,9)"
+		}
 	}
 	// 时间  VAF36
 	admissionTime := AdmissionTime{}
 	mAdvices := make([]MedicalAdvice, 0)
 
-	fit.SQLServerEngine().SQL("select VAA01, VAE11 from VAE1 where VAA01 = ?", pid).Get(&admissionTime)
+	fit.SQLServerEngine().SQL("select VAA01, VAE11, BCK01C from VAE1 where VAA01 = ?", pid).Get(&admissionTime)
 	if admissionTime.VAA01 != pid {
 		return mAdvices, fmt.Errorf("病人登记(VAE1)表中无此病人数据")
 	}
 
-	sqlStr := fmt.Sprintf("select a.VAF01,a.VAA01,a.VAF10,a.VAF11,a.BDA01,a.VAF19,a.VAF22,a.BBX01,b.VAF22 as Method,a.VAF23,a.VAF26,a.VAF36,a.BCE03A,c.BBX20,a.VAF60 from (VAF2 a left join VAF2 b on a.VAF01A = b.VAF01) left join BBX1 c on c.BBX01 = a.BBX01 where a.VAA01 = '%d' and a.VAF32 = 0 and a.VAF42 > '%s'%s%s%s order by a.VAF36", pid, admissionTime.VAE11, condition_type, condition_stat, condition_catg)
+	sqlStr := fmt.Sprintf("select a.VAF01,a.VAA01,a.VAF10,a.VAF11,a.BDA01,a.VAF19,a.VAF22,a.BBX01,b.VAF22 as Method,a.VAF23,a.VAF26,a.VAF27,a.VAF36,a.BCE03A,c.BBX20,a.VAF60 from (VAF2 a left join VAF2 b on a.VAF01A = b.VAF01) left join BBX1 c on c.BBX01 = a.BBX01 where a.VAA01 = '%d' and a.VAF32 = 0 and a.VAF42 > '%s'%s%s%s order by a.VAF36", pid, admissionTime.VAE11, condition_type, condition_stat, condition_catg)
 	//fit.SQLServerEngine().ShowSQL(true)
 	err := fit.SQLServerEngine().SQL(sqlStr).Find(&mAdvices)
 	//fit.SQLServerEngine().ShowSQL(false)
@@ -151,12 +156,12 @@ func SearchMedicalAdviceExecution(typeOf, status int, pid int64, category string
 	admissionTime := AdmissionTime{}
 	mAdvices := make([]MedicalAdvice, 0)
 
-	fit.SQLServerEngine().SQL("select VAA01, VAE11 from VAE1 where VAA01 = ?", pid).Get(&admissionTime)
+	fit.SQLServerEngine().SQL("select VAA01, VAE11, BCK01C from VAE1 where VAA01 = ?", pid).Get(&admissionTime)
 	if admissionTime.VAA01 != pid {
 		return make([]MedicalAdviceExecution, 0), fmt.Errorf("病人登记(VAE1)表中无此病人数据")
 	}
 
-	sqlStr := fmt.Sprintf("select a.VAF01,a.VAA01,a.VAF10,a.VAF11,a.BDA01,a.VAF19,a.VAF22,a.BBX01,b.VAF22 as Method,a.VAF23,a.VAF26,a.VAF36,a.BCE03A,c.BBX20,a.VAF60 from (VAF2 a left join VAF2 b on a.VAF01A = b.VAF01) left join BBX1 c on c.BBX01 = a.BBX01 where a.VAA01 = '%d' and a.VAF32 = '0' and a.VAF10 = '3' and a.VAF42 > '%s'%s%s order by a.VAF36", pid, admissionTime.VAE11, condition_type, condition_catg)
+	sqlStr := fmt.Sprintf("select a.VAF01,a.VAA01,a.VAF10,a.VAF11,a.BDA01,a.VAF19,a.VAF22,a.BBX01,b.VAF22 as Method,a.VAF23,a.VAF26,a.VAF27,a.VAF36,a.BCE03A,c.BBX20,a.VAF60 from (VAF2 a left join VAF2 b on a.VAF01A = b.VAF01) left join BBX1 c on c.BBX01 = a.BBX01 where a.VAA01 = '%d' and a.VAF32 = '0' and a.VAF10 = '3' and a.VAF42 > '%s'%s%s order by a.VAF36", pid, admissionTime.VAE11, condition_type, condition_catg)
 	err := fit.SQLServerEngine().SQL(sqlStr).Find(&mAdvices)
 	if err != nil {
 		return make([]MedicalAdviceExecution, 0), err
@@ -172,13 +177,14 @@ func SearchMedicalAdviceExecution(typeOf, status int, pid int64, category string
 		sql := fmt.Sprintf("select Madid,State,Process from AdviceStatus where Madid = %d%s", v.VAF01, condition_stat)
 		err_db := fit.MySqlEngine().SQL(sql).Find(&madStatus)
 		if err_db != nil {
-			fit.Logger().LogError("**JK**",err_db.Error())
+			fit.Logger().LogError("**JK**", err_db.Error())
 		}
 
 		if leng := len(madStatus); leng == 0 {
 			status := MedicalAdviceExecutionStatus{}
 			status.Process = "未执行"
 			status.State = 1
+			status.Madid = v.VAF01
 			madStatus = append(madStatus, status)
 		}
 		record := madStatus[0]
@@ -201,7 +207,7 @@ func SearchMedicalAdviceExecution(typeOf, status int, pid int64, category string
 /*医嘱执行详情*/
 func FetchMedicalAdviceExecutionDetail(madid int64, master int) ([]MedicalAdviceExecutionDetail, error) {
 	mAdvice := make([]MedicalAdvice, 0)
-	err := fit.SQLServerEngine().SQL("select a.VAF01,a.VAA01,a.VAF10,a.VAF11,a.BDA01,a.VAF19,a.VAF22,a.BBX01,b.VAF22 as Method,a.VAF23,a.VAF26,a.VAF36,a.BCE03A,c.BBX20,a.VAF60 from (VAF2 a left join VAF2 b on a.VAF01A = b.VAF01) left join BBX1 c on c.BBX01 = a.BBX01 where a.VAF01 = ?", madid).Find(&mAdvice)
+	err := fit.SQLServerEngine().SQL("select a.VAF01,a.VAA01,a.VAF10,a.VAF11,a.BDA01,a.VAF19,a.VAF22,a.BBX01,b.VAF22 as Method,a.VAF23,a.VAF26,a.VAF27,a.VAF36,a.BCE03A,c.BBX20,a.VAF60 from (VAF2 a left join VAF2 b on a.VAF01A = b.VAF01) left join BBX1 c on c.BBX01 = a.BBX01 where a.VAF01 = ?", madid).Find(&mAdvice)
 	if err != nil {
 		fit.Logger().LogError("***JP***", err.Error())
 		return make([]MedicalAdviceExecutionDetail, 0), err
@@ -273,24 +279,23 @@ func FetchMedicalAdviceExecutionDetail(madid int64, master int) ([]MedicalAdvice
 }
 
 /*JP 是否存在新医嘱*/
-func IsExistNewMedicalAdvice(pid int64, hospitalDate string) int {
+func IsExistNewMedicalAdvice(pid int64, did int, hospitalDate string) int {
 	// 获取校验过的医嘱
 	mAdvices := make([]MedicalAdviceDup, 0)
 	today := DatetimeNow()
-	err_db := fit.SQLServerEngine().SQL("SELECT a.VAF01 from VAF2 a LEFT OUTER JOIN VAF2 b ON a.VAF42 > ? and b.VAF42 > ? and a.VAA01 = ? and b.VAA01 = ? and a.VAF01 = b.VAF01A where b.VAF01 is null and a.VAA01 = ? and a.VAF10 = '3' and (a.VAF11 = '1' or (a.VAF11 = '2' and a.VAF36 >= ?)) order by a.VAF36 desc", hospitalDate, hospitalDate, pid, pid, pid, today).Find(&mAdvices)
+	err_db := fit.SQLServerEngine().SQL("SELECT a.VAF01 from VAF2 a where a.VAA01 = ? and a.BCK01B = ? and a.VAF32 = 0 and a.VAF10 = 3 and ((a.VAF11 = 1 and a.VAF42 > ?) or (a.VAF11 = 2 and a.VAF42 > ?))", pid, did, hospitalDate, today).Find(&mAdvices)
 
 	for _, v := range mAdvices {
 		// 在MySql数据库中查询当天的执行记录，有执行记录代表已被执行，即非新医嘱。改医嘱没被执行，即代表是新医嘱
 		// 无论是长嘱还是临时医嘱，至少每天执行一次
 		isEx := IsExist{}
-		fit.MySqlEngine().SQL("select count(1) as Exist from AdviceState where time >= ? and Madid = ? order by id desc", today, v.VAF01).Get(&isEx)
+		fit.MySqlEngine().SQL("select count(1) as Exist from AdviceStatus where Madid = ? and (Recordtime >= ? or State in (2,3))", v.VAF01, today).Get(&isEx)
 		if isEx.Exist == 0 {
 			return 1
 		}
 	}
 
-	length := len(mAdvices)
-	if length == 0 {
+	if length := len(mAdvices); length == 0 {
 		if err_db != nil {
 			fit.Logger().LogError("**JP**", err_db.Error())
 		}
@@ -299,13 +304,50 @@ func IsExistNewMedicalAdvice(pid int64, hospitalDate string) int {
 	return 0
 }
 
+func FetchNewMedicalAdvice(pid int64) ([]MedicalAdviceExecution, error) {
+	admissionTime := AdmissionTime{}
+	fit.SQLServerEngine().SQL("select VAA01, VAE11, BCK01C from VAE1 where VAA01 = ?", pid).Get(&admissionTime)
+	if admissionTime.VAA01 != pid {
+		return make([]MedicalAdviceExecution, 0), fmt.Errorf("病人登记(VAE1)表中无此病人数据")
+	}
+
+	today := DatetimeNow()
+	sqlStr := fmt.Sprintf("select a.VAF01,a.VAA01,a.VAF10,a.VAF11,a.BDA01,a.VAF19,a.VAF22,a.BBX01,b.VAF22 as Method,a.VAF23,a.VAF26,a.VAF27,a.VAF36,a.BCE03A,c.BBX20,a.VAF60 from (VAF2 a left join VAF2 b on a.VAF01A = b.VAF01) left join BBX1 c on c.BBX01 = a.BBX01 where a.VAA01 = %d and a.VAF32 = '0' and a.VAF10 = '3' and ((a.VAF11 = 1 and a.VAF42 > '%s') or (a.VAF11 = 2 and a.VAF42 > '%s')) order by a.VAF36", pid, admissionTime.VAE11, today)
+	mAdvices := make([]MedicalAdvice, 0)
+	err := fit.SQLServerEngine().SQL(sqlStr).Find(&mAdvices)
+	if err != nil {
+		return make([]MedicalAdviceExecution, 0), err
+	}
+
+	response := make([]MedicalAdviceExecution, 0)
+	for _, v := range mAdvices {
+		isEx := IsExist{}
+
+		_, err := fit.MySqlEngine().SQL("select count(1) as Exist from AdviceStatus where Madid = ? and (Recordtime >= ? or State in (2,3))", v.VAF01, today).Get(&isEx)
+		if err != nil {
+			fit.Logger().LogError("***JK***",err.Error())
+		}
+		if isEx.Exist == 0 {
+			status := MedicalAdviceExecutionStatus{}
+			status.Process = "未执行"
+			status.State = 1
+
+			execution := MedicalAdviceExecution{}
+			execution.MedicalAdvice = v
+			execution.MedicalAdviceExecutionStatus = status
+			response = append(response, execution)
+		}
+	}
+
+	return response, err
+}
+
 /*JP 是否存在已停医嘱*/
-func IsExistFinishedMedicalAdvice(pid int64, hospitalDate string) int {
+func IsExistFinishedMedicalAdvice(pid int64, did int) int {
 	mAdvices := make([]MedicalAdviceDup, 0)
-	//_, err_db := fit.SQLServerEngine().SQL("SELECT count(1) as Exist FROM VAF2 WHERE VAA01 = ? and VAF10 = 8 and BCE03D != '' and (VAF11 = 1 or (VAF11 = 2 and VAF36 >= ?))",pid, starttime).Get(&isEx)
 
 	// 获取"已发生或已停止"的医嘱
-	err_db := fit.SQLServerEngine().SQL("SELECT a.VAF01 from VAF2 a LEFT OUTER JOIN VAF2 b ON a.VAF42 > ? and b.VAF42 > ? and a.VAA01 = ? and b.VAA01 = ? and a.VAF01 = b.VAF01A where b.VAF01 is null and a.VAA01 = ? and a.VAF04 = '2' and a.VAF10 = '8' and (a.VAF11 = '1' or (a.VAF11 = '2' and a.VAF36 >= ?)) order by a.VAF36 desc", hospitalDate, hospitalDate, pid, pid, pid, DatetimeNow()).Find(&mAdvices)
+	err_db := fit.SQLServerEngine().SQL("SELECT a.VAF01 from VAF2 a where a.VAA01 = ? and a.BCK01B = ? and a.VAF32 = 0 and a.VAF10 = 8 and a.VAF47 > ?", pid, did, DatetimeNow()).Find(&mAdvices)
 	if length := len(mAdvices); length == 0 {
 		if err_db != nil {
 			fit.Logger().LogError("**JP**", err_db)
@@ -315,3 +357,16 @@ func IsExistFinishedMedicalAdvice(pid int64, hospitalDate string) int {
 	return 1
 }
 
+func FetchFinishedMedicalAdvice(pid int64) ([]MedicalAdvice, error) {
+	admissionTime := AdmissionTime{}
+	mAdvices := make([]MedicalAdvice, 0)
+
+	fit.SQLServerEngine().SQL("select VAA01, BCK01C from VAE1 where VAA01 = ?", pid).Get(&admissionTime)
+	if admissionTime.VAA01 != pid {
+		return mAdvices, fmt.Errorf("病人登记(VAE1)表中无此病人数据")
+	}
+
+	sqlStr := fmt.Sprintf("select a.VAF01,a.VAA01,a.VAF10,a.VAF11,a.BDA01,a.VAF19,a.VAF22,a.BBX01,b.VAF22 as Method,a.VAF23,a.VAF26,a.VAF27,a.VAF36,a.BCE03A,c.BBX20,a.VAF60 from (VAF2 a left join VAF2 b on a.VAF01A = b.VAF01) left join BBX1 c on c.BBX01 = a.BBX01 where a.VAA01 = '%d' and a.VAF32 = 0 and a.VAF10 = 8 and a.VAF47 > '%s' order by a.VAF36", pid, DatetimeNow())
+	err := fit.SQLServerEngine().SQL(sqlStr).Find(&mAdvices)
+	return mAdvices, err
+}

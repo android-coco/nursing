@@ -56,8 +56,10 @@ func CompareTime(time1, time2 string) bool {
 //2个时间比较大小  time1 < time2 reutn true
 func CompareTimeNow(time1 string) bool {
 	//先把时间字符串格式化成相同的时间类型
-	t1, err := time.Parse("2006-01-02 15:04", time1)
+	t1, err := time.ParseInLocation("2006-01-02 15:04:05", time1, time.Local)
+	fmt.Println(t1)
 	t2 := time.Now()
+	fmt.Println(t2)
 	if err == nil && t1.Before(t2) {
 		//处理逻辑
 		return true

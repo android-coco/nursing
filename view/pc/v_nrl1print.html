@@ -7,9 +7,18 @@
     <script src="/static/dist/js/lib/jquery.qrcode.min.js"></script>
     <title>深圳万丰医院护理记录单</title>
     <style type="text/css">
+        .bagw{
+            /*height: 1064px;*/
+            /*width: 1400px;*/
+        }
+
+        .tit {
+            font-size: 18px;
+        }
+
         <!--
         .STYLE1 {
-            font-size: x-large;
+            font-size: 32px;
             font-weight: bold;
         }
 
@@ -35,174 +44,175 @@
         $(function () {
             var page = {{.PageNum}}//多少页
             var datas = {{.NRLList}}//数据
-                    loadData(page, datas);
+            var pgeDataNum = {{.PageDataNum}}//每页多少数据
+                    loadData(page, datas, pgeDataNum);
         });
 
-        function loadData(page, datas) {
+        function loadData(page, datas, pgeDataNum) {
             var len = datas.length;
             var html = "";
             console.log(page, datas)
             if (len > 0) {
                 for (var i = 0; i < page; i++) {
-                    html += "<p align=\"center\" class=\"STYLE1\">深圳万丰医院护理记录单</p>" +
-                            "<div>" +
-                            "    <div>" +
-                            "        <label><span class=\"STYLE2\">床号：</span></label><span class=\"STYLE2\">{{.PInfo.BCQ04}}" +
-                            "        <label>姓名：</label>{{.PInfo.VAA05}}" +
-                            "        <label>性别：</label>{{.PInfo.Gender}}" +
-                            "        <label>年龄：</label>{{.PInfo.VAA10}}岁" +
-                            "        <label>住院号：</label>{{.PInfo.VAA04}}" +
-                            "        <label>诊断：</label>{{.PInfo.VAO15}}" +
-                            "        <label>入院日期：</label>{{.PInfo.HospitalDate}}</span>" +
-                            "    </div>" +
-                            "</div>";
-                    html += "<table width=\"1559\" border=\"1\" cellspacing=\"0\" bordercolor=\"#666666\">\n"+
-                "    <tr>\n"+
-                "        <td width=\"94\" rowspan=\"2\"><div align=\"center\">日期</div>      <div align=\"center\"></div></td>\n"+
-                "        <td width=\"111\" rowspan=\"2\"><div align=\"center\">时间</div>      <div align=\"center\"></div></td>\n"+
-                "        <td width=\"46\" rowspan=\"2\"><div align=\"center\">体温(℃)</div>      <div align=\"center\"></div></td>\n"+
-                "        <td width=\"51\" rowspan=\"2\"><div align=\"center\">脉搏(次/分)</div>      <div align=\"center\"></div></td>\n"+
-                "        <td width=\"51\" rowspan=\"2\"><div align=\"center\">呼吸(次/分)</div>      <div align=\"center\"></div></td>\n"+
-                "        <td width=\"50\" rowspan=\"2\"><div align=\"center\">血压(mmHg)</div>      <div align=\"center\"></div></td>\n"+
-                "        <td width=\"41\" rowspan=\"2\"><div align=\"center\">血氧(%)</div>      <div align=\"center\"></div></td>\n"+
-                "        <td height=\"25\" colspan=\"2\"><div align=\"center\">入量</div></td>\n"+
-                "        <td colspan=\"2\"><div align=\"center\">出量</div></td>\n"+
-                "        <td width=\"51\" rowspan=\"2\"><div align=\"center\">血糖(mmol/l)</div>      <div align=\"center\"></div></td>\n"+
-                "        <td width=\"59\" rowspan=\"2\"><div align=\"center\"> {{if eq .NRLTitle.NRT01 "1"}}意识{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT01 "2"}}BADL评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT01 "3"}}DVT评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT01 "4"}}跌倒评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT01 "5"}}压疮评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT01 "6"}}疼痛评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT01 "7"}}门冬胰岛素u{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT01 "8"}}瞳孔左mm{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT01 "9"}}瞳孔右mm{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT01 "10"}}吸氧L/min{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT01 "11"}}{{.NRLTitle.NRT01V}}{{end}}</div></td>\n"+
-                "        <td width=\"59\" rowspan=\"2\"><div align=\"center\"> {{if eq .NRLTitle.NRT02 "1"}}意识{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT02 "2"}}BADL评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT02 "3"}}DVT评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT02 "4"}}跌倒评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT02 "5"}}压疮评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT02 "6"}}疼痛评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT02 "7"}}门冬胰岛素u{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT02 "8"}}瞳孔左mm{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT02 "9"}}瞳孔右mm{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT02 "10"}}吸氧L/min{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT02 "11"}}{{.NRLTitle.NRT02V}}{{end}}</div></td>\n"+
-                "        <td width=\"59\" rowspan=\"2\"><div align=\"center\"> {{if eq .NRLTitle.NRT03 "1"}}意识{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT03 "2"}}BADL评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT03 "3"}}DVT评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT03 "4"}}跌倒评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT03 "5"}}压疮评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT03 "6"}}疼痛评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT03 "7"}}门冬胰岛素u{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT03 "8"}}瞳孔左mm{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT03 "9"}}瞳孔右mm{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT03 "10"}}吸氧L/min{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT03 "11"}}{{.NRLTitle.NRT03V}}{{end}}</div></td>\n"+
-                "        <td width=\"59\" rowspan=\"2\"><div align=\"center\">{{if eq .NRLTitle.NRT04 "1"}}意识{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT04 "2"}}BADL评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT04 "3"}}DVT评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT04 "4"}}跌倒评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT04 "5"}}压疮评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT04 "6"}}疼痛评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT04 "7"}}门冬胰岛素u{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT04 "8"}}瞳孔左mm{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT04 "9"}}瞳孔右mm{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT04 "10"}}吸氧L/min{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT04 "11"}}{{.NRLTitle.NRT04V}}{{end}}</div></td>\n"+
-                "        <td width=\"59\" rowspan=\"2\"><div align=\"center\"> {{if eq .NRLTitle.NRT05 "1"}}意识{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT05 "2"}}BADL评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT05 "3"}}DVT评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT05 "4"}}跌倒评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT05 "5"}}压疮评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT05 "6"}}疼痛评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT05 "7"}}门冬胰岛素u{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT05 "8"}}瞳孔左mm{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT05 "9"}}瞳孔右mm{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT05 "10"}}吸氧L/min{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT05 "11"}}{{.NRLTitle.NRT05V}}{{end}}</div></td>\n"+
-                "        <td width=\"59\" rowspan=\"2\"><div align=\"center\"> {{if eq .NRLTitle.NRT06 "1"}}意识{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT06 "2"}}BADL评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT06 "3"}}DVT评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT06 "4"}}跌倒评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT06 "5"}}压疮评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT06 "6"}}疼痛评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT06 "7"}}门冬胰岛素u{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT06 "8"}}瞳孔左mm{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT06 "9"}}瞳孔右mm{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT06 "10"}}吸氧L/min{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT06 "11"}}{{.NRLTitle.NRT06V}}{{end}}</div>      <div align=\"center\"></div></td>\n"+
-                "        <td width=\"59\" rowspan=\"2\"><div align=\"center\"> {{if eq .NRLTitle.NRT07 "1"}}意识{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT07 "2"}}BADL评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT07 "3"}}DVT评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT07 "4"}}跌倒评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT07 "5"}}压疮评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT07 "6"}}疼痛评分{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT07 "7"}}门冬胰岛素u{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT07 "8"}}瞳孔左mm{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT07 "9"}}瞳孔右mm{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT07 "10"}}吸氧L/min{{end}}\n"+
-                "        {{if eq .NRLTitle.NRT07 "11"}}{{.NRLTitle.NRT07V}}{{end}}</div>      <div align=\"center\"></div></td>\n"+
-                "        <td width=\"225\" rowspan=\"2\"><div align=\"center\">病情记录</div>      <div align=\"center\"></div></td>\n"+
-                "        <td width=\"112\" rowspan=\"2\"><div align=\"center\">护士签名</div>      <div align=\"center\"></div></td>\n"+
-                "    </tr>\n"+
-                "    <tr>\n"+
-                "        <td width=\"75\" height=\"23\"><div align=\"center\">内容</div></td>\n"+
-                "        <td width=\"60\"><div align=\"center\">量(ml)</div></td>\n"+
-                "        <td width=\"55\"><div align=\"center\">内容</div></td>\n"+
-                "        <td width=\"40\"><div align=\"center\">量(ml)</div></td>\n"+
-                "    </tr>";
-                    for (var j = 0; j < 8; j++) {
-                        html+=  "<tr>\n" +
-                                "       <td width=\"94\" height=\"110\"><div align=\"center\">"+ ((datas[i * 8 + j]||"")&&(datas[i * 8+ j].DateStr || " ")) +"</div></td>\n" +
-                                "       <td width=\"110\" height=\"110\"><div align=\"center\">"+ ((datas[i * 8 + j]||"")&&(datas[i * 8+ j].TimeStr || " ")) +"</div></td>\n" +
-                                "       <td width=\"45\" height=\"110\"><div align=\"center\">"+ ((datas[i * 8 + j]||"")&&((datas[i * 8+ j].Mod1.headtype != 18 && datas[i * 8+ j].Mod1.value) || " ")) +"</div></td>\n" +
-                                "       <td width=\"49\" height=\"110\"><div align=\"center\">"+ ((datas[i * 8 + j]||"")&&((datas[i * 8+ j].Mod1.headtype != 18 && datas[i * 8+ j].Mod2.value) || " ")) +"</div></td>\n" +
-                                "       <td width=\"50\" height=\"110\"><div align=\"center\">"+ ((datas[i * 8 + j]||"")&&((datas[i * 8+ j].Mod1.headtype != 18 && datas[i * 8+ j].Mod3.value) || " ")) +"</div></td>\n" +
-                                "       <td width=\"50\" height=\"110\"><div align=\"center\">"+ ((datas[i * 8 + j]||"")&&((datas[i * 8+ j].Mod1.headtype != 18 && datas[i * 8+ j].Mod4.value) || " ")) +"</div></td>\n" +
-                                "       <td width=\"40\" height=\"110\"><div align=\"center\">"+ ((datas[i * 8 + j]||"")&&((datas[i * 8+ j].Mod1.headtype != 18 && datas[i * 8+ j].Mod6.value) || " ")) +"</div></td>\n" +
-                                "       <td width=\"74\" height=\"110\"><p>"+ ((datas[i * 8 + j]||"")&&((datas[i * 8+ j].Mod1.headtype == 18 && "输入液量:") || " ")) +"</p>\n" +
-                                "         <p>"+ ((datas[i * 8 + j]||"")&&((datas[i * 8+ j].Mod1.headtype == 18 && "饮水:") || " ")) +"</p>\n" +
-                                "         <p>"+ ((datas[i * 8 + j]||"")&&((datas[i * 8+ j].Mod1.headtype == 18 && "饮食:") || " ")) +"</p>\n" +
-                                "         <p>"+ ((datas[i * 8 + j]||"")&&((datas[i * 8+ j].Mod1.headtype == 18 && "其他:") || " ")) +"</p>\n" +
-                                "       <p>"+ ((datas[i * 8 + j]||"")&&((datas[i * 8+ j].Mod1.headtype == 18 && "总入量:") || " ")) +"</p></td>\n" +
+                    html += "<div class=\"bagw\"><p align=\"center\" class=\"STYLE1\">深圳万丰医院护理记录单</p>\n" +
+                            "    <div>\n" +
+                            "        <div>\n" +
+                            "            <label class=\"tit\">床号:&nbsp;&nbsp;{{.PInfo.BCQ04}}</label>\n" +
+                            "            <label  class=\"tit\">姓名:&nbsp;&nbsp;{{.PInfo.VAA05}}&nbsp;&nbsp; </label>\n" +
+                            "            <label  class=\"tit\">性别:&nbsp;&nbsp;{{.PInfo.Gender}}&nbsp;&nbsp;</label>\n" +
+                            "            <label  class=\"tit\">年龄:&nbsp;&nbsp;{{.PInfo.VAA10}}岁&nbsp;&nbsp;</label>\n" +
+                            "            <label  class=\"tit\">住院号:&nbsp;&nbsp;{{.PInfo.VAA04}}&nbsp;&nbsp;</label> \n" +
+                            "            <label  class=\"tit\">诊断:&nbsp;&nbsp;{{.PInfo.VAO15}}&nbsp;&nbsp; </label>\n" +
+                            "            <label  class=\"tit\">入院日期:&nbsp;&nbsp;{{.PInfo.HospitalDate}}</label>\n" +
+                            "        </div>\n" +
+                            "    </div>";
+                    html += "<table width=\"1559\" border=\"1\" cellspacing=\"0\" bordercolor=\"#666666\">\n" +
+                            "    <tr>\n" +
+                            "        <td width=\"120\" rowspan=\"2\"><div align=\"center\">日期</div>      <div align=\"center\"></div></td>\n" +
+                            "        <td width=\"121\" rowspan=\"2\"><div align=\"center\">时间</div>      <div align=\"center\"></div></td>\n" +
+                            "        <td width=\"56\" rowspan=\"2\"><div align=\"center\">体温(℃)</div>      <div align=\"center\"></div></td>\n" +
+                            "        <td width=\"56\" rowspan=\"2\"><div align=\"center\">脉搏(次/分)</div>      <div align=\"center\"></div></td>\n" +
+                            "        <td width=\"56\" rowspan=\"2\"><div align=\"center\">呼吸(次/分)</div>      <div align=\"center\"></div></td>\n" +
+                            "        <td width=\"50\" rowspan=\"2\"><div align=\"center\">血压(mmHg)</div>      <div align=\"center\"></div></td>\n" +
+                            "        <td width=\"56\" rowspan=\"2\"><div align=\"center\">血氧(%)</div>      <div align=\"center\"></div></td>\n" +
+                            "        <td height=\"25\" colspan=\"2\"><div align=\"center\">入量</div></td>\n" +
+                            "        <td colspan=\"2\"><div align=\"center\">出量</div></td>\n" +
+                            "        <td width=\"51\" rowspan=\"2\"><div align=\"center\">血糖(mmol/l)</div>      <div align=\"center\"></div></td>\n" +
+                            "        <td width=\"70\" rowspan=\"2\"><div align=\"center\"> {{if eq .NRLTitle.NRT01 "1"}}意识{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT01 "2"}}BADL评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT01 "3"}}DVT评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT01 "4"}}跌倒评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT01 "5"}}压疮评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT01 "6"}}疼痛评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT01 "7"}}门冬胰岛素u{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT01 "8"}}瞳孔左mm{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT01 "9"}}瞳孔右mm{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT01 "10"}}吸氧L/min{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT01 "11"}}{{.NRLTitle.NRT01V}}{{end}}</div></td>\n" +
+                            "        <td width=\"70\" rowspan=\"2\"><div align=\"center\"> {{if eq .NRLTitle.NRT02 "1"}}意识{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT02 "2"}}BADL评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT02 "3"}}DVT评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT02 "4"}}跌倒评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT02 "5"}}压疮评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT02 "6"}}疼痛评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT02 "7"}}门冬胰岛素u{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT02 "8"}}瞳孔左mm{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT02 "9"}}瞳孔右mm{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT02 "10"}}吸氧L/min{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT02 "11"}}{{.NRLTitle.NRT02V}}{{end}}</div></td>\n" +
+                            "        <td width=\"70\" rowspan=\"2\"><div align=\"center\"> {{if eq .NRLTitle.NRT03 "1"}}意识{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT03 "2"}}BADL评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT03 "3"}}DVT评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT03 "4"}}跌倒评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT03 "5"}}压疮评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT03 "6"}}疼痛评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT03 "7"}}门冬胰岛素u{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT03 "8"}}瞳孔左mm{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT03 "9"}}瞳孔右mm{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT03 "10"}}吸氧L/min{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT03 "11"}}{{.NRLTitle.NRT03V}}{{end}}</div></td>\n" +
+                            "        <td width=\"70\" rowspan=\"2\"><div align=\"center\">{{if eq .NRLTitle.NRT04 "1"}}意识{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT04 "2"}}BADL评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT04 "3"}}DVT评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT04 "4"}}跌倒评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT04 "5"}}压疮评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT04 "6"}}疼痛评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT04 "7"}}门冬胰岛素u{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT04 "8"}}瞳孔左mm{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT04 "9"}}瞳孔右mm{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT04 "10"}}吸氧L/min{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT04 "11"}}{{.NRLTitle.NRT04V}}{{end}}</div></td>\n" +
+                            "        <td width=\"70\" rowspan=\"2\"><div align=\"center\"> {{if eq .NRLTitle.NRT05 "1"}}意识{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT05 "2"}}BADL评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT05 "3"}}DVT评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT05 "4"}}跌倒评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT05 "5"}}压疮评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT05 "6"}}疼痛评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT05 "7"}}门冬胰岛素u{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT05 "8"}}瞳孔左mm{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT05 "9"}}瞳孔右mm{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT05 "10"}}吸氧L/min{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT05 "11"}}{{.NRLTitle.NRT05V}}{{end}}</div></td>\n" +
+                            "        <td width=\"70\" rowspan=\"2\"><div align=\"center\"> {{if eq .NRLTitle.NRT06 "1"}}意识{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT06 "2"}}BADL评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT06 "3"}}DVT评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT06 "4"}}跌倒评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT06 "5"}}压疮评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT06 "6"}}疼痛评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT06 "7"}}门冬胰岛素u{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT06 "8"}}瞳孔左mm{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT06 "9"}}瞳孔右mm{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT06 "10"}}吸氧L/min{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT06 "11"}}{{.NRLTitle.NRT06V}}{{end}}</div>      <div align=\"center\"></div></td>\n" +
+                            "        <td width=\"70\" rowspan=\"2\"><div align=\"center\"> {{if eq .NRLTitle.NRT07 "1"}}意识{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT07 "2"}}BADL评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT07 "3"}}DVT评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT07 "4"}}跌倒评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT07 "5"}}压疮评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT07 "6"}}疼痛评分{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT07 "7"}}门冬胰岛素u{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT07 "8"}}瞳孔左mm{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT07 "9"}}瞳孔右mm{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT07 "10"}}吸氧L/min{{end}}\n" +
+                            "        {{if eq .NRLTitle.NRT07 "11"}}{{.NRLTitle.NRT07V}}{{end}}</div>      <div align=\"center\"></div></td>\n" +
+                            "        <td width=\"225\" rowspan=\"2\"><div align=\"center\">病情记录</div>      <div align=\"center\"></div></td>\n" +
+                            "        <td width=\"68\" rowspan=\"2\"><div align=\"center\">护士签名</div>      <div align=\"center\"></div></td>\n" +
+                            "    </tr>\n" +
+                            "    <tr>\n" +
+                            "        <td width=\"80\" height=\"23\"><div align=\"center\">内容</div></td>\n" +
+                            "        <td width=\"60\"><div align=\"center\">量(ml)</div></td>\n" +
+                            "        <td width=\"80\"><div align=\"center\">内容</div></td>\n" +
+                            "        <td width=\"60\"><div align=\"center\">量(ml)</div></td>\n" +
+                            "    </tr>";
+                    for (var j = 0; j < pgeDataNum; j++) {
+                        html += "<tr>\n" +
+                                "       <td width=\"94\" height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && (datas[i * pgeDataNum + j].DateStr || " ")) + "</div></td>\n" +
+                                "       <td width=\"110\" height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && (datas[i * pgeDataNum + j].TimeStr || " ")) + "</div></td>\n" +
+                                "       <td width=\"45\" height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType != 18 && datas[i * pgeDataNum + j].Mod1.value) || " ")) + "</div></td>\n" +
+                                "       <td width=\"49\" height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType != 18 && datas[i * pgeDataNum + j].Mod2.value) || " ")) + "</div></td>\n" +
+                                "       <td width=\"50\" height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType != 18 && datas[i * pgeDataNum + j].Mod3.value) || " ")) + "</div></td>\n" +
+                                "       <td width=\"50\" height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType != 18 && datas[i * pgeDataNum + j].Mod4.value) || " ")) + "</div></td>\n" +
+                                "       <td width=\"40\" height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType != 18 && datas[i * pgeDataNum + j].Mod6.value) || " ")) + "</div></td>\n" +
+                                "       <td width=\"74\" height=\"110\"><p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && "输入液量:") || " ")) + "</p>\n" +
+                                "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && "饮水:") || " ")) + "</p>\n" +
+                                "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && "饮食:") || " ")) + "</p>\n" +
+                                "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && "其他:") || " ")) + "</p>\n" +
+                                "       <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && "总入量:") || " ")) + "</p></td>\n" +
                                 "       <td width=\"59\" height=\"110\"><div align=\"center\">\n" +
-                                "         <p>"+ ((datas[i * 8 + j]||"")&&((datas[i * 8+ j].Mod1.headtype == 18 && datas[i * 8+ j].Mod1.value) || " ")) +"</p>\n" +
-                                "         <p>"+ ((datas[i * 8 + j]||"")&&((datas[i * 8+ j].Mod1.headtype == 18 && datas[i * 8+ j].Mod2.value) || " ")) +"</p>\n" +
-                                "         <p>"+ ((datas[i * 8 + j]||"")&&((datas[i * 8+ j].Mod1.headtype == 18 && datas[i * 8+ j].Mod3.value) || " ")) +"</p>\n" +
-                                "         <p>"+ ((datas[i * 8 + j]||"")&&((datas[i * 8+ j].Mod1.headtype == 18 && datas[i * 8+ j].Mod4.value) || " ")) +"</p>\n" +
-                                "         <p>"+ ((datas[i * 8 + j]||"")&&((datas[i * 8+ j].Mod1.headtype == 18 && datas[i * 8+ j].Mod6.value) || " ")) +"</p>\n" +
+                                "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && datas[i * pgeDataNum + j].Mod1.value) || " ")) + "</p>\n" +
+                                "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && datas[i * pgeDataNum + j].Mod2.value) || " ")) + "</p>\n" +
+                                "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && datas[i * pgeDataNum + j].Mod3.value) || " ")) + "</p>\n" +
+                                "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && datas[i * pgeDataNum + j].Mod4.value) || " ")) + "</p>\n" +
+                                "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && datas[i * pgeDataNum + j].Mod6.value) || " ")) + "</p>\n" +
                                 "       </div></td>\n" +
-                                "       <td width=\"54\" height=\"110\"><div align=\"center\">\n" +
-                                "         <p>"+ ((datas[i * 8 + j]||"")&&((datas[i * 8+ j].Mod1.headtype == 18 && "尿量:") || " ")) +"</p>\n" +
-                                "         <p>"+ ((datas[i * 8 + j]||"")&&((datas[i * 8+ j].Mod1.headtype == 18 && "其他:") || " ")) +"</p>\n" +
+                                "       <td width=\"59\" height=\"110\"><div align=\"center\">\n" +
+                                "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && "尿量:") || " ")) + "</p>\n" +
+                                "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && "大便:") || " ")) + "</p>\n" +
+                                "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && "其他:") || " ")) + "</p>\n" +
                                 "         <p> </p>\n" +
-                                "         <p> </p>\n" +
-                                "         <p>"+ ((datas[i * 8 + j]||"")&&((datas[i * 8+ j].Mod1.headtype == 18 && "总出量:") || " ")) +"</p>\n" +
+                                "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && "总出量:") || " ")) + "</p>\n" +
                                 "       </div></td>\n" +
-                                "       <td width=\"48\" height=\"110\"><div align=\"center\">\n" +
-                                "         <p>"+ ((datas[i * 8 + j]||"")&&((datas[i * 8+ j].Mod1.headtype == 18 && datas[i * 8+ j].Mod7.value) || " ")) +"</p>\n" +
-                                "         <p>"+ ((datas[i * 8 + j]||"")&&((datas[i * 8+ j].Mod1.headtype == 18 && datas[i * 8+ j].Mod15.value) || " ")) +"</p>\n" +
+                                "       <td width=\"59\" height=\"110\"><div align=\"center\">\n" +
+                                "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && datas[i * pgeDataNum + j].Mod7.value) || " ")) + "</p>\n" +
+                                "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && datas[i * pgeDataNum + j].Mod15.value) || " ")) + "</p>\n" +
+                                "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && datas[i * pgeDataNum + j].Mod16.value) || " ")) + "</p>\n" +
                                 "         <p> </p>\n" +
-                                "         <p> </p>\n" +
-                                "         <p>"+ ((datas[i * 8 + j]||"")&&((datas[i * 8+ j].Mod1.headtype == 18 && datas[i * 8+ j].Mod16.value) || " ")) +"</p>\n" +
+                                "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && datas[i * pgeDataNum + j].Mod17.value) || " ")) + "</p>\n" +
                                 "       </div></td>\n" +
-                                "       <td width=\"50\" height=\"110\"><div align=\"center\">"+ ((datas[i * 8 + j]||"")&&((datas[i * 8+ j].Mod1.headtype != 18 && datas[i * 8+ j].Mod7.value) || " ")) +"</div></td>\n" +
-                                "       <td height=\"110\"><div align=\"center\">"+ ((datas[i * 8 + j]||"")&&(datas[i * 8+ j].Mod31.value || " ")) +"</div></td>\n" +
-                                "       <td height=\"110\"><div align=\"center\">"+ ((datas[i * 8 + j]||"")&&(datas[i * 8+ j].Mod32.value || " ")) +"</div></td>\n" +
-                                "       <td height=\"110\"><div align=\"center\">"+ ((datas[i * 8 + j]||"")&&(datas[i * 8+ j].Mod33.value || " ")) +"</div></td>\n" +
-                                "       <td height=\"110\"><div align=\"center\">"+ ((datas[i * 8 + j]||"")&&(datas[i * 8+ j].Mod34.value || " ")) +"</div></td>\n" +
-                                "       <td height=\"110\"><div align=\"center\">"+ ((datas[i * 8 + j]||"")&&(datas[i * 8+ j].Mod35.value || " ")) +"</div></td>\n" +
-                                "       <td height=\"110\"><div align=\"center\">"+ ((datas[i * 8 + j]||"")&&(datas[i * 8+ j].Mod36.value || " ")) +"</div></td>\n" +
-                                "       <td height=\"110\"><div align=\"center\">"+ ((datas[i * 8 + j]||"")&&(datas[i * 8+ j].Mod37.value || " ")) +"</div></td>\n" +
-                                "      <td width=\"225\" height=\"110\"><div align=\"center\">"+ ((datas[i * 8 + j]||"")&&(datas[i * 8+ j].Mod17.value || " ")) +"</div></td>\n" +
-                                "       <td width=\"112\" height=\"110\"><div align=\"center\">"+ ((datas[i * 8 + j]||"")&&(datas[i * 8+ j].BCE03A || " ")) +"</div></td>\n" +
+                                "       <td width=\"50\" height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType != 18 && datas[i * pgeDataNum + j].Mod7.value) || " ")) + "</div></td>\n" +
+                                "       <td height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && (datas[i * pgeDataNum + j].Mod31.value || " ")) + "</div></td>\n" +
+                                "       <td height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && (datas[i * pgeDataNum + j].Mod32.value || " ")) + "</div></td>\n" +
+                                "       <td height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && (datas[i * pgeDataNum + j].Mod33.value || " ")) + "</div></td>\n" +
+                                "       <td height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && (datas[i * pgeDataNum + j].Mod34.value || " ")) + "</div></td>\n" +
+                                "       <td height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && (datas[i * pgeDataNum + j].Mod35.value || " ")) + "</div></td>\n" +
+                                "       <td height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && (datas[i * pgeDataNum + j].Mod36.value || " ")) + "</div></td>\n" +
+                                "       <td height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && (datas[i * pgeDataNum + j].Mod37.value || " ")) + "</div></td>\n" +
+                                "      <td width=\"225\" height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && (datas[i * pgeDataNum + j].Mod17.value || " ")) + "</div></td>\n" +
+                                "       <td width=\"112\" height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && (datas[i * pgeDataNum + j].BCE03A || " ")) + "</div></td>\n" +
                                 "    </tr>";
                     }
                     html += "</table>\n" +
-                            "<p align=\"center\" class=\"STYLE3\">第&nbsp;&nbsp;"+(i+1)+"&nbsp;&nbsp;页</p>";
+                            "<p align=\"center\" class=\"STYLE3\">第&nbsp;&nbsp;" + (i + 1) + "&nbsp;&nbsp;页</p></div>";
                 }
                 $('body').html(html)
             }
@@ -211,476 +221,857 @@
 </head>
 
 <body>
-<p align="center" class="STYLE1">深圳万丰医院护理记录单</p>
-<div>
+<div class="bagw">
+    <p align="center" class="STYLE1">深圳万丰医院护理记录单</p>
     <div>
-        <label><span class="STYLE4">床号：</span></label><span class="STYLE4">{{.PInfo.BCQ04}}
-        <label>姓名：</label>{{.PInfo.VAA05}} 
-      <label>性别：</label>{{.PInfo.Gender}}
-        <label>年龄：</label>{{.PInfo.VAA10}}岁
-      <label>住院号：</label>{{.PInfo.VAA04}} 
-      <label>诊断：</label>{{.PInfo.VAO15}} 
-      <label>入院日期：</label>{{.PInfo.HospitalDate}}</span>    </div>
+        <div>
+            <label class="tit">床号:&nbsp;&nbsp;{{.PInfo.BCQ04}}</label>
+            <label  class="tit">姓名:&nbsp;&nbsp;{{.PInfo.VAA05}}&nbsp;&nbsp; </label>
+            <label  class="tit">性别:&nbsp;&nbsp;{{.PInfo.Gender}}&nbsp;&nbsp;</label>
+            <label  class="tit">年龄:&nbsp;&nbsp;{{.PInfo.VAA10}}岁&nbsp;&nbsp;</label>
+            <label  class="tit">住院号:&nbsp;&nbsp;{{.PInfo.VAA04}}&nbsp;&nbsp;</label> 
+            <label  class="tit">诊断:&nbsp;&nbsp;{{.PInfo.VAO15}}&nbsp;&nbsp; </label>
+            <label  class="tit">入院日期:&nbsp;&nbsp;{{.PInfo.HospitalDate}}</label>
+        </div>
+    </div>
+    <table width="1559" border="1" cellspacing="0" bordercolor="#666666">
+        <tr>
+            <td width="94" rowspan="2">
+                <div align="center">日期</div>
+                <div align="center"></div>
+            </td>
+            <td width="110" rowspan="2">
+                <div align="center">时间</div>
+                <div align="center"></div>
+            </td>
+            <td width="45" rowspan="2">
+                <div align="center">体温(℃)</div>
+                <div align="center"></div>
+            </td>
+            <td width="51" rowspan="2">
+                <div align="center">脉搏(次/分)</div>
+                <div align="center"></div>
+            </td>
+            <td width="50" rowspan="2">
+                <div align="center">呼吸(次/分)</div>
+                <div align="center"></div>
+            </td>
+            <td width="50" rowspan="2">
+                <div align="center">血压(mmHg)</div>
+                <div align="center"></div>
+            </td>
+            <td width="40" rowspan="2">
+                <div align="center">血氧(%)</div>
+                <div align="center"></div>
+            </td>
+            <td height="24" colspan="2">
+                <div align="center">入量</div>
+            </td>
+            <td colspan="2">
+                <div align="center">出量</div>
+            </td>
+            <td width="50" rowspan="2">
+                <div align="center">血糖(mmol/l)</div>
+                <div align="center"></div>
+            </td>
+            <td width="59" rowspan="2">
+                <div align="center"> {{if eq .NRLTitle.NRT01 "1"}}意识{{end}}
+                {{if eq .NRLTitle.NRT01 "2"}}BADL评分{{end}}
+                {{if eq .NRLTitle.NRT01 "3"}}DVT评分{{end}}
+                {{if eq .NRLTitle.NRT01 "4"}}跌倒评分{{end}}
+                {{if eq .NRLTitle.NRT01 "5"}}压疮评分{{end}}
+                {{if eq .NRLTitle.NRT01 "6"}}疼痛评分{{end}}
+                {{if eq .NRLTitle.NRT01 "7"}}门冬胰岛素u{{end}}
+                {{if eq .NRLTitle.NRT01 "8"}}瞳孔左mm{{end}}
+                {{if eq .NRLTitle.NRT01 "9"}}瞳孔右mm{{end}}
+                {{if eq .NRLTitle.NRT01 "10"}}吸氧L/min{{end}}
+                {{if eq .NRLTitle.NRT01 "11"}}{{.NRLTitle.NRT01V}}{{end}}</div>
+            </td>
+            <td width="59" rowspan="2">
+                <div align="center"> {{if eq .NRLTitle.NRT02 "1"}}意识{{end}}
+                {{if eq .NRLTitle.NRT02 "2"}}BADL评分{{end}}
+                {{if eq .NRLTitle.NRT02 "3"}}DVT评分{{end}}
+                {{if eq .NRLTitle.NRT02 "4"}}跌倒评分{{end}}
+                {{if eq .NRLTitle.NRT02 "5"}}压疮评分{{end}}
+                {{if eq .NRLTitle.NRT02 "6"}}疼痛评分{{end}}
+                {{if eq .NRLTitle.NRT02 "7"}}门冬胰岛素u{{end}}
+                {{if eq .NRLTitle.NRT02 "8"}}瞳孔左mm{{end}}
+                {{if eq .NRLTitle.NRT02 "9"}}瞳孔右mm{{end}}
+                {{if eq .NRLTitle.NRT02 "10"}}吸氧L/min{{end}}
+                {{if eq .NRLTitle.NRT02 "11"}}{{.NRLTitle.NRT02V}}{{end}}</div>
+            </td>
+            <td width="59" rowspan="2">
+                <div align="center"> {{if eq .NRLTitle.NRT03 "1"}}意识{{end}}
+                {{if eq .NRLTitle.NRT03 "2"}}BADL评分{{end}}
+                {{if eq .NRLTitle.NRT03 "3"}}DVT评分{{end}}
+                {{if eq .NRLTitle.NRT03 "4"}}跌倒评分{{end}}
+                {{if eq .NRLTitle.NRT03 "5"}}压疮评分{{end}}
+                {{if eq .NRLTitle.NRT03 "6"}}疼痛评分{{end}}
+                {{if eq .NRLTitle.NRT03 "7"}}门冬胰岛素u{{end}}
+                {{if eq .NRLTitle.NRT03 "8"}}瞳孔左mm{{end}}
+                {{if eq .NRLTitle.NRT03 "9"}}瞳孔右mm{{end}}
+                {{if eq .NRLTitle.NRT03 "10"}}吸氧L/min{{end}}
+                {{if eq .NRLTitle.NRT03 "11"}}{{.NRLTitle.NRT03V}}{{end}}</div>
+            </td>
+            <td width="59" rowspan="2">
+                <div align="center">{{if eq .NRLTitle.NRT04 "1"}}意识{{end}}
+                {{if eq .NRLTitle.NRT04 "2"}}BADL评分{{end}}
+                {{if eq .NRLTitle.NRT04 "3"}}DVT评分{{end}}
+                {{if eq .NRLTitle.NRT04 "4"}}跌倒评分{{end}}
+                {{if eq .NRLTitle.NRT04 "5"}}压疮评分{{end}}
+                {{if eq .NRLTitle.NRT04 "6"}}疼痛评分{{end}}
+                {{if eq .NRLTitle.NRT04 "7"}}门冬胰岛素u{{end}}
+                {{if eq .NRLTitle.NRT04 "8"}}瞳孔左mm{{end}}
+                {{if eq .NRLTitle.NRT04 "9"}}瞳孔右mm{{end}}
+                {{if eq .NRLTitle.NRT04 "10"}}吸氧L/min{{end}}
+                {{if eq .NRLTitle.NRT04 "11"}}{{.NRLTitle.NRT04V}}{{end}}</div>
+            </td>
+            <td width="59" rowspan="2">
+                <div align="center"> {{if eq .NRLTitle.NRT05 "1"}}意识{{end}}
+                {{if eq .NRLTitle.NRT05 "2"}}BADL评分{{end}}
+                {{if eq .NRLTitle.NRT05 "3"}}DVT评分{{end}}
+                {{if eq .NRLTitle.NRT05 "4"}}跌倒评分{{end}}
+                {{if eq .NRLTitle.NRT05 "5"}}压疮评分{{end}}
+                {{if eq .NRLTitle.NRT05 "6"}}疼痛评分{{end}}
+                {{if eq .NRLTitle.NRT05 "7"}}门冬胰岛素u{{end}}
+                {{if eq .NRLTitle.NRT05 "8"}}瞳孔左mm{{end}}
+                {{if eq .NRLTitle.NRT05 "9"}}瞳孔右mm{{end}}
+                {{if eq .NRLTitle.NRT05 "10"}}吸氧L/min{{end}}
+                {{if eq .NRLTitle.NRT05 "11"}}{{.NRLTitle.NRT05V}}{{end}}</div>
+            </td>
+            <td width="59" rowspan="2">
+                <div align="center"> {{if eq .NRLTitle.NRT06 "1"}}意识{{end}}
+                {{if eq .NRLTitle.NRT06 "2"}}BADL评分{{end}}
+                {{if eq .NRLTitle.NRT06 "3"}}DVT评分{{end}}
+                {{if eq .NRLTitle.NRT06 "4"}}跌倒评分{{end}}
+                {{if eq .NRLTitle.NRT06 "5"}}压疮评分{{end}}
+                {{if eq .NRLTitle.NRT06 "6"}}疼痛评分{{end}}
+                {{if eq .NRLTitle.NRT06 "7"}}门冬胰岛素u{{end}}
+                {{if eq .NRLTitle.NRT06 "8"}}瞳孔左mm{{end}}
+                {{if eq .NRLTitle.NRT06 "9"}}瞳孔右mm{{end}}
+                {{if eq .NRLTitle.NRT06 "10"}}吸氧L/min{{end}}
+                {{if eq .NRLTitle.NRT06 "11"}}{{.NRLTitle.NRT06V}}{{end}}</div>
+                <div align="center"></div>
+            </td>
+            <td width="59" rowspan="2">
+                <div align="center"> {{if eq .NRLTitle.NRT07 "1"}}意识{{end}}
+                {{if eq .NRLTitle.NRT07 "2"}}BADL评分{{end}}
+                {{if eq .NRLTitle.NRT07 "3"}}DVT评分{{end}}
+                {{if eq .NRLTitle.NRT07 "4"}}跌倒评分{{end}}
+                {{if eq .NRLTitle.NRT07 "5"}}压疮评分{{end}}
+                {{if eq .NRLTitle.NRT07 "6"}}疼痛评分{{end}}
+                {{if eq .NRLTitle.NRT07 "7"}}门冬胰岛素u{{end}}
+                {{if eq .NRLTitle.NRT07 "8"}}瞳孔左mm{{end}}
+                {{if eq .NRLTitle.NRT07 "9"}}瞳孔右mm{{end}}
+                {{if eq .NRLTitle.NRT07 "10"}}吸氧L/min{{end}}
+                {{if eq .NRLTitle.NRT07 "11"}}{{.NRLTitle.NRT07V}}{{end}}</div>
+                <div align="center"></div>
+            </td>
+            <td width="225" rowspan="2">
+                <div align="center">病情记录</div>
+                <div align="center"></div>
+            </td>
+            <td width="112" rowspan="2">
+                <div align="center">护士签名</div>
+                <div align="center"></div>
+            </td>
+        </tr>
+        <tr>
+            <td width="74" height="23">
+                <div align="center">内容</div>
+            </td>
+            <td width="59">
+                <div align="center">量(ml)</div>
+            </td>
+            <td width="54">
+                <div align="center">内容</div>
+            </td>
+            <td width="48">
+                <div align="center">量(ml)</div>
+            </td>
+        </tr>
+        <tr>
+            <td width="94" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="110" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="45" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="49" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="50" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="50" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="40" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="74" height="110"><p></p>
+                <p></p>
+                <p></p>
+                <p></p>
+                <p></p></td>
+            <td width="59" height="110">
+                <div align="center">
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                </div>
+            </td>
+            <td width="54" height="110">
+                <div align="center">
+                    <p></p>
+                    <p></p>
+                    <p> </p>
+                    <p> </p>
+                    <p></p>
+                </div>
+            </td>
+            <td width="48" height="110">
+                <div align="center">
+                    <p></p>
+                    <p></p>
+                    <p> </p>
+                    <p> </p>
+                    <p></p>
+                </div>
+            </td>
+            <td width="50" height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td width="225" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="112" height="110">
+                <div align="center"></div>
+            </td>
+        </tr>
+        <tr>
+            <td width="94" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="110" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="45" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="49" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="50" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="50" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="40" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="74" height="110"><p></p>
+                <p></p>
+                <p></p>
+                <p></p>
+                <p></p></td>
+            <td width="59" height="110">
+                <div align="center">
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                </div>
+            </td>
+            <td width="54" height="110">
+                <div align="center">
+                    <p></p>
+                    <p></p>
+                    <p> </p>
+                    <p> </p>
+                    <p></p>
+                </div>
+            </td>
+            <td width="48" height="110">
+                <div align="center">
+                    <p></p>
+                    <p></p>
+                    <p> </p>
+                    <p> </p>
+                    <p></p>
+                </div>
+            </td>
+            <td width="50" height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td width="225" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="112" height="110">
+                <div align="center"></div>
+            </td>
+        </tr>
+        <tr>
+            <td width="94" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="110" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="45" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="49" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="50" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="50" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="40" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="74" height="110"><p></p>
+                <p></p>
+                <p></p>
+                <p></p>
+                <p></p></td>
+            <td width="59" height="110">
+                <div align="center">
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                </div>
+            </td>
+            <td width="54" height="110">
+                <div align="center">
+                    <p></p>
+                    <p></p>
+                    <p> </p>
+                    <p> </p>
+                    <p></p>
+                </div>
+            </td>
+            <td width="48" height="110">
+                <div align="center">
+                    <p></p>
+                    <p></p>
+                    <p> </p>
+                    <p> </p>
+                    <p></p>
+                </div>
+            </td>
+            <td width="50" height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td width="225" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="112" height="110">
+                <div align="center"></div>
+            </td>
+        </tr>
+        <tr>
+            <td width="94" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="110" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="45" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="49" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="50" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="50" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="40" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="74" height="110"><p></p>
+                <p></p>
+                <p></p>
+                <p></p>
+                <p></p></td>
+            <td width="59" height="110">
+                <div align="center">
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                </div>
+            </td>
+            <td width="54" height="110">
+                <div align="center">
+                    <p></p>
+                    <p></p>
+                    <p> </p>
+                    <p> </p>
+                    <p></p>
+                </div>
+            </td>
+            <td width="48" height="110">
+                <div align="center">
+                    <p></p>
+                    <p></p>
+                    <p> </p>
+                    <p> </p>
+                    <p></p>
+                </div>
+            </td>
+            <td width="50" height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td width="225" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="112" height="110">
+                <div align="center"></div>
+            </td>
+        </tr>
+        <tr>
+            <td width="94" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="110" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="45" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="49" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="50" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="50" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="40" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="74" height="110"><p></p>
+                <p></p>
+                <p></p>
+                <p></p>
+                <p></p></td>
+            <td width="59" height="110">
+                <div align="center">
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                </div>
+            </td>
+            <td width="54" height="110">
+                <div align="center">
+                    <p></p>
+                    <p></p>
+                    <p> </p>
+                    <p> </p>
+                    <p></p>
+                </div>
+            </td>
+            <td width="48" height="110">
+                <div align="center">
+                    <p></p>
+                    <p></p>
+                    <p> </p>
+                    <p> </p>
+                    <p></p>
+                </div>
+            </td>
+            <td width="50" height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td width="225" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="112" height="110">
+                <div align="center"></div>
+            </td>
+        </tr>
+        <tr>
+            <td width="94" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="110" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="45" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="49" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="50" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="50" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="40" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="74" height="110"><p></p>
+                <p></p>
+                <p></p>
+                <p></p>
+                <p></p></td>
+            <td width="59" height="110">
+                <div align="center">
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                </div>
+            </td>
+            <td width="54" height="110">
+                <div align="center">
+                    <p></p>
+                    <p></p>
+                    <p> </p>
+                    <p> </p>
+                    <p></p>
+                </div>
+            </td>
+            <td width="48" height="110">
+                <div align="center">
+                    <p></p>
+                    <p></p>
+                    <p> </p>
+                    <p> </p>
+                    <p></p>
+                </div>
+            </td>
+            <td width="50" height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td width="225" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="112" height="110">
+                <div align="center"></div>
+            </td>
+        </tr>
+        <tr>
+            <td width="94" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="110" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="45" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="49" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="50" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="50" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="40" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="74" height="110"><p></p>
+                <p></p>
+                <p></p>
+                <p></p>
+                <p></p></td>
+            <td width="59" height="110">
+                <div align="center">
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                </div>
+            </td>
+            <td width="54" height="110">
+                <div align="center">
+                    <p></p>
+                    <p></p>
+                    <p> </p>
+                    <p> </p>
+                    <p></p>
+                </div>
+            </td>
+            <td width="48" height="110">
+                <div align="center">
+                    <p></p>
+                    <p></p>
+                    <p> </p>
+                    <p> </p>
+                    <p></p>
+                </div>
+            </td>
+            <td width="50" height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td width="225" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="112" height="110">
+                <div align="center"></div>
+            </td>
+        </tr>
+        <tr>
+            <td width="94" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="110" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="45" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="49" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="50" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="50" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="40" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="74" height="110"><p></p>
+                <p></p>
+                <p></p>
+                <p></p>
+                <p></p></td>
+            <td width="59" height="110">
+                <div align="center">
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                </div>
+            </td>
+            <td width="54" height="110">
+                <div align="center">
+                    <p></p>
+                    <p></p>
+                    <p> </p>
+                    <p> </p>
+                    <p></p>
+                </div>
+            </td>
+            <td width="48" height="110">
+                <div align="center">
+                    <p></p>
+                    <p></p>
+                    <p> </p>
+                    <p> </p>
+                    <p></p>
+                </div>
+            </td>
+            <td width="50" height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td height="110">
+                <div align="center"></div>
+            </td>
+            <td width="225" height="110">
+                <div align="center"></div>
+            </td>
+            <td width="112" height="110">
+                <div align="center"></div>
+            </td>
+        </tr>
+    </table>
+    <p align="center" class="STYLE3">第 1 页</p>
 </div>
-<table width="1559" border="1" cellspacing="0" bordercolor="#666666">
-    <tr>
-        <td width="94" rowspan="2"><div align="center">日期</div>      <div align="center"></div></td>
-        <td width="110" rowspan="2"><div align="center">时间</div>      <div align="center"></div></td>
-        <td width="45" rowspan="2"><div align="center">体温(℃)</div>      <div align="center"></div></td>
-        <td width="51" rowspan="2"><div align="center">脉搏(次/分)</div>      <div align="center"></div></td>
-        <td width="50" rowspan="2"><div align="center">呼吸(次/分)</div>      <div align="center"></div></td>
-        <td width="50" rowspan="2"><div align="center">血压(mmHg)</div>      <div align="center"></div></td>
-        <td width="40" rowspan="2"><div align="center">血氧(%)</div>      <div align="center"></div></td>
-        <td height="24" colspan="2"><div align="center">入量</div></td>
-        <td colspan="2"><div align="center">出量</div></td>
-        <td width="50" rowspan="2"><div align="center">血糖(mmol/l)</div>      <div align="center"></div></td>
-        <td width="59" rowspan="2"><div align="center"> {{if eq .NRLTitle.NRT01 "1"}}意识{{end}}
-        {{if eq .NRLTitle.NRT01 "2"}}BADL评分{{end}}
-        {{if eq .NRLTitle.NRT01 "3"}}DVT评分{{end}}
-        {{if eq .NRLTitle.NRT01 "4"}}跌倒评分{{end}}
-        {{if eq .NRLTitle.NRT01 "5"}}压疮评分{{end}}
-        {{if eq .NRLTitle.NRT01 "6"}}疼痛评分{{end}}
-        {{if eq .NRLTitle.NRT01 "7"}}门冬胰岛素u{{end}}
-        {{if eq .NRLTitle.NRT01 "8"}}瞳孔左mm{{end}}
-        {{if eq .NRLTitle.NRT01 "9"}}瞳孔右mm{{end}}
-        {{if eq .NRLTitle.NRT01 "10"}}吸氧L/min{{end}}
-        {{if eq .NRLTitle.NRT01 "11"}}{{.NRLTitle.NRT01V}}{{end}}</div></td>
-        <td width="59" rowspan="2"><div align="center"> {{if eq .NRLTitle.NRT02 "1"}}意识{{end}}
-        {{if eq .NRLTitle.NRT02 "2"}}BADL评分{{end}}
-        {{if eq .NRLTitle.NRT02 "3"}}DVT评分{{end}}
-        {{if eq .NRLTitle.NRT02 "4"}}跌倒评分{{end}}
-        {{if eq .NRLTitle.NRT02 "5"}}压疮评分{{end}}
-        {{if eq .NRLTitle.NRT02 "6"}}疼痛评分{{end}}
-        {{if eq .NRLTitle.NRT02 "7"}}门冬胰岛素u{{end}}
-        {{if eq .NRLTitle.NRT02 "8"}}瞳孔左mm{{end}}
-        {{if eq .NRLTitle.NRT02 "9"}}瞳孔右mm{{end}}
-        {{if eq .NRLTitle.NRT02 "10"}}吸氧L/min{{end}}
-        {{if eq .NRLTitle.NRT02 "11"}}{{.NRLTitle.NRT02V}}{{end}}</div></td>
-        <td width="59" rowspan="2"><div align="center"> {{if eq .NRLTitle.NRT03 "1"}}意识{{end}}
-        {{if eq .NRLTitle.NRT03 "2"}}BADL评分{{end}}
-        {{if eq .NRLTitle.NRT03 "3"}}DVT评分{{end}}
-        {{if eq .NRLTitle.NRT03 "4"}}跌倒评分{{end}}
-        {{if eq .NRLTitle.NRT03 "5"}}压疮评分{{end}}
-        {{if eq .NRLTitle.NRT03 "6"}}疼痛评分{{end}}
-        {{if eq .NRLTitle.NRT03 "7"}}门冬胰岛素u{{end}}
-        {{if eq .NRLTitle.NRT03 "8"}}瞳孔左mm{{end}}
-        {{if eq .NRLTitle.NRT03 "9"}}瞳孔右mm{{end}}
-        {{if eq .NRLTitle.NRT03 "10"}}吸氧L/min{{end}}
-        {{if eq .NRLTitle.NRT03 "11"}}{{.NRLTitle.NRT03V}}{{end}}</div></td>
-        <td width="59" rowspan="2"><div align="center">{{if eq .NRLTitle.NRT04 "1"}}意识{{end}}
-        {{if eq .NRLTitle.NRT04 "2"}}BADL评分{{end}}
-        {{if eq .NRLTitle.NRT04 "3"}}DVT评分{{end}}
-        {{if eq .NRLTitle.NRT04 "4"}}跌倒评分{{end}}
-        {{if eq .NRLTitle.NRT04 "5"}}压疮评分{{end}}
-        {{if eq .NRLTitle.NRT04 "6"}}疼痛评分{{end}}
-        {{if eq .NRLTitle.NRT04 "7"}}门冬胰岛素u{{end}}
-        {{if eq .NRLTitle.NRT04 "8"}}瞳孔左mm{{end}}
-        {{if eq .NRLTitle.NRT04 "9"}}瞳孔右mm{{end}}
-        {{if eq .NRLTitle.NRT04 "10"}}吸氧L/min{{end}}
-        {{if eq .NRLTitle.NRT04 "11"}}{{.NRLTitle.NRT04V}}{{end}}</div></td>
-        <td width="59" rowspan="2"><div align="center"> {{if eq .NRLTitle.NRT05 "1"}}意识{{end}}
-        {{if eq .NRLTitle.NRT05 "2"}}BADL评分{{end}}
-        {{if eq .NRLTitle.NRT05 "3"}}DVT评分{{end}}
-        {{if eq .NRLTitle.NRT05 "4"}}跌倒评分{{end}}
-        {{if eq .NRLTitle.NRT05 "5"}}压疮评分{{end}}
-        {{if eq .NRLTitle.NRT05 "6"}}疼痛评分{{end}}
-        {{if eq .NRLTitle.NRT05 "7"}}门冬胰岛素u{{end}}
-        {{if eq .NRLTitle.NRT05 "8"}}瞳孔左mm{{end}}
-        {{if eq .NRLTitle.NRT05 "9"}}瞳孔右mm{{end}}
-        {{if eq .NRLTitle.NRT05 "10"}}吸氧L/min{{end}}
-        {{if eq .NRLTitle.NRT05 "11"}}{{.NRLTitle.NRT05V}}{{end}}</div></td>
-        <td width="59" rowspan="2"><div align="center"> {{if eq .NRLTitle.NRT06 "1"}}意识{{end}}
-        {{if eq .NRLTitle.NRT06 "2"}}BADL评分{{end}}
-        {{if eq .NRLTitle.NRT06 "3"}}DVT评分{{end}}
-        {{if eq .NRLTitle.NRT06 "4"}}跌倒评分{{end}}
-        {{if eq .NRLTitle.NRT06 "5"}}压疮评分{{end}}
-        {{if eq .NRLTitle.NRT06 "6"}}疼痛评分{{end}}
-        {{if eq .NRLTitle.NRT06 "7"}}门冬胰岛素u{{end}}
-        {{if eq .NRLTitle.NRT06 "8"}}瞳孔左mm{{end}}
-        {{if eq .NRLTitle.NRT06 "9"}}瞳孔右mm{{end}}
-        {{if eq .NRLTitle.NRT06 "10"}}吸氧L/min{{end}}
-        {{if eq .NRLTitle.NRT06 "11"}}{{.NRLTitle.NRT06V}}{{end}}</div>      <div align="center"></div></td>
-        <td width="59" rowspan="2"><div align="center"> {{if eq .NRLTitle.NRT07 "1"}}意识{{end}}
-        {{if eq .NRLTitle.NRT07 "2"}}BADL评分{{end}}
-        {{if eq .NRLTitle.NRT07 "3"}}DVT评分{{end}}
-        {{if eq .NRLTitle.NRT07 "4"}}跌倒评分{{end}}
-        {{if eq .NRLTitle.NRT07 "5"}}压疮评分{{end}}
-        {{if eq .NRLTitle.NRT07 "6"}}疼痛评分{{end}}
-        {{if eq .NRLTitle.NRT07 "7"}}门冬胰岛素u{{end}}
-        {{if eq .NRLTitle.NRT07 "8"}}瞳孔左mm{{end}}
-        {{if eq .NRLTitle.NRT07 "9"}}瞳孔右mm{{end}}
-        {{if eq .NRLTitle.NRT07 "10"}}吸氧L/min{{end}}
-        {{if eq .NRLTitle.NRT07 "11"}}{{.NRLTitle.NRT07V}}{{end}}</div>      <div align="center"></div></td>
-        <td width="225" rowspan="2"><div align="center">病情记录</div>      <div align="center"></div></td>
-        <td width="112" rowspan="2"><div align="center">护士签名</div>      <div align="center"></div></td>
-    </tr>
-    <tr>
-        <td width="74" height="23"><div align="center">内容</div></td>
-        <td width="59"><div align="center">量(ml)</div></td>
-        <td width="54"><div align="center">内容</div></td>
-        <td width="48"><div align="center">量(ml)</div></td>
-    </tr>
-    <tr>
-        <td width="94" height="110"><div align="center"></div></td>
-        <td width="110" height="110"><div align="center"></div></td>
-        <td width="45" height="110"><div align="center"></div></td>
-        <td width="49" height="110"><div align="center"></div></td>
-        <td width="50" height="110"><div align="center"></div></td>
-        <td width="50" height="110"><div align="center"></div></td>
-        <td width="40" height="110"><div align="center"></div></td>
-        <td width="74" height="110"><p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p></td>
-        <td width="59" height="110"><div align="center">
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-        </div></td>
-        <td width="54" height="110"><div align="center">
-            <p></p>
-            <p></p>
-            <p> </p>
-            <p> </p>
-            <p></p>
-        </div></td>
-        <td width="48" height="110"><div align="center">
-            <p></p>
-            <p></p>
-            <p> </p>
-            <p> </p>
-            <p></p>
-        </div></td>
-        <td width="50" height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td width="225" height="110"><div align="center"></div></td>
-        <td width="112" height="110"><div align="center"></div></td>
-    </tr>
-    <tr>
-        <td width="94" height="110"><div align="center"></div></td>
-        <td width="110" height="110"><div align="center"></div></td>
-        <td width="45" height="110"><div align="center"></div></td>
-        <td width="49" height="110"><div align="center"></div></td>
-        <td width="50" height="110"><div align="center"></div></td>
-        <td width="50" height="110"><div align="center"></div></td>
-        <td width="40" height="110"><div align="center"></div></td>
-        <td width="74" height="110"><p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p></td>
-        <td width="59" height="110"><div align="center">
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-        </div></td>
-        <td width="54" height="110"><div align="center">
-            <p></p>
-            <p></p>
-            <p> </p>
-            <p> </p>
-            <p></p>
-        </div></td>
-        <td width="48" height="110"><div align="center">
-            <p></p>
-            <p></p>
-            <p> </p>
-            <p> </p>
-            <p></p>
-        </div></td>
-        <td width="50" height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td width="225" height="110"><div align="center"></div></td>
-        <td width="112" height="110"><div align="center"></div></td>
-    </tr>
-    <tr>
-        <td width="94" height="110"><div align="center"></div></td>
-        <td width="110" height="110"><div align="center"></div></td>
-        <td width="45" height="110"><div align="center"></div></td>
-        <td width="49" height="110"><div align="center"></div></td>
-        <td width="50" height="110"><div align="center"></div></td>
-        <td width="50" height="110"><div align="center"></div></td>
-        <td width="40" height="110"><div align="center"></div></td>
-        <td width="74" height="110"><p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p></td>
-        <td width="59" height="110"><div align="center">
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-        </div></td>
-        <td width="54" height="110"><div align="center">
-            <p></p>
-            <p></p>
-            <p> </p>
-            <p> </p>
-            <p></p>
-        </div></td>
-        <td width="48" height="110"><div align="center">
-            <p></p>
-            <p></p>
-            <p> </p>
-            <p> </p>
-            <p></p>
-        </div></td>
-        <td width="50" height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td width="225" height="110"><div align="center"></div></td>
-        <td width="112" height="110"><div align="center"></div></td>
-    </tr>
-    <tr>
-        <td width="94" height="110"><div align="center"></div></td>
-        <td width="110" height="110"><div align="center"></div></td>
-        <td width="45" height="110"><div align="center"></div></td>
-        <td width="49" height="110"><div align="center"></div></td>
-        <td width="50" height="110"><div align="center"></div></td>
-        <td width="50" height="110"><div align="center"></div></td>
-        <td width="40" height="110"><div align="center"></div></td>
-        <td width="74" height="110"><p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p></td>
-        <td width="59" height="110"><div align="center">
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-        </div></td>
-        <td width="54" height="110"><div align="center">
-            <p></p>
-            <p></p>
-            <p> </p>
-            <p> </p>
-            <p></p>
-        </div></td>
-        <td width="48" height="110"><div align="center">
-            <p></p>
-            <p></p>
-            <p> </p>
-            <p> </p>
-            <p></p>
-        </div></td>
-        <td width="50" height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td width="225" height="110"><div align="center"></div></td>
-        <td width="112" height="110"><div align="center"></div></td>
-    </tr>
-    <tr>
-        <td width="94" height="110"><div align="center"></div></td>
-        <td width="110" height="110"><div align="center"></div></td>
-        <td width="45" height="110"><div align="center"></div></td>
-        <td width="49" height="110"><div align="center"></div></td>
-        <td width="50" height="110"><div align="center"></div></td>
-        <td width="50" height="110"><div align="center"></div></td>
-        <td width="40" height="110"><div align="center"></div></td>
-        <td width="74" height="110"><p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p></td>
-        <td width="59" height="110"><div align="center">
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-        </div></td>
-        <td width="54" height="110"><div align="center">
-            <p></p>
-            <p></p>
-            <p> </p>
-            <p> </p>
-            <p></p>
-        </div></td>
-        <td width="48" height="110"><div align="center">
-            <p></p>
-            <p></p>
-            <p> </p>
-            <p> </p>
-            <p></p>
-        </div></td>
-        <td width="50" height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td width="225" height="110"><div align="center"></div></td>
-        <td width="112" height="110"><div align="center"></div></td>
-    </tr>
-    <tr>
-        <td width="94" height="110"><div align="center"></div></td>
-        <td width="110" height="110"><div align="center"></div></td>
-        <td width="45" height="110"><div align="center"></div></td>
-        <td width="49" height="110"><div align="center"></div></td>
-        <td width="50" height="110"><div align="center"></div></td>
-        <td width="50" height="110"><div align="center"></div></td>
-        <td width="40" height="110"><div align="center"></div></td>
-        <td width="74" height="110"><p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p></td>
-        <td width="59" height="110"><div align="center">
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-        </div></td>
-        <td width="54" height="110"><div align="center">
-            <p></p>
-            <p></p>
-            <p> </p>
-            <p> </p>
-            <p></p>
-        </div></td>
-        <td width="48" height="110"><div align="center">
-            <p></p>
-            <p></p>
-            <p> </p>
-            <p> </p>
-            <p></p>
-        </div></td>
-        <td width="50" height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td width="225" height="110"><div align="center"></div></td>
-        <td width="112" height="110"><div align="center"></div></td>
-    </tr>
-    <tr>
-        <td width="94" height="110"><div align="center"></div></td>
-        <td width="110" height="110"><div align="center"></div></td>
-        <td width="45" height="110"><div align="center"></div></td>
-        <td width="49" height="110"><div align="center"></div></td>
-        <td width="50" height="110"><div align="center"></div></td>
-        <td width="50" height="110"><div align="center"></div></td>
-        <td width="40" height="110"><div align="center"></div></td>
-        <td width="74" height="110"><p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p></td>
-        <td width="59" height="110"><div align="center">
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-        </div></td>
-        <td width="54" height="110"><div align="center">
-            <p></p>
-            <p></p>
-            <p> </p>
-            <p> </p>
-            <p></p>
-        </div></td>
-        <td width="48" height="110"><div align="center">
-            <p></p>
-            <p></p>
-            <p> </p>
-            <p> </p>
-            <p></p>
-        </div></td>
-        <td width="50" height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td width="225" height="110"><div align="center"></div></td>
-        <td width="112" height="110"><div align="center"></div></td>
-    </tr>
-    <tr>
-        <td width="94" height="110"><div align="center"></div></td>
-        <td width="110" height="110"><div align="center"></div></td>
-        <td width="45" height="110"><div align="center"></div></td>
-        <td width="49" height="110"><div align="center"></div></td>
-        <td width="50" height="110"><div align="center"></div></td>
-        <td width="50" height="110"><div align="center"></div></td>
-        <td width="40" height="110"><div align="center"></div></td>
-        <td width="74" height="110"><p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p></td>
-        <td width="59" height="110"><div align="center">
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-        </div></td>
-        <td width="54" height="110"><div align="center">
-            <p></p>
-            <p></p>
-            <p> </p>
-            <p> </p>
-            <p></p>
-        </div></td>
-        <td width="48" height="110"><div align="center">
-            <p></p>
-            <p></p>
-            <p> </p>
-            <p> </p>
-            <p></p>
-        </div></td>
-        <td width="50" height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td height="110"><div align="center"></div></td>
-        <td width="225" height="110"><div align="center"></div></td>
-        <td width="112" height="110"><div align="center"></div></td>
-    </tr>
-</table>
-<p align="center" class="STYLE3">第 1 页</p>
 </body>
 </html>

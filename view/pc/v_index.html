@@ -75,20 +75,24 @@
                                         <p class="msg"> <span>{{$val.VAO15}}</span></p>
                                         <p><span class="name-tit">住院医师：</span><span class="ysname">{{$val.BCE03C}}</span></p>
                                         <div class="icon-bar">
-                                            {{if eq $val.NewOrder 1}}
-                                            <div class="jky-icon">
-                                                <img src="/static/dist/images/admin_pc/icon2.png" alt="">
-                                            </div>
+                                            {{if eq $val.NewPatient 1}}
+                                                <div class="jky-icon">
+                                                    <img src="/static/dist/images/admin_pc/icon2.png" alt="">
+                                                </div>
                                             {{end}}
                                             {{if eq $val.StoppedOrder 1}}
-                                            <div class="jky-icon">
-                                                <img src="/static/dist/images/admin_pc/icon3.png" alt="">
-                                            </div>
+                                                <div class="jky-icon">
+                                                    <img src="/static/dist/images/admin_pc/icon3.png" alt="">
+                                                </div>
+                                            {{else if eq $val.NewOrder 1}}
+                                                <div class="jky-icon">
+                                                    <img src="/static/dist/images/admin_pc/icon3.png" alt="">
+                                                </div>
                                             {{end}}
                                             {{if eq $val.Fever 1}}
-                                            <div class="jky-icon">
-                                                <img src="/static/dist/images/admin_pc/icon4.png" style="height:22px" alt="">
-                                            </div>
+                                                <div class="jky-icon">
+                                                    <img src="/static/dist/images/admin_pc/icon4.png" style="height:22px" alt="">
+                                                </div>
                                             {{end}}
                                         </div>
                                     </div>

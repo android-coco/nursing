@@ -63,7 +63,7 @@
                         {{end}}
                         <a class="btn print">打印</a>
                     </div>
-                    <p class="tit">患者跌到风险评估护理单</p>
+                    <p class="tit">患者跌倒风险评估护理单</p>
                 </div>
             </div>
             <div class="scroll-box">
@@ -133,7 +133,7 @@
                                             </div>
                                             <label for="c1-v2-v4">其它</label>
                                             <span class="child-sel" >
-                                            <input type="text" id="qt-txt" class="m-input-txt" value="{{.NRLTitle.NRL08B}}" disabled>)
+                                            <input type="text" id="qt-txt" class="m-input-txt" style="width: 180px;" value="{{.NRLTitle.NRL08B}}" disabled>)
                                             </span>
                                         </li>
 
@@ -231,7 +231,7 @@
                         <tr class="tr3-4">
                             <td class="td2">
                                 <div class="cont-warp">
-                                    <p>拐杖／手杖/四角叉=15</p>
+                                    <p>拐杖／手杖／四角叉=15</p>
                                 </div>
                             </td>
                         </tr>
@@ -338,28 +338,28 @@
                         <tr class="tr7">
                             <td colspan="2">
                                 <div class="cont-warp">
-                                    1、床头悬挂“跌倒风险警示”标识
+                                    1、床头悬挂"跌倒风险"警示标识
                                 </div>
                             </td>
                         </tr>
                         <tr class="tr7 tr7-2">
                             <td colspan="2">
                                 <div class="cont-warp">
-                                    2、入院时向患者/家属/陪护介绍病室环境及安全措施
+                                    2、入院时向患者／家属／陪护介绍病室环境及安全措施
                                 </div>
                             </td>
                         </tr>
                         <tr class="tr7 tr7-3">
                             <td colspan="2">
                                 <div class="cont-warp">
-                                    3、指导患者/家属/陪护使用呼叫铃
+                                    3、指导患者／家属／陪护使用呼叫铃
                                 </div>
                             </td>
                         </tr>
                         <tr class="tr7 tr7-4">
                             <td colspan="2">
                                 <div class="cont-warp">
-                                    4、教育患者/家属/陪护预防跌倒的方法及注意事项
+                                    4、教育患者／家属／陪护预防跌倒的方法及注意事项
                                 </div>
                             </td>
                         </tr>
@@ -409,7 +409,7 @@
                         <tr class="tr7 tr7-11">
                             <td colspan="2">
                                 <div class="cont-warp">
-                                    11、告知患者有护士/家属/陪护协助下方可下床活动
+                                    11、告知患者有护士／家属／陪护协助下方可下床活动
                                 </div>
                             </td>
                         </tr>
@@ -536,7 +536,7 @@
                         <tr class="bt-tit3">
                             <td colspan="3">
                                 <div class="cont-warp">
-                                    审核护士签名
+                                    审核者签名
                                 </div>
                             </td>
                         </tr>
@@ -1107,7 +1107,7 @@
                         <div>
                             <p class="tit">备注:</p>
                             <p class="txt">
-                                1. 评估护士在对应时间内将评估结果填写在相应的空格内。 </p>
+                                1. 评估护士在对应时间内将评估结果用 "√" 的形式填写在相应的空格内。 </p>
                             <p class="txt">
                                 2. 凡入院患者均需做跌倒风险评估，对跌倒评估总分<25分者（低风险），记录在护理记录单首页，暂不需持续评估；总分25-45分者（中度风险），一周内每48h评估一次，以后每周评估一次；总分>45分者（ 高风险）首次评估后至少每天评估一次；评估中为中度风险和高风险患者分值记录在此表和护理记录单上，做好交接；其它视具体情况评估，发生跌倒事件时，应重新评估并记录。 </p>
                             <p class="txt">3. 凡高危患者（年龄≥65岁、意识不清、运动障碍、 视力障碍、服用镇静催眠药物等）需进行动态跌倒风险评估。 </p>
@@ -1570,7 +1570,8 @@
                     $self=$(this);
             laydate.render({
                 elem: this,
-                type: 'time',
+                type: 'time',btns: ['confirm'],
+
                 format: 'HH:mm',
                 value: dateV,
                 done: function(value, date, endDate) {
@@ -2058,6 +2059,8 @@
                 elem: '#date1', //指定元素
                 showBottom: false,
                 value: sdate,
+                min:"{{.PInfo.HospitalDate}}",
+                max: nowDateObj.date,
                 done: function(value, date, endDate) {
 
                     var a = new Date(value);
@@ -2070,6 +2073,8 @@
                 elem: '#date2', //指定元素
                 showBottom: false,
                 value: edate,
+                min:"{{.PInfo.HospitalDate}}",
+                max: nowDateObj.date,
                 done: function(value, date, endDate) {
 
                     var a = new Date(value);
@@ -2183,6 +2188,8 @@
                     elem: this,
                     showBottom: false,
                     value: dateV,
+                    min:"{{.PInfo.HospitalDate}}",
+                    max: nowDateObj.date,
                     done: function(value, date, endDate) {
                         $self.data("date",value)
                     }
@@ -2193,7 +2200,7 @@
                         $self=$(this);
                 laydate.render({
                     elem: this,
-                    type: 'time',
+                    type: 'time',btns: ['confirm'],
                     format: 'HH:mm',
                     value: dateV,
                     done: function(value, date, endDate) {

@@ -43,7 +43,7 @@ func (c AccountManageController) Manage(w *fit.Response, r *fit.Request, p fit.P
 			c.Data["Users"] = users
 		}
 
-		_ = c.LoadViewSafely(w, r, "pc/v_account_manage_create.html", "pc/header_side.html", "pc/header_top.html")
+		_ = c.LoadViewSafely(w, r, "pc/v_account_manage_create.html")
 	} else {
 		fmt.Fprintln(w, "服务器有点繁忙！")
 	}
@@ -79,7 +79,7 @@ func (c AccountManageController) List(w *fit.Response, r *fit.Request, p fit.Par
 			c.Data["Users"] = users
 		}
 
-		_ = c.LoadViewSafely(w, r, "pc/v_account_manage_update.html", "pc/header_side.html", "pc/header_top.html")
+		_ = c.LoadViewSafely(w, r, "pc/v_account_manage_update.html")
 	} else {
 		fmt.Fprintln(w, "服务器有点繁忙！")
 	}

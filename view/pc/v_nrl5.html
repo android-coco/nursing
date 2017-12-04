@@ -180,7 +180,7 @@
                         <tr class="tr6-2">
                             <td>
                                 <div class="cont-warp">
-                                    <p>阳性*</p>
+                                    <p>阳性</p>
                                 </div>
                             </td>
                         </tr>
@@ -232,13 +232,13 @@
                         </tr>
                         <tr class="tr9">
                             <td colspan="2">
-                                <div class="cont-warp">皮肤温度（°C）</div>
+                                <div class="cont-warp">皮肤温度</div>
                             </td>
                         </tr>
 
                         <tr class="tr10-1">
                             <td rowspan="2">
-                                <div class="cont-warp">主观麻痹感</div>
+                                <div class="cont-warp">主观麻痹感*</div>
                             </td>
                             <td>
                                 <div class="cont-warp">
@@ -283,7 +283,7 @@
                         <tr class="tr13-3">
                             <td>
                                 <div class="cont-warp type2">
-                                    <p>3、采取相应护 理措施</p>
+                                    <p>3、采取护理措施</p>
                                 </div>
                             </td>
                         </tr>
@@ -3283,8 +3283,9 @@
 
         function setDataDateTime(data,$el){
             var dateStr = $el.parents(".item").find(".time").find(".td-date-input").val()
+
             if(dateStr){
-                data.datetime = dateStr + " 00:00:00"
+                data.datetime = dateStr + " "+ getNowTime()
             }
         }
 
@@ -3473,6 +3474,7 @@
 
                     $(".pageSum").text(parseInt($(".pageSum").text()) - 1)
                     $(".pageNum").val(parseInt($(".pageSum").text()))
+                    $("#tab-list2").html("")
                 }
             }
         })
@@ -3568,6 +3570,8 @@
                 elem: '#date1', //指定元素
                 showBottom: false,
                 value: sdate,
+                min:"{{.PInfo.HospitalDate}}",
+                max: nowDateObj.date,
                 done: function (value, date, endDate) {
 
                     var a = new Date(value);
@@ -3580,6 +3584,8 @@
                 elem: '#date2', //指定元素
                 showBottom: false,
                 value: edate,
+                min:"{{.PInfo.HospitalDate}}",
+                max: nowDateObj.date,
                 done: function (value, date, endDate) {
 
                     var a = new Date(value);
@@ -3691,6 +3697,8 @@
                             $self=$(this);
                     laydate.render({
                         elem: this,
+                        min:"{{.PInfo.HospitalDate}}",
+                        max: nowDateObj.date,
                         showBottom: false,
                         value: dateV,
                         done: function(value, date, endDate) {

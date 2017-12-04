@@ -22,7 +22,7 @@
                             </p>
                             <div class="input-bar">
                                 <label class="input-tit" for="event-name">事件名称:</label>
-                                <input type="text" placeholder="长度不超过10个字符" id="event-name">
+                                <input type="text" placeholder="长度不超过10个字符" id="event-name" maxlength="10">
                             </div>
                             <div class="input-bar  time-bar">
                                 <label class="input-tit">提醒时间:</label>
@@ -41,12 +41,12 @@
                                 </div>
                                 <div class="radius-box">
                                     <input type="radio" id="today1" value="4" name="tx-class">
-                                    <label for="today">震动+提醒</label>
+                                    <label for="today">响铃+震动</label>
                                 </div>
                             </div>
                             <div class="input-bar">
                                 <label class="input-tit" for="event-msg">描述:</label>
-                                <textarea id="event-msg" placeholder="可描述具体内容（可不填）"></textarea>
+                                <textarea id="event-msg" placeholder="可描述具体内容（可不填,最多30个字）" maxlength="30"></textarea>
                             </div>
                             <div class="input-bar">
                                 <label class="input-tit"></label>
@@ -298,9 +298,10 @@
                 warn_time: date + " " + time,
                 warn_type: warn_type
             }, function (json, status) {
-                // console.log(json, status);
+                //console.log(json, status);
                 if (json.result == 0) {
                     alert(json.errmsg)
+                    location.reload();
                 } else {
                     alert(json.errmsg)
                 }
@@ -313,15 +314,16 @@
                 warn_time: date + " " + time,
                 warn_type: warn_type
             }, function (json, status) {
-                // console.log(json, status);
+                //console.log(json, status);
                 if (json.result == 0) {
                     alert(json.errmsg)
+                    location.reload();
                 } else {
                     alert(json.errmsg)
                 }
             }, 'json');
         }
-        location.reload();
+
     });
     //修改
     $('body').on('click', '.modify', function () {

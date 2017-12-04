@@ -23,7 +23,7 @@ func (c PCWarnController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 		warns := model.WarnAll(strconv.Itoa(userinfo.DepartmentID))
 		tcDetails := make([]WarnDatas, len(warns))
 		for i := range warns {
-			if utils.CompareTimeNow(warns[i].WarnTime) {
+			if utils.CompareTimeNow(warns[i].WarnTime+":00") {
 				tcDetails[i].Type = "2"
 			} else {
 				tcDetails[i].Type = "1"

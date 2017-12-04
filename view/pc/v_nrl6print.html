@@ -1,21 +1,42 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>深圳万丰医院压疮风险因素评估表（Braden评分）</title>
     <style type="text/css">
         <!--
         -->
-        p{
-            margin:4px 0;
+        .bagw{
+            height: 1540px;
+            width: 1064px;
         }
-        .STYLE2 {font-size: medium}
-        .STYLE3 {font-size: medium; font-weight: bold; }
-        .STYLE4 {font-size: large; }
-        .STYLE5 {font-size: x-large; font-weight: bold; }
+        p {
+            margin: 4px 0;
+        }
+
+        .STYLE2 {
+            font-size: medium
+        }
+
+        .STYLE3 {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .STYLE4 {
+            font-size: 18px;
+        }
+
+        .STYLE5 {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
         .kg {
             padding-top: 180px;
         }
+
         .icon {
             background-image: url(/static/dist/images/admin_pc/icon47.png);
             background-repeat: no-repeat;
@@ -27,13 +48,13 @@
     <script src="/static/dist/js/lib/jquery.qrcode.min.js"></script>
     <script type="text/javascript">
         function Str(str1, str2) {
-           var x = str1.split(",")
+            var x = str1.split(",")
             var isOk = false;
-            for (var i=0;i<x.length;i++){
-               if(x[i] == str2){
-                   isOk = true;
-                   break;
-               }
+            for (var i = 0; i < x.length; i++) {
+                if (x[i] == str2) {
+                    isOk = true;
+                    break;
+                }
             }
             return isOk;
         }
@@ -41,22 +62,22 @@
         $(function () {
             var page = {{.PageNum}}//多少页
             var datas = {{.NRLList}}//数据
-            loadData(page, datas);
+            var pgeDataNum = {{.PageDataNum}}//每页多少数据
+                    loadData(page, datas, pgeDataNum);
         });
 
-        function loadData(page, datas) {
+        function loadData(page, datas, pgeDataNum) {
             var len = datas.length;
             var html = "";
             console.log(page, datas)
             if (len > 0) {
                 for (var i = 0; i < page; i++) {
-                    html+="<div>\n" +
+                    html += "<div class=\"bagw\"><div>\n" +
                             "  <div>\n" +
                             "    <p align=\"center\" class=\"STYLE5\">深圳万丰医院压疮风险因素评估表（Braden评分）</p>\n" +
                             "  </div>\n" +
                             "</div>\n" +
-                            "<div>\n" +
-                            "  <div><p>\n" +
+                            "<p>\n" +
                             "      <label><span class=\"STYLE4\">床号：</span></label>\n" +
                             "      <span class=\"STYLE4\">\n" +
                             "     {{.PInfo.BCQ04}}\n" +
@@ -71,7 +92,7 @@
                             "      <label>&nbsp; &nbsp; &nbsp;诊断：</label>\n" +
                             "      {{.PInfo.VAO15}}</span></p>";
 
-                    html+="<table width=\"1043\" border=\"1\"  cellspacing=\"0\" bordercolor=\"#666666\">\n" +
+                    html += "<table width=\"1064\" border=\"1\"  cellspacing=\"0\" bordercolor=\"#666666\">\n" +
                             "      <tr>\n" +
                             "        <td width=\"132\" rowspan=\"2\"><div class=\"STYLE4\">\n" +
                             "          <div align=\"center\">项目</div>\n" +
@@ -88,20 +109,20 @@
                             "      </tr>\n" +
                             "      \n" +
                             "      <tr>\n" +
-                            "        <td height=\"37\"><div align=\"center\"><span class=\"STYLE4\">"+ ((datas[i * 4 + 0]||"")&&(datas[i * 4 + 0].DateStr || " ")) +"</span></div></td>\n" +
-                            "        <td><div align=\"center\"><span class=\"STYLE4\">"+ ((datas[i * 4 + 1]||"")&&(datas[i * 4 + 1].DateStr || " ")) +"</span></div></td>\n" +
-                            "        <td><div align=\"center\"><span class=\"STYLE4\">"+ ((datas[i * 4 + 2]||"")&&(datas[i * 4 + 2].DateStr || " ")) +"</span></div></td>\n" +
-                            "        <td><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\">"+ ((datas[i * 4 + 3]||"")&&(datas[i * 4 + 3].DateStr || " ")) +"</span></div></td>\n" +
+                            "        <td height=\"37\"><div align=\"center\"><span class=\"STYLE4\">" + ((datas[i * pgeDataNum + 0] || "") && (datas[i * pgeDataNum + 0].DateStr || " ")) + "</span></div></td>\n" +
+                            "        <td><div align=\"center\"><span class=\"STYLE4\">" + ((datas[i * pgeDataNum + 1] || "") && (datas[i * pgeDataNum + 1].DateStr || " ")) + "</span></div></td>\n" +
+                            "        <td><div align=\"center\"><span class=\"STYLE4\">" + ((datas[i * pgeDataNum + 2] || "") && (datas[i * pgeDataNum + 2].DateStr || " ")) + "</span></div></td>\n" +
+                            "        <td><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\">" + ((datas[i * pgeDataNum + 3] || "") && (datas[i * pgeDataNum + 3].DateStr || " ")) + "</span></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"40\" rowspan=\"4\"><span class=\"STYLE4\">感觉知觉程度</span></td>\n" +
                             "        <td height=\"40\"><span class=\"STYLE4\">完全受限，不能感知疼痛刺激或完全无法表达</span></td>\n" +
                             "        <td height=\"40\"><div align=\"center\" class=\"STYLE4\">1</div></td>\n" +
-                            "        <td width=\"109\" height=\"40\" rowspan=\"4\"><div align=\"center\">"+ ((datas[i * 4+0]||"")&&(datas[i * 4+0].NRL01 || " ")) +"<span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span></div></td>\n" +
-                            "        <td width=\"111\" height=\"40\" rowspan=\"4\"><div align=\"center\">"+ ((datas[i * 4+1]||"")&&(datas[i * 4+1].NRL01 || " ")) +"<span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span></div></td>\n" +
-                            "        <td width=\"103\" height=\"40\" rowspan=\"4\"><div align=\"center\">"+ ((datas[i * 4+2]||"")&&(datas[i * 4+2].NRL01 || " ")) +
+                            "        <td width=\"109\" height=\"40\" rowspan=\"4\"><div align=\"center\">" + ((datas[i * pgeDataNum + 0] || "") && (datas[i * pgeDataNum + 0].NRL01 || " ")) + "<span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span></div></td>\n" +
+                            "        <td width=\"111\" height=\"40\" rowspan=\"4\"><div align=\"center\">" + ((datas[i * pgeDataNum + 1] || "") && (datas[i * pgeDataNum + 1].NRL01 || " ")) + "<span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span></div></td>\n" +
+                            "        <td width=\"103\" height=\"40\" rowspan=\"4\"><div align=\"center\">" + ((datas[i * pgeDataNum + 2] || "") && (datas[i * pgeDataNum + 2].NRL01 || " ")) +
                             "        <span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span></div></td>\n" +
-                            "        <td width=\"103\" height=\"40\" rowspan=\"4\"><div align=\"center\">"+ ((datas[i * 4+3]||"")&&(datas[i * 4+3].NRL01 || " ")) +"</div></td>\n" +
+                            "        <td width=\"103\" height=\"40\" rowspan=\"4\"><div align=\"center\">" + ((datas[i * pgeDataNum + 3] || "") && (datas[i * pgeDataNum + 3].NRL01 || " ")) + "</div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"40\"><span class=\"STYLE4\">极度受限，只能通过呻吟表达不舒服或身体1/2以上丧失感觉</span></td>\n" +
@@ -119,11 +140,11 @@
                             "        <td height=\"40\" rowspan=\"4\"><span class=\"STYLE4\">潮湿情况</span></td>\n" +
                             "        <td height=\"40\"><span class=\"STYLE4\">持久潮湿，大/小便失禁，每次翻身床单都是湿的</span></td>\n" +
                             "        <td height=\"40\"><div align=\"center\" class=\"STYLE4\">1</div></td>\n" +
-                            "        <td width=\"109\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>"+ ((datas[i * 4+0]||"")&&(datas[i * 4+0].NRL02 || " ")) +"</div>\n" +
+                            "        <td width=\"109\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 0] || "") && (datas[i * pgeDataNum + 0].NRL02 || " ")) + "</div>\n" +
                             "        </td>\n" +
-                            "        <td width=\"111\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>"+ ((datas[i * 4+1]||"")&&(datas[i * 4+1].NRL02 || " ")) +"</div></td>\n" +
-                            "        <td width=\"103\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>"+ ((datas[i * 4+2]||"")&&(datas[i * 4+2].NRL02 || " ")) +"</div></td>\n" +
-                            "        <td width=\"103\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>"+ ((datas[i * 4+3]||"")&&(datas[i * 4+3].NRL02 || " ")) +"</div></td>\n" +
+                            "        <td width=\"111\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 1] || "") && (datas[i * pgeDataNum + 1].NRL02 || " ")) + "</div></td>\n" +
+                            "        <td width=\"103\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 2] || "") && (datas[i * pgeDataNum + 2].NRL02 || " ")) + "</div></td>\n" +
+                            "        <td width=\"103\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 3] || "") && (datas[i * pgeDataNum + 3].NRL02 || " ")) + "</div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"40\"><span class=\"STYLE4\">非常潮湿，皮肤经常潮湿，床单至少需要每班更换</span></td>\n" +
@@ -141,10 +162,10 @@
                             "        <td height=\"40\" rowspan=\"4\"><span class=\"STYLE4\">活动能力</span></td>\n" +
                             "        <td height=\"40\"><div align=\"center\" class=\"STYLE4\">完全卧床</div></td>\n" +
                             "        <td height=\"40\"><div align=\"center\" class=\"STYLE4\">1</div></td>\n" +
-                            "        <td width=\"109\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>"+ ((datas[i * 4+0]||"")&&(datas[i * 4+0].NRL03 || " ")) +"</div></td>\n" +
-                            "        <td width=\"111\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>"+ ((datas[i * 4+1]||"")&&(datas[i * 4+1].NRL03 || " ")) +"</div></td>\n" +
-                            "        <td width=\"103\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>"+ ((datas[i * 4+2]||"")&&(datas[i * 4+2].NRL03 || " ")) +"</div></td>\n" +
-                            "        <td width=\"103\" height=\"40\" rowspan=\"4\"><div align=\"center\">"+ ((datas[i * 4+3]||"")&&(datas[i * 4+3].NRL03 || " ")) +"</div></td>\n" +
+                            "        <td width=\"109\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 0] || "") && (datas[i * pgeDataNum + 0].NRL03 || " ")) + "</div></td>\n" +
+                            "        <td width=\"111\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 1] || "") && (datas[i * pgeDataNum + 1].NRL03 || " ")) + "</div></td>\n" +
+                            "        <td width=\"103\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 2] || "") && (datas[i * pgeDataNum + 2].NRL03 || " ")) + "</div></td>\n" +
+                            "        <td width=\"103\" height=\"40\" rowspan=\"4\"><div align=\"center\">" + ((datas[i * pgeDataNum + 3] || "") && (datas[i * pgeDataNum + 3].NRL03 || " ")) + "</div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"40\"><div align=\"center\" class=\"STYLE4\">可坐轮椅</div></td>\n" +
@@ -162,10 +183,10 @@
                             "        <td height=\"40\" rowspan=\"4\"><span class=\"STYLE4\">体位变换能力</span></td>\n" +
                             "        <td height=\"40\"><div align=\"center\" class=\"STYLE4\">完全受限</div></td>\n" +
                             "        <td height=\"40\"><div align=\"center\" class=\"STYLE4\">1</div></td>\n" +
-                            "        <td width=\"109\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>"+ ((datas[i * 4+0]||"")&&(datas[i * 4+0].NRL04 || " ")) +"</div></td>\n" +
-                            "        <td width=\"111\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>"+ ((datas[i * 4+1]||"")&&(datas[i * 4+1].NRL04 || " ")) +"</div></td>\n" +
-                            "        <td width=\"103\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>"+ ((datas[i * 4+2]||"")&&(datas[i * 4+2].NRL04 || " ")) +"</div></td>\n" +
-                            "        <td width=\"103\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>"+ ((datas[i * 4+3]||"")&&(datas[i * 4+3].NRL04 || " ")) +"</div></td>\n" +
+                            "        <td width=\"109\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 0] || "") && (datas[i * pgeDataNum + 0].NRL04 || " ")) + "</div></td>\n" +
+                            "        <td width=\"111\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 1] || "") && (datas[i * pgeDataNum + 1].NRL04 || " ")) + "</div></td>\n" +
+                            "        <td width=\"103\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 2] || "") && (datas[i * pgeDataNum + 2].NRL04 || " ")) + "</div></td>\n" +
+                            "        <td width=\"103\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 3] || "") && (datas[i * pgeDataNum + 3].NRL04 || " ")) + "</div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"40\"><div align=\"center\" class=\"STYLE4\">偶尔可有身体或四肢的轻微活动</div></td>\n" +
@@ -183,10 +204,10 @@
                             "        <td height=\"40\" rowspan=\"4\"><span class=\"STYLE4\">营养进食状况</span></td>\n" +
                             "        <td height=\"40\"><span class=\"STYLE4\">很差：禁食、单纯输液超过5天、进食量小于常规的1/3</span></td>\n" +
                             "        <td height=\"40\"><div align=\"center\" class=\"STYLE4\">1</div></td>\n" +
-                            "        <td width=\"109\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>"+ ((datas[i * 4+0]||"")&&(datas[i * 4+0].NRL05 || " ")) +"</div></td>\n" +
-                            "        <td width=\"111\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>"+ ((datas[i * 4+1]||"")&&(datas[i * 4+1].NRL05 || " ")) +"</div></td>\n" +
-                            "        <td width=\"103\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>"+ ((datas[i * 4+2]||"")&&(datas[i * 4+2].NRL05 || " ")) +"</div></td>\n" +
-                            "        <td width=\"103\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>"+ ((datas[i * 4+3]||"")&&(datas[i * 4+3].NRL05 || " ")) +"</div></td>\n" +
+                            "        <td width=\"109\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 0] || "") && (datas[i * pgeDataNum + 0].NRL05 || " ")) + "</div></td>\n" +
+                            "        <td width=\"111\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 1] || "") && (datas[i * pgeDataNum + 1].NRL05 || " ")) + "</div></td>\n" +
+                            "        <td width=\"103\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 2] || "") && (datas[i * pgeDataNum + 2].NRL05 || " ")) + "</div></td>\n" +
+                            "        <td width=\"103\" height=\"40\" rowspan=\"4\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 3] || "") && (datas[i * pgeDataNum + 3].NRL05 || " ")) + "</div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"40\"><span class=\"STYLE4\">较差：进食量为常规的1/2，可能存在鼻饲或TPN不足的问题</span></td>\n" +
@@ -204,10 +225,10 @@
                             "        <td height=\"40\" rowspan=\"3\"><span class=\"STYLE4\">摩擦力和剪切力</span></td>\n" +
                             "        <td height=\"40\"><span class=\"STYLE4\">存在问题，经常在床上下滑，翻身完全需要别人帮助</span></td>\n" +
                             "        <td height=\"40\"><div align=\"center\" class=\"STYLE4\">1</div></td>\n" +
-                            "        <td width=\"109\" height=\"40\" rowspan=\"3\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>"+ ((datas[i * 4+0]||"")&&(datas[i * 4+0].NRL06 || " ")) +"</div></td>\n" +
-                            "        <td width=\"111\" height=\"40\" rowspan=\"3\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>"+ ((datas[i * 4+1]||"")&&(datas[i * 4+1].NRL06 || " ")) +"</div></td>\n" +
-                            "        <td width=\"103\" height=\"40\" rowspan=\"3\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>"+ ((datas[i * 4+2]||"")&&(datas[i * 4+2].NRL06 || " ")) +"</div></td>\n" +
-                            "        <td width=\"103\" height=\"40\" rowspan=\"3\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>"+ ((datas[i * 4+3]||"")&&(datas[i * 4+3].NRL06 || " ")) +"</div></td>\n" +
+                            "        <td width=\"109\" height=\"40\" rowspan=\"3\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 0] || "") && (datas[i * pgeDataNum + 0].NRL06 || " ")) + "</div></td>\n" +
+                            "        <td width=\"111\" height=\"40\" rowspan=\"3\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 1] || "") && (datas[i * pgeDataNum + 1].NRL06 || " ")) + "</div></td>\n" +
+                            "        <td width=\"103\" height=\"40\" rowspan=\"3\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 2] || "") && (datas[i * pgeDataNum + 2].NRL06 || " ")) + "</div></td>\n" +
+                            "        <td width=\"103\" height=\"40\" rowspan=\"3\"><div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 3] || "") && (datas[i * pgeDataNum + 3].NRL06 || " ")) + "</div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"40\"><span class=\"STYLE4\">有潜在问题，可能会下滑，翻身需要别人帮助</span></td>\n" +
@@ -220,24 +241,24 @@
                             "      \n" +
                             "      <tr>\n" +
                             "        <td height=\"30\" colspan=\"3\"><div align=\"center\" class=\"STYLE4\">合计分数</div></td>\n" +
-                            "        <td height=\"30\"><div align=\"center\"><span class=\"STYLE4\"></span>"+ ((datas[i * 4+0]||"")&&(datas[i * 4+0].Score || " ")) +"</div></td>\n" +
-                            "        <td height=\"30\"><div align=\"center\"><span class=\"STYLE4\"></span>"+ ((datas[i * 4+1]||"")&&(datas[i * 4+1].Score || " ")) +"</div></td>\n" +
-                            "        <td height=\"30\"><div align=\"center\"><span class=\"STYLE4\"></span>"+ ((datas[i * 4+2]||"")&&(datas[i * 4+2].Score || " ")) +"</div></td>\n" +
-                            "        <td height=\"30\"><div align=\"center\"><span class=\"STYLE4\"></span>"+ ((datas[i * 4+3]||"")&&(datas[i * 4+3].Score || " ")) +"</div></td>\n" +
+                            "        <td height=\"30\"><div align=\"center\"><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 0] || "") && (datas[i * pgeDataNum + 0].Score || " ")) + "</div></td>\n" +
+                            "        <td height=\"30\"><div align=\"center\"><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 1] || "") && (datas[i * pgeDataNum + 1].Score || " ")) + "</div></td>\n" +
+                            "        <td height=\"30\"><div align=\"center\"><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 2] || "") && (datas[i * pgeDataNum + 2].Score || " ")) + "</div></td>\n" +
+                            "        <td height=\"30\"><div align=\"center\"><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 3] || "") && (datas[i * pgeDataNum + 3].Score || " ")) + "</div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"30\" colspan=\"3\"><div align=\"center\" class=\"STYLE4\">责任护士签名</div></td>\n" +
-                            "        <td height=\"30\"><div align=\"center\">"+ ((datas[i * 4+0]||"")&&(datas[i * 4+0].BCE03A || " ")) +"</div></td>\n" +
-                            "        <td height=\"30\"><div align=\"center\"><span class=\"STYLE4\"></span>"+ ((datas[i * 4+1]||"")&&(datas[i * 4+1].BCE03A || " ")) +"</div></td>\n" +
-                            "        <td height=\"30\"><div align=\"center\"><span class=\"STYLE4\"></span>"+ ((datas[i * 4+2]||"")&&(datas[i * 4+2].BCE03A || " ")) +"</div></td>\n" +
-                            "        <td height=\"30\"><div align=\"center\"><span class=\"STYLE4\"></span>"+ ((datas[i * 4+3]||"")&&(datas[i * 4+3].BCE03A || " ")) +"</div></td>\n" +
+                            "        <td height=\"30\"><div align=\"center\">" + ((datas[i * pgeDataNum + 0] || "") && (datas[i * pgeDataNum + 0].BCE03A || " ")) + "</div></td>\n" +
+                            "        <td height=\"30\"><div align=\"center\"><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 1] || "") && (datas[i * pgeDataNum + 1].BCE03A || " ")) + "</div></td>\n" +
+                            "        <td height=\"30\"><div align=\"center\"><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 2] || "") && (datas[i * pgeDataNum + 2].BCE03A || " ")) + "</div></td>\n" +
+                            "        <td height=\"30\"><div align=\"center\"><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 3] || "") && (datas[i * pgeDataNum + 3].BCE03A || " ")) + "</div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"30\" colspan=\"3\"><div align=\"center\" class=\"STYLE4\">审核护士签名</div>          <div align=\"center\" class=\"STYLE4\"></div></td>\n" +
-                            "        <td width=\"109\" height=\"30\"><div align=\"center\"><span class=\"STYLE4\"></span>"+ ((datas[i * 4+0]||"")&&(datas[i * 4+0].NRL15B || " ")) +"</div></td>\n" +
-                            "        <td width=\"111\" height=\"30\"><div align=\"center\"><span class=\"STYLE4\"></span>"+ ((datas[i * 4+1]||"")&&(datas[i * 4+1].NRL15B || " ")) +"</div></td>\n" +
-                            "        <td width=\"103\" height=\"30\"><div align=\"center\"><span class=\"STYLE4\"></span>"+ ((datas[i * 4+2]||"")&&(datas[i * 4+2].NRL15B || " ")) +"</div></td>\n" +
-                            "        <td width=\"103\" height=\"30\"><div align=\"center\"><span class=\"STYLE4\"></span>"+ ((datas[i * 4+3]||"")&&(datas[i * 4+3].NRL15B || " ")) +"</div></td>\n" +
+                            "        <td width=\"109\" height=\"30\"><div align=\"center\"><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 0] || "") && (datas[i * pgeDataNum + 0].NRL15B || " ")) + "</div></td>\n" +
+                            "        <td width=\"111\" height=\"30\"><div align=\"center\"><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 1] || "") && (datas[i * pgeDataNum + 1].NRL15B || " ")) + "</div></td>\n" +
+                            "        <td width=\"103\" height=\"30\"><div align=\"center\"><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 2] || "") && (datas[i * pgeDataNum + 2].NRL15B || " ")) + "</div></td>\n" +
+                            "        <td width=\"103\" height=\"30\"><div align=\"center\"><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 3] || "") && (datas[i * pgeDataNum + 3].NRL15B || " ")) + "</div></td>\n" +
                             "      </tr>\n" +
                             "    </table>\n" +
                             "    <p class=\"STYLE3\">该表使用说明：</p>\n" +
@@ -245,11 +266,11 @@
                             "    <p class=\"STYLE2\">禁、昏迷、长期卧床等“压疮高风险患者”，定期进行压疮风险因素评估；最高23分，15-18分为低风险，13-14分为中风险，10-12分为高风险， &lt;9分为非常风险</p>\n" +
                             "    <p class=\"STYLE2\">2. 评估周期：</p>\n" +
                             "    <p class=\"STYLE2\">①所有病人都需要评估；②入院时立即评估，当评分13~18分时，此后每48h评估一次，为期1星期；③长期护理的患者应在第一个4周内每周评估一次，之后每月评估一次；④当病</p>\n" +
-                            "    <p class=\"STYLE2\">人情况有变化及时评估，然后每星期再进行评估；⑤≤12分每天评估，18分作为预测有压疮发生风险的诊断价值，评分≤18分应采取预防压疮的措施</p>\n" +
-                            "    <p align=\"center\" class=\"STYLE5\">深圳万丰医院预防压疮的护理措施</p>";
+                            "    <p class=\"STYLE2\">人情况有变化及时评估，然后每星期再进行评估；⑤≤12分每天评估，18分作为预测有压疮发生风险的诊断价值，评分≤18分应采取预防压疮的措施</p></div>\n" +
+                            "<div class=\"bagw\"><p align=\"center\" class=\"STYLE5\">深圳万丰医院预防压疮的护理措施</p>";
 
 
-                    html+=" <table width=\"1047\" border=\"1\"  cellspacing=\"0\" bordercolor=\"#666666\">\n" +
+                    html += " <table width=\"1064\" border=\"1\"  cellspacing=\"0\" bordercolor=\"#666666\">\n" +
                             "      <tr>\n" +
                             "        <td width=\"139\" rowspan=\"2\"><div class=\"STYLE4\">\n" +
                             "            <div align=\"center\">项目</div>\n" +
@@ -263,316 +284,314 @@
                             "            <div align=\"center\"><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span><span class=\"STYLE4\"></span></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
-                            "        <td height=\"23\"><div align=\"center\"><span class=\"STYLE4\">"+ ((datas[i * 4+0]||"")&&(datas[i * 4+0].DateStr || " ")) +"</span></div></td>\n" +
-                            "        <td><div align=\"center\"><span class=\"STYLE4\">"+ ((datas[i * 4+1]||"")&&(datas[i * 4+1].DateStr || " ")) +"</span></div></td>\n" +
-                            "        <td><div align=\"center\"><span class=\"STYLE4\">"+ ((datas[i * 4+2]||"")&&(datas[i * 4+2].DateStr || " ")) +"</span></div></td>\n" +
-                            "        <td><div align=\"center\"><span class=\"STYLE4\">"+ ((datas[i * 4+3]||"")&&(datas[i * 4+3].DateStr || " ")) +"</span></div></td>\n" +
+                            "        <td height=\"23\"><div align=\"center\"><span class=\"STYLE4\">" + ((datas[i * pgeDataNum + 0] || "") && (datas[i * pgeDataNum + 0].DateStr || " ")) + "</span></div></td>\n" +
+                            "        <td><div align=\"center\"><span class=\"STYLE4\">" + ((datas[i * pgeDataNum + 1] || "") && (datas[i * pgeDataNum + 1].DateStr || " ")) + "</span></div></td>\n" +
+                            "        <td><div align=\"center\"><span class=\"STYLE4\">" + ((datas[i * pgeDataNum + 2] || "") && (datas[i * pgeDataNum + 2].DateStr || " ")) + "</span></div></td>\n" +
+                            "        <td><div align=\"center\"><span class=\"STYLE4\">" + ((datas[i * pgeDataNum + 3] || "") && (datas[i * pgeDataNum + 3].DateStr || " ")) + "</span></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\" rowspan=\"6\">(15 ~ 18分)低度风险</td>\n" +
                             "        <td height=\"29\">经常翻身</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL07,1) && "icon")+" ><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL07,1) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL07,1) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL07,1) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL07, 1) && "icon") + " ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL07, 1) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL07, 1) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL07, 1) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\">最大限度活动</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL07,2) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL07,2) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL07,2) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL07,2) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL07, 2) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL07, 2) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL07, 2) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL07, 2) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\">如果是卧床或依靠轮椅，要使用床垫或椅垫等减压设备</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL07,3) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL07,3) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL07,3) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL07,3) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL07, 3) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL07, 3) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL07, 3) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL07, 3) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\">保护足跟、潮湿的管理、营养的管理、摩擦力和剪切力的管理</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL07,4) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL07,4) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL07,4) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL07,4) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL07, 4) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL07, 4) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL07, 4) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL07, 4) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\">每周或病情变化时重新评估，并记录皮肤状况</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL07,5) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL07,5) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL07,5) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL07,5) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL07, 5) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL07, 5) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL07, 5) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL07, 5) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\">如果有其他的危险因素存在，如（高龄、发热、饮食量少影响蛋白质的摄入、舒张压低于60 mmHg、血液动力学不稳定）可列入下一风险水平</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL07,6) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL07,6) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL07,6) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL07,6) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL07, 6) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL07, 6) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL07, 6) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL07, 6) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\" rowspan=\"7\">(13 ~ 14分)中度风险</td>\n" +
                             "        <td height=\"29\">使用翻身计划表，Q2H翻身</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL08,1) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL08,1) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL08,1) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL08,1) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL08, 1) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL08, 1) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL08, 1) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL08, 1) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\">使用海绵垫，保证30度侧卧</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL08,2) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL08,2) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL08,2) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL08,2) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL08, 2) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL08, 2) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL08, 2) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL08, 2) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\">使用床垫或椅垫等减压设备</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL08,3) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL08,3) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL08,3) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL08,3) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL08, 3) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL08, 3) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL08, 3) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL08, 3) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\">最大限度活动</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL08,4) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL08,4) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL08,4) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL08,4) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL08, 4) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL08, 4) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL08, 4) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL08, 4) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\">保护足跟、潮湿的管理、营养的管理、摩擦力和剪 切力的管理</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL08,5) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL08,5) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL08,5) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL08,5) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL08, 5) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL08, 5) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL08, 5) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL08, 5) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\">每周或病情变化时重新评估，并记录皮肤状况</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL08,6) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL08,6) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL08,6) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL08,6) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL08, 6) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL08, 6) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL08, 6) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL08, 6) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\">如果有其他的危险因素存在可列入下一风险水平</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL08,7) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL08,7) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL08,7) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL08,7) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL08, 7) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL08, 7) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL08, 7) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL08, 7) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\" rowspan=\"8\">(10 ~ 12分)高度风险</td>\n" +
                             "        <td height=\"29\"><div align=\"center\" class=\"STYLE4\">\n" +
                             "          <div align=\"left\">保证翻身频率，至少Q2H翻身</div>\n" +
                             "        </div></td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL09,1) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL09,1) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL09,1) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL09,1) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL09, 1) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL09, 1) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL09, 1) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL09, 1) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\"><div align=\"center\" class=\"STYLE4\">\n" +
                             "          <div align=\"left\">增加小幅度的移位</div>\n" +
                             "        </div></td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL09,2) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL09,2) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL09,2) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL09,2) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL09, 2) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL09, 2) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL09, 2) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL09, 2) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\"><div align=\"left\">使用海绵垫，保证30度侧卧</div></td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL09,3) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL09,3) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL09,3) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL09,3) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL09, 3) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL09, 3) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL09, 3) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL09, 3) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\"><div align=\"left\">最大限度活动</div></td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL09,4) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL09,4) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL09,4) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL09,4) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL09, 4) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL09, 4) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL09, 4) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL09, 4) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\"><div align=\"center\" class=\"STYLE4\">\n" +
                             "          <div align=\"left\">保护足跟、潮湿的管理、营养的管理、摩擦力和剪 切力的管理</div>\n" +
                             "        </div></td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL09,5) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL09,5) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL09,5) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL09,5) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL09, 5) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL09, 5) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL09, 5) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL09, 5) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\">每天观察并记录皮肤状况、预防措施</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL09,6) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL09,6) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL09,6) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL09,6) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL09, 6) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL09, 6) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL09, 6) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL09, 6) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\">每天或病情变化时重新评估</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL09,7) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL09,7) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL09,7) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL09,7) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL09, 7) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL09, 7) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL09, 7) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL09, 7) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\"><div align=\"center\" class=\"STYLE4\">\n" +
                             "          <div align=\"left\">填写高风险压疮申请表，上报护理部</div>\n" +
                             "        </div></td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL09,8) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL09,8) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL09,8) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL09,8) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL09, 8) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL09, 8) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL09, 8) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL09, 8) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\" rowspan=\"6\">( &lt; 9分)非常风险</td>\n" +
                             "        <td height=\"29\">采取以上所有措施</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL10,1) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL10,1) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL10,1) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL10,1) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL10, 1) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL10, 1) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL10, 1) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL10, 1) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\">使用体表压力缓释设备如气垫床</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL10,2) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL10,2) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL10,2) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL10,2) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL10, 2) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL10, 2) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL10, 2) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL10, 2) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\">每班观察并记录皮肤状况、预防措施，床边交接皮肤情况</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL10,3) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL10,3) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL10,3) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL10,3) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL10, 3) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL10, 3) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL10, 3) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL10, 3) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\">每天评估记录评分值</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL10,4) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL10,4) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL10,4) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL10,4) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL10, 4) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL10, 4) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL10, 4) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL10, 4) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\">气垫床不能代替翻身</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL10,5) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL10,5) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL10,5) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL10,5) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL10, 5) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL10, 5) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL10, 5) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL10, 5) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\">填写高风险压疮申报表，上报护理部</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL10,6) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL10,6) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL10,6) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL10,6) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL10, 6) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL10, 6) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL10, 6) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL10, 6) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\" rowspan=\"3\">潮湿管理</td>\n" +
                             "        <td height=\"29\">使用隔绝潮湿和保护皮肤的护理用品</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL11,1) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL11,1) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL11,1) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL11,1) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL11, 1) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL11, 1) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL11, 1) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL11, 1) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\">使用吸收垫或干燥垫控制潮湿</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL11,2) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL11,2) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL11,2) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL11,2) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL11, 2) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL11, 2) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL11, 2) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL11, 2) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\">如果可能找出发生潮湿的原因并避免        </td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL11,3) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL11,3) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL11,3) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL11,3) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL11, 3) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL11, 3) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL11, 3) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL11, 3) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      \n" +
                             "      <tr>\n" +
                             "        <td height=\"29\" rowspan=\"5\">营养管理</td>\n" +
                             "        <td height=\"29\">增加蛋白质的摄入</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL12,1) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL12,1) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL12,1) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL12,1) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL12, 1) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL12, 1) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL12, 1) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL12, 1) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\">增加热量的摄入</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL12,2) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL12,2) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL12,2) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL12,2) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL12, 2) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL12, 2) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL12, 2) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL12, 2) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\">补充多种维生素，必须包括VA、C、E</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL12,3) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL12,3) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL12,3) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL12,3) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL12, 3) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL12, 3) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL12, 3) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL12, 3) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\">以上措施需迅速执行，以缓解营养缺乏</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL12,4) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL12,4) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL12,4) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL12,4) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL12, 4) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL12, 4) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL12, 4) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL12, 4) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\"><div align=\"center\" class=\"STYLE4\">\n" +
                             "          <div align=\"left\">咨询营养师</div>\n" +
                             "        </div></td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL12,5) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL12,5) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL12,5) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL12,5) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL12, 5) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL12, 5) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL12, 5) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL12, 5) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\" rowspan=\"3\">摩擦力和剪切力的预防</td>\n" +
                             "        <td height=\"29\">床头太高不得超过30度（疾病允许的情况下）</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL13,1) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL13,1) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL13,1) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL13,1) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL13, 1) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL13, 1) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL13, 1) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL13, 1) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\">必要时使用牵吊装置</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL13,2) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL13,2) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL13,2) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL13,2) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL13, 2) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL13, 2) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL13, 2) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL13, 2) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\">使用过床单移动患者</td>\n" +
-                            "        <td width=\"106\" height=\"29\" class="+(Str(datas[i * 4 + 0].NRL13,3) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"112\" height=\"29\" class="+(Str(datas[i * 4 + 1].NRL13,3) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"105\" height=\"29\" class="+(Str(datas[i * 4 + 2].NRL13,3) && "icon")+"><div align=\"center\"></div></td>\n" +
-                            "        <td width=\"104\" height=\"29\"class="+(Str(datas[i * 4 + 3].NRL13,3) && "icon")+" ><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL13, 3) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL13, 3) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL13, 3) && "icon") + "><div align=\"center\"></div></td>\n" +
+                            "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL13, 3) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"27\" colspan=\"6\">其他护理注意事项： 不得按摩骨突压红的部位、不得使用气圈类装置、保持足够的水分摄入、避免皮肤干燥</td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"36\" colspan=\"2\"><div align=\"center\" class=\"STYLE4\">责任护士签名</div></td>\n" +
-                            "        <td height=\"36\"><div align=\"center\">"+ ((datas[i * 4+0]||"")&&(datas[i * 4+0].BCE03A || " ")) +"</div></td>\n" +
-                            "        <td height=\"36\"><div align=\"center\"><span class=\"STYLE4\"></span>"+ ((datas[i * 4+1]||"")&&(datas[i * 4+1].BCE03A || " ")) +"</div></td>\n" +
-                            "        <td height=\"36\"><div align=\"center\"><span class=\"STYLE4\"></span>"+ ((datas[i * 4+2]||"")&&(datas[i * 4+2].BCE03A || " ")) +"</div></td>\n" +
-                            "        <td height=\"36\"><div align=\"center\"><span class=\"STYLE4\"></span>"+ ((datas[i * 4+3]||"")&&(datas[i * 4+3].BCE03A || " ")) +"</div></td>\n" +
+                            "        <td height=\"36\"><div align=\"center\">" + ((datas[i * pgeDataNum + 0] || "") && (datas[i * pgeDataNum + 0].BCE03A || " ")) + "</div></td>\n" +
+                            "        <td height=\"36\"><div align=\"center\"><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 1] || "") && (datas[i * pgeDataNum + 1].BCE03A || " ")) + "</div></td>\n" +
+                            "        <td height=\"36\"><div align=\"center\"><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 2] || "") && (datas[i * pgeDataNum + 2].BCE03A || " ")) + "</div></td>\n" +
+                            "        <td height=\"36\"><div align=\"center\"><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 3] || "") && (datas[i * pgeDataNum + 3].BCE03A || " ")) + "</div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"36\" colspan=\"2\"><div align=\"center\" class=\"STYLE4\">审核护士签名</div>\n" +
                             "        <div align=\"center\" class=\"STYLE4\"></div></td>\n" +
-                            "        <td width=\"106\" height=\"36\"><div align=\"center\"><span class=\"STYLE4\"></span>"+ ((datas[i * 4+0]||"")&&(datas[i * 4+0].NRL15B || " ")) +"</div></td>\n" +
-                            "        <td width=\"112\" height=\"36\"><div align=\"center\"><span class=\"STYLE4\"></span>"+ ((datas[i * 4+1]||"")&&(datas[i * 4+1].NRL15B || " ")) +"</div></td>\n" +
-                            "        <td width=\"105\" height=\"36\"><div align=\"center\"><span class=\"STYLE4\"></span>"+ ((datas[i * 4+2]||"")&&(datas[i * 4+2].NRL15B || " ")) +"</div></td>\n" +
-                            "        <td width=\"104\" height=\"36\"><div align=\"center\"><span class=\"STYLE4\"></span>"+ ((datas[i * 4+3]||"")&&(datas[i * 4+3].NRL15B || " ")) +"</div></td>\n" +
+                            "        <td width=\"106\" height=\"36\"><div align=\"center\"><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 0] || "") && (datas[i * pgeDataNum + 0].NRL15B || " ")) + "</div></td>\n" +
+                            "        <td width=\"112\" height=\"36\"><div align=\"center\"><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 1] || "") && (datas[i * pgeDataNum + 1].NRL15B || " ")) + "</div></td>\n" +
+                            "        <td width=\"105\" height=\"36\"><div align=\"center\"><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 2] || "") && (datas[i * pgeDataNum + 2].NRL15B || " ")) + "</div></td>\n" +
+                            "        <td width=\"104\" height=\"36\"><div align=\"center\"><span class=\"STYLE4\"></span>" + ((datas[i * pgeDataNum + 3] || "") && (datas[i * pgeDataNum + 3].NRL15B || " ")) + "</div></td>\n" +
                             "      </tr>\n" +
-                            "    </table>\n" +
-                            "  </div>\n" +
-                            "</div>";
+                            "    </table></div>\n";
                 }
                 $('body').html(html)
             }
@@ -581,525 +600,1062 @@
 </head>
 
 <body>
+<div class="bagw">
 <div>
     <div>
         <p align="center" class="STYLE5">深圳万丰医院压疮风险因素评估表（Braden评分）</p>
     </div>
 </div>
-<div>
-    <div>
-        <p>
-            <label>床号：</label>
-        {{.PInfo.BCQ04}}
-            <label>姓名：</label>
-        {{.PInfo.VAA05}}
-            <label>性别：</label>
-        {{.PInfo.Gender}}
-            <label>年龄：</label>
-        {{.PInfo.VAA10}}岁
-            <label>住院号：</label>
-        {{.PInfo.VAA04}} 
-            <label>诊断：</label>
-        {{.PInfo.VAO15}}</p>
-        <table width="1043" border="1"  cellspacing="0" bordercolor="#666666">
-            <tr>
-                <td width="132" rowspan="2"><div class="STYLE4">
-                    <div align="center">项目</div>
-                </div></td>
-                <td width="419" rowspan="2"><div class="STYLE4">
-                    <div align="center">内容</div>
-                </div></td>
-                <td width="36" rowspan="2"><div class="STYLE4">
-                    <div align="center">分值</div>
-                </div></td>
-                <td colspan="4"><div align="center" class="STYLE4">
-                    <div align="center">评估日期</div>
-                </div>          <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span></div></td>
-            </tr>
+<p>
+    <label>床号：</label>
+{{.PInfo.BCQ04}}
+    <label>姓名：</label>
+{{.PInfo.VAA05}}
+    <label>性别：</label>
+{{.PInfo.Gender}}
+    <label>年龄：</label>
+{{.PInfo.VAA10}}岁
+    <label>住院号：</label>
+{{.PInfo.VAA04}} 
+    <label>诊断：</label>
+{{.PInfo.VAO15}}</p>
+<table width="1064" border="1" cellspacing="0" bordercolor="#666666">
+    <tr>
+        <td width="132" rowspan="2">
+            <div class="STYLE4">
+                <div align="center">项目</div>
+            </div>
+        </td>
+        <td width="419" rowspan="2">
+            <div class="STYLE4">
+                <div align="center">内容</div>
+            </div>
+        </td>
+        <td width="36" rowspan="2">
+            <div class="STYLE4">
+                <div align="center">分值</div>
+            </div>
+        </td>
+        <td colspan="4">
+            <div align="center" class="STYLE4">
+                <div align="center">评估日期</div>
+            </div>
+            <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span
+                    class="STYLE4"></span><span class="STYLE4"></span></div>
+        </td>
+    </tr>
 
-            <tr>
-                <td height="37"><div align="center"><span class="STYLE4"></span></div></td>
-                <td><div align="center"><span class="STYLE4"></span></div></td>
-                <td><div align="center"><span class="STYLE4"></span></div></td>
-                <td><div align="center"><span class="STYLE4"></span><span class="STYLE4"></span></div></td>
-            </tr>
-            <tr>
-                <td height="40" rowspan="4"><span class="STYLE4">感觉知觉程度</span></td>
-                <td height="40"><span class="STYLE4">完全受限，不能感知疼痛刺激或完全无法表达</span></td>
-                <td height="40"><div align="center" class="STYLE4">1</div></td>
-                <td width="109" height="40" rowspan="4"><div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span></div></td>
-                <td width="111" height="40" rowspan="4"><div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span></div></td>
-                <td width="103" height="40" rowspan="4"><div align="center">
-                    <span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span></div></td>
-                <td width="103" height="40" rowspan="4"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="40"><span class="STYLE4">极度受限，只能通过呻吟表达不舒服或身体1/2以上丧失感觉</span></td>
-                <td height="40"><div align="center" class="STYLE4">2</div></td>
-            </tr>
-            <tr>
-                <td height="40"><span class="STYLE4">轻度受限，可口头表达但沟通受限，1、2个肢体感觉丧失</span></td>
-                <td height="40"><div align="center" class="STYLE4">3</div></td>
-            </tr>
-            <tr>
-                <td height="40"><span class="STYLE4">正常，险体没有对疼痛或不适的感觉缺失</span></td>
-                <td height="40"><div align="center" class="STYLE4">4</div></td>
-            </tr>
-            <tr>
-                <td height="40" rowspan="4"><span class="STYLE4">潮湿情况</span></td>
-                <td height="40"><span class="STYLE4">持久潮湿，大/小便失禁，每次翻身床单都是湿的</span></td>
-                <td height="40"><div align="center" class="STYLE4">1</div></td>
-                <td width="109" height="40" rowspan="4"><div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span></div>
-                </td>
-                <td width="111" height="40" rowspan="4"><div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span></div></td>
-                <td width="103" height="40" rowspan="4"><div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span></div></td>
-                <td width="103" height="40" rowspan="4"><div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span></div></td>
-            </tr>
-            <tr>
-                <td height="40"><span class="STYLE4">非常潮湿，皮肤经常潮湿，床单至少需要每班更换</span></td>
-                <td height="40"><div align="center" class="STYLE4">2</div></td>
-            </tr>
-            <tr>
-                <td height="40"><span class="STYLE4">偶尔潮湿，皮肤有时会潮湿，床单需每天更换</span></td>
-                <td height="40"><div align="center" class="STYLE4">3</div></td>
-            </tr>
-            <tr>
-                <td height="40"><span class="STYLE4">很少潮湿，通常皮肤是干，只要按常规换床单即可</span></td>
-                <td height="40"><div align="center" class="STYLE4">4</div></td>
-            </tr>
-            <tr>
-                <td height="40" rowspan="4"><span class="STYLE4">活动能力</span></td>
-                <td height="40"><div align="center" class="STYLE4">完全卧床</div></td>
-                <td height="40"><div align="center" class="STYLE4">1</div></td>
-                <td width="109" height="40" rowspan="4"><div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span></div></td>
-                <td width="111" height="40" rowspan="4"><div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span></div></td>
-                <td width="103" height="40" rowspan="4"><div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span></div></td>
-                <td width="103" height="40" rowspan="4"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="40"><div align="center" class="STYLE4">可坐轮椅</div></td>
-                <td height="40"><div align="center" class="STYLE4">2</div></td>
-            </tr>
-            <tr>
-                <td height="40"><div align="center" class="STYLE4">偶尔可下床活动</div></td>
-                <td height="40"><div align="center" class="STYLE4">3</div></td>
-            </tr>
-            <tr>
-                <td height="40"><div align="center" class="STYLE4">正常</div></td>
-                <td height="40"><div align="center" class="STYLE4">4</div></td>
-            </tr>
-            <tr>
-                <td height="40" rowspan="4"><span class="STYLE4">体位变换能力</span></td>
-                <td height="40"><div align="center" class="STYLE4">完全受限</div></td>
-                <td height="40"><div align="center" class="STYLE4">1</div></td>
-                <td width="109" height="40" rowspan="4"><div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span></div></td>
-                <td width="111" height="40" rowspan="4"><div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span></div></td>
-                <td width="103" height="40" rowspan="4"><div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span></div></td>
-                <td width="103" height="40" rowspan="4"><div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span></div></td>
-            </tr>
-            <tr>
-                <td height="40"><div align="center" class="STYLE4">偶尔可有身体或四肢的轻微活动</div></td>
-                <td height="40"><div align="center" class="STYLE4">2</div></td>
-            </tr>
-            <tr>
-                <td height="40"><div align="center" class="STYLE4">经常有身体或四肢的轻微活动</div></td>
-                <td height="40"><div align="center" class="STYLE4">3</div></td>
-            </tr>
-            <tr>
-                <td height="40"><div align="center" class="STYLE4">可自主活动、翻身</div></td>
-                <td height="40"><div align="center" class="STYLE4">4</div></td>
-            </tr>
-            <tr>
-                <td height="40" rowspan="4"><span class="STYLE4">营养进食状况</span></td>
-                <td height="40"><span class="STYLE4">很差：禁食、单纯输液超过5天、进食量小于常规的1/3</span></td>
-                <td height="40"><div align="center" class="STYLE4">1</div></td>
-                <td width="109" height="40" rowspan="4"><div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span></div></td>
-                <td width="111" height="40" rowspan="4"><div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span></div></td>
-                <td width="103" height="40" rowspan="4"><div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span></div></td>
-                <td width="103" height="40" rowspan="4"><div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span></div></td>
-            </tr>
-            <tr>
-                <td height="40"><span class="STYLE4">较差：进食量为常规的1/2，可能存在鼻饲或TPN不足的问题</span></td>
-                <td height="40"><div align="center" class="STYLE4">2</div></td>
-            </tr>
-            <tr>
-                <td height="40"><span class="STYLE4">尚可：进食超过常规的1/2，通过鼻饲或TPN得到基本营养</span></td>
-                <td height="40"><div align="center" class="STYLE4">3</div></td>
-            </tr>
-            <tr>
-                <td height="40"><div align="center" class="STYLE4">良好</div></td>
-                <td height="40"><div align="center" class="STYLE4">4</div></td>
-            </tr>
-            <tr>
-                <td height="40" rowspan="3"><span class="STYLE4">摩擦力和剪切力</span></td>
-                <td height="40"><span class="STYLE4">存在问题，经常在床上下滑，翻身完全需要别人帮助</span></td>
-                <td height="40"><div align="center" class="STYLE4">1</div></td>
-                <td width="109" height="40" rowspan="3"><div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span></div></td>
-                <td width="111" height="40" rowspan="3"><div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span></div></td>
-                <td width="103" height="40" rowspan="3"><div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span></div></td>
-                <td width="103" height="40" rowspan="3"><div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span></div></td>
-            </tr>
-            <tr>
-                <td height="40"><span class="STYLE4">有潜在问题，可能会下滑，翻身需要别人帮助</span></td>
-                <td height="40"><div align="center" class="STYLE4">2</div></td>
-            </tr>
-            <tr>
-                <td height="40"><div align="center" class="STYLE4">无问题</div></td>
-                <td height="40"><div align="center" class="STYLE4">3</div>          <div align="center" class="STYLE4"></div></td>
-            </tr>
+    <tr>
+        <td height="37">
+            <div align="center"><span class="STYLE4"></span></div>
+        </td>
+        <td>
+            <div align="center"><span class="STYLE4"></span></div>
+        </td>
+        <td>
+            <div align="center"><span class="STYLE4"></span></div>
+        </td>
+        <td>
+            <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="40" rowspan="4"><span class="STYLE4">感觉知觉程度</span></td>
+        <td height="40"><span class="STYLE4">完全受限，不能感知疼痛刺激或完全无法表达</span></td>
+        <td height="40">
+            <div align="center" class="STYLE4">1</div>
+        </td>
+        <td width="109" height="40" rowspan="4">
+            <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span>
+            </div>
+        </td>
+        <td width="111" height="40" rowspan="4">
+            <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span>
+            </div>
+        </td>
+        <td width="103" height="40" rowspan="4">
+            <div align="center">
+                <span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span></div>
+        </td>
+        <td width="103" height="40" rowspan="4">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="40"><span class="STYLE4">极度受限，只能通过呻吟表达不舒服或身体1/2以上丧失感觉</span></td>
+        <td height="40">
+            <div align="center" class="STYLE4">2</div>
+        </td>
+    </tr>
+    <tr>
+        <td height="40"><span class="STYLE4">轻度受限，可口头表达但沟通受限，1、2个肢体感觉丧失</span></td>
+        <td height="40">
+            <div align="center" class="STYLE4">3</div>
+        </td>
+    </tr>
+    <tr>
+        <td height="40"><span class="STYLE4">正常，险体没有对疼痛或不适的感觉缺失</span></td>
+        <td height="40">
+            <div align="center" class="STYLE4">4</div>
+        </td>
+    </tr>
+    <tr>
+        <td height="40" rowspan="4"><span class="STYLE4">潮湿情况</span></td>
+        <td height="40"><span class="STYLE4">持久潮湿，大/小便失禁，每次翻身床单都是湿的</span></td>
+        <td height="40">
+            <div align="center" class="STYLE4">1</div>
+        </td>
+        <td width="109" height="40" rowspan="4">
+            <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span
+                    class="STYLE4"></span><span class="STYLE4"></span></div>
+        </td>
+        <td width="111" height="40" rowspan="4">
+            <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span
+                    class="STYLE4"></span><span class="STYLE4"></span></div>
+        </td>
+        <td width="103" height="40" rowspan="4">
+            <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span
+                    class="STYLE4"></span><span class="STYLE4"></span></div>
+        </td>
+        <td width="103" height="40" rowspan="4">
+            <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span
+                    class="STYLE4"></span><span class="STYLE4"></span></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="40"><span class="STYLE4">非常潮湿，皮肤经常潮湿，床单至少需要每班更换</span></td>
+        <td height="40">
+            <div align="center" class="STYLE4">2</div>
+        </td>
+    </tr>
+    <tr>
+        <td height="40"><span class="STYLE4">偶尔潮湿，皮肤有时会潮湿，床单需每天更换</span></td>
+        <td height="40">
+            <div align="center" class="STYLE4">3</div>
+        </td>
+    </tr>
+    <tr>
+        <td height="40"><span class="STYLE4">很少潮湿，通常皮肤是干，只要按常规换床单即可</span></td>
+        <td height="40">
+            <div align="center" class="STYLE4">4</div>
+        </td>
+    </tr>
+    <tr>
+        <td height="40" rowspan="4"><span class="STYLE4">活动能力</span></td>
+        <td height="40">
+            <div align="center" class="STYLE4">完全卧床</div>
+        </td>
+        <td height="40">
+            <div align="center" class="STYLE4">1</div>
+        </td>
+        <td width="109" height="40" rowspan="4">
+            <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span
+                    class="STYLE4"></span><span class="STYLE4"></span></div>
+        </td>
+        <td width="111" height="40" rowspan="4">
+            <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span
+                    class="STYLE4"></span><span class="STYLE4"></span></div>
+        </td>
+        <td width="103" height="40" rowspan="4">
+            <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span
+                    class="STYLE4"></span><span class="STYLE4"></span></div>
+        </td>
+        <td width="103" height="40" rowspan="4">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="40">
+            <div align="center" class="STYLE4">可坐轮椅</div>
+        </td>
+        <td height="40">
+            <div align="center" class="STYLE4">2</div>
+        </td>
+    </tr>
+    <tr>
+        <td height="40">
+            <div align="center" class="STYLE4">偶尔可下床活动</div>
+        </td>
+        <td height="40">
+            <div align="center" class="STYLE4">3</div>
+        </td>
+    </tr>
+    <tr>
+        <td height="40">
+            <div align="center" class="STYLE4">正常</div>
+        </td>
+        <td height="40">
+            <div align="center" class="STYLE4">4</div>
+        </td>
+    </tr>
+    <tr>
+        <td height="40" rowspan="4"><span class="STYLE4">体位变换能力</span></td>
+        <td height="40">
+            <div align="center" class="STYLE4">完全受限</div>
+        </td>
+        <td height="40">
+            <div align="center" class="STYLE4">1</div>
+        </td>
+        <td width="109" height="40" rowspan="4">
+            <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span
+                    class="STYLE4"></span><span class="STYLE4"></span></div>
+        </td>
+        <td width="111" height="40" rowspan="4">
+            <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span
+                    class="STYLE4"></span><span class="STYLE4"></span></div>
+        </td>
+        <td width="103" height="40" rowspan="4">
+            <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span
+                    class="STYLE4"></span><span class="STYLE4"></span></div>
+        </td>
+        <td width="103" height="40" rowspan="4">
+            <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span
+                    class="STYLE4"></span><span class="STYLE4"></span></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="40">
+            <div align="center" class="STYLE4">偶尔可有身体或四肢的轻微活动</div>
+        </td>
+        <td height="40">
+            <div align="center" class="STYLE4">2</div>
+        </td>
+    </tr>
+    <tr>
+        <td height="40">
+            <div align="center" class="STYLE4">经常有身体或四肢的轻微活动</div>
+        </td>
+        <td height="40">
+            <div align="center" class="STYLE4">3</div>
+        </td>
+    </tr>
+    <tr>
+        <td height="40">
+            <div align="center" class="STYLE4">可自主活动、翻身</div>
+        </td>
+        <td height="40">
+            <div align="center" class="STYLE4">4</div>
+        </td>
+    </tr>
+    <tr>
+        <td height="40" rowspan="4"><span class="STYLE4">营养进食状况</span></td>
+        <td height="40"><span class="STYLE4">很差：禁食、单纯输液超过5天、进食量小于常规的1/3</span></td>
+        <td height="40">
+            <div align="center" class="STYLE4">1</div>
+        </td>
+        <td width="109" height="40" rowspan="4">
+            <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span
+                    class="STYLE4"></span><span class="STYLE4"></span></div>
+        </td>
+        <td width="111" height="40" rowspan="4">
+            <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span
+                    class="STYLE4"></span><span class="STYLE4"></span></div>
+        </td>
+        <td width="103" height="40" rowspan="4">
+            <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span
+                    class="STYLE4"></span><span class="STYLE4"></span></div>
+        </td>
+        <td width="103" height="40" rowspan="4">
+            <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span
+                    class="STYLE4"></span><span class="STYLE4"></span></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="40"><span class="STYLE4">较差：进食量为常规的1/2，可能存在鼻饲或TPN不足的问题</span></td>
+        <td height="40">
+            <div align="center" class="STYLE4">2</div>
+        </td>
+    </tr>
+    <tr>
+        <td height="40"><span class="STYLE4">尚可：进食超过常规的1/2，通过鼻饲或TPN得到基本营养</span></td>
+        <td height="40">
+            <div align="center" class="STYLE4">3</div>
+        </td>
+    </tr>
+    <tr>
+        <td height="40">
+            <div align="center" class="STYLE4">良好</div>
+        </td>
+        <td height="40">
+            <div align="center" class="STYLE4">4</div>
+        </td>
+    </tr>
+    <tr>
+        <td height="40" rowspan="3"><span class="STYLE4">摩擦力和剪切力</span></td>
+        <td height="40"><span class="STYLE4">存在问题，经常在床上下滑，翻身完全需要别人帮助</span></td>
+        <td height="40">
+            <div align="center" class="STYLE4">1</div>
+        </td>
+        <td width="109" height="40" rowspan="3">
+            <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span
+                    class="STYLE4"></span><span class="STYLE4"></span></div>
+        </td>
+        <td width="111" height="40" rowspan="3">
+            <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span
+                    class="STYLE4"></span><span class="STYLE4"></span></div>
+        </td>
+        <td width="103" height="40" rowspan="3">
+            <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span
+                    class="STYLE4"></span><span class="STYLE4"></span></div>
+        </td>
+        <td width="103" height="40" rowspan="3">
+            <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span
+                    class="STYLE4"></span><span class="STYLE4"></span></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="40"><span class="STYLE4">有潜在问题，可能会下滑，翻身需要别人帮助</span></td>
+        <td height="40">
+            <div align="center" class="STYLE4">2</div>
+        </td>
+    </tr>
+    <tr>
+        <td height="40">
+            <div align="center" class="STYLE4">无问题</div>
+        </td>
+        <td height="40">
+            <div align="center" class="STYLE4">3</div>
+            <div align="center" class="STYLE4"></div>
+        </td>
+    </tr>
 
-            <tr>
-                <td height="30" colspan="3"><div align="center" class="STYLE4">合计分数</div></td>
-                <td height="30"><div align="center"><span class="STYLE4"></span></div></td>
-                <td height="30"><div align="center"><span class="STYLE4"></span></div></td>
-                <td height="30"><div align="center"><span class="STYLE4"></span></div></td>
-                <td height="30"><div align="center"><span class="STYLE4"></span></div></td>
-            </tr>
-            <tr>
-                <td height="30" colspan="3"><div align="center" class="STYLE4">责任护士签名</div></td>
-                <td height="30"><div align="center"></div></td>
-                <td height="30"><div align="center"><span class="STYLE4"></span></div></td>
-                <td height="30"><div align="center"><span class="STYLE4"></span></div></td>
-                <td height="30"><div align="center"><span class="STYLE4"></span></div></td>
-            </tr>
-            <tr>
-                <td height="30" colspan="3"><div align="center" class="STYLE4">审核护士签名</div>          <div align="center" class="STYLE4"></div></td>
-                <td width="109" height="30"><div align="center"><span class="STYLE4"></span></div></td>
-                <td width="111" height="30"><div align="center"><span class="STYLE4"></span></div></td>
-                <td width="103" height="30"><div align="center"><span class="STYLE4"></span></div></td>
-                <td width="103" height="30"><div align="center"><span class="STYLE4"></span></div></td>
-            </tr>
-        </table>
-        <p class="STYLE3">该表使用说明：</p>
-        <p class="STYLE2">1. 对所有新入院、转入、转科、大手术后患者当天内必须完成初次压疮风险因素评估（用Braden压疮风险评估表）；对高龄、消瘦、水肿、瘫痪、大小便失</p>
-        <p class="STYLE2">禁、昏迷、长期卧床等“压疮高风险患者”，定期进行压疮风险因素评估；最高23分，15-18分为低风险，13-14分为中风险，10-12分为高风险， &lt;9分为非常风险</p>
-        <p class="STYLE2">2. 评估周期：</p>
-        <p class="STYLE2">①所有病人都需要评估；②入院时立即评估，当评分13~18分时，此后每48h评估一次，为期1星期；③长期护理的患者应在第一个4周内每周评估一次，之后每月评估一次；④当病</p>
-        <p class="STYLE2">人情况有变化及时评估，然后每星期再进行评估；⑤≤12分每天评估，18分作为预测有压疮发生风险的诊断价值，评分≤18分应采取预防压疮的措施</p>
-        <p align="center" class="STYLE5">深圳万丰医院预防压疮的护理措施</p>
-        <table width="1047" border="1"  cellspacing="0" bordercolor="#666666">
-            <tr>
-                <td width="139" rowspan="2"><div class="STYLE4">
-                    <div align="center">项目</div>
-                </div></td>
-                <td width="455" rowspan="2"><div class="STYLE4">
-                    <div align="center">内容</div>
-                </div></td>
-                <td colspan="4"><div align="center" class="STYLE4">
-                    <div align="center">评估日期</div>
-                </div>
-                    <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span><span class="STYLE4"></span></div></td>
-            </tr>
-            <tr>
-                <td height="23"><div align="center"><span class="STYLE4"></span></div></td>
-                <td><div align="center"><span class="STYLE4"></span></div></td>
-                <td><div align="center"><span class="STYLE4"></span></div></td>
-                <td><div align="center"><span class="STYLE4"></span></div></td>
-            </tr>
-            <tr>
-                <td height="29" rowspan="6">(15 ~ 18分)低度风险</td>
-                <td height="29">经常翻身</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29">最大限度活动</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29">如果是卧床或依靠轮椅，要使用床垫或椅垫等减压设备</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29">保护足跟、潮湿的管理、营养的管理、摩擦力和剪切力的管理</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29">每周或病情变化时重新评估，并记录皮肤状况</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29">如果有其他的危险因素存在，如（高龄、发热、饮食量少影响蛋白质的摄入、舒张压低于60 mmHg、血液动力学不稳定）可列入下一风险水平</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29" rowspan="7">(13 ~ 14分)中度风险</td>
-                <td height="29">使用翻身计划表，Q2H翻身</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29">使用海绵垫，保证30度侧卧</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29">使用床垫或椅垫等减压设备</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29">最大限度活动</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29">保护足跟、潮湿的管理、营养的管理、摩擦力和剪 切力的管理</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29">每周或病情变化时重新评估，并记录皮肤状况</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29">如果有其他的危险因素存在可列入下一风险水平</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29" rowspan="8">(10 ~ 12分)高度风险</td>
-                <td height="29"><div align="center" class="STYLE4">
-                    <div align="left">保证翻身频率，至少Q2H翻身</div>
-                </div></td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29"><div align="center" class="STYLE4">
-                    <div align="left">增加小幅度的移位</div>
-                </div></td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29"><div align="left">使用海绵垫，保证30度侧卧</div></td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29"><div align="left">最大限度活动</div></td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29"><div align="center" class="STYLE4">
-                    <div align="left">保护足跟、潮湿的管理、营养的管理、摩擦力和剪 切力的管理</div>
-                </div></td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29">每天观察并记录皮肤状况、预防措施</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29">每天或病情变化时重新评估</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29"><div align="center" class="STYLE4">
-                    <div align="left">填写高风险压疮申请表，上报护理部</div>
-                </div></td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29" rowspan="6">( &lt; 9分)非常风险</td>
-                <td height="29">采取以上所有措施</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29">使用体表压力缓释设备如气垫床</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29">每班观察并记录皮肤状况、预防措施，床边交接皮肤情况</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29">每天评估记录评分值</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29">气垫床不能代替翻身</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29">填写高风险压疮申报表，上报护理部</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29" rowspan="3">潮湿管理</td>
-                <td height="29">使用隔绝潮湿和保护皮肤的护理用品</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29">使用吸收垫或干燥垫控制潮湿</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29">如果可能找出发生潮湿的原因并避免        </td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
+    <tr>
+        <td height="30" colspan="3">
+            <div align="center" class="STYLE4">合计分数</div>
+        </td>
+        <td height="30">
+            <div align="center"><span class="STYLE4"></span></div>
+        </td>
+        <td height="30">
+            <div align="center"><span class="STYLE4"></span></div>
+        </td>
+        <td height="30">
+            <div align="center"><span class="STYLE4"></span></div>
+        </td>
+        <td height="30">
+            <div align="center"><span class="STYLE4"></span></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="30" colspan="3">
+            <div align="center" class="STYLE4">责任护士签名</div>
+        </td>
+        <td height="30">
+            <div align="center"></div>
+        </td>
+        <td height="30">
+            <div align="center"><span class="STYLE4"></span></div>
+        </td>
+        <td height="30">
+            <div align="center"><span class="STYLE4"></span></div>
+        </td>
+        <td height="30">
+            <div align="center"><span class="STYLE4"></span></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="30" colspan="3">
+            <div align="center" class="STYLE4">审核护士签名</div>
+            <div align="center" class="STYLE4"></div>
+        </td>
+        <td width="109" height="30">
+            <div align="center"><span class="STYLE4"></span></div>
+        </td>
+        <td width="111" height="30">
+            <div align="center"><span class="STYLE4"></span></div>
+        </td>
+        <td width="103" height="30">
+            <div align="center"><span class="STYLE4"></span></div>
+        </td>
+        <td width="103" height="30">
+            <div align="center"><span class="STYLE4"></span></div>
+        </td>
+    </tr>
+</table>
+<p class="STYLE3">该表使用说明：</p>
+<p class="STYLE2">1. 对所有新入院、转入、转科、大手术后患者当天内必须完成初次压疮风险因素评估（用Braden压疮风险评估表）；对高龄、消瘦、水肿、瘫痪、大小便失</p>
+<p class="STYLE2">禁、昏迷、长期卧床等“压疮高风险患者”，定期进行压疮风险因素评估；最高23分，15-18分为低风险，13-14分为中风险，10-12分为高风险， &lt;9分为非常风险</p>
+<p class="STYLE2">2. 评估周期：</p>
+<p class="STYLE2">①所有病人都需要评估；②入院时立即评估，当评分13~18分时，此后每48h评估一次，为期1星期；③长期护理的患者应在第一个4周内每周评估一次，之后每月评估一次；④当病</p>
+<p class="STYLE2">人情况有变化及时评估，然后每星期再进行评估；⑤≤12分每天评估，18分作为预测有压疮发生风险的诊断价值，评分≤18分应采取预防压疮的措施</p>
+</div>
+<div class="bagw">
+<p align="center" class="STYLE5">深圳万丰医院预防压疮的护理措施</p>
+<table width="1064" border="1" cellspacing="0" bordercolor="#666666">
+    <tr>
+        <td width="139" rowspan="2">
+            <div class="STYLE4">
+                <div align="center">项目</div>
+            </div>
+        </td>
+        <td width="455" rowspan="2">
+            <div class="STYLE4">
+                <div align="center">内容</div>
+            </div>
+        </td>
+        <td colspan="4">
+            <div align="center" class="STYLE4">
+                <div align="center">评估日期</div>
+            </div>
+            <div align="center"><span class="STYLE4"></span><span class="STYLE4"></span><span
+                    class="STYLE4"></span><span class="STYLE4"></span></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="23">
+            <div align="center"><span class="STYLE4"></span></div>
+        </td>
+        <td>
+            <div align="center"><span class="STYLE4"></span></div>
+        </td>
+        <td>
+            <div align="center"><span class="STYLE4"></span></div>
+        </td>
+        <td>
+            <div align="center"><span class="STYLE4"></span></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29" rowspan="6">(15 ~ 18分)低度风险</td>
+        <td height="29">经常翻身</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">最大限度活动</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">如果是卧床或依靠轮椅，要使用床垫或椅垫等减压设备</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">保护足跟、潮湿的管理、营养的管理、摩擦力和剪切力的管理</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">每周或病情变化时重新评估，并记录皮肤状况</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">如果有其他的危险因素存在，如（高龄、发热、饮食量少影响蛋白质的摄入、舒张压低于60 mmHg、血液动力学不稳定）可列入下一风险水平</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29" rowspan="7">(13 ~ 14分)中度风险</td>
+        <td height="29">使用翻身计划表，Q2H翻身</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">使用海绵垫，保证30度侧卧</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">使用床垫或椅垫等减压设备</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">最大限度活动</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">保护足跟、潮湿的管理、营养的管理、摩擦力和剪 切力的管理</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">每周或病情变化时重新评估，并记录皮肤状况</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">如果有其他的危险因素存在可列入下一风险水平</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29" rowspan="8">(10 ~ 12分)高度风险</td>
+        <td height="29">
+            <div align="center" class="STYLE4">
+                <div align="left">保证翻身频率，至少Q2H翻身</div>
+            </div>
+        </td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">
+            <div align="center" class="STYLE4">
+                <div align="left">增加小幅度的移位</div>
+            </div>
+        </td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">
+            <div align="left">使用海绵垫，保证30度侧卧</div>
+        </td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">
+            <div align="left">最大限度活动</div>
+        </td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">
+            <div align="center" class="STYLE4">
+                <div align="left">保护足跟、潮湿的管理、营养的管理、摩擦力和剪 切力的管理</div>
+            </div>
+        </td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">每天观察并记录皮肤状况、预防措施</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">每天或病情变化时重新评估</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">
+            <div align="center" class="STYLE4">
+                <div align="left">填写高风险压疮申请表，上报护理部</div>
+            </div>
+        </td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29" rowspan="6">( &lt; 9分)非常风险</td>
+        <td height="29">采取以上所有措施</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">使用体表压力缓释设备如气垫床</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">每班观察并记录皮肤状况、预防措施，床边交接皮肤情况</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">每天评估记录评分值</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">气垫床不能代替翻身</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">填写高风险压疮申报表，上报护理部</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29" rowspan="3">潮湿管理</td>
+        <td height="29">使用隔绝潮湿和保护皮肤的护理用品</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">使用吸收垫或干燥垫控制潮湿</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">如果可能找出发生潮湿的原因并避免</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
 
-            <tr>
-                <td height="29" rowspan="5">营养管理</td>
-                <td height="29">增加蛋白质的摄入</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29">增加热量的摄入</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29">补充多种维生素，必须包括VA、C、E</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29">以上措施需迅速执行，以缓解营养缺乏</td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29"><div align="center" class="STYLE4">
-                    <div align="left">咨询营养师</div>
-                </div></td>
-                <td width="106" height="29"><div align="center"></div></td>
-                <td width="112" height="29"><div align="center"></div></td>
-                <td width="105" height="29"><div align="center"></div></td>
-                <td width="104" height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29" rowspan="3">摩擦力和剪切力的预防</td>
-                <td height="29">床头太高不得超过30度（疾病允许的情况下）</td>
-                <td height="29"><div align="center"></div></td>
-                <td height="29"><div align="center"></div></td>
-                <td height="29"><div align="center"></div></td>
-                <td height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29">必要时使用牵吊装置</td>
-                <td height="29"><div align="center"></div></td>
-                <td height="29"><div align="center"></div></td>
-                <td height="29"><div align="center"></div></td>
-                <td height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="29">使用过床单移动患者</td>
-                <td height="29"><div align="center"></div></td>
-                <td height="29"><div align="center"></div></td>
-                <td height="29"><div align="center"></div></td>
-                <td height="29"><div align="center"></div></td>
-            </tr>
-            <tr>
-                <td height="27" colspan="6">其他护理注意事项： 不得按摩骨突压红的部位、不得使用气圈类装置、保持足够的水分摄入、避免皮肤干燥</td>
-            </tr>
-            <tr>
-                <td height="36" colspan="2"><div align="center" class="STYLE4">责任护士签名</div></td>
-                <td height="36"><div align="center"></div></td>
-                <td height="36"><div align="center"><span class="STYLE4"></span></div></td>
-                <td height="36"><div align="center"><span class="STYLE4"></span></div></td>
-                <td height="36"><div align="center"><span class="STYLE4"></span></div></td>
-            </tr>
-            <tr>
-                <td height="36" colspan="2"><div align="center" class="STYLE4">审核护士签名</div>
-                    <div align="center" class="STYLE4"></div></td>
-                <td width="106" height="36"><div align="center"><span class="STYLE4"></span></div></td>
-                <td width="112" height="36"><div align="center"><span class="STYLE4"></span></div></td>
-                <td width="105" height="36"><div align="center"><span class="STYLE4"></span></div></td>
-                <td width="104" height="36"><div align="center"><span class="STYLE4"></span></div></td>
-            </tr>
-        </table>
-    </div>
+    <tr>
+        <td height="29" rowspan="5">营养管理</td>
+        <td height="29">增加蛋白质的摄入</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">增加热量的摄入</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">补充多种维生素，必须包括VA、C、E</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">以上措施需迅速执行，以缓解营养缺乏</td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">
+            <div align="center" class="STYLE4">
+                <div align="left">咨询营养师</div>
+            </div>
+        </td>
+        <td width="106" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="112" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="105" height="29">
+            <div align="center"></div>
+        </td>
+        <td width="104" height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29" rowspan="3">摩擦力和剪切力的预防</td>
+        <td height="29">床头太高不得超过30度（疾病允许的情况下）</td>
+        <td height="29">
+            <div align="center"></div>
+        </td>
+        <td height="29">
+            <div align="center"></div>
+        </td>
+        <td height="29">
+            <div align="center"></div>
+        </td>
+        <td height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">必要时使用牵吊装置</td>
+        <td height="29">
+            <div align="center"></div>
+        </td>
+        <td height="29">
+            <div align="center"></div>
+        </td>
+        <td height="29">
+            <div align="center"></div>
+        </td>
+        <td height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="29">使用过床单移动患者</td>
+        <td height="29">
+            <div align="center"></div>
+        </td>
+        <td height="29">
+            <div align="center"></div>
+        </td>
+        <td height="29">
+            <div align="center"></div>
+        </td>
+        <td height="29">
+            <div align="center"></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="27" colspan="6">其他护理注意事项： 不得按摩骨突压红的部位、不得使用气圈类装置、保持足够的水分摄入、避免皮肤干燥</td>
+    </tr>
+    <tr>
+        <td height="36" colspan="2">
+            <div align="center" class="STYLE4">责任护士签名</div>
+        </td>
+        <td height="36">
+            <div align="center"></div>
+        </td>
+        <td height="36">
+            <div align="center"><span class="STYLE4"></span></div>
+        </td>
+        <td height="36">
+            <div align="center"><span class="STYLE4"></span></div>
+        </td>
+        <td height="36">
+            <div align="center"><span class="STYLE4"></span></div>
+        </td>
+    </tr>
+    <tr>
+        <td height="36" colspan="2">
+            <div align="center" class="STYLE4">审核护士签名</div>
+            <div align="center" class="STYLE4"></div>
+        </td>
+        <td width="106" height="36">
+            <div align="center"><span class="STYLE4"></span></div>
+        </td>
+        <td width="112" height="36">
+            <div align="center"><span class="STYLE4"></span></div>
+        </td>
+        <td width="105" height="36">
+            <div align="center"><span class="STYLE4"></span></div>
+        </td>
+        <td width="104" height="36">
+            <div align="center"><span class="STYLE4"></span></div>
+        </td>
+    </tr>
+</table>
 </div>
 </body>
 </html>

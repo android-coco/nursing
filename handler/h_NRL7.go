@@ -6,6 +6,7 @@ import (
 	"nursing/model"
 	"strconv"
 	"time"
+	"nursing/utils"
 )
 
 type NRL7Controller struct {
@@ -42,21 +43,19 @@ func (c NRL7Controller) Check(w *fit.Response, r *fit.Request, p fit.Params) {
 		return
 	}
 
-	rdate := nr7.DateTime.Format("2006-01-02")
-	rtime := nr7.DateTime.Format("15:04")
+	//rdate := nr7.DateTime.Format("2006-01-02")
+	//rtime := nr7.DateTime.Format("15:04")
 	c.Data = fit.Data{
 		"PInfo":      patient,
 		"NRL":        nr7,
-		"NRLTitle":      nrl7Title, // 表头 25，26
-		"RecordDate": rdate,
-		"RecordTime": rtime,
+		"NRLTitle":   nrl7Title, // 表头 25，26
 	}
 
 	c.LoadView(w, "v_nrl7.html")
 }
 
 func (c NRL7Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
-	pid := r.FormValue("pid") //病人id
+	/*pid := r.FormValue("pid") //病人id
 	uid := r.FormValue("uid") //护士id
 	rid := r.FormValue("rid") // 护理记录单id
 	ty := r.FormValue("type") // 1=add， 2=edit
@@ -82,6 +81,12 @@ func (c NRL7Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 	} else {
 		fmt.Fprintln(w, "参数错误！")
 		return
+	}*/
+
+	// 文书model，type， 文书id，病人id，护士id，参数是否正确
+	nrl, ty, rid, pid, uid, isOk := c.LoadNRLDataWithParm(w, r, "7")
+	if !isOk {
+		return
 	}
 
 	// 查询对应病人信息 护士的信息
@@ -90,9 +95,8 @@ func (c NRL7Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 		return
 	}
 
-	nrl7Title := model.NRL7Title{
-		VAA01: nr7.VAA01,
-	}
+	VAA01, _ := utils.Int64Value(pid)
+	nrl7Title := model.NRL7Title{VAA01:VAA01}
 	if ty == "1" {
 		nrl7Title = model.NRL7Title{
 			VAA01: patient.VAA01,
@@ -104,18 +108,17 @@ func (c NRL7Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 		fit.Logger().LogError("m_NR7 title:", errt)
 	}
 
-
-	recordDate := nr7.DateTime.Format("2006-01-02")
-	recordTime := nr7.DateTime.Format("15:04")
+	//recordDate := nr7.DateTime.Format("2006-01-02")
+	//recordTime := nr7.DateTime.Format("15:04")
 	c.Data = fit.Data{
 		"PInfo":      patient,
-		"NRL":        nr7,
-		"NRLTitle":      nrl7Title, // 表头 25，26
+		"NRL":        nrl,
+		"NRLTitle":   nrl7Title, // 表头 25，26
 		"Type":       ty,
 		"Rid":        rid,
 		"Account":    account,
-		"RecordDate": recordDate,
-		"RecordTime": recordTime,
+		//"RecordDate": recordDate,
+		//"RecordTime": recordTime,
 	}
 
 	c.LoadView(w, "v_nrl7_edit.html")
@@ -172,9 +175,9 @@ func (c NRL7Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params)
 		NRL06:    NRL06,
 		NRL07:    NRL07,
 
-		NRL09A:   NRL09A,
-		NRL09B:   NRL09B,
-		Score:    score,
+		NRL09A: NRL09A,
+		NRL09B: NRL09B,
+		Score:  score,
 	}
 
 	rid, err17 := nrl7.InsertData()
@@ -195,7 +198,7 @@ func (c NRL7Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params)
 			RecordId:    rid,
 			Comment:     "新增",
 		}
-		_,errRecord := model.InsertNRecords(nurseRecord)
+		_, errRecord := model.InsertNRecords(nurseRecord)
 		checkerr("nurse record err:", errRecord)
 
 		c.JsonData.Result = 0
@@ -261,9 +264,9 @@ func (c NRL7Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 		//NRL08:    NRL08,
 		//NRL08A:   NRL08A,
 		//NRL08B:   NRL08B,
-		NRL09A:   NRL09A,
-		NRL09B:   NRL09B,
-		Score:    score,
+		NRL09A: NRL09A,
+		NRL09B: NRL09B,
+		Score:  score,
 	}
 
 	_, err17 := nrl7.UpdateData(id)
@@ -352,9 +355,9 @@ func (c NRL7Controller) UpdateTitle(w *fit.Response, r *fit.Request, p fit.Param
 		NRT02:    NRT02,
 		NRT02V:   NRT02V,
 
-		NRL08:    NRL08,
-		NRL08A:   NRL08A,
-		NRL08B:   NRL08B,
+		NRL08:  NRL08,
+		NRL08A: NRL08A,
+		NRL08B: NRL08B,
 	}
 	nrl7title, errt := title.PCUpdateNRT7Title()
 	if errt != nil {
@@ -383,7 +386,6 @@ func (c NRL7Controller) DeleteRecord(w *fit.Response, r *fit.Request, p fit.Para
 		c.RenderingJsonAutomatically(3, "rid 错误！")
 		return
 	}
-
 
 	nrl := model.NRL7{}
 

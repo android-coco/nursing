@@ -53,9 +53,9 @@
                         <div class="icon">
                             <img src="/static/dist/images/admin_pc/icon20.png" alt="">
                         </div>
-                        <input type="text" class="am-form-field  date-input" id="left-date">
+                        <input type="text" class="am-form-field  date-input" id="date1">
                         <span class="line">—</span>
-                        <input type="text" class="am-form-field  date-input" id="right-date">
+                        <input type="text" class="am-form-field  date-input" id="date2">
                         <a class="all-btn" href="/pc/record/nrl3?pid={{.PInfo.VAA01}}">所有记录</a>
                     </div>
                     <div class="btn-group">
@@ -87,10 +87,10 @@
                                 <div class="cont-warp">项目</div>
                             </td>
                             <td>
-                                <div class="cont-warp">评估</div>
+                                <div class="cont-warp">评分</div>
                             </td>
                             <td>
-                                <div class="cont-warp">评估标准</div>
+                                <div class="cont-warp">标准</div>
                             </td>
                         </tr>
                         <tr class="tr1">
@@ -125,7 +125,7 @@
                             </td>
                             <td>
                                 <div class="cont-warp">
-                                    <p>失禁或昏迷或由他人导尿</p>
+                                    <p>失禁或昏迷或需由他人导尿</p>
                                     <p>偶有失禁（每24h &lt;1次）
                                     </p>
                                     <p>控制</p>
@@ -134,7 +134,7 @@
                         </tr>
                         <tr class="tr3">
                             <td>
-                                <div class="cont-warp">装饰</div>
+                                <div class="cont-warp">修饰</div>
                             </td>
                             <td>
                                 <div class="cont-warp">
@@ -204,7 +204,7 @@
                             <td>
                                 <div class="cont-warp">
                                     <p>完全依赖他人，无坐位平衡</p>
-                                    <p>大量帮助（1-2人，身体帮助），能坐</p>
+                                    <p>需大量帮助（1-2人，身体帮助），能坐</p>
                                     <p>需少量帮助（言语或身体帮助）</p>
                                     <p>自理</p>
                                 </div>
@@ -1035,7 +1035,7 @@
             var $mTime = $el
             dateStr = $.trim($mTime.find('.td-date-input').val())
             if (dateStr) {
-                data.datetime = dateStr + " 00:00:00"
+                data.datetime = dateStr + " "+getNowTime()
             }
         }
 
@@ -1245,9 +1245,9 @@
             var nowDate = nowDateObj.date;
 
             var date1, date2 = 0;
-            var a = new Date(hospitalDate);
+            var a = new Date(hospitalDate + " 00:00:00");
             date1 = a.getTime();
-            var b = new Date(nowDate);
+            var b = new Date(nowDate + " 00:00:00");
             date2 = b.getTime();
 
 
@@ -1266,15 +1266,17 @@
             }
 
             laydate.render({
-                elem: '#left-date', //指定元素
+                elem: '#date1', //指定元素
                 showBottom: false,
                 value: sdate,
+                min:"{{.PInfo.HospitalDate}}",
+                max: nowDateObj.date,
                 done: function (value, date, endDate) {
                     console.log(value); //得到日期生成的值，如：2017-08-18
                     console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
                     console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
 
-                    var a = new Date(value);
+                    var a = new Date(value + " 00:00:00");
                     date1 = a.getTime();
                     reloadSheet(date1, date2);
                 }
@@ -1282,15 +1284,17 @@
             // var a=new Date("2017-08-02")
             // a.getTime()
             laydate.render({
-                elem: '#right-date', //指定元素
+                elem: '#date2', //指定元素
                 showBottom: false,
                 value: edate,
+                min:"{{.PInfo.HospitalDate}}",
+                max: nowDateObj.date,
                 done: function (value, date, endDate) {
                     console.log(value); //得到日期生成的值，如：2017-08-18
                     console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
                     console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
 
-                    var a = new Date(value);
+                    var a = new Date(value + " 00:00:00");
                     date2 = a.getTime();
                     console.log("date ", date1, date2)
                     reloadSheet(date1, date2);
@@ -1405,6 +1409,8 @@
                     elem: this,
                     showBottom: false,
                     value: dateV,
+                    min:"{{.PInfo.HospitalDate}}",
+                    max: nowDateObj.date,
                     done: function (value, date, endDate) {
                         $self.data("date", value)
                     }

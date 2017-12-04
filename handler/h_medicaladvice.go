@@ -161,7 +161,7 @@ func (c MedicalAdviceController) StatusSearch(w *fit.Response, r *fit.Request, p
 
 	if status_i == 8 {
 		// 医嘱查询（已停医嘱）
-		mAdvices, err_db := model.SearchMedicalAdvice(0, 8, pid_i, "0")
+		mAdvices, err_db := model.FetchFinishedMedicalAdvice(pid_i)
 		if err_db == nil {
 			c.RenderingJson(0,"查询成功", mAdvices)
 		} else {
@@ -169,7 +169,7 @@ func (c MedicalAdviceController) StatusSearch(w *fit.Response, r *fit.Request, p
 		}
 	} else if status_i == 3 {
 		// 医嘱执行查询（新医嘱）
-		mAdvices, err_db := model.SearchMedicalAdviceExecution(0, 1, pid_i, "0")
+		mAdvices, err_db := model.FetchNewMedicalAdvice(pid_i)
 		if err_db == nil {
 			c.RenderingJson(0,"查询成功", mAdvices)
 		} else {
@@ -189,6 +189,8 @@ func (c MedicalAdviceController) Execute(w *fit.Response, r *fit.Request, p fit.
 	nid := r.FormValue("nid")
 	period := r.FormValue("period")
 	process := r.FormValue("process")
+
+	fmt.Println("***JK",r.Form)
 
 	if pid == "" || madid == "" || state == "" || exectime == "" || nid == "" || period == "" || process == "" {
 		c.RenderingJsonAutomatically(1, "参数不完整")

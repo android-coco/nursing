@@ -1839,7 +1839,7 @@
             var $mTime = $el
             dateStr = $.trim($mTime.find('.td-date-input').val())
             if (dateStr) {
-                data.datetime = dateStr + " 00:00:00"
+                data.datetime = dateStr + " " + getNowTime()
             }
         }
 
@@ -2018,6 +2018,8 @@
                 elem: '#date1', //指定元素
                 showBottom: false,
                 value: sdate,
+                min:"{{.PInfo.HospitalDate}}",
+                max: nowDateObj.date,
                 done: function(value, date, endDate) {
 
                     var a = new Date(value);
@@ -2029,6 +2031,8 @@
                 elem: '#date2', //指定元素
                 showBottom: false,
                 value: edate,
+                min:"{{.PInfo.HospitalDate}}",
+                max: nowDateObj.date,
                 done: function(value, date, endDate) {
                     var a = new Date(value);
                     date2 = a.getTime();
@@ -2139,6 +2143,8 @@
                     elem: this,
                     showBottom: false,
                     value: dateV,
+                    min:"{{.PInfo.HospitalDate}}",
+                    max: nowDateObj.date,
                     done: function(value, date, endDate) {
                         $self.data("date",value)
                     }

@@ -8,6 +8,13 @@
     <title>深圳万丰医院基本生活活动能力(BADL</title>
     <style type="text/css">
         <!--
+        .bagw {
+            height: 1540px;
+            width: 1064px;
+        }
+        .tit{
+            font-size: 18px;
+        }
         .STYLE1 {
             font-size: medium
         }
@@ -34,7 +41,7 @@
         }
 
         .STYLE2 {
-            font-size: large;
+            font-size: 32px;
             font-weight: bold;
         }
 
@@ -109,10 +116,11 @@
         $(function () {
             var page = {{.PageNum}}//多少页
             var datas = {{.NRLList}}//数据
-            loadData(page, datas);
+            var pgeDataNum = {{.PageDataNum}}//每页多少数据
+                    loadData(page, datas, pgeDataNum);
         });
 
-        function loadData(page, datas) {
+        function loadData(page, datas, pgeDataNum) {
             var len = datas.length;
             var html = "";
             // debugger;
@@ -120,7 +128,7 @@
             console.log(page, datas)
             if (len > 0) {
                 for (var i = 0; i < page; i++) {
-                    html += "<p align=\"center\" class=\"STYLE2\"> 深圳万丰医院基本生活活动能力(BADL）</p><p>\n" +
+                    html += "<div class=\"bagw\"><p align=\"center\" class=\"STYLE2\"> 深圳万丰医院基本生活活动能力(BADL）</p><p class='tit'>\n" +
                             "    <label>床号：</label>\n" +
                             "    {{.PInfo.BCQ04}} \n" +
                             "    <label>&nbsp; &nbsp; &nbsp;姓名：</label>\n" +
@@ -147,13 +155,13 @@
                             "        <td colspan=\"7\"><div align=\"center\" class=\"STYLE1\">评估日期</div></td>\n" +
                             "    </tr>\n" +
                             "    <tr>\n" +
-                            "        <td width=\"89\" height=\"70\"><div align=\"center\">" + ((datas[i * 7]||"")&&(datas[i * 7].DateStr || " ")) + "</div></td>\n" +
-                            "        <td width=\"94\"><div align=\"center\"><span class=\"STYLE1\">" + ((datas[i * 7+1]||"")&&(datas[i * 7+1].DateStr || " ")) + "</span></div></td>\n" +
-                            "        <td width=\"95\"><div align=\"center\"><span class=\"STYLE1\">" +((datas[i * 7+2]||"")&&(datas[i * 7+2].DateStr || " ")) + "</span></div></td>\n" +
-                            "        <td width=\"94\"> <div align=\"center\">" + ((datas[i * 7+3]||"")&&(datas[i * 7+3].DateStr || " ")) + "</div></td>\n" +
-                            "        <td width=\"94\"><div align=\"center\"><span class=\"STYLE1\">" + ((datas[i * 7+4]||"")&&(datas[i * 7+4].DateStr || " ")) + "</span></div></td>\n" +
-                            "        <td width=\"113\"><div align=\"center\"><span class=\"STYLE1\">" +((datas[i * 7+5]||"")&&(datas[i * 7+5].DateStr || " ")) + "</span></div></td>\n" +
-                            "        <td width=\"103\"><div align=\"center\"><span class=\"STYLE1\">" + ((datas[i * 7+6]||"")&&(datas[i * 7+6].DateStr || " ")) + "</span></div></td>\n" +
+                            "        <td width=\"89\" height=\"70\"><div align=\"center\">" + ((datas[i * pgeDataNum + 0] || "") && (datas[i * pgeDataNum].DateStr || " ")) + "</div></td>\n" +
+                            "        <td width=\"94\"><div align=\"center\"><span class=\"STYLE1\">" + ((datas[i * pgeDataNum + 1] || "") && (datas[i * pgeDataNum + 1].DateStr || " ")) + "</span></div></td>\n" +
+                            "        <td width=\"95\"><div align=\"center\"><span class=\"STYLE1\">" + ((datas[i * pgeDataNum + 2] || "") && (datas[i * pgeDataNum + 2].DateStr || " ")) + "</span></div></td>\n" +
+                            "        <td width=\"94\"> <div align=\"center\">" + ((datas[i * pgeDataNum + 3] || "") && (datas[i * pgeDataNum + 3].DateStr || " ")) + "</div></td>\n" +
+                            "        <td width=\"94\"><div align=\"center\"><span class=\"STYLE1\">" + ((datas[i * pgeDataNum + 4] || "") && (datas[i * pgeDataNum + 4].DateStr || " ")) + "</span></div></td>\n" +
+                            "        <td width=\"113\"><div align=\"center\"><span class=\"STYLE1\">" + ((datas[i * pgeDataNum + 5] || "") && (datas[i * pgeDataNum + 5].DateStr || " ")) + "</span></div></td>\n" +
+                            "        <td width=\"103\"><div align=\"center\"><span class=\"STYLE1\">" + ((datas[i * pgeDataNum + 6] || "") && (datas[i * pgeDataNum + 6].DateStr || " ")) + "</span></div></td>\n" +
                             "    </tr>\n" +
                             "    <tr>\n" +
                             "        <td width=\"20\" height=\"70\"><div align=\"center\" class=\"STYLE1\">大便</div></td>\n" +
@@ -163,13 +171,13 @@
                             "        <td width=\"283\"><p class=\"STYLE1\">失禁或昏迷</p>\n" +
                             "            <p class=\"STYLE1\">偶有失禁（每周&lt;1次）</p>\n" +
                             "            <p class=\"STYLE1\">控制</p></td>\n" +
-                            "        <td width=\"89\"><span class=\"STYLE1\">" + (scoreHash.option1[(datas[i * 7 + 0].NRL01 || "")] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option1[datas[i * 7 + 1].NRL01] || " ") + "</span></td>\n" +
-                            "        <td width=\"95\"><span class=\"STYLE1\">" + (scoreHash.option1[datas[i * 7 + 2].NRL01] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option1[datas[i * 7 + 3].NRL01] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option1[datas[i * 7 + 4].NRL01] || " ") + "</span></td>\n" +
-                            "        <td width=\"113\"><span class=\"STYLE1\">" + (scoreHash.option1[datas[i * 7 + 5].NRL01] || " ") + "</span></td>\n" +
-                            "        <td width=\"103\"><span class=\"STYLE1\">" + (scoreHash.option1[datas[i * 7 + 6].NRL01] || " ") + "</span></td>\n" +
+                            "        <td width=\"89\"><span class=\"STYLE1\">" + (scoreHash.option1[(datas[i * pgeDataNum + 0].NRL01 || "")] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option1[datas[i * pgeDataNum + 1].NRL01] || " ") + "</span></td>\n" +
+                            "        <td width=\"95\"><span class=\"STYLE1\">" + (scoreHash.option1[datas[i * pgeDataNum + 2].NRL01] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option1[datas[i * pgeDataNum + 3].NRL01] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option1[datas[i * pgeDataNum + 4].NRL01] || " ") + "</span></td>\n" +
+                            "        <td width=\"113\"><span class=\"STYLE1\">" + (scoreHash.option1[datas[i * pgeDataNum + 5].NRL01] || " ") + "</span></td>\n" +
+                            "        <td width=\"103\"><span class=\"STYLE1\">" + (scoreHash.option1[datas[i * pgeDataNum + 6].NRL01] || " ") + "</span></td>\n" +
                             "    </tr>\n" +
                             "    <tr>\n" +
                             "        <td><div class=\"STYLE1\">\n" +
@@ -185,13 +193,13 @@
                             "            <p>偶有失禁（每24h &lt;1次）</p>\n" +
                             "            <p>控制</p>\n" +
                             "        </div></td>\n" +
-                            "        <td width=\"89\"><span class=\"STYLE1\">" + (scoreHash.option2[datas[i * 7 + 0].NRL02] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option2[datas[i * 7 + 1].NRL02] || " ") + "</span></td>\n" +
-                            "        <td width=\"95\"><span class=\"STYLE1\">" + (scoreHash.option2[datas[i * 7 + 2].NRL02] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option2[datas[i * 7 + 3].NRL02] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option2[datas[i * 7 + 4].NRL02] || " ") + "</span></td>\n" +
-                            "        <td width=\"113\"><span class=\"STYLE1\">" + (scoreHash.option2[datas[i * 7 + 5].NRL02] || " ") + "</span></td>\n" +
-                            "        <td width=\"103\"><span class=\"STYLE1\">" + (scoreHash.option2[datas[i * 7 + 6].NRL02] || " ") + "</span></td>\n" +
+                            "        <td width=\"89\"><span class=\"STYLE1\">" + (scoreHash.option2[datas[i * pgeDataNum + 0].NRL02] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option2[datas[i * pgeDataNum + 1].NRL02] || " ") + "</span></td>\n" +
+                            "        <td width=\"95\"><span class=\"STYLE1\">" + (scoreHash.option2[datas[i * pgeDataNum + 2].NRL02] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option2[datas[i * pgeDataNum + 3].NRL02] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option2[datas[i * pgeDataNum + 4].NRL02] || " ") + "</span></td>\n" +
+                            "        <td width=\"113\"><span class=\"STYLE1\">" + (scoreHash.option2[datas[i * pgeDataNum + 5].NRL02] || " ") + "</span></td>\n" +
+                            "        <td width=\"103\"><span class=\"STYLE1\">" + (scoreHash.option2[datas[i * pgeDataNum + 6].NRL02] || " ") + "</span></td>\n" +
                             "    </tr>\n" +
                             "    <tr>\n" +
                             "        <td><div class=\"STYLE1\">\n" +
@@ -205,13 +213,13 @@
                             "            <p>需要帮助</p>\n" +
                             "            <p>自理（洗脸、梳头、刷牙、剃须）</p>\n" +
                             "        </div></td>\n" +
-                            "        <td width=\"89\"><span class=\"STYLE1\">" + (scoreHash.option3[datas[i * 7 + 0].NRL03] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option3[datas[i * 7 + 1].NRL03] || " ") + "</span></td>\n" +
-                            "        <td width=\"95\"><span class=\"STYLE1\">" + (scoreHash.option3[datas[i * 7 + 2].NRL03] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option3[datas[i * 7 + 3].NRL03] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option3[datas[i * 7 + 4].NRL03] || " ") + "</span></td>\n" +
-                            "        <td width=\"113\"><span class=\"STYLE1\">" + (scoreHash.option3[datas[i * 7 + 5].NRL03] || " ") + "</span></td>\n" +
-                            "        <td width=\"103\"><span class=\"STYLE1\">" + (scoreHash.option3[datas[i * 7 + 6].NRL03] || " ") + "</span></td>\n" +
+                            "        <td width=\"89\"><span class=\"STYLE1\">" + (scoreHash.option3[datas[i * pgeDataNum + 0].NRL03] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option3[datas[i * pgeDataNum + 1].NRL03] || " ") + "</span></td>\n" +
+                            "        <td width=\"95\"><span class=\"STYLE1\">" + (scoreHash.option3[datas[i * pgeDataNum + 2].NRL03] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option3[datas[i * pgeDataNum + 3].NRL03] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option3[datas[i * pgeDataNum + 4].NRL03] || " ") + "</span></td>\n" +
+                            "        <td width=\"113\"><span class=\"STYLE1\">" + (scoreHash.option3[datas[i * pgeDataNum + 5].NRL03] || " ") + "</span></td>\n" +
+                            "        <td width=\"103\"><span class=\"STYLE1\">" + (scoreHash.option3[datas[i * pgeDataNum + 6].NRL03] || " ") + "</span></td>\n" +
                             "    </tr>\n" +
                             "    <tr>\n" +
                             "        <td><div class=\"STYLE1\">\n" +
@@ -227,13 +235,13 @@
                             "            <p>需部分帮助</p>\n" +
                             "            <p>自理（进出厕所、使用厕纸、穿脱裤子）</p>\n" +
                             "        </div></td>\n" +
-                            "        <td width=\"89\"><span class=\"STYLE1\">" + (scoreHash.option4[datas[i * 7 + 0].NRL04] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option4[datas[i * 7 + 1].NRL04] || " ") + "</span></td>\n" +
-                            "        <td width=\"95\"><span class=\"STYLE1\">" + (scoreHash.option4[datas[i * 7 + 2].NRL04] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option4[datas[i * 7 + 3].NRL04] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option4[datas[i * 7 + 4].NRL04] || " ") + "</span></td>\n" +
-                            "        <td width=\"113\"><span class=\"STYLE1\">" + (scoreHash.option4[datas[i * 7 + 5].NRL04] || " ") + "</span></td>\n" +
-                            "        <td width=\"103\"><span class=\"STYLE1\">" + (scoreHash.option4[datas[i * 7 + 6].NRL04] || " ") + "</span></td>\n" +
+                            "        <td width=\"89\"><span class=\"STYLE1\">" + (scoreHash.option4[datas[i * pgeDataNum + 0].NRL04] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option4[datas[i * pgeDataNum + 1].NRL04] || " ") + "</span></td>\n" +
+                            "        <td width=\"95\"><span class=\"STYLE1\">" + (scoreHash.option4[datas[i * pgeDataNum + 2].NRL04] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option4[datas[i * pgeDataNum + 3].NRL04] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option4[datas[i * pgeDataNum + 4].NRL04] || " ") + "</span></td>\n" +
+                            "        <td width=\"113\"><span class=\"STYLE1\">" + (scoreHash.option4[datas[i * pgeDataNum + 5].NRL04] || " ") + "</span></td>\n" +
+                            "        <td width=\"103\"><span class=\"STYLE1\">" + (scoreHash.option4[datas[i * pgeDataNum + 6].NRL04] || " ") + "</span></td>\n" +
                             "    </tr>\n" +
                             "    <tr>\n" +
                             "        <td><div class=\"STYLE1\">\n" +
@@ -249,13 +257,13 @@
                             "            <p>需部分帮助（切面包、抹黄油、夹菜、盛饭）</p>\n" +
                             "            <p>全面自理（能进食各种食物，但不包括取饭、 做饭）</p>\n" +
                             "        </div></td>\n" +
-                            "        <td width=\"89\"><span class=\"STYLE1\">" + (scoreHash.option5[datas[i * 7 + 0].NRL05] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option5[datas[i * 7 + 1].NRL05] || " ") + "</span></td>\n" +
-                            "        <td width=\"95\"><span class=\"STYLE1\">" + (scoreHash.option5[datas[i * 7 + 2].NRL05] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option5[datas[i * 7 + 3].NRL05] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option5[datas[i * 7 + 4].NRL05] || " ") + "</span></td>\n" +
-                            "        <td width=\"113\"><span class=\"STYLE1\">" + (scoreHash.option5[datas[i * 7 + 5].NRL05] || " ") + "</span></td>\n" +
-                            "        <td width=\"103\"><span class=\"STYLE1\">" + (scoreHash.option5[datas[i * 7 + 6].NRL05] || " ") + "</span></td>\n" +
+                            "        <td width=\"89\"><span class=\"STYLE1\">" + (scoreHash.option5[datas[i * pgeDataNum + 0].NRL05] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option5[datas[i * pgeDataNum + 1].NRL05] || " ") + "</span></td>\n" +
+                            "        <td width=\"95\"><span class=\"STYLE1\">" + (scoreHash.option5[datas[i * pgeDataNum + 2].NRL05] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option5[datas[i * pgeDataNum + 3].NRL05] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option5[datas[i * pgeDataNum + 4].NRL05] || " ") + "</span></td>\n" +
+                            "        <td width=\"113\"><span class=\"STYLE1\">" + (scoreHash.option5[datas[i * pgeDataNum + 5].NRL05] || " ") + "</span></td>\n" +
+                            "        <td width=\"103\"><span class=\"STYLE1\">" + (scoreHash.option5[datas[i * pgeDataNum + 6].NRL05] || " ") + "</span></td>\n" +
                             "    </tr>\n" +
                             "    <tr>\n" +
                             "        <td><div class=\"STYLE1\">\n" +
@@ -273,13 +281,13 @@
                             "            <p>需少量帮助（言语或身体帮助）</p>\n" +
                             "            <p>自理</p>\n" +
                             "        </div></td>\n" +
-                            "        <td width=\"89\"><span class=\"STYLE1\"></span>" + (scoreHash.option6[datas[i * 7 + 0].NRL06] || " ") + "</td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option6[datas[i * 7 + 1].NRL06] || " ") + "</span></td>\n" +
-                            "        <td width=\"95\"><span class=\"STYLE1\">" + (scoreHash.option6[datas[i * 7 + 2].NRL06] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option6[datas[i * 7 + 3].NRL06] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option6[datas[i * 7 + 4].NRL06] || " ") + "</span></td>\n" +
-                            "        <td width=\"113\"><span class=\"STYLE1\">" + (scoreHash.option6[datas[i * 7 + 5].NRL06] || " ") + "</span></td>\n" +
-                            "        <td width=\"103\"><span class=\"STYLE1\">" + (scoreHash.option6[datas[i * 7 + 6].NRL06] || " ") + "</span></td>\n" +
+                            "        <td width=\"89\"><span class=\"STYLE1\"></span>" + (scoreHash.option6[datas[i * pgeDataNum + 0].NRL06] || " ") + "</td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option6[datas[i * pgeDataNum + 1].NRL06] || " ") + "</span></td>\n" +
+                            "        <td width=\"95\"><span class=\"STYLE1\">" + (scoreHash.option6[datas[i * pgeDataNum + 2].NRL06] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option6[datas[i * pgeDataNum + 3].NRL06] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option6[datas[i * pgeDataNum + 4].NRL06] || " ") + "</span></td>\n" +
+                            "        <td width=\"113\"><span class=\"STYLE1\">" + (scoreHash.option6[datas[i * pgeDataNum + 5].NRL06] || " ") + "</span></td>\n" +
+                            "        <td width=\"103\"><span class=\"STYLE1\">" + (scoreHash.option6[datas[i * pgeDataNum + 6].NRL06] || " ") + "</span></td>\n" +
                             "    </tr>\n" +
                             "    <tr>\n" +
                             "        <td><div class=\"STYLE1\">\n" +
@@ -297,13 +305,13 @@
                             "            <p>需1人帮助步行（言语或身体帮助）</p>\n" +
                             "            <p>独立步行（可用辅助器，在家及附近）</p>\n" +
                             "        </div></td>\n" +
-                            "        <td width=\"89\"><span class=\"STYLE1\">" + (scoreHash.option7[datas[i * 7 + 0].NRL07] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option7[datas[i * 7 + 1].NRL07] || " ") + "</span></td>\n" +
-                            "        <td width=\"95\"><span class=\"STYLE1\">" + (scoreHash.option7[datas[i * 7 + 2].NRL07] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option7[datas[i * 7 + 3].NRL07] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option7[datas[i * 7 + 4].NRL07] || " ") + "</span></td>\n" +
-                            "        <td width=\"113\"><span class=\"STYLE1\">" + (scoreHash.option7[datas[i * 7 + 5].NRL07] || " ") + "</span></td>\n" +
-                            "        <td width=\"103\"><span class=\"STYLE1\">" + (scoreHash.option7[datas[i * 7 + 6].NRL07] || " ") + "</span></td>\n" +
+                            "        <td width=\"89\"><span class=\"STYLE1\">" + (scoreHash.option7[datas[i * pgeDataNum + 0].NRL07] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option7[datas[i * pgeDataNum + 1].NRL07] || " ") + "</span></td>\n" +
+                            "        <td width=\"95\"><span class=\"STYLE1\">" + (scoreHash.option7[datas[i * pgeDataNum + 2].NRL07] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option7[datas[i * pgeDataNum + 3].NRL07] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option7[datas[i * pgeDataNum + 4].NRL07] || " ") + "</span></td>\n" +
+                            "        <td width=\"113\"><span class=\"STYLE1\">" + (scoreHash.option7[datas[i * pgeDataNum + 5].NRL07] || " ") + "</span></td>\n" +
+                            "        <td width=\"103\"><span class=\"STYLE1\">" + (scoreHash.option7[datas[i * pgeDataNum + 6].NRL07] || " ") + "</span></td>\n" +
                             "    </tr>\n" +
                             "    <tr>\n" +
                             "        <td><div class=\"STYLE1\">\n" +
@@ -319,13 +327,13 @@
                             "            <p>需一半帮助</p>\n" +
                             "            <p>自理（自己系、解纽扣、关开拉锁和穿鞋）</p>\n" +
                             "        </div></td>\n" +
-                            "        <td width=\"89\"><span class=\"STYLE1\">" + (scoreHash.option8[datas[i * 7 + 0].NRL08] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option8[datas[i * 7 + 1].NRL08] || " ") + "</span></td>\n" +
-                            "        <td width=\"95\"><span class=\"STYLE1\">" + (scoreHash.option8[datas[i * 7 + 2].NRL08] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option8[datas[i * 7 + 3].NRL08] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option8[datas[i * 7 + 4].NRL08] || " ") + "</span></td>\n" +
-                            "        <td width=\"113\"><span class=\"STYLE1\">" + (scoreHash.option8[datas[i * 7 + 5].NRL08] || " ") + "</span></td>\n" +
-                            "        <td width=\"103\"><span class=\"STYLE1\">" + (scoreHash.option8[datas[i * 7 + 6].NRL08] || " ") + "</span></td>\n" +
+                            "        <td width=\"89\"><span class=\"STYLE1\">" + (scoreHash.option8[datas[i * pgeDataNum + 0].NRL08] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option8[datas[i * pgeDataNum + 1].NRL08] || " ") + "</span></td>\n" +
+                            "        <td width=\"95\"><span class=\"STYLE1\">" + (scoreHash.option8[datas[i * pgeDataNum + 2].NRL08] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option8[datas[i * pgeDataNum + 3].NRL08] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option8[datas[i * pgeDataNum + 4].NRL08] || " ") + "</span></td>\n" +
+                            "        <td width=\"113\"><span class=\"STYLE1\">" + (scoreHash.option8[datas[i * pgeDataNum + 5].NRL08] || " ") + "</span></td>\n" +
+                            "        <td width=\"103\"><span class=\"STYLE1\">" + (scoreHash.option8[datas[i * pgeDataNum + 6].NRL08] || " ") + "</span></td>\n" +
                             "    </tr>\n" +
                             "    <tr>\n" +
                             "        <td><div class=\"STYLE1\">\n" +
@@ -342,13 +350,13 @@
                             "            <p>需帮助（言语、身体、手杖帮助）</p>\n" +
                             "            <p>独立上下楼梯</p>\n" +
                             "        </div></td>\n" +
-                            "        <td width=\"89\"><span class=\"STYLE1\"></span>" + (scoreHash.option9[datas[i * 7 + 0].NRL09] || " ") + "</td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option9[datas[i * 7 + 1].NRL09] || " ") + "</span></td>\n" +
-                            "        <td width=\"95\"><span class=\"STYLE1\">" + (scoreHash.option9[datas[i * 7 + 2].NRL09] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option9[datas[i * 7 + 3].NRL09] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option9[datas[i * 7 + 4].NRL09] || " ") + "</span></td>\n" +
-                            "        <td width=\"113\"><span class=\"STYLE1\">" + (scoreHash.option9[datas[i * 7 + 5].NRL09] || " ") + "</span></td>\n" +
-                            "        <td width=\"103\"><span class=\"STYLE1\">" + (scoreHash.option9[datas[i * 7 + 6].NRL09] || " ") + "</span></td>\n" +
+                            "        <td width=\"89\"><span class=\"STYLE1\"></span>" + (scoreHash.option9[datas[i * pgeDataNum + 0].NRL09] || " ") + "</td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option9[datas[i * pgeDataNum + 1].NRL09] || " ") + "</span></td>\n" +
+                            "        <td width=\"95\"><span class=\"STYLE1\">" + (scoreHash.option9[datas[i * pgeDataNum + 2].NRL09] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option9[datas[i * pgeDataNum + 3].NRL09] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option9[datas[i * pgeDataNum + 4].NRL09] || " ") + "</span></td>\n" +
+                            "        <td width=\"113\"><span class=\"STYLE1\">" + (scoreHash.option9[datas[i * pgeDataNum + 5].NRL09] || " ") + "</span></td>\n" +
+                            "        <td width=\"103\"><span class=\"STYLE1\">" + (scoreHash.option9[datas[i * pgeDataNum + 6].NRL09] || " ") + "</span></td>\n" +
                             "    </tr>\n" +
                             "    <tr>\n" +
                             "        <td><div class=\"STYLE1\">\n" +
@@ -362,43 +370,43 @@
                             "            <p>依赖</p>\n" +
                             "            <p>自理（无指导能进出浴室并自理洗澡）</p>\n" +
                             "        </div></td>\n" +
-                            "        <td width=\"89\"><span class=\"STYLE1\">" +(scoreHash.option10[datas[i * 7 + 0].NRL10] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option10[datas[i * 7 + 1].NRL10] || " ") + "</span></td>\n" +
-                            "        <td width=\"95\"><span class=\"STYLE1\">" + (scoreHash.option10[datas[i * 7 + 2].NRL10] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option10[datas[i * 7 + 3].NRL10] || " ") + "</span></td>\n" +
-                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option10[datas[i * 7 + 4].NRL10] || " ") + "</span></td>\n" +
-                            "        <td width=\"113\"><span class=\"STYLE1\">" + (scoreHash.option10[datas[i * 7 + 5].NRL10] || " ") + "</span></td>\n" +
-                            "        <td width=\"103\"><span class=\"STYLE1\">" + (scoreHash.option10[datas[i * 7 + 6].NRL10] || " ") + "</span></td>\n" +
+                            "        <td width=\"89\"><span class=\"STYLE1\">" + (scoreHash.option10[datas[i * pgeDataNum + 0].NRL10] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option10[datas[i * pgeDataNum + 1].NRL10] || " ") + "</span></td>\n" +
+                            "        <td width=\"95\"><span class=\"STYLE1\">" + (scoreHash.option10[datas[i * pgeDataNum + 2].NRL10] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option10[datas[i * pgeDataNum + 3].NRL10] || " ") + "</span></td>\n" +
+                            "        <td width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option10[datas[i * pgeDataNum + 4].NRL10] || " ") + "</span></td>\n" +
+                            "        <td width=\"113\"><span class=\"STYLE1\">" + (scoreHash.option10[datas[i * pgeDataNum + 5].NRL10] || " ") + "</span></td>\n" +
+                            "        <td width=\"103\"><span class=\"STYLE1\">" + (scoreHash.option10[datas[i * pgeDataNum + 6].NRL10] || " ") + "</span></td>\n" +
                             "    </tr>\n" +
                             "    <tr>\n" +
                             "        <td height=\"70\" colspan=\"3\"><span class=\"STYLE1\">总得分</span></td>\n" +
-                            "        <td style=\"text-align: center\" width=\"89\"><span class=\"STYLE1\">" + (datas[i * 7 + 0].Score.toString() || scoreHash.option12[datas[i * 7 + 0].Score] ||" ") + "</span></td>\n" +
-                            "        <td style=\"text-align: center\" width=\"94\"><span class=\"STYLE1\">"+ (datas[i * 7 + 1].Score.toString() || scoreHash.option12[datas[i * 7 + 1].Score] ||" ") +"</span></td>\n" +
-                            "        <td style=\"text-align: center\" width=\"95\"><span class=\"STYLE1\">"+ (datas[i * 7 + 2].Score.toString() || scoreHash.option12[datas[i * 7 + 2].Score] ||" ") +"</span></td>\n" +
-                            "        <td style=\"text-align: center\" width=\"94\"><span class=\"STYLE1\">"+ (datas[i * 7 + 3].Score.toString() || scoreHash.option12[datas[i * 7 + 3].Score] ||" ") +"</span></td>\n" +
-                            "        <td style=\"text-align: center\" width=\"94\"><span class=\"STYLE1\">"+ (datas[i * 7 + 4].Score.toString() || scoreHash.option12[datas[i * 7 + 4].Score] ||" ") +"</span></td>\n" +
-                            "        <td style=\"text-align: center\" width=\"113\"><span class=\"STYLE1\">"+ (datas[i * 7 + 5].Score.toString() || scoreHash.option12[datas[i * 7 + 5].Score] ||" ") +"</span></td>\n" +
-                            "        <td style=\"text-align: center\" width=\"103\"><span class=\"STYLE1\">"+ (datas[i * 7 + 6].Score.toString() || scoreHash.option12[datas[i * 7 + 6].Score] ||" ") +"</span></td>\n" +
+                            "        <td style=\"text-align: center\" width=\"89\"><span class=\"STYLE1\">" + (datas[i * pgeDataNum + 0].Score.toString() || scoreHash.option12[datas[i * pgeDataNum + 0].Score] || " ") + "</span></td>\n" +
+                            "        <td style=\"text-align: center\" width=\"94\"><span class=\"STYLE1\">" + (datas[i * pgeDataNum + 1].Score.toString() || scoreHash.option12[datas[i * pgeDataNum + 1].Score] || " ") + "</span></td>\n" +
+                            "        <td style=\"text-align: center\" width=\"95\"><span class=\"STYLE1\">" + (datas[i * pgeDataNum + 2].Score.toString() || scoreHash.option12[datas[i * pgeDataNum + 2].Score] || " ") + "</span></td>\n" +
+                            "        <td style=\"text-align: center\" width=\"94\"><span class=\"STYLE1\">" + (datas[i * pgeDataNum + 3].Score.toString() || scoreHash.option12[datas[i * pgeDataNum + 3].Score] || " ") + "</span></td>\n" +
+                            "        <td style=\"text-align: center\" width=\"94\"><span class=\"STYLE1\">" + (datas[i * pgeDataNum + 4].Score.toString() || scoreHash.option12[datas[i * pgeDataNum + 4].Score] || " ") + "</span></td>\n" +
+                            "        <td style=\"text-align: center\" width=\"113\"><span class=\"STYLE1\">" + (datas[i * pgeDataNum + 5].Score.toString() || scoreHash.option12[datas[i * pgeDataNum + 5].Score] || " ") + "</span></td>\n" +
+                            "        <td style=\"text-align: center\" width=\"103\"><span class=\"STYLE1\">" + (datas[i * pgeDataNum + 6].Score.toString() || scoreHash.option12[datas[i * pgeDataNum + 6].Score] || " ") + "</span></td>\n" +
                             "    </tr>\n" +
                             "    <tr>\n" +
                             "        <td height=\"70\" colspan=\"3\"><span class=\"STYLE1\">签名</span></td>\n" +
-                            "        <td style=\"text-align: center\" width=\"89\"><span class=\"STYLE1\">" + (datas[i * 7 +0].BCE03A||" ") + "</span></td>\n" +
-                            "        <td style=\"text-align: center\" width=\"94\"><span class=\"STYLE1\">"+ (datas[i * 7 +1].BCE03A||" ") + "</span></td>\n" +
-                            "        <td style=\"text-align: center\" width=\"95\"><span class=\"STYLE1\">"+ (datas[i * 7 +2].BCE03A||" ") + "</span></td>\n" +
-                            "        <td style=\"text-align: center\" width=\"94\"><span class=\"STYLE1\">"+ (datas[i * 7 +3].BCE03A||" ") + "</span></td>\n" +
-                            "        <td style=\"text-align: center\" width=\"94\"><span class=\"STYLE1\">"+ (datas[i * 7 +4].BCE03A||" ") + "</span></td>\n" +
-                            "        <td style=\"text-align: center\" width=\"113\"><span class=\"STYLE1\">"+ (datas[i * 7 +5].BCE03A||" ") + "</span></td>\n" +
-                            "        <td style=\"text-align: center\" width=\"103\"><span class=\"STYLE1\">"+ (datas[i * 7 +6].BCE03A||" ") + "</span></td>\n" +
+                            "        <td style=\"text-align: center\" width=\"89\"><span class=\"STYLE1\">" + (datas[i * pgeDataNum + 0].BCE03A || " ") + "</span></td>\n" +
+                            "        <td style=\"text-align: center\" width=\"94\"><span class=\"STYLE1\">" + (datas[i * pgeDataNum + 1].BCE03A || " ") + "</span></td>\n" +
+                            "        <td style=\"text-align: center\" width=\"95\"><span class=\"STYLE1\">" + (datas[i * pgeDataNum + 2].BCE03A || " ") + "</span></td>\n" +
+                            "        <td style=\"text-align: center\" width=\"94\"><span class=\"STYLE1\">" + (datas[i * pgeDataNum + 3].BCE03A || " ") + "</span></td>\n" +
+                            "        <td style=\"text-align: center\" width=\"94\"><span class=\"STYLE1\">" + (datas[i * pgeDataNum + 4].BCE03A || " ") + "</span></td>\n" +
+                            "        <td style=\"text-align: center\" width=\"113\"><span class=\"STYLE1\">" + (datas[i * pgeDataNum + 5].BCE03A || " ") + "</span></td>\n" +
+                            "        <td style=\"text-align: center\" width=\"103\"><span class=\"STYLE1\">" + (datas[i * pgeDataNum + 6].BCE03A || " ") + "</span></td>\n" +
                             "    </tr>\n" +
                             "    <tr>\n" +
                             "        <td height=\"70\" colspan=\"3\"><span class=\"STYLE1\">建议护理级别</span></td>\n" +
-                            "        <td style=\"text-align: center\" width=\"89\"><span class=\"STYLE1\">" + (scoreHash.option11[datas[i * 7 + 0].NRL11] || " ") + "</span></td>\n" +
-                            "        <td style=\"text-align: center\" width=\"94\"><span class=\"STYLE1\">"+ (scoreHash.option11[datas[i * 7 + 1].NRL11] || " ") +"</span></td>\n" +
-                            "        <td style=\"text-align: center\" width=\"95\"><span class=\"STYLE1\">"+ (scoreHash.option11[datas[i * 7 + 2].NRL11] || " ") +"</span></td>\n" +
-                            "        <td style=\"text-align: center\" width=\"94\"><span class=\"STYLE1\">"+ (scoreHash.option11[datas[i * 7 + 3].NRL11] || " ") +"</span></td>\n" +
-                            "        <td style=\"text-align: center\" width=\"94\"><span class=\"STYLE1\">"+ (scoreHash.option11[datas[i * 7 + 4].NRL11] || " ") +"</span></td>\n" +
-                            "        <td style=\"text-align: center\" width=\"113\"><span class=\"STYLE1\">"+ (scoreHash.option11[datas[i * 7 + 5].NRL11] || " ") +"</span></td>\n" +
-                            "        <td style=\"text-align: center\" width=\"103\"><span class=\"STYLE1\">"+ (scoreHash.option11[datas[i * 7 + 6].NRL11] || " ") +"</span></td>\n" +
+                            "        <td style=\"text-align: center\" width=\"89\"><span class=\"STYLE1\">" + (scoreHash.option11[datas[i * pgeDataNum + 0].NRL11] || " ") + "</span></td>\n" +
+                            "        <td style=\"text-align: center\" width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option11[datas[i * pgeDataNum + 1].NRL11] || " ") + "</span></td>\n" +
+                            "        <td style=\"text-align: center\" width=\"95\"><span class=\"STYLE1\">" + (scoreHash.option11[datas[i * pgeDataNum + 2].NRL11] || " ") + "</span></td>\n" +
+                            "        <td style=\"text-align: center\" width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option11[datas[i * pgeDataNum + 3].NRL11] || " ") + "</span></td>\n" +
+                            "        <td style=\"text-align: center\" width=\"94\"><span class=\"STYLE1\">" + (scoreHash.option11[datas[i * pgeDataNum + 4].NRL11] || " ") + "</span></td>\n" +
+                            "        <td style=\"text-align: center\" width=\"113\"><span class=\"STYLE1\">" + (scoreHash.option11[datas[i * pgeDataNum + 5].NRL11] || " ") + "</span></td>\n" +
+                            "        <td style=\"text-align: center\" width=\"103\"><span class=\"STYLE1\">" + (scoreHash.option11[datas[i * pgeDataNum + 6].NRL11] || " ") + "</span></td>\n" +
                             "    </tr>\n" +
                             "    <tr>\n" +
                             "        <td height=\"70\"><span class=\"STYLE1\">备注</span></td>\n" +
@@ -411,8 +419,7 @@
                             "            <p class=\"STYLE1\">2. 患者入院时进行首次评估， &lt;60分时，每日评估一次，每日9点前完成。</p>\n" +
                             "            <p class=\"STYLE1\">3. 病情发生变化时，动态评估。</p></td>\n" +
                             "    </tr>\n" +
-                            "</table>";
-                    html += "<div class=\"kg\"></div>";
+                            "</table></div>";
                 }
                 $('body').html(html)
             }
@@ -421,379 +428,380 @@
 </head>
 
 <body>
-<p align="center" class="STYLE2"> 深圳万丰医院基本生活活动能力(BADL）</p>
-<p>
-    <label>床号：</label>
-{{.PInfo.BCQ04}} 
-    <label>&nbsp; &nbsp; &nbsp;姓名：</label>
-{{.PInfo.VAA05}} 
-    <label>&nbsp; &nbsp; &nbsp;性别：</label>
-{{.PInfo.Gender}} 
-    <label>&nbsp; &nbsp; &nbsp;年龄：</label>
-{{.PInfo.VAA10}}岁 
-    <label>&nbsp; &nbsp; &nbsp;住院号：</label>
-{{.PInfo.VAA04}}
-    <label>&nbsp; &nbsp; &nbsp;诊断：</label>
-{{.PInfo.VAO15}}</p>
-<table width="1059" border="1" cellspacing="0" bordercolor="#666666">
-    <tr>
-        <td width="20" rowspan="2">
-            <div class="STYLE1">
-                <div align="center">项目</div>
-            </div>
-        </td>
-        <td width="32" rowspan="2">
-            <div class="STYLE1">
-                <div align="center">评分</div>
-            </div>
-        </td>
-        <td width="283" rowspan="2">
-            <div class="STYLE1">
-                <div align="center">评估</div>
-            </div>
-        </td>
-        <td colspan="7">
-            <div align="center" class="STYLE1">评估日期</div>
-        </td>
-    </tr>
-    <tr>
-        <td width="89" height="70">
-            <div align="center">2017-11-21</div>
-        </td>
-        <td width="94">
-            <div align="center"><span class="STYLE1"></span>2017-11-21</div>
-        </td>
-        <td width="95">
-            <div align="center"><span class="STYLE1"></span>2017-11-21</div>
-        </td>
-        <td width="94">
-            <div align="center">2017-11-21</div>
-        </td>
-        <td width="94">
-            <div align="center"><span class="STYLE1"></span>2017-11-21</div>
-        </td>
-        <td width="113">
-            <div align="center"><span class="STYLE1"></span>2017-11-21</div>
-        </td>
-        <td width="103">
-            <div align="center"><span class="STYLE1"></span>2017-11-21</div>
-        </td>
-    </tr>
-    <tr>
-        <td width="20" height="70">
-            <div align="center" class="STYLE1">大便</div>
-        </td>
-        <td width="32" height="70"><p align="center" class="STYLE1">0</p>
-            <p align="center" class="STYLE1">5</p>
-            <p align="center" class="STYLE1">10</p></td>
-        <td width="283"><p class="STYLE1">失禁或昏迷</p>
-            <p class="STYLE1">偶有失禁（每周&lt;1次）</p>
-            <p class="STYLE1">控制</p></td>
-        <td width="89"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="95"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="113"><span class="STYLE1"></span></td>
-        <td width="103"><span class="STYLE1"></span></td>
-    </tr>
-    <tr>
-        <td>
-            <div class="STYLE1">
-                <div align="center">小便</div>
-            </div>
-        </td>
-        <td>
-            <div class="STYLE1">
-                <p align="center">0</p>
-                <p align="center">5</p>
-                <p align="center">10</p>
-            </div>
-        </td>
-        <td>
-            <div class="STYLE1">
-                <p>失禁或昏迷或由他人导尿</p>
-                <p>偶有失禁（每24h &lt;1次）</p>
-                <p>控制</p>
-            </div>
-        </td>
-        <td width="89"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="95"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="113"><span class="STYLE1"></span></td>
-        <td width="103"><span class="STYLE1"></span></td>
-    </tr>
-    <tr>
-        <td>
-            <div class="STYLE1">
-                <div align="center">装饰</div>
-            </div>
-        </td>
-        <td>
-            <div class="STYLE1">
-                <p align="center">0</p>
-                <p align="center">5</p>
-            </div>
-        </td>
-        <td>
-            <div class="STYLE1">
-                <p>需要帮助</p>
-                <p>自理（洗脸、梳头、刷牙、剃须）</p>
-            </div>
-        </td>
-        <td width="89"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="95"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="113"><span class="STYLE1"></span></td>
-        <td width="103"><span class="STYLE1"></span></td>
-    </tr>
-    <tr>
-        <td>
-            <div class="STYLE1">
-                <div align="center">如厕</div>
-            </div>
-        </td>
-        <td>
-            <div class="STYLE1">
-                <p align="center">0</p>
-                <p align="center">5</p>
-                <p align="center">10</p>
-            </div>
-        </td>
-        <td>
-            <div class="STYLE1">
-                <p>依赖他人</p>
-                <p>需部分帮助</p>
-                <p>自理（进出厕所、使用厕纸、穿脱裤子）</p>
-            </div>
-        </td>
-        <td width="89"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="95"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="113"><span class="STYLE1"></span></td>
-        <td width="103"><span class="STYLE1"></span></td>
-    </tr>
-    <tr>
-        <td>
-            <div class="STYLE1">
-                <div align="center">进食</div>
-            </div>
-        </td>
-        <td>
-            <div class="STYLE1">
-                <p align="center">0</p>
-                <p align="center">5</p>
-                <p align="center">10</p>
-            </div>
-        </td>
-        <td>
-            <div class="STYLE1">
-                <p>较大或完全依赖</p>
-                <p>需部分帮助（切面包、抹黄油、夹菜、盛饭）</p>
-                <p>全面自理（能进食各种食物，但不包括取饭、 做饭）</p>
-            </div>
-        </td>
-        <td width="89"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="95"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="113"><span class="STYLE1"></span></td>
-        <td width="103"><span class="STYLE1"></span></td>
-    </tr>
-    <tr>
-        <td>
-            <div class="STYLE1">
-                <div align="center">转移</div>
-            </div>
-        </td>
-        <td>
-            <div class="STYLE1">
-                <p align="center">0</p>
-                <p align="center">5</p>
-                <p align="center">10</p>
-                <p align="center">15</p>
-            </div>
-        </td>
-        <td>
-            <div class="STYLE1">
-                <p>完全依赖他人，无坐位平衡</p>
-                <p>大量帮助（1-2人，身体帮助），能坐</p>
-                <p>需少量帮助（言语或身体帮助）</p>
-                <p>自理</p>
-            </div>
-        </td>
-        <td width="89"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="95"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="113"><span class="STYLE1"></span></td>
-        <td width="103"><span class="STYLE1"></span></td>
-    </tr>
-    <tr>
-        <td>
-            <div class="STYLE1">
-                <div align="center">活动</div>
-            </div>
-        </td>
-        <td>
-            <div class="STYLE1">
-                <p align="center">0</p>
-                <p align="center">5</p>
-                <p align="center">10</p>
-                <p align="center">15</p>
-            </div>
-        </td>
-        <td>
-            <div class="STYLE1">
-                <p>不能步行</p>
-                <p>在轮椅上能独立行动</p>
-                <p>需1人帮助步行（言语或身体帮助）</p>
-                <p>独立步行（可用辅助器，在家及附近）</p>
-            </div>
-        </td>
-        <td width="89"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="95"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="113"><span class="STYLE1"></span></td>
-        <td width="103"><span class="STYLE1"></span></td>
-    </tr>
-    <tr>
-        <td>
-            <div class="STYLE1">
-                <div align="center">穿衣</div>
-            </div>
-        </td>
-        <td>
-            <div class="STYLE1">
-                <p align="center">0</p>
-                <p align="center">5</p>
-                <p align="center">10</p>
-            </div>
-        </td>
-        <td>
-            <div class="STYLE1">
-                <p>依赖他人</p>
-                <p>需一半帮助</p>
-                <p>自理（自己系、解纽扣、关开拉锁和穿鞋）</p>
-            </div>
-        </td>
-        <td width="89"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="95"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="113"><span class="STYLE1"></span></td>
-        <td width="103"><span class="STYLE1"></span></td>
-    </tr>
-    <tr>
-        <td>
-            <div class="STYLE1">
-                <div align="center">上下<br/>
-                    楼梯
+<div class="bagw">
+    <p align="center" class="STYLE2"> 深圳万丰医院基本生活活动能力(BADL）</p>
+    <p class="tit">
+        <label>床号：</label>
+    {{.PInfo.BCQ04}} 
+        <label>&nbsp; &nbsp; &nbsp;姓名：</label>
+    {{.PInfo.VAA05}} 
+        <label>&nbsp; &nbsp; &nbsp;性别：</label>
+    {{.PInfo.Gender}} 
+        <label>&nbsp; &nbsp; &nbsp;年龄：</label>
+    {{.PInfo.VAA10}}岁 
+        <label>&nbsp; &nbsp; &nbsp;住院号：</label>
+    {{.PInfo.VAA04}}
+        <label>&nbsp; &nbsp; &nbsp;诊断：</label>
+    {{.PInfo.VAO15}}</p>
+    <table width="1064" border="1" cellspacing="0" bordercolor="#666666">
+        <tr>
+            <td width="20" rowspan="2">
+                <div class="STYLE1">
+                    <div align="center">项目</div>
                 </div>
-            </div>
-        </td>
-        <td>
-            <div class="STYLE1">
-                <p align="center">0</p>
-                <p align="center">5</p>
-                <p align="center">10</p>
-            </div>
-        </td>
-        <td>
-            <div class="STYLE1">
-                <p>不能</p>
-                <p>需帮助（言语、身体、手杖帮助）</p>
-                <p>独立上下楼梯</p>
-            </div>
-        </td>
-        <td width="89"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="95"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="113"><span class="STYLE1"></span></td>
-        <td width="103"><span class="STYLE1"></span></td>
-    </tr>
-    <tr>
-        <td>
-            <div class="STYLE1">
-                <div align="center">洗澡</div>
-            </div>
-        </td>
-        <td>
-            <div class="STYLE1">
-                <p align="center">0</p>
-                <p align="center">5</p>
-            </div>
-        </td>
-        <td>
-            <div class="STYLE1">
-                <p>依赖</p>
-                <p>自理（无指导能进出浴室并自理洗澡）</p>
-            </div>
-        </td>
-        <td width="89"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="95"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="113"><span class="STYLE1"></span></td>
-        <td width="103"><span class="STYLE1"></span></td>
-    </tr>
-    <tr>
-        <td height="70" colspan="3"><span class="STYLE1">总得分</span></td>
-        <td width="89"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="95"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="113"><span class="STYLE1"></span></td>
-        <td width="103"><span class="STYLE1"></span></td>
-    </tr>
-    <tr>
-        <td height="70" colspan="3"><span class="STYLE1">签名</span></td>
-        <td width="89"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="95"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="113"><span class="STYLE1"></span></td>
-        <td width="103"><span class="STYLE1"></span></td>
-    </tr>
-    <tr>
-        <td height="70" colspan="3"><span class="STYLE1">建议护理级别</span></td>
-        <td width="89"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="95"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="94"><span class="STYLE1"></span></td>
-        <td width="113"><span class="STYLE1"></span></td>
-        <td width="103"><span class="STYLE1"></span></td>
-    </tr>
-    <tr>
-        <td height="70"><span class="STYLE1">备注</span></td>
-        <td height="70" colspan="9"><p class="STYLE1">
-            评分结果：满分100分。总分≤40分，重度依赖，全部需他人照顾，建议一级护理；总分41~60分，中度依赖，大部分需他人照顾，建议二级护理；总分61~</p>
-            <p class="STYLE1">99分，轻度依赖，少部分需他人照顾，结合患者病情，建议二级护理。</p></td>
-    </tr>
-    <tr>
-        <td width="20" height="70"><span class="STYLE1">评估时机</span></td>
-        <td height="70" colspan="9"><p class="STYLE1">1. 结合患者的活动，在自然状态下评估，根据患者的耐受情况，一次或分时段 进行评估。</p>
-            <p class="STYLE1">2. 患者入院时进行首次评估， &lt;60分时，每日评估一次，每日9点前完成。</p>
-            <p class="STYLE1">3. 病情发生变化时，动态评估。</p></td>
-    </tr>
-</table>
-<p>&nbsp;</p>
+            </td>
+            <td width="32" rowspan="2">
+                <div class="STYLE1">
+                    <div align="center">评分</div>
+                </div>
+            </td>
+            <td width="283" rowspan="2">
+                <div class="STYLE1">
+                    <div align="center">评估</div>
+                </div>
+            </td>
+            <td colspan="7">
+                <div align="center" class="STYLE1">评估日期</div>
+            </td>
+        </tr>
+        <tr>
+            <td width="89" height="70">
+                <div align="center">2017-11-21</div>
+            </td>
+            <td width="94">
+                <div align="center"><span class="STYLE1"></span>2017-11-21</div>
+            </td>
+            <td width="95">
+                <div align="center"><span class="STYLE1"></span>2017-11-21</div>
+            </td>
+            <td width="94">
+                <div align="center">2017-11-21</div>
+            </td>
+            <td width="94">
+                <div align="center"><span class="STYLE1"></span>2017-11-21</div>
+            </td>
+            <td width="113">
+                <div align="center"><span class="STYLE1"></span>2017-11-21</div>
+            </td>
+            <td width="103">
+                <div align="center"><span class="STYLE1"></span>2017-11-21</div>
+            </td>
+        </tr>
+        <tr>
+            <td width="20" height="70">
+                <div align="center" class="STYLE1">大便</div>
+            </td>
+            <td width="32" height="70"><p align="center" class="STYLE1">0</p>
+                <p align="center" class="STYLE1">5</p>
+                <p align="center" class="STYLE1">10</p></td>
+            <td width="283"><p class="STYLE1">失禁或昏迷</p>
+                <p class="STYLE1">偶有失禁（每周&lt;1次）</p>
+                <p class="STYLE1">控制</p></td>
+            <td width="89"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="95"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="113"><span class="STYLE1"></span></td>
+            <td width="103"><span class="STYLE1"></span></td>
+        </tr>
+        <tr>
+            <td>
+                <div class="STYLE1">
+                    <div align="center">小便</div>
+                </div>
+            </td>
+            <td>
+                <div class="STYLE1">
+                    <p align="center">0</p>
+                    <p align="center">5</p>
+                    <p align="center">10</p>
+                </div>
+            </td>
+            <td>
+                <div class="STYLE1">
+                    <p>失禁或昏迷或由他人导尿</p>
+                    <p>偶有失禁（每24h &lt;1次）</p>
+                    <p>控制</p>
+                </div>
+            </td>
+            <td width="89"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="95"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="113"><span class="STYLE1"></span></td>
+            <td width="103"><span class="STYLE1"></span></td>
+        </tr>
+        <tr>
+            <td>
+                <div class="STYLE1">
+                    <div align="center">装饰</div>
+                </div>
+            </td>
+            <td>
+                <div class="STYLE1">
+                    <p align="center">0</p>
+                    <p align="center">5</p>
+                </div>
+            </td>
+            <td>
+                <div class="STYLE1">
+                    <p>需要帮助</p>
+                    <p>自理（洗脸、梳头、刷牙、剃须）</p>
+                </div>
+            </td>
+            <td width="89"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="95"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="113"><span class="STYLE1"></span></td>
+            <td width="103"><span class="STYLE1"></span></td>
+        </tr>
+        <tr>
+            <td>
+                <div class="STYLE1">
+                    <div align="center">如厕</div>
+                </div>
+            </td>
+            <td>
+                <div class="STYLE1">
+                    <p align="center">0</p>
+                    <p align="center">5</p>
+                    <p align="center">10</p>
+                </div>
+            </td>
+            <td>
+                <div class="STYLE1">
+                    <p>依赖他人</p>
+                    <p>需部分帮助</p>
+                    <p>自理（进出厕所、使用厕纸、穿脱裤子）</p>
+                </div>
+            </td>
+            <td width="89"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="95"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="113"><span class="STYLE1"></span></td>
+            <td width="103"><span class="STYLE1"></span></td>
+        </tr>
+        <tr>
+            <td>
+                <div class="STYLE1">
+                    <div align="center">进食</div>
+                </div>
+            </td>
+            <td>
+                <div class="STYLE1">
+                    <p align="center">0</p>
+                    <p align="center">5</p>
+                    <p align="center">10</p>
+                </div>
+            </td>
+            <td>
+                <div class="STYLE1">
+                    <p>较大或完全依赖</p>
+                    <p>需部分帮助（切面包、抹黄油、夹菜、盛饭）</p>
+                    <p>全面自理（能进食各种食物，但不包括取饭、 做饭）</p>
+                </div>
+            </td>
+            <td width="89"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="95"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="113"><span class="STYLE1"></span></td>
+            <td width="103"><span class="STYLE1"></span></td>
+        </tr>
+        <tr>
+            <td>
+                <div class="STYLE1">
+                    <div align="center">转移</div>
+                </div>
+            </td>
+            <td>
+                <div class="STYLE1">
+                    <p align="center">0</p>
+                    <p align="center">5</p>
+                    <p align="center">10</p>
+                    <p align="center">15</p>
+                </div>
+            </td>
+            <td>
+                <div class="STYLE1">
+                    <p>完全依赖他人，无坐位平衡</p>
+                    <p>大量帮助（1-2人，身体帮助），能坐</p>
+                    <p>需少量帮助（言语或身体帮助）</p>
+                    <p>自理</p>
+                </div>
+            </td>
+            <td width="89"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="95"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="113"><span class="STYLE1"></span></td>
+            <td width="103"><span class="STYLE1"></span></td>
+        </tr>
+        <tr>
+            <td>
+                <div class="STYLE1">
+                    <div align="center">活动</div>
+                </div>
+            </td>
+            <td>
+                <div class="STYLE1">
+                    <p align="center">0</p>
+                    <p align="center">5</p>
+                    <p align="center">10</p>
+                    <p align="center">15</p>
+                </div>
+            </td>
+            <td>
+                <div class="STYLE1">
+                    <p>不能步行</p>
+                    <p>在轮椅上能独立行动</p>
+                    <p>需1人帮助步行（言语或身体帮助）</p>
+                    <p>独立步行（可用辅助器，在家及附近）</p>
+                </div>
+            </td>
+            <td width="89"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="95"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="113"><span class="STYLE1"></span></td>
+            <td width="103"><span class="STYLE1"></span></td>
+        </tr>
+        <tr>
+            <td>
+                <div class="STYLE1">
+                    <div align="center">穿衣</div>
+                </div>
+            </td>
+            <td>
+                <div class="STYLE1">
+                    <p align="center">0</p>
+                    <p align="center">5</p>
+                    <p align="center">10</p>
+                </div>
+            </td>
+            <td>
+                <div class="STYLE1">
+                    <p>依赖他人</p>
+                    <p>需一半帮助</p>
+                    <p>自理（自己系、解纽扣、关开拉锁和穿鞋）</p>
+                </div>
+            </td>
+            <td width="89"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="95"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="113"><span class="STYLE1"></span></td>
+            <td width="103"><span class="STYLE1"></span></td>
+        </tr>
+        <tr>
+            <td>
+                <div class="STYLE1">
+                    <div align="center">上下<br/>
+                        楼梯
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="STYLE1">
+                    <p align="center">0</p>
+                    <p align="center">5</p>
+                    <p align="center">10</p>
+                </div>
+            </td>
+            <td>
+                <div class="STYLE1">
+                    <p>不能</p>
+                    <p>需帮助（言语、身体、手杖帮助）</p>
+                    <p>独立上下楼梯</p>
+                </div>
+            </td>
+            <td width="89"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="95"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="113"><span class="STYLE1"></span></td>
+            <td width="103"><span class="STYLE1"></span></td>
+        </tr>
+        <tr>
+            <td>
+                <div class="STYLE1">
+                    <div align="center">洗澡</div>
+                </div>
+            </td>
+            <td>
+                <div class="STYLE1">
+                    <p align="center">0</p>
+                    <p align="center">5</p>
+                </div>
+            </td>
+            <td>
+                <div class="STYLE1">
+                    <p>依赖</p>
+                    <p>自理（无指导能进出浴室并自理洗澡）</p>
+                </div>
+            </td>
+            <td width="89"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="95"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="113"><span class="STYLE1"></span></td>
+            <td width="103"><span class="STYLE1"></span></td>
+        </tr>
+        <tr>
+            <td height="70" colspan="3"><span class="STYLE1">总得分</span></td>
+            <td width="89"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="95"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="113"><span class="STYLE1"></span></td>
+            <td width="103"><span class="STYLE1"></span></td>
+        </tr>
+        <tr>
+            <td height="70" colspan="3"><span class="STYLE1">签名</span></td>
+            <td width="89"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="95"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="113"><span class="STYLE1"></span></td>
+            <td width="103"><span class="STYLE1"></span></td>
+        </tr>
+        <tr>
+            <td height="70" colspan="3"><span class="STYLE1">建议护理级别</span></td>
+            <td width="89"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="95"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="94"><span class="STYLE1"></span></td>
+            <td width="113"><span class="STYLE1"></span></td>
+            <td width="103"><span class="STYLE1"></span></td>
+        </tr>
+        <tr>
+            <td height="70"><span class="STYLE1">备注</span></td>
+            <td height="70" colspan="9"><p class="STYLE1">
+                评分结果：满分100分。总分≤40分，重度依赖，全部需他人照顾，建议一级护理；总分41~60分，中度依赖，大部分需他人照顾，建议二级护理；总分61~</p>
+                <p class="STYLE1">99分，轻度依赖，少部分需他人照顾，结合患者病情，建议二级护理。</p></td>
+        </tr>
+        <tr>
+            <td width="20" height="70"><span class="STYLE1">评估时机</span></td>
+            <td height="70" colspan="9"><p class="STYLE1">1. 结合患者的活动，在自然状态下评估，根据患者的耐受情况，一次或分时段 进行评估。</p>
+                <p class="STYLE1">2. 患者入院时进行首次评估， &lt;60分时，每日评估一次，每日9点前完成。</p>
+                <p class="STYLE1">3. 病情发生变化时，动态评估。</p></td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>

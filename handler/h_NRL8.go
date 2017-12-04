@@ -46,7 +46,7 @@ func (c NRL8Controller) Check(w *fit.Response, r *fit.Request, p fit.Params) {
 }
 
 func (c NRL8Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
-	pid := r.FormValue("pid")//病人id
+	/*pid := r.FormValue("pid")//病人id
 	uid := r.FormValue("uid") //护士id
 	rid := r.FormValue("rid") // 护理记录单id
 	ty := r.FormValue("type") // 1=add， 2=edit
@@ -72,6 +72,12 @@ func (c NRL8Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 	} else {
 		fmt.Fprintln(w, "参数错误！")
 		return
+	}*/
+
+	// 文书model，type， 文书id，病人id，护士id，参数是否正确
+	nrl, ty, rid, pid, uid, isOk := c.LoadNRLDataWithParm(w, r, "8")
+	if !isOk {
+		return
 	}
 
 	// 查询对应病人信息 护士的信息
@@ -80,14 +86,12 @@ func (c NRL8Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 		return
 	}
 
-	//recordDate := nr8.DateTime.Format("2006-01-02")
 	c.Data = fit.Data{
 		"PInfo": patient,
-		"NRL":   nr8,
+		"NRL":   nrl,
 		"Type":  ty,
 		"Rid": rid,
 		"Account": account,
-		//"RecordDate": recordDate,
 	}
 
 	c.LoadView(w, "v_nrl8_edit.html")

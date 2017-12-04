@@ -6,9 +6,7 @@ import (
 	"nursing/model"
 	"fmt"
 	"time"
-	//"nursing/utils"
 	"encoding/json"
-	"nursing/utils"
 )
 
 // 护理记录单 PDA端
@@ -21,14 +19,12 @@ type NRL1Controller struct {
 // 修改护理记录单
 func (c NRL1Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
-	//model.NRLRelatesToIO("802040")
-	//return
 	// 病人ID
 	pid := r.FormValue("pid")
 	VAA01, err1 := strconv.ParseInt(pid, 10, 64)
 	// 科室ID
-	did := r.FormValue("did")
-	BCK01, err2 := strconv.Atoi(did)
+	//did := r.FormValue("did")
+	//BCK01, err2 := strconv.Atoi(did)
 	// 护士ID
 	BCE01A, err3 := strconv.Atoi(r.FormValue("uid"))
 	// 护士名
@@ -36,22 +32,21 @@ func (c NRL1Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 	// 记录时间
 	datetime, err4 := time.ParseInLocation("2006-01-02 15:04:05", r.FormValue("datetime"), time.Local)
 
-	flag := checkerr("update record:", err1, err2, err3, err4)
+	flag := checkerr("update record:", err1, err3, err4)
 	if flag || BCE03A == ""{
 		c.RenderingJsonAutomatically(2, "参数不完整")
 		return
 	}
-	fmt.Println(VAA01, BCK01, BCE01A, BCE03A, datetime)
+	//fmt.Println(VAA01, BCK01, BCE01A, BCE03A, datetime)
 
 	jsonstr := r.FormValue("jsonstr")
-	fmt.Println("json str :", jsonstr)
 	var mods []model.NRLData
-	//var maps []map[string]string
 	errUnmarshal := json.Unmarshal([]byte(jsonstr), &mods)
 	if errUnmarshal != nil {
 		fit.Logger().LogError("json.Unmarshal err:", errUnmarshal)
+		c.RenderingJsonAutomatically(2, "参数错误")
+		return
 	}
-	fmt.Printf("----mods: %+v\n", mods)
 
 	//开启事务
 	session := fit.MySqlEngine().NewSession()
@@ -59,52 +54,40 @@ func (c NRL1Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 	errsession := session.Begin()
 	if errsession != nil {
 		fit.Logger().LogError("session err:", errsession)
+		c.RenderingJsonAutomatically(1, "修改失败", )
 		return
 	}
-	for _, model := range mods {
-		fmt.Printf("model: %+v\n\n", model)
+	for _, mod := range mods {
 
-		id := model.ID
-		//subType, err := strconv.Atoi(dict["subType"])
-		//if err != nil {
-		//	fit.Logger().LogError("json.Unmarshal parse subtype err:", err)
-		//	subType = 0
-		//}
-		//nrldata := model.NRLData{
-			//ID:        id,
-			//HeadType:  dict["headType"],
-			//SubType:   subType,
-			//NurseId:   BCE01A,
-			//NurseName: BCE03A,
-			//PatientId: VAA01,
-			//Value:     dict["value"],
-			//TestTime:  fit.JsonTime(datetime),
-		//}
+		id := mod.ID
 		if id == 0 {
-			model.TestTime = fit.JsonTime(datetime)
-			model.PatientId = VAA01
-			model.NurseId = BCE01A
-			model.NurseName = BCE03A
+			mod.TestTime = fit.JsonTime(datetime)
+			mod.PatientId = VAA01
+			mod.NurseId = BCE01A
+			mod.NurseName = BCE03A
 
-			_, errInsert := session.Table("NurseChat").Insert(model)
+			_, errInsert := session.Table("NurseChat").Insert(mod)
 			if errInsert != nil {
 				fit.Logger().LogError("session insert err:", errInsert)
+				c.RenderingJsonAutomatically(1, "修改失败", )
 				session.Rollback()
 				return
 			}
 		} else {
-			_, errUpdate := session.Table("NurseChat").ID(id).Update(&model)
+			_, errUpdate := session.Table("NurseChat").ID(id).Update(&mod)
 			if errUpdate != nil {
 				fit.Logger().LogError("session update err:", errUpdate)
+				c.RenderingJsonAutomatically(1, "修改失败", )
 				session.Rollback()
 				return
 			}
 		}
-		fmt.Printf("---------------model: %+v\n\n", model)
+		//fmt.Printf("---------------model: %+v\n\n", model)
 	}
 	errsession = session.Commit()
 	if errsession != nil {
 		fit.Logger().LogError("session Commit err:", errsession)
+		c.RenderingJsonAutomatically(1, "修改失败", )
 		return
 	} else {
 		c.RenderingJsonAutomatically(0, "修改成功", )
@@ -139,7 +122,11 @@ func (c NRL1Controller) UpdateTitle(w *fit.Response, r *fit.Request, p fit.Param
 	NRT07 := r.FormValue("NRT07")
 	NRT07V := r.FormValue("NRT07V")
 
-	checkerr("nrl7 title:", err1, err3)
+
+	if flag := checkerr("nrl7 title:", err1, err3); flag {
+		c.RenderingJsonAutomatically(1, "参数不完整")
+		return
+	}
 
 	title := model.NRL1Title{
 		VAA01:  VAA01,
@@ -176,25 +163,15 @@ func (c NRL1Controller) UpdateTitle(w *fit.Response, r *fit.Request, p fit.Param
 func (c NRL1Controller) DeleteRecord(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 	// 文书ID
-	/*rid := r.FormValue("rid")
-	headType := r.FormValue("headType")
-	if rid == "" || headType == "" {
-		c.RenderingJsonAutomatically(3, "参数不完整")
-	}
-	id, err := strconv.ParseInt(rid, 10, 64)
-	if err != nil {
-		fit.Logger().LogError("Error", "nrl1 update :", err)
-		c.RenderingJsonAutomatically(3, "rid 错误！")
-		return
-	}*/
 
 	jsonstr := r.FormValue("jsonstr")
-	var maps []map[string]string
-	errUnmarshal := json.Unmarshal([]byte(jsonstr), &maps)
+	var mods []model.NRLData
+	errUnmarshal := json.Unmarshal([]byte(jsonstr), &mods)
 	if errUnmarshal != nil {
 		fit.Logger().LogError("json.Unmarshal err:", errUnmarshal)
+		c.RenderingJsonAutomatically(4, "参数不完整")
+		return
 	}
-	fmt.Println(maps)
 
 	//开启事务
 	session := fit.MySqlEngine().NewSession()
@@ -202,60 +179,64 @@ func (c NRL1Controller) DeleteRecord(w *fit.Response, r *fit.Request, p fit.Para
 	errsession := session.Begin()
 	if errsession != nil {
 		fit.Logger().LogError("session err:", errsession)
+		c.RenderingJsonAutomatically(4, "参数错误")
 		return
 	}
-	for _, dict := range maps {
-		fmt.Println("---", dict)
 
-		id, errParse := utils.Int64Value(dict["ID"])
 
-		if errParse != nil {
-			fit.Logger().LogError("json.Unmarshal parse err:", errParse)
-			id = 0
-		}
-		subType, err := strconv.Atoi(dict["subType"])
-		if err != nil {
-			fit.Logger().LogError("json.Unmarshal parse subtype err:", err)
-			subType = 0
-		}
-		nrldata := model.NRLData{
-			ID:        id,
-			HeadType:  dict["headType"],
-			SubType:   subType,
-		}
+	for _, mod := range mods {
+		fmt.Printf("model: %+v\n\n", mod)
+		id := mod.ID
 		if id == 0 {
-			_, errInsert := session.Table("NurseChat").Insert(nrldata)
-			if errInsert != nil {
-				fit.Logger().LogError("session insert err:", errParse)
-				session.Rollback()
-				return
-			}
+			c.RenderingJsonAutomatically(3, "删除失败 id为空", )
+			session.Rollback()
+			return
 		} else {
-			_, errUpdate := session.Table("NurseChat").ID(id).Delete(&nrldata)
-			if errUpdate != nil {
-				fit.Logger().LogError("session update err:", errParse)
-				session.Rollback()
-				return
+			if mod.HeadType == "18" {
+				modio := model.IOStatistics{ID:id}
+
+				affected, errUpdate := session.Table("IOStatistics").ID(id).Delete(&modio)
+				if errUpdate != nil {
+					fit.Logger().LogError("session update err:", errUpdate)
+					c.RenderingJsonAutomatically(1, "删除失败", )
+					session.Rollback()
+					return
+				}
+				if affected == 0 {
+					c.RenderingJsonAutomatically(2, "删除失败, 不存在改条记录", )
+					session.Rollback()
+					return
+				}
+			} else {
+				affected, errUpdate := session.Table("NurseChat").ID(id).Delete(&mod)
+				if errUpdate != nil {
+					fit.Logger().LogError("session update err:", errUpdate)
+					c.RenderingJsonAutomatically(1, "删除失败", )
+					session.Rollback()
+					return
+				}
+				if affected == 0 {
+					c.RenderingJsonAutomatically(2, "删除失败, 不存在改条记录", )
+					session.Rollback()
+					return
+				}
 			}
+
+			switch mod.HeadType {
+			case "18":
+			case "1", "2", "3", "4", "6", "7", "15", "16", "17":
+			default:
+			}
+
 		}
-		fmt.Println(nrldata)
 	}
 	errsession = session.Commit()
 	if errsession != nil {
 		fit.Logger().LogError("session Commit err:", errsession)
-		c.RenderingJsonAutomatically(0, "删除失败", )
-		return
+		c.RenderingJsonAutomatically(1, "删除失败", )
 	} else {
 		c.RenderingJsonAutomatically(0, "删除成功", )
 	}
-
-	//err18 := model.DeleteNRLData(rid, headType)
-	//if err18 != nil {
-	//	fit.Logger().LogError("nrl8 add :", err18)
-	//	c.RenderingJsonAutomatically(3, "删除失败！")
-	//} else {
-	//	c.RenderingJsonAutomatically(0, "删除成功！")
-	//}
 }
 
 /*

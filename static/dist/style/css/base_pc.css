@@ -1,6 +1,9 @@
 p {
   margin: 0;
 }
+body {
+  font-family: arial;
+}
 ul {
   list-style: none;
   margin: 0;
@@ -158,8 +161,16 @@ body {
 .pt48 {
   padding-top: 48px;
 }
+.admin .top48 {
+  left: 0;
+}
+.admin .top48 .am-topbar-left {
+  top: 0;
+  display: block !important;
+}
 .top48 {
   top: 48px;
+  left: 209px;
   border-top: 3px solid #fff;
   background-color: #fff;
   border-bottom: 1px solid #ddd;
@@ -169,6 +180,7 @@ body {
 }
 .top48 .am-topbar-left {
   top: 0;
+  display: none !important;
 }
 .top48 .am-topbar-left .username {
   color: #0072e7;
@@ -3806,7 +3818,7 @@ body {
   font-size: 14px;
   color: #333;
   display: inline-block;
-  padding-right: 16px;
+  padding-right: 8px;
 }
 .doc-input1 .doc-input1-cont .scroll-box .m-check2 li.pd-0 {
   padding-right: 0;
@@ -6795,7 +6807,7 @@ body {
   border: 1px solid #ddd;
   background-color: #fff;
   width: 80%;
-  margin: 10px 0;
+  margin: 10px auto;
   text-align: center;
 }
 .doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table tbody .show-txt {
@@ -7458,4 +7470,7 @@ body {
 }
 .disabled-box label {
   color: #999 !important;
+}
+.noneClick {
+  cursor: not-allowed;
 }

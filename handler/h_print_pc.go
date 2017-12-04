@@ -67,15 +67,41 @@ type BottleStrap struct {
 	HospitalId string
 }
 
+type PrintInfoDup struct {
+	Madid       int64  // 医嘱ID
+	Pid         int64  // 病人ID
+	PatientName string // 病人姓名
+	Bed         string // 床位号
+	Gender      int    // 性别
+	Age         int    // 年龄
+	HospNum     string // 住院号
+	TypeOf      int    // 医嘱类型
+	Dosage      string // 剂量
+	Content     string //内容
+	Times       string //频次
+	PrintType   string // 执行单类型
+	Speed       string // 滴速
+	SetNo       string //组号
+	PcInfo      string //频次Str
+}
+
 // 瓶贴打印
 func (c PCBottleStrapController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 
-
-	c.LoadView(w, "pc/v_ptprint.html")//屏贴
-	//c.LoadView(w, "pc/v_shuyeprint.html")//输液单
-	//c.LoadView(w, "pc/v_kofuprint.html")//口服单,治疗单,注射单
+	//defer c.LoadView(w, "pc/v_ptprint.html") //屏贴
+	defer c.LoadView(w, "pc/v_shuyeprint.html")//输液单
+	//defer c.LoadView(w, "pc/v_kofuprint.html")//口服单,治疗单,注射单
+	madids := r.FormValue("madids")
+	sql := fmt.Sprintf("select a.VAF01 as Madid,a.VAA01 as Pid,v.VAA05 as PatientName,v.BCQ04 as Bed,v.ABW01 as Gender,v.VAA10 as Age,v.VAA04 as HospNum,a.VAF11 as TypeOf,a.VAF19 as Dosage,a.VAF22 as Content,a.VAF27 as Times,c.BBX20 PrintType,a.VAF60 Speed,a.VAF59 AS SetNo,a.VAF26 AS PcInfo from ((VAF2 a left join VAF2 b on a.VAF01A = b.VAF01) left join BBX1 c on c.BBX01 = a.BBX01) left join VAA1 v on v.VAA01 = a.VAA01 where a.VAF01 in (%s) order by a.VAF36,a.VAA01,a.CBM01,c.BBX20", madids)
+	printInfos:= make([]PrintInfoDup,0)
+	fit.SQLServerEngine().SQL(sql).Find(&printInfos)
+	fit.Logger().LogError("PCBottleStrapController:",printInfos)
+	timenow := time.Now().Format("2006-01-02 15:04:05")
+	c.Data = fit.Data{
+		"PrintInfo":    printInfos, // 打印信息
+		"Now":    timenow, // 打印时间
+	}
 }
-
 //打印交接班
 type PCSuccessionController struct {
 	PCController
@@ -179,23 +205,33 @@ func (c PCSuccessionController) Get(w *fit.Response, r *fit.Request, p fit.Param
 			}
 
 			successiondetails, _ = model.OutSuccessionDetails("datatime = ? and classid = ?", starttime, classid)
-			if len(successiondetails) != 0 {
-				Data["Successiondetails"] = successiondetails
-			}
-			fit.Logger().LogError("yh 打印交接班", successiondetails, len(successiondetails))
 		}
-		page := 0
-		if len(successiondetails)%6 == 0 {
-			page = len(successiondetails) / 6
+		//总条数
+		var page int
+		pageDataNum := 10 //每页多少数据
+		if len(successiondetails)%pageDataNum == 0 {
+			page = len(successiondetails) / pageDataNum
 		} else {
-			page = len(successiondetails)/6 + 1
+			page = len(successiondetails)/pageDataNum + 1
 		}
-		fit.Logger().LogError("yh 打印交接班", page)
+
+		//计算最后一页差多少数据
+		//[]NRL3
+		//fit.Logger().LogError("nrl page info :", len(mods), mods)
+		oldlen := len(successiondetails)
+		for i := 0; i < (page*pageDataNum - oldlen); i++ {
+			successiondetails = append(successiondetails, model.SuccessionDetails{})
+		}
+
+
+		//fit.Logger().LogError("yh 打印交接班", page,len(successiondetails))
 		Data["Userinfo"] = userinfo
 		Data["Menuindex"] = "6-0"
 		Data["Len"] = len(successiondetails)
+		Data["Successiondetails"] = successiondetails
 		Data["Page"] = page
 		Data["Pages"] = make([]int, page)
+		Data["PageDataNum"] = pageDataNum
 		c.Data = Data
 	}
 }
@@ -235,16 +271,17 @@ func (c PCNrl1Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 
 	//总条数
 	var page int
-	if len(mods)%8 == 0 {
-		page = len(mods) / 8
+	pageDataNum := 8 //每页多少数据
+	if len(mods)%pageDataNum == 0 {
+		page = len(mods) / pageDataNum
 	} else {
-		page = len(mods)/8 + 1
+		page = len(mods)/pageDataNum + 1
 	}
 	//计算最后一页差多少数据
 	//[]NRL3
 	//fit.Logger().LogError("nrl page info :", len(mods), mods)
 	oldlen := len(mods)
-	for i := 0; i < (page*8 - oldlen); i++ {
+	for i := 0; i < (page*pageDataNum - oldlen); i++ {
 		mods = append(mods, model.NRLModel{})
 	}
 
@@ -259,13 +296,14 @@ func (c PCNrl1Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 	fmt.Printf("mods %+v\n length：%d\n\n", mods, len(mods))
 
 	c.Data = fit.Data{
-		"Userinfo":  userinfo, // 护士信息
-		"PInfo":     pInfo,    // 病人信息
-		"Beds":      beds,     // 床位list
-		"NRLList":   mods,
-		"NRLTitle":  nrl1Title,
-		"PageNum":   page,
-		"Menuindex": "7-1",
+		"Userinfo":    userinfo, // 护士信息
+		"PInfo":       pInfo,    // 病人信息
+		"Beds":        beds,     // 床位list
+		"NRLList":     mods,
+		"NRLTitle":    nrl1Title,
+		"PageNum":     page,
+		"PageDataNum": pageDataNum,
+		"Menuindex":   "7-1",
 	}
 
 }
@@ -377,7 +415,7 @@ func (c PCNrl3Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 		return
 	}
 	pid = r.FormValue("pid")
-	datestr1, datestr2, pageindex, _, err := c.GetPageInfo(w, r, "3", pid)
+	datestr1, datestr2, _, _, err := c.GetPageInfo(w, r, "3", pid)
 	if err != nil {
 		fit.Logger().LogError("nrl page info :", err)
 		return
@@ -390,10 +428,11 @@ func (c PCNrl3Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 	}
 
 	var page int
-	if len(mods)%7 == 0 {
-		page = len(mods) / 7
+	pageDataNum := 7 //每页多少数据
+	if len(mods)%pageDataNum == 0 {
+		page = len(mods) / pageDataNum
 	} else {
-		page = len(mods)/7 + 1
+		page = len(mods)/pageDataNum + 1
 	}
 	//datas := make([][]model.NRL3, 0)
 	//for i := 0; i < page; i++ {
@@ -407,17 +446,17 @@ func (c PCNrl3Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 	//[]NRL3
 	fit.Logger().LogError("nrl page info :", len(mods), mods)
 	oldlen := len(mods)
-	for i := 0; i < (page*7 - oldlen); i++ {
+	for i := 0; i < (page*pageDataNum - oldlen); i++ {
 		mods = append(mods, model.NRL3{})
 	}
 	c.Data = fit.Data{
-		"Userinfo":  userinfo, // 护士信息
-		"PInfo":     pInfo,    // 病人信息
-		"Beds":      beds,     // 床位list
-		"NRLList":   mods,
-		"PageNum":   page,
-		"PageIndex": pageindex,
-		"Menuindex": "7-3",
+		"Userinfo":    userinfo, // 护士信息
+		"PInfo":       pInfo,    // 病人信息
+		"Beds":        beds,     // 床位list
+		"NRLList":     mods,
+		"PageNum":     page,
+		"PageDataNum": pageDataNum,
+		"Menuindex":   "7-3",
 	}
 	fit.Logger().LogError("nrl page info :", len(mods), mods)
 }
@@ -449,23 +488,25 @@ func (c PCNrl4Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 		return
 	}
 	var page int
-	if len(mods)%6 == 0 {
-		page = len(mods) / 6
+	pageDataNum := 6 //每页多少数据
+	if len(mods)%pageDataNum == 0 {
+		page = len(mods) / pageDataNum
 	} else {
-		page = len(mods)/6 + 1
+		page = len(mods)/pageDataNum + 1
 	}
 	fit.Logger().LogError("nrl page info :", len(mods), mods)
 	oldlen := len(mods)
-	for i := 0; i < (page*6 - oldlen); i++ {
+	for i := 0; i < (page*pageDataNum - oldlen); i++ {
 		mods = append(mods, model.NRL4{})
 	}
 	c.Data = fit.Data{
-		"Userinfo":  userinfo, // 护士信息
-		"PInfo":     pInfo,    // 病人信息
-		"Beds":      beds,     // 床位list
-		"NRLList":   mods,
-		"PageNum":   page,
-		"Menuindex": "7-4",
+		"Userinfo":    userinfo, // 护士信息
+		"PInfo":       pInfo,    // 病人信息
+		"Beds":        beds,     // 床位list
+		"NRLList":     mods,
+		"PageNum":     page,
+		"PageDataNum": pageDataNum,
+		"Menuindex":   "7-4",
 	}
 	fit.Logger().LogError("nrl page info :", len(mods), mods)
 }
@@ -484,29 +525,36 @@ func (c PCNrl5Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 	}
 	fmt.Printf("bbbbb", "dgrgghr2")
 	pid = r.FormValue("pid")
-	// 起止时间  页码
-	datestr1, datestr2, pageindex, _, err := c.GetPageInfo(w, r, "5", pid)
-	if err != nil {
-		fmt.Printf("bbbbb", "dgrgghr3",err)
-		return
-	}
 
+
+	// 起止时间  页码
+	// 时间
+	var datestr1, datestr2 string
+	date1, errs := strconv.ParseInt(r.FormValue("sdate"), 10, 64)
+	date2, erre := strconv.ParseInt(r.FormValue("edate"), 10, 64)
+	if errs != nil || erre != nil {
+		datestr1 = ""
+		datestr2 = ""
+	} else {
+		datestr1 = time.Unix(date1/1000, 0).Format("2006-01-02 15:04:05")
+		datestr2 = time.Unix(date2/1000+60*60*24 - 1, 0).Format("2006-01-02 15:04:05")
+	}
 
 	// 护理单
-	mods, err13 := model.PCQueryNRL5(pid, datestr1, datestr2, pageindex)
-
-
+	mods, err13 := model.PCQueryNRL5(pid, datestr1, datestr2, -1)
 	if err13 != nil {
-		fmt.Fprintln(w, "参数错误！  user info error", err)
+		fmt.Fprintln(w, "参数错误！  user info error", err13)
 		return
 	}
-	fmt.Printf("mods %+v\n %d\n\n", mods, len(mods))
+	fit.Logger().LogError("fasdfasdf:",mods)
+
 
 	var page int
-	if len(mods)%3 == 0 {
-		page = len(mods) / 3
+	pageDataNum := 3 //每页多少数据
+	if len(mods)%pageDataNum == 0 {
+		page = len(mods) / pageDataNum
 	} else {
-		page = len(mods)/3 + 1
+		page = len(mods)/pageDataNum + 1
 	}
 	//datas := make([][]model.NRL3, 0)
 	//for i := 0; i < page; i++ {
@@ -520,17 +568,17 @@ func (c PCNrl5Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 	//[]NRL3
 	fit.Logger().LogError("nrl page info :", len(mods), mods)
 	oldlen := len(mods)
-	for i := 0; i < (page*3 - oldlen); i++ {
+	for i := 0; i < (page*pageDataNum - oldlen); i++ {
 		mods = append(mods, model.APNModel{})
 	}
 	c.Data = fit.Data{
-		"Userinfo":  userinfo, // 护士信息
-		"PInfo":     pInfo,    // 病人信息
-		"Beds":      beds,     // 床位list
-		"NRLList":   mods,
-		"PageNum":   page,
-		"PageIndex": pageindex,
-		"Menuindex": "7-5",
+		"Userinfo":    userinfo, // 护士信息
+		"PInfo":       pInfo,    // 病人信息
+		"Beds":        beds,     // 床位list
+		"NRLList":     mods,
+		"PageNum":     page,
+		"PageDataNum": pageDataNum,
+		"Menuindex":   "7-5",
 	}
 }
 
@@ -560,23 +608,25 @@ func (c PCNrl6Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 		return
 	}
 	var page int
-	if len(mods)%4 == 0 {
-		page = len(mods) / 4
+	pageDataNum := 4 //每页多少数据
+	if len(mods)%pageDataNum == 0 {
+		page = len(mods) / pageDataNum
 	} else {
-		page = len(mods)/4 + 1
+		page = len(mods)/pageDataNum + 1
 	}
 	fit.Logger().LogError("nrl page info :", len(mods), mods)
 	oldlen := len(mods)
-	for i := 0; i < (page*4 - oldlen); i++ {
+	for i := 0; i < (page*pageDataNum - oldlen); i++ {
 		mods = append(mods, model.NRL6{})
 	}
 	c.Data = fit.Data{
-		"Userinfo":  userinfo, // 护士信息
-		"PInfo":     pInfo,    // 病人信息
-		"Beds":      beds,     // 床位list
-		"NRLList":   mods,
-		"PageNum":   page,
-		"Menuindex": "7-6",
+		"Userinfo":    userinfo, // 护士信息
+		"PInfo":       pInfo,    // 病人信息
+		"Beds":        beds,     // 床位list
+		"NRLList":     mods,
+		"PageNum":     page,
+		"PageDataNum": pageDataNum,
+		"Menuindex":   "7-6",
 	}
 
 }
@@ -617,14 +667,15 @@ func (c PCNrl7Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 		fit.Logger().LogError("PCQueryNRL1Title error :", errTitle)
 	}
 	var page int
-	if len(mods)%7 == 0 {
-		page = len(mods) / 7
+	pageDataNum := 7 //每页多少数据
+	if len(mods)%pageDataNum == 0 {
+		page = len(mods) / pageDataNum
 	} else {
-		page = len(mods)/7 + 1
+		page = len(mods)/pageDataNum + 1
 	}
 	fit.Logger().LogError("nrl page info :", len(mods), mods)
 	oldlen := len(mods)
-	for i := 0; i < (page*7 - oldlen); i++ {
+	for i := 0; i < (page*pageDataNum - oldlen); i++ {
 		mods = append(mods, model.NRL7{})
 	}
 	c.Data = fit.Data{
@@ -635,9 +686,10 @@ func (c PCNrl7Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 		//"NRL08":     pmodel.NRL08,
 		//"NRL08A":    pmodel.NRL08A,
 		//"NRL08B":    pmodel.NRL08B,
-		"NRLList":   mods,
-		"PageNum":   page,
-		"Menuindex": "7-7",
+		"NRLList":     mods,
+		"PageNum":     page,
+		"PageDataNum": pageDataNum,
+		"Menuindex":   "7-7",
 	}
 
 	fit.Logger().LogError("PCNRL7Controller  :", mods, nrl7Title)
@@ -670,22 +722,24 @@ func (c PCNrl8Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 		return
 	}
 	var page int
-	if len(mods)%7 == 0 {
-		page = len(mods) / 7
+	pageDataNum := 16 //每页多少数据
+	if len(mods)%pageDataNum == 0 {
+		page = len(mods) / pageDataNum
 	} else {
-		page = len(mods)/7 + 1
+		page = len(mods)/pageDataNum + 1
 	}
 	fit.Logger().LogError("nrl page info :", len(mods), mods)
 	oldlen := len(mods)
-	for i := 0; i < (page*7 - oldlen); i++ {
+	for i := 0; i < (page*pageDataNum - oldlen); i++ {
 		mods = append(mods, model.NRL8{})
 	}
 	c.Data = fit.Data{
-		"Userinfo":  userinfo, // 护士信息
-		"PInfo":     pInfo,    // 病人信息
-		"Beds":      beds,     // 床位list
-		"NRLList":   mods,
-		"PageNum":   page,
-		"Menuindex": "7-8",
+		"Userinfo":    userinfo, // 护士信息
+		"PInfo":       pInfo,    // 病人信息
+		"Beds":        beds,     // 床位list
+		"NRLList":     mods,
+		"PageNum":     page,
+		"PageDataNum": pageDataNum,
+		"Menuindex":   "7-8",
 	}
 }

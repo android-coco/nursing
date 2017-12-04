@@ -595,8 +595,8 @@
                                         <td>
                                             <div class="show-txt">
                                                 <p>尿量:</p>
+                                                <p>大便:</p>
                                                 <p>其他:</p>
-                                                <p>&nbsp;</p>
                                                 <p>&nbsp;</p>
                                                 <p>总出量:</p>
                                             </div>
@@ -607,9 +607,9 @@
                                             <div class="show-txt">
                                                 <p>{{$val.Mod7.Value}}</p>
                                                 <p>{{$val.Mod15.Value}}</p>
-                                                <p>&nbsp;</p>
-                                                <p>&nbsp;</p>
                                                 <p>{{$val.Mod16.Value}}</p>
+                                                <p>&nbsp;</p>
+                                                <p>{{$val.Mod17.Value}}</p>
                                             </div>
                                             <div class="cont-warp">
                                                 <div class="cont-warp">
@@ -658,13 +658,12 @@
                                             <div class="show-txt"></div>
                                             <div class="cont-warp">
                                                 <div class="cont-warp">
-                                                    <textarea class="input-textarea"></textarea>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="show-txt">
-                                                刘护士
+                                                {{$val.BCE03A}}
                                             </div>
                                             <div class="cont-warp">
 
@@ -673,7 +672,7 @@
 
                                         <td>
                                             <div class="cz">
-
+                                                <a href="#1" class="del-btn" data-id="{{$val.BCE01A}}"><i class="am-icon-trash"></i><span>删除</span></a>
                                             </div>
 
                                         </td>
@@ -696,7 +695,7 @@
                                             </div>
                                             <div class="cont-warp">
                                                 {{/*<input type="text" class="time-input2" value="{{$val.TimeStr}}">*/}}
-                                                <p class="timeStr"> {{$val.TimeStr}}</p>
+                                                <p class="timeStr" data-time="{{$val.DateTimeStr}}"> {{$val.TimeStr}}</p>
                                             </div>
                                         </td>
                                         <!--体温-->
@@ -706,7 +705,7 @@
                                         {{/*{{if eq $val.HeadType "1"}}{{$val.Value}}{{end}}*/}}
                                             </div>
                                             <div class="cont-warp">
-                                                <input type="text" class="input-txt" value="{{$val.Mod1.Value}}">
+                                                <input type="text" maxlength="4" class="input-txt number" value="{{$val.Mod1.Value}}">
                                             </div>
                                         </td>
                                         <!--脉搏-->
@@ -716,7 +715,7 @@
                                     {{/*{{if eq $val.HeadType "2"}}{{$val.Value}}{{end}}*/}}
                                             </div>
                                             <div class="cont-warp">
-                                                <input type="text" class="input-txt" value="{{$val.Mod2.Value}}">
+                                                <input type="text" maxlength="4" class="input-txt" value="{{$val.Mod2.Value}}">
 
                                             </div>
                                         </td>
@@ -733,7 +732,7 @@
                                         </td>
 
                                         <!--血压-->
-                                        <td class="input-param" data-headtype="4" data-id="{{$val.Mod4.ID}}">
+                                        <td class="input-param xy-td" data-val="{{$val.Mod4.Value}}" data-headtype="4"  data-id="{{$val.Mod4.ID}}">
                                             <div class="show-txt">
                                             {{$val.Mod4.Value}}
                                     {{/*{{if eq $val.HeadType "4"}}{{$val.Value}}{{end}}*/}}
@@ -899,11 +898,13 @@
                                                 <select name="" id="">
                                                     {{/*<option value="0">&nbsp;</option>*/}}
                                                     <option value="1" {{if eq $val.Mod16.SubType 1}}selected{{end}}>尿量</option>
-                                                    {{/*<option value="2" {{if eq $val.Mod16.SubType 2}}selected{{end}}>大便</option>*/}}
+                                                    <option value="2" {{if eq $val.Mod16.SubType 2}}selected{{end}}>大便</option>
                                                     <option value="3" {{if eq $val.Mod16.SubType 3}}selected{{end}}>其他</option>
                                                 </select>
                                                     {{else}}
-                                                       {{$val.Mod16.ValueTitle}}
+                                                        <p class="sel-val" data-val="{{$val.Mod16.SubType}}">
+                                                           {{$val.Mod16.ValueTitle}}
+                                                        </p>
                                                     {{end}}
                                             </div>
                                         </td>
@@ -1106,12 +1107,12 @@
                         <span>页面位置</span>
                         <ul>
                             <li>
-                                <a id="leftLast-btn">
+                                <a id="leftLast-btn" class="{{if eq .PageNum 1}}noneClick{{end}}">
                                     <img src="/static/dist/images/admin_pc/icon43.png" alt="">
                                 </a>
                             </li>
                             <li>
-                                <a id="left-btn">
+                                <a id="left-btn" class="{{if eq .PageNum 1}}noneClick{{end}}">
                                     <img src="/static/dist/images/admin_pc/icon44.png" alt="">
                                 </a>
                             </li>
@@ -1182,16 +1183,19 @@
                             <span class="tit">饮食:</span> <span class="val" id="intakeB"></span>
                         </li>
                         <li>
-                            <span class="tit">其他:</span> <span class="val" id="outputC"></span>
+                            <span class="tit">大便:</span> <span class="val" id="outputB"></span>
                         </li>
                         <li>
                             <span class="tit">饮水:</span> <span class="val" id="intakeC"></span>
                         </li>
                         <li>
-                            <span class="tit">出量总计:</span> <span class="val" id="outputTotal"></span>
+                            <span class="tit">其他:</span> <span class="val" id="outputC"></span>
                         </li>
-                        <li class="fill">
+                        <li>
                             <span class="tit">其他:</span> <span class="val" id="intakeD"></span>
+                        </li>
+                        <li>
+                            <span class="tit">出量总计:</span> <span class="val" id="outputTotal"></span>
                         </li>
                         <li class="fill">
                             <span class="tit">入量总计:</span> <span class="val" id="intakeTotal">400ml</span>
@@ -1645,7 +1649,7 @@
                 <a href="#1" class="edit-btn" >
                     <i class="am-icon-pencil"></i><span>编辑</span>
                 </a>
-                <a href="#1" class="del-btn"><i class="am-icon-trash"></i><span>删除</span></a>
+                <a href="#1" class="del-btn" data-isnew="1"><i class="am-icon-trash"></i><span>删除</span></a>
             </div>
         </td>
     </tr>
@@ -1859,6 +1863,9 @@
                         case 0:
                             cb(data);
                             break;
+                        case 9:
+                            errcb && errcb(data.errmsg,9);
+                            break
                         default:
                             errcb && errcb(data.errmsg)
                             // alert(data.errmsg)
@@ -1912,6 +1919,10 @@
                 alert("您没有权限编辑！");
             }
         }
+        var xyVal = $(this).parents(".col-cont").find(".xy-td").data("val")
+        var valArr = xyVal.split("/")
+        $(this).parents(".col-cont").find(".txt1").val(valArr[0])
+        $(this).parents(".col-cont").find(".txt2").val(valArr[1])
 
     })
 
@@ -1992,16 +2003,24 @@
     })
 
     function setDataDateTime(data,$el){
-        var dateStr = $.trim($el.find(".dateStr").text())
-        var timeStr = $.trim($el.find(".timeStr").text())
-        var resStr = ""
-        if(dateStr){
-            resStr = dateStr
-        }
-        if(timeStr){
-            resStr += " " +timeStr+":"+secodnsStr
+
+        var isNew = $el.find(".save-btn").data("isnew")
+        if(isNew && isNew!="0"){
+            var dateStr = $.trim($el.find(".dateStr").text())
+            var timeStr = $.trim($el.find(".timeStr").text())
+            var resStr = ""
+            if(dateStr){
+                resStr = dateStr
+            }
+            if(timeStr){
+                resStr += " " +timeStr+":"+secodnsStr
+            }else{
+                resStr += " 00:00:00"
+            }
         }else{
-            resStr += " 00:00:00"
+
+            var timeStr = $el.find(".timeStr").data("time")
+            resStr = timeStr
         }
 
         data.datetime =resStr
@@ -2028,6 +2047,7 @@
                 case "15A": //出入量
                     if($el.find(".sel-val").length){
                         ioVal["subType"]= $el.find(".sel-val").data("val")
+                        ioVal["subType"]=ioVal["subType"].toString()
                     }else{
                         ioVal["subType"]= $el.find("select").val()
                     }
@@ -2042,6 +2062,7 @@
                 case "16A":
                     if($el.find(".sel-val").length){
                         ioVal2["subType"]= $el.find(".sel-val").data("val")
+                        ioVal2["subType"]=ioVal2["subType"].toString()
                     }else{
                         ioVal2["subType"]= $el.find("select").val()
                     }
@@ -2200,6 +2221,8 @@
                 elem: this,
                 showBottom: false,
                 value: nowDateObj.date,
+                min:"{{.PInfo.HospitalDate}}",
+                max: nowDateObj.date,
                 done: function (value, date, endDate) {
                     console.log(value); //得到日期生成的值，如：2017-08-18
                     console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
@@ -2211,6 +2234,7 @@
             laydate.render({
                 elem: this,
                 type: 'time',
+                btns: ['confirm'],
                 format: 'HH:mm',
                 value: nowDateObj.time,
                 done: function (value, date, endDate) {
@@ -2225,18 +2249,126 @@
 
     // 删除
     $('tbody').on('click', '.del-btn', function () {
-        var res = []
         var $tr = $(this).parents(".col-cont")
-        $tr.find("td").each(function(i,el){
-            var id = $(el).data("id")
-            
-            if(id && id != "0"){
 
+        if($(this).data("isnew")==1){
+            $tr.remove()
+            return true
+        }
+        var ioSumData=[]
+        if($tr.data("headtype")=="18"){
+            var headType = $tr.data("headtype")
+            headType = headType.toString()
+            ioSumData.push({
+                "id":$tr.data("id"),
+                "headType":headType
+            })
+            console.log(ioSumData)
+        }
+
+        var userId = {{.Userinfo.UID}}
+        var yId = $(this).data("id")
+        if (!userId) {
+            alert("err: 用户信息错误");
+            return false
+        } else if (!yId) {
+            alert("err: 用户信息错误");
+            return false
+        }
+        if (yId == userId) {
+            var isDel = confirm("是否确认删除");
+            if (isDel) {
+                var res = [],ioObj={},ioObj2={},num=0;
+                if(ioSumData.length==0){
+                    $tr.find("td.input-param").each(function(i,el){
+                        var id = $(el).data("id"),
+                                headtype = $(el).data("headtype");
+                        headtype = headtype.toString();
+                        var paramObj = {}
+                        if(id && id != "0"){
+                            num++;
+                            switch (headtype){
+                                case "15A":
+                                    ioObj["subType"] = $(el).find(".sel-val").data("val")
+                                    break;
+                                case "15B":
+                                    ioObj["headType"] = "15";
+                                    ioObj["id"] = id;
+                                    break;
+                                case "16A":
+                                    ioObj2["subType"] = $(el).find(".sel-val").data("val")
+                                    break;
+                                case "16B":
+                                    ioObj2["headType"] = "16";
+                                    ioObj2["id"] = id;
+                                    break;
+                                case "31":
+                                case "32":
+                                case "33":
+                                case "34":
+                                case "35":
+                                case "36":
+                                case "37":
+                                    if($(el).data("titid")>7 || $(el).data("titid")==1){
+                                        paramObj["id"] = id;
+                                        paramObj["headType"] = headtype;
+                                        res.push(paramObj)
+                                    }
+                                    break;
+                                default:
+                                    paramObj["id"] = id;
+                                    paramObj["headType"] = headtype;
+                                    res.push(paramObj)
+
+                            }
+
+                        }
+                    })
+
+                    if(ioObj.id && ioObj.subType){
+                        ioObj.subType = ioObj.subType.toString()
+                        res.push(ioObj)
+                    }
+                    if(ioObj2.id && ioObj2.subType){
+                        ioObj2.subType = ioObj2.subType.toString()
+                        res.push(ioObj2)
+                    }
+                }else{
+                    res = ioSumData
+                }
+
+                console.log(res)
+                var reqData ={};
+                if(res.length>0){
+                    reqData["jsonstr"] = JSON.stringify(res)
+                    console.log(reqData)
+                    req("/record/nr1/delete",reqData,function(data){
+                        alert("删除成功");
+                        console.log(data)
+                        location.reload();
+                    },function(err){
+                        alert(err)
+                        location.reload();
+                    })
+                }else{
+                    if(num>0){
+                        alert("评分项不删除");
+                    }
+                }
             }
-        })
+
+
+        }else{
+            alert("您没有权限删除！");
+            return false
+        }
+
+
 
 
         // confirm("是否确认删除")
+
+
     })
 
 
@@ -2245,7 +2377,6 @@
 <script>
     // 起止时间
     var hospitalDate = "{{.PInfo.HospitalDate}}";
-    hospitalDate = hospitalDate.substr(0, 10);
     var nowDate = nowDateObj.date,nowTime = nowDateObj.time;
 
     var date1, date2 = 0;
@@ -2260,10 +2391,10 @@
     var stime="",etime = "";
     console.log("----", sdate, edate);
     if (sdate == null || sdate == "0" || edate == null || edate == "0") {
-        sdate = hospitalDate;
+        sdate = hospitalDate.substr(0, 10);
         edate = nowDate;
-        stime = "{{.PInfo.HospitalDate}}".substr("{{.PInfo.HospitalDate}}".indexOf(" ")+1,5)
-        etime = nowDateObj.time.substr(0,5)
+        stime = hospitalDate.substr(11,5);
+        etime = nowDateObj.time.substr(0,5);
     } else {
         date1 = sdate;
         date2 = edate;
@@ -2274,22 +2405,21 @@
         sdate = fromatDate(parseInt(sdate)).date;
         edate = fromatDate(parseInt(edate)).date;
 
-        // console.log(stime,etime)
-        // alert(stime,etime)
     }
-
 
     laydate.render({
         elem: '#date1', //指定元素
         showBottom: false,
         value: sdate,
+        min:"{{.PInfo.HospitalDate}}",
+        max: nowDateObj.date,
         done: function (value, date, endDate) {
             console.log(value); //得到日期生成的值，如：2017-08-18
             console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
             console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
 
-            var timeStr = $("#time1").val()+":00"
-            var valStr = value + " " + timeStr
+            var timeStr = $("#time1").val()+":00";
+            var valStr = value + " " + timeStr;
             var a = new Date(valStr);
             date1 = a.getTime();
             reloadSheet();
@@ -2299,6 +2429,9 @@
         elem: '#time1', //指定元素
         type: 'time',
         format: 'HH:mm',
+        min:"00:00:00",
+        max:"23:59:00",
+        btns:["confirm"],
         value: stime,
         done: function (value, date, endDate) {
             var timeStr = value+":00";
@@ -2312,6 +2445,7 @@
         elem: '#time2', //指定元素
         type: 'time',
         format: 'HH:mm',
+        btns:["confirm"],
         value: etime,
         done: function (value, date, endDate) {
             var timeStr = value+":00";
@@ -2330,6 +2464,8 @@
         elem: '#date2', //指定元素
         showBottom: false,
         value: edate,
+        min:"{{.PInfo.HospitalDate}}",
+        max: nowDateObj.date,
         done: function (value, date, endDate) {
 
             var timeStr = $("#time2").val()+":00"
@@ -2353,13 +2489,14 @@
     var tempindex = index;
 
     $("#leftLast-btn").on("click", function () {
+        if (index == 1) return;
         tempindex = 1;
         reloadSheet()
     });
 
     $("#left-btn").on("click", function () {
         if (index <= 1) {
-            tempindex = 1;
+            return
         } else {
             tempindex = index - 1;
         }
@@ -2368,7 +2505,8 @@
 
     $("#right-btn").on("click", function () {
         if (index >= pagenum) {
-            tempindex = pagenum;
+            // tempindex = pagenum;
+            return
         } else {
             tempindex = index + 1;
         }
@@ -2377,6 +2515,7 @@
 
 
     $("#rightLast-btn").on("click", function () {
+        if (index == pagenum) return;
         tempindex = pagenum;
         reloadSheet()
     });
@@ -2489,7 +2628,7 @@
         iodate1 = $("#io-date1").val() + " " + $("#io-time1").val() + ":00";
         iodate2 = $("#io-date2").val() + " " + $("#io-time2").val() + ":00";
         $.post("/pc/record/nrl/io", {
-            pid: 802040,
+            pid: pid,
             startDate: iodate1,
             endDate: iodate2,
         }, function (json) {
@@ -2532,9 +2671,12 @@
                 $("#intakeTotal").text(json.datas["intakeTotal"]);
 
                 $("#outputA").text(json.datas["outputA"]);
+                $("#outputB").text(json.datas["outputB"]);
                 $("#outputC").text(json.datas["outputC"]);
                 $("#outputTotal").text(json.datas["outputTotal"]);
             } else {
+                $("#intake").html("");
+                $("#output").html("");
                 alert(json.errmsg);
             }
         }, 'json')
@@ -2549,6 +2691,7 @@
         var intakeTotal = $("#intakeTotal").text();
 
         var outputA = $("#outputA").text();
+        var outputB = $("#outputB").text();
         var outputC = $("#outputC").text();
         var outputTotal = $("#outputTotal").text();
 
@@ -2571,6 +2714,7 @@
             intakeD:    intakeD,
             intakeTotal:    intakeTotal,
             outputA:    outputA,
+            outputB:    outputB,
             outputC:    outputC,
             outputTotal:    outputTotal,
 

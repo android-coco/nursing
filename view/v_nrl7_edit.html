@@ -134,14 +134,14 @@
                     <input type="radio" id="c2-v1" name="check2" data-v="1" {{if eq .NRL.NRL01 "1"}}checked{{end}}>
                     <label for="c2-v1" class="icon"></label>
                 </div>
-                <label for="c2-v1">否=0</label>
+                <label for="c2-v1">无=0</label>
             </li>
             <li>
                 <div class="m-input-radio">
                     <input type="radio" id="c2-v2" name="check2" data-v="2" {{if eq .NRL.NRL01 "2"}}checked{{end}}>
                     <label for="c2-v2" class="icon"></label>
                 </div>
-                <label for="c2-v2">是=25</label>
+                <label for="c2-v2">有=25</label>
             </li>
         </ul>
     </div>
@@ -538,8 +538,8 @@
     <div class="m-time m-pd20">
         <span>记录时间</span>
         <div class="input">
-            <span class="date">{{.RecordDate}}</span>
-            <span class="time">{{.RecordTime}}</span>
+            <span class="date">{{.NRL.DateStr}}</span>
+            <span class="time">{{.NRL.TimeStr}}</span>
         </div>
     </div>
 

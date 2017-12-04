@@ -30,8 +30,8 @@ func (c PCNRL5Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Param
 		datestr1 = ""
 		datestr2 = ""
 	} else {
-		datestr1 = time.Unix(date1/1000-60*60*8, 0).Format("2006-01-02 15:04:05")
-		datestr2 = time.Unix(date2/1000+60*60*16, 0).Format("2006-01-02 15:04:05")
+		datestr1 = time.Unix(date1/1000, 0).Format("2006-01-02 15:04:05")
+		datestr2 = time.Unix(date2/1000+60*60*24 - 1, 0).Format("2006-01-02 15:04:05")
 	}
 
 	// 护理单

@@ -2,12 +2,20 @@
 <html>
 <head>
     <title>打印瓶贴</title>
+    <script src="/static/dist/js/lib/jquery.min.js"></script>
+    <script src="/static/dist/js/lib/jquery.qrcode.min.js"></script>
 </head>
 <style type="text/css">
     .imgx {
         width: 60px;
         margin-left: 230px;
         margin-top: 16px;
+    }
+    .qrDiv{
+        width: 60px;
+        margin-left: 230px;
+        margin-top: 16px;
+        display: inline-block;
     }
 
     body {
@@ -36,7 +44,9 @@
     .imgx.type2 {
         margin-top: 6px;
     }
-
+    .qrDiv.type2{
+        margin-top: 6px;
+    }
     .warp span.right {
         float: right;
     }
@@ -61,6 +71,7 @@
 
     .unit {
         float: right;
+        font-size: 16px;
     }
 
     .cont2 {
@@ -71,8 +82,8 @@
 <div>
     <div class="cont2">
         <div class="warp">
-            <p>床号：T52</p>
-            <p>姓名：小二</p>
+            <p>床号：</p>
+            <p>姓名：</p>
             <p>用法：静滴</p>
         </div>
         <img class="imgx"
@@ -80,30 +91,90 @@
         <div class="line">
         </div>
         <div class="cont">
-            <p>撒旦飞洒地方撒旦飞洒地<span class="unit">500毫升</span></p>
-            <p>500毫升*1袋</p>
-            <p>撒旦飞洒地方撒旦飞洒地<span class="unit">500毫升</span></p>
-            <p>500毫升*1袋</p>
-            <p>撒旦飞洒地方撒旦飞洒地<span class="unit">500毫升</span></p>
-            <p>500毫升*1袋</p>
-            <p>撒旦飞洒地方撒旦飞洒地<span class="unit">500毫升</span></p>
-            <p>500毫升*1袋</p>
-            <p>撒旦飞洒地方撒旦飞洒地<span class="unit">500毫升</span></p>
-            <p>500毫升*1袋</p>
-            <p>撒旦飞洒地方撒旦飞洒地<span class="unit">500毫升</span></p>
-            <p>500毫升*1袋</p>
+            <p><span class="unit"></span></p>
+            <p></p>
+            <p><span class="unit"></span></p>
+            <p></p>
+            <p><span class="unit"></span></p>
+            <p></p>
+            <p><span class="unit"></span></p>
+            <p></p>
+            <p><span class="unit"></span></p>
+            <p></p>
+            <p><span class="unit"></span></p>
+            <p></p>
         </div>
         <div class="line">
         </div>
         <div class="warp warp2">
-            <p>床号</p>
-            <p>2017-09-11 08:00</p>
-            <p>频度 qd <span class="right">序号 1</span></p>
+            <p>嘱托</p>
+            <p></p>
+            <p>频度 <span class="right">序号 </span></p>
         </div>
         <img class="imgx type2"
              src="https://qr.api.cli.im/qr?data=124&level=H&transparent=false&bgcolor=%23ffffff&forecolor=%23000000&blockpixel=12&marginblock=1&logourl=&size=280&kid=cliim&key=26662b2f080feeb2da43226211b84364">
     </div>
 </div>
 
+<script src="/static/dist/js/lib/jquery.qrcode.min.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        var datas = {{.PrintInfo}};//数据
+        var time = {{.Now}};
+        loadData(datas,time);
+    });
+
+    function loadData(datas,time) {
+        var len = datas.length;
+        if (len == 0)
+            return;
+        console.log(datas);
+        var html = "";
+        for (var i = 0; i < len; i++) {
+            var times = datas[i].Times;
+            for (var j=0;j < times;j++){
+                html+='<div>\n' +
+                        '    <div class="cont2">' +
+                        '        <div class="warp">' +
+                        '            <p>床号：'+datas[i].Bed+'</p>' +
+                        '            <p>姓名：'+datas[i].PatientName+'</p>' +
+                        '            <p>用法：静滴</p>' +
+                        '        </div>\n' +
+                        '<div class="qrDiv" data-madid='+datas[i].Madid+'></div>'+
+                        // '        <img class="imgx" src="https://qr.api.cli.im/qr?data=124&level=H&transparent=false&bgcolor=%23ffffff&forecolor=%23000000&blockpixel=12&marginblock=1&logourl=&size=280&kid=cliim&key=26662b2f080feeb2da43226211b84364">' +
+                        '        <div class="line">' +
+                        '        </div>\n' +
+                        '        <div class="cont">' +
+                        '            <p>'+datas[i].Content+'<span class="unit">'+datas[i].Dosage+'</span></p>' +
+                        '            <p >500毫升*1袋</p>' +
+                        '        </div>' +
+                        '        <div class="line">' +
+                        '        </div>' +
+                        '        <div class="warp warp2">' +
+                        '            <p>嘱托</p>' +
+                        '            <p>'+time+'</p>' +
+                        '            <p>频度'+datas[i].PcInfo+' <span class="right">序号 '+(j+1)+'</span></p>' +
+                        '        </div>' +
+                        '<div class="qrDiv type2" data-madid='+datas[i].Madid +'></div>'+
+                        // '        <img class="imgx type2"' +
+                        // '             src="https://qr.api.cli.im/qr?data=124&level=H&transparent=false&bgcolor=%23ffffff&forecolor=%23000000&blockpixel=12&marginblock=1&logourl=&size=280&kid=cliim&key=26662b2f080feeb2da43226211b84364">\n' +
+                        '    </div>' +
+                        '</div>';
+            }
+        }
+        $('body').html(html)
+        $('.qrDiv').each(function(i,el){
+            var madid = $(el).data("madid").toString()
+            console.log(madid)
+            $(el).qrcode({
+                width: 60,
+                height: 60,
+                text:"PT-"+madid
+            })
+        })
+    }
+
+</script>
 </body>
 </html>

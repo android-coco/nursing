@@ -12,7 +12,7 @@ type NRLController struct {
 }
 
 // 模板 template PDA端
-func (c *NRLController) LoadPInfoWithPid(w *fit.Response, r *fit.Request, pid int64) (model.PatientInfo, bool)  {
+func (c *NRLController) LoadPInfoWithPid(w *fit.Response, r *fit.Request, pid int64) (model.PatientInfo, bool) {
 	pinfo, err := model.GetPatientInfo(strconv.FormatInt(pid, 10))
 	if err != nil {
 		fit.Logger().LogError("GetPatientInfo :", err)
@@ -27,8 +27,7 @@ func (c *NRLController) LoadPInfoWithPid(w *fit.Response, r *fit.Request, pid in
 	return pinfo[0], true
 }
 
-
-func (c *NRLController) LoadPInfoAndAccountWithPidUid(w *fit.Response, r *fit.Request, pid, uid string) (model.PatientInfo, model.Account, bool)  {
+func (c *NRLController) LoadPInfoAndAccountWithPidUid(w *fit.Response, r *fit.Request, pid, uid string) (model.PatientInfo, model.Account, bool) {
 	pinfo, err := model.GetPatientInfo(pid)
 	if err != nil {
 		fit.Logger().LogError("GetPatientInfo :", err)
@@ -48,6 +47,65 @@ func (c *NRLController) LoadPInfoAndAccountWithPidUid(w *fit.Response, r *fit.Re
 		return model.PatientInfo{}, model.Account{}, false
 	}
 	return pinfo[0], account, true
+}
+
+func (c *NRLController) LoadNRLDataWithParm(w *fit.Response, r *fit.Request, nrlType string) (nrl interface{}, ty, rid, pid, uid string, isOk bool) {
+	pid = r.FormValue("pid") //病人id
+	uid = r.FormValue("uid") //护士id
+	rid = r.FormValue("rid") // 护理记录单id
+	ty = r.FormValue("type") // 1=add， 2=edit
+
+	if ty == "1" {
+		if "" == pid || "" == uid {
+			fmt.Fprintln(w, "参数错误！")
+			return
+		}
+		switch nrlType {
+		case "3":
+			nrl = model.NRL3{}
+		case "4":
+			nrl = model.NRL4{}
+		case "5":
+			nrl = model.NRL5{}
+		case "6":
+			nrl = model.NRL6{}
+		case "7":
+			nrl = model.NRL7{}
+		case "8":
+			nrl = model.NRL8{}
+		default:
+			fmt.Fprintln(w, "参数错误！")
+			return
+		}
+	} else if ty == "2" {
+		if rid == "" {
+			fmt.Fprintln(w, "参数错误！")
+			return
+		}
+		var err1 error
+
+		nrl, pid, uid, err1 = model.QueryNRLWithRid(nrlType, rid)
+		if err1 != nil {
+			fit.Logger().LogError("m_NR1", err1)
+			fmt.Fprintln(w, "NRL 查询错误！", err1.Error())
+			return
+		}
+
+		/*switch nrl.(type) {
+		case model.NRL3:
+			fmt.Println("hahahaha")
+			nrlMod, _ := nrl.(model.NRL3)
+			pid = strconv.FormatInt(nrlMod.VAA01, 10)
+			uid = nrlMod.BCE01A
+		default:
+			fmt.Println("invalid type")
+		}*/
+	} else {
+		fmt.Fprintln(w, "参数错误！")
+		return
+	}
+
+	return nrl, ty, rid, pid, uid, true
 }
 
 /*func (c NRLController) Check(w *fit.Response, r *fit.Request, p fit.Params) {
@@ -289,4 +347,3 @@ func (c NRLController) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Param
 		c.JsonData.Datas = []interface{}{}
 	}
 }*/
-

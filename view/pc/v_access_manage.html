@@ -23,15 +23,15 @@
                     <div class="entry-admin-cont">
                         <div class="entry-tabel">
                             <div class="hd-tr fx">
+                                <div class="td td-2">患者</div>
                                 <div class="td td-1">床号</div>
-                                <div class="td td-2">姓名</div>
                                 <div class="td td-3">外出/回室时间</div>
                                 <div class="td td-4">外出原因</div>
                                 <div class="td td-5">记录人</div>
                             </div>
                             <div class="hd-tr">
+                                <div class="td td-2">患者</div>
                                 <div class="td td-1">床号</div>
-                                <div class="td td-2">姓名</div>
                                 <div class="td td-3">类型/回室时间</div>
                                 <div class="td td-4">外出原因</div>
                                 <div class="td td-5">记录人</div>
@@ -39,9 +39,9 @@
                             <div class="change-div">
                             {{range .Accesses}}
                             <div class="bd-tr">
-                                <div class="td td-1">{{.BedId}}</div>
                                 <div class="td td-2">{{.PatientName}}</div>
-                                <div class="td td-3">{{if eq .AccessType 1}}回室{{else if eq .AccessType 2}}外出{{else if eq .AccessType 3}}全部{{end}} {{.AccessTime}}
+                                <div class="td td-1">{{.BedId}}</div>
+                                <div class="td td-3"> {{.AccessTime}}
                                 </div>
                                 <div class="td td-4">{{if eq .AccessReason 1}}检查{{else if eq .AccessReason 2}}手术{{else if eq .AccessReason 3}}其他{{end}}</div>
                                 <div class="td td-5">{{.NurseName}}</div>
@@ -211,9 +211,9 @@
                         reasonstr = "其他";
                     }
                     html += "<div class=\"bd-tr\">" +
-                        "<div class=\"td td-1\">"+resArr[i].bed_id+"</div>" +
                         "<div class=\"td td-2\">"+resArr[i].patient_name+"</div>" +
-                        "<div class=\"td td-3\">"+"access_type "+resArr[i].access_time+"</div>" +
+                        "<div class=\"td td-1\">"+resArr[i].bed_id+"</div>" +
+                        "<div class=\"td td-3\">"+resArr[i].access_time+"</div>" +
                         "<div class=\"td td-4\">"+reasonstr+"</div>" +
                         "<div class=\"td td-5\">"+resArr[i].nurse_name+"</div>" +
                         "</div>";

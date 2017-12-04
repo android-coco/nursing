@@ -1,16 +1,125 @@
-{{template "header_top" .}}
+<!DOCTYPE html>
+<html>
 
-<div class="admin">
-    <!-- 侧边栏 -->
-{{template "header_side" .}}
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>见康云护理管理信息系统</title>
+    <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/amazeui.css"/>
+    <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/core.css"/>
+    <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/menu.css"/>
+    <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/admin.css"/>
+    <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/page/typography.css"/>
+    <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/page/form.css"/>
+    <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/component.css"/>
+    <link rel="stylesheet" href="/static/dist/style/css/base_pc.min.css">
+</head>
+<body>
+<div class="hd_tit">
+    <div class="logo"><img src="/static/dist/images/admin_pc/logo.png"></div>
+    <p class="tit">见康云护理管理信息系统_</p>
+    <div class="am-dropdown jky_dropdown" data-am-dropdown>
+        <button class="am-btn am-btn-primary am-dropdown-toggle" data-am-dropdown-toggle>{{.Userinfo.DepartmentName}}
+            <span class="jky_icon"><img src="/static/dist/images/admin_pc/xl.png" alt=""></span>
+        </button>
+        <!--不存在多科室情况，已隐藏切换科室功能-->
+        <!--<ul class="am-dropdown-content">-->
+        <!--&lt;!&ndash;<li class="am-active"><a href="#">怎么讲登陆页面选择的科室数据传到这里</a></li>&ndash;&gt;-->
+    {{/*<!--{{range .Userinfo.Departments}}-->*/}}
+    {{/*<!--<li class="am-active"><a href="#" data-am-pureview="{{.DepartmentID}}">{{.DepartmentName}}</a></li>-->*/}}
+    {{/*<!--{{end}}-->*/}}
+        <!--</ul>-->
+    </div>
+    <div class="r_menu_list">
+        <div class="more_btn">
+            <div class="parent_menu">
+                更多
+            </div>
+            <ul class="child_menu">
+                <li><a href="/pc/access/manage">出入管理</a></li>
+                <li><a href="/pc/warn">提醒管理</a></li>
+            {{/*<li><a href="/pc/history">历史病人</a></li>*/}}
+            </ul>
+        </div>
+        <div class="setup_btn">
+            <div class="parent_menu">
+                设置
+            </div>
+            <ul class="child_menu">
+                <li><a href="/pc/account/changepwd">密码修改</a></li>
+                <!--<li><a href="/pc/device/manage">设备管理</a></li>-->
+                <li><a target="view_window" href="/pc/account/manage" {{if eq .Userinfo.Authority 0}}style="display:none"{{end}}>账号管理</a></li>
+            </ul>
+        </div>
+        <div class="out_btn">
+            <img src="/static/dist/images/admin_pc/out.png" alt=""> 退出
+        </div>
+    </div>
+
+
+</div>
+<!-- Begin page -->
+<div class="am-topbar am-topbar-fixed-top top48">
+    <div class="am-topbar-left am-hide-sm-only">
+        <a class="username"><span>欢迎你，{{.Userinfo.Name}}</span><i class="zmdi zmdi-layers"></i></a>
+    </div>
+
     <div class="contain">
         <div class="jky-class-bar">
 
         </div>
         <div class="jky-tab-hd">
             <ul>
-                <li class="active"><a href="/pc/account/manage">创建新账号</a></li>
-                <li><a href="/pc/account/manage/created">已创建</a></li>
+                <li ><a href="/pc/account/manage">创建新账号</a></li>
+                <li class="active"><a href="/pc/account/manage/created">已创建</a></li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<div class="admin">
+
+    <!-- 侧边栏 -->
+    <div class="admin-sidebar am-offcanvas  am-padding-0 jky_sidebar type2" id="admin-offcanvas">
+        <div class="am-offcanvas-bar admin-offcanvas-bar">
+
+            <ul class="am-list admin-sidebar-list" id="jky-menu">
+                <li>
+                    <a class="am-cf none">
+                            <span class="jky_icon2">
+                                <img src="/static/dist/images/admin_pc/icon10.png" alt="">
+                            </span>
+                        <span class="tit"> 设备管理 </span>
+                        <div class="jky_icon">
+                            <img src="/static/dist/images/admin_pc/icon5.png" alt="">
+                        </div>
+                    </a>
+                </li>
+                <li class="active">
+                    <a class="am-cf">
+                            <span class="jky_icon2">
+                                <img src="/static/dist/images/admin_pc/icon11.png" alt="">
+                            </span>
+                        <span class="tit"> 账号管理 </span>
+                        <div class="jky_icon">
+                            <img src="/static/dist/images/admin_pc/icon5.png" alt="">
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a class="am-cf none">
+                            <span class="jky_icon2">
+                                <img src="/static/dist/images/admin_pc/icon12.png" alt="">
+                            </span>
+                        <span class="tit"> 服务器地址 </span>
+                        <div class="jky_icon">
+                            <img src="/static/dist/images/admin_pc/icon5.png" alt="">
+                        </div>
+                    </a>
+                </li>
+
             </ul>
         </div>
     </div>

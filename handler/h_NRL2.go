@@ -67,7 +67,7 @@ func (c NRL2Controller) Check(w *fit.Response, r *fit.Request, p fit.Params) {
 	}
 
 	// 入院时间
-	VAA73 := time.Time(patient.VAA73).Format("2006-01-02 15:04")
+	VAA73 := time.Time(patient.VAE11).Format("2006-01-02 15:04")
 	// 拆分护理单录入时间
 	tempTime, _ := time.ParseInLocation("2006-01-02 15:04:05", nr2.NRL38, time.Local)
 	NRL38A := tempTime.Format("2006-01-02")
@@ -129,7 +129,7 @@ func (c NRL2Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 	}
 
 	// 入院时间
-	VAA73 := time.Time(patient.VAA73).Format("2006-01-02 15:04")
+	VAA73 := time.Time(patient.VAE11).Format("2006-01-02 15:04")
 	//fmt.Printf("account %+v \n\n %+v\n\n", account, pinfo)
 	var NRL06A, NRL06B, NRL18A, NRL18B, NRL38A, NRL38B, NRL39B, NRL39C string
 	if ty == "2" {

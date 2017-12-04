@@ -53,16 +53,16 @@
                 </div>
                 <div class="bar" id="patient-info">
                     <div class="l">
-                        <label>姓名</label> <span id="pinfo-name">你猜</span>
-                        <label>性别</label> <span class="t4" id="pinfo-sex">你猜</span>
-                        <label>年龄</label> <span class="t3" id="pinfo-age">你猜</span>
+                        <label>姓名</label> <span id="pinfo-name">{{.PInfo.VAA05}}</span>
+                        <label>性别</label> <span class="t4" id="pinfo-sex">{{.PInfo.Gender}}</span>
+                        <label>年龄</label> <span class="t3" id="pinfo-age">{{.PInfo.VAA10}}</span>
                         <label>入院日期</label> <span class="t2" id="pinfo-date-year">2017</span>
                         <label>年</label><span class="t2" id="pinfo-date-month">10</span>
                         <label>月</label><span class="t2"
                                               id="pinfo-date-day">10</span><label>日</label>
-                        <label>病区</label><span id="pinfo-bed1">XX区</span>
-                        <label>床号</label><span id="pinfo-bed2">N105</span>
-                        <label>住院号</label><span id="pinfo-bed3">100010</span>
+                        <label>病区</label><span id="pinfo-bed1">{{.PInfo.BCK03C}}</span>
+                        <label>床号</label><span id="pinfo-bed2">{{.PInfo.BCQ04}}</span>
+                        <label>住院号</label><span id="pinfo-bed3">{{.PInfo.VAA04}}</span>
                     </div>
                 </div>
 
@@ -245,7 +245,7 @@
 
                             <div class="bg_line">
                                 <div class="line-warp">
-                                    <div class="line">死亡</div>
+                                    <div class="line"></div>
                                     <div class="line"></div>
                                     <div class="line"></div>
                                     <div class="line"></div>
@@ -441,7 +441,7 @@
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr>
+                    <tr id="other-tr">
                         <td class="tit" colspan="2">其&nbsp;&nbsp;他</td>
                         <td></td>
                         <td></td>
@@ -457,7 +457,7 @@
                 <footer>
                     <div>
                         第
-                        <span id="weekindex-span">1</span> 周
+                        <span id="weekindex-span">{{.PageIndex}}</span> 周
                     </div>
                 </footer>
             </div>
@@ -470,13 +470,12 @@
 <script src="/static/dist/js/lib/echarts.common.min.js"></script>
 
 <script>
-    var temp1 = [];
-    var temp2 = [];
-    var temp3 = [];
+    var temp1 = {{.Temp1}};
+    var temp2 = {{.Temp2}};
+    var temp3 = {{.Temp3}};
 
-    var pulse = [];
-    var heartrate = [];
-    console.log(temp1)
+    var pulse = {{.Pulse}};
+    var heartrate = {{.Heartrate}};
     var menuIndex = "0-0"
 
 
@@ -491,6 +490,171 @@
     // 为echarts对象加载数据
     myChart.setOption(option);
 </script>
+
+<script>
+    $(function () {
+        var breathe = {{.Breathe}};
+        var pressure = {{.Pressure}};
+        var tempother = {{.TempOther}};
+
+        var intake = {{.Intake}};
+        var output1 = {{.Output1}};
+        var output2 = {{.Output2}};
+        var output3 = {{.Output3}};
+
+        var incident = {{.Incident}};
+        var skin = {{.Skin}};
+        var weight = {{.Weight}};
+        var other = {{.Other}};
+
+        var weeks = {{.Weeks}};
+        var dates1 = {{.Dates1}};
+        var dates2 = {{.Dates2}};
+
+        var pinfo = {{.PInfo}};
+
+        var h_date = pinfo["hospital_date"];
+        // 病人信息
+
+        $("#pinfo-date-year").text(h_date.substring(0, 4));
+        $("#pinfo-date-month").text(h_date.substring(5, 7));
+        $("#pinfo-date-day").text(h_date.substring(8, 10));
+
+        //  日期
+        $("#date-tr").find("td").each(function (i, el) {
+            if (i != 0) {
+                $(el).text(weeks[i - 1]);
+            }
+        });
+
+        // 住院日数
+        $("#datenum1-tr").find("td").each(function (i, el) {
+            if (i != 0) {
+                $(el).text(dates1[i - 1])
+            }
+        });
+        // 手术或产后日数
+        $("#datenum2-tr").find("td").each(function (i, el) {
+            if (i != 0) {
+                if (dates2) {
+                    if (dates2[i - 1] < 0) {
+                        $(el).text("")
+                    } else {
+                        $(el).text(dates2[i - 1])
+                    }
+                }
+            }
+        });
+
+        // 呼吸
+        $("#hxc_bar").find("td").each(function (i, el) {
+            if (i != 0 && i < 8) {
+                var value1 = breathe[i * 6 - 6];
+                var value2 = breathe[i * 6 - 5];
+                var value3 = breathe[i * 6 - 4];
+                var value4 = breathe[i * 6 - 3];
+                var value5 = breathe[i * 6 - 2];
+                var value6 = breathe[i * 6 - 1];
+
+                var html = '<span>' + value1 + '</span>'
+                        + '<span>' + '<br/>' + value2 + '</span>'
+                        + '<span>' + value3 + '</span>'
+                        + '<span>' + '<br/>' + value4 + '</span>'
+                        + '<span>' + value5 + '</span>'
+                        + '<span>' + '<br/>' + value6 + '</span>';
+                $(el).html(html);
+            }
+        });
+
+        // console.log(pressure);
+        // 血压
+        $("#pressure-tr").find("td").each(function (i, el) {
+            if (i != 0) {
+                var value1 = "", value2 = "";
+                if(pressure[i-1]){
+                    value1 = pressure[i - 1].split("/")[0];
+                    value2 = pressure[i - 1].split("/")[1];
+                }
+
+                // console.log(value1, value2);
+                var html = '';
+                if (value1 == "" || value2 == "") {
+                    html = '<span class="l">' + value1 + '</span>' +
+                            '<span class="r">' + value2 + '</span>';
+                } else {
+                    html = '<span class="l">' + value1 + '</span>' +
+                            '<div class="line"></div>' +
+                            '<span class="r">' + value2 + '</span>';
+                }
+                $(el).html(html);
+            }
+        });
+
+        // 血压
+        $("#weight-tr").find("td").each(function (i, el) {
+            if (i != 0) {
+                $(el).text(weight[i - 1])
+            }
+        });
+
+        // 输入液量
+        $("#intake-tr").find("td").each(function (i, el) {
+            if (i != 0) {
+                $(el).text(intake[i - 1])
+            }
+        });
+        // 1=其他  2=尿量  3=大
+        $("#output1-tr").find("td").each(function (i, el) {
+            if (i != 0) {
+                $(el).text(output1[i - 1])
+            }
+        });
+        $("#output2-tr").find("td").each(function (i, el) {
+            if (i != 0) {
+                $(el).text(output2[i - 1])
+            }
+        });
+        $("#output3-tr").find("td").each(function (i, el) {
+            if (i != 0 && i != 1) {
+                $(el).text(output3[i - 2])
+            }
+        });
+
+        // 皮试
+        $("#skin-tr").find("td").each(function (i, el) {
+            if (i != 0) {
+                $(el).text(skin[i - 1])
+            }
+        });
+        // 事件
+        $("#incident-td").find(".sj").each(function(i, el){
+            $(el).html(incident[i]);
+        });
+        // 其他
+        $("#incident-td").find(".temp-other").each(function(i, el){
+            $(el).text(tempother[i]);
+        });
+
+        // 其他
+        $("#other-tr").find("td").each(function (i, el) {
+            if (i != 0) {
+                $(el).text(other[i - 1])
+            }
+        });
+        console.log("其他", other);
+    {{/*var classid = {{.Userinfo.DepartmentID}};*/}}
+        /*var url = "/pc/home/beds?department_id=" + classid + "&type=0";
+        $.get(url, function (json) {
+            if (json.result == 0) {
+
+            } else {
+                alert("请求失败!" + json.errmsg)
+            }
+        }, 'json');*/
+
+    });
+</script>
+
 
 </body>
 </html>

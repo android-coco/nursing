@@ -38,8 +38,14 @@ function setMenu(index){
 
     }
 }
+try{
+    if(menuIndex){
+        setMenu(menuIndex);
+    }
+}catch(e){
+    console.log("menuIndex不存在")
+}
 
-setMenu(menuIndex);
 
 //侧边栏子菜单收放效果
 $('#jky-menu').on('open.collapse.amui', function(e) {
@@ -48,6 +54,11 @@ $('#jky-menu').on('open.collapse.amui', function(e) {
 $('#jky-menu').on('close.collapse.amui', function(e) {
     $(e.target).parents("li").removeClass("jky-on")
 })
+
+// 限制长度
+
+
+
 
 // ================tool======================
 
@@ -63,6 +74,13 @@ function getURLParam(name) {
         return (r[2]);
     }
     return null;
+}
+// 获取当前时间 hh:mm:ss
+function getNowTime() {
+    var str = "";
+    var nowD = new Date();
+    str = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes()) + ":" +addZero(nowD.getSeconds());
+    return str;
 }
 
 
@@ -87,7 +105,7 @@ function getNowDateTime () {
 /**
  * 格式化时间
  * @param date //可 时间戳,时间字符串文本,null(返回当前时间)
- * @returns {data:dataStr,time:timeStr}  {data:"2017-10-10",time:"00:00:00"}
+ * @returns {data:dataStr,time:timeStr}  {data:"2017-10-10",time:"00:00"}
  */
 function fromatDate(date){
     var res = {};
@@ -99,6 +117,31 @@ function fromatDate(date){
     }
     res.date = nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
     res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
+    return res
+}
+
+/**
+ * 格式化时间
+ * @param date //可 时间戳,时间字符串文本,null(返回当前时间)
+ * @returns {date:29,hours:19,minutes:39,month:10,seconds:0,year:2017}
+ */
+function fromatDateObj(date){
+    var res = {};
+    var nowD = Date();
+    if(date){
+        nowD= new Date(date);
+    }else{
+        nowD = new Date();
+    }
+    res.date = nowD.getDate()
+    res.hours= nowD.getHours()
+    res.month = nowD.getMonth() + 1
+    res.minutes = nowD.getMinutes()
+    res.seconds = nowD.getSeconds()
+    res.year = nowD.getFullYear()
+
+        // nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
+    // res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
     return res
 }
 

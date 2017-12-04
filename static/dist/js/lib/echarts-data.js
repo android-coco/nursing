@@ -355,7 +355,7 @@ option = {
             },
             symbol: "image:///static/dist/images/admin_pc/icon34.png",
             symbolSize: 12,
-            data: temp1,
+            data: temp2,
             zlevel:1,
 
 
@@ -409,7 +409,7 @@ option = {
 
             symbol: "circle",
             symbolSize: 8,
-            data: temp2,
+            data: temp1,
             // markLine: {
             //     symbolSize: 1,
             //     silent: true,

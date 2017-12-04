@@ -9,18 +9,116 @@
     <style type="text/css">
         <!--
         -->
+        .bagw{
+            height: 1540px;
+            width: 1064px;
+        }
+        .m-tit{
+            font-size: 20px;
+            line-height: 40px;
+        }
         p {
             margin: 4px 0;
         }
+        ul,li{
+            margin:0;
+            padding:0;
+        }
+        ul{
+            list-style: none;
+        }
 
         .STYLE2 {
-            font-size: x-large;
+            font-size: 32px;
             font-weight: bold;
         }
 
         .kg {
-            padding-top: 50px;
+            padding-top: 20px;
         }
+
+
+        .remarks-box {
+            overflow: auto;
+            font-size: 16px;
+            color: #333;
+        }
+        .remarks-box .l {
+            float: left;
+            width: 60%;
+        }
+        .remarks-box .r {
+            float: left;
+            width: 40%;
+        }
+        .remarks-box .tit {
+            color: #0072e7;
+            font-size:20px;
+            /*line-height: 40px;*/
+            margin-top: 20px;
+        }
+        .remarks-box .img-box .tit2 {
+            color: #0072e7;
+            font-size: 20px;
+        }
+        .remarks-box .img-box .txt2 {
+            font-size: 20px;
+            /*margin-top: 40px;*/
+        }
+        .remarks-box .img-box .list {
+            overflow: auto;
+            margin-top: 20px;
+            position: relative;
+            font-size: 16px;
+        }
+        .remarks-box .img-box .list li {
+            float: left;
+            /*width: 48px;*/
+            width: 96px;
+            text-align: center;
+        }
+        .remarks-box .img-box .list li .line {
+            height: 40px;
+            border-left: 1px solid #9ca7af;
+            margin: 0 auto;
+            width: 0;
+        }
+        .remarks-box .img-box .list .lastLine {
+            position: absolute;
+            border-top: 1px solid  #9ca7af;
+            top: 20px;
+            /*width: 480px;*/
+            width: 960px;
+            /*left: 24px;*/
+            left: 48px;
+        }
+        .remarks-box .img-box .list2 {
+            overflow: auto;
+        }
+        .remarks-box .img-box .list2 li {
+            float: left;
+            /*width: 50px;*/
+            width:90px;
+            text-align: center;
+            margin-right: 45px;
+        }
+        .remarks-box .img-box .list3 {
+            overflow: auto;
+        }
+        .remarks-box .img-box .list3 li {
+            float: left;
+            text-align: center;
+            /*line-height: 14px;*/
+            overflow: hidden;
+        }
+        .remarks-box .img-box .img {
+            margin-top: 5px;
+        }
+        .remarks-box .img-box .img img {
+            display: block;
+            width: 760px;
+        }
+
     </style>
     <script type="text/javascript">
 
@@ -43,17 +141,18 @@
         $(function () {
             var page = {{.PageNum}}//多少页
             var datas = {{.NRLList}}//数据
-                    loadData(page, datas);
+            var pgeDataNum = {{.PageDataNum}}//每页多少数据
+                    loadData(page, datas,pgeDataNum);
         });
 
-        function loadData(page, datas) {
+        function loadData(page, datas,pgeDataNum) {
             var len = datas.length;
             var html = "";
             console.log(page, datas)
             if (len > 0) {
                 for (var i = 0; i < page; i++) {
-                    html += "<p align=\"center\" class=\"STYLE2\">深圳万丰医院疼痛强度评分量表</p>\n" +
-                            "<p>\n" +
+                    html += "<div class = 'bagw'><p align=\"center\" class=\"STYLE2\">深圳万丰医院疼痛强度评分量表</p>\n" +
+                            "<p class='m-tit'>\n" +
                             "    <label>床号：</label>\n" +
                             "{{.PInfo.BCQ04}}\n" +
                             "    <label>姓名：</label>\n" +
@@ -66,7 +165,7 @@
                             "{{.PInfo.VAA04}} \n" +
                             "    <label>诊断：</label>\n" +
                             "{{.PInfo.VAO15}}</p>\n";
-                    html += "<table width=\"723\" height=\"283\" border=\"1\" cellspacing=\"0\" bordercolor=\"#666666\">\n" +
+                    html += "<table width=\"1064\" height=\"283\" border=\"1\" cellspacing=\"0\" bordercolor=\"#666666\">\n" +
                             "    <tr>\n" +
                             "        <td width=\"110\" height=\"29\"><div align=\"center\">日期</div></td>\n" +
                             "        <td width=\"110\"><div align=\"center\">时间</div></td>\n" +
@@ -75,40 +174,161 @@
                             "        <td width=\"110\"><div align=\"center\">责任护士签名</div></td>" +
                             "        <td width=\"133\"><div align=\"center\">审核人签名</div></td>" +
                             "    </tr>";
-                    for (var j = 0; j < 7; j++) {
+                    for (var j = 0; j < pgeDataNum; j++) {
                         html += "<tr>" +
-                                "<td width=\"110\" align=\"center\" height=\"33\">&nbsp;" + (datas[i * 7 + j].DateStr || " ") + "</td>" +
-                                "<td width=\"110\" align=\"center\" height=\"33\">&nbsp;" + (datas[i * 7 + j].TimeStr || " ") + "</td>" +
-                                "<td width=\"136\" align=\"center\" height=\"33\">&nbsp;" + (scoreHash.option1[datas[i * 7 + j].NRL05] || " ") + "</td>" +
-                                "<td width=\"84\" align=\"center\" height=\"33\">&nbsp;" + (scoreHash.option2[datas[i * 7 + j].NRL05A] || " ") + "</td>" +
-                                " <td width=\"110\" align=\"center\" height=\"33\">&nbsp;" + (datas[i * 7 + j].BCE03A || " ") + "</td>" +
-                                " <td width=\"133\" align=\"center\" height=\"33\">&nbsp;" + (datas[i * 7 + j].NRL06B || " ") + "</td>" +
+                                "<td width=\"110\" align=\"center\" height=\"33\">&nbsp;" + (datas[i * pgeDataNum + j].DateStr || " ") + "</td>" +
+                                "<td width=\"110\" align=\"center\" height=\"33\">&nbsp;" + (datas[i * pgeDataNum + j].TimeStr || " ") + "</td>" +
+                                "<td width=\"136\" align=\"center\" height=\"33\">&nbsp;" + (scoreHash.option1[datas[i * pgeDataNum + j].NRL05] || " ") + "</td>" +
+                                "<td width=\"84\" align=\"center\" height=\"33\">&nbsp;" + (scoreHash.option2[datas[i * pgeDataNum + j].NRL05A] || " ") + "</td>" +
+                                " <td width=\"110\" align=\"center\" height=\"33\">&nbsp;" + (datas[i * pgeDataNum + j].BCE03A || " ") + "</td>" +
+                                " <td width=\"133\" align=\"center\" height=\"33\">&nbsp;" + (datas[i * pgeDataNum + j].NRL06B || " ") + "</td>" +
                                 "</tr>";
                     }
-                    html += "</table>" +
-                            "<div id='tail'>" +
-                            "    <p>诉言词量表（VRS）</p>" +
-                            "    <p>0级： 无痛。</p>" +
-                            "    <p>I级（轻度）：有疼痛但可忍受，能正常生活，睡眠不受干扰。</p>\n" +
-                            "    <p>II级（中度）：疼痛明显，不能忍受，要求使用止痛剂睡眠受干扰。</p>\n" +
-                            "    <p>III级（重度）：疼痛剧烈，不能忍受，睡眠受严重干扰，可伴有自主神经紊乱或被动体位。</p>\n" +
-                            "    <p><img src=\"/static/dist/images/tip.png\" width=\"697\" height=\"416\" /></p>\n" +
-                            "    <p>备注：</p>\n" +
-                            "    <p>1. 评估时机: 发生疼痛时随时评估，疼痛治疗干预后评估，疼痛过程中至少每30min评估一次。</p>\n" +
-                            "    <p>2. 评分标准：根据患者的疼痛情况选择合适的疼痛评估方法与工具。</p>\n" +
-                            "    <p>&nbsp;</p>\n" +
-                            "    <p>&nbsp;</p>\n" +
-                            "    <p>&nbsp;</p>\n" +
-                            "</div>";
+                    html += "</table>" + $("#remarks").text()+"</div>"
+                            // "<div id='tail'>" +
+                            // "    <p>诉言词量表（VRS）</p>" +
+                            // "    <p>0级： 无痛。</p>" +
+                            // "    <p>I级（轻度）：有疼痛但可忍受，能正常生活，睡眠不受干扰。</p>\n" +
+                            // "    <p>II级（中度）：疼痛明显，不能忍受，要求使用止痛剂睡眠受干扰。</p>\n" +
+                            // "    <p>III级（重度）：疼痛剧烈，不能忍受，睡眠受严重干扰，可伴有自主神经紊乱或被动体位。</p>\n" +
+                            // "    <p><img src=\"/static/dist/images/tip.png\" /></p>\n" +
+                            // "    <p>备注：</p>\n" +
+                            // "    <p>1. 评估时机: 发生疼痛时随时评估，疼痛治疗干预后评估，疼痛过程中至少每30min评估一次。</p>\n" +
+                            // "    <p>2. 评分标准：根据患者的疼痛情况选择合适的疼痛评估方法与工具。</p>\n" +
+                            // "    <p>&nbsp;</p>\n" +
+                            // "    <p>&nbsp;</p>\n" +
+                            // "    <p>&nbsp;</p>\n" +
+                            // "</div>";
                 }
+
                 $('body').html(html)
             }
 
         }
     </script>
+
+
+    <script type="text/html" id="remarks">
+        <div class="remarks-box">
+            <div class="img-box">
+                <p class="tit">诉言词量表（VRS）</p>
+                <p class="txt2">0级： 无痛。</p>
+                <p class="txt2">I级（轻度）：有疼痛但可忍受，能正常生活，睡眠不受干扰。</p>
+                <p class="txt2">II级（中度）：疼痛明显，不能忍受，要求使用止痛剂睡眠受干扰。</p>
+                <p class="txt2">III级（重度）：疼痛剧烈，不能忍受，睡眠受严重干扰，可伴有自主神经紊乱或被动体位。</p>
+            </div>
+            <div class="pd-20"></div>
+            <div class="img-box">
+                <p class="tit">数字评定量表（NRS）</p>
+                <ul class="list">
+                    <li>
+                        <div class="line"></div>
+                        0
+                        <div>无痛</div>
+                    </li>
+                    <li>
+                        <div class="line"></div> 1</li>
+                    <li>
+                        <div class="line"></div> 2</li>
+                    <li>
+                        <div class="line"></div> 3</li>
+                    <li>
+                        <div class="line"></div> 4</li>
+                    <li>
+                        <div class="line"></div> 5
+                        <div>中度疼痛</div>
+                    </li>
+                    <li>
+                        <div class="line"></div> 6</li>
+                    <li>
+                        <div class="line"></div> 7</li>
+                    <li>
+                        <div class="line"></div> 8</li>
+                    <li>
+                        <div class="line"></div> 9</li>
+                    <li>
+                        <div class="line"></div> 10
+                        <div>剧痛</div>
+                    </li>
+
+                    <li class="lastLine"></li>
+                </ul>
+            </div>
+            <div class="pd-20"></div>
+
+            <div class="img-box">
+                <p class="tit"> 面部表情量表（Wong-Baker） </p>
+                <div class="img">
+                    <img src="/static/dist/images/admin_pc/tmp1.jpg" alt="">
+                </div>
+                <ul class="list2">
+                    <li>
+                        0
+                        <div>无痛</div>
+                    </li>
+                    <li>
+                        2
+                        <div>轻微疼痛</div>
+                    </li>
+                    <li>
+                        4
+                        <div>轻度疼痛</div>
+                    </li>
+                    <li>
+                        6
+                        <div>中度疼痛</div>
+                    </li>
+                    <li>
+                        8
+                        <div>重度疼痛</div>
+                    </li>
+                    <li>
+                        10
+                        <div>剧痛</div>
+                    </li>
+                </ul>
+            </div>
+            <div class="pd-20"></div>
+
+            <div class="img-box">
+                <p class="tit">面部表情量表（FPS-R）</p>
+                <div class="img">
+                    <img src="/static/dist/images/admin_pc/tmp2.jpg" alt="">
+                </div>
+                <ul class="list3">
+                    <li style="width: 50px;">
+                        <div>无痛</div>
+                    </li>
+                    <li  style="width: 256px;">
+
+                        <div>轻度疼痛</div>
+                    </li>
+                    <li  style="width: 150px;">
+
+                        <div>中度疼痛</div>
+                    </li>
+                    <li  style="width: 324px;">
+
+                        <div>重度疼痛</div>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="pd-20"></div>
+
+            <div>
+                <p class="tit" style="font-size: 16px">备注：</p>
+                <p class="txt" style="font-size: 16px">1. 评估时机: 发生疼痛时随时评估，疼痛治疗干预后评估，疼痛过程中至少每30min评估一次。</p>
+                <p class="txt" style="font-size: 16px">2. 评分标准：根据患者的疼痛情况选择合适的疼痛评估方法与工具。</p>
+            </div>
+
+        </div>
+    </script>
+
 </head>
 
 <body>
+<div class = 'bagw'>
 <p align="center" class="STYLE2">深圳万丰医院疼痛强度评分量表</p>
 <p>
     <label>床号：</label>
@@ -200,20 +420,192 @@
         <td width="110" height="33">&nbsp;</td>
         <td width="133" height="33">&nbsp;</td>
     </tr>
+    <tr>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="136" height="33">&nbsp;</td>
+        <td width="84" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="133" height="33">&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="136" height="33">&nbsp;</td>
+        <td width="84" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="133" height="33">&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="136" height="33">&nbsp;</td>
+        <td width="84" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="133" height="33">&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="136" height="33">&nbsp;</td>
+        <td width="84" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="133" height="33">&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="136" height="33">&nbsp;</td>
+        <td width="84" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="133" height="33">&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="136" height="33">&nbsp;</td>
+        <td width="84" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="133" height="33">&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="136" height="33">&nbsp;</td>
+        <td width="84" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="133" height="33">&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="136" height="33">&nbsp;</td>
+        <td width="84" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="133" height="33">&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="136" height="33">&nbsp;</td>
+        <td width="84" height="33">&nbsp;</td>
+        <td width="110" height="33">&nbsp;</td>
+        <td width="133" height="33">&nbsp;</td>
+    </tr>
 </table>
-<div id='tail'>
-    <p>诉言词量表（VRS）</p>
-    <p>0级： 无痛。</p>
-    <p>I级（轻度）：有疼痛但可忍受，能正常生活，睡眠不受干扰。</p>
-    <p>II级（中度）：疼痛明显，不能忍受，要求使用止痛剂睡眠受干扰。</p>
-    <p>III级（重度）：疼痛剧烈，不能忍受，睡眠受严重干扰，可伴有自主神经紊乱或被动体位。</p>
-    <p><img src="/static/dist/images/tip.png" width="697" height="416"/></p>
-    <p>备注：</p>
-    <p>1. 评估时机: 发生疼痛时随时评估，疼痛治疗干预后评估，疼痛过程中至少每30min评估一次。</p>
-    <p>2. 评分标准：根据患者的疼痛情况选择合适的疼痛评估方法与工具。</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
+<div class="remarks-box">
+    <div class="img-box">
+        <p class="tit">诉言词量表（VRS）</p>
+        <p class="txt2">0级： 无痛。</p>
+        <p class="txt2">I级（轻度）：有疼痛但可忍受，能正常生活，睡眠不受干扰。</p>
+        <p class="txt2">II级（中度）：疼痛明显，不能忍受，要求使用止痛剂睡眠受干扰。</p>
+        <p class="txt2">III级（重度）：疼痛剧烈，不能忍受，睡眠受严重干扰，可伴有自主神经紊乱或被动体位。</p>
+    </div>
+    <div class="pd-20"></div>
+    <div class="img-box">
+        <p class="tit">数字评定量表（NRS）</p>
+        <ul class="list">
+            <li>
+                <div class="line"></div>
+                0
+                <div>无痛</div>
+            </li>
+            <li>
+                <div class="line"></div> 1</li>
+            <li>
+                <div class="line"></div> 2</li>
+            <li>
+                <div class="line"></div> 3</li>
+            <li>
+                <div class="line"></div> 4</li>
+            <li>
+                <div class="line"></div> 5
+                <div>中度疼痛</div>
+            </li>
+            <li>
+                <div class="line"></div> 6</li>
+            <li>
+                <div class="line"></div> 7</li>
+            <li>
+                <div class="line"></div> 8</li>
+            <li>
+                <div class="line"></div> 9</li>
+            <li>
+                <div class="line"></div> 10
+                <div>剧痛</div>
+            </li>
+
+            <li class="lastLine"></li>
+        </ul>
+    </div>
+    <div class="pd-20"></div>
+    <div class="img-box">
+        <p class="tit"> 面部表情量表（Wong-Baker） </p>
+        <div class="img">
+            <img src="/static/dist/images/admin_pc/tmp1.jpg" alt="">
+        </div>
+        <ul class="list2">
+            <li>
+                0
+                <div>无痛</div>
+            </li>
+            <li>
+                2
+                <div>轻微疼痛</div>
+            </li>
+            <li>
+                4
+                <div>轻度疼痛</div>
+            </li>
+            <li>
+                6
+                <div>中度疼痛</div>
+            </li>
+            <li>
+                8
+                <div>重度疼痛</div>
+            </li>
+            <li>
+                10
+                <div>剧痛</div>
+            </li>
+        </ul>
+    </div>
+    <div class="pd-20"></div>
+
+    <div class="img-box">
+        <p class="tit">面部表情量表（FPS-R）</p>
+        <div class="img">
+            <img src="/static/dist/images/admin_pc/tmp2.jpg" alt="">
+        </div>
+        <ul class="list3">
+            <li style="width: 50px;">
+                <div>无痛</div>
+            </li>
+            <li  style="width: 150px;">
+
+                <div>轻度疼痛</div>
+            </li>
+            <li  style="width: 150px;">
+
+                <div>中度疼痛</div>
+            </li>
+            <li  style="width: 165px;">
+
+                <div>重度疼痛</div>
+            </li>
+
+        </ul>
+    </div>
+    <div class="pd-20"></div>
+
+    <div>
+        <p class="tit" style="font-size: 16px">备注：</p>
+        <p class="txt" style="font-size: 16px">1. 评估时机: 发生疼痛时随时评估，疼痛治疗干预后评估，疼痛过程中至少每30min评估一次。</p>
+        <p class="txt" style="font-size: 16px">2. 评分标准：根据患者的疼痛情况选择合适的疼痛评估方法与工具。</p>
+    </div>
+
+</div>
 </div>
 </body>
 </html>

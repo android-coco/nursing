@@ -301,10 +301,10 @@
                     <div class="cont-row">
                         <!-- 过敏史： -->
                         <div class="m-check2" id="c5">
-                            <p class="tit">
-                                过敏史：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <p class="tit" style="vertical-align: 38px">
+                                过敏史：
                             </p>
-                            <ul class="radio-grup">
+                            <ul class="radio-grup" style="width: 770px;">
                                 <li>
                                     <div class="m-input-radio">
                                         <input type="radio" id="c5-v1" name="check5" data-v="1" class="c5"
@@ -313,6 +313,14 @@
                                     </div>
                                     <label for="c5-v1">无</label>
 
+                                </li>
+                                <li>
+                                    <div class="m-input-radio">
+                                        <input type="radio" id="c5-v3" name="check5" data-v="3" class="c5"
+                                               {{if eq .NRL.NRL06 "3"}}checked{{end}}>
+                                        <label for="c5-v3" class="icon"></label>
+                                    </div>
+                                    <label for="c5-v3">不明确</label>
                                 </li>
                                 <li>
                                     <div class="m-check-warp">
@@ -333,8 +341,7 @@
                                             </div>
                                             <label for="c5-v2-v1">食物，种类：</label>
                                             <span class="child-sel disabled-box">
-                                                <input type="text" class="m-input-txt">
-
+                                                <input type="text" class="m-input-txt" maxlength="9" style="width:128px">
                                             </span>
 
                                         </li>
@@ -346,9 +353,9 @@
                                             </div>
                                             <label for="c5-v2-v2">药物：</label>
                                             <span class="child-sel disabled-box">
-                                                <input type="text" class="m-input-txt"></li>
-                                        </span>
-
+                                                <input type="text" class="m-input-txt"  maxlength="9" style="width:128px">
+                                            </span>
+                                        </li>
                                         <li class="b2">
                                             <div class="m-input-checkbox">
                                                 <input type="checkbox" id="c5-v2-v3" name="c5-v2" data-v="3"
@@ -357,21 +364,14 @@
                                             </div>
                                             <label for="c5-v2-v3">其他：</label>
                                             <span class="child-sel disabled-box">
-                                                <input type="text" class="m-input-txt">)
+                                                <input type="text" class="m-input-txt"  maxlength="9" style="width:128px">)
                                             </span>
                                         </li>
 
                                     </ul>
 
                                 </li>
-                                <li>
-                                    <div class="m-input-radio">
-                                        <input type="radio" id="c5-v3" name="check5" data-v="3" class="c5"
-                                               {{if eq .NRL.NRL06 "3"}}checked{{end}}>
-                                        <label for="c5-v3" class="icon"></label>
-                                    </div>
-                                    <label for="c5-v3">不明确</label>
-                                </li>
+
 
                             </ul>
                         </div>
@@ -442,7 +442,7 @@
                                     </div>
                                     <label for="c6-v7">其他：</label>
                                     <span class="child-sel disabled-box">
-                                        <input type="text" class="m-input-txt type2"
+                                        <input type="text" class="m-input-txt type2" maxlength="15" style="width: 216px;"
                                                {{if eq .NRL.NRL07 "7"}}value="{{.NRL.NRL07A}}"{{end}}>
                                     </span>
                                 </li>
@@ -625,7 +625,7 @@
                                     </div>
                                     <label for="c11-v5">其他：</label>
                                     <span class="child-sel disabled-box">
-                                        <input type="text" class="m-input-txt type3" value="{{.NRL.NRL12A}}">;
+                                        <input type="text" class="m-input-txt type3" maxlength="10" value="{{.NRL.NRL12A}}">;
                                     </span>
                                 </li>
                             </ul>
@@ -711,7 +711,7 @@
                                     </div>
                                     <label for="c13-v6">使用辅助药物：</label>
                                     <span class="child-sel disabled-box">
-                                        <input type="text" class="m-input-txt type4" value="{{.NRL.NRL14A}}">;
+                                        <input type="text" class="m-input-txt type4" maxlength="10" style="width: 146px" value="{{.NRL.NRL14A}}">;
                                     </span>
                                 </li>
                             </ul>
@@ -812,7 +812,7 @@
                                     </div>
                                     <label for="c15-v8">其他：</label>
                                     <span class="child-sel disabled-box">
-                                        <input type="text" class="m-input-txt type4" value="{{.NRL.NRL16A}}">
+                                        <input type="text" class="m-input-txt type4" maxlength="15" style="width: 216px;" value="{{.NRL.NRL16A}}">
                                     </span>
                                 </li>
                             </ul>
@@ -830,9 +830,9 @@
                             </p>
                             <div class="m-input-bar">
                                 <label for="i1">次数：</label>
-                                <input type="number" class="m-input-txt" id="i1" value="{{.NRL18A}}">
+                                <input type="number" class="m-input-txt" id="i1" value="{{.NRL18A}}" style="width: 44px">
                                 <span>次/天</span><label for="i2">（1次/&nbsp;&nbsp;</label>
-                                <input type="number" class="m-input-txt" id="i2" value="{{.NRL18B}}">
+                                <input type="number" class="m-input-txt" id="i2" value="{{.NRL18B}}" style="width: 44px">
                                 <span>天）</span>
                             </div>
                             <ul id="c16" class="radio-grup">
@@ -877,7 +877,7 @@
                                     </div>
                                     <label for="c16-v5">其他：</label>
                                     <span class="child-sel disabled-box">
-                                        <input type="text" class="m-input-txt type4" value="{{.NRL.NRL17A}}">
+                                        <input type="text" class="m-input-txt type4" style="width: 242px" maxlength="20" value="{{.NRL.NRL17A}}">
                                     </span>
                                 </li>
                             </ul>
@@ -1009,7 +1009,7 @@
                                     </div>
                                     <label for="c18-v3">部分自理：</label>
                                     <span class="child-sel disabled-box">
-                                        <input type="text" class="m-input-txt type4"
+                                        <input type="text" class="m-input-txt type4" maxlength="28" style="width: 400px"
                                                {{if eq .NRL.NRL20 "3"}}value="{{.NRL.NRL20A}}"{{end}}>
                                     </span>
                                 </li>
@@ -1118,7 +1118,7 @@
 
                             <div class="m-msg-bar">
                                 <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;详细描述：</span>
-                                <input type="text" class="m-input-txt type5" id="i3" value="{{.NRL.NRL22}}">
+                                <input type="text" class="m-input-txt type5" id="i3" maxlength="50" style="width: 704px"  value="{{.NRL.NRL22}}">
                             </div>
                         </div>
                     </div>
@@ -1134,7 +1134,7 @@
                             </p>
                             <div class="m-msg-bar type1">
                                 <span>最常用语言/语种：</span>
-                                <input type="text" class="m-input-txt type4" id="i4" value="{{.NRL.NRL23}}">
+                                <input type="text" class="m-input-txt type4" maxlength="16" style="width: 230px" id="i4" value="{{.NRL.NRL23}}">
                             </div>
                             <ul class="t4" id="c20">
                                 <li class="tit3">&nbsp;&nbsp;&nbsp;&nbsp;语言表达：</li>
@@ -1236,9 +1236,9 @@
                     <div class="cont-row type2">
                         <div class="m-textarea1">
                             <p class="tit">
-                                其它症状和体征：
+                                其他症状和体征：
                             </p>
-                            <textarea placeholder="" id="i5">{{.NRL.NRL29}}</textarea>
+                            <textarea placeholder="" id="i5" maxlength="141">{{.NRL.NRL29}}</textarea>
                         </div>
                     </div>
                     <div class="line"></div>
@@ -1261,7 +1261,7 @@
                                                {{if eq .NRL.NRL30 "1"}}checked{{end}}>
                                         <label for="c23-v1" class="icon"></label>
                                     </div>
-                                    <label for="c23-v1">住院通知 </label>
+                                    <label for="c23-v1">住院须知 </label>
                                 </li>
                                 <li class="b3">
                                     <div class="m-input-checkbox">
@@ -1320,7 +1320,7 @@
                                     </div>
                                     <label for="c23-v8">其他：</label>
                                     <span class="child-sel disabled-box">
-                                        <input type="text" style="width: 766px;" class="m-input-txt type2"
+                                        <input type="text" style="width: 774px;" maxlength="55" class="m-input-txt type2"
                                                value="{{.NRL.NRL30A}}">
                                     </span>
                                 </li>
@@ -1343,45 +1343,45 @@
                             <p class="tit ">
                                 1、基础护理：
                             </p>
-                            <textarea placeholder="" id="i6">{{.NRL.NRL31}}</textarea>
+                            <textarea placeholder="" maxlength="50" id="i6" style="font-size:13px">{{.NRL.NRL31}}</textarea>
                         </div>
                         <div class="m-textarea3">
                             <p class="tit ">
                                 2、专科护理：
                             </p>
-                            <textarea placeholder="" id="i7">{{.NRL.NRL32}}</textarea>
+                            <textarea placeholder="" maxlength="50" id="i7" style="font-size:13px">{{.NRL.NRL32}}</textarea>
                         </div>
                         <div class="m-textarea3">
                             <p class="tit ">
                                 3、患者安全：
                             </p>
-                            <textarea id="i8">{{.NRL.NRL33}}</textarea>
+                            <textarea id="i8" maxlength="50" style="font-size:13px">{{.NRL.NRL33}}</textarea>
                         </div>
                         <div class="m-textarea3">
                             <p class="tit bule">
                                 4、其&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 他：
                             </p>
-                            <textarea id="i9">{{.NRL.NRL34}}</textarea>
+                            <textarea id="i9" maxlength="50" style="font-size:13px">{{.NRL.NRL34}}</textarea>
                         </div>
 
                         <div class="m-textarea4">
                             <p class="tit bule">
                                 护理交接班重点：&nbsp;&nbsp;&nbsp;&nbsp;
                             </p>
-                            <textarea id="i10">{{.NRL.NRL35}}</textarea>
+                            <textarea id="i10" style="font-size:13px" maxlength="47">{{.NRL.NRL35}}</textarea>
                         </div>
 
                         <div class="m-textarea4">
                             <p class="tit bule">
                                 提醒医生给予关注：
                             </p>
-                            <textarea id="i11">{{.NRL.NRL36}}</textarea>
+                            <textarea id="i11" style="font-size:13px" maxlength="47">{{.NRL.NRL36}}</textarea>
                         </div>
                         <div class="m-textarea5">
                             <p class="tit bule">
                                 提醒家属给予关爱：
                             </p>
-                            <textarea id="i12">{{.NRL.NRL37}}</textarea>
+                            <textarea id="i12" style="font-size:13px;height:84px;" maxlength="188">{{.NRL.NRL37}}</textarea>
                         </div>
                     </div>
                     <div class="pd-20"></div>
@@ -1390,14 +1390,14 @@
                 <div class="ft-bt">
                     <div class="bar">
                         <div class="m-autograph">
-                            <span>签名：</span>
+                            <span>责任护士签名：</span>
                             <span class="name">{{.Userinfo.Name}}</span>
                         </div>
                         <div class="m-time date-time1">
                             <span>记录时间:</span>
                             <div class="input">
-                                <span class="date" data-date="{{.NRL38A}}"></span>
-                                <span class="time" data-time="{{.NRL38B}}"></span>
+                                <span class="date " id="date-1" data-date="{{.NRL38A}}" data-group="1"></span>
+                                <span class="time " id="time-1" data-time="{{.NRL38B}}" data-group="1"></span>
                             </div>
                         </div>
                     </div>
@@ -1409,8 +1409,8 @@
                         <div class="m-time date-time2">
                             <span>审核时间:</span>
                             <div class="input">
-                                <span class="date" data-date="{{.NRL39B}}"></span>
-                                <span class="time" data-time="{{.NRL39C}}"></span>
+                                <span class="date " id="date-2" data-date="{{.NRL39B}}" data-group="2"></span>
+                                <span class="time " id="time-2" data-time="{{.NRL39C}}" data-group="2"></span>
                             </div>
                         </div>
                     </div>
@@ -1925,11 +1925,29 @@
         var api = '', typeStr = '';
 
         return function saveFrom() {
+
             var isOk = setData();
 
             if (data.rid) {
                 api = "/record/nr2/update"
                 typeStr = '修改'
+
+                var userId = {{.Userinfo.UID}}
+                var yId = {{.NRL.BCE01A}}
+
+                if(!userId){
+                    alert("err: 用户信息错误");
+                    return false
+                }else if(!yId){
+                    alert("err: 用户信息错误");
+                    return false
+                }
+                if(parseInt(userId) != parseInt(yId)){
+                    alert("您没有权限编辑！");
+                    return false;
+                }
+
+
             } else {
                 api = "/record/nr2/update"
                 typeStr = '保存'
@@ -1947,6 +1965,7 @@
                             switch (data.result) {
                                 case 0:
                                     alert(typeStr + "成功！");
+                                    location.reload()
                                     break;
                                 case 2:
                                     alert(typeStr + "失败，请重试！");
@@ -1981,31 +2000,57 @@
 
 
     var rid = {{.NRL.ID}};
-    console.log(rid)
+    var minDateTimeStr =  {{.PInfo.HospitalDate}}+":00"
+    var minDateObj = fromatDateObj(minDateTimeStr);
+    var minDateTime = fromatDate(minDateTimeStr)
+    var maxDateTime = fromatDate()
+    layTimeConfObj = {}
+
     if (rid) {
         // var nowDateObj = fromatDate()
         //
         lay('.date').each(function () {
             var dateStr = $(this).data("date");
+            // console.log(fromatDateObj(dateStr))
+
             laydate.render({
                 elem: this, //指定元素
                 showBottom: false,
                 value: dateStr,
+                min: minDateTimeStr,
+                max: maxDateTime.date,
                 done: function (value, date, endDate) {
-                    // console.log(value); //得到日期生成的值，如：2017-08-18
-                    // console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-                    // console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                    console.log(date)
+                    var group = $(this.elem).data("group")
+                    if(group){
+                        // var timeEl = $("[data-group="+group+"]").not($(this.elem))
+                        var timeConfig = ""
+                        console.log(this.min)
+                        if(value == minDateTime.date){
+                            layTimeProObj["group"+group].config.min.hours = minDateObj.hours
+                            layTimeProObj["group"+group].config.min.minutes = minDateObj.minutes
+                        }
+                        // console.log(layTimeProObj["group"+group].config.min = date);
+
+                    }
+
                 }
             });
         });
         //
+        layTimeProObj = {}
         lay('.time').each(function () {
+
             var timeStr = $(this).data("time");
-            laydate.render({
+
+            obj = laydate.render({
                 elem: this, //指定元素
-                // showBottom: false,
+                showBottom: false,
                 type: 'time',
+                btns: ['confirm'],
                 format: 'HH:mm',
+                min:"00:00:00",
+                max:"23:59:00",
                 value: timeStr,
                 done: function (value, date, endDate) {
                     // console.log(value); //得到日期生成的值，如：2017-08-18
@@ -2013,6 +2058,10 @@
                     // console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
                 }
             });
+            var group = $(this).data("group");
+            if(group){
+                layTimeProObj["group"+group] = obj;
+            }
         })
     } else {
         var nowDateObj = fromatDate()
@@ -2022,6 +2071,8 @@
                 elem: this, //指定元素
                 showBottom: false,
                 value: nowDateObj.date,
+                min: minDateTime.date,
+                max: maxDateTime.date,
                 done: function (value, date, endDate) {
                     // console.log(value); //得到日期生成的值，如：2017-08-18
                     // console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
@@ -2035,7 +2086,10 @@
                 elem: this, //指定元素
                 // showBottom: false,
                 type: 'time',
+                btns: ['confirm'],
                 format: 'HH:mm',
+                min:"00:00:00",
+                max:"23:59:00",
                 value: nowDateObj.time,
                 done: function (value, date, endDate) {
                     // console.log(value); //得到日期生成的值，如：2017-08-18

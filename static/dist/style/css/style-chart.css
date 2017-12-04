@@ -1,6 +1,9 @@
 /* Import Less files */
 /* Import lib-rem.less if supportREM opened. */
 /*@import "lib-rem";*/
+.bodd {
+  color: red;
+}
 .main-box {
   width: 1024px;
   margin: 20px auto;
@@ -267,6 +270,20 @@ tbody {
   height: 100%;
   border-left: 1px solid #000;
   float: left;
+  position: relative;
+}
+.table-data-box table .data-box .bg_line .line .temp-other {
+  position: absolute;
+  width: 100%;
+  top: 78%;
+  left: 0;
+  line-height: 15px;
+}
+.table-data-box table .data-box .bg_line .line .sj {
+  line-height: 15px;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 .table-data-box table .data-box .bg_line .line:nth-child(1) {
   border-left: 0;

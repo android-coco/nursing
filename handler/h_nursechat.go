@@ -48,7 +48,7 @@ func (c NurseChatController) NurseChatInput(w *fit.Response, r *fit.Request, p f
 		//c.JsonData.Datas = err_tp.Error()
 		return
 	}
-	if thm_value != "" || (thm_scene != 0 && thm_scene != 7) {
+	if thm_value != "" || thm_scene != 0 {
 		var item model.NurseChat
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
@@ -438,16 +438,18 @@ func (c NurseChatController) NurseChatOutput(w *fit.Response, r *fit.Request, p 
 	if len(headtype) != 0 {
 		sql = sql + " and HeadType = ?"
 		msg = append(msg, headtype)
+	}else{
+		sql = sql + " and HeadType in(1,2,3,4,5,6,7,8,9,10,12,14,13)"  //不返回出量入量
 	}
 
 	if err_page == nil{
-		sql = sql + " order by Testtime desc limit ?,10"
+		sql = sql + " order by Testtime desc,Id desc limit ?,10"
 		msg = append(msg, 10*page)
 	}
 
 	items := make([]model.NurseChat, 0)
 
-	err := fit.MySqlEngine().SQL("select HeadType, TestTime, SubType, Other, Value, PatientId, NurseId, NurseName from (SELECT HeadType, TestTime, SubType, Other, Value, PatientId, NurseId, NurseName from NurseChat UNION ALL SELECT HeadType, TestTime, SubType, Other, Value, PatientId, NurseId, NurseName from TemperatrureChat) alias WHERE " + sql ,msg...).Find(&items)
+	err := fit.MySqlEngine().SQL("select HeadType, TestTime, SubType, Other, Value, PatientId, NurseId, NurseName from (SELECT HeadType, TestTime, SubType, Other, Value, PatientId, NurseId, NurseName, Id from NurseChat UNION ALL SELECT HeadType, TestTime, SubType, Other, Value, PatientId, NurseId, NurseName , Id from TemperatrureChat) alias WHERE " + sql ,msg...).Find(&items)
 
 	if err != nil {
 		c.JsonData.Result = 1

@@ -48,7 +48,7 @@ func (c NRL5Controller) Check(w *fit.Response, r *fit.Request, p fit.Params) {
 }
 
 func (c NRL5Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
-	pid := r.FormValue("pid")
+	/*pid := r.FormValue("pid")
 	uid := r.FormValue("uid")
 	rid := r.FormValue("rid") // 护理记录单id
 	ty := r.FormValue("type") // 1=add， 2=edit
@@ -74,6 +74,12 @@ func (c NRL5Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 	} else {
 		fmt.Fprintln(w, "参数错误！")
 		return
+	}*/
+
+	// 文书model，type， 文书id，病人id，护士id，病人入院时间，参数是否正确
+	nrl, ty, rid, pid, uid, isOk := c.LoadNRLDataWithParm(w, r, "5")
+	if !isOk {
+		return
 	}
 
 	// 查询对应病人信息 护士的信息
@@ -81,15 +87,13 @@ func (c NRL5Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 	if !has {
 		return
 	}
-	recordDate := nr5.DateTime.Format("2006-01-02")
 
 	c.Data = fit.Data{
 		"PInfo": patient,
-		"NRL":   nr5,
+		"NRL":   nrl,
 		"Type":  ty,
 		"Rid": rid,
 		"Account": account,
-		"RecordDate": recordDate,
 	}
 
 	c.LoadView(w, "v_nrl5_edit.html")
@@ -232,6 +236,7 @@ func (c NRL5Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 		c.JsonData.Result = 3
 		c.JsonData.ErrorMsg = "rid 错误！"
 		c.JsonData.Datas = []interface{}{}
+		return
 	}
 	// 病人ID
 	VAA01, err1 := strconv.ParseInt(r.FormValue("pid"), 10, 64)

@@ -889,12 +889,14 @@
                 edate = fromatDate(parseInt(edate)).date;
             }
 
+
             laydate.render({
                 elem: '#date1', //指定元素
                 showBottom: false,
+                min:{{.PInfo.HospitalDate}},
+                max:nowDateObj.date,
                 value: sdate,
                 done: function(value, date, endDate) {
-
                     var a = new Date(value);
                     date1 = a.getTime();
                     reloadSheet();
@@ -905,6 +907,8 @@
                 elem: '#date2', //指定元素
                 showBottom: false,
                 value: edate,
+                min:"{{.PInfo.HospitalDate}}",
+                max: nowDateObj.date,
                 done: function(value, date, endDate) {
 
                     var a = new Date(value);
@@ -1046,6 +1050,8 @@
                     elem: this,
                     showBottom: false,
                     value: dateV,
+                    min:"{{.PInfo.HospitalDate}}",
+                    max: nowDateObj.date,
                     done: function(value, date, endDate) {
                         $self.data("date",value)
                     }
@@ -1058,6 +1064,7 @@
                     elem: this,
                     type: 'time',
                     format: 'HH:mm',
+                    btns: ['confirm'],
                     value: timeV,
                     done: function(value, date, endDate) {
                         $self.data("time",value)
@@ -1093,6 +1100,7 @@
                 elem: this,
                 type: 'time',
                 format: 'HH:mm',
+                btns: ['confirm'],
                 value: timeV,
                 done: function(value, date, endDate) {
                     $self.data("time",value)

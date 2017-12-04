@@ -402,7 +402,8 @@
     <div class="m-time pdt-10">
         <span>记录时间</span>
         <div class="input">
-            <span class="date">{{.RecordDate}}</span>
+            <span class="date">{{.NRL.DateStr}}</span>
+            {{/*<span class="time">{{.NRL.TimeStr}}</span>*/}}
         </div>
     </div>
 
@@ -579,14 +580,20 @@
                 return true;
             }
         }
-
+        // 获取当前时间 hh:mm:ss
+        function getNowTime() {
+            var str = "";
+            var nowD = new Date();
+            str = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes()) + ":" +addZero(nowD.getSeconds());
+            return str;
+        }
         //设置日期
         function setDataDateTime() {
             var $mTime = $('.m-time')
             dateStr = $mTime.find('.date').text()
             // timeStr = $mTime.find('.time').text()
             if (dateStr) {
-                data.datetime = dateStr + " 00:00:00"
+                data.datetime = dateStr + " "+getNowTime()
             }
         }
 

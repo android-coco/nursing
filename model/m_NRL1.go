@@ -4,7 +4,6 @@ import (
 	"fit"
 	"strconv"
 	"nursing/utils"
-	"errors"
 	"sort"
 	"time"
 	"fmt"
@@ -38,6 +37,7 @@ type NRLData struct {
 	ID         int64        `json:"id" xorm:"pk autoincr comment(ID)"`
 	HeadType   string       `json:"headType" xorm:"notnull comment(头部id,对应头部类型)"`
 	TestTime   fit.JsonTime `json:"testTime" xorm:"notnull comment(测试时间)"`
+	DateTimeStr string       `xorm:"-"`
 	DateStr    string       `xorm:"-"`
 	TimeStr    string       `xorm:"-"`
 	SubType    int          `json:"subType,string" xorm:"notnull comment(类型,)"`
@@ -55,23 +55,25 @@ type NRLData struct {
 31=自定义1，32=自定义2，33=自定义3，34=自定义4，35=自定义5，36=自定义6，37=自定义7，
 */
 type NRLModel struct {
-	ID      int64  `xorm:"pk autoincr comment(文书id)"`
-	VAA01   int64  `xorm:"comment(patientid病人id)"`
-	BCK01   int    `xorm:"comment(classid科室id)"`
-	BCE01A  string `xorm:"comment(NursingId责任护士ID)"`
-	BCE03A  string `xorm:"comment(NursingName责任护士签名)"`
-	DateStr string `xorm:"-"`
-	TimeStr string `xorm:"-"`
-	Mod1    NRLData // 1体温
-	Mod2    NRLData // 2脉搏
-	Mod3    NRLData // 3呼吸
-	Mod4    NRLData // 4血压
-	Mod6    NRLData // 6血氧
-	Mod7    NRLData // 7血糖
-	Mod15   NRLData // 15入量
-	Mod16   NRLData // 16出量
-	Mod17   NRLData // 17病情记录
-	Mod18   NRLData // 18出入量统计
+	ID       int64        `xorm:"pk autoincr comment(文书id)"`
+	VAA01    int64        `xorm:"comment(patientid病人id)"`
+	BCK01    int          `xorm:"comment(classid科室id)"`
+	BCE01A   string       `xorm:"comment(NursingId责任护士ID)"`
+	BCE03A   string       `xorm:"comment(NursingName责任护士签名)"`
+	DateTime fit.JsonTime `json:"dateTime"`
+	DateTimeStr string       `xorm:"-"`
+	DateStr  string       `xorm:"-"`
+	TimeStr  string       `xorm:"-"`
+	Mod1     NRLData // 1体温
+	Mod2     NRLData // 2脉搏
+	Mod3     NRLData // 3呼吸
+	Mod4     NRLData // 4血压
+	Mod6     NRLData // 6血氧
+	Mod7     NRLData // 7血糖
+	Mod15    NRLData // 15入量
+	Mod16    NRLData // 16出量
+	Mod17    NRLData // 17病情记录
+	Mod18    NRLData // 18出入量统计
 
 	Mod31 NRLData // 自定义1
 	Mod32 NRLData // 自定义2
@@ -136,9 +138,10 @@ func (mods DataModels) Len() int {
 }
 
 func (mods DataModels) Less(i, j int) bool {
-	date1 := mods[i].DateStr + " " + mods[i].TimeStr
-	date2 := mods[j].DateStr + " " + mods[j].TimeStr
-	return date1 < date2
+	//date1 := mods[i].DateStr + " " + mods[i].TimeStr
+	//date2 := mods[j].DateStr + " " + mods[j].TimeStr
+	//return date1 < date2
+	return mods[i].DateTime.Before(mods[j].DateTime)
 }
 
 func (mods DataModels) Swap(i, j int) {
@@ -159,9 +162,9 @@ func GetNRL1Data(pid, datestr1, datestr2 string) ([]NRLModel, error) {
 	var mods []NRLData
 	var err error
 	if datestr1 == "" || datestr2 == "" {
-		err = fit.MySqlEngine().Table("NurseChat").Where("patientid = ?", pid).Asc("TestTime").Find(&mods)
+		err = fit.MySqlEngine().Table("NurseChat").Where("patientid = ?", pid).In("HeadType", "1", "2", "3", "4", "6", "7", "15", "16", "17", "31", "32", "33", "34", "35", "36", "37").Asc("TestTime", "NurseId").Find(&mods)
 	} else {
-		err = fit.MySqlEngine().Table("NurseChat").Where("patientid = ? and TestTime >= ? and TestTime < ?", pid, datestr1, datestr2).Asc("TestTime").Find(&mods)
+		err = fit.MySqlEngine().Table("NurseChat").Where("patientid = ? and TestTime >= ? and TestTime < ?", pid, datestr1, datestr2).In("HeadType", "1", "2", "3", "4", "6", "7", "15", "16", "17", "31", "32", "33", "34", "35", "36", "37").Asc("TestTime", "NurseId").Find(&mods)
 	}
 	//fit.MySqlEngine().ShowSQL(false)
 	if err != nil {
@@ -176,13 +179,13 @@ func GetNRL1Data(pid, datestr1, datestr2 string) ([]NRLModel, error) {
 
 	// 自定义表头
 	nrl1Title.PCQueryNRL1Title()
-	data1, err1 := NRLRelatesToMarkSheet(nrl1Title.NRT01, "31", pid)
-	data2, err2 := NRLRelatesToMarkSheet(nrl1Title.NRT02, "32", pid)
-	data3, err3 := NRLRelatesToMarkSheet(nrl1Title.NRT03, "33", pid)
-	data4, err4 := NRLRelatesToMarkSheet(nrl1Title.NRT04, "34", pid)
-	data5, err5 := NRLRelatesToMarkSheet(nrl1Title.NRT05, "35", pid)
-	data6, err6 := NRLRelatesToMarkSheet(nrl1Title.NRT06, "36", pid)
-	data7, err7 := NRLRelatesToMarkSheet(nrl1Title.NRT07, "37", pid)
+	data1, err1 := NRLRelatesToMarkSheet(nrl1Title.NRT01, "31", pid, datestr1, datestr2)
+	data2, err2 := NRLRelatesToMarkSheet(nrl1Title.NRT02, "32", pid, datestr1, datestr2)
+	data3, err3 := NRLRelatesToMarkSheet(nrl1Title.NRT03, "33", pid, datestr1, datestr2)
+	data4, err4 := NRLRelatesToMarkSheet(nrl1Title.NRT04, "34", pid, datestr1, datestr2)
+	data5, err5 := NRLRelatesToMarkSheet(nrl1Title.NRT05, "35", pid, datestr1, datestr2)
+	data6, err6 := NRLRelatesToMarkSheet(nrl1Title.NRT06, "36", pid, datestr1, datestr2)
+	data7, err7 := NRLRelatesToMarkSheet(nrl1Title.NRT07, "37", pid, datestr1, datestr2)
 	checkerr("NRLRelatesToMarkSheet", err1, err2, err3, err4, err5, err6, err7)
 
 	mods = append(mods, data1...)
@@ -199,7 +202,7 @@ func GetNRL1Data(pid, datestr1, datestr2 string) ([]NRLModel, error) {
 	result1 := formatNRLData(data)
 
 	// 出入量统计部分数据
-	ioData, errio := NRLRelatesToIO(pid)
+	ioData, errio := NRLRelatesToIO(pid, datestr1, datestr2)
 	checkerr("err relates to io :", errio)
 
 	result1 = append(result1, ioData...)
@@ -213,23 +216,11 @@ func GetNRL1Data(pid, datestr1, datestr2 string) ([]NRLModel, error) {
 	return result, nil
 }
 
-func DeleteNRLData(rid, headType string) (err error) {
-	var mod interface{}
-	var tablename = ""
-	switch headType {
-	case "18":
-		tablename = "IOStatistics"
-	default:
-		tablename = "NurseChat"
-	}
-
-	_, err = fit.MySqlEngine().Table(tablename).ID(rid).Delete(&mod)
-	return
-}
-
 func parseNRLData(mods []NRLData) {
 	for key, _ := range mods {
 		val := mods[key]
+
+		mods[key].DateTimeStr = val.TestTime.NormParse()
 		mods[key].DateStr = val.TestTime.ParseDate()
 		mods[key].TimeStr = val.TestTime.ParseTime()
 		switch val.HeadType {
@@ -266,8 +257,11 @@ func formatNRLData(mods []NRLData) []NRLModel {
 	var results []NRLModel
 	for index := 0; index < len(mods); index++ {
 		mod := mods[index]
+		//fmt.Println("--- time  :", mod.TestTime, mod.DateTimeStr)
 		if index == 0 {
 			var resultModel NRLModel
+			resultModel.DateTime = mod.TestTime
+			resultModel.DateTimeStr = mod.DateTimeStr
 			resultModel.DateStr = mod.DateStr
 			resultModel.TimeStr = mod.TimeStr
 			resultModel.BCE01A = strconv.Itoa(mod.NurseId)
@@ -277,10 +271,13 @@ func formatNRLData(mods []NRLData) []NRLModel {
 
 		} else {
 			oldresultModel := &results[len(results)-1]
-			if mod.DateStr == oldresultModel.DateStr && mod.TimeStr == oldresultModel.TimeStr && strconv.Itoa(mod.NurseId) == oldresultModel.BCE01A {
+			//if mod.DateStr == oldresultModel.DateStr && mod.TimeStr == oldresultModel.TimeStr && strconv.Itoa(mod.NurseId) == oldresultModel.BCE01A {
+			if mod.TestTime == oldresultModel.DateTime && strconv.Itoa(mod.NurseId) == oldresultModel.BCE01A {
 				mateNRLData(&mod, oldresultModel)
 			} else {
 				var newresultModel NRLModel
+				newresultModel.DateTime = mod.TestTime
+				newresultModel.DateTimeStr = mod.DateTimeStr
 				newresultModel.DateStr = mod.DateStr
 				newresultModel.TimeStr = mod.TimeStr
 				newresultModel.BCE01A = strconv.Itoa(mod.NurseId)
@@ -331,7 +328,7 @@ func mateNRLData(mod *NRLData, resultModel *NRLModel) {
 	case "37":
 		resultModel.Mod37 = *mod
 	default:
-		fit.Logger().LogError("FormatNRLData err : invalid type")
+		fit.Logger().LogError("FormatNRLData err , invalid type:", mod.HeadType)
 	}
 
 }
@@ -393,7 +390,7 @@ func (m *NRL1Title) PCUpdateNRT1Title() error {
 护理记录单 表头关联评分
 //2=BADL评分，3=DVT评分，4=跌倒评分，5=压疮评分，6=疼痛评分
 */
-func NRLRelatesToMarkSheet(nrlType, headType, pid string) (results []NRLData, err error) {
+func NRLRelatesToMarkSheet(nrlType, headType, pid, datestr1, datestr2 string) (results []NRLData, err error) {
 	var tablename = ""
 	switch nrlType {
 	case "2":
@@ -407,13 +404,18 @@ func NRLRelatesToMarkSheet(nrlType, headType, pid string) (results []NRLData, er
 	case "6":
 		tablename = " NRL8"
 	default:
-		err = errors.New("NRLRelatesToMarkSheet invalid type")
 		return
 	}
 
-	sqlstr := "select ID,BCK01,VAA01,BCE01A,BCE03A,DateTime,Score from" + tablename + " where VAA01 = ?"
 	var resultmap []map[string]string
-	resultmap, err = fit.MySqlEngine().QueryString(sqlstr, pid)
+	if datestr1 == "" || datestr2 == "" {
+		sqlstr := "select ID,BCK01,VAA01,BCE01A,BCE03A,DateTime,Score from" + tablename + " where VAA01 = ?"
+		resultmap, err = fit.MySqlEngine().QueryString(sqlstr, pid)
+	} else {
+		sqlstr := "select ID,BCK01,VAA01,BCE01A,BCE03A,DateTime,Score from" + tablename + " where VAA01 = ? and DateTime >= ? and DateTime < ?"
+		resultmap, err = fit.MySqlEngine().QueryString(sqlstr, pid, datestr1, datestr2)
+
+	}
 
 	if err != nil {
 		fit.Logger().LogError("NRL1", "relates to mark sheet error", err)
@@ -421,7 +423,6 @@ func NRLRelatesToMarkSheet(nrlType, headType, pid string) (results []NRLData, er
 	}
 
 	for _, val := range resultmap {
-
 		id, _ := utils.Int64Value(val["ID"])
 		pid, _ := utils.Int64Value(val["VAA01"])
 		uid, _ := strconv.Atoi(val["BCE01A"])
@@ -440,6 +441,7 @@ func NRLRelatesToMarkSheet(nrlType, headType, pid string) (results []NRLData, er
 			PatientId: pid,
 			Value:     val["Score"],
 			TestTime:  fit.JsonTime(datetime),
+			DateTimeStr: datetime.Format("2006-01-02 15:04:05"),
 			DateStr:   datestr,
 			TimeStr:   timestr,
 		}
@@ -453,10 +455,14 @@ func NRLRelatesToMarkSheet(nrlType, headType, pid string) (results []NRLData, er
 /*
 护理记录单 关联出入量统计
 */
-func NRLRelatesToIO(pid string) (results []NRLModel, err error) {
+func NRLRelatesToIO(pid, datestr1, datestr2 string) (results []NRLModel, err error) {
 
 	var ioModels []IOStatistics
-	err = fit.MySqlEngine().Table("IOStatistics").Where("VAA01 = ?", pid).Find(&ioModels)
+	if datestr1 == "" || datestr2 == "" {
+		err = fit.MySqlEngine().Table("IOStatistics").Where("VAA01 = ?", pid).Find(&ioModels)
+	} else {
+		err = fit.MySqlEngine().Table("IOStatistics").Where("VAA01 = ? and DateTime1 >= ? and DateTime1 < ?", pid, datestr1, datestr2).Find(&ioModels)
+	}
 	if err != nil {
 		fit.Logger().LogError("NRL1", "relates to IO sheet error", err)
 		return
@@ -497,9 +503,12 @@ func NRLRelatesToIO(pid string) (results []NRLModel, err error) {
 				Value: val.OutputA,
 			},
 			Mod15: NRLData{
-				Value: val.OutputC,
+				Value: val.OutputB,
 			},
 			Mod16: NRLData{
+				Value: val.OutputC,
+			},
+			Mod17: NRLData{
 				Value: val.OutputTotal,
 			},
 		}

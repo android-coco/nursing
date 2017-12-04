@@ -6,10 +6,17 @@
     <script src="/static/dist/js/lib/jquery.qrcode.min.js"></script>
     <title>深圳万丰医院深静脉血栓(DVT)形成风险评估表</title>
     <style type="text/css">
+        .bagw{
+            height: 1540px;
+            width: 1064px;
+        }
         <!--
         .STYLE1 {
-            font-size: large;
+            font-size: 32px;
             font-weight: bold;
+        }
+        .tit{
+            font-size: 18px;
         }
         p{
             margin:4px 0;
@@ -79,23 +86,24 @@
         $(function () {
             var page = {{.PageNum}}//多少页
             var datas = {{.NRLList}}//数据
-            loadData(page, datas);
+            var pgeDataNum = {{.PageDataNum}}//每页多少数据
+                    loadData(page, datas, pgeDataNum);
         });
 
-        function loadData(page, datas) {
+        function loadData(page, datas,pgeDataNum) {
             console.log(page,datas)
             var len = datas.length;
             var html = "";
             if(len > 0){
                 for (var i = 0; i < page; i++) {
-                    html+="<div>\n" +
+                    html+="<div class=\"bagw\"><div>\n" +
                             "    <div>\n" +
                             "        <p align=\"center\" class=\"STYLE1\">深圳万丰医院深静脉血栓(DVT)形成风险评估表</p>\n" +
                             "    </div>\n" +
                             "</div>\n" +
                             "<div>\n" +
                             "    <div>\n" +
-                            "        <p>\n" +
+                            "        <p class=\"tit\">\n" +
                             "            <label>床号：</label>\n" +
                             "        {{.PInfo.BCQ04}} \n" +
                             "            <label>&nbsp; &nbsp; &nbsp;姓名：</label>\n" +
@@ -108,7 +116,7 @@
                             "        {{.PInfo.VAA04}}\n" +
                             "            <label>&nbsp; &nbsp; &nbsp;诊断：</label>\n" +
                             "        {{.PInfo.VAO15}}</p>\n" +
-                            "        <table width=\"1038\" height=\"1127\"  border=\"1\"  cellspacing=\"0\" bordercolor=\"#666666\">\n" +
+                            "        <table width=\"1064\" height=\"1127\"  border=\"1\"  cellspacing=\"0\" bordercolor=\"#666666\">\n" +
                             "            <tr>\n" +
                             "                <td width=\"134\" rowspan=\"2\"><div align=\"center\" class=\"STYLE2\">项目</div></td>\n" +
                             "                <td width=\"42\" rowspan=\"2\"><div align=\"center\" class=\"STYLE2\">评估</div></td>\n" +
@@ -116,12 +124,12 @@
                             "                <td height=\"37\" colspan=\"6\"><div align=\"center\">评估日期</div></td>\n" +
                             "            </tr>\n" +
                             "            <tr>\n" +
-                            "                <td width=\"96\" height=\"46\"><div align=\"center\">"+ ((datas[i * 6 + 0]||"") && (datas[i * 6 + 0].DateStr || " ")) +"</div></td>\n" +
-                            "                <td width=\"94\"><div align=\"center\">"+ ((datas[i * 6 + 1]||"") && (datas[i * 6 + 1].DateStr || " ")) +"</div></td>\n" +
-                            "                <td width=\"95\"><div align=\"center\">"+ ((datas[i * 6 + 2]||"") && (datas[i * 6 + 2].DateStr || " ")) +"</td>\n" +
-                            "                <td width=\"89\"><div align=\"center\">"+ ((datas[i * 6 + 3]||"") && (datas[i * 6 + 3].DateStr || " ")) +"</div></td>\n" +
-                            "                <td width=\"92\"><div align=\"center\">"+ ((datas[i * 6 + 4]||"") && (datas[i * 6 + 4].DateStr || " ")) +"</div></td>\n" +
-                            "                <td width=\"95\"><div align=\"center\">"+ ((datas[i * 6 + 5]||"") && (datas[i * 6 + 5].DateStr || " ")) +"</div></td>\n" +
+                            "                <td width=\"96\" height=\"46\"><div align=\"center\">"+ ((datas[i * pgeDataNum + 0]||"") && (datas[i * pgeDataNum + 0].DateStr || " ")) +"</div></td>\n" +
+                            "                <td width=\"94\"><div align=\"center\">"+ ((datas[i * pgeDataNum + 1]||"") && (datas[i * pgeDataNum + 1].DateStr || " ")) +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+ ((datas[i * pgeDataNum + 2]||"") && (datas[i * pgeDataNum + 2].DateStr || " ")) +"</td>\n" +
+                            "                <td width=\"89\"><div align=\"center\">"+ ((datas[i * pgeDataNum + 3]||"") && (datas[i * pgeDataNum + 3].DateStr || " ")) +"</div></td>\n" +
+                            "                <td width=\"92\"><div align=\"center\">"+ ((datas[i * pgeDataNum + 4]||"") && (datas[i * pgeDataNum + 4].DateStr || " ")) +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+ ((datas[i * pgeDataNum + 5]||"") && (datas[i * pgeDataNum + 5].DateStr || " ")) +"</div></td>\n" +
                             "            </tr>\n" +
                             "            <tr>\n" +
                             "                <td><div align=\"center\" class=\"STYLE2\">年龄(岁)</div></td>\n" +
@@ -141,12 +149,12 @@
                             "                    <p>61---70岁</p>\n" +
                             "                    <p>&gt;70岁</p>\n" +
                             "                </div></td>\n" +
-                            "                <td width=\"96\"><div align=\"center\">"+(scoreHash.option1[(datas[i * 6 + 0].NRL01 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"94\"><div align=\"center\">"+(scoreHash.option1[(datas[i * 6 + 1].NRL01 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option1[(datas[i * 6 + 2].NRL01 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"89\"><div align=\"center\">"+(scoreHash.option1[(datas[i * 6 + 3].NRL01 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"92\"><div align=\"center\">"+(scoreHash.option1[(datas[i * 6 + 4].NRL01 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option1[(datas[i * 6 + 5].NRL01 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"96\"><div align=\"center\">"+(scoreHash.option1[(datas[i * pgeDataNum + 0].NRL01 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"94\"><div align=\"center\">"+(scoreHash.option1[(datas[i * pgeDataNum + 1].NRL01 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option1[(datas[i * pgeDataNum + 2].NRL01 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"89\"><div align=\"center\">"+(scoreHash.option1[(datas[i * pgeDataNum + 3].NRL01 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"92\"><div align=\"center\">"+(scoreHash.option1[(datas[i * pgeDataNum + 4].NRL01 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option1[(datas[i * pgeDataNum + 5].NRL01 || "")] || " ") +"</div></td>\n" +
                             "            </tr>\n" +
                             "            <tr>\n" +
                             "                <td><div class=\"STYLE2\">\n" +
@@ -166,12 +174,12 @@
                             "                    <p>31---40</p>\n" +
                             "                    <p>&gt;40</p>\n" +
                             "                </div></td>\n" +
-                            "                <td width=\"96\"><div align=\"center\">"+(scoreHash.option2[(datas[i * 6 + 0].NRL02 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"94\"><div align=\"center\">"+(scoreHash.option2[(datas[i * 6 + 1].NRL02 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option2[(datas[i * 6 + 2].NRL02 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"89\"><div align=\"center\">"+(scoreHash.option2[(datas[i * 6 + 3].NRL02 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"92\"><div align=\"center\">"+(scoreHash.option2[(datas[i * 6 + 4].NRL02 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option2[(datas[i * 6 + 5].NRL02 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"96\"><div align=\"center\">"+(scoreHash.option2[(datas[i * pgeDataNum + 0].NRL02 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"94\"><div align=\"center\">"+(scoreHash.option2[(datas[i * pgeDataNum + 1].NRL02 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option2[(datas[i * pgeDataNum + 2].NRL02 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"89\"><div align=\"center\">"+(scoreHash.option2[(datas[i * pgeDataNum + 3].NRL02 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"92\"><div align=\"center\">"+(scoreHash.option2[(datas[i * pgeDataNum + 4].NRL02 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option2[(datas[i * pgeDataNum + 5].NRL02 || "")] || " ") +"</div></td>\n" +
                             "            </tr>\n" +
                             "            <tr>\n" +
                             "                <td><div class=\"STYLE2\">\n" +
@@ -191,12 +199,12 @@
                             "                    <p>轮椅</p>\n" +
                             "                    <p>完全卧床</p>\n" +
                             "                </div></td>\n" +
-                            "                <td width=\"96\"><div align=\"center\">"+(scoreHash.option3[(datas[i * 6 + 0].NRL03 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"94\"><div align=\"center\">"+(scoreHash.option3[(datas[i * 6 + 1].NRL03 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option3[(datas[i * 6 + 2].NRL03 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"89\"><div align=\"center\">"+(scoreHash.option3[(datas[i * 6 + 3].NRL03 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"92\"><div align=\"center\">"+(scoreHash.option3[(datas[i * 6 + 4].NRL03 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option3[(datas[i * 6 + 5].NRL03 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"96\"><div align=\"center\">"+(scoreHash.option3[(datas[i * pgeDataNum + 0].NRL03 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"94\"><div align=\"center\">"+(scoreHash.option3[(datas[i * pgeDataNum + 1].NRL03 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option3[(datas[i * pgeDataNum + 2].NRL03 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"89\"><div align=\"center\">"+(scoreHash.option3[(datas[i * pgeDataNum + 3].NRL03 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"92\"><div align=\"center\">"+(scoreHash.option3[(datas[i * pgeDataNum + 4].NRL03 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option3[(datas[i * pgeDataNum + 5].NRL03 || "")] || " ") +"</div></td>\n" +
                             "            </tr>\n" +
                             "            <tr>\n" +
                             "                <td><div class=\"STYLE2\">\n" +
@@ -216,12 +224,12 @@
                             "                    <p>怀孕及产褥期</p>\n" +
                             "                    <p>易栓症</p>\n" +
                             "                </div></td>\n" +
-                            "                <td width=\"96\"><div align=\"center\">"+(scoreHash.option4[(datas[i * 6 + 0].NRL04 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"94\"><div align=\"center\">"+(scoreHash.option4[(datas[i * 6 + 1].NRL04 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option4[(datas[i * 6 + 2].NRL04 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"89\"><div align=\"center\">"+(scoreHash.option4[(datas[i * 6 + 3].NRL04 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"92\"><div align=\"center\">"+(scoreHash.option4[(datas[i * 6 + 4].NRL04 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option4[(datas[i * 6 + 5].NRL04 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"96\"><div align=\"center\">"+(scoreHash.option4[(datas[i * pgeDataNum + 0].NRL04 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"94\"><div align=\"center\">"+(scoreHash.option4[(datas[i * pgeDataNum + 1].NRL04 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option4[(datas[i * pgeDataNum + 2].NRL04 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"89\"><div align=\"center\">"+(scoreHash.option4[(datas[i * pgeDataNum + 3].NRL04 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"92\"><div align=\"center\">"+(scoreHash.option4[(datas[i * pgeDataNum + 4].NRL04 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option4[(datas[i * pgeDataNum + 5].NRL04 || "")] || " ") +"</div></td>\n" +
                             "            </tr>\n" +
                             "            <tr>\n" +
                             "                <td><div class=\"STYLE2\">\n" +
@@ -239,12 +247,12 @@
                             "                    <p>盆腔损伤</p>\n" +
                             "                    <p>下肢损伤</p>\n" +
                             "                </div></td>\n" +
-                            "                <td width=\"96\"><div align=\"center\">"+(scoreHash.option5[(datas[i * 6 + 0].NRL05 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"94\"><div align=\"center\">"+(scoreHash.option5[(datas[i * 6 + 1].NRL05 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option5[(datas[i * 6 + 2].NRL05 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"89\"><div align=\"center\">"+(scoreHash.option5[(datas[i * 6 + 3].NRL05 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"92\"><div align=\"center\">"+(scoreHash.option5[(datas[i * 6 + 4].NRL05 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option5[(datas[i * 6 + 5].NRL05 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"96\"><div align=\"center\">"+(scoreHash.option5[(datas[i * pgeDataNum + 0].NRL05 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"94\"><div align=\"center\">"+(scoreHash.option5[(datas[i * pgeDataNum + 1].NRL05 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option5[(datas[i * pgeDataNum + 2].NRL05 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"89\"><div align=\"center\">"+(scoreHash.option5[(datas[i * pgeDataNum + 3].NRL05 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"92\"><div align=\"center\">"+(scoreHash.option5[(datas[i * pgeDataNum + 4].NRL05 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option5[(datas[i * pgeDataNum + 5].NRL05 || "")] || " ") +"</div></td>\n" +
                             "            </tr>\n" +
                             "            <tr>\n" +
                             "                <td height=\"126\"><div class=\"STYLE2\">\n" +
@@ -260,12 +268,12 @@
                             "                    <p>择期大型手术</p>\n" +
                             "                    <p>急诊大手术、腹部手术、泌尿科手术、神经外科手术</p>\n" +
                             "                </div></td>\n" +
-                            "                <td width=\"96\"><div align=\"center\">"+(scoreHash.option6[(datas[i * 6 + 0].NRL06 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"94\"><div align=\"center\">"+(scoreHash.option6[(datas[i * 6 + 1].NRL06 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option6[(datas[i * 6 + 2].NRL06 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"89\"><div align=\"center\">"+(scoreHash.option6[(datas[i * 6 + 3].NRL06 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"92\"><div align=\"center\">"+(scoreHash.option6[(datas[i * 6 + 4].NRL06 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option6[(datas[i * 6 + 5].NRL06 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"96\"><div align=\"center\">"+(scoreHash.option6[(datas[i * pgeDataNum + 0].NRL06 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"94\"><div align=\"center\">"+(scoreHash.option6[(datas[i * pgeDataNum + 1].NRL06 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option6[(datas[i * pgeDataNum + 2].NRL06 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"89\"><div align=\"center\">"+(scoreHash.option6[(datas[i * pgeDataNum + 3].NRL06 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"92\"><div align=\"center\">"+(scoreHash.option6[(datas[i * pgeDataNum + 4].NRL06 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option6[(datas[i * pgeDataNum + 5].NRL06 || "")] || " ") +"</div></td>\n" +
                             "            </tr>\n" +
                             "            <tr>\n" +
                             "                <td height=\"201\"><div class=\"STYLE2\">\n" +
@@ -290,38 +298,37 @@
                             "                    <p>脑血管意外</p>\n" +
                             "                    <p>DVT病史</p>\n" +
                             "                </div></td>\n" +
-                            "                <td width=\"96\"><div align=\"center\">"+(scoreHash.option7[(datas[i * 6 + 0].NRL07 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"94\"><div align=\"center\">"+(scoreHash.option7[(datas[i * 6 + 1].NRL07 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option7[(datas[i * 6 + 2].NRL07 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"89\"><div align=\"center\">"+(scoreHash.option7[(datas[i * 6 + 3].NRL07 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"92\"><div align=\"center\">"+(scoreHash.option7[(datas[i * 6 + 4].NRL07 || "")] || " ") +"</div></td>\n" +
-                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option7[(datas[i * 6 + 5].NRL07 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"96\"><div align=\"center\">"+(scoreHash.option7[(datas[i * pgeDataNum + 0].NRL07 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"94\"><div align=\"center\">"+(scoreHash.option7[(datas[i * pgeDataNum + 1].NRL07 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option7[(datas[i * pgeDataNum + 2].NRL07 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"89\"><div align=\"center\">"+(scoreHash.option7[(datas[i * pgeDataNum + 3].NRL07 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"92\"><div align=\"center\">"+(scoreHash.option7[(datas[i * pgeDataNum + 4].NRL07 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option7[(datas[i * pgeDataNum + 5].NRL07 || "")] || " ") +"</div></td>\n" +
                             "            </tr>\n" +
                             "            <tr>\n" +
                             "                <td colspan=\"3\"><div align=\"center\">总得分</div></td>\n" +
-                            "                <td width=\"96\" height=\"50\"><div align=\"center\">"+ (datas[i * 6 + 0].Score || scoreHash.option12[datas[i * 6 + 0].Score] ||" ") + "</div></td>\n" +
-                            "                <td width=\"94\" height=\"50\"><div align=\"center\">"+ (datas[i * 6 + 1].Score || scoreHash.option12[datas[i * 6 + 1].Score] ||" ") + "</div></td>\n" +
-                            "                <td width=\"95\" height=\"50\"><div align=\"center\">"+ (datas[i * 6 + 2].Score || scoreHash.option12[datas[i * 6 + 2].Score] ||" ") + "</div></td>\n" +
-                            "                <td width=\"89\" height=\"50\"><div align=\"center\">"+ (datas[i * 6 + 3].Score || scoreHash.option12[datas[i * 6 + 3].Score] ||" ") + "</div></td>\n" +
-                            "                <td width=\"92\" height=\"50\"><div align=\"center\">"+ (datas[i * 6 + 4].Score || scoreHash.option12[datas[i * 6 + 4].Score] ||" ") + "</div></td>\n" +
-                            "                <td width=\"95\" height=\"50\"><div align=\"center\">"+ (datas[i * 6 + 5].Score || scoreHash.option12[datas[i * 6 + 5].Score] ||" ") + "</div></td>\n" +
+                            "                <td width=\"96\" height=\"50\"><div align=\"center\">"+ (datas[i * pgeDataNum + 0].Score || scoreHash.option12[datas[i * pgeDataNum + 0].Score] ||" ") + "</div></td>\n" +
+                            "                <td width=\"94\" height=\"50\"><div align=\"center\">"+ (datas[i * pgeDataNum + 1].Score || scoreHash.option12[datas[i * pgeDataNum + 1].Score] ||" ") + "</div></td>\n" +
+                            "                <td width=\"95\" height=\"50\"><div align=\"center\">"+ (datas[i * pgeDataNum + 2].Score || scoreHash.option12[datas[i * pgeDataNum + 2].Score] ||" ") + "</div></td>\n" +
+                            "                <td width=\"89\" height=\"50\"><div align=\"center\">"+ (datas[i * pgeDataNum + 3].Score || scoreHash.option12[datas[i * pgeDataNum + 3].Score] ||" ") + "</div></td>\n" +
+                            "                <td width=\"92\" height=\"50\"><div align=\"center\">"+ (datas[i * pgeDataNum + 4].Score || scoreHash.option12[datas[i * pgeDataNum + 4].Score] ||" ") + "</div></td>\n" +
+                            "                <td width=\"95\" height=\"50\"><div align=\"center\">"+ (datas[i * pgeDataNum + 5].Score || scoreHash.option12[datas[i * pgeDataNum + 5].Score] ||" ") + "</div></td>\n" +
                             "            </tr>\n" +
                             "            <tr>\n" +
                             "                <td colspan=\"3\"><div align=\"center\">评估人</div></td>\n" +
-                            "                <td width=\"96\" height=\"50\"><div align=\"center\">"+ (datas[i * 6 +0].BCE03A||" ") +"</div></td>\n" +
-                            "                <td width=\"94\" height=\"50\"><div align=\"center\">"+ (datas[i * 6 +1].BCE03A||" ") +"</div></td>\n" +
-                            "                <td width=\"95\" height=\"50\"><div align=\"center\">"+ (datas[i * 6 +2].BCE03A||" ") +"</div></td>\n" +
-                            "                <td width=\"89\" height=\"50\"><div align=\"center\">"+ (datas[i * 6 +3].BCE03A||" ") +"</div></td>\n" +
-                            "                <td width=\"92\" height=\"50\"><div align=\"center\">"+ (datas[i * 6 +4].BCE03A||" ") +"</div></td>\n" +
-                            "                <td width=\"95\" height=\"50\"><div align=\"center\">"+ (datas[i * 6 +5].BCE03A||" ") +"</div></td>\n" +
+                            "                <td width=\"96\" height=\"50\"><div align=\"center\">"+ (datas[i * pgeDataNum +0].BCE03A||" ") +"</div></td>\n" +
+                            "                <td width=\"94\" height=\"50\"><div align=\"center\">"+ (datas[i * pgeDataNum +1].BCE03A||" ") +"</div></td>\n" +
+                            "                <td width=\"95\" height=\"50\"><div align=\"center\">"+ (datas[i * pgeDataNum +2].BCE03A||" ") +"</div></td>\n" +
+                            "                <td width=\"89\" height=\"50\"><div align=\"center\">"+ (datas[i * pgeDataNum +3].BCE03A||" ") +"</div></td>\n" +
+                            "                <td width=\"92\" height=\"50\"><div align=\"center\">"+ (datas[i * pgeDataNum +4].BCE03A||" ") +"</div></td>\n" +
+                            "                <td width=\"95\" height=\"50\"><div align=\"center\">"+ (datas[i * pgeDataNum +5].BCE03A||" ") +"</div></td>\n" +
                             "            </tr>\n" +
                             "        </table>\n" +
-                            "        <p>&nbsp; &nbsp; &nbsp;评分方案：≤ 6分无风险；7~10分为低危（关注病情 变化，随时评估）；11~14分为中危（第一周评估2次， 此后4周内每周评估一次，之后每月评估一次）；</p>\n" +
-                            "        <p>≥15 分为高危（手术后3天内每天评估1次，之后接中危 病人评估）</p>\n" +
-                            "        <p>&nbsp; &nbsp; &nbsp;评估时机：患者入院24h 内完成</p>\n" +
+                            "        <p class=\"tit\">评分方案：≤ 6分无风险；7~10分为低危（关注病情 变化，随时评估）；11~14分为中危（第一周评估2次， 此后4周内每周评估一次，之后每月评估一次）；</p>\n" +
+                            "        <p class=\"tit\">≥15 分为高危（手术后3天内每天评估1次，之后接中危 病人评估）</p>\n" +
+                            "        <p class=\"tit\">评估时机：患者入院24h 内完成</p>\n" +
                             "    </div>\n" +
-                            "</div>";
-                    html += "<div class=\"kg\"></div>";
+                            "</div></div>";
                 }
                $('body').html(html)
             }
@@ -330,6 +337,7 @@
 </head>
 
 <body>
+<div class="bagw">
 <div>
     <div>
         <p align="center" class="STYLE1">深圳万丰医院深静脉血栓(DVT)形成风险评估表</p>
@@ -337,7 +345,7 @@
 </div>
 <div>
     <div>
-        <p>
+        <p class="tit">
             <label>床号：</label>
         {{.PInfo.BCQ04}} 
             <label>&nbsp; &nbsp; &nbsp;姓名：</label>
@@ -350,7 +358,7 @@
         {{.PInfo.VAA04}}
             <label>&nbsp; &nbsp; &nbsp;诊断：</label>
         {{.PInfo.VAO15}}</p>
-        <table width="1038" height="1127"  border="1"  cellspacing="0" bordercolor="#666666">
+        <table width="1064" height="1127"  border="1"  cellspacing="0" bordercolor="#666666">
             <tr>
                 <td width="134" rowspan="2"><div align="center" class="STYLE2">项目</div></td>
                 <td width="42" rowspan="2"><div align="center" class="STYLE2">评估</div></td>
@@ -358,12 +366,12 @@
                 <td height="37" colspan="6"><div align="center">评估日期</div></td>
             </tr>
             <tr>
-                <td width="96" height="46"><div align="center">2017-10-10</div></td>
-                <td width="94"><div align="center">2017-10-10</div></td>
-                <td width="95"><div align="center">2017-10-10</div></td>
-                <td width="89"><div align="center">2017-10-10</div></td>
-                <td width="92"><div align="center">2017-10-10</div></td>
-                <td width="95"><div align="center">2017-10-10</div></td>
+                <td width="96" height="46"><div align="center"></div></td>
+                <td width="94"><div align="center"></div></td>
+                <td width="95"><div align="center"></div></td>
+                <td width="89"><div align="center"></div></td>
+                <td width="92"><div align="center"></div></td>
+                <td width="95"><div align="center"></div></td>
             </tr>
             <tr>
                 <td><div align="center" class="STYLE2">年龄(岁)</div></td>
@@ -558,10 +566,11 @@
                 <td width="95" height="50"><div align="center"></div></td>
             </tr>
         </table>
-        <p>&nbsp; &nbsp; &nbsp;评分方案：≤ 6分无风险；7~10分为低危（关注病情 变化，随时评估）；11~14分为中危（第一周评估2次， 此后4周内每周评估一次，之后每月评估一次）；</p>
-        <p>≥15 分为高危（手术后3天内每天评估1次，之后接中危 病人评估）</p>
-        <p>&nbsp; &nbsp; &nbsp;评估时机：患者入院24h 内完成</p>
+        <p class="tit">评分方案：≤ 6分无风险；7~10分为低危（关注病情 变化，随时评估）；11~14分为中危（第一周评估2次， 此后4周内每周评估一次，之后每月评估一次）；</p>
+        <p class="tit">≥15 分为高危（手术后3天内每天评估1次，之后接中危 病人评估）</p>
+        <p class="tit">评估时机：患者入院24h 内完成</p>
     </div>
+</div>
 </div>
 </body>
 </html>

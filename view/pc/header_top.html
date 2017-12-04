@@ -55,7 +55,7 @@
             <ul class="child_menu">
                 <li><a href="/pc/account/changepwd">密码修改</a></li>
                 <!--<li><a href="/pc/device/manage">设备管理</a></li>-->
-                <li><a href="/pc/account/manage" {{if eq .Userinfo.Authority 0}}style="display:none"{{end}}>账号管理</a></li>
+                <li><a target="view_window" href="/pc/account/manage" {{if eq .Userinfo.Authority 0}}style="display:none"{{end}}>账号管理</a></li>
             </ul>
         </div>
         <div class="out_btn">

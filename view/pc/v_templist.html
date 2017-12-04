@@ -8,97 +8,7 @@
             <div class="sidebar-inner slimscrollleft" style="overflow: hidden; width: auto; height: 548px;">-->
     <!-- sidebar start -->
     {{template "header_side" .}}
-    <!--<div class="admin-sidebar am-offcanvas  am-padding-0 jky_sidebar type2" id="admin-offcanvas">
-        <div class="am-offcanvas-bar admin-offcanvas-bar">
 
-            <ul class="am-list admin-sidebar-list" id="jky-menu">
-                <li class="active admin-parent jky-on">
-                    <a data-am-collapse="{target: '#collapse-nav1'}">
-                        <span class="jky_icon2"><img src="/static/dist/images/admin_pc/icon10.png" alt="" style="width:25px"></span>
-                        <span class="tit">科室病人</span>
-                        <div class="jky_icon">
-                            <img src="/static/dist/images/admin_pc/icon5.png" alt="">
-                        </div>
-                    </a>
-                    <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav1">
-                        <li><a href="html/table_basic.html" class="am-cf">所有病人 <span class="num">10</span></a></li>
-                        <li><a href="html/table_basic.html" class="am-cf">新病人 <span class="num">10</span></a></li>
-                        <li><a href="html/table_basic.html" class="am-cf">新医嘱 <span class="num">10</span></a></li>
-                        <li><a href="html/table_basic.html" class="am-cf">停止医嘱 <span class="num">10</span></a></li>
-                        <li><a href="html/table_basic.html" class="am-cf">发热 <span class="num">10</span></a></li>
-                        <li><a href="html/table_basic.html" class="am-cf">待手术 <span class="num">10</span></a></li>
-
-                    </ul>
-                </li>
-
-                <li>
-                    <a class="am-cf">
-                            <span class="jky_icon2">
-                                <img src="/static/dist/images/admin_pc/icon11.png" alt="">
-                            </span>
-                        <span class="tit"> 医嘱拆分 </span>
-                        <div class="jky_icon">
-                            <img src="/static/dist/images/admin_pc/icon5.png" alt="">
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a class="am-cf">
-                            <span class="jky_icon2">
-                                <img src="/static/dist/images/admin_pc/icon12.png" alt="">
-                            </span>
-                        <span class="tit">医嘱信息</span>
-                        <div class="jky_icon"><img src="/static/dist/images/admin_pc/icon5.png" alt=""></div>
-                    </a>
-                </li>
-
-                <li>
-                    <a class="am-cf">
-                            <span class="jky_icon2">
-                                <img src="/static/dist/images/admin_pc/icon13.png" alt="">
-                            </span>
-                        <span class="tit">体征批量录入</span>
-                        <div class="jky_icon"><img src="/static/dist/images/admin_pc/icon5.png" alt=""></div>
-                    </a>
-                </li>
-                <li>
-                    <a class="am-cf">
-                            <span class="jky_icon2">
-                                <img src="/static/dist/images/admin_pc/icon14.png" alt="">
-                            </span>
-                        <span class="tit">体温单</span>
-                        <div class="jky_icon"><img src="/static/dist/images/admin_pc/icon5.png" alt=""></div>
-                    </a>
-                </li>
-                <li>
-                    <a class="am-cf">
-                            <span class="jky_icon2">
-                                <img src="/static/dist/images/admin_pc/icon15.png" alt="">
-                            </span>
-                        <span class="tit">交班表</span>
-                        <div class="jky_icon"><img src="/static/dist/images/admin_pc/icon5.png" alt=""></div>
-                    </a>
-                </li>
-
-
-                <li class="admin-parent">
-                    <a class="am-cf" data-am-collapse="{target: '#collapse-nav2'}">
-                            <span class="jky_icon2">
-                                <img src="/static/dist/images/admin_pc/icon16.png" alt="">
-                            </span>
-                        <span class="tit">护理文书</span>
-                        <div class="jky_icon"><img src="/static/dist/images/admin_pc/icon5.png" alt=""></div>
-                    </a>
-                    <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav2">
-                        <li><a href="#" class="am-cf">首次护理记录单</a></li>
-                        <li><a href="#" class="am-cf"> 护理记录单</a></li>
-
-                    </ul>
-                </li>
-
-            </ul>
-        </div>
-    </div>-->
     <!-- sidebar end -->
 
     <!--</div>
@@ -216,9 +126,9 @@
                             </ul>
                         </div>
                         <div class="btn-group fr">
-                            <a href="" class="btn type2">编辑</a>
-                            <a href="" class="btn">打印</a>
-                            <a href="" class="btn">打印所有</a>
+                            {{/*<a href="" class="btn type2">编辑</a>*/}}
+                            <a target="_blank" href="/pc/templist/print?pid={{.PInfo.VAA01}}&num={{.PageIndex}}"  class="btn">打印</a>
+                            {{/*<a href="" class="btn">打印所有</a>*/}}
                             <!-- <a href="" class="btn type2">保存</a> -->
                         </div>
                     </div>
@@ -238,16 +148,16 @@
                                         </div>
                                         <div class="bar" id="patient-info">
                                             <div class="l">
-                                                <label>姓名</label> <span id="pinfo-name">你猜</span>
-                                                <label>性别</label> <span class="t4" id="pinfo-sex">你猜</span>
-                                                <label>年龄</label> <span class="t3" id="pinfo-age">你猜</span>
+                                                <label>姓名</label> <span id="pinfo-name">{{.PInfo.VAA05}}</span>
+                                                <label>性别</label> <span class="t4" id="pinfo-sex">{{.PInfo.Gender}}</span>
+                                                <label>年龄</label> <span class="t3" id="pinfo-age">{{.PInfo.VAA10}}</span>
                                                 <label>入院日期</label> <span class="t2" id="pinfo-date-year">2017</span>
                                                 <label>年</label><span class="t2" id="pinfo-date-month">10</span>
                                                 <label>月</label><span class="t2"
                                                                       id="pinfo-date-day">10</span><label>日</label>
-                                                <label>病区</label><span id="pinfo-bed1">XX区</span>
-                                                <label>床号</label><span id="pinfo-bed2">N105</span>
-                                                <label>住院号</label><span id="pinfo-bed3">100010</span>
+                                                <label>病区</label><span id="pinfo-bed1">{{.PInfo.BCK03C}}</span>
+                                                <label>床号</label><span id="pinfo-bed2">{{.PInfo.BCQ04}}</span>
+                                                <label>住院号</label><span id="pinfo-bed3">{{.PInfo.VAA04}}</span>
                                             </div>
                                         </div>
 
@@ -258,9 +168,9 @@
                                             <tbody>
                                             <tr id="date-tr">
                                                 <td class="tit" colspan="2" style="width: 106.75px;margin-top:-1px">日&nbsp;&nbsp;期</td>
-                                                <td class="" style="width: 106.75px;">2017-15-12</td>
-                                                <td class="br-led" style="width: 106.75px;">2</td>
-                                                <td class="br-led" style="width: 106.75px;">3</td>
+                                                <td class="br-led" style="width: 106.75px;"></td>
+                                                <td class="br-led" style="width: 106.75px;"></td>
+                                                <td class="br-led" style="width: 106.75px;"></td>
                                                 <td class="br-led" style="width: 106.75px;"></td>
                                                 <td class="br-led" style="width: 106.75px;"></td>
                                                 <td class="br-led" style="width: 106.75px;"></td>
@@ -268,9 +178,9 @@
                                             </tr>
                                             <tr id="datenum1-tr">
                                                 <td class="tit" colspan="2">住院日数</td>
-                                                <td class="">2017-15-12</td>
-                                                <td class="br-led">2</td>
-                                                <td class="br-led">3</td>
+                                                <td class="br-led"></td>
+                                                <td class="br-led"></td>
+                                                <td class="br-led"></td>
                                                 <td class="br-led"></td>
                                                 <td class="br-led"></td>
                                                 <td class="br-led"></td>
@@ -279,11 +189,9 @@
                                             </tr>
                                             <tr id="datenum2-tr">
                                                 <td class="tit" colspan="2">手术或产后日数</td>
-                                                <td class="">2017-15-12</td>
-                                                <td class="br-led">
-
-                                                </td>
-                                                <td class="br-led">3</td>
+                                                <td class="br-led"></td>
+                                                <td class="br-led"></td>
+                                                <td class="br-led"></td>
                                                 <td class="br-led"></td>
                                                 <td class="br-led"></td>
                                                 <td class="br-led"></td>
@@ -429,235 +337,361 @@
 
                                                     <div class="bg_line">
                                                         <div class="line-warp">
-                                                            <div class="line">死亡</div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
                                                         </div>
                                                         <div class="line-warp br-led">
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
                                                         </div>
                                                         <div class="line-warp br-led">
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
                                                         </div>
                                                         <div class="line-warp br-led">
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
                                                         </div>
                                                         <div class="line-warp br-led">
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
                                                         </div>
                                                         <div class="line-warp br-led">
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
                                                         </div>
                                                         <div class="line-warp br-led">
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
-                                                            <div class="line"></div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
+                                                            <div class="line">
+                                                                <span class="sj"></span>
+                                                                <span class="temp-other"></span>
+                                                            </div>
                                                         </div>
-                                                </div>
+                                                    </div>
                                                 </td>
                                             </tr>
-                                    <tr class="hx-tr" id="hxc_bar">
-                                        <td class="tit" colspan="2">呼吸(次/分)</td>
-                                        <td class="btop0">
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                        </td>
-                                        <td class="btop0">
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                        </td>
-                                        <td class="btop0">
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                        </td>
-                                        <td class="btop0">
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                        </td>
-                                        <td class="btop0">
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                        </td>
-                                        <td class="btop0">
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                        </td>
-                                        <td class="btop0">
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                        </td>
-                                    </tr>
-                                    <tr id="intake-tr">
-                                        <td class="tit" colspan="2">输入液量(ml)</td>
-                                        <td class=""></td>
-                                        <td class=""></td>
-                                        <td class=""></td>
-                                        <td class=""></td>
-                                        <td class=""></td>
-                                        <td class=""></td>
-                                        <td class=""></td>
-                                    </tr>
-                                    <tr id="output3-tr">
-                                        <td rowspan="3">
-                                            抛<br>出<br>量
-                                        </td>
-                                        <td class="tit">大便<br>(次)</td>
-                                        <td class=""></td>
-                                        <td class=""></td>
-                                        <td class=""></td>
-                                        <td class=""></td>
-                                        <td class=""></td>
-                                        <td class=""></td>
-                                        <td class=""></td>
-                                    </tr>
-                                    <tr id="output2-tr">
-                                        <td class="tit">尿量<br>(ml)</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                            <tr class="hx-tr" id="hxc_bar">
+                                                <td class="tit" colspan="2">呼吸(次/分)</td>
+                                                <td class="btop0">
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                </td>
+                                                <td class="btop0">
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                </td>
+                                                <td class="btop0">
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                </td>
+                                                <td class="btop0">
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                </td>
+                                                <td class="btop0">
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                </td>
+                                                <td class="btop0">
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                </td>
+                                                <td class="btop0">
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                </td>
+                                            </tr>
+                                            <tr id="intake-tr">
+                                                <td class="tit" colspan="2">输入液量(ml)</td>
+                                                <td class=""></td>
+                                                <td class=""></td>
+                                                <td class=""></td>
+                                                <td class=""></td>
+                                                <td class=""></td>
+                                                <td class=""></td>
+                                                <td class=""></td>
+                                            </tr>
+                                            <tr id="output3-tr">
+                                                <td rowspan="3">
+                                                    排<br>出<br>量
+                                                </td>
+                                                <td class="tit">大便<br>(次)</td>
+                                                <td class=""></td>
+                                                <td class=""></td>
+                                                <td class=""></td>
+                                                <td class=""></td>
+                                                <td class=""></td>
+                                                <td class=""></td>
+                                                <td class=""></td>
+                                            </tr>
+                                            <tr id="output2-tr">
+                                                <td class="tit">尿量<br>(ml)</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
 
-                                    </tr>
-                                    <tr id="output1-tr">
-                                        <td class="tit">其他</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr class="xy-bar" id="pressure-tr" style="height:47px">
-                                        <td class="tit" colspan="2">血&nbsp;&nbsp;压<br>(mmHg)</td>
-                                        <td>
-                                            <span class="l">12</span>
-                                            <div class="line"></div>
-                                            <span class="r">12</span>
-                                        </td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                            </tr>
+                                            <tr id="output1-tr">
+                                                <td class="tit">其他</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr class="xy-bar" id="pressure-tr" style="height:47px">
+                                                <td class="tit" colspan="2">血&nbsp;&nbsp;压<br>(mmHg)</td>
+                                                <td>
+                                                    <span class="l">12</span>
+                                                    <div class="line"></div>
+                                                    <span class="r">12</span>
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
 
-                                    </tr>
-                                    <tr id="weight-tr">
-                                        <td class="tit" colspan="2">体&nbsp;&nbsp;重<br>(kg)</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr id="skin-tr">
-                                        <td class="tit" colspan="2">皮&nbsp;&nbsp;试</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="tit" colspan="2">其&nbsp;&nbsp;他</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    </tbody>
-                                    </table>
+                                            </tr>
+                                            <tr id="weight-tr">
+                                                <td class="tit" colspan="2">体&nbsp;&nbsp;重<br>(kg)</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr id="skin-tr">
+                                                <td class="tit" colspan="2">皮&nbsp;&nbsp;试</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr id="other-tr">
+                                                <td class="tit" colspan="2">其&nbsp;&nbsp;他</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
 
-                                    <footer>
-                                        <div>
-                                            第
-                                            <span id="weekindex-span">1</span> 周
-                                        </div>
-                                    </footer>
+                                        <footer>
+                                            <div>
+                                                第
+                                                <span id="weekindex-span">{{.PageIndex}}</span> 周
+                                            </div>
+                                        </footer>
+                                    </div>
+
+
                                 </div>
-
-
+                                <!-- end体温单 -->
                             </div>
-                            <!-- end体温单 -->
                         </div>
                     </div>
+
                 </div>
 
             </div>
-
         </div>
     </div>
-</div>
 
 
 </div>
@@ -680,7 +714,6 @@
 
     var pulse = {{.Pulse}};
     var heartrate = {{.Heartrate}};
-    console.log(temp1)
 
 </script>
 
@@ -741,7 +774,7 @@
         var $el = $('.hd-bar');
         elH = parseFloat($el.css('height'))
         $('.temperature-box').height(h - elH - 10)
-        console.log(elH, h)
+        // console.log(elH, h)
     }
 
 
@@ -769,6 +802,7 @@
     $(function () {
         var breathe = {{.Breathe}};
         var pressure = {{.Pressure}};
+        var tempother = {{.TempOther}};
 
         var intake = {{.Intake}};
         var output1 = {{.Output1}};
@@ -778,49 +812,54 @@
         var incident = {{.Incident}};
         var skin = {{.Skin}};
         var weight = {{.Weight}};
-        var weeks = {{.Weeks}};
+        var other = {{.Other}};
 
+        var weeks = {{.Weeks}};
         var dates1 = {{.Dates1}};
         var dates2 = {{.Dates2}};
 
         var pinfo = {{.PInfo}};
-        console.log(pinfo, dates1, dates2);
-        console.log(pinfo["name"]);
+        // console.log(pinfo, dates1, dates2);
+        // console.log("output3", output3);
+        // console.log(pinfo["name"]);
         var h_date = pinfo["hospital_date"];
         // 病人信息
-        $("#pinfo-name").text(pinfo["name"]);
-        $("#pinfo-age").text(pinfo["age"]);
-        $("#pinfo-sex").text(pinfo["Gender"]);
+        // $("#pinfo-name").text(pinfo["name"]);
+        // $("#pinfo-age").text(pinfo["age"]);
+        // $("#pinfo-sex").text(pinfo["Gender"]);
         $("#pinfo-date-year").text(h_date.substring(0, 4));
         $("#pinfo-date-month").text(h_date.substring(5, 7));
         $("#pinfo-date-day").text(h_date.substring(8, 10));
-        $("#pinfo-bed1").text(pinfo["BCK03C"]);
-        $("#pinfo-bed2").text(pinfo["BCQ04"]);
-        $("#pinfo-bed3").text(pinfo["VAA04"]);
-
+        // $("#pinfo-bed1").text(pinfo["BCK03C"]);
+        // $("#pinfo-bed2").text(pinfo["BCQ04"]);
+        // $("#pinfo-bed3").text(pinfo["VAA04"]);
+        //  日期
         $("#date-tr").find("td").each(function (i, el) {
             if (i != 0) {
                 $(el).text(weeks[i - 1]);
             }
         });
 
+        // 住院日数
         $("#datenum1-tr").find("td").each(function (i, el) {
             if (i != 0) {
                 $(el).text(dates1[i - 1])
             }
         });
-
+        // 手术或产后日数
         $("#datenum2-tr").find("td").each(function (i, el) {
             if (i != 0) {
-                if (dates2[i - 1] <= 0) {
-                    $(el).text("")
-                } else {
-                    $(el).text(dates2[i - 1])
+                if (dates2) {
+                    if (dates2[i - 1] < 0) {
+                        $(el).text("")
+                    } else {
+                        $(el).text(dates2[i - 1])
+                    }
                 }
             }
         });
 
-
+        // 呼吸
         $("#hxc_bar").find("td").each(function (i, el) {
             if (i != 0 && i < 8) {
                 var value1 = breathe[i * 6 - 6];
@@ -831,16 +870,17 @@
                 var value6 = breathe[i * 6 - 1];
 
                 var html = '<span>' + value1 + '</span>'
-                    + '<span>' + value2 + '</span>'
-                    + '<span>' + value3 + '</span>'
-                    + '<span>' + value4 + '</span>'
-                    + '<span>' + value5 + '</span>'
-                    + '<span>' + value6 + '</span>';
+                        + '<span>' + '<br/>' + value2 + '</span>'
+                        + '<span>' + value3 + '</span>'
+                        + '<span>' + '<br/>' + value4 + '</span>'
+                        + '<span>' + value5 + '</span>'
+                        + '<span>' + '<br/>' + value6 + '</span>';
                 $(el).html(html);
             }
         });
 
-        console.log(pressure);
+        // console.log(pressure);
+        // 血压
         $("#pressure-tr").find("td").each(function (i, el) {
             if (i != 0) {
                 var value1 = "", value2 = "";
@@ -849,31 +889,34 @@
                     value2 = pressure[i - 1].split("/")[1];
                 }
 
-                console.log(value1, value2);
+                // console.log(value1, value2);
                 var html = '';
                 if (value1 == "" || value2 == "") {
                     html = '<span class="l">' + value1 + '</span>' +
-                        '<span class="r">' + value2 + '</span>';
+                            '<span class="r">' + value2 + '</span>';
                 } else {
                     html = '<span class="l">' + value1 + '</span>' +
-                        '<div class="line"></div>' +
-                        '<span class="r">' + value2 + '</span>';
+                            '<div class="line"></div>' +
+                            '<span class="r">' + value2 + '</span>';
                 }
                 $(el).html(html);
             }
-        })
+        });
 
+        // 血压
         $("#weight-tr").find("td").each(function (i, el) {
             if (i != 0) {
                 $(el).text(weight[i - 1])
             }
         });
 
+        // 输入液量
         $("#intake-tr").find("td").each(function (i, el) {
             if (i != 0) {
                 $(el).text(intake[i - 1])
             }
         });
+        // 1=其他  2=尿量  3=大
         $("#output1-tr").find("td").each(function (i, el) {
             if (i != 0) {
                 $(el).text(output1[i - 1])
@@ -884,24 +927,35 @@
                 $(el).text(output2[i - 1])
             }
         });
-        $("#output2-tr").find("td").each(function (i, el) {
-            if (i != 0) {
-                $(el).text(output3[i - 1])
+        $("#output3-tr").find("td").each(function (i, el) {
+            if (i != 0 && i != 1) {
+                $(el).text(output3[i - 2])
             }
         });
 
+        // 皮试
         $("#skin-tr").find("td").each(function (i, el) {
             if (i != 0) {
                 $(el).text(skin[i - 1])
             }
         });
+        // 事件
+        $("#incident-td").find(".sj").each(function(i, el){
+            $(el).html(incident[i]);
+        });
+        // 其他
+        $("#incident-td").find(".temp-other").each(function(i, el){
+            $(el).text(tempother[i]);
+        });
 
-        $("#incident-td").find(".line").each(function(i, el){
-            $(el).text(incident[i]);
-        })
-
-
-        {{/*var classid = {{.Userinfo.DepartmentID}};*/}}
+        // 其他
+        $("#other-tr").find("td").each(function (i, el) {
+            if (i != 0) {
+                $(el).text(other[i - 1])
+            }
+        });
+        console.log("其他", other);
+    {{/*var classid = {{.Userinfo.DepartmentID}};*/}}
         /*var url = "/pc/home/beds?department_id=" + classid + "&type=0";
         $.get(url, function (json) {
             if (json.result == 0) {
@@ -916,25 +970,14 @@
 
 <script>
     $(function () {
-        function getURLParam(name) {
-            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-            var r = window.location.search.substr(1).match(reg)
-            if (r != null) {
-                return unescape(r[2])
-            }
-            return null
-        }
+
 
         var weeknum = {{.Weeknum}};
-        var num = parseInt(getURLParam("num"));
-        var weekindex = num > 0 ? num:weeknum;
-        var pid = getURLParam("pid") || 0;
-        if (pid == 0) {
-            var pinfo1 = {{.PInfo}};
-            pid = parseInt(pinfo1["patient_id"])
-        }
+        var weekindex = {{.PageIndex}};
+        var pinfo1 = {{.PInfo}};
+        var pid = parseInt(pinfo1["patient_id"]);
 
-        $("#weekindex-span").text(weekindex);
+        // $("#weekindex-span").text(weekindex);
 
         $("#weekindex").on("change",function(){
             // console.log("???");
@@ -955,8 +998,7 @@
                 html += '<option value="' + val + '">第' + val + '周</option>';
             }
         }
-
-        $("#weekindex").html(html)
+        $("#weekindex").html(html);
 
 
 

@@ -6,6 +6,7 @@ import (
 	"nursing/model"
 	"strconv"
 	"time"
+	"reflect"
 )
 
 type NRL3Controller struct {
@@ -45,31 +46,9 @@ func (c NRL3Controller) Check(w *fit.Response, r *fit.Request, p fit.Params) {
 }
 
 func (c NRL3Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
-	pid := r.FormValue("pid")//病人id
-	uid := r.FormValue("uid") //护士id
-	rid := r.FormValue("rid") // 护理记录单id
-	ty := r.FormValue("type") // 1=add， 2=edit
-
-	var nr3 model.NRL3
-	if ty == "1" {
-		if "" == pid || "" == uid {
-			fmt.Fprintln(w, "参数错误！")
-			return
-		}
-	} else if ty == "2" {
-		if rid == "" {
-			fmt.Fprintln(w, "参数错误！")
-			return
-		}
-		var err1 error
-		nr3, err1 = model.QueryNRL3(rid)
-		if err1 != nil {
-			fit.Logger().LogError("m_NR1", err1)
-		}
-		pid = strconv.FormatInt(nr3.VAA01, 10)
-		uid = nr3.BCE01A
-	} else {
-		fmt.Fprintln(w, "参数错误！")
+	// 文书model，type， 文书id，病人id，护士id，病人入院时间，参数是否正确
+	nrl, ty, rid, pid, uid, isOk := c.LoadNRLDataWithParm(w, r, "3")
+	if !isOk {
 		return
 	}
 
@@ -79,17 +58,13 @@ func (c NRL3Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 		return
 	}
 
-
-	recordDate := nr3.DateTime.Format("2006-01-02")
 	c.Data = fit.Data{
 		"PInfo": patient,
-		"NRL":   nr3,
+		"NRL":   nrl,
 		"Type":  ty,
 		"Rid": rid,
 		"Account": account,
-		"RecordDate": recordDate,
 	}
-
 	c.LoadView(w, "v_nrl3_edit.html")
 }
 
@@ -97,7 +72,88 @@ func (c NRL3Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 // 添加护理记录单
 func (c NRL3Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
-	// 病人ID
+
+	nrl3Mod := model.NRL3{}
+	rt := reflect.TypeOf(&nrl3Mod).Elem()
+	rv := reflect.ValueOf(&nrl3Mod).Elem()
+
+	var errflag = false
+	for index := 0; index < rt.NumField(); index++  {
+		sName := rt.Field(index).Name
+		switch sName {
+		case "VAA01":
+			// 病人ID
+			VAA01 := r.FormInt64Value("pid")
+			nrl3Mod.VAA01 = VAA01
+		case "BCK01":
+			// 科室ID
+			BCK01 := r.FormIntValue("did")
+			nrl3Mod.BCK01 = BCK01
+		case "BCE01A":
+			// 护士ID
+			nrl3Mod.BCE01A = r.FormValue("uid")
+		case "BCE03A":
+			// 护士名
+			nrl3Mod.BCE03A = r.FormValue("username")
+		case "DateTime":
+			// 记录时间
+			datetime, err4 := time.ParseInLocation("2006-01-02 15:04:05", r.FormValue("datetime"), time.Local)
+			if err4 != nil {
+				fit.Logger().LogError("NRL3 :", err4)
+				errflag = true
+			}
+			nrl3Mod.DateTime = datetime
+
+		default:
+			if rv.Field(index).CanSet() {
+
+				fmt.Println("model struct kind:", rv.Field(index).Kind())
+				switch rv.Field(index).Kind() {
+				case reflect.Int:
+					val := int64(r.FormIntValue(sName))
+					rv.Field(index).SetInt(val)
+				case reflect.Int64:
+					rv.Field(index).SetInt(r.FormInt64Value(sName))
+				case reflect.String:
+					rv.Field(index).SetString(r.FormValue(sName))
+				default:
+					fmt.Println("nrl3 invalid reflect  type")
+				}
+			} else {
+				fmt.Println("set failed")
+			}
+		}
+
+
+
+		/*if sName == "VAA01" {
+			// 病人ID
+			VAA01 := r.FormInt64Value("pid")
+			nrl3Mod.VAA01 = VAA01
+		} else {
+			if rv.Field(index).CanSet() {
+				//val := int(r.FormIntValue(sName))
+				fmt.Println("model struct kind:", rv.Field(index).Kind())
+				switch rv.Field(index).Kind() {
+				case reflect.Int:
+					rv.Field(index).SetInt(r.FormInt64Value(sName))
+				case reflect.Int64:
+					rv.Field(index).SetInt(r.FormInt64Value(sName))
+				case reflect.String:
+					rv.Field(index).SetString(r.FormValue(sName))
+				}
+			} else {
+				fmt.Println("set failed")
+			}
+		}*/
+	}
+
+	if errflag == true || nrl3Mod.VAA01 == 0 || nrl3Mod.BCE01A == "" || nrl3Mod.BCE03A == "" {
+		c.RenderingJsonAutomatically(1, "参数不完整")
+		return
+	}
+
+	/*// 病人ID
 	VAA01, err1 := strconv.ParseInt(r.FormValue("pid"), 10, 64)
 	// 护士ID
 	BCE01A := r.FormValue("uid")
@@ -151,9 +207,9 @@ func (c NRL3Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params)
 		NRL10:    NRL10,
 		NRL11:    NRL11,
 		Score:    score,
-	}
+	}*/
 
-	rid, err17 := nrl3.InsertData()
+	rid, err17 := nrl3Mod.InsertData()
 
 
 	if err17 != nil {
@@ -166,8 +222,8 @@ func (c NRL3Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params)
 		nurseRecord := model.NursingRecords{
 			Updated:     r.FormValue("datetime"),
 			NursType:    3,
-			NursingId:   BCE01A,
-			NursingName: BCE03A,
+			NursingId:   nrl3Mod.BCE01A,
+			NursingName: nrl3Mod.BCE03A,
 			ClassId:     r.FormValue("did"),
 			PatientId:   r.FormValue("pid"),
 			RecordId:    rid,
@@ -194,6 +250,7 @@ func (c NRL3Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 		c.JsonData.Result = 3
 		c.JsonData.ErrorMsg = "rid 错误！"
 		c.JsonData.Datas = []interface{}{}
+		return
 	}
 	// 病人ID
 	VAA01, err1 := strconv.ParseInt(r.FormValue("pid"), 10, 64)

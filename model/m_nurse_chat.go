@@ -26,6 +26,7 @@ const (
 
 //护理单数据模型
 type NurseChat struct {
+	Id        int64        `json:"id" xorm:"pk autoincr"`
 	HeadType  string       `json:"headtype" xorm:"notnull comment(头部id,对应头部类型)"`
 	TestTime  fit.JsonTime `json:"testtime" xorm:"notnull comment(测试时间)"`
 	SubType   int          `json:"type" xorm:"notnull comment(类型,)"`
@@ -49,6 +50,7 @@ func InsertNurseChat(session *xorm.Session,item *NurseChat) error{
 		ids := has[0]
 		if v, ok := ids["id"]; ok {
 			_, err = session.Table("NurseChat").ID(v).Update(item);
+			fit.Logger().LogError("ghhhhhhhh",item.HeadType,v,err,*item)
 		} else {
 			_, err = session.Insert(item);
 		}
@@ -104,8 +106,8 @@ func IputChat(session *xorm.Session,strData NurseChat) (int,error) {
 		var sql string
 		var msg []interface{}
 
-		sql = "TestTime = ? and PatientId = ? and SubType = ?"
-		msg = append(msg,test_time.Format("2006-01-02 15:04:05"),test_patientid,test_type)
+		sql = "TestTime = ? and PatientId = ? and HeadType = ? and SubType = ?"
+		msg = append(msg,test_time.Format("2006-01-02 15:04:05"),test_patientid,test_headtype,test_type)
 
 		has,err := session.Table("TemperatrureChat").Where(sql,msg...).Get(item)
 
@@ -126,7 +128,7 @@ func IputChat(session *xorm.Session,strData NurseChat) (int,error) {
 				item.PatientId = test_patientid
 				item.NurseId =  text_nurseid
 				item.NurseName = text_nursename
-				fit.Logger().LogError("ghhhhhhhh",test_value,item.Id)
+				fit.Logger().LogError("ghhhhhhhh",item.HeadType,test_value,item.Id)
 				_,err = session.Table("TemperatrureChat").ID(item.Id).Update(item)
 				return 32,err
 			}else {
@@ -216,7 +218,7 @@ func IputChat(session *xorm.Session,strData NurseChat) (int,error) {
 				item.PatientId = test_patientid
 				item.NurseId =  text_nurseid
 				item.NurseName = text_nursename
-				fit.Logger().LogError("ghhhhhhhh",test_value,item.Id)
+				fit.Logger().LogError("ghhhhhhhh",item.HeadType,test_value,item.Id)
 				_,err = session.Table("TemperatrureChat").ID(item.Id).Update(item)
 				return 32,err
 			}else if test_time.Unix() < old_time.Unix(){
@@ -341,7 +343,7 @@ func IputChat(session *xorm.Session,strData NurseChat) (int,error) {
 				item.PatientId = test_patientid
 				item.NurseId =  text_nurseid
 				item.NurseName = text_nursename
-				fit.Logger().LogError("ghhhhhhhh",test_value,item.Id)
+				fit.Logger().LogError("ghhhhhhhh",item.HeadType,test_value,item.Id)
 				_,err = session.Table("TemperatrureChat").ID(item.Id).Update(item)
 				return 32,err
 			}else if AbsInt(test_time.Unix() - centre_datetime.Unix()) <= AbsInt(old_time.Unix() - centre_datetime.Unix()){

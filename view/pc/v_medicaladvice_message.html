@@ -411,6 +411,7 @@
             res["category"] = $("#sel1").val()
             res["type"] = $("#sel2").val()
             res["status"] = $("#sel3").val()
+            res["did"] = {{.Userinfo.DepartmentID}}
 
             var typeStr = $(".timeSel").find("input[type=radio]:checked").data("type")
             var todayDate = fromatDate().date;

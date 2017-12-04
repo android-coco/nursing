@@ -3,10 +3,11 @@ package model
 import (
 	"fit"
 	"errors"
-
 	"strings"
 	"time"
 	"github.com/go-xorm/xorm"
+	"strconv"
+	"fmt"
 )
 
 //体温单数据模型
@@ -67,12 +68,24 @@ func GetTemperatureChatData(tp int, patienttd int64, weeks []time.Time) ([]strin
 			sql = "SELECT Value FROM TemperatrureChat WHERE DateTime = ? and PatientId = ? and HeadType = 1 and SubType = 3"
 			msg = append(msg, data, patienttd)
 			typetimes = append(typetimes, 4, 8, 12, 16, 20, 24)
+		case -1: //口表的事件
+			sql = "SELECT Other FROM TemperatrureChat WHERE DateTime = ? and PatientId = ? and HeadType = 1"
+			msg = append(msg, data, patienttd)
+			typetimes = append(typetimes, 4, 8, 12, 16, 20, 24)
 		case 2: //掖表
 			sql = "SELECT Value FROM TemperatrureChat WHERE DateTime = ? and PatientId = ? and HeadType = 1 and SubType = 1"
 			msg = append(msg, data, patienttd)
 			typetimes = append(typetimes, 4, 8, 12, 16, 20, 24)
+		case -2: //掖表的事件
+			sql = "SELECT Other FROM TemperatrureChat WHERE DateTime = ? and PatientId = ? and HeadType = 1 and SubType = 1"
+			msg = append(msg, data, patienttd)
+			typetimes = append(typetimes, 4, 8, 12, 16, 20, 24)
 		case 3: //肛表
 			sql = "SELECT Value FROM TemperatrureChat WHERE DateTime = ? and PatientId = ? and HeadType = 1 and SubType = 4"
+			msg = append(msg, data, patienttd)
+			typetimes = append(typetimes, 4, 8, 12, 16, 20, 24)
+		case -3: //肛表的事件
+			sql = "SELECT Other FROM TemperatrureChat WHERE DateTime = ? and PatientId = ? and HeadType = 1 and SubType = 4"
 			msg = append(msg, data, patienttd)
 			typetimes = append(typetimes, 4, 8, 12, 16, 20, 24)
 		case 4: //脉搏
@@ -119,11 +132,12 @@ func GetTemperatureChatData(tp int, patienttd int64, weeks []time.Time) ([]strin
 			sql = "SELECT Value FROM TemperatrureChat WHERE DateTime = ? and PatientId = ? and HeadType = 14 "
 			msg = append(msg, data, patienttd)
 			typetimes = append(typetimes, 0)
-		case 15: //事间
-			sql = "SELECT Value FROM TemperatrureChat WHERE DateTime = ? and PatientId = ? and HeadType = 12 "
+		case 15: //事件
+			sql = "SELECT Other FROM TemperatrureChat WHERE DateTime = ? and PatientId = ? and HeadType = 12 "
 			msg = append(msg, data, patienttd)
-			typetimes = append(typetimes, 0)
+			typetimes = append(typetimes, 4, 8, 12, 16, 20, 24)
 		}
+
 
 		for _, k := range typetimes {
 			sql1 := sql
@@ -134,17 +148,99 @@ func GetTemperatureChatData(tp int, patienttd int64, weeks []time.Time) ([]strin
 			}
 
 			maps, err := fit.MySqlEngine().QueryString(sql1, msg1...)
-			//fmt.Println("---------", maps)
 
 			if err != nil {
 				return value, err
 			} else {
 				if len(maps) > 0 {
+					if tp == 15 {      //事件可以多次
+					 totalvalue := ""
 					for _, dict := range maps {
-						if v, ok := dict["Value"]; ok {
-							value = append(value, v)
+						if v, ok := dict["Other"]; ok {
+							switch v {
+							case "1":
+								totalvalue = totalvalue + "入院<br/><br/>"
+							case "2":
+								totalvalue = totalvalue + "出院<br/><br/>"
+							case "3":
+								totalvalue = totalvalue + "手术<br/><br/>"
+							case "4":
+								totalvalue = totalvalue + "分娩<br/><br/>"
+							case "5":
+								totalvalue = totalvalue + "出生<br/><br/>"
+							case "6":
+								totalvalue = totalvalue + "转入<br/><br/>"
+							case "7":
+								totalvalue = totalvalue + "转科<br/><br/>"
+							case "8":
+								totalvalue = totalvalue + "转院<br/><br/>"
+							case "9":
+								totalvalue = totalvalue + "死亡<br/><br/>"
+							case "10":
+								totalvalue = totalvalue + "外出<br/><br/>"
+							default:
+								totalvalue = totalvalue + ""
+							}
 						} else {
-							value = append(value, "")
+							totalvalue = totalvalue + ""
+						}
+					}
+						value = append(value, totalvalue)
+					}else if tp == 8 {  // 大便一天多次需要合计
+						totalvalue := 0
+						for _, dict := range maps {
+							if v, ok := dict["Value"]; ok {
+								it,_:=strconv.Atoi(v)
+								totalvalue = totalvalue + it
+							} else {
+								totalvalue = totalvalue + 0
+							}
+						}
+						value = append(value, strconv.Itoa(totalvalue))
+					}else{
+						if (tp < 0){
+							dict := maps[0]
+							if v, ok := dict["Other"]; ok {
+								switch v {
+								case "1":
+									value = append(value, "物理降温 ")
+								case "2":
+									value = append(value, "药物降温 ")
+								case "3":
+									value = append(value, "冰毯降温 ")
+								case "4":
+									value = append(value, "停冰毯降温 ")
+								case "5":
+									value = append(value, "药物+物理降温 ")
+								case "6":
+									value = append(value, "无降温 ")
+								case "7":
+									value = append(value, "不升 ")
+								case "8":
+									value = append(value, "外出 ")
+								case "9":
+									value = append(value, "检查 ")
+								case "10":
+									value = append(value, "请假 ")
+								case "11":
+									value = append(value, "拒试 ")
+								case "12":
+									value = append(value, "无法侧 ")
+								case "13":
+									value = append(value, "未测 ")
+								default:
+									value = append(value, "")
+								}
+							} else {
+								value = append(value, "")
+							}
+						}else{
+							dict := maps[0]
+							if v, ok := dict["Value"]; ok {
+								value = append(value, v)
+							} else {
+								value = append(value, "")
+							}
 						}
 					}
 				} else {
@@ -152,8 +248,10 @@ func GetTemperatureChatData(tp int, patienttd int64, weeks []time.Time) ([]strin
 				}
 			}
 		}
-	}
 
+
+	}
+	fmt.Println("---------",tp,value,len(value))
 	return value, nil
 }
 

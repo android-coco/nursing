@@ -137,6 +137,8 @@ func (c *PCController) GetBedsAndUserinfo(w *fit.Response, r *fit.Request, nrlTy
 		url := "/pc/record/nrl" + nrlType + "?pid=" + pid
 		if nrlType == "9" {
 			url = "/pc/templist" + "?pid=" + pid
+		} else if nrlType == "91" {
+			url = "/pc/templist/print?pid=" + pid
 		}
 		c.Redirect(w, r, url, 302)
 		return userinfo, beds, pid, pInfo, false
@@ -168,8 +170,8 @@ func (c *PCController) GetPageInfo(w *fit.Response, r *fit.Request, nrlType, pid
 		datestr1 = ""
 		datestr2 = ""
 	} else {
-		datestr1 = time.Unix(date1/1000-60*60*8, 0).Format("2006-01-02 15:04:05")
-		datestr2 = time.Unix(date2/1000+60*60*16, 0).Format("2006-01-02 15:04:05")
+		datestr1 = time.Unix(date1/1000, 0).Format("2006-01-02 15:04:05")
+		datestr2 = time.Unix(date2/1000+60*60*24 - 1, 0).Format("2006-01-02 15:04:05")
 	}
 
 	// 总条数

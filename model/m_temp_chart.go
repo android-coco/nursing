@@ -3,7 +3,6 @@ package model
 import (
 	"time"
 	"fit"
-	"fmt"
 )
 
 // 体温单
@@ -153,14 +152,13 @@ func GetOperationDate(pid string) (string, error) {
 /*查询住院期间的手术记录 */
 func FetchOperationRecordsDate(pid int64) ([]string, error) {
 	records := make([]string, 0)
-	var rrrrrr []time.Time
+
 	var err error
-	fmt.Println("****************")
 	// VAT04 = 4 表示已结束手术
 	//err = fit.SQLServerEngine().SQL("select VAT08 from VAT1 where VAA01 = ? and VAT04 = 4", pid).Find(&records) .Desc("VAT08")
 	resultsmap, err := fit.SQLServerEngine().QueryString("select top 2 VAT08 from VAT1 where VAA01 = ? and VAT04 = 4 ORDER BY VAT08 DESC", pid)
-	//err = fit.SQLServerEngine().Table("VAT1").Select("VAT08").Where("VAA01 = ? and VAT04 = 4", pid).Limit(2, 1).Find(&records)
-	fmt.Println("*********: ", len(records), records, rrrrrr, resultsmap)
+	//err = fit.SQLServerEngine().Table("VAT1").Select("VAT08").Where("VAA01 = ? and VAT04 = 4", pid).Limit(2, 1).Find(&records)  mssql  limit无效
+
 	for _, val := range resultsmap {
 		records= append(records, val["VAT08"])
 	}

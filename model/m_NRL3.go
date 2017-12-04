@@ -3,7 +3,8 @@ package model
 import (
 	"time"
 	"fit"
-	"fmt"
+	"errors"
+	"strconv"
 )
 
 //基本生活活动能力BADL
@@ -95,34 +96,84 @@ func PCQueryNRL3(pid, datestr1, datestr2 string, pagenum int) ([]NRL3, error) {
 	return mods, nil
 }
 
+
+/*3-8 公用查询方法*/
+/*pda 端， 编辑页 查看某一个文书*/
+func QueryNRLWithRid(nrlType, rid string) (nrl interface{}, pid, uid string, err error) {
+	tableName := "NRL" + nrlType
+	switch nrlType {
+	case "3":
+		var nr3 NRL3
+		_, err = fit.MySqlEngine().Table(tableName).Where("id = ?", rid).Get(&nr3)
+		if err != nil {
+			return
+		} else {
+			nr3.DateStr = nr3.DateTime.Format("2006-01-02")
+			return nr3, strconv.FormatInt(nr3.VAA01, 10), nr3.BCE01A, nil
+		}
+	case "4":
+		var nr4 NRL4
+		_, err = fit.MySqlEngine().Table(tableName).Where("id = ?", rid).Get(&nr4)
+		if err != nil {
+			return
+		} else {
+			nr4.DateStr = nr4.DateTime.Format("2006-01-02")
+			return nr4, strconv.FormatInt(nr4.VAA01, 10), nr4.BCE01A, nil
+		}
+	case "5":
+		var nr5 NRL5
+		_, err = fit.MySqlEngine().Table(tableName).Where("id = ?", rid).Get(&nr5)
+		if err != nil {
+			return
+		} else {
+			nr5.DateStr = nr5.DateTime.Format("2006-01-02")
+			return nr5, strconv.FormatInt(nr5.VAA01, 10), nr5.BCE01A, nil
+		}
+	case "6":
+		var nr6 NRL6
+		_, err = fit.MySqlEngine().Table(tableName).Where("id = ?", rid).Get(&nr6)
+		if err != nil {
+			return
+		} else {
+			nr6.DateStr = nr6.DateTime.Format("2006-01-02")
+			return nr6, strconv.FormatInt(nr6.VAA01, 10), nr6.BCE01A, nil
+		}
+	case "7":
+		var nr7 NRL7
+		_, err = fit.MySqlEngine().Table(tableName).Where("id = ?", rid).Get(&nr7)
+		if err != nil {
+			return
+		} else {
+			nr7.DateStr = nr7.DateTime.Format("2006-01-02")
+			nr7.TimeStr = nr7.DateTime.Format("15:04")
+			return nr7, strconv.FormatInt(nr7.VAA01, 10), nr7.BCE01A, nil
+		}
+	case "8":
+		var nr8 NRL8
+		_, err = fit.MySqlEngine().Table(tableName).Where("id = ?", rid).Get(&nr8)
+		if err != nil {
+			return
+		} else {
+			nr8.DateStr = nr8.DateTime.Format("2006-01-02")
+			nr8.TimeStr = nr8.DateTime.Format("15:04")
+			return nr8, strconv.FormatInt(nr8.VAA01, 10), nr8.BCE01A, nil
+		}
+	default:
+		err = errors.New("QueryNRLWithRid : invalid nrltype type")
+		return
+	}
+
+
+}
+
+/*PC端*/
+//查询页数
 func PCQUeryNRLPageCount(nrlType, pid, datestr1, datestr2 string) (counts int64, err error) {
 	tablename := "NRL" + nrlType
 	if nrlType == "1" {
-		//tablename = "NurseChat"
-		if datestr2 == "" || datestr1 == "" {
-			var count1, count2 int64
-			count1, err = fit.MySqlEngine().Table("NurseChat").Where("PatientId = ?", pid).Distinct("TestTime", "NurseId").Count()
-			if err != nil {
-				return
-			}
-			count2, err = fit.MySqlEngine().Table("IOStatistics").Where("VAA01 = ?", pid).Count() // NurseId
-			if err != nil {
-				return
-			}
-			counts = count1 + count2
-			fmt.Println("----------count :", count1, count2, counts)
-		} else {
-			counts, err = fit.MySqlEngine().Table(tablename).Where("PatientId = ? AND TestTime >= ? AND TestTime < ?", pid, datestr1, datestr2).Distinct("TestTime", "NurseId").Count()
-			if err != nil {
-				return
-			}
-		}
+		return 0, errors.New("PCQUeryNRLPageCount: invalid type")
 	} else if nrlType == "5" {
-		if datestr2 == "" || datestr1 == "" {
-			counts, err = fit.MySqlEngine().Table(tablename).Where("VAA01 = ?", pid).Distinct("DateTime").Count()
-		} else {
-			counts, err = fit.MySqlEngine().Table(tablename).Where("VAA01 = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Distinct("DateTime").Count()
-		}
+		return 0, errors.New("PCQUeryNRLPageCount: invalid type")
 	} else {
 		if datestr2 == "" || datestr1 == "" {
 			counts, err = fit.MySqlEngine().Table(tablename).Where("VAA01 = ?", pid).Count()
@@ -133,6 +184,22 @@ func PCQUeryNRLPageCount(nrlType, pid, datestr1, datestr2 string) (counts int64,
 	return counts, err
 }
 
+
+func PCQUeryNRLData(nrlType, pid, datestr1, datestr2 string) (counts int64, err error) {
+	tablename := "NRL" + nrlType
+	if nrlType == "1" {
+		return 0, errors.New("PCQUeryNRLPageCount: invalid type")
+	} else if nrlType == "5" {
+		return 0, errors.New("PCQUeryNRLPageCount: invalid type")
+	} else {
+		if datestr2 == "" || datestr1 == "" {
+			counts, err = fit.MySqlEngine().Table(tablename).Where("VAA01 = ?", pid).Count()
+		} else {
+			counts, err = fit.MySqlEngine().Table(tablename).Where("VAA01 = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Count()
+		}
+	}
+	return counts, err
+}
 /*
 func PCQueryNRL(pid, datestr1, datestr2, nrlType string, pagenum int, mods interface{}) (err error) {
 

@@ -44,7 +44,7 @@ func (c PCBatvhHistoryController) TZHistory(w *fit.Response, r *fit.Request, p f
 		if starttime == ""|| endtime == ""{
 		    t := time.Now()
 		    st := time.Date(t.Year(), t.Month(), t.Day(), 6, 0, 0, 0, t.Location())
-		    et := time.Date(t.Year(), t.Month(), t.Day(), 10, 0, 0, 0, t.Location())
+		    et := time.Date(t.Year(), t.Month(), t.Day(), 9, 59, 59, 0, t.Location())
 
 		    starttime = st.Format("2006-01-02 15:04:05")
 		    endtime   = et.Format("2006-01-02 15:04:05")
@@ -129,17 +129,17 @@ func (c PCBatvhHistoryController) TZHistory(w *fit.Response, r *fit.Request, p f
 				}
 				PatientHistorys = append(PatientHistorys,ph)
 			}
+			fit.Logger().LogError("ghffdref", PatientHistorys)
 		}
 
 		var signhistorys []model.TemperatrureChatHistory     //体温表数据
 
-        //if patient_id == ""{
 			for _,ii := range PatientHistorys{
 
 				if ii.Checked == 0 {
-					break
+					continue
 				}
-
+				fit.Logger().LogError("ghffdref", ii)
 				signhistory_map := make(map[string]*model.TemperatrureChatHistory )
 
 				var sql string
@@ -206,83 +206,6 @@ func (c PCBatvhHistoryController) TZHistory(w *fit.Response, r *fit.Request, p f
 					signhistorys = append(signhistorys,*j)
 				}
 			}
-		//}else{
-				/*for _,ii := range PatientHistorys{
-
-					signhistory_map := make(map[string]*model.TemperatrureChatHistory )
-
-					var sql string
-					var msg []interface{}
-
-					sql = sql + "testtime >= ? and testtime <= ? and PatientId = ?"
-					msg = append(msg,starttime, endtime,ii.PatientId)
-
-					if ii.Checked == 0 {
-						break
-					}
-
-					fit.Logger().LogError("bbbbbbbb",ii.PatientId)
-
-					item, err := model.OutTemperatureHistory(sql, msg...)
-					if err != nil {
-						c.JsonData.Result = 1
-						c.JsonData.ErrorMsg = "查询错误0"
-						c.JsonData.Datas = err
-						return
-					} else {
-						for _,i := range item{
-							if v, ok := signhistory_map[time.Time(i.DateTime).Format("2006-01-02") + " 时段:" + strconv.Itoa(i.TypeTime)]; ok {
-								_,boo := model.TransformTemperatrureCH(i,v)
-								if boo {
-									for j := 0;j<10;j++ {
-										if v, ok := signhistory_map[time.Time(i.DateTime).Format("2006-01-02") + " 时段:" + strconv.Itoa(i.TypeTime) + strconv.Itoa(j)]; ok {
-											_,boo := model.TransformTemperatrureCH(i,v)
-											if !boo {
-												break
-											}
-										} else {
-											var chat model.TemperatrureChatHistory
-											chat.PatientId = ii.PatientId
-											chat.PatientBed = ii.BedCoding
-											chat.PatientAge = ii.Age
-											chat.PatientName = ii.Name
-											chat.TestTime =  time.Time(i.DateTime).Format("2006-01-02")+" "+model.BackIntervalTime(i.TypeTime)
-											chat.DateTime = time.Time(i.DateTime).Format("2006-01-02")
-											chat.TimeFrame = strconv.Itoa(i.TypeTime)
-											er,_ := model.TransformTemperatrureCH(i,&chat)
-											if er != nil{
-												continue
-											}
-											signhistory_map[time.Time(i.DateTime).Format("2006-01-02") + " 时段:" + strconv.Itoa(i.TypeTime) + strconv.Itoa(j)] = &chat
-											break
-										}
-									}
-								}
-							} else {
-								var chat model.TemperatrureChatHistory
-								chat.PatientId = ii.PatientId
-								chat.PatientBed = ii.BedCoding
-								chat.PatientAge = ii.Age
-								chat.PatientName = ii.Name
-								chat.TestTime = time.Time(i.DateTime).Format("2006-01-02")+" "+model.BackIntervalTime(i.TypeTime)
-								chat.DateTime = time.Time(i.DateTime).Format("2006-01-02")
-								chat.TimeFrame = strconv.Itoa(i.TypeTime)
-								er,_ := model.TransformTemperatrureCH(i,&chat)
-								if er != nil{
-									continue
-								}
-								signhistory_map[time.Time(i.DateTime).Format("2006-01-02") + " 时段:" + strconv.Itoa(i.TypeTime)] = &chat
-							}
-						}
-					}
-					fit.Logger().LogError("hhhhhhh",len(item))
-
-					for _,j :=range  signhistory_map{
-						signhistorys = append(signhistorys,*j)
-					}
-				}*/
-		//}
-
 
 		c.Data["Patients"] = PatientHistorys
 		sort.Sort(model.PersonSlice(signhistorys))

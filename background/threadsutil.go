@@ -64,7 +64,7 @@ type VAA1 struct {
 	VAA10  int       // 年龄
 	AAU01  string    // 年龄单位
 	VAA12  time.Time // 出生日期, birth date
-	ACK01  string    // 婚姻, marital status
+	ACK01  string    // 婚姻, marital status   d
 	VAA14  string    // 身份证件, 指公安机关签发的有效证件
 	VAA15  string    // 身份证号, IDNo, IDNumber
 	VAA16  string    // 其他证件
@@ -188,9 +188,10 @@ func synchronizingVAA1() {
 	timeMark := time.Now()
 
 	// 查询所有病区在院+入院的病人
-	fit.SQLServerEngine().SQL("select VAA1.* from BCK1, VAE1, VAA1 where BCK1.BCK01A = 141 and VAE1.BCK01C = BCK1.BCK01 and VAE44 in ('1','2') and VAA1.VAA01 = VAE1.VAA01").Find(&mods)
+	fit.SQLServerEngine().SQL("select VAA1.* from BCK1,BCQ1, VAA1 where BCK1.BCK01A = 141 and BCQ1.BCK01A = BCK1.BCK01 and BCQ1.VAA01 != 0 and VAA1.VAA01 = BCQ1.VAA01").Find(&mods)
 	//fit.SQLServerEngine().SQL("SELECT * FROM VAA1").Find(&mods)
 	for _, k := range mods {
+
 		_, err := fit.MySqlEngine().Exec("delete from VAA1 where VAA01 = ?", k.VAA01)
 		_, err = fit.MySqlEngine().Table("VAA1").InsertOne(&k)
 		if err != nil {

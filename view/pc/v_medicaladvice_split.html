@@ -122,7 +122,7 @@
                                         </div>
                                         <span style="font-size:14px;min-width: 10px;">(</span>
                                         <div class="input-box">
-                                            <input type="checkbox" id="check3-1" name="group3-1"  class="check-2">
+                                            <input type="checkbox" id="check3-1" name="group3-2"  class="check-2">
                                             <label for="check3-1">输液标签</label>
                                         </div>
                                         <div class="input-box">
@@ -252,7 +252,7 @@
     <!--框架js-->
     <script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/amazeui.min.js"></script>
     <!--//遮罩层退出框-->
-    <script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/blockUI.js"></script>
+    {{/*<script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/blockUI.js"></script>*/}}
     <!--<script type="text/javascript" src="../dist/js/lib/amazeui_tmplate/charts/echarts.min.js" ></script>-->
     <!--<script type="text/javascript" src="../dist/js/lib/amazeui_tmplate/charts/indexChart.js" ></script>-->
 
@@ -267,12 +267,10 @@
             dt.setDate(dt.getDate() + diff);
 
             return dt.getFullYear() + "-" +
-                (dt.getMonth() + 1 ) + "-" + dt.getDate() ;
+                addZero((dt.getMonth() + 1 )) + "-" + addZero(dt.getDate()) ;
         }
 
-        /**
-         * 节流函数
-         */
+
         var qo = { print:{values:[]}};
 
         function retriveQueryCriteria()
@@ -325,6 +323,7 @@
             $(".check-1").prop("checked",true);
             $(".check-2").prop("checked",false);
         }
+
         $(document).ready(function () {            
 
             $("#all-btn").click(function(){
@@ -395,6 +394,30 @@
                 }
             });
 
+            //勾选限制不能少于1个
+            $("body").on("click",".check-1,.check-2",function(){
+                var groupName = $(this).prop("name");
+                var $check = $("body").find("input[name="+ groupName +"]:checked")
+                switch(qo.print.type){
+                   case "excution":
+                           if($(this).hasClass("check-2")){
+                               return false;
+                           }
+
+                         break;
+                   case "label":
+                       if($(this).hasClass("check-1")){
+                           return false;
+                       }
+                        break;
+                    default:
+                         console.log("无类型")
+                }
+                if($check.length == 0){
+                    return false
+                }
+            })
+
             $('.search-btn').click(function() {
                 retriveQueryCriteria();
 
@@ -424,7 +447,7 @@
                 print.type = qo.print.type
                 print.value = qo.print.values.join(',')
                 params['print'] = JSON.stringify(print)
-
+                params["did"] = {{.Userinfo.DepartmentID}}
 
                 // $.ajax({
                 //     type:'POST',
@@ -432,7 +455,7 @@
                 //     data: qo
                 // });
 
-                // console.log(params)
+                console.log(params)
 
                 $.post("/pc/madvice/split/search", params, function (json, status) {
                     if (json.result == 0) {
@@ -440,38 +463,40 @@
                         var html = '';
 
                         for (var i = 0; i < resArr.length; i++) {
-                            var typeStr = resArr[i].TypeOf == 1 ? "长期" : "临时"
+                            var obj = resArr[i]
+                            var typeStr = obj.TypeOf == 1 ? "长期" : "临时"
+
                             html += "<tr>\n" +
                                     "<td>\n" +
                                     "<div class=\"table-input-bar\">\n" +
-                                    "<input type=\"checkbox\" data-mid=\"resArr[i].Madid\">\n" +
-                                    "<label for=\"\">"+resArr[i].Bed+"</label>\n" +
+                                    "<input type=\"checkbox\" data-mid=\""+obj.Madid+"\">\n" +
+                                    "<label for=\"\">"+obj.Bed+"</label>\n" +
                                     "</div>\n" +
                                     "</td>\n" +
                                     "<td>\n" +
-                                    +resArr[i].PatientName+"\n" +
+                                    obj.PatientName+"\n" +
                                     "</td>\n" +
                                     "<td>\n" +
-                                    +resArr[i].ExexTime+"\n" +
+                                    obj.ExexTime+"\n" +
                                     "</td>\n" +
                                     "<td>\n" +
-                                    +resArr[i].Content+"\n" +
+                                    obj.Content+"\n" +
                                     "</td>\n" +
                                     "<td class=\"tc\">\n" +
-                                    +resArr[i].Dosage+"\n" +
+                                    obj.Dosage+"\n" +
                                     "</td>\n" +
                                     "<td class=\"tc\">\n" +
-                                    +resArr[i].Count+"\n" +
+                                    obj.Count+"\n" +
                                     "</td>\n" +
-                                    "<td class=\"tc\">"+resArr[i].Times+"</td>\n" +
-                                    "<td class=\"tc\">"+resArr[i].Method+"</td>\n" +
-                                    "<td class=\"tc\">"+resArr[i].Speed+"</td>\n" +
+                                    "<td class=\"tc\">"+obj.Times+"</td>\n" +
+                                    "<td class=\"tc\">"+obj.Method+"</td>\n" +
+                                    "<td class=\"tc\">"+obj.Speed+"</td>\n" +
                                     "<td class=\"tc\">\n" +
-                                    +typeStr+"\n" +
+                                    typeStr+"\n" +
                                     "</td>\n" +
                                     "<td class=\"td10\">\n" +
-                                    "<span class=\"l\"> "+resArr[i].PrintState+"</span>\n" +
-                                    "<span class=\"r\">序号"+resArr[i].PrintOrdinal+"/"+resArr[i].Times+"</span>\n" +
+                                    "<span class=\"l\"> "+obj.PrintState+"</span>\n" +
+                                    "<span class=\"r\">序号"+obj.PrintOrdinal+"/"+obj.Times+"</span>\n" +
                                     "</td>\n" +
                                     "</tr>"
                         }
@@ -484,53 +509,6 @@
 
             setDefaultValue();
         });
-
-        var nowFn = Date.now || function() {
-            return new Date().getTime()
-        }
-
-
-        function throttle(func, wait, option) {
-            var previous = 0, //之前的时间
-                timeout, self, args, result;
-
-            var later = function() {
-                previous = nowFn();
-                timeout = null;
-                result = func.apply(self, args);
-                !timeout && (self = args = null);
-            }
-            return function() {
-                var now = nowFn();
-
-                if (!previous && option.leading === false) previous = now;
-                var diff = wait - (now - previous);
-
-                args = arguments;
-                self = this;
-                if (diff <= 0) {
-                    if (timeout) {
-                        clearTimeout(timeout);
-                        timeout = null;
-                    }
-                    result = func.apply(self, args);
-                    previous = now;
-                    !timeout && (self = args = null); //如果没有堆积的任务 则清空 self 和args
-                } else if (!timeout && option.trailing !== false) {
-                    timeout = setTimeout(later, diff)
-                } else {
-                    console.log('被抛弃了')
-                }
-                return result;
-
-            }
-        }
-        $('#jky-menu').on('open.collapse.amui', function(e) {
-            $(e.target).parents("li").addClass("jky-on")
-        })
-        $('#jky-menu').on('close.collapse.amui', function(e) {
-            $(e.target).parents("li").removeClass("jky-on")
-        })
 
 
 
@@ -557,23 +535,8 @@
             }
         })
 
-        var nowDateObj = nowDate();
+        var nowDateObj = fromatDate();
 
-        function nowDate() {
-            var res = {},
-                nowD = new Date();
-            res.date = nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
-            res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
-            return res
-        }
-
-        function addZero(i) {
-            if (i < 10) {
-                return "0" + i;
-            } else {
-                return i;
-            }
-        }
         laydate.render({
             elem: '.date-input', //指定元素
             showBottom: false,
@@ -631,27 +594,7 @@
 
 
         
-        $("#radio2-1").on("click",function(){
-            if($(this).prop("checked")){
-                $(".check-1").prop("checked",true)
-                $(".check-2").prop("checked",false)
-            }else{
-                $(".check-1").prop("checked",false)
-                $(".check-2").prop("checked",true)
 
-            }
-        })
-        $("#radio2-2").on("click",function(){
-            if($(this).prop("checked")){
-                $(".check-2").prop("checked",true)
-                $(".check-1").prop("checked",false)
-
-            }else{
-                $(".check-2").prop("checked",false)
-                $(".check-1").prop("checked",true)
-
-            }
-        })
 
         $('.type3').on('click',function () {
             var inputs = $('.warp-box').find('input[type=checkbox]')
@@ -662,9 +605,65 @@
                     objArr.push($(inputV).data('mid'))
                 }
             }
-            console.log("打印(医嘱ID):",objArr)
+            var madids = objArr.join(',')
+            console.log("打印(医嘱ID):",madids)
+            if (madids == ""){
+                alert("请选择打印的医嘱")
+            }else{
+                window.open("/pc/ptprint?madids=" + madids);
+            }
         })
 
+
+
+        //全选反选
+        $("#all-btn").on("click", function () {
+            if($(this).prop("checked")){
+                $(".user-bar").find("input[type=checkbox]").prop("checked",true);
+            }else{
+                $(".user-bar").find("input[type=checkbox]").prop("checked",false);
+            }
+        })
+        $("body").on("click",".user-bar input[type=checkbox]",function(){
+            var checklist = $(".user-bar input[type=checkbox]");
+            var len = checklist.length,sum=0;
+            checklist.each(function(i,el){
+                if($(el).prop("checked")){
+                    sum++;
+                }
+            })
+            if(len == sum){
+                $("#all-btn").prop("checked",true)
+            }else{
+                $("#all-btn").prop("checked",false)
+            }
+
+        })
+
+
+        $(".user-bar").on("click","li",function(e){
+            var eTagName=$(e.target)[0].tagName
+            var $check = $(this).find("input[type=checkbox]")
+            if(eTagName.toLowerCase() != "input"){
+
+                var isCheck = $check.prop("checked")
+                $check.prop("checked",!isCheck)
+
+                var checklist = $(".user-bar input[type=checkbox]");
+                var len = checklist.length,sum=0;
+                checklist.each(function(i,el){
+                    if($(el).prop("checked")){
+                        sum++;
+                    }
+                })
+                if(len == sum){
+                    $("#all-btn").prop("checked",true)
+                }else{
+                    $("#all-btn").prop("checked",false)
+                }
+
+            }
+        })
     </script>
 </body>
 

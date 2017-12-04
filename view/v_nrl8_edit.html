@@ -948,6 +948,9 @@
                     $(el).prop("disabled",true)
                     $(el).val("")
                     $(el).prop("checked",false)
+                    if($(el).attr("type")=="radio"){
+                        $(el).data("check",0)
+                    }
                 }
             })
 

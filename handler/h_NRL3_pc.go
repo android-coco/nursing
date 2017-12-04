@@ -22,6 +22,8 @@ func (c PCNRL3Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Param
 		fit.Logger().LogError("nrl page info :", err)
 		return
 	}
+
+	fmt.Println("--------------:", datestr1, datestr2)
 	/*// 时间
 	date1, errs := strconv.ParseInt(r.FormValue("sdate"), 10, 64)
 	date2, erre := strconv.ParseInt(r.FormValue("edate"), 10, 64)

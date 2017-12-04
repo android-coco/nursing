@@ -15,17 +15,14 @@ type TempChartController struct {
 }
 
 func (c TempChartController) LoadTable(w *fit.Response, r *fit.Request, p fit.Params) {
-
 	// 护士信息 床位表 病人id  病人信息
 	userinfo, beds, _, pInfo, has := c.GetBedsAndUserinfo(w, r, "9")
 	if !has {
 		return
 	}
 
-
-
 	// 入院日期
-	datestr := pInfo.VAA73.ParseToSecond()
+	datestr := pInfo.VAE11.ParseToSecond()
 	weeknum, errnum := getweeknum(datestr)
 	if errnum != nil {
 		fit.Logger().LogError("error get week num", errnum)
@@ -51,15 +48,16 @@ func (c TempChartController) LoadTable(w *fit.Response, r *fit.Request, p fit.Pa
 	}
 	fmt.Println("patient info", pInfo)
 	fmt.Println("	入院 date:", datestr)
-	fmt.Println("operation date:", datestr2)
+	fmt.Println("手术或产后 date:", datestr2)
 
 
-	weeks, dates1, dates2, weeknum, err := getWeeksByOperationDates(datestr, datestr2, weekindex)
+	weeks, dates1, dates2, _, err := getWeeksByOperationDates(datestr, datestr2, weekindex)
 	if err != nil {
 		fit.Logger().LogInfo("info templist", "参数错误！temp ", err)
 		fmt.Fprintln(w, "参数错误！temp ", err)
 		return
 	}
+	//fmt.Println(weeks, dates1, dates2)
 	
 	var weekstr []string
 	for _, val := range weeks {
@@ -67,10 +65,12 @@ func (c TempChartController) LoadTable(w *fit.Response, r *fit.Request, p fit.Pa
 	}
 
 	// 体温
+	// 口温，腋温，肛温
+	temp1map, errtemp1 := model.GetTemperatureChatData(1, pInfo.VAA01, weeks)
+	temp2map, errtemp12 := model.GetTemperatureChatData(2, pInfo.VAA01, weeks)
+	temp3map, errtemp13 := model.GetTemperatureChatData(3, pInfo.VAA01, weeks)
+	tempOther, errother := model.GetTemperatureChatData(-1, pInfo.VAA01, weeks)
 
-	temp1map, err1 := model.GetTemperatureChatData(1, pInfo.VAA01, weeks)
-	temp2map, err1 := model.GetTemperatureChatData(2, pInfo.VAA01, weeks)
-	temp3map, err1 := model.GetTemperatureChatData(3, pInfo.VAA01, weeks)
 	// 呼吸
 	breathemap, err2 := model.GetTemperatureChatData(6, pInfo.VAA01, weeks)
 
@@ -103,7 +103,7 @@ func (c TempChartController) LoadTable(w *fit.Response, r *fit.Request, p fit.Pa
 	// 其他
 	othermap, err12 := model.GetTemperatureChatData(14, pInfo.VAA01, weeks)
 
-	flag := checkerr("error temp chart: ", err1, err2, err3, err4, err5, err6, err7, err8, err9, err10, err11, err12)
+	flag := checkerr("error temp chart: ", errtemp1, errtemp12, errtemp13, errother, err2, err3, err4, err5, err6, err7, err8, err9, err10, err11, err12)
 	if flag {
 		return
 	}
@@ -117,9 +117,12 @@ func (c TempChartController) LoadTable(w *fit.Response, r *fit.Request, p fit.Pa
 		"Dates2":    dates2,  // 手术或产后日数
 		"Weeks":     weekstr, // 日期
 		"Weeknum":   weeknum, // 当前病人住院周数
+		"PageIndex": weekindex, // 当前周数
+
 		"Temp1":     temp1map,
 		"Temp2":     temp2map,
 		"Temp3":     temp3map,
+		"TempOther": tempOther,
 		"Breathe":   breathemap,
 		"Pulse":     pulsemap,
 		"Heartrate": heartratemap,
@@ -132,10 +135,12 @@ func (c TempChartController) LoadTable(w *fit.Response, r *fit.Request, p fit.Pa
 		"Incident":  incidentmap,
 		"Skin":      skinmap,
 		"Other":     othermap,
+
 		"Menuindex": "5-0",
 	}
 
-	//fmt.Printf("beds %+v\n\n %+v\n\n", beds, incidentmap)
+
+	//fmt.Printf("pinfo %+v\n\n userinfo: %+v\n\n", pInfo, userinfo)
 	//fmt.Println(len(temp1map), c.Data)
 	//c.LoadView(w, "pc/v_templist.html", "pc/header_side.html")
 	success := c.LoadViewSafely(w, r, "pc/v_templist.html", "pc/header_side.html", "pc/header_top.html")
@@ -145,78 +150,37 @@ func (c TempChartController) LoadTable(w *fit.Response, r *fit.Request, p fit.Pa
 }
 
 func (c TempChartController) PrintTempChart(w *fit.Response, r *fit.Request, p fit.Params) {
-	// 护士信息
-	userinfo, err := c.GetLocalUserinfo(w, r)
-	if err != nil {
-		fmt.Fprintln(w, "参数错误！  user info error", err)
-	}
-	beds, err12 := model.QueryDepartmentBeds(userinfo.DepartmentID, false)
-
-	num := r.FormValue("num")
-	// 病人id
-	var pInfo model.PCBedDup
 	pid := r.FormValue("pid")
-	if pid == "" || num == "" { // 默认去当前科室第一个床位病人
-		if pid == "" {
-			pidnum := beds[0].VAA01
-			pid = strconv.FormatInt(pidnum, 10)
-		}
-
-		// 病人信息
-		for _, val := range beds {
-			if strconv.FormatInt(val.VAA01, 10) == pid {
-				pInfo = val
-				break
-			}
-		}
-		fmt.Println("p info ", pInfo)
-		// 入院日期
-		datestr := pInfo.VAA73.ParseToSecond()
-
-		weeknum := 1
-		if num == "" {
-			var errnum error
-			weeknum, errnum = getweeknum(datestr)
-			if errnum != nil {
-				fit.Logger().LogError("error get week num", errnum)
-			}
-		}
-
-		url := "/pc/templist?pid=" + pid + "&num=" + strconv.Itoa(weeknum)
-		c.Redirect(w, r, url, 302)
+	num := r.FormValue("num")
+	if pid == "" || num == "" {
+		fmt.Fprintln(w, "参数错误！")
 		return
 	}
 
+	pInfos, err := model.GetPatientInfo(pid)
+	if err != nil || len(pInfos) == 0{
+		fmt.Fprintln(w, "参数错误！")
+		return
+	}
+	pInfo := pInfos[0]
+
+	// 入院日期
+	datestr := pInfo.VAE11.ParseToSecond()
+	weeknum, errnum := getweeknum(datestr)
+	if errnum != nil {
+		fit.Logger().LogError("error get week num", errnum)
+	}
+
+
 	weekindex, errweek := strconv.Atoi(num)
-	if errweek != nil {
-		weekindex = 0
+	if errweek != nil || weekindex >= weeknum {
+		weekindex = weeknum
 	}
 	if weekindex <= 0 {
 		weekindex = 1
 	}
 
-	// 病人信息
-	for _, val := range beds {
-		if strconv.FormatInt(val.VAA01, 10) == pid {
-			pInfo = val
-			break
-		}
-	}
-	if pInfo.VAA01 == 0 {
-		//url := "/pc/templist"
-		//c.Redirect(w, r, url, 302)
-		fmt.Fprintln(w, "参数错误！  user info error", err)
-	}
-	weeknum, errnum := getweeknum(pInfo.VAA73.ParseToSecond())
-	if errnum != nil {
-		fit.Logger().LogError("error get week num", errnum)
-	}
-	fmt.Println("weekindex", weekindex, "weeknum", weeknum)
-	if weekindex >= weeknum {
-		weekindex = weeknum
-	}
-	// 入院日期
-	datestr := pInfo.VAA73.ParseToSecond()
+
 	// 手术或产后日期
 	datestr2, err := model.FetchOperationRecordsDate(pInfo.VAA01)
 	if err != nil {
@@ -224,22 +188,14 @@ func (c TempChartController) PrintTempChart(w *fit.Response, r *fit.Request, p f
 		fmt.Fprintln(w, "参数错误！temp ", err)
 		return
 	}
-	fmt.Println("patient info", pInfo)
-	fmt.Println("	入院 date:", datestr)
-	fmt.Println("operation date:", datestr2)
 
 
-	weeks, dates1, dates2, weeknum, err := getWeeksByOperationDates(datestr, datestr2, weekindex)
+
+	weeks, dates1, dates2, _, err := getWeeksByOperationDates(datestr, datestr2, weekindex)
 	if err != nil {
 		fit.Logger().LogInfo("info templist", "参数错误！temp ", err)
 		fmt.Fprintln(w, "参数错误！temp ", err)
 		return
-	}
-	fmt.Println(weeks)
-	fmt.Println(dates1, dates2)
-	fmt.Println(weeknum, err)
-	if weekindex == 0 {
-		weekindex = weeknum
 	}
 
 	var weekstr []string
@@ -290,10 +246,7 @@ func (c TempChartController) PrintTempChart(w *fit.Response, r *fit.Request, p f
 	}
 
 	c.Data = fit.Data{
-		"Userinfo": userinfo, // 护士信息
 		"PInfo":    pInfo,    // 病人信息
-		"Beds":     beds,     // 床位list
-
 		"Dates1":    dates1,  // 住院日数
 		"Dates2":    dates2,  // 手术或产后日数
 		"Weeks":     weekstr, // 日期
@@ -313,7 +266,8 @@ func (c TempChartController) PrintTempChart(w *fit.Response, r *fit.Request, p f
 		"Incident":  incidentmap,
 		"Skin":      skinmap,
 		"Other":     othermap,
-		"Menuindex": "5-0",
+
+		"PageIndex": weekindex,
 	}
 	c.LoadView(w, "pc/v_templist_print.html")
 }
@@ -350,21 +304,17 @@ func getWeeksByOperationDates(hospitaldate string, operationTimes []string, week
 	operationstr2 = utils.Substr(operationstr2, 0, 10)
 	//operationstr3 = utils.Substr(operationstr3, 0, 10)
 
-	fmt.Println("hehe------", operationstr1, operationstr2)
+	//fmt.Println("hehe------", operationstr1, operationstr2)
 
 	// 入院日期
 	t0, err := time.ParseInLocation("2006-01-02", hospitaldate, loc)
 	if err != nil {
 		return nil, nil, nil, 0, err
 	}
-	fmt.Println("weeks datestr", hospitaldate, operationstr1)
-
-
 
 	// 入院日期到今天的总周数
 	weeknum = int(time.Since(t0).Hours()/24)/7 + 1
-	//weekoffset := int(time.Since(t) / 24) / 7
-	fmt.Println("weeknum", weeknum, t0)
+
 
 	offset := weekindex*7 - 7
 	if weekindex == 0 {
@@ -384,14 +334,14 @@ func getWeeksByOperationDates(hospitaldate string, operationTimes []string, week
 			operatime1, err = time.ParseInLocation("2006-01-02", operationstr1, loc)
 			if err != nil {
 				operatime1 = time.Now().AddDate(1, 0, 0)
-				fmt.Println("------ hos :", operatime1, err)
+				//fmt.Println("------ hos :", operatime1, err)
 			}
 
 			if operationstr2 != "" {
 				operatime2, err = time.ParseInLocation("2006-01-02", operationstr2, loc)
 				if err != nil {
 					operatime2 = time.Now().AddDate(1, 0, 0)
-					fmt.Println("------ hos :", operatime2, err)
+					//fmt.Println("------ hos :", operatime2, err)
 				}
 			}
 			//if operationstr3 != "" {
@@ -401,28 +351,30 @@ func getWeeksByOperationDates(hospitaldate string, operationTimes []string, week
 			//		fmt.Println("------ hos :", operatime3, err)
 			//	}
 			//}
-			fmt.Println("success", operatime1, operatime2)
+			//fmt.Println("success", operatime1, operatime2)
 
 			operaoffset1 := t2.Sub(operatime1).Hours()
 
 			difftime1 := operatime2.Sub(operatime1).Hours()
 			//difftime2 := operatime3.Sub(operatime2).Hours()
-			fmt.Println("offset :", operaoffset1, difftime1)
+			//fmt.Println("offset :", operaoffset1, difftime1)
 
 			if operaoffset1 >= 0 && operaoffset1 < 24 * 10 { // 手术十天以内记录时间
 				if difftime1 < 0 || difftime1 > 24 * 10 {
-					dates2 = append(dates2, fmt.Sprintln(operaoffset1/24+1))
+					operstr := fmt.Sprintf(" %.0f", operaoffset1/24)
+					fmt.Println("--------------------", operstr)
+					dates2 = append(dates2, operstr)
 				} else { // 十天以内做过第二次手术 则记为 Ⅱ-1
 					operaoffset2 := t2.Sub(operatime2).Hours()
 					if operaoffset2 >= 0 && operaoffset2 < 24 * 10 {
 						aaa := int(operaoffset2/24)
 						dates2 = append(dates2, fmt.Sprintf("Ⅱ-%d",aaa))
 					} else {
-						dates2 = append(dates2, fmt.Sprintln(operaoffset1/24+1))
+						dates2 = append(dates2, fmt.Sprintf(" %.0f", operaoffset1/24))
 					}
 				}
 			} else {
-				str := ""
+				str := " "
 				if difftime1 < 24 * 10 {
 					str = "Ⅱ-"
 				}
@@ -435,11 +387,15 @@ func getWeeksByOperationDates(hospitaldate string, operationTimes []string, week
 				}
 			}
 		} else {
+			for ii := 0; ii < 7; ii++ {
+				dates2 = append(dates2, "")
+			}
 			operatime1 = time.Now().AddDate(1, 0, 0)
-			fmt.Println("hos :", operatime1)
+			//fmt.Println("hos :", operatime1)
 		}
 
 	}
+	fmt.Println("date2 :", dates2, len(dates2))
 	return weeks, dates1, dates2, weeknum, nil
 }
 

@@ -33,10 +33,10 @@ func (c PCNRL1Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Param
 		datestr1 = ""
 		datestr2 = ""
 	} else {
-		datestr1 = time.Unix(date1/1000-60*60*8, 0).Format("2006-01-02 15:04:05")
-		datestr2 = time.Unix(date2/1000+60*60*16, 0).Format("2006-01-02 15:04:05")
+		datestr1 = time.Unix(date1/1000, 0).Format("2006-01-02 15:04:05")
+		datestr2 = time.Unix(date2/1000+60*60*24, 0).Format("2006-01-02 15:04:05")
 	}
-
+	fmt.Println("--------------:", datestr1, datestr2)
 	mods, errdata := model.GetNRL1Data(pid, datestr1, datestr2)
 	if errdata != nil {
 		fit.Logger().LogError("PCQueryNRL1Title error :", errdata)
@@ -48,7 +48,7 @@ func (c PCNRL1Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Param
 	count := len(mods)
 	peerPage := 9
 	//总页数
-	pagenum = int((count-1) / peerPage) + 1
+	pagenum = int((count-1)/peerPage) + 1
 	//当前页数
 	index := r.FormValue("num")
 	pageindex, errnum := strconv.Atoi(index)
@@ -61,11 +61,11 @@ func (c PCNRL1Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Param
 		pageindex = pagenum
 	}
 
-	list :=  make([]model.NRLModel, peerPage)
+	list := make([]model.NRLModel, peerPage)
 	if pageindex == pagenum {
-		list = mods[(pageindex - 1) * peerPage:count]
+		list = mods[(pageindex-1)*peerPage:count]
 	} else {
-		list = mods[(pageindex - 1) * peerPage:pageindex * peerPage]
+		list = mods[(pageindex-1)*peerPage:pageindex*peerPage]
 	}
 
 	nrl1Title := model.NRL1Title{VAA01: pInfo.VAA01}
@@ -121,7 +121,7 @@ func (c PCNRL1Controller) NRLIOStatistcs(w *fit.Response, r *fit.Request, p fit.
 		c.RenderingJsonAutomatically(2, "数据查询出现错误")
 	} else {
 		var intakeA, intakeB, intakeC, intakeD, intakeTotal int
-		var outputA, outputC, outputTotal int
+		var outputA, outputB, outputC, outputTotal int
 		for _, mod := range mods15 {
 			intvalue, errParse := strconv.Atoi(mod.Value)
 			if errParse != nil {
@@ -149,12 +149,14 @@ func (c PCNRL1Controller) NRLIOStatistcs(w *fit.Response, r *fit.Request, p fit.
 			switch mod.SubType {
 			case 1:
 				outputA += intvalue
+			case 2:
+				outputB += intvalue
 			case 3:
 				outputC += intvalue
 			default:
 			}
 		}
-		outputTotal = outputA + outputC
+		outputTotal = outputA + outputB + outputC
 
 		datas := map[string]interface{}{
 			"intake":      mods15,
@@ -166,6 +168,7 @@ func (c PCNRL1Controller) NRLIOStatistcs(w *fit.Response, r *fit.Request, p fit.
 
 			"output":      mods16,
 			"outputA":     outputA,
+			"outputB":     outputB,
 			"outputC":     outputC,
 			"outputTotal": outputTotal,
 		}
@@ -213,6 +216,7 @@ func (c PCNRL1Controller) NRLIOTypeIn(w *fit.Response, r *fit.Request, p fit.Par
 
 	//1尿量 3其他
 	outputA := r.FormValue("outputA")
+	outputB := r.FormValue("outputB")
 	outputC := r.FormValue("outputC")
 	outputCV := r.FormValue("outputCV")
 	outputTotal := r.FormValue("outputTotal")
@@ -232,7 +236,7 @@ func (c PCNRL1Controller) NRLIOTypeIn(w *fit.Response, r *fit.Request, p fit.Par
 		IntakeDV:    intakeDV,
 		IntakeTotal: intakeTotal,
 		OutputA:     outputA,
-		//OutputB:outputB,
+		OutputB:     outputB,
 		OutputC:     outputC,
 		OutputCV:    outputCV,
 		OutputTotal: outputTotal,

@@ -60,6 +60,7 @@ func nrlist() {
 	// 护理记录单
 	fit.Router().AddRouter("/record/nr1/update", new(handler.NRL1Controller), "get,post:UpdateRecord")
 	fit.Router().AddRouter("/record/nr1/updatetitle", new(handler.NRL1Controller), "get,post:UpdateTitle")
+	fit.Router().AddRouter("/record/nr1/delete", new(handler.NRL1Controller), "get,post:DeleteRecord")
 	//fit.Router().AddRouter("/record/nr1", new(handler.NRL1Controller))
 	//fit.Router().AddRouter("/record/nr1/edit", new(handler.NRL1Controller), "get,post:Edit")
 	//fit.Router().AddRouter("/record/nr1/add", new(handler.NRL1Controller), "get,post:AddRecord")
@@ -162,7 +163,7 @@ func pclist() {
 
 	// 体温单
 	fit.Router().AddRouter("/pc/templist", new(handler.TempChartController), "get,post:LoadTable")
-	fit.Router().AddRouter("/pc/templist/print", new(handler.TempChartController), "get,post:PrintTempChart")
+
 
 	//提醒管理
 	fit.Router().AddRouter("/pc/warn", new(handler.PCWarnController))
@@ -210,12 +211,15 @@ func pcprint(){
 	fit.Router().AddRouter("/pc/nrl5print", new(handler.PCNrl5Controller))
 	//打印深圳万丰医院压疮风险因素评估表（Braden评分）
 	fit.Router().AddRouter("/pc/nrl6print", new(handler.PCNrl6Controller))
-	//打印深圳万丰医院患者跌到风险评估护理单
+	//打印深圳万丰医院患者跌倒风险评估护理单
 	fit.Router().AddRouter("/pc/nrl7print", new(handler.PCNrl7Controller))
 	//打印深圳万丰医院深圳万丰医院疼痛强度评分量表
 	fit.Router().AddRouter("/pc/nrl8print", new(handler.PCNrl8Controller))
 
 	//交接班打印
 	fit.Router().AddRouter("/pc/successprint", new(handler.PCSuccessionController))
+
+	// 体温单打印
+	fit.Router().AddRouter("/pc/templist/print", new(handler.TempChartController), "get,post:PrintTempChart")
 
 }

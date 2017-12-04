@@ -9,62 +9,64 @@ import (
 
 /*PDA端专用 科床位室病人*/
 type Beds struct {
-	VAA1                `xorm:"extends"`
-	NewOrder     int    `json:"new_order"`      // 新医嘱 ？
-	StoppedOrder int    `json:"stopped_order"`  // 已停医嘱 ？
-	Fever        int    `json:"fever"`          // 是否发热（最后一次测量体温>37.5°）
-	Operation    int    `json:"operation"`      // 是否待手术 ？
-	Arrearage    int    `json:"arrearage"`      // 是否欠费
-	NewPatient   int    `json:"new_patient"`    // 是否是新病人（VAA1.VAA73入院时间判断 今天早上8点到明天早上8点）
-	VAK20        int    `json:"-"`              // 预交金额
-	VAK21        int    `json:"-"`              // 费用总额
-	AAG01        string `json:"nursing_degree"` // 护理级别
-	Gender       string `json:"gender"`         // 性别(结果字符串)
+	VAA1                                `xorm:"extends"`
+	NewOrder     int                    `json:"new_order"`      // 新医嘱 ？
+	StoppedOrder int                    `json:"stopped_order"`  // 已停医嘱 ？
+	Fever        int                    `json:"fever"`          // 是否发热（最后一次测量体温>37.5°）
+	Operation    int                    `json:"operation"`      // 是否待手术 ？
+	Arrearage    int                    `json:"arrearage"`      // 是否欠费
+	NewPatient   int                    `json:"new_patient"`    // 是否是新病人（VAA1.VAA73入院时间判断 今天早上8点到明天早上8点）
+	VAK20        int                    `json:"-"`              // 预交金额
+	VAK21        int                    `json:"-"`              // 费用总额
+	AAG01        string                 `json:"nursing_degree"` // 护理级别
+	VAE11        DatetimeWithoutSeconds `json:"hospital_date"`  // 入院时间
+	Gender       string                 `json:"gender"`         // 性别(结果字符串)
 }
 
 /*PC端主页专用 科室床位病人*/
 type PCBeds struct {
-	//BCK03        string `json:"department_name"` // 科室名称
-	VAA1Dup             `xorm:"extends"`         // 病人资料
-	BCK03C       string `json:"department_name"` // 科室名称
-	VAE1                `xorm:"extends"`         // 主治医师、责任护士
-	VAO2                `xorm:"extends"`         // 诊断病症
-	NewOrder     int    `json:"new_order"`       // 新医嘱 ？
-	StoppedOrder int    `json:"stopped_order"`   // 已停医嘱 ？
-	Fever        int    `json:"fever"`           // 是否发热（最后一次测量体温>37.5°）
-	Operation    int    `json:"operation"`       // 是否待手术 ？
-	Arrearage    int    `json:"arrearage"`       // 是否欠费
-	NewPatient   int    `json:"new_patient"`     // 是否是新病人（VAA1.VAA73入院时间判断 今天早上8点到明天早上8点）
-	VAK20        int    `json:"prepay"`          // 预交金额
-	VAK21        int    `json:"aggregate_costs"` // 费用总额
-	AAG01        string `json:"nursing_degree"`  // 护理级别
-	Gender       string `json:"gender"`          // 性别(结果字符串)
-	HospitalDate string `json:"hospital_date"`   // 入院时间字符串
+	VAA1Dup                             `xorm:"extends"`         // 病人资料
+	BCK03C       string                 `json:"department_name"` // 科室名称
+	BCE03B       string                 `json:"nurse_name"`      // 责任护士ID
+	BCE03C       string                 `json:"physician_name"`  // 住院医师
+	VAE11        DatetimeWithoutSeconds `json:"-"`               // 入院时间
+	VAO2                                `xorm:"extends"`         // 诊断病症
+	NewOrder     int                    `json:"new_order"`       // 新医嘱 ？
+	StoppedOrder int                    `json:"stopped_order"`   // 已停医嘱 ？
+	Fever        int                    `json:"fever"`           // 是否发热（最后一次测量体温>37.5°）
+	Operation    int                    `json:"operation"`       // 是否待手术 ？
+	Arrearage    int                    `json:"arrearage"`       // 是否欠费
+	NewPatient   int                    `json:"new_patient"`     // 是否是新病人（VAA1.VAA73入院时间判断 今天早上8点到明天早上8点）
+	VAK20        int                    `json:"prepay"`          // 预交金额
+	VAK21        int                    `json:"aggregate_costs"` // 费用总额
+	AAG01        string                 `json:"nursing_degree"`  // 护理级别
+	Gender       string                 `json:"gender"`          // 性别(结果字符串)
+	HospitalDate string                 `json:"hospital_date"`   // 入院时间字符串
 }
 
 /*PC端通用 科室床位病人*/
 type PCBedDup struct {
-	VAA1Dup `xorm:"extends"` // 病人资料
-	BCK03C       string      // 病区名
-	VAO2    `xorm:"extends"` // 诊断病症
-	AAG01        string      // 护理级别
-	Gender       string      // 性别(结果字符串)
-	HospitalDate string      // 入院时间字符串
+	VAA1Dup                             `xorm:"extends"`       // 病人资料
+	BCK03C       string                                        // 病区名
+	VAO2                                `xorm:"extends"`       // 诊断病症
+	AAG01        string                                        // 护理级别
+	VAE11        DatetimeWithoutSeconds `json:"hospital_date"` // 入院时间
+	Gender       string                                        // 性别(结果字符串)
+	HospitalDate string                                        // 入院时间字符串
 	//BCK01C       int      // 病区ID
 	//BCK03        string   // 科室名称
 }
 
 /*病人资料表*/
 type VAA1 struct {
-	VAA01  int64                  `json:"patient_id"`    // 病人ID
-	VAA04  string                 `json:"hosp_num"`      // 住院号
-	VAA05  string                 `json:"name"`          // 姓名
-	ABW01  string                 `json:"sex"`           // 性别 1,男  2,女
-	VAA10  int                    `json:"age"`           // 年龄
-	BCK01C int                    `json:"department_id"` // 病区ID
-	VAA73  DatetimeWithoutSeconds `json:"hospital_date"` // 入院时间
-	BCQ04  string                 `json:"bed_coding"`    // 床号 BCQ1表
-	ABQ02  string                 `json:"nation"`        // 民族
+	VAA01  int64  `json:"patient_id"`    // 病人ID
+	VAA04  string `json:"hosp_num"`      // 住院号
+	VAA05  string `json:"name"`          // 姓名
+	ABW01  string `json:"sex"`           // 性别 1,男  2,女
+	VAA10  int    `json:"age"`           // 年龄
+	BCK01C int    `json:"department_id"` // 病区ID
+	BCQ04  string `json:"bed_coding"`    // 床号 BCQ1表
+	ABQ02  string `json:"nation"`        // 民族
 	//BCK01B int          `json:"department_id"` // 科室ID  BCK1表
 }
 
@@ -104,11 +106,13 @@ func QueryDepartmentBedList(BCK01 int) ([]Beds, error) {
 			patient.BCQ04 = bed.BCQ04
 
 			// 病人资料
-			_, err = fit.MySqlEngine().SQL("select VAA04, VAA05, ABW01, ABQ02, VAA10, VAA73 from VAA1 where BCK01C = ? and VAA01 = ? order by VAA73 desc", bed.BCK01A, bed.VAA01).Get(&patient)
+			_, err = fit.MySqlEngine().SQL("select VAA04, VAA05, ABW01, ABQ02, VAA10 from VAA1 where VAA01 = ? order by VAA73 desc", bed.VAA01).Get(&patient)
 			// 1.判断是否发热
-			_, err = fit.MySqlEngine().SQL("select (value > 37.5) as Fever from (SELECT HeadType,PatientId,TestTime,value from NurseChat UNION ALL SELECT HeadType,PatientId,TestTime,value from TemperatrureChat) alias WHERE HeadType = 1 and PatientId = ? order by testtime desc limit 1",bed.VAA01).Get(&patient)
+			_, err = fit.MySqlEngine().SQL("select (value > 37.5) as Fever from (SELECT HeadType,PatientId,TestTime,value from NurseChat UNION ALL SELECT HeadType,PatientId,TestTime,value from TemperatrureChat) alias WHERE HeadType = 1 and PatientId = ? and value != '' order by testtime desc limit 1", bed.VAA01).Get(&patient)
 
-			hospitalDate := patient.VAA73.ParseToSecond()
+			// 4.查询护理级别
+			_, err = fit.SQLServerEngine().SQL("select BBY1.BCF01 as AAG01,VAE1.VAE11 from VAE1, BBY1 where VAE1.VAA01 = ? and VAE1.VAE44 in (2,1) and BBY1.BBY01 = VAE1.AAG01 order by VAE1.VAE11 desc", bed.VAA01).Get(&patient)
+			hospitalDate := patient.VAE11.ParseToSecond()
 			// 2.判断是否欠费 (10.25暂时不做，查不到准确的费用数据)
 			//if patient.VAK20 < patient.VAK21 {
 			//	patient.Arrearage = 1
@@ -122,7 +126,7 @@ func QueryDepartmentBedList(BCK01 int) ([]Beds, error) {
 
 			// 3.判断是否为新病人
 			timeNow := time.Now()
-			hospital_date := time.Time(patient.VAA73)
+			hospital_date := time.Time(patient.VAE11)
 			// 当前系统时间大于8点（比较今天8点）
 			if timeNow.Hour() > 8 {
 				reference := time.Date(timeNow.Year(), timeNow.Month(), timeNow.Day(), 8, 0, 0, 0, time.Local)
@@ -139,14 +143,12 @@ func QueryDepartmentBedList(BCK01 int) ([]Beds, error) {
 					patient.NewPatient = 1
 				}
 			}
-			// 4.查询护理级别
-			_, err = fit.SQLServerEngine().SQL("select BBY1.BCF01 as AAG01 from VAE1, BBY1 where VAE1.BCK01C = ? and VAE1.VAE44 in ('1','2') and VAE1.VAA01 = ? and BBY1.BBY01 = VAE1.AAG01 order by VAE1.VAE11 desc", BCK01, bed.VAA01).Get(&patient)
 
 			// 5. 是否有新医嘱
-			patient.NewOrder = IsExistNewMedicalAdvice(bed.VAA01, hospitalDate)
+			patient.NewOrder = IsExistNewMedicalAdvice(bed.VAA01, BCK01, hospitalDate)
 
 			// 6. 是否有已停医嘱
-			patient.StoppedOrder = IsExistFinishedMedicalAdvice(bed.VAA01, hospitalDate)
+			patient.StoppedOrder = IsExistFinishedMedicalAdvice(bed.VAA01, BCK01)
 
 			// 7.判断性别
 			if patient.ABW01 == "1" || patient.ABW01 == "M" {
@@ -169,7 +171,7 @@ func QueryDepartmentBedList(BCK01 int) ([]Beds, error) {
 /*返回病人列表，包括病人ID，床位，姓名，科室ID*/
 func FetchInpatientWard(BCK01 int) []InpatientWard {
 	bedArray := make([]InpatientWard, 0)
-	fit.SQLServerEngine().SQL("select b.VAA01, b.BCQ04, a.BCK01C, a.VAA05 from BCQ1 b left join VAA1 a on a.VAA01 = b.VAA01 where b.BCK01A = ? and b.VAA01 != 0 order by b.ROWNR", BCK01).Find(&bedArray)
+	fit.SQLServerEngine().SQL("select b.VAA01, b.BCQ04, b.BCK01A as BCK01C, a.VAA05 from BCQ1 b left join VAA1 a on a.VAA01 = b.VAA01 where b.BCK01A = ? and b.VAA01 != 0 order by b.ROWNR", BCK01).Find(&bedArray)
 	return bedArray
 }
 
@@ -196,12 +198,12 @@ func QueryDepartmentBeds(BCK01 int, showEmpty bool) ([]PCBedDup, error) {
 			patient.BCK03C = bck.BCK03
 			patient.BCQ04 = bed.BCQ04
 			// 1.查询病人资料
-			_, err = fit.MySqlEngine().SQL("select VAA04, VAA05, ABW01, ABQ02, VAA10, VAA73 from VAA1 where BCK01C = ? and VAA01 = ? order by VAA73 desc", bed.BCK01A, bed.VAA01).Get(&patient)
-			patient.HospitalDate = patient.VAA73.ParseToMinute()
-			hospitalDate := patient.VAA73.ParseToSecond()
-
+			_, err = fit.MySqlEngine().SQL("select VAA04, VAA05, ABW01, ABQ02, VAA10 from VAA1 where VAA01 = ? order by VAA73 desc", bed.VAA01).Get(&patient)
 			// 医生、护士、护理级别
-			_, err = fit.SQLServerEngine().SQL("select VAE1.BCE03B, VAE1.BCE03C, BBY1.BCF01 as AAG01 from VAE1, BBY1 where VAE1.BCK01C = ? and VAE1.VAE44 in ('1','2') and VAE1.VAA01 = ? and BBY1.BBY01 = VAE1.AAG01 order by VAE1.VAE11 desc", BCK01, bed.VAA01).Get(&patient)
+			_, err = fit.SQLServerEngine().SQL("select VAE1.BCE03B, VAE1.BCE03C, VAE1.VAE11, BBY1.BCF01 as AAG01 from VAE1, BBY1 where VAE1.VAA01 = ? and VAE1.VAE44 in (2,1) and BBY1.BBY01 = VAE1.AAG01 order by VAE1.VAE11 desc", bed.VAA01).Get(&patient)
+			patient.HospitalDate = patient.VAE11.ParseToMinute()
+			hospitalDate := patient.VAE11.ParseToSecond()
+
 			// 4. 查询诊断症状
 			_, err = fit.SQLServerEngine().SQL("select VAO2.VAO15 from VAO2 where VAO2.VAO19 > ? and VAO2.ACF01 = 2 and VAO2.VAA01 = ? order by VAO2.VAO19 desc", hospitalDate, bed.VAA01).Get(&patient)
 			// 5.判断性别
@@ -243,7 +245,6 @@ func GetDepartmentBedsByClassifying(BCK01 int, typeDup int) (map[string]interfac
 	t5 := 0
 
 	if length := len(bedArray); length != 0 {
-		t0 = length
 		// 获取科室名
 		bck := BCK1{}
 		_, err = fit.SQLServerEngine().SQL("select BCK03 from BCK1 where BCK01 = ?", BCK01).Get(&bck)
@@ -257,15 +258,15 @@ func GetDepartmentBedsByClassifying(BCK01 int, typeDup int) (map[string]interfac
 				patient.BCQ04 = bed.BCQ04
 
 				// 病人资料
-				_, err = fit.MySqlEngine().SQL("select VAA04, VAA05, ABW01, VAA10, VAA73, BDP02, ABQ02 from VAA1 where BCK01C = ? and VAA01 = ? order by VAA73 desc", bed.BCK01A, bed.VAA01).Get(&patient)
+				_, err = fit.MySqlEngine().SQL("select VAA04, VAA05, ABW01, VAA10, BDP02, ABQ02 from VAA1 where VAA01 = ? order by VAA73 desc", bed.VAA01).Get(&patient)
 				// 住院时间
-				patient.HospitalDate = patient.VAA73.ParseToMinute()
-				hospitalDate := patient.VAA73.ParseToSecond()
-
 				// 医生、护士、护理级别
-				_, err = fit.SQLServerEngine().SQL("select VAE1.BCE03B, VAE1.BCE03C, BBY1.BCF01 as AAG01 from VAE1, BBY1 where VAE1.BCK01C = ? and VAE1.VAE44 in ('1','2') and VAE1.VAA01 = ? and BBY1.BBY01 = VAE1.AAG01 order by VAE1.VAE11 desc", bed.BCK01A, bed.VAA01).Get(&patient)
+				_, err = fit.SQLServerEngine().SQL("select VAE1.BCE03B, VAE1.BCE03C, VAE1.VAE11, BBY1.BCF01 as AAG01 from VAE1, BBY1 where VAE1.VAA01 = ? and VAE1.VAE44 in (2,1) and BBY1.BBY01 = VAE1.AAG01 order by VAE1.VAE11 desc", bed.VAA01).Get(&patient)
+				patient.HospitalDate = patient.VAE11.ParseToMinute()
+				hospitalDate := patient.VAE11.ParseToSecond()
+
 				// 1.判断是否发热
-				_, err = fit.MySqlEngine().SQL("select (value > 37.5) as Fever from (SELECT HeadType,PatientId,TestTime,value from NurseChat UNION ALL SELECT HeadType,PatientId,TestTime,value from TemperatrureChat) alias WHERE HeadType = 1 and PatientId = ? order by testtime desc limit 1",bed.VAA01).Get(&patient)
+				_, err = fit.MySqlEngine().SQL("select (value > 37.5) as Fever from (SELECT HeadType,PatientId,TestTime,value from NurseChat UNION ALL SELECT HeadType,PatientId,TestTime,value from TemperatrureChat) alias WHERE HeadType = 1 and PatientId = ? and value != '' order by testtime desc limit 1", bed.VAA01).Get(&patient)
 
 				// 2.判断是否欠费 (10.25暂时不做，查不到准确的费用数据)
 				//_, err = fit.SQLServerEngine().SQL("select VAK20, VAK21 from VAK1 where VAA01 = ?", bed.VAA01).Get(&patient)
@@ -275,7 +276,7 @@ func GetDepartmentBedsByClassifying(BCK01 int, typeDup int) (map[string]interfac
 
 				// 3.判断是否为新病人
 				timeNow := time.Now()
-				hospital_date := time.Time(patient.VAA73)
+				hospital_date := time.Time(patient.VAE11)
 				// 当前系统时间大于8点（比较今天8点）
 				if timeNow.Hour() > 8 {
 					reference := time.Date(timeNow.Year(), timeNow.Month(), timeNow.Day(), 8, 0, 0, 0, time.Local)
@@ -294,10 +295,10 @@ func GetDepartmentBedsByClassifying(BCK01 int, typeDup int) (map[string]interfac
 				}
 
 				//// 5. 是否有新医嘱
-				patient.NewOrder = IsExistNewMedicalAdvice(bed.VAA01, hospitalDate)
+				patient.NewOrder = IsExistNewMedicalAdvice(bed.VAA01, BCK01, hospitalDate)
 
 				// 6. 是否有已停医嘱
-				patient.StoppedOrder = IsExistFinishedMedicalAdvice(bed.VAA01, hospitalDate)
+				patient.StoppedOrder = IsExistFinishedMedicalAdvice(bed.VAA01, BCK01)
 
 				// 7. 查询诊断症状
 				_, err = fit.SQLServerEngine().SQL("select VAO2.VAO15 from VAO2 where VAO2.VAO19 > ? and VAO2.ACF01 = 2 and VAO2.VAA01 = ? order by VAO2.VAO19 desc", hospitalDate, bed.VAA01).Get(&patient)
@@ -350,6 +351,7 @@ func GetDepartmentBedsByClassifying(BCK01 int, typeDup int) (map[string]interfac
 				if typeDup == 0 {
 					slice = append(slice, patient)
 				}
+				t0 += 1
 
 			} else if typeDup == 0 {
 				patient := PCBeds{}
