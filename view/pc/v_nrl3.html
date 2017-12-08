@@ -56,6 +56,7 @@
                         <input type="text" class="am-form-field  date-input" id="date1">
                         <span class="line">—</span>
                         <input type="text" class="am-form-field  date-input" id="date2">
+                        <div id="time-search-btn" class="btn-search">搜索</div>
                         <a class="all-btn" href="/pc/record/nrl3?pid={{.PInfo.VAA01}}">所有记录</a>
                     </div>
                     <div class="btn-group">
@@ -554,6 +555,7 @@
                                     <div class="cont-warp">
 
                                         <a class="save-btn" data-isjump="0" data-isnew="0"><span>保存</span></a>
+                                        <a class="cancel-btn"  data-isnew="0"><span>取消</span></a>
                                         <a class="edit-btn" data-id="{{$val.BCE01A}}">
                                             <i class="am-icon-pencil"></i><span>编辑</span>
                                         </a>
@@ -617,7 +619,7 @@
                         <div class="r">
                             <p class="tit">评估时机：</p>
                             <p class="txt">
-                                1. 结合患者的活动，在自然状态下评估，根据患者的耐受情况，一次或分时段 进行评估。
+                                1. 结合患者的活动，在自然状态下评估，根据患者的耐受情况，一次或分时段进行评估。
                             </p>
                             <p class="txt"> 2. 患者入院时进行首次评估，
                                 <60分时，每日评估一次，每日9点前完成。</p>
@@ -812,6 +814,7 @@
         <li class="bt-tit4">
         <div class="cont-warp">
         <a  class="save-btn" data-isjump="<%= isJump %>" data-isnew="1"><span>保存</span></a>
+        <a class="cancel-btn" data-isnew="1"><span>取消</span></a>
         <a  class="edit-btn">
         <i class="am-icon-pencil"></i><span>编辑</span>
         </a>
@@ -913,7 +916,8 @@
             }
             if (yId == userId) {
                 if ($('.list').find('ul.active').length > 0) {
-                    alert("请先保存信息")
+                    // alert("请先保存信息")
+                    jkyAlert("请先保存信息","no")
                 } else {
                     var $ul = $(this).parents('ul')
                     $ul.addClass("active")
@@ -922,7 +926,9 @@
                     // $ul.find('.tr11').find('.cont-warp').find('.sel-input').html($date)
                 }
             } else {
-                alert("您没有权限编辑！");
+                // alert("您没有权限编辑！");
+                jkyAlert("您没有权限编辑","no")
+
             }
 
 
@@ -989,38 +995,44 @@
                 })
                 //总共5个固定参数,如果没填长度就为5
                 if (num == 5) {
-                    alert("请填写内容！")
+                    // alert("请填写内容！")
+                    jkyAlert("请填写内容!","no")
                     return false;
                 }
                 req(api, data, function () {
-                    alert("保存成功")
-                    if ($this.data("isjump") != "1") {
-                        location.reload()
-                    } else {
-                        var baseurl = "/pc/record/nrl3?",
-                                index = parseInt({{.PageIndex}}) + 1,
-                                pid = parseInt({{.PInfo.VAA01}}),
-                                date1 = getURLParam("sdate"),
-                                date2 = getURLParam("edate"),
-                                urlStr = baseurl + "pid=" + pid + "&num=" + index;
+                    // alert("保存成功")
+                    jkyAlert("保存成功!","yes",function(){
+                        if ($this.data("isjump") != "1") {
+                            location.reload()
+                        } else {
+                            var baseurl = "/pc/record/nrl3?",
+                                    index = parseInt({{.PageIndex}}) + 1,
+                                    pid = parseInt({{.PInfo.VAA01}}),
+                                    date1 = getURLParam("sdate"),
+                                    date2 = getURLParam("edate"),
+                                    urlStr = baseurl + "pid=" + pid + "&num=" + index;
 
-                        if (date1) {
-                            urlStr = urlStr + "&sdate=" + date1
+                            if (date1) {
+                                urlStr = urlStr + "&sdate=" + date1
+                            }
+                            if (date2) {
+                                urlStr = urlStr + "&edate=" + date2
+                            }
+                            location.href = urlStr
                         }
-                        if (date2) {
-                            urlStr = urlStr + "&edate=" + date2
-                        }
-                        location.href = urlStr
-                    }
+                    })
 
                 })
 
             } else {
                 data.rid = $cont.data("rid")
                 req(api, data, function () {
-                    alert("修改成功")
-                    setDataText($cont)
-                    $cont.removeClass("active")
+                    // alert("修改成功")
+                    jkyAlert("修改成功","yes",function(){
+                        setDataText($cont)
+                        $cont.removeClass("active")
+                    })
+
                 })
 
             }
@@ -1058,7 +1070,7 @@
         function setDatavScore(data, $el) {
             var scoreVal = $.trim($el.find(".sel-input .sumFen").text())
             if (scoreVal) {
-                data.score = scoreVal
+                data.Score = scoreVal
             }
         }
 
@@ -1105,9 +1117,9 @@
                     return false
                 }
                 if (yId == userId) {
-                    var isDel = confirm("是否确认删除");
-                    var data = {}
-                    if (isDel) {
+                    // var isDel = confirm("是否确认删除");
+                    jkyConfirm("是否确认删除",function(){
+                        var data = {}
                         data.rid = rid;
                         $.ajax({
                             url: "/record/nr3/delete",
@@ -1130,9 +1142,12 @@
                             },
                             dataType: "json"
                         })
-                    }
+                    })
+
+
                 } else {
-                    alert("您没有权限删除！");
+                    // alert("您没有权限删除！");
+                    jkyAlert("您没有权限删除！","no")
                     return false
                 }
 
@@ -1278,7 +1293,7 @@
 
                     var a = new Date(value + " 00:00:00");
                     date1 = a.getTime();
-                    reloadSheet(date1, date2);
+                    // reloadSheet(date1, date2);
                 }
             });
             // var a=new Date("2017-08-02")
@@ -1297,10 +1312,13 @@
                     var a = new Date(value + " 00:00:00");
                     date2 = a.getTime();
                     console.log("date ", date1, date2)
-                    reloadSheet(date1, date2);
+                    // reloadSheet(date1, date2);
                 }
             });
 
+            $("#time-search-btn").on("click",function(){
+                reloadSheet();
+            })
 
             // 总页数
             var pagenum = {{.PageNum}};
@@ -1348,7 +1366,8 @@
 
             function reloadSheet() {
                 if ($(".data-col.active").length > 0) {
-                    alert("请先保存数据！");
+                    // alert("请先保存数据！");
+                    jkyAlert("请先保存数据！","no")
                     return false;
                 }
                 index = tempindex;
@@ -1375,7 +1394,8 @@
         // var datestr = nowstr;
         $(".btn.type2.createCol").on("click", function () {
             if ($(".data-col.active").length > 0) {
-                alert("请先保存数据！")
+                // alert("请先保存数据！")
+                jkyAlert("请先保存数据！","no")
                 return false;
             }
 
@@ -1439,6 +1459,15 @@
                 $(el).parents("li").find(".txt").text($(el).text())
             })
         }
+
+
+        $("body").on("click",".cancel-btn",function(){
+            if($(this).data("isnew") && $(this).data("isnew") !="0"){
+                location.reload()
+            }else{
+                $(this).parents(".data-col").removeClass("active")
+            }
+        })
     </script>
 
     </body>

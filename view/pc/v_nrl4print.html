@@ -119,7 +119,7 @@
                             "        <table width=\"1064\" height=\"1127\"  border=\"1\"  cellspacing=\"0\" bordercolor=\"#666666\">\n" +
                             "            <tr>\n" +
                             "                <td width=\"134\" rowspan=\"2\"><div align=\"center\" class=\"STYLE2\">项目</div></td>\n" +
-                            "                <td width=\"42\" rowspan=\"2\"><div align=\"center\" class=\"STYLE2\">评估</div></td>\n" +
+                            "                <td width=\"42\" rowspan=\"2\"><div align=\"center\" class=\"STYLE2\">评分</div></td>\n" +
                             "                <td width=\"263\" rowspan=\"2\"><div align=\"center\">评估标准</div></td>\n" +
                             "                <td height=\"37\" colspan=\"6\"><div align=\"center\">评估日期</div></td>\n" +
                             "            </tr>\n" +
@@ -324,11 +324,13 @@
                             "                <td width=\"95\" height=\"50\"><div align=\"center\">"+ (datas[i * pgeDataNum +5].BCE03A||" ") +"</div></td>\n" +
                             "            </tr>\n" +
                             "        </table>\n" +
-                            "        <p class=\"tit\">评分方案：≤ 6分无风险；7~10分为低危（关注病情 变化，随时评估）；11~14分为中危（第一周评估2次， 此后4周内每周评估一次，之后每月评估一次）；</p>\n" +
-                            "        <p class=\"tit\">≥15 分为高危（手术后3天内每天评估1次，之后接中危 病人评估）</p>\n" +
-                            "        <p class=\"tit\">评估时机：患者入院24h 内完成</p>\n" +
+                            "<p class=\"tit\">评分方案：≤6 分无风险；7~10 分为低危(关注病情变化，随时评估)；11~14分为中危(第一周评估2次，此后4周内每周评估一次，之后每月评估一次)；≥15 分为高危(手术后3天内每天评估1次，之后接中危 病人评估)</p>" +
+                            "<p class=\"tit\">评估时机：患者入院24h内完成</p>" +
                             "    </div>\n" +
                             "</div></div>";
+
+
+
                 }
                $('body').html(html)
             }
@@ -361,7 +363,7 @@
         <table width="1064" height="1127"  border="1"  cellspacing="0" bordercolor="#666666">
             <tr>
                 <td width="134" rowspan="2"><div align="center" class="STYLE2">项目</div></td>
-                <td width="42" rowspan="2"><div align="center" class="STYLE2">评估</div></td>
+                <td width="42" rowspan="2"><div align="center" class="STYLE2">评分</div></td>
                 <td width="263" rowspan="2"><div align="center">评估标准</div></td>
                 <td height="37" colspan="6"><div align="center">评估日期</div></td>
             </tr>
@@ -566,9 +568,8 @@
                 <td width="95" height="50"><div align="center"></div></td>
             </tr>
         </table>
-        <p class="tit">评分方案：≤ 6分无风险；7~10分为低危（关注病情 变化，随时评估）；11~14分为中危（第一周评估2次， 此后4周内每周评估一次，之后每月评估一次）；</p>
-        <p class="tit">≥15 分为高危（手术后3天内每天评估1次，之后接中危 病人评估）</p>
-        <p class="tit">评估时机：患者入院24h 内完成</p>
+        <p class="tit">评分方案：≤6 分无风险；7~10 分为低危(关注病情变化，随时评估)；11~14分为中危(第一周评估2次，此后4周内每周评估一次，之后每月评估一次)；≥15 分为高危(手术后3天内每天评估1次，之后接中危 病人评估)</p>
+        <p class="tit">评估时机：患者入院24h内完成</p>
     </div>
 </div>
 </div>

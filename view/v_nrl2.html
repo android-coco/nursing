@@ -1236,7 +1236,7 @@
     </div>
 
     <div class="m-autograph2">
-        <span class="tit">审核护士签名：</span>
+        <span class="tit">审核人签名：</span>
         <input class="m-input-txt type2" disabled id="qname" value="{{.NRL.NRL39C}}">
     </div>
 </div>
@@ -1317,6 +1317,83 @@
         })
     }
 
+
+    function getName(){
+        var val = $.trim($("#qname").val()) || null;
+        return val;
+    }
+    function setName(data){
+        var rid = {{.NRL.ID}}
+        var reqData = {
+            "nrltype":"2",
+            "rid": rid
+        }
+        var api = "/record/nrl/updatechecker"
+        if(rid){
+            data= $.trim(data)
+            var now =new Date()
+            if(data){
+                reqData["nurseName"] = data;
+                reqData["datetime"] = fromatDate(now).date+" "+fromatDate(now).time +":00";
+                req(api,reqData,function(resData){
+                    jky.util.toast("修改成功")
+                    $("#qname").val(data)
+                })
+            }else{
+                jky.util.toast("不能填空")
+            }
+        }else{
+            jky.util.toast("不存在rid")
+        }
+    }
+
+
+    function req(api,data,cb) {
+        $.ajax({
+            url: api,
+            data: data,
+            type: "POST",
+            success: function (data) {
+                console.log(data);
+                if (data) {
+                    switch (data.result) {
+                        case 0:
+                            cb();
+                            break;
+                        default:
+                            // alert(data.errmsg)
+                            jkyAlert(data.errmsg,"no")
+                    }
+                }
+            },
+            error: function (e) {
+                console.log("ajax err:", e)
+            },
+            dataType: "json"
+        })
+
+    }
+
+
+    function fromatDate(date){
+        var res = {};
+        var nowD = Date();
+        if(date){
+            nowD= new Date(date);
+        }else{
+            nowD = new Date();
+        }
+        res.date = nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
+        res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
+        return res
+    }
+    function addZero(i) {
+        if (i < 10) {
+            return "0" + i;
+        } else {
+            return i;
+        }
+    }
 </script>
 
 </body>

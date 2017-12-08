@@ -61,7 +61,8 @@ body {
   cursor: pointer;
 }
 .hd_tit .r_menu_list .more_btn,
-.hd_tit .r_menu_list .setup_btn {
+.hd_tit .r_menu_list .setup_btn,
+.hd_tit .r_menu_list .tv_btn {
   float: left;
   cursor: pointer;
   width: 100px;
@@ -70,11 +71,13 @@ body {
   font-size: 14px;
 }
 .hd_tit .r_menu_list .more_btn img,
-.hd_tit .r_menu_list .setup_btn img {
+.hd_tit .r_menu_list .setup_btn img,
+.hd_tit .r_menu_list .tv_btn img {
   width: 26px;
 }
 .hd_tit .r_menu_list .more_btn .child_menu,
-.hd_tit .r_menu_list .setup_btn .child_menu {
+.hd_tit .r_menu_list .setup_btn .child_menu,
+.hd_tit .r_menu_list .tv_btn .child_menu {
   display: none;
   background-color: #0072e7;
   width: 100%;
@@ -83,20 +86,24 @@ body {
   position: absolute;
 }
 .hd_tit .r_menu_list .more_btn .child_menu a,
-.hd_tit .r_menu_list .setup_btn .child_menu a {
+.hd_tit .r_menu_list .setup_btn .child_menu a,
+.hd_tit .r_menu_list .tv_btn .child_menu a {
   color: #fff;
   display: block;
 }
 .hd_tit .r_menu_list .more_btn .child_menu a:hover,
-.hd_tit .r_menu_list .setup_btn .child_menu a:hover {
+.hd_tit .r_menu_list .setup_btn .child_menu a:hover,
+.hd_tit .r_menu_list .tv_btn .child_menu a:hover {
   color: #fde802;
 }
 .hd_tit .r_menu_list .more_btn .parent_menu,
-.hd_tit .r_menu_list .setup_btn .parent_menu {
+.hd_tit .r_menu_list .setup_btn .parent_menu,
+.hd_tit .r_menu_list .tv_btn .parent_menu {
   padding-left: 26px;
 }
 .hd_tit .r_menu_list .more_btn .parent_menu:after,
-.hd_tit .r_menu_list .setup_btn .parent_menu:after {
+.hd_tit .r_menu_list .setup_btn .parent_menu:after,
+.hd_tit .r_menu_list .tv_btn .parent_menu:after {
   width: 26px;
   height: 26px;
   content: " ";
@@ -106,26 +113,50 @@ body {
   top: 10px;
 }
 .hd_tit .r_menu_list .more_btn:hover ul,
-.hd_tit .r_menu_list .setup_btn:hover ul {
+.hd_tit .r_menu_list .setup_btn:hover ul,
+.hd_tit .r_menu_list .tv_btn:hover ul {
   display: block;
 }
 .hd_tit .r_menu_list .more_btn:hover .parent_menu,
-.hd_tit .r_menu_list .setup_btn:hover .parent_menu {
+.hd_tit .r_menu_list .setup_btn:hover .parent_menu,
+.hd_tit .r_menu_list .tv_btn:hover .parent_menu {
+  color: #fde802;
+}
+.hd_tit .r_menu_list .more_btn:hover .parent_menu > a,
+.hd_tit .r_menu_list .setup_btn:hover .parent_menu > a,
+.hd_tit .r_menu_list .tv_btn:hover .parent_menu > a {
   color: #fde802;
 }
 .hd_tit .r_menu_list .more_btn:hover.more_btn .parent_menu:after,
-.hd_tit .r_menu_list .setup_btn:hover.more_btn .parent_menu:after {
+.hd_tit .r_menu_list .setup_btn:hover.more_btn .parent_menu:after,
+.hd_tit .r_menu_list .tv_btn:hover.more_btn .parent_menu:after {
   background-image: url(../../images/admin_pc/icon31.png);
 }
 .hd_tit .r_menu_list .more_btn:hover.setup_btn .parent_menu:after,
-.hd_tit .r_menu_list .setup_btn:hover.setup_btn .parent_menu:after {
+.hd_tit .r_menu_list .setup_btn:hover.setup_btn .parent_menu:after,
+.hd_tit .r_menu_list .tv_btn:hover.setup_btn .parent_menu:after {
   background-image: url(../../images/admin_pc/icon32.png);
+}
+.hd_tit .r_menu_list .more_btn:hover.tv_btn .parent_menu:after,
+.hd_tit .r_menu_list .setup_btn:hover.tv_btn .parent_menu:after,
+.hd_tit .r_menu_list .tv_btn:hover.tv_btn .parent_menu:after {
+  background-image: url(../../images/admin_pc/tv_nor2.png);
 }
 .hd_tit .r_menu_list .more_btn .parent_menu:after {
   background-image: url(../../images/admin_pc/icon29.png);
 }
 .hd_tit .r_menu_list .setup_btn .parent_menu:after {
   background-image: url(../../images/admin_pc/icon30.png);
+}
+.hd_tit .r_menu_list .tv_btn .parent_menu a {
+  color: #fff;
+}
+.hd_tit .r_menu_list .tv_btn .parent_menu:after {
+  background-image: url(../../images/admin_pc/tv_nor.png);
+  left: 8px;
+  width: 24px;
+  height: 24px;
+  top: 10px;
 }
 .hd_tit .jky_dropdown {
   height: 100%;
@@ -202,6 +233,7 @@ body {
 .top48 .jky-class-bar {
   overflow: auto;
   margin-left: -20px;
+  min-height: 44px;
 }
 .top48 .jky-class-bar li {
   float: left;
@@ -458,7 +490,7 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 114, 231, 0.9);
+  background-color: rgba(0, 114, 231, 0.6);
   -webkit-transition: .2s all;
   -moz-transition: .2s all;
   transition: .2s all;
@@ -697,6 +729,11 @@ body {
 @media only screen and (max-width: 900px) {
   .jky-box-list li {
     width: 100%;
+  }
+}
+@media only screen and (max-width: 1024px) {
+  .doctorSplit .hd-bar .date-box .sel-filter-box span.pd-20 {
+    margin-left: 0 !important;
   }
 }
 .login-body {
@@ -1125,6 +1162,19 @@ body {
   padding: 10px 0;
   height: 100%;
   position: relative;
+}
+.cont-batchInput .search-btn {
+  background-color: #fff;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  vertical-align: middle;
+  display: inline-block;
+  margin-left: 10px;
+  padding: 0 10px;
+  border-radius: 4px;
+  line-height: 25px;
+  color: #333;
+  cursor: pointer;
 }
 .cont-batchInput .hd-bar {
   overflow: auto;
@@ -2417,6 +2467,20 @@ body {
 .doctorSearch2 .doctorSearch-box .cont-table tbody td.tc {
   text-align: center;
   padding: 0;
+}
+.doctorSearch .doctorSearch-box .cont-table tbody .yz-item,
+.doctorSearch2 .doctorSearch-box .cont-table tbody .yz-item {
+  padding-left: 0;
+}
+.doctorSearch .doctorSearch-box .cont-table tbody .yz-item p,
+.doctorSearch2 .doctorSearch-box .cont-table tbody .yz-item p {
+  padding-left: 8px;
+  line-height: 48px;
+  border-bottom: 1px solid #ddd;
+}
+.doctorSearch .doctorSearch-box .cont-table tbody .yz-item p:nth-last-child(1),
+.doctorSearch2 .doctorSearch-box .cont-table tbody .yz-item p:nth-last-child(1) {
+  border-bottom: 0;
 }
 .doctorSearch .doctorSearch-box .cont-table .td10 .r,
 .doctorSearch2 .doctorSearch-box .cont-table .td10 .r {
@@ -4049,7 +4113,7 @@ body {
 .doc-input1 .doc-input2-cont .tit-warp {
   width: 100%;
   position: relative;
-  top: -118px;
+  top: -126px;
 }
 .doc-input1 .doc-input2-cont .tit-bar {
   width: 100%;
@@ -4104,7 +4168,7 @@ body {
 .doc-input1 .doc-input2-cont .scroll-box {
   height: 100%;
   position: relative;
-  top: -118px;
+  top: -131px;
   bottom: 140px;
   overflow: auto;
 }
@@ -4285,6 +4349,12 @@ body {
 .doc-input1 .doc-input2-cont .scroll-box .doc-cont .sel-box .list ul.active .edit-btn {
   display: none;
 }
+.doc-input1 .doc-input2-cont .scroll-box .doc-cont .sel-box .list ul.active .del-btn {
+  display: none;
+}
+.doc-input1 .doc-input2-cont .scroll-box .doc-cont .sel-box .list ul.active .cancel-btn {
+  display: block;
+}
 .doc-input1 .doc-input2-cont .scroll-box .doc-cont .sel-box .list .tr11 .cont-warp {
   height: 45px;
 }
@@ -4322,6 +4392,14 @@ body {
   line-height: 32px;
 }
 .doc-input1 .doc-input2-cont .scroll-box .doc-cont .sel-box .list .save-btn span {
+  text-decoration: underline;
+}
+.doc-input1 .doc-input2-cont .scroll-box .doc-cont .sel-box .list .cancel-btn {
+  color: #333;
+  display: none;
+  line-height: 32px;
+}
+.doc-input1 .doc-input2-cont .scroll-box .doc-cont .sel-box .list .cancel-btn span {
   text-decoration: underline;
 }
 .doc-input1 .doc-input2-cont .scroll-box .doc-cont .sel-box .list .edit-btn {
@@ -4412,7 +4490,7 @@ body {
 .doc-input1 .doc-input3-cont .tit-warp {
   width: 100%;
   position: relative;
-  top: -118px;
+  top: -126px;
 }
 .doc-input1 .doc-input3-cont .tit-bar {
   width: 100%;
@@ -4467,7 +4545,7 @@ body {
 .doc-input1 .doc-input3-cont .scroll-box {
   height: 100%;
   position: relative;
-  top: -118px;
+  top: -131px;
   bottom: 140px;
   overflow: auto;
 }
@@ -4657,7 +4735,13 @@ body {
 .doc-input1 .doc-input3-cont .scroll-box .doc-cont .sel-box .list ul.active .save-btn {
   display: block;
 }
+.doc-input1 .doc-input3-cont .scroll-box .doc-cont .sel-box .list ul.active .cancel-btn {
+  display: block;
+}
 .doc-input1 .doc-input3-cont .scroll-box .doc-cont .sel-box .list ul.active .edit-btn {
+  display: none;
+}
+.doc-input1 .doc-input3-cont .scroll-box .doc-cont .sel-box .list ul.active .del-btn {
   display: none;
 }
 .doc-input1 .doc-input3-cont .scroll-box .doc-cont .sel-box .list .tr11 .cont-warp {
@@ -4696,6 +4780,14 @@ body {
   line-height: 32px;
 }
 .doc-input1 .doc-input3-cont .scroll-box .doc-cont .sel-box .list .save-btn span {
+  text-decoration: underline;
+}
+.doc-input1 .doc-input3-cont .scroll-box .doc-cont .sel-box .list .cancel-btn {
+  color: #333;
+  display: none;
+  line-height: 32px;
+}
+.doc-input1 .doc-input3-cont .scroll-box .doc-cont .sel-box .list .cancel-btn span {
   text-decoration: underline;
 }
 .doc-input1 .doc-input3-cont .scroll-box .doc-cont .sel-box .list .edit-btn {
@@ -4786,7 +4878,7 @@ body {
 .doc-input1 .doc-input4-cont .tit-warp {
   width: 100%;
   position: relative;
-  top: -118px;
+  top: -126px;
 }
 .doc-input1 .doc-input4-cont .tit-bar {
   width: 100%;
@@ -4841,7 +4933,7 @@ body {
 .doc-input1 .doc-input4-cont .scroll-box {
   height: 100%;
   position: relative;
-  top: -118px;
+  top: -131px;
   bottom: 140px;
   overflow: auto;
 }
@@ -4930,6 +5022,12 @@ body {
 .doc-input1 .doc-input4-cont .scroll-box .doc-cont .doc-table .cont .col-cont.active .save-btn {
   display: block;
 }
+.doc-input1 .doc-input4-cont .scroll-box .doc-cont .doc-table .cont .col-cont.active .cancel-btn {
+  display: block;
+}
+.doc-input1 .doc-input4-cont .scroll-box .doc-cont .doc-table .cont .col-cont.active .del-btn {
+  display: none;
+}
 .doc-input1 .doc-input4-cont .scroll-box .doc-cont .doc-table .cont .col-cont li {
   height: 38px;
   border-bottom: 1px solid #ddd;
@@ -4955,6 +5053,13 @@ body {
   display: none;
 }
 .doc-input1 .doc-input4-cont .scroll-box .doc-cont .doc-table .cont .col-cont li .save-btn span {
+  text-decoration: underline;
+}
+.doc-input1 .doc-input4-cont .scroll-box .doc-cont .doc-table .cont .col-cont li .cancel-btn {
+  color: #333;
+  display: none;
+}
+.doc-input1 .doc-input4-cont .scroll-box .doc-cont .doc-table .cont .col-cont li .cancel-btn span {
   text-decoration: underline;
 }
 .doc-input1 .doc-input4-cont .scroll-box .doc-cont .doc-table .cont .col-cont li .edit-btn {
@@ -5136,7 +5241,7 @@ body {
 .doc-input1 .doc-input5-cont .tit-warp {
   width: 100%;
   position: relative;
-  top: -118px;
+  top: -126px;
 }
 .doc-input1 .doc-input5-cont .tit-bar {
   width: 100%;
@@ -5191,7 +5296,7 @@ body {
 .doc-input1 .doc-input5-cont .scroll-box {
   height: 100%;
   position: relative;
-  top: -118px;
+  top: -131px;
   bottom: 140px;
   overflow: auto;
 }
@@ -5349,6 +5454,12 @@ body {
 .doc-input1 .doc-input5-cont .scroll-box .sel-box .list .item .cont-input > ul.active .save-btn {
   display: block;
 }
+.doc-input1 .doc-input5-cont .scroll-box .sel-box .list .item .cont-input > ul.active .cancel-btn {
+  display: block;
+}
+.doc-input1 .doc-input5-cont .scroll-box .sel-box .list .item .cont-input > ul.active .del-btn {
+  display: none;
+}
 .doc-input1 .doc-input5-cont .scroll-box .sel-box .list .item .cont-input > ul.active .first:hover .edit-btn2 {
   display: none;
 }
@@ -5442,6 +5553,13 @@ body {
 .doc-input1 .doc-input5-cont .scroll-box .sel-box .list .item .cont-input > ul .save-btn span {
   text-decoration: underline;
 }
+.doc-input1 .doc-input5-cont .scroll-box .sel-box .list .item .cont-input > ul .cancel-btn {
+  color: #333;
+  display: none;
+}
+.doc-input1 .doc-input5-cont .scroll-box .sel-box .list .item .cont-input > ul .cancel-btn span {
+  text-decoration: underline;
+}
 .doc-input1 .doc-input5-cont .scroll-box .sel-box .list .item .cont-input > ul .edit-btn {
   color: #ed8c02;
   font-size: 14px;
@@ -5514,7 +5632,7 @@ body {
 .doc-input1 .doc-input6-cont .tit-warp {
   width: 100%;
   position: relative;
-  top: -118px;
+  top: -126px;
 }
 .doc-input1 .doc-input6-cont .tit-bar {
   width: 100%;
@@ -5569,7 +5687,7 @@ body {
 .doc-input1 .doc-input6-cont .scroll-box {
   height: 100%;
   position: relative;
-  top: -118px;
+  top: -131px;
   bottom: 140px;
   overflow: auto;
 }
@@ -5839,6 +5957,12 @@ body {
 .doc-input1 .doc-input6-cont .scroll-box .doc-cont .sel-box .list ul.active .txt {
   display: none;
 }
+.doc-input1 .doc-input6-cont .scroll-box .doc-cont .sel-box .list ul.active .del-btn {
+  display: none;
+}
+.doc-input1 .doc-input6-cont .scroll-box .doc-cont .sel-box .list ul.active .cancel-btn {
+  display: block;
+}
 .doc-input1 .doc-input6-cont .scroll-box .doc-cont .sel-box .list ul.active .save-btn {
   display: block;
 }
@@ -5969,6 +6093,14 @@ body {
 .doc-input1 .doc-input6-cont .scroll-box .doc-cont .sel-box .list .save-btn span {
   text-decoration: underline;
 }
+.doc-input1 .doc-input6-cont .scroll-box .doc-cont .sel-box .list .cancel-btn {
+  color: #333;
+  display: none;
+  line-height: 32px;
+}
+.doc-input1 .doc-input6-cont .scroll-box .doc-cont .sel-box .list .cancel-btn span {
+  text-decoration: underline;
+}
 .doc-input1 .doc-input6-cont .scroll-box .doc-cont .sel-box .list .edit-btn {
   color: #ed8c02;
   font-size: 14px;
@@ -6059,7 +6191,7 @@ body {
 .doc-input1 .doc-input7-cont .tit-warp {
   width: 100%;
   position: relative;
-  top: -118px;
+  top: -126px;
 }
 .doc-input1 .doc-input7-cont .tit-bar {
   width: 100%;
@@ -6114,7 +6246,7 @@ body {
 .doc-input1 .doc-input7-cont .scroll-box {
   height: 100%;
   position: relative;
-  top: -118px;
+  top: -131px;
   bottom: 140px;
   overflow: auto;
 }
@@ -6476,6 +6608,12 @@ body {
 .doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list ul.active .edit-btn {
   display: none;
 }
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list ul.active .del-btn {
+  display: none;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list ul.active .cancel-btn {
+  display: block;
+}
 .doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list ul.active .m-input-radio2 .icon {
   border: 1px solid #fef7eb;
   cursor: pointer;
@@ -6512,6 +6650,14 @@ body {
   line-height: 32px;
 }
 .doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list .save-btn span {
+  text-decoration: underline;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list .cancel-btn {
+  color: #333;
+  display: none;
+  line-height: 32px;
+}
+.doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list .cancel-btn span {
   text-decoration: underline;
 }
 .doc-input1 .doc-input7-cont .scroll-box .doc-cont .sel-box .list .edit-btn {
@@ -6645,7 +6791,7 @@ body {
   font-size: 16px;
 }
 .doc-input1 .doc-input8-cont .scroll-box {
-  height: 100%;
+  height: auto;
   position: relative;
   top: -96px;
   bottom: 140px;
@@ -6795,6 +6941,13 @@ body {
 .doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table tr.active .cont-warp {
   display: block;
 }
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table tr.active .cancel-btn {
+  display: inline-block;
+  padding-left: 20px;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table tr.active .del-btn {
+  display: none;
+}
 .doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table tr.active .show-txt {
   display: none;
 }
@@ -6903,6 +7056,15 @@ body {
 }
 .doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table .w46 {
   width: 46px;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table .rl-input,
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table .cl-input {
+  width: 70px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  margin: 10px auto 0 auto;
+  line-height: 22px;
+  text-align: center;
 }
 .doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table .sel-box {
   position: absolute;
@@ -7145,7 +7307,7 @@ body {
   border-color: #fea202;
   color: #fea202;
 }
-.layui-laydate .layui-laydate-list.laydate-time-list li:nth-child(3) {
+.layui-laydate .layui-laydate-list.laydate-time-list > li:nth-child(3) {
   display: none;
 }
 .layui-laydate .layui-laydate-list.laydate-time-list > li {
@@ -7343,13 +7505,17 @@ body {
 .m-modal .cont .main-box .l .sum-box {
   padding: 0 14px 0 48px;
   overflow: auto;
+  width: 100%;
+  float: left;
 }
 .m-modal .cont .main-box .l .sum-box ul {
   display: block;
-  width: 100%;
+  overflow: auto;
+  width: 50%;
+  float: left;
 }
 .m-modal .cont .main-box .l .sum-box ul li {
-  width: 50%;
+  width: 100%;
   float: left;
   font-size: 14px;
 }
@@ -7366,6 +7532,7 @@ body {
 }
 .m-modal .cont .main-box .l .bt {
   padding-top: 40px;
+  clear: both;
 }
 .m-modal .cont .main-box .l .bt .bar {
   padding-bottom: 10px;
@@ -7473,4 +7640,246 @@ body {
 }
 .noneClick {
   cursor: not-allowed;
+}
+.btn-search {
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  color: #333;
+  padding: 0 8px;
+  line-height: 30px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+  cursor: pointer;
+}
+.sel-box .data-col:not(.active) .auditingWarp:hover .auditingName {
+  display: block;
+}
+.col-cont:not(.active) .auditingWarp:hover .auditingName {
+  display: block;
+}
+.auditingWarp {
+  position: relative;
+}
+.auditingWarp .txt {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  overflow: hidden;
+}
+.auditingWarp .auditingName {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  display: none;
+  top: 0;
+  left: 0;
+  color: #ed8c02;
+  cursor: pointer;
+}
+.auditingWarp2 {
+  position: relative;
+  display: inline-block;
+}
+.auditingWarp2:hover .auditingName {
+  display: block;
+}
+.auditingWarp2 .auditingName {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: none;
+  top: 0;
+  left: 0;
+  color: #ed8c02;
+  cursor: pointer;
+  text-align: center;
+  line-height: 30px;
+}
+.tv-manage {
+  padding: 0 0 0 10px;
+}
+.tv-manage .tit {
+  font-size: 16px;
+  color: #333;
+  line-height: 50px;
+}
+.tv-manage .tit-bar {
+  position: relative;
+  line-height: 24px;
+  font-size: 0;
+}
+.tv-manage .tit-bar .txt {
+  color: #0072e7;
+  font-size: 20px;
+  position: absolute;
+  left: 0;
+  background-color: #fff;
+  padding-right: 10px;
+}
+.tv-manage .tit-bar .line {
+  display: inline-block;
+  border-top: 1px solid #ddd;
+  width: 544px;
+  vertical-align: 6px;
+  margin-left: 14px;
+}
+.tv-manage .tit-bar .edit-btn,
+.tv-manage .tit-bar .save-btn,
+.tv-manage .tit-bar .cancel-btn {
+  font-size: 16px;
+  color: #434343;
+  display: inline-block;
+  width: 86px;
+  text-align: center;
+  line-height: 30px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.tv-manage .tit-bar .cancel-btn {
+  background-color: #eaecf2;
+}
+.tv-manage .tit-bar .cancel-btn {
+  background-color: #eaecf2;
+  display: none;
+}
+.tv-manage .tit-bar .save-btn {
+  background-color: #0072e7;
+  color: #fff;
+  display: none;
+}
+.tv-manage .pt30 {
+  padding-top: 30px;
+}
+.tv-manage .item-block.active .cancel-btn,
+.tv-manage .item-block.active .save-btn {
+  display: inline-block;
+}
+.tv-manage .item-block.active .edit-btn {
+  display: none;
+}
+.tv-manage .item-block.active .tabel-box tbody td {
+  border-left: 1px solid #dedede;
+}
+.tv-manage .item-block.active .tabel-box tbody td.del {
+  border-left: 1px solid #fff;
+}
+.tv-manage .item-block.active .tabel-box tbody td .txt {
+  display: none;
+}
+.tv-manage .item-block.active .tabel-box tbody td .input-box {
+  display: block;
+}
+.tv-manage .item-block.active .tabel-box tbody tr {
+  border-right: 1px solid #dedede;
+}
+.tv-manage .item-block.active .tabel-box tbody .no {
+  background-color: #f8f8f8;
+}
+.tv-manage .item-block.active .tabel-box .del-btn {
+  display: block;
+}
+.tv-manage .item-block.active .add-btn {
+  display: block;
+}
+.tv-manage .item-block.active .other-box .sel-box {
+  display: inline-block;
+}
+.tv-manage .item-block .tabel-box {
+  font-size: 16px;
+  margin-top: 10px;
+  padding-right: 10px;
+}
+.tv-manage .item-block .tabel-box table {
+  min-width: 760px;
+  width: 100%;
+}
+.tv-manage .item-block .tabel-box thead {
+  background-color: #eaecf2;
+  border: 1px solid #dedede;
+}
+.tv-manage .item-block .tabel-box thead th {
+  font-weight: normal;
+  padding-left: 10px;
+  line-height: 30px;
+  color: #333;
+}
+.tv-manage .item-block .tabel-box .td1 {
+  width: 145px;
+}
+.tv-manage .item-block .tabel-box .td2 {
+  min-width: 615px;
+}
+.tv-manage .item-block .tabel-box tbody tr {
+  height: 36px;
+  border-bottom: 1px solid #dedede;
+  border-right: 1px solid #fff;
+}
+.tv-manage .item-block .tabel-box tbody td {
+  color: #666;
+  min-height: 36px;
+  border-left: 1px solid #fff;
+}
+.tv-manage .item-block .tabel-box tbody td .txt {
+  padding: 0 10px;
+  word-break: break-all;
+}
+.tv-manage .item-block .tabel-box tbody td .input-box {
+  display: none;
+}
+.tv-manage .item-block .tabel-box tbody td .input-box .input-text {
+  width: 100%;
+  height: 35px;
+  border: 1px solid #fff;
+  padding: 0 10px;
+}
+.tv-manage .item-block .tabel-box tbody td .input-box .input-text::-webkit-input-placeholder {
+  color: #999;
+  font-size: 12px;
+}
+.tv-manage .item-block .tabel-box tbody td .input-box .input-text:hover {
+  border: 1px solid #0072e7;
+}
+.tv-manage .item-block .tabel-box tbody td .input-box .d-txt {
+  padding: 0 10px;
+  word-break: break-all;
+}
+.tv-manage .item-block .tabel-box .del-btn {
+  font-size: 16px;
+  color: #212121;
+  display: none;
+  text-align: center;
+}
+.tv-manage .item-block .add-btn {
+  display: none;
+}
+.tv-manage .item-block .add-btn a {
+  color: #212121;
+  font-size: 18px;
+  margin-top: 8px;
+  cursor: pointer;
+  display: inline-block;
+}
+.tv-manage .item-block .add-btn a img {
+  width: 21px;
+  height: 21px;
+  margin: 0 8px;
+  vertical-align: middle;
+}
+.tv-manage .item-block .other-box {
+  margin: 10px 0;
+}
+.tv-manage .item-block .other-box .sel-box {
+  display: none;
+}
+.tv-manage .item-block .other-box .sel-box select {
+  border: 1px solid #ddd;
+  height: 30px;
+  line-height: 30px;
 }

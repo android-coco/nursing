@@ -24,17 +24,19 @@
         margin: 0;
         font-size:12px;
     }
+    .disagnose{
+        width: 170px;
+    }
 </style>
 <body>
 <div>
     <div class="imgx"></div>
     <!--<img class="imgx" src="https://qr.api.cli.im/qr?data=124&level=H&transparent=false&bgcolor=%23ffffff&forecolor=%23000000&blockpixel=12&marginblock=1&logourl=&size=280&kid=cliim&key=26662b2f080feeb2da43226211b84364">-->
     <div class="warp">
-        <p>深圳万丰医院</p>
         <p>{{.Datas.Beds}} {{.Datas.Name}} {{.Datas.Sex}} {{.Datas.Age}}岁</p>
         <p>{{.Datas.ClassName}}</p>
         <p>ID:{{.Datas.Pid}}  &nbsp;&nbsp;&nbsp;&nbsp;{{.Datas.HospitalId}}</p>
-        <p>住院期间,请不要自行拆下腕带!</p>
+        <p class="disagnose">诊断:{{.Datas.Diagnose}}</p>
     </div>
 </div>
 

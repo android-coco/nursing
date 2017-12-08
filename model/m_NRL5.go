@@ -72,6 +72,7 @@ func (m *NRL5) UpdateData(id int64) (int64, error) {
 }
 
 func (m *NRL5) DeleteData(id int64) (int64, error) {
+	DeleteNRecords(id)
 	return fit.MySqlEngine().ID(id).Delete(m)
 }
 
@@ -81,6 +82,8 @@ func QueryNRL5(rid string) (NRL5, error) {
 	if err != nil {
 		return NRL5{}, err
 	} else {
+		nr5.DateStr = nr5.DateTime.Format("2006-01-02")
+		//nr5.TimeStr = nr5.DateTime.Format("15:04")
 		return nr5, nil
 	}
 }

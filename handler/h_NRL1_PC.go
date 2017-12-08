@@ -34,9 +34,9 @@ func (c PCNRL1Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Param
 		datestr2 = ""
 	} else {
 		datestr1 = time.Unix(date1/1000, 0).Format("2006-01-02 15:04:05")
-		datestr2 = time.Unix(date2/1000+60*60*24, 0).Format("2006-01-02 15:04:05")
+		datestr2 = time.Unix(date2/1000, 0).Format("2006-01-02 15:04:05")
 	}
-	fmt.Println("--------------:", datestr1, datestr2)
+	//fmt.Println("--------------:", datestr1, datestr2)
 	mods, errdata := model.GetNRL1Data(pid, datestr1, datestr2)
 	if errdata != nil {
 		fit.Logger().LogError("PCQueryNRL1Title error :", errdata)
@@ -112,16 +112,17 @@ func (c PCNRL1Controller) NRLIOStatistcs(w *fit.Response, r *fit.Request, p fit.
 	//timenow := time.Now().Format("2006-01-02 15:04:05")
 	//hospitalDate := patient.VAA73.ParseToSecond()
 
-	fmt.Printf("pinfo :%+v\n\n", pinfo)
-	fmt.Println("--- date", startDate, endDate)
+	//fmt.Printf("pinfo :%+v\n\n", pinfo)
+	//fmt.Println("--- date", startDate, endDate)
 	mods15, errdata1 := model.PCQueryNRLIntakeOutputData(pid, "15", startDate, endDate)
 	mods16, errdata2 := model.PCQueryNRLIntakeOutputData(pid, "16", startDate, endDate)
-	fmt.Println(mods15, mods16)
+	//fmt.Println(mods15, mods16)
 	if errdata1 != nil || errdata2 != nil {
 		c.RenderingJsonAutomatically(2, "数据查询出现错误")
 	} else {
 		var intakeA, intakeB, intakeC, intakeD, intakeTotal int
 		var outputA, outputB, outputC, outputTotal int
+		var intakeDArr, outputCArr []model.NRLData
 		for _, mod := range mods15 {
 			intvalue, errParse := strconv.Atoi(mod.Value)
 			if errParse != nil {
@@ -136,6 +137,7 @@ func (c PCNRL1Controller) NRLIOStatistcs(w *fit.Response, r *fit.Request, p fit.
 				intakeC += intvalue
 			case 4:
 				intakeD += intvalue
+				intakeDArr = append(intakeDArr, mod)
 			default:
 			}
 		}
@@ -153,6 +155,7 @@ func (c PCNRL1Controller) NRLIOStatistcs(w *fit.Response, r *fit.Request, p fit.
 				outputB += intvalue
 			case 3:
 				outputC += intvalue
+				outputCArr = append(outputCArr, mod)
 			default:
 			}
 		}
@@ -164,12 +167,14 @@ func (c PCNRL1Controller) NRLIOStatistcs(w *fit.Response, r *fit.Request, p fit.
 			"intakeB":     intakeB,
 			"intakeC":     intakeC,
 			"intakeD":     intakeD,
+			"intakeDArr":  intakeDArr,
 			"intakeTotal": intakeTotal,
 
 			"output":      mods16,
 			"outputA":     outputA,
 			"outputB":     outputB,
 			"outputC":     outputC,
+			"outputCArr":  outputCArr,
 			"outputTotal": outputTotal,
 		}
 		c.RenderingJson(0, "成功", datas)
@@ -204,8 +209,8 @@ func (c PCNRL1Controller) NRLIOTypeIn(w *fit.Response, r *fit.Request, p fit.Par
 		c.RenderingJsonAutomatically(3, "参数错误")
 		return
 	}
-	fmt.Printf("pinfo :%+v\n\n", pinfo)
-	fmt.Println("--- date", startDate, endDate)
+	//fmt.Printf("pinfo :%+v\n\n", pinfo)
+	//fmt.Println("--- date", startDate, endDate)
 	// 1输液2饮食3饮水4其他
 	intakeA := r.FormValue("intakeA")
 	intakeB := r.FormValue("intakeB")
@@ -241,19 +246,13 @@ func (c PCNRL1Controller) NRLIOTypeIn(w *fit.Response, r *fit.Request, p fit.Par
 		OutputCV:    outputCV,
 		OutputTotal: outputTotal,
 	}
-	fmt.Printf("io statistics :%+v\n\n", mod)
+	//fmt.Printf("io statistics :%+v\n\n", mod)
 	_, errinsert := mod.InsertData()
 	if errinsert != nil {
-		c.RenderingJsonAutomatically(2, "数据查询出现错误")
+		c.RenderingJsonAutomatically(2, "数据出现错误")
 	} else {
 		c.RenderingJson(0, "成功", []interface{}{})
 	}
 
-	//patient := pinfo[0]
-	//timenow := time.Now().Format("2006-01-02 15:04:05")
-	//hospitalDate := patient.VAA73.ParseToSecond()
-
-	//mods, errdata := model.PCQueryNRLIntakeOutputData(pid, startDate, endDate)
-	//fmt.Println(mods)
 
 }

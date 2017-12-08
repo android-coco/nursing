@@ -539,8 +539,8 @@
     <div class="m-time m-pd20">
         <span>记录时间</span>
         <div class="input">
-            <span class="date">{{.RecordDate}}</span>
-            <span class="time">{{.RecordTime}}</span>
+            <span class="date">{{.NRL.DateStr}}</span>
+            <span class="time">{{.NRL.TimeStr}}</span>
         </div>
     </div>
 
@@ -549,8 +549,8 @@
         <span class="name">{{.NRL.BCE03A}}</span>
     </div>
     <div class="m-autograph2">
-        <span class="tit">审核护士签名：</span>
-        <input disabled  type="text" class="m-input-txt type2" value="{{.NRL.NRL09B}}">
+        <span class="tit">审核者签名：</span>
+        <input disabled  type="text" class="m-input-txt type2" id="sh-name" value="{{.NRL.NRL09B}}">
     </div>
     <div class="m-pd40"></div>
 
@@ -603,6 +603,60 @@
     }
 
 
+
+    function getName(){
+        var val = $.trim($("#sh-name").val()) || null;
+        return val;
+    }
+    function setName(data){
+        var rid = {{.NRL.ID}}
+        var reqData = {
+            "nrltype":"7",
+            "rid": rid
+        }
+        var api = "/record/nrl/updatechecker"
+        if(rid){
+            data= $.trim(data)
+            if(data){
+                reqData["nurseName"] = data
+                req(api,reqData,function(resData){
+                    jky.util.toast("修改成功")
+                    $("#sh-name").val(data)
+                })
+            }else{
+                jky.util.toast("不能填空")
+            }
+        }else{
+            jky.util.toast("不存在rid")
+        }
+    }
+
+
+    function req(api,data,cb) {
+        $.ajax({
+            url: api,
+            data: data,
+            type: "POST",
+            success: function (data) {
+                console.log(data);
+                if (data) {
+                    switch (data.result) {
+                        case 0:
+                            cb();
+                            break;
+                        default:
+                            // alert(data.errmsg)
+                            jkyAlert(data.errmsg,"no")
+                    }
+                }
+            },
+            error: function (e) {
+                console.log("ajax err:", e)
+            },
+            dataType: "json"
+        })
+
+    }
 
 </script>
 

@@ -58,11 +58,8 @@
     $(function () {
 
         $('.login-btn').on('click', function () {
-            // var username = $("#username").val()
-            // var password = $("#password").val()
-            // var username = "151001"; 张梦维
-            var username = "1119";
-            var password = "123456";
+            var username = $("#username").val()
+            var password = $("#password").val()
 
             if (username.length == 0 || password.length == 0) {
                 alert("账号和密码不能为空，请输入正确的账号和密码")
@@ -81,9 +78,7 @@
                         var departmentlist = json.datas.departments;
                         console.log(departmentlist, departmentlist.length);
                         if (departmentlist.length == 1) {
-                            // window.location.href = "/pc/home"
-                            window.location.href = "/pc/record/nrl1"
-                            // window.location.href = "/pc/templist"
+                            window.location.href = "/pc/home"
                         } else {
                             $.each(departmentlist, function (key, val) {
                                 $modleWarp.find('.cont').find('ul').empty();

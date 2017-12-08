@@ -32,7 +32,7 @@
         <!--</ul>-->
     </div>
     <div class="r_menu_list">
-        <div class="more_btn">
+        <div class="more_btn" {{if eq .Userinfo.Authority 2}}style="display:none"{{end}}>
             <div class="parent_menu">
                 更多
             </div>
@@ -42,13 +42,12 @@
             {{/*<li><a href="/pc/history">历史病人</a></li>*/}}
             </ul>
         </div>
-        <div class="setup_btn">
+        <div class="setup_btn" {{if eq .Userinfo.Authority 2}}style="display:none"{{end}}>
             <div class="parent_menu">
                 设置
             </div>
             <ul class="child_menu">
                 <li><a href="/pc/account/changepwd">密码修改</a></li>
-                <!--<li><a href="/pc/device/manage">设备管理</a></li>-->
                 <li><a target="view_window" href="/pc/account/manage" {{if eq .Userinfo.Authority 0}}style="display:none"{{end}}>账号管理</a></li>
             </ul>
         </div>
@@ -62,7 +61,7 @@
 <!-- Begin page -->
 <div class="am-topbar am-topbar-fixed-top top48">
     <div class="am-topbar-left am-hide-sm-only">
-        <a class="username"><span>欢迎你，{{.Userinfo.Name}}</span><i class="zmdi zmdi-layers"></i></a>
+        <a class="username"><span>欢迎您，{{.Userinfo.Name}}</span><i class="zmdi zmdi-layers"></i></a>
     </div>
 
     <div class="contain">

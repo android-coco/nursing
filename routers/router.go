@@ -53,6 +53,10 @@ func pdalist() {
 
 	fit.Router().AddRouter("/inputnursechat", new(handler.NurseChatController),"post:NurseChatInput")  //护理体温单提交
 	fit.Router().AddRouter("/outnursechat", new(handler.NurseChatController),"post:NurseChatOutput")  //获取护理体温单数据
+
+	//TV接口
+	fit.Router().AddRouter("/tv/bedlist", new(handler.TvController),"post:BedList")//TV床位列表
+	fit.Router().AddRouter("/tv/list", new(handler.TvController),"post:List")//TV床位列表
 }
 
 func nrlist() {
@@ -176,6 +180,10 @@ func pclist() {
 	fit.Router().AddRouter("/pc/history/signs", new(handler.PCHistoryController),"get,post:Signs")
 	fit.Router().AddRouter("/pc/history/temperature", new(handler.PCHistoryController),"get,post:Temperature")
 	fit.Router().AddRouter("/pc/history/advice", new(handler.PCHistoryController),"get,post:Advice")
+
+
+	//tv
+	fit.Router().AddRouter("/pc/tv/manage", new(handler.TvController),"get:Manage")
 }
 
 func pcnrlist()  {
@@ -192,6 +200,13 @@ func pcnrlist()  {
 	// 出入量统计接口
 	fit.Router().AddRouter("/pc/record/nrl/io", new(handler.PCNRL1Controller), "get,post:NRLIOStatistcs")
 	fit.Router().AddRouter("/pc/record/nrl/insertio", new(handler.PCNRL1Controller), "get,post:NRLIOTypeIn")
+
+	// 修改护理单的审核人
+	fit.Router().AddRouter("/record/nrl/updatechecker", new(handler.NRL3Controller), "get,post:UpdateChecker")
+
+	//TV接口
+	fit.Router().AddRouter("/pc/tv/delnotify", new(handler.TvController),"post:DelNotify")//TV编辑页面删除通知
+	fit.Router().AddRouter("/pc/tv/monitorinfo", new(handler.TvController),"post:UpdateMonitorInfo")//TV编辑页面修改信息
 }
 
 func pcprint(){

@@ -31,13 +31,14 @@ func (c PCAccessController) Post(w *fit.Response, r *fit.Request, p fit.Params) 
 	userinfo, err := c.GetLocalUserinfo(w, r)
 	classid := userinfo.DepartmentID
 	paramstr := r.FormValue("paramstr")
+
+	var access []model.Access
+
 	if  paramstr == "" {
-		c.JsonData.Result = 1
-		c.JsonData.ErrorMsg = "参数不完整"
-		c.JsonData.Datas = []interface{}{}
-		return
+		access, err = model.AccessALLList(strconv.Itoa(userinfo.DepartmentID))
+	}else{
+		access, err = model.AccessSearch(strconv.Itoa(classid), paramstr)
 	}
-	access, err := model.AccessSearch(strconv.Itoa(classid), paramstr)
 	if err == nil {
 		c.JsonData.Result = 0
 		c.JsonData.ErrorMsg = "查询成功"

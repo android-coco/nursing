@@ -33,13 +33,13 @@
 
         <div class="content-page" data-index="1" style="margin-top: 88px;">
             <!-- Start content -->
-            <div class="content" style="height:100%">
+            <div class="content" >
                 <div class="am-g" style="height:100%">
                     <div class="cont-batchInput">
                         <div class="hd-bar">
                             <div class="date-box fl">
                                 <span>测量日期：</span>
-                                <input type="text" class="am-form-field  date-input" id="testTime"/>
+                                <input type="text" class="am-form-field  date-input" id="testTime"  />
                                 <span>&nbsp;&nbsp;&nbsp;&nbsp;时段：</span>
                                 <select class="time-block" id="timeBlock">
                                     <option value="04:00:00">4</option>
@@ -54,15 +54,15 @@
                             <div class="sel-bar fl">
                                 <div class="txt">患者列表:</div>
                                 <div class="check-bar">
-                                    <input type="radio" id="c1" name="filter-sel" checked>
+                                    <input type="radio" id="c1" name="filter-sel" checked data-val="1">
                                     <label for="c1">全部患者</label>
                                 </div>
                                 <div class="check-bar">
-                                    <input type="radio" id="c2" name="filter-sel">
+                                    <input type="radio" id="c2" name="filter-sel" data-val="2">
                                     <label for="c2">待测体温</label>
                                 </div>
                                 <div class="check-bar">
-                                    <input type="radio" id="c3" name="filter-sel">
+                                    <input type="radio" id="c3" name="filter-sel" data-val="3">
                                     <label for="c3">待测体重</label>
                                 </div>
 
@@ -119,9 +119,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-
                                         {{range .Patients}}
-                                            <tr data-pid="{{.VAA01}}" data-nid="12" data-nname="123">
+                                            <tr data-pid="{{.VAA01}}" data-nid="{{$.Userinfo.UID}}" data-nname="{{$.Userinfo.Name}}">
                                                 <td class="pd8"><span>{{.BCQ04}}</span></td>
                                                 <td class="pd8"><span>{{.VAA05}}</span></td>
                                                 <td class="pd8"><span>{{.VAA10}}</span></td>
@@ -536,7 +535,10 @@
 //                timeblock=8
 //            }
            var timeblock = $(this).find("option:selected").text()
-            location.href="/pc/batvhinput?timeblock=" +timeblock
+            // location.href="/pc/batvhinput?timeblock=" +timeblock
+            var measuretype = $(".sel-bar").find("input[type=radio]:checked").data("val")
+            var testtime = $("#testTime").val()
+            location.href="/pc/batvhinput?testtime="+testtime+"&timeblock="+timeblock+"&measuretype="+measuretype
         })
         var timeblock = getURLParam("timeblock");
         if(!timeblock){
@@ -692,7 +694,10 @@
                         console.log("?")
                         if(!measuretype){measuretype=1}
                         var timeblock = $("#timeBlock").find("option:selected").text()
-                        location.href="/pc/batvhinput?testtime="+$("#testTime").val()+"&timeblock="+timeblock+"&measuretype="+measuretype
+                        setTimeout(function () {
+                            location.href="/pc/batvhinput?testtime="+$("#testTime").val()+"&timeblock="+timeblock+"&measuretype="+measuretype
+
+                        },0)
                     }
                 });
             }
@@ -703,7 +708,7 @@
                 showBottom: false,
                 value: nowDateObj.date,
                 done: function(value, date, endDate) {
-                    console.log("?")
+                    // console.log("?")
                     if(!measuretype){measuretype=1}
                     var timeblock = $("#timeBlock").find("option:selected").text()
                     location.href="/pc/batvhinput?testtime="+$("#testTime").val()+"&timeblock="+timeblock+"&measuretype="+measuretype
@@ -711,7 +716,12 @@
             });
         }
 
-
+        $("body").on("keydown",function(e){
+            if(event.keyCode==13)
+            {
+                return false;
+            }
+        })
     </script>
 </body>
 

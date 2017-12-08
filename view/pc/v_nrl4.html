@@ -56,6 +56,8 @@
                         <input type="text" class="am-form-field  date-input" id="date1">
                         <span class="line">—</span>
                         <input type="text" class="am-form-field  date-input" id="date2">
+                        <div id="time-search-btn" class="btn-search">搜索</div>
+
                         <a href="/pc/record/nrl4?pid={{.PInfo.VAA01}}" class="all-btn">所有记录</a>
                     </div>
                     <div class="btn-group">
@@ -462,6 +464,7 @@
                                     <div class="cont-warp">
 
                                         <a href="#1" class="save-btn" data-isjump="0" data-isnew="0"><span>保存</span></a>
+                                        <a class="cancel-btn" data-isnew="0"><span>取消</span></a>
                                         <a href="#1" class="edit-btn" data-id="{{$val.BCE01A}}">
                                             <i class="am-icon-pencil"></i><span>编辑</span>
                                         </a>
@@ -511,11 +514,10 @@
                     <div class="remarks-box">
                         <div class="l">
                             <p class="tit">评分方案：</p>
-                            <p class="txt">≤ 6分无风险；7~10分为低危（关注病情 变化，随时评估）；11~14分为中危（第一周评估2次， 此后4周内每周评估一次，之后每月评估一次）；≥15
-                                分为高危（手术后3天内每天评估1次，之后接中危 病人评估）</p>
+                            <p class="txt">≤ 6分无风险；7~10分为低危（关注病情变化，随时评估）；11~14分为中危（第一周评估2次， 此后4周内每周评估一次，之后每月评估一次）；≥15分为高危（手术后3天内每天评估1次，之后接中危病人评估）</p>
                             <p class="tit">评估时机：</p>
                             <p class="txt">
-                                患者入院24h 内完成
+                                患者入院24h内完成
                             </p>
                         </div>
 
@@ -667,6 +669,7 @@
         <li class="bt-tit4">
         <div class="cont-warp">
         <a href="#1" class="save-btn" data-isjump="<%= isJump %>" data-isnew="1"><span>保存</span></a>
+        <a class="cancel-btn" data-isnew="1"><span>取消</span></a>
         <a href="#1" class="edit-btn">
         <i class="am-icon-pencil"></i><span>编辑</span>
         </a>
@@ -770,7 +773,8 @@
             }
             if (yId == userId) {
                 if ($('.list').find('ul.active').length > 0) {
-                    alert("请先保存信息")
+                    // alert("请先保存信息")
+                    jkyAlert("请先保存信息","no")
                 } else {
                     var $ul = $(this).parents('ul')
                     $ul.addClass("active")
@@ -779,7 +783,8 @@
                     // $ul.find('.tr11').find('.cont-warp').find('.sel-input').html($date)
                 }
             } else {
-                alert("您没有权限编辑！");
+                // alert("您没有权限编辑！");
+                jkyAlert("您没有权限编辑!","no")
             }
 
         })
@@ -836,37 +841,45 @@
                 })
                 //总共5个固定参数,如果没填长度就为5
                 if (num == 5) {
-                    alert("请填写内容！")
+                    // alert("请填写内容！")
+                    jkyAlert("请填写内容!","no")
                     return false;
                 }
                 req(api, data, function () {
-                    alert("保存成功")
-                    if ($this.data("isjump") != "1") {
-                        location.reload()
-                    } else {
-                        var baseurl = "/pc/record/nrl4?",
-                                index = parseInt({{.PageIndex}}) + 1,
-                                pid = parseInt({{.PInfo.VAA01}}),
-                                date1 = getURLParam("sdate"),
-                                date2 = getURLParam("edate"),
-                                urlStr = baseurl + "pid=" + pid + "&num=" + index;
-                        if (date1) {
-                            urlStr = urlStr + "&sdate=" + date1
+                    // alert("保存成功")
+                    jkyAlert("保存成功","yes",function(){
+                        if ($this.data("isjump") != "1") {
+                            location.reload()
+                        } else {
+                            var baseurl = "/pc/record/nrl4?",
+                                    index = parseInt({{.PageIndex}}) + 1,
+                                    pid = parseInt({{.PInfo.VAA01}}),
+                                    date1 = getURLParam("sdate"),
+                                    date2 = getURLParam("edate"),
+                                    urlStr = baseurl + "pid=" + pid + "&num=" + index;
+                            if (date1) {
+                                urlStr = urlStr + "&sdate=" + date1
+                            }
+                            if (date2) {
+                                urlStr = urlStr + "&edate=" + date2
+                            }
+                            location.href = urlStr
                         }
-                        if (date2) {
-                            urlStr = urlStr + "&edate=" + date2
-                        }
-                        location.href = urlStr
-                    }
+                    })
+
+
 
                 })
 
             } else {
                 data.rid = $cont.data("rid")
                 req(api, data, function () {
-                    alert("修改成功")
-                    setDataText($cont)
-                    $cont.removeClass("active")
+                    // alert("修改成功")
+                    jkyAlert("修改成功","yes",function(){
+                        setDataText($cont)
+                        $cont.removeClass("active")
+                    })
+
                 })
 
             }
@@ -919,7 +932,8 @@
                                 cb();
                                 break;
                             default:
-                                alert(data.errmsg)
+                                // alert(data.errmsg)
+                                jkyAlert(data.errmsg,"no")
                         }
                     }
                 },
@@ -946,9 +960,9 @@
                     return false
                 }
                 if (yId == userId) {
-                    var isDel = confirm("是否确认删除");
-                    var data = {}
-                    if (isDel) {
+                    // var isDel = confirm("是否确认删除");
+                    jkyConfirm("是否确认删除",function(){
+                        var data = {}
                         data.rid = rid;
                         $.ajax({
                             url: "/record/nr4/delete",
@@ -962,7 +976,8 @@
                                             location.reload();
                                             break;
                                         default:
-                                            alert(data.errmsg)
+                                            // alert(data.errmsg)
+                                            jkyAlert(data.errmsg,"no")
                                     }
                                 }
                             },
@@ -971,9 +986,11 @@
                             },
                             dataType: "json"
                         })
-                    }
+                    })
+
                 } else {
-                    alert("您没有权限删除！");
+                    // alert("您没有权限删除！");
+                    jkyAlert("您没有权限删除！","no")
                     return false
                 }
 
@@ -1107,7 +1124,7 @@
 
                     var a = new Date(value);
                     date1 = a.getTime();
-                    reloadSheet();
+                    // reloadSheet();
                 }
             });
 
@@ -1122,9 +1139,14 @@
                     var a = new Date(value);
                     date2 = a.getTime();
                     console.log("date ", date1, date2);
-                    reloadSheet();
+                    // reloadSheet();
                 }
             });
+
+
+            $("#time-search-btn").on("click",function(){
+                reloadSheet();
+            })
 
             // 总页数
             var pagenum = {{.PageNum}};
@@ -1172,7 +1194,8 @@
 
             function reloadSheet() {
                 if ($(".data-col.active").length > 0) {
-                    alert("请先保存数据！");
+                    // alert("请先保存数据！");
+                    jkyAlert("请先保存数据!","no")
                     return false;
                 }
                 index = tempindex;
@@ -1196,7 +1219,8 @@
         $(".btn.type2.createCol").on("click", function () {
 
             if ($(".data-col.active").length > 0) {
-                alert("请先保存数据！")
+                // alert("请先保存数据！")
+                jkyAlert("请先保存数据!","no")
                 return false;
             }
 
@@ -1258,6 +1282,15 @@
                 $(el).parents("li").find(".txt").text($(el).text())
             })
         }
+
+
+        $("body").on("click",".cancel-btn",function(){
+            if($(this).data("isnew") && $(this).data("isnew") !="0"){
+                location.reload()
+            }else{
+                $(this).parents(".data-col").removeClass("active")
+            }
+        })
     </script>
 
     </body>

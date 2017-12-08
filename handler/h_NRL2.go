@@ -351,7 +351,7 @@ func (c NRL2Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params)
 		}
 		_, err := model.InsertNRecords(nr)
 		if err != nil {
-			c.RenderingJsonAutomatically(3, "Database "+err.Error())
+			c.RenderingJsonAutomatically(0, "Database: "+err.Error())
 		} else {
 			c.RenderingJsonAutomatically(0, "添加成功")
 		}

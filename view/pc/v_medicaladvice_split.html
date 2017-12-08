@@ -40,10 +40,10 @@
                                         {{range .Patients}}
                                         <li>
                                             <div class="l">
-                                                <input class="user-list-input" data-pid="{{.VAA01}}" type="checkbox" checked><label>{{.BCQ04}}</label>
+                                                <input class="user-list-input" data-pid="{{.Vid}}" type="checkbox" checked><label>{{.Bed}}</label>
                                             </div>
                                             <div class="r">
-                                                {{.VAA05}}
+                                                {{.PName}}
                                             </div>
                                         </li>
                                         {{end}}
@@ -55,7 +55,7 @@
                             <div class="date-box fl">
                                 <div class="sel-date-box  br1">
                                     <span>
-                                        时间：
+                                        执行时间：
                                     </span>
 
                                     <div class="input-box">
@@ -197,15 +197,18 @@
                                         <tr>
                                             <td>
                                                 <div class="table-input-bar">
-                                                    <input type="checkbox" data-mid="{{.Madid}}">
+                                                    <input type="checkbox" data-mid="{{.Gid}}" data-vid="{{.Vid}}" data-ext="{{.ExDay}}" data-exc="{{.ExCycle}}">
                                                     <label for="">{{.Bed}}</label>
                                                 </div>
                                             </td>
                                             <td>
-                                            {{.PatientName}}
+                                            {{.PName}}
                                             </td>
                                             <td>
-                                            {{.ExexTime}}
+                                            {{.ExDay}}
+                                            </td>
+                                            <td class="tc">
+                                            {{.GroupNum}}
                                             </td>
                                             <td>
                                             {{.Content}}
@@ -214,17 +217,17 @@
                                             {{.Dosage}}
                                             </td>
                                             <td class="tc">
-                                            {{.Count}}
+                                            {{.Amount}}
                                             </td>
-                                            <td class="tc">{{.Times}}</td>
+                                            <td class="tc">{{.Frequency}}</td>
                                             <td class="tc">{{.Method}}</td>
                                             <td class="tc">{{.Speed}}</td>
                                             <td class="tc">
-                                            {{if eq .TypeOf  1}} 长期 {{else}} 临时 {{end}}
+                                            {{.TypeOf}}
                                             </td>
                                             <td class="td10">
-                                                <span class="l"> {{.PrintState}}</span>
-                                                <span class="r">序号{{.PrintOrdinal}}/{{.Times}}</span>
+                                                <span class="l"> {{.PtStatus}}</span>
+                                                <span class="r">序号{{.ExCycle}}/{{.Times}}</span>
                                             </td>
                                         </tr>
                                         {{end}}
@@ -464,20 +467,22 @@
 
                         for (var i = 0; i < resArr.length; i++) {
                             var obj = resArr[i]
-                            var typeStr = obj.TypeOf == 1 ? "长期" : "临时"
 
                             html += "<tr>\n" +
                                     "<td>\n" +
                                     "<div class=\"table-input-bar\">\n" +
-                                    "<input type=\"checkbox\" data-mid=\""+obj.Madid+"\">\n" +
+                                    "<input type=\"checkbox\" data-mid=\""+obj.Gid+"\" data-vid=\""+obj.Vid+"\" data-ext=\""+obj.ExTime+"\" data-exc=\""+obj.ExCycle+"\">\n" +
                                     "<label for=\"\">"+obj.Bed+"</label>\n" +
                                     "</div>\n" +
                                     "</td>\n" +
                                     "<td>\n" +
-                                    obj.PatientName+"\n" +
+                                    obj.PName+"\n" +
                                     "</td>\n" +
                                     "<td>\n" +
-                                    obj.ExexTime+"\n" +
+                                    obj.ExTime+"\n" +
+                                    "</td>\n" +
+                                    "<td class=\"tc\">\n" +
+                                    obj.GroupNum+"\n" +
                                     "</td>\n" +
                                     "<td>\n" +
                                     obj.Content+"\n" +
@@ -486,17 +491,17 @@
                                     obj.Dosage+"\n" +
                                     "</td>\n" +
                                     "<td class=\"tc\">\n" +
-                                    obj.Count+"\n" +
+                                    obj.Amount+"\n" +
                                     "</td>\n" +
-                                    "<td class=\"tc\">"+obj.Times+"</td>\n" +
+                                    "<td class=\"tc\">"+obj.Frequency+"</td>\n" +
                                     "<td class=\"tc\">"+obj.Method+"</td>\n" +
                                     "<td class=\"tc\">"+obj.Speed+"</td>\n" +
                                     "<td class=\"tc\">\n" +
-                                    typeStr+"\n" +
+                                    obj.TypeOf+"\n" +
                                     "</td>\n" +
                                     "<td class=\"td10\">\n" +
-                                    "<span class=\"l\"> "+obj.PrintState+"</span>\n" +
-                                    "<span class=\"r\">序号"+obj.PrintOrdinal+"/"+obj.Times+"</span>\n" +
+                                    "<span class=\"l\"> "+obj.PtStatus+"</span>\n" +
+                                    "<span class=\"r\">序号"+obj.ExCycle+"/"+obj.Times+"</span>\n" +
                                     "</td>\n" +
                                     "</tr>"
                         }

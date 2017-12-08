@@ -61,20 +61,21 @@
             console.log(page, datas)
             if (len > 0) {
                 for (var i = 0; i < page; i++) {
-                    html+="<div class = 'bagw'><p align=\"center\" class=\"STYLE1\">患者跌倒风险评估护理单</p>\n" +
+                    html+="<div class = 'bagw'>\n" +
+                            "<p align=\"center\" class=\"STYLE1\">患者跌倒风险评估护理单</p>\n" +
                             "<p align=\"left\">\n" +
+                            "    <label>科别：</label>\n" +
+                            "{{.PInfo.BCK03C}} \n" +
                             "    <label>床号：</label>\n" +
                             "{{.PInfo.BCQ04}}\n" +
                             "    <label>姓名：</label>\n" +
-                            "{{.PInfo.VAA05}}\n" +
+                            "{{.PInfo.VAA05}} \n" +
                             "    <label>性别：</label>\n" +
                             "{{.PInfo.Gender}}\n" +
                             "    <label>年龄：</label>\n" +
                             "{{.PInfo.VAA10}}岁\n" +
                             "    <label>住院号：</label>\n" +
-                            "{{.PInfo.VAA04}} \n" +
-                            "    <label>诊断：</label>\n" +
-                            "{{.PInfo.VAO15}}</p>\n";
+                            "{{.PInfo.VAA04}}</p>";
 
                             html+="<p align=\"left\">陪护情况\n"+
                                     "    <input type=\"checkbox\" name=\"checkbox\" value=\"checkbox\" {{if eq .NRLTitle.NRL08 "1"}}checked{{end}} disabled/>\n"+
@@ -192,7 +193,7 @@
                                     html+="    </tr>\n" +
                                     "    <tr>\n" +
                                     "      <td height=\"35\"><div>\n" +
-                                    "          <p>拐杖／手杖/四角叉=15</p>\n" +
+                                    "          <p>拐杖／手杖／四角叉=15</p>\n" +
                                     "      </div></td>\n";
                                     for(var j=0;j<7; j++){
                                         html+="<td width=\"100\" class="+((datas[i * pgeDataNum + j].NRL03 == 4) && "icon")+"><div align=\"center\"></div></td>";
@@ -287,7 +288,7 @@
                                     }
                                     html+="    </tr>\n" +
                                     "    <tr>\n" +
-                                    "      <td height=\"38\" colspan=\"2\"><div align=\"center\">合计分数</div></td>\n" +
+                                    "      <td height=\"38\" colspan=\"2\"><div align=\"center\">评估总分</div></td>\n" +
                                     "      <td width=\"97\"><div align=\"center\">"+(datas[i * pgeDataNum+0].Score || " ")+"</div></td>\n" +
                                     "      <td width=\"102\"><div align=\"center\">"+(datas[i * pgeDataNum+1].Score || " ")+"</div></td>\n" +
                                     "      <td width=\"108\"><div align=\"center\">"+(datas[i * pgeDataNum+2].Score || " ")+"</div></td>\n" +
@@ -319,7 +320,7 @@
                                     "  </table>\n" +
                                     "</div>\n" +
                                     "<p class='tit' align=\"left\">备注:</p>\n" +
-                                    "<p class='tit' align=\"left\">1. 评估护士在对应时间内将评估结果填写在相应的空格内。</p>\n" +
+                                    "<p class='tit' align=\"left\">1. 评估护士在对应时间内将评估结果用 \"√\" 的形式填写在相应的空格内。</p>\n" +
                                     "<p class='tit' align=\"left\">2. 凡入院患者均需做跌倒风险评估，对跌倒评估总分<25分者（低风险），记录在护理记录单首页，暂不需持续评估；</p>\n" +
                                     "<p class='tit' align=\"left\">总分25-45分者（中度风险），一周内每48h评估一次，以后每周评估一次；总分>45分者（ 高风险）首次评估后至少每天评估一次；</p>\n" +
                                     "<p class='tit' align=\"left\">评估中为中度风险和高风险患者分值记录在此表和护理记录单上，做好交接；其它视具体情况评估，发生跌倒事件时，应重新评估并记录。</p>\n" +
@@ -338,7 +339,7 @@
 
                                     html+="  </tr>\n" +
                                     "  <tr>\n" +
-                                    "    <td height=\"44\"><div align=\"left\">1、床头悬挂“跌倒风险警示”标识</div></td>\n";
+                                    "    <td height=\"44\"><div align=\"left\">1、床头悬挂“跌倒风险”警示标识</div></td>\n";
                                     for(var j=0;j<7; j++){
                                         html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,1) && "icon")+"><div align=\"center\"></div></td>";
                                     }
@@ -463,7 +464,7 @@
                                     }
                                     html+="  </tr>\n" +
                                     "  <tr>\n" +
-                                    "    <td height=\"50\"><div align=\"left\">22、睡床高低要适当，从床垫面至地板高度45-4 8cm</div></td>\n";
+                                    "    <td height=\"50\"><div align=\"left\">22、睡床高低要适当，从床垫面至地板高度45-48cm</div></td>\n";
                                     for(var j=0;j<7; j++){
                                         html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,22) && "icon")+"><div align=\"center\"></div></td>";
                                     }
@@ -475,7 +476,7 @@
                                     }
                                     html+="  </tr>\n" +
                                     "  <tr>\n" +
-                                    "    <td height=\"50\"><div align=\"left\">24、加强床上护理，协助擦浴，开餐，床上洗头及 二便护理，加强肌肉训练</div></td>\n";
+                                    "    <td height=\"50\"><div align=\"left\">24、加强床上护理，协助擦浴，开餐，床上洗头及二便护理，加强肌肉训练</div></td>\n";
                                     for(var j=0;j<7; j++){
                                         html+="<td width=\"95\"  height=\"44\" class="+(Str(datas[i * 7 + j].NRL07,24) && "icon")+"><div align=\"center\"></div></td>";
                                     }
@@ -503,7 +504,7 @@
                                     "    <td width=\"95\" height=\"44\"><div align=\"center\">"+(datas[i * pgeDataNum+6].BCE03A || " ")+"</div></td>\n" +
                                     "  </tr>\n" +
                                     "  <tr>\n" +
-                                    "    <td height=\"43\"><div align=\"left\">审核护士签名</div></td>\n" +
+                                    "    <td height=\"43\"><div align=\"left\">审核者签名</div></td>\n" +
                                     "    <td width=\"95\" height=\"43\"><div align=\"center\">"+(datas[i * pgeDataNum+0].NRL09B || " ")+"</div></td>\n" +
                                     "    <td width=\"95\" height=\"43\"><div align=\"center\">"+(datas[i * pgeDataNum+1].NRL09B || " ")+"</div></td>\n" +
                                     "    <td width=\"95\" height=\"43\"><div align=\"center\">"+(datas[i * pgeDataNum+2].NRL09B || " ")+"</div></td>\n" +
@@ -528,17 +529,17 @@
 <p align="center" class="STYLE1">患者跌倒风险评估护理单</p>
 <p align="left">
     <label>科别：</label>
-    内科病区 
+{{.PInfo.BCK03C}} 
     <label>床号：</label>
-    02 
+{{.PInfo.BCQ04}}
     <label>姓名：</label>
-    郭友军 
+{{.PInfo.VAA05}} 
     <label>性别：</label>
-    男 
+{{.PInfo.Gender}}
     <label>年龄：</label>
-    31岁 
+{{.PInfo.VAA10}}岁
     <label>住院号：</label>
-    069436</p>
+{{.PInfo.VAA04}}</p>
 <p align="left">陪护情况
     <input type="checkbox" name="checkbox" value="checkbox" />
     无
@@ -673,7 +674,7 @@
         </tr>
         <tr>
             <td height="35"><div>
-                <p>拐杖／手杖/四角叉=15</p>
+                <p>拐杖／手杖／四角叉=15</p>
             </div></td>
             <td width="97"><div align="center"></div></td>
             <td width="102"><div align="center"></div></td>
@@ -807,7 +808,7 @@
             <td width="100"><div align="center"></div></td>
         </tr>
         <tr>
-            <td height="38" colspan="2"><div align="center">合计分数</div></td>
+            <td height="38" colspan="2"><div align="center">评估总分</div></td>
             <td width="97"><div align="center"></div></td>
             <td width="102"><div align="center"></div></td>
             <td width="108"><div align="center"></div></td>
@@ -827,7 +828,7 @@
             <td width="100"><div align="center"></div></td>
         </tr>
         <tr>
-            <td height="39" colspan="2"><div align="center">审核护士签名</div></td>
+            <td height="39" colspan="2"><div align="center">审核者签名</div></td>
             <td width="97"><div align="center"></div></td>
             <td width="102"><div align="center"></div></td>
             <td width="108"><div align="center"></div></td>
@@ -839,7 +840,7 @@
     </table>
 </div>
 <p align="left">备注:</p>
-<p align="left">1. 评估护士在对应时间内将评估结果填写在相应的空格内。</p>
+<p align="left">1. 评估护士在对应时间内将评估结果用 "√" 的形式填写在相应的空格内。</p>
 <p align="left">2. 凡入院患者均需做跌倒风险评估，对跌倒评估总分<25分者（低风险），记录在护理记录单首页，暂不需持续评估；</p>
 <p align="left">总分25-45分者（中度风险），一周内每48h评估一次，以后每周评估一次；总分>45分者（ 高风险）首次评估后至少每天评估一次；</p>
 <p align="left">评估中为中度风险和高风险患者分值记录在此表和护理记录单上，做好交接；其它视具体情况评估，发生跌倒事件时，应重新评估并记录。</p>
@@ -863,7 +864,7 @@
         <td width="95" height="39"></td>
     </tr>
     <tr>
-        <td height="44"><div align="left">1、床头悬挂“跌倒风险警示”标识</div></td>
+        <td height="44"><div align="left">1、床头悬挂“跌倒风险”警示标识</div></td>
         <td width="93" height="44"><div align="center"></div></td>
         <td width="89" height="44"><div align="center"></div></td>
         <td width="100" height="44"><div align="center"></div></td>
@@ -1073,7 +1074,7 @@
         <td width="95" height="50"><div align="center"></div></td>
     </tr>
     <tr>
-        <td height="50"><div align="left">22、睡床高低要适当，从床垫面至地板高度45-4 8cm</div></td>
+        <td height="50"><div align="left">22、睡床高低要适当，从床垫面至地板高度45-48cm</div></td>
         <td width="93" height="50"><div align="center"></div></td>
         <td width="89" height="50"><div align="center"></div></td>
         <td width="100" height="50"><div align="center"></div></td>
@@ -1093,7 +1094,7 @@
         <td width="95" height="40"><div align="center"></div></td>
     </tr>
     <tr>
-        <td height="50"><div align="left">24、加强床上护理，协助擦浴，开餐，床上洗头及 二便护理，加强肌肉训练</div></td>
+        <td height="50"><div align="left">24、加强床上护理，协助擦浴，开餐，床上洗头及二便护理，加强肌肉训练</div></td>
         <td width="93" height="50"><div align="center"></div></td>
         <td width="89" height="50"><div align="center"></div></td>
         <td width="100" height="50"><div align="center"></div></td>
@@ -1133,7 +1134,7 @@
         <td width="95" height="44"><div align="center"></div></td>
     </tr>
     <tr>
-        <td height="43"><div align="left">审核护士签名</div></td>
+        <td height="43"><div align="left">审核者签名</div></td>
         <td width="93" height="43"><div align="center"></div></td>
         <td width="89" height="43"><div align="center"></div></td>
         <td width="100" height="43"><div align="center"></div></td>

@@ -181,10 +181,11 @@
     $('body').on("click", ".search_btn", function () {
 
         var conditions =$.trim($('.conditions').val());
-        if (conditions == "") {
-            alert("请输入查询条件")
+        /*if (conditions == "") {
+            //alert("请输入查询条件")
+
             return
-        }
+        }*/
         $.post("/pc/access/manage", {
             paramstr: conditions,
         }, function (json, status) {

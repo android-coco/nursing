@@ -1,4 +1,6 @@
 "use strict";
+// 该文件依赖jq
+// --------------------------------
 
 //退出登录
 $('.out_btn').on('click', function () {
@@ -207,4 +209,152 @@ function throttle(func, wait, option) {
         return result;
 
     }
+}
+
+/**
+ * alert弹窗
+ * @param txt  文本内容
+ * @param type icon类型 "ok","no" 或不选
+ * @param fn  1秒后执行的回调
+ */
+function jkyAlert(txt,type,fn){
+    var typeIco ={
+        "yes":{
+            class:"am-icon-check",
+            color:"#5eb95e"
+        },
+        "no":{
+            class:"am-icon-remove",
+            color:"#dd514c"
+        },
+        "default":{
+            class:"none",
+            color:"#fff"
+        }
+    }
+    type = type || "default"
+    if($("#jky-modal-alert").length==0){
+
+        var spanIconHtml= '<span id="ico-alert" class="' + typeIco[type].class+'" style="font-size:40px;color:'+ typeIco[type].color+';"></span>\n';
+
+        var modalHtml ='<div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1" id="jky-modal-alert" style="border-radius: 6px;">\n' +
+        '    <div class="am-modal-dialog">\n' +
+        '        <div class="am-modal-hd" id="txt-alert">'+ txt +'</div>\n' +
+        '        <div class="am-modal-bd">\n' +
+        spanIconHtml +
+        '        </div>\n' +
+        '    </div>\n' +
+        '</div>';
+        $("body").append(modalHtml)
+    }else{
+        $("#jky-modal-alert").find("#ico-alert").attr("class",typeIco[type].class)
+        $("#jky-modal-alert").find("#ico-alert").css("color",typeIco[type].color)
+        $("#jky-modal-alert").find("#txt-alert").text(txt)
+
+    }
+    $("#jky-modal-alert").modal("open")
+    setTimeout(function(){
+        $("#jky-modal-alert").modal("close")
+        fn && fn()
+    },1000)
+
+}
+
+/**
+ * Confirm弹窗
+ * @param txt 文本内容
+ * @param confirmFn 确认的回调
+ * @param cancaelFn 取消的回调
+ */
+function jkyConfirm(txt,confirmFn,cancaelFn){
+    var $confirmEl = null;
+
+
+    if($('#jky-confirm').length>0){
+        $confirmEl = $('#jky-confirm')
+        $confirmEl.find("#txt-confirm").text(txt)
+    }else{
+        $confirmEl = $("<div class=\"am-modal am-modal-confirm\" tabindex=\"-1\" id=\"my-confirm\">\n" +
+        "    <div class=\"am-modal-dialog\">\n" +
+        // "        <div class=\"am-modal-hd\">Amaze UI</div>\n" +
+        "        <div class=\"am-modal-bd\" id='txt-confirm'>\n" +
+            txt+
+        // "            你，确定要删除这条记录吗？\n" +
+        "        </div>\n" +
+        "        <div class=\"am-modal-footer\">\n" +
+        "            <span class=\"am-modal-btn\" data-am-modal-cancel>取消</span>\n" +
+        "            <span class=\"am-modal-btn\" data-am-modal-confirm>确定</span>\n" +
+        "        </div>\n" +
+        "    </div>\n" +
+        "</div>");
+
+        $("body").append($confirmEl)
+    }
+
+    $confirmEl.modal({
+        relatedTarget: this,
+        onConfirm: function() {
+            confirmFn && confirmFn()
+        },
+        // closeOnConfirm: false,
+        onCancel: function() {
+            cancaelFn && cancaelFn();
+        }
+    });
+}
+
+
+/**
+ * 输入框弹窗
+ * @param option{txt,valTxt 输入框的默认值,maxlength 限制长度}
+ * @param confirmFn
+ * @param cancaelFn
+ */
+function jkyPrompt(option,confirmFn,cancaelFn){
+    var $promptEl = null;
+    if(typeof option != "object"){
+        return false
+    }
+    option.valTxt = option.valTxt || ""
+    option.txt = option.txt || ""
+
+    if($('#jky-prompt').length>0){
+        $promptEl = $('#jky-prompt')
+        $promptEl.find("#txt-prompt").text(option.txt)
+        $promptEl.find("#jky-prompt-input").val(option.valTxt)
+
+    }else{
+        $promptEl = $(' <div class="am-modal am-modal-prompt" tabindex="-1" id="jky-prompt">\n' +
+        '        <div class="am-modal-dialog">\n' +
+        // '            <div class="am-modal-hd">Amaze UI</div>\n' +
+        '            <div class="am-modal-bd" >\n' +
+                    '<div id="txt-prompt">'+option.txt +'</div>'+
+             '<input type="text" class="am-modal-prompt-input" id="jky-prompt-input" value="' + option.valTxt+'">\n'+
+        '            </div>\n' +
+        '            <div class="am-modal-footer">\n' +
+        '                <span class="am-modal-btn" data-am-modal-cancel>取消</span>\n' +
+        '                <span class="am-modal-btn" data-am-modal-confirm>提交</span>\n' +
+        '            </div>\n' +
+        '        </div>\n' +
+        '    </div>');
+        $("body").append($promptEl)
+    }
+
+    if(option.maxlength){
+        $promptEl.find("#jky-prompt-input").attr("maxlength",option.maxlength)
+    }else{
+        $promptEl.find("#jky-prompt-input").removeAttr("maxlength")
+    }
+
+
+    $('#jky-prompt').modal({
+        relatedTarget: this,
+        onConfirm: function(e) {
+            confirmFn && confirmFn(e.data)
+        },
+        onCancel: function(e) {
+            cancaelFn && cancaelFn(e.data)
+        }
+    });
+
 }

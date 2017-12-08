@@ -413,6 +413,12 @@ func OutNurseChat(sql string, msg ...interface{}) ([]NurseChat, error) {
 }
 
 //得到病人是否发热
-func GetWhetherFever(PatientId string,t float32)(bool,error){
-	return fit.MySqlEngine().SQL("select (value > ?) as Fever from (SELECT HeadType,PatientId,TestTime,value from NurseChat UNION ALL SELECT HeadType,PatientId,TestTime,value from TemperatrureChat) alias WHERE HeadType = 1 and PatientId = ? order by testtime desc limit 1",t,PatientId).Exist()
+func GetWhetherFever(selecttime string,PatientId string,t float32)(bool,error){
+	return fit.MySqlEngine().SQL("select value from (select value from (SELECT HeadType,PatientId,TestTime,value from NurseChat UNION ALL SELECT HeadType,PatientId,TestTime,value from TemperatrureChat) alias WHERE TestTime < ? and HeadType = 1 and PatientId = ? and value != '' order by testtime desc limit 1) alias1  WHERE value > ?",selecttime,PatientId,t).Exist()
+}
+
+//查询最近三天是否发热
+func GetWhetherFeverThree(beforetime string,latertime string , PatientId string,t float32)(bool, error){
+
+	return fit.MySqlEngine().SQL("select value from (select value from (SELECT HeadType,PatientId,TestTime,value from NurseChat UNION ALL SELECT HeadType,PatientId,TestTime,value from TemperatrureChat) alias WHERE TestTime > ? and TestTime < ? and HeadType = 1 and PatientId = ? and value != '' and value > 37.5 order by testtime desc limit 1) alias1  WHERE value > ?",beforetime,latertime,PatientId,t).Exist()
 }

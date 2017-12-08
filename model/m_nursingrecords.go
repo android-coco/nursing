@@ -40,12 +40,18 @@ func QueryNRecordsByTypeAndTime(PatientId string, NursType string, start, end st
 //更新文书记录
 func UpadteNRecords(RecordId int64,dateTime string) (int64, error) {
 	//affected, err := fit.MySqlEngine().Id(RecordId).Cols("Updated").Update(&nursing)
-	affected, err := fit.MySqlEngine().Table(new(NursingRecords)).Where("RecordId = ?", RecordId).Update(&NursingRecords{Id:RecordId, Updated:dateTime})
+	affected, err := fit.MySqlEngine().Table(new(NursingRecords)).Where("RecordId = ?", RecordId).Update(&NursingRecords{RecordId:RecordId, Updated:dateTime})
 	return affected, err
 }
 
 //插入文书记录
 func InsertNRecords(nursing NursingRecords) (int64, error) {
 	affected, err := fit.MySqlEngine().Insert(&nursing)
+	return affected, err
+}
+
+//删除文书记录
+func DeleteNRecords(RecordId int64) (int64, error) {
+	affected, err := fit.MySqlEngine().Table("NursingRecords").Where("RecordId = ?", RecordId).Delete(NursingRecords{RecordId:RecordId})
 	return affected, err
 }

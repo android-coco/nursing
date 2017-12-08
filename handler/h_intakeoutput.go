@@ -48,7 +48,7 @@ func (c IntakeOutputCollectController) Post(w *fit.Response, r *fit.Request, p f
 		return
 	}
 
-	patientID, err_pid := strconv.Atoi(pid)
+	patientID, err_pid := strconv.ParseInt(pid, 10, 64)
 	if err_pid != nil {
 		c.RenderingJsonAutomatically(2, "参数错误: patient_id")
 		return
@@ -60,7 +60,7 @@ func (c IntakeOutputCollectController) Post(w *fit.Response, r *fit.Request, p f
 	}
 
 	subtype_i, err_copy := strconv.Atoi(subtype)
-	_, err_time := time.Parse("2006-01-02 15:04:05", recordtime)
+	testtime, err_time := time.ParseInLocation("2006-01-02 15:04:05", recordtime,time.Local)
 	_, err_value := strconv.Atoi(value)
 	opertion_i, err_op := strconv.Atoi(opertion_type)
 
@@ -79,7 +79,7 @@ func (c IntakeOutputCollectController) Post(w *fit.Response, r *fit.Request, p f
 	}
 
 	// 出量
-	iov := model.IntakeOutput{
+	iov := model.NurseChat{
 		PatientId: patientID,
 		NurseId:   nurseId,
 		NurseName: nurse_name,
@@ -88,11 +88,16 @@ func (c IntakeOutputCollectController) Post(w *fit.Response, r *fit.Request, p f
 		Other:     opertion_i,
 		OtherStr:  other_desc,
 		Describe:  desc,
-		TestTime:  recordtime,
+		TestTime:  fit.JsonTime(testtime),
 		Value:     value,
 	}
 
-	err = iov.CollectIntakeOrOutputVolume()
+	fit.Logger().LogError("IntakeOutputCollectController",iov,iov.TestTime,recordtime)
+
+	err = model.QueryIntakeOrOutput(&iov)
+
+	//err = iov.CollectIntakeOrOutputVolume()
+
 	if err != nil {
 		c.RenderingJsonAutomatically(3, "Database "+err.Error())
 	} else {

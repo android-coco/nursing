@@ -98,7 +98,7 @@
                     }
                     html +=   "  </tr>\n" +
                         "  <tr>\n" +
-                        "    <td width=\"115\" height=\"20\" rowspan=\"3\" bordercolor=\"0\"><span class=\"STYLE1\">N动脉搏动</span></td>\n" +
+                        "    <td width=\"115\" height=\"20\" rowspan=\"3\" bordercolor=\"0\"><span class=\"STYLE1\">腘动脉搏动</span></td>\n" +
                         "    <td width=\"178\" height=\"20\" bordercolor=\"0\"><div align=\"left\" class=\"STYLE1\">\n" +
                         "      <div align=\"center\">正常</div>\n" +
                         "    </div></td>";
@@ -233,7 +233,7 @@
                     html +=    "  </tr>\n" +
                         "  <tr>\n" +
                         "    <td height=\"20\" bordercolor=\"0\"><div class=\"STYLE1\">\n" +
-                        "      <p align=\"center\">阳性*</p>\n" +
+                        "      <p align=\"center\">阳性</p>\n" +
                         "    </div></td>\n";
                     for(var j=0;j<pgeDataNum;j++){
                         html+="<td width=\"30\"  bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL05A == "2" && "class=icon")) +" ><div align=\"center\" "+ " ></div></td>\n" +
@@ -323,7 +323,7 @@
                     }
                     html +=    "  </tr>\n" +
                         "  <tr>\n" +
-                        "    <td height=\"20\" colspan=\"2\" bordercolor=\"0\"><span class=\"STYLE1\">皮肤温度（°C）\n" +
+                        "    <td height=\"20\" colspan=\"2\" bordercolor=\"0\"><span class=\"STYLE1\">皮肤温度\n" +
                         "    </span>      <div align=\"center\" class=\"STYLE1\"></div></td>\n";
                     for(var j=0;j<pgeDataNum;j++){
                         html+="<td width=\"30\"  bordercolor=\"0\"><div align=\"center\" "+ " >"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL08A ||" ")) +"</div></td>\n" +
@@ -335,7 +335,7 @@
                     }
                     html +=    "  </tr>\n" +
                         "  <tr>\n" +
-                        "    <td width=\"115\" height=\"20\" rowspan=\"2\" bordercolor=\"0\"><span class=\"STYLE1\">主观麻痹感</span></td>\n" +
+                        "    <td width=\"115\" height=\"20\" rowspan=\"2\" bordercolor=\"0\"><span class=\"STYLE1\">主观麻痹感*</span></td>\n" +
                         "    <td height=\"20\" bordercolor=\"0\"><div class=\"STYLE1\">\n" +
                         "      <p align=\"center\">无</p>\n" +
                         "    </div></td>\n";
@@ -408,7 +408,7 @@
                     html +=    "  </tr>\n" +
                         "  <tr>\n" +
                         "    <td height=\"20\" bordercolor=\"0\"><div class=\"STYLE1\">\n" +
-                        "      <p align=\"left\">3、采取相应护 理措施</p>\n" +
+                        "      <p align=\"left\">3、采取护理措施</p>\n" +
                         "    </div></td>\n";
                     for(var j=0;j<pgeDataNum;j++){
                         html+="<td width=\"30\" colspan=\"2\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL11 == "3" && "class=icon")) +" ><div align=\"center\" "+ " ></div></td>\n" +
@@ -431,7 +431,7 @@
                     }
                     html +=    "  </tr>\n" +
                         "  <tr>\n" +
-                        "    <td height=\"20\" colspan=\"2\" bordercolor=\"0\"><span class=\"STYLE1\">2、抬高患肢，肢体位置高于心 脏水平20~30cm\n" +
+                        "    <td height=\"20\" colspan=\"2\" bordercolor=\"0\"><span class=\"STYLE1\">2、抬高患肢，肢体位置高于心脏水平20~30cm\n" +
                         "    </span>      <div align=\"center\" class=\"STYLE1\"></div></td>\n" ;
                     for(var j=0;j<pgeDataNum;j++){
                         html+="<td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelA.NRL12, 2) && "icon")+" ><div align=\"center\" "+ " ></div></td>\n" +
@@ -440,7 +440,7 @@
                     }
                     html +=    "  </tr>\n" +
                         "  <tr>\n" +
-                        "    <td height=\"20\" colspan=\"2\" bordercolor=\"0\"><span class=\"STYLE1\">3、膝关节微屈15°，N窝处避免 受压\n" +
+                        "    <td height=\"20\" colspan=\"2\" bordercolor=\"0\"><span class=\"STYLE1\">3、膝关节微屈15°，腘窝处避免受压\n" +
                         "    </span>      <div align=\"center\" class=\"STYLE1\"></div></td>\n" ;
                     for(var j=0;j<pgeDataNum;j++){
                         html+="<td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelA.NRL12, 3) && "icon")+"><div align=\"center\" "+ " ></div></td>\n" +
@@ -449,7 +449,7 @@
                     }
                     html +=    "  </tr>\n" +
                         "  <tr>\n" +
-                        "    <td height=\"20\" colspan=\"2\" bordercolor=\"0\"><span class=\"STYLE1\">4、严禁按摩及热敷，避免下肢 静脉穿刺\n" +
+                        "    <td height=\"20\" colspan=\"2\" bordercolor=\"0\"><span class=\"STYLE1\">4、严禁按摩及热敷，避免下肢静脉穿刺\n" +
                         "    </span>      <div align=\"center\" class=\"STYLE1\"></div></td>\n" ;
                     for(var j=0;j<pgeDataNum;j++){
                         html+="<td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelA.NRL12, 4) && "icon")+"><div align=\"center\" "+ " ></div></td>\n" +
@@ -815,7 +815,7 @@
         </tr>
         <tr>
             <td height="20" bordercolor="0"><div class="STYLE1">
-                <p align="center">阳性*</p>
+                <p align="center">阳性</p>
             </div></td>
             <td width="30" bordercolor="0"><div align="center"></div></td>
             <td width="30" bordercolor="0"><div align="center"></div></td>
@@ -975,7 +975,7 @@
             <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
         </tr>
         <tr>
-            <td height="20" colspan="2" bordercolor="0"><span class="STYLE1">皮肤温度（°C）
+            <td height="20" colspan="2" bordercolor="0"><span class="STYLE1">皮肤温度
     </span>      <div align="center" class="STYLE1"></div></td>
             <td width="30" bordercolor="0"><div align="center"></div></td>
             <td width="30" bordercolor="0"><div align="center"></div></td>
@@ -997,7 +997,7 @@
             <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
         </tr>
         <tr>
-            <td width="115" height="20" rowspan="2" bordercolor="0"><span class="STYLE1">主观麻痹感</span></td>
+            <td width="115" height="20" rowspan="2" bordercolor="0"><span class="STYLE1">主观麻痹感*</span></td>
             <td height="20" bordercolor="0"><div class="STYLE1">
                 <p align="center">无</p>
             </div></td>
@@ -1136,7 +1136,7 @@
         </tr>
         <tr>
             <td height="20" bordercolor="0"><div class="STYLE1">
-                <p align="left">3、采取相应护 理措施</p>
+                <p align="left">3、采取护理措施</p>
             </div></td>
             <td width="30" bordercolor="0"><div align="center"></div></td>
             <td width="30" bordercolor="0"><div align="center"></div></td>
@@ -1185,7 +1185,7 @@
             <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
         </tr>
         <tr>
-            <td height="20" colspan="2" bordercolor="0"><span class="STYLE1">2、抬高患肢，肢体位置高于心 脏水平20~30cm
+            <td height="20" colspan="2" bordercolor="0"><span class="STYLE1">2、抬高患肢，肢体位置高于心脏水平20~30cm
     </span>      <div align="center" class="STYLE1"></div></td>
             <td width="30" bordercolor="0"><div align="center"></div></td>
             <td width="30" bordercolor="0"><div align="center"></div></td>
@@ -1207,7 +1207,7 @@
             <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
         </tr>
         <tr>
-            <td height="20" colspan="2" bordercolor="0"><span class="STYLE1">3、膝关节微屈15°，腘窝处避免 受压
+            <td height="20" colspan="2" bordercolor="0"><span class="STYLE1">3、膝关节微屈15°，腘窝处避免受压
     </span>      <div align="center" class="STYLE1"></div></td>
             <td width="30" bordercolor="0"><div align="center"></div></td>
             <td width="30" bordercolor="0"><div align="center"></div></td>
@@ -1229,7 +1229,7 @@
             <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
         </tr>
         <tr>
-            <td height="20" colspan="2" bordercolor="0"><span class="STYLE1">4、严禁按摩及热敷，避免下肢 静脉穿刺
+            <td height="20" colspan="2" bordercolor="0"><span class="STYLE1">4、严禁按摩及热敷，避免下肢静脉穿刺
     </span>      <div align="center" class="STYLE1"></div></td>
             <td width="30" bordercolor="0"><div align="center"></div></td>
             <td width="30" bordercolor="0"><div align="center"></div></td>

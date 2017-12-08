@@ -34,19 +34,20 @@ type NRL1Title struct {
 //护理记录单
 // NurseChat 结构
 type NRLData struct {
-	ID         int64        `json:"id" xorm:"pk autoincr comment(ID)"`
-	HeadType   string       `json:"headType" xorm:"notnull comment(头部id,对应头部类型)"`
-	TestTime   fit.JsonTime `json:"testTime" xorm:"notnull comment(测试时间)"`
+	ID          int64        `json:"id" xorm:"pk autoincr comment(ID)"`
+	HeadType    string       `json:"headType" xorm:"notnull comment(头部id,对应头部类型)"`
+	TestTime    fit.JsonTime `json:"testTime" xorm:"notnull comment(测试时间)"`
 	DateTimeStr string       `xorm:"-"`
-	DateStr    string       `xorm:"-"`
-	TimeStr    string       `xorm:"-"`
-	SubType    int          `json:"subType,string" xorm:"notnull comment(类型,)"`
-	Other      int          `json:"other" xorm:"notnull comment(其他可能选项,)"`
-	ValueTitle string       `xorm:"-"`
-	Value      string       `json:"value" xorm:"notnull comment(值)"`
-	PatientId  int64        `json:"patientid" xorm:"notnull comment(病人id)"`
-	NurseId    int          `json:"nurseid" xorm:"notnull comment(护士id)"`
-	NurseName  string       `json:"nursename" xorm:"notnull comment(护士姓名)"`
+	DateStr     string       `xorm:"-"`
+	TimeStr     string       `xorm:"-"`
+	SubType     int          `json:"subType,string" xorm:"notnull comment(类型,)"`
+	Other       int          `json:"other" xorm:"notnull comment(其他可能选项,)"`
+	ValueTitle  string       `xorm:"-"`
+	Value       string       `json:"value" xorm:"notnull comment(值)"`
+	OtherStr    string       `json:"otherStr" xorm:"comment"`
+	PatientId   int64        `json:"patientid" xorm:"notnull comment(病人id)"`
+	NurseId     int          `json:"nurseid" xorm:"notnull comment(护士id)"`
+	NurseName   string       `json:"nursename" xorm:"notnull comment(护士姓名)"`
 }
 
 /*
@@ -55,25 +56,25 @@ type NRLData struct {
 31=自定义1，32=自定义2，33=自定义3，34=自定义4，35=自定义5，36=自定义6，37=自定义7，
 */
 type NRLModel struct {
-	ID       int64        `xorm:"pk autoincr comment(文书id)"`
-	VAA01    int64        `xorm:"comment(patientid病人id)"`
-	BCK01    int          `xorm:"comment(classid科室id)"`
-	BCE01A   string       `xorm:"comment(NursingId责任护士ID)"`
-	BCE03A   string       `xorm:"comment(NursingName责任护士签名)"`
-	DateTime fit.JsonTime `json:"dateTime"`
+	ID          int64        `xorm:"pk autoincr comment(文书id)"`
+	VAA01       int64        `xorm:"comment(patientid病人id)"`
+	BCK01       int          `xorm:"comment(classid科室id)"`
+	BCE01A      string       `xorm:"comment(NursingId责任护士ID)"`
+	BCE03A      string       `xorm:"comment(NursingName责任护士签名)"`
+	DateTime    fit.JsonTime `json:"dateTime"`
 	DateTimeStr string       `xorm:"-"`
-	DateStr  string       `xorm:"-"`
-	TimeStr  string       `xorm:"-"`
-	Mod1     NRLData // 1体温
-	Mod2     NRLData // 2脉搏
-	Mod3     NRLData // 3呼吸
-	Mod4     NRLData // 4血压
-	Mod6     NRLData // 6血氧
-	Mod7     NRLData // 7血糖
-	Mod15    NRLData // 15入量
-	Mod16    NRLData // 16出量
-	Mod17    NRLData // 17病情记录
-	Mod18    NRLData // 18出入量统计
+	DateStr     string       `xorm:"-"`
+	TimeStr     string       `xorm:"-"`
+	Mod1        NRLData // 1体温
+	Mod2        NRLData // 2脉搏
+	Mod3        NRLData // 3呼吸
+	Mod4        NRLData // 4血压
+	Mod6        NRLData // 6血氧
+	Mod7        NRLData // 7血糖
+	Mod15       NRLData // 15入量
+	Mod16       NRLData // 16出量
+	Mod17       NRLData // 17病情记录
+	Mod18       NRLData // 18出入量统计
 
 	Mod31 NRLData // 自定义1
 	Mod32 NRLData // 自定义2
@@ -233,7 +234,8 @@ func parseNRLData(mods []NRLData) {
 			case 3:
 				mods[key].ValueTitle = "饮水"
 			case 4:
-				mods[key].ValueTitle = "其他"
+				//mods[key].ValueTitle = "其他"
+				mods[key].ValueTitle = val.OtherStr
 			default:
 				mods[key].ValueTitle = ""
 			}
@@ -244,7 +246,8 @@ func parseNRLData(mods []NRLData) {
 			case 2:
 				mods[key].ValueTitle = "大便"
 			case 3:
-				mods[key].ValueTitle = "其他"
+				//mods[key].ValueTitle = "其他"
+				mods[key].ValueTitle = val.OtherStr
 			default:
 				mods[key].ValueTitle = ""
 			}
@@ -272,8 +275,20 @@ func formatNRLData(mods []NRLData) []NRLModel {
 		} else {
 			oldresultModel := &results[len(results)-1]
 			//if mod.DateStr == oldresultModel.DateStr && mod.TimeStr == oldresultModel.TimeStr && strconv.Itoa(mod.NurseId) == oldresultModel.BCE01A {
-			if mod.TestTime == oldresultModel.DateTime && strconv.Itoa(mod.NurseId) == oldresultModel.BCE01A {
-				mateNRLData(&mod, oldresultModel)
+			if mod.TestTime == oldresultModel.DateTime && strconv.Itoa(mod.NurseId) == oldresultModel.BCE01A { // 测量时间相同，护士相同
+				if oldresultModel.Mod15.HeadType == mod.HeadType || oldresultModel.Mod16.HeadType == mod.HeadType { // 同一测量时间下， 出入量多条
+					var newresultModel NRLModel
+					newresultModel.DateTime = mod.TestTime
+					newresultModel.DateTimeStr = mod.DateTimeStr
+					newresultModel.DateStr = mod.DateStr
+					newresultModel.TimeStr = mod.TimeStr
+					newresultModel.BCE01A = strconv.Itoa(mod.NurseId)
+					newresultModel.BCE03A = mod.NurseName
+					mateNRLData(&mod, &newresultModel)
+					results = append(results, newresultModel)
+				} else {
+					mateNRLData(&mod, oldresultModel)
+				}
 			} else {
 				var newresultModel NRLModel
 				newresultModel.DateTime = mod.TestTime
@@ -434,16 +449,16 @@ func NRLRelatesToMarkSheet(nrlType, headType, pid, datestr1, datestr2 string) (r
 		}
 
 		nrldata := NRLData{
-			ID:        id,
-			HeadType:  headType,
-			NurseId:   uid,
-			NurseName: val["BCE03A"],
-			PatientId: pid,
-			Value:     val["Score"],
-			TestTime:  fit.JsonTime(datetime),
+			ID:          id,
+			HeadType:    headType,
+			NurseId:     uid,
+			NurseName:   val["BCE03A"],
+			PatientId:   pid,
+			Value:       val["Score"],
+			TestTime:    fit.JsonTime(datetime),
 			DateTimeStr: datetime.Format("2006-01-02 15:04:05"),
-			DateStr:   datestr,
-			TimeStr:   timestr,
+			DateStr:     datestr,
+			TimeStr:     timestr,
 		}
 		if nrldata.Value != "" {
 			results = append(results, nrldata)
@@ -473,13 +488,14 @@ func NRLRelatesToIO(pid, datestr1, datestr2 string) (results []NRLModel, err err
 		minutes := time2.Sub(time1).Minutes()
 		str := fmt.Sprintf("%s - %s  共%.0f小时%d分 小结", time1.Format("15:04"), time2.Format("15:04"), minutes/60, int(minutes)%60)
 		nrldata := NRLModel{
-			ID:      val.ID,
-			VAA01:   val.VAA01,
-			BCK01:   val.BCK01,
-			BCE01A:  val.BCE01A,
-			BCE03A:  val.BCE03A,
-			DateStr: val.DateTime1.Format("2006-01-02"),
-			TimeStr: str,
+			ID:       val.ID,
+			VAA01:    val.VAA01,
+			BCK01:    val.BCK01,
+			BCE01A:   val.BCE01A,
+			BCE03A:   val.BCE03A,
+			DateTime: fit.JsonTime(time1),
+			DateStr:  val.DateTime1.Format("2006-01-02"),
+			TimeStr:  str,
 
 			Mod1: NRLData{
 				HeadType: "18",
@@ -529,7 +545,7 @@ func PCQueryNRLIntakeOutputData(pid, ty, datestr1, datestr2 string) ([]NRLData, 
 	}
 	parseNRLData(mods)
 	for _, mod := range mods {
-		fmt.Println(mod)
+		//fmt.Println(mod)
 		mod.DateStr = mod.TestTime.IOParse()
 	}
 

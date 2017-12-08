@@ -534,7 +534,7 @@
                     </ul>
 
                 </div>
-                <div class="line"></div>
+                {{/*<div class="line"></div>*/}}
 
                 <div class="hd-row ">
                     <ul>
@@ -1686,7 +1686,7 @@
                 <div class="cont-row type2">
                     <div class="m-textarea1">
                         <p class="tit" style="vertical-align: top;float: left;">
-                            其它症状和体征：
+                            其他症状和体征：
                         </p>
 
                         <p class="txt text-ea" >
@@ -1714,7 +1714,7 @@
                                            {{if eq .NRL.NRL30 "1"}}checked{{end}}>
                                     <label for="c23-v1" class="icon"></label>
                                 </div>
-                                <label for="c23-v1">住院通知 </label>
+                                <label for="c23-v1">住院须知 </label>
                             </li>
                             <li class="b3">
                                 <div class="m-input-checkbox">
@@ -1859,7 +1859,7 @@
             <div class="ft-bt">
                 <div class="bar">
                     <div class="m-autograph">
-                        <span>签名：</span>
+                        <span>责任护士签名：</span>
                         <span class="name">{{.Userinfo.Name}}</span>
                     </div>
                     <div class="m-time date-time1">
@@ -1936,8 +1936,8 @@
     setCheckBox("#c15",NRL16Str.split(","))
 
     {{/*//  四肢活动*/}}
-    {{/*var LimbsIdStr = {{.NRL.LimbsId}};*/}}
-    {{/*setCheckBox("#u248",LimbsIdStr.split(","))*/}}
+    var LimbsIdStr = {{.NRL.LimbsId}};
+    setCheckBox("#c17",LimbsIdStr.split(","))
 
     // 皮肤状况
     var NRL21Str = {{.NRL.NRL21}};

@@ -55,6 +55,7 @@
                         <input type="text" class="am-form-field  date-input" id="date1">
                         <span class="line">—</span>
                         <input type="text" class="am-form-field  date-input" id="date2">
+                        <div id="time-search-btn" class="btn-search">搜索</div>
 
                         <a class="all-btn" href="/pc/record/nrl8?pid={{.PInfo.VAA01}}">所有记录</a>
                     </div>
@@ -87,7 +88,7 @@
                         <dl class="col-tit">
                             <dd>日期</dd>
                             <dd>时间</dd>
-                            <dd>疼痛评分量表选择</dd>
+                            <dd>疼痛评分量表</dd>
                             <dd>疼痛评分</dd>
                             <dd>责任护士签名</dd>
                             <dd>审核人签名</dd>
@@ -182,13 +183,20 @@
                                     <p class="txt2">{{$val.BCE03A}}</p>
                                 </li>
                                 <li>
-                                    <p class="txt">{{$val.NRL06B}}</p>
-                                    <div class="sel-box">
-                                        <input type="text" class="name-input" value="{{$val.NRL06B}}">
+                                    <div class="auditingWarp" style="height: 100%">
+                                        <p class="txt">{{$val.NRL06B}}</p>
+                                        <div class="sel-box">
+                                            <input type="text" class="name-input" value="{{$val.NRL06B}}">
+                                        </div>
+                                        <div class="auditingName" data-rid="{{$val.ID}}" style="line-height: 34px;">
+                                            <i class="am-icon-pencil"></i><span>编辑</span>
+                                        </div>
                                     </div>
+
                                 </li>
                                 <li class="last">
                                     <a href="#1" class="save-btn" data-isjump="0"  data-isnew="0"><span>保存</span></a>
+                                    <a class="cancel-btn" data-isnew="0"><span>取消</span></a>
                                     <a href="#1" class="edit-btn"  data-id="{{$val.BCE01A}}">
                                         <i class="am-icon-pencil"></i><span>编辑</span>
                                     </a>
@@ -470,6 +478,7 @@
             </li>
             <li class="last">
                 <a href="#1" class="save-btn" data-isjump="<%= isJump %>" data-isnew="1"><span>保存</span></a>
+                <a class="cancel-btn" data-isnew="1"><span>取消</span></a>
                 <a href="#1" class="edit-btn">
                     <i class="am-icon-pencil"></i><span>编辑</span>
                 </a>
@@ -551,7 +560,8 @@
             }
             if(yId == userId){
                 if ($('.list').find('ul.active').length > 0) {
-                    alert("请先保存信息")
+                    // alert("请先保存信息")
+                    jkyAlert("请先保存信息","no")
                 } else {
                     var $ul = $(this).parents('ul')
                     $ul.addClass("active")
@@ -569,7 +579,8 @@
                     });
                 }
             }else{
-                alert("您没有权限编辑！");
+                // alert("您没有权限编辑！");
+                jkyAlert("您没有权限编辑！","no")
             }
 
 
@@ -584,17 +595,17 @@
                 "4":"III级",
             },
             "option2":{
-                "1":"0分",
-                "2":"1分",
-                "3":"2分",
-                "4":"3分",
-                "5":"4分",
-                "6":"5分",
-                "7":"6分",
-                "8":"7分",
-                "9":"8分",
-                "10":"9分",
-                "11":"10分",
+                "1":"0",
+                "2":"1",
+                "3":"2",
+                "4":"3",
+                "5":"4",
+                "6":"5",
+                "7":"6",
+                "8":"7",
+                "9":"8",
+                "10":"9",
+                "11":"10",
             },
             "option3":{
                 "1":"0",
@@ -655,22 +666,23 @@
                 // console.log('num',num)
                 //总共5个固定参数,如果没填长度就为5
                 if(num==5){
-                    alert("请填写内容！")
+                    // alert("请填写内容！")
+                    jkyAlert("请填写内容!","no")
                     return false;
                 }
                 var $this= $(this)
                 req(api,data,function(){
-                    alert("保存成功")
-
-                    if($this.data("isjump")!="1"){
-                        location.reload()
-                    }else{
-                        var baseurl = "/pc/record/nrl8?",
-                            index = parseInt({{.PageIndex}})+1,
-                            pid = parseInt({{.PInfo.VAA01}}),
-                            date1=getURLParam("sdate"),
-                            date2=getURLParam("edate"),
-                            urlStr = baseurl + "pid=" + pid + "&num=" + index;
+                    // alert("保存成功")
+                    jkyAlert("保存成功","yes",function(){
+                        if($this.data("isjump")!="1"){
+                            location.reload()
+                        }else{
+                            var baseurl = "/pc/record/nrl8?",
+                                    index = parseInt({{.PageIndex}})+1,
+                                    pid = parseInt({{.PInfo.VAA01}}),
+                                    date1=getURLParam("sdate"),
+                                    date2=getURLParam("edate"),
+                                    urlStr = baseurl + "pid=" + pid + "&num=" + index;
 
                             if(date1){
                                 urlStr =urlStr+"&sdate=" + date1
@@ -679,9 +691,12 @@
                                 urlStr =urlStr+"&edate=" + date2
                             }
                             location.href= urlStr
-                        // console.log( baseurl + "pid=" + pid + "&num=" + index + "&sdate=" + date1 + "&edate=" + date2)
-                        // location.href=  baseurl + "pid=" + pid + "&num=" + index + "&sdate=" + date1 + "&edate=" + date2;
-                    }
+                            // console.log( baseurl + "pid=" + pid + "&num=" + index + "&sdate=" + date1 + "&edate=" + date2)
+                            // location.href=  baseurl + "pid=" + pid + "&num=" + index + "&sdate=" + date1 + "&edate=" + date2;
+                        }
+                    })
+
+
 
                 })
             }else{
@@ -689,9 +704,12 @@
                 var $el = $(this)
                 // console.log(data)
                 req(api,data,function(){
-                    alert("修改成功")
-                    setDataText($cont)
-                    $cont.removeClass("active")
+                    // alert("修改成功")
+                    jkyAlert("修改成功","yes",function(){
+                        setDataText($cont)
+                        $cont.removeClass("active")
+                    })
+
                 })
             }
 
@@ -744,7 +762,8 @@
                                 cb();
                                 break;
                             default:
-                                alert(data.errmsg)
+                                // alert(data.errmsg)
+                                jkyAlert(data.errmsg,"no")
                         }
                     }
                 },
@@ -796,9 +815,9 @@
                 }
                 if(yId == userId){
 
-                    var isDel = confirm("是否确认删除");
-                    var data = {}
-                    if(isDel){
+                    // var isDel = confirm("是否确认删除");
+                    jkyConfirm("是否确认删除",function () {
+                        var data = {}
                         data.rid = rid;
                         $.ajax({
                             url: "/record/nr8/delete",
@@ -812,7 +831,8 @@
                                             location.reload();
                                             break;
                                         default:
-                                            alert(data.errmsg)
+                                            // alert(data.errmsg)
+                                            jkyAlert(data.errmsg,"no")
                                     }
                                 }
                             },
@@ -821,10 +841,11 @@
                             },
                             dataType: "json"
                         })
+                    })
 
-                    }
                 }else{
-                    alert("您没有权限删除！");
+                    // alert("您没有权限删除！");
+                    jkyAlert("您没有权限删除！","no")
                     return false
                 }
 
@@ -899,7 +920,7 @@
                 done: function(value, date, endDate) {
                     var a = new Date(value);
                     date1 = a.getTime();
-                    reloadSheet();
+                    // reloadSheet();
                 }
             });
 
@@ -914,10 +935,13 @@
                     var a = new Date(value);
                     date2 = a.getTime();
                     console.log("date ", date1, date2);
-                    reloadSheet();
+                    // reloadSheet();
                 }
             });
 
+            $("#time-search-btn").on("click",function(){
+                reloadSheet();
+            })
             // 总页数
             var pagenum = parseInt({{.PageNum}});
             // 当前页数
@@ -965,7 +989,8 @@
 
             function reloadSheet() {
                 if($(".col-cont.active").length>0){
-                    alert("请先保存数据！");
+                    // alert("请先保存数据！");
+                    jkyAlert("请先保存数据！","no")
                     return false;
                 }
                 index = tempindex;
@@ -1018,7 +1043,8 @@
         $(".btn.type2.createCol").on("click", function () {
 
             if($(".col-cont.active").length>0){
-                alert("请先保存数据！")
+                // alert("请先保存数据！")
+                jkyAlert("请先保存数据！","no")
                 return false;
             }
             var $cont = $("#tab-list");
@@ -1107,6 +1133,59 @@
                 }
             });
         });
+
+        $("body").on("click",".cancel-btn",function(){
+            if($(this).data("isnew") && $(this).data("isnew") !="0"){
+                location.reload()
+            }else{
+                $(this).parents(".col-cont").removeClass("active")
+            }
+        })
+
+
+        ;(function (){
+            var $this=null,reqData=null
+            $("body").on("click",".auditingName",function(){
+                $this = $(this);
+
+                if ($('.list').find('ul.active').length > 0) {
+                    // alert("请先保存信息")
+                    jkyAlert("请先保存信息", "no")
+                }else{
+                    var rid = $this.data("rid")
+                    reqData = {
+                        "nrltype":"8",
+                        "rid": rid
+                    }
+                    var api = "/record/nrl/updatechecker"
+                    if(rid){
+                        var valTxt = $.trim($this.parents("li").find(".txt").text());
+                        jkyPrompt({
+                            txt:"审核人签名",
+                            valTxt:valTxt,
+                            maxlength:10
+                        }, function(data){
+                            data= $.trim(data)
+                            if(data){
+                                reqData["nurseName"] = data
+                                req(api,reqData,function(resData){
+                                    $this.parents("li").find(".txt").text(data)
+                                    // reqData = null;
+                                    // $this= null;
+                                })
+
+                            }
+                        },function(){
+                            $("#jky-prompt-input").val("")
+                        })
+
+
+                    }else{
+                        jkyAlert("意外错误！","no")
+                    }
+                }
+            })
+        })()
 
     </script>
 </body>

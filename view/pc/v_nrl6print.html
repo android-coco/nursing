@@ -262,15 +262,13 @@
                             "      </tr>\n" +
                             "    </table>\n" +
                             "    <p class=\"STYLE3\">该表使用说明：</p>\n" +
-                            "    <p class=\"STYLE2\">1. 对所有新入院、转入、转科、大手术后患者当天内必须完成初次压疮风险因素评估（用Braden压疮风险评估表）；对高龄、消瘦、水肿、瘫痪、大小便失</p>\n" +
-                            "    <p class=\"STYLE2\">禁、昏迷、长期卧床等“压疮高风险患者”，定期进行压疮风险因素评估；最高23分，15-18分为低风险，13-14分为中风险，10-12分为高风险， &lt;9分为非常风险</p>\n" +
+                            "    <p class=\"STYLE2\">1. 对所有新入院、转入、转科、大手术后患者当天内必须完成初次压疮风险因素评估（用Braden压疮风险评估表）；对高龄、消瘦、水肿、瘫痪、大小便失禁、昏迷、长期卧床等“压疮高风险患者”，定期进行压疮风险因素评估；最高23分，15-18分为低风险，13-14分为中风险，10-12分为高风险， &lt;9分为非常风险</p>\n" +
                             "    <p class=\"STYLE2\">2. 评估周期：</p>\n" +
-                            "    <p class=\"STYLE2\">①所有病人都需要评估；②入院时立即评估，当评分13~18分时，此后每48h评估一次，为期1星期；③长期护理的患者应在第一个4周内每周评估一次，之后每月评估一次；④当病</p>\n" +
-                            "    <p class=\"STYLE2\">人情况有变化及时评估，然后每星期再进行评估；⑤≤12分每天评估，18分作为预测有压疮发生风险的诊断价值，评分≤18分应采取预防压疮的措施</p></div>\n" +
+                            "    <p class=\"STYLE2\">①所有病人都需要评估；②入院时立即评估，当评分13~18分时，此后每48h评估一次，为期1星期；③长期护理的患者应在第一个4周内每周评估一次，之后每月评估一次；④当病人情况有变化及时评估，然后每星期再进行评估；⑤≤12分每天评估，18分作为预测有压疮发生风险的诊断价值，评分≤18分应采取预防压疮的措施</p>\n</div>" +
                             "<div class=\"bagw\"><p align=\"center\" class=\"STYLE5\">深圳万丰医院预防压疮的护理措施</p>";
 
 
-                    html += " <table width=\"1064\" border=\"1\"  cellspacing=\"0\" bordercolor=\"#666666\">\n" +
+                    html += "<table width=\"1064\" border=\"1\"  cellspacing=\"0\" bordercolor=\"#666666\">\n" +
                             "      <tr>\n" +
                             "        <td width=\"139\" rowspan=\"2\"><div class=\"STYLE4\">\n" +
                             "            <div align=\"center\">项目</div>\n" +
@@ -362,7 +360,7 @@
                             "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL08, 4) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
-                            "        <td height=\"29\">保护足跟、潮湿的管理、营养的管理、摩擦力和剪 切力的管理</td>\n" +
+                            "        <td height=\"29\">保护足跟、潮湿的管理、营养的管理、摩擦力和剪切力的管理</td>\n" +
                             "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL08, 5) && "icon") + "><div align=\"center\"></div></td>\n" +
                             "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL08, 5) && "icon") + "><div align=\"center\"></div></td>\n" +
                             "        <td width=\"105\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 2].NRL08, 5) && "icon") + "><div align=\"center\"></div></td>\n" +
@@ -384,7 +382,7 @@
                             "      </tr>\n" +
                             "      <tr>\n" +
                             "        <td height=\"29\" rowspan=\"8\">(10 ~ 12分)高度风险</td>\n" +
-                            "        <td height=\"29\"><div align=\"center\" class=\"STYLE4\">\n" +
+                            "        <td height=\"29\"><div align=\"center\" >\n" +
                             "          <div align=\"left\">保证翻身频率，至少Q2H翻身</div>\n" +
                             "        </div></td>\n" +
                             "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL09, 1) && "icon") + "><div align=\"center\"></div></td>\n" +
@@ -393,7 +391,7 @@
                             "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL09, 1) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
-                            "        <td height=\"29\"><div align=\"center\" class=\"STYLE4\">\n" +
+                            "        <td height=\"29\"><div align=\"center\" >\n" +
                             "          <div align=\"left\">增加小幅度的移位</div>\n" +
                             "        </div></td>\n" +
                             "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL09, 2) && "icon") + "><div align=\"center\"></div></td>\n" +
@@ -416,8 +414,8 @@
                             "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL09, 4) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
-                            "        <td height=\"29\"><div align=\"center\" class=\"STYLE4\">\n" +
-                            "          <div align=\"left\">保护足跟、潮湿的管理、营养的管理、摩擦力和剪 切力的管理</div>\n" +
+                            "        <td height=\"29\"><div align=\"center\" >\n" +
+                            "          <div align=\"left\">保护足跟、潮湿的管理、营养的管理、摩擦力和剪切力的管理</div>\n" +
                             "        </div></td>\n" +
                             "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL09, 5) && "icon") + "><div align=\"center\"></div></td>\n" +
                             "        <td width=\"112\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 1].NRL09, 5) && "icon") + "><div align=\"center\"></div></td>\n" +
@@ -439,7 +437,7 @@
                             "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL09, 7) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
-                            "        <td height=\"29\"><div align=\"center\" class=\"STYLE4\">\n" +
+                            "        <td height=\"29\"><div align=\"center\" >\n" +
                             "          <div align=\"left\">填写高风险压疮申请表，上报护理部</div>\n" +
                             "        </div></td>\n" +
                             "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL09, 8) && "icon") + "><div align=\"center\"></div></td>\n" +
@@ -543,7 +541,7 @@
                             "        <td width=\"104\" height=\"29\"class=" + (Str(datas[i * pgeDataNum + 3].NRL12, 4) && "icon") + " ><div align=\"center\"></div></td>\n" +
                             "      </tr>\n" +
                             "      <tr>\n" +
-                            "        <td height=\"29\"><div align=\"center\" class=\"STYLE4\">\n" +
+                            "        <td height=\"29\"><div align=\"center\">\n" +
                             "          <div align=\"left\">咨询营养师</div>\n" +
                             "        </div></td>\n" +
                             "        <td width=\"106\" height=\"29\" class=" + (Str(datas[i * pgeDataNum + 0].NRL12, 5) && "icon") + "><div align=\"center\"></div></td>\n" +
@@ -973,11 +971,9 @@
     </tr>
 </table>
 <p class="STYLE3">该表使用说明：</p>
-<p class="STYLE2">1. 对所有新入院、转入、转科、大手术后患者当天内必须完成初次压疮风险因素评估（用Braden压疮风险评估表）；对高龄、消瘦、水肿、瘫痪、大小便失</p>
-<p class="STYLE2">禁、昏迷、长期卧床等“压疮高风险患者”，定期进行压疮风险因素评估；最高23分，15-18分为低风险，13-14分为中风险，10-12分为高风险， &lt;9分为非常风险</p>
+<p class="STYLE2">1. 对所有新入院、转入、转科、大手术后患者当天内必须完成初次压疮风险因素评估（用Braden压疮风险评估表）；对高龄、消瘦、水肿、瘫痪、大小便失禁、昏迷、长期卧床等“压疮高风险患者”，定期进行压疮风险因素评估；最高23分，15-18分为低风险，13-14分为中风险，10-12分为高风险， &lt;9分为非常风险</p>
 <p class="STYLE2">2. 评估周期：</p>
-<p class="STYLE2">①所有病人都需要评估；②入院时立即评估，当评分13~18分时，此后每48h评估一次，为期1星期；③长期护理的患者应在第一个4周内每周评估一次，之后每月评估一次；④当病</p>
-<p class="STYLE2">人情况有变化及时评估，然后每星期再进行评估；⑤≤12分每天评估，18分作为预测有压疮发生风险的诊断价值，评分≤18分应采取预防压疮的措施</p>
+<p class="STYLE2">①所有病人都需要评估；②入院时立即评估，当评分13~18分时，此后每48h评估一次，为期1星期；③长期护理的患者应在第一个4周内每周评估一次，之后每月评估一次；④当病人情况有变化及时评估，然后每星期再进行评估；⑤≤12分每天评估，18分作为预测有压疮发生风险的诊断价值，评分≤18分应采取预防压疮的措施</p>
 </div>
 <div class="bagw">
 <p align="center" class="STYLE5">深圳万丰医院预防压疮的护理措施</p>
@@ -1168,7 +1164,7 @@
         </td>
     </tr>
     <tr>
-        <td height="29">保护足跟、潮湿的管理、营养的管理、摩擦力和剪 切力的管理</td>
+        <td height="29">保护足跟、潮湿的管理、营养的管理、摩擦力和剪切力的管理</td>
         <td width="106" height="29">
             <div align="center"></div>
         </td>
@@ -1215,9 +1211,7 @@
     <tr>
         <td height="29" rowspan="8">(10 ~ 12分)高度风险</td>
         <td height="29">
-            <div align="center" class="STYLE4">
-                <div align="left">保证翻身频率，至少Q2H翻身</div>
-            </div>
+            <div align="left">保证翻身频率，至少Q2H翻身</div>
         </td>
         <td width="106" height="29">
             <div align="center"></div>
@@ -1234,9 +1228,7 @@
     </tr>
     <tr>
         <td height="29">
-            <div align="center" class="STYLE4">
-                <div align="left">增加小幅度的移位</div>
-            </div>
+            <div align="left">增加小幅度的移位</div>
         </td>
         <td width="106" height="29">
             <div align="center"></div>
@@ -1287,9 +1279,7 @@
     </tr>
     <tr>
         <td height="29">
-            <div align="center" class="STYLE4">
-                <div align="left">保护足跟、潮湿的管理、营养的管理、摩擦力和剪 切力的管理</div>
-            </div>
+            <div align="left">保护足跟、潮湿的管理、营养的管理、摩擦力和剪切力的管理</div>
         </td>
         <td width="106" height="29">
             <div align="center"></div>
@@ -1336,9 +1326,7 @@
     </tr>
     <tr>
         <td height="29">
-            <div align="center" class="STYLE4">
-                <div align="left">填写高风险压疮申请表，上报护理部</div>
-            </div>
+            <div align="left">填写高风险压疮申请表，上报护理部</div>
         </td>
         <td width="106" height="29">
             <div align="center"></div>
@@ -1554,9 +1542,7 @@
     </tr>
     <tr>
         <td height="29">
-            <div align="center" class="STYLE4">
-                <div align="left">咨询营养师</div>
-            </div>
+            <div align="left">咨询营养师</div>
         </td>
         <td width="106" height="29">
             <div align="center"></div>

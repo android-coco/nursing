@@ -27,6 +27,7 @@ type WristStrap struct {
 	ClassName  string //科室
 	Pid        string //病人ID
 	HospitalId string //住院ID
+	Diagnose string //住院ID
 }
 
 // 腕带打印
@@ -47,7 +48,7 @@ func (c PCWristStrapController) Get(w *fit.Response, r *fit.Request, p fit.Param
 	} else {
 		sex = "未知"
 	}
-	c.Data = fit.Data{"Datas": WristStrap{patients[0].BCQ04, patients[0].VAA05, sex, fmt.Sprint(patients[0].VAA10), patients[0].BCK03C, pid, patients[0].VAA04}}
+	c.Data = fit.Data{"Datas": WristStrap{patients[0].BCQ04, patients[0].VAA05, sex, fmt.Sprint(patients[0].VAA10), patients[0].BCK03C, pid, patients[0].VAA04,patients[0].VAO2.VAO15}}
 	c.LoadView(w, "pc/v_wdprint.html")
 }
 
@@ -88,8 +89,9 @@ type PrintInfoDup struct {
 // 瓶贴打印
 func (c PCBottleStrapController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 
-	//defer c.LoadView(w, "pc/v_ptprint.html") //屏贴
-	defer c.LoadView(w, "pc/v_shuyeprint.html")//输液单
+	defer c.LoadView(w, "pc/v_ptprint.html") //屏贴
+	//defer c.LoadView(w, "pc/v_bqprint.html") //标签
+	//defer c.LoadView(w, "pc/v_shuyeprint.html")//输液单
 	//defer c.LoadView(w, "pc/v_kofuprint.html")//口服单,治疗单,注射单
 	madids := r.FormValue("madids")
 	sql := fmt.Sprintf("select a.VAF01 as Madid,a.VAA01 as Pid,v.VAA05 as PatientName,v.BCQ04 as Bed,v.ABW01 as Gender,v.VAA10 as Age,v.VAA04 as HospNum,a.VAF11 as TypeOf,a.VAF19 as Dosage,a.VAF22 as Content,a.VAF27 as Times,c.BBX20 PrintType,a.VAF60 Speed,a.VAF59 AS SetNo,a.VAF26 AS PcInfo from ((VAF2 a left join VAF2 b on a.VAF01A = b.VAF01) left join BBX1 c on c.BBX01 = a.BBX01) left join VAA1 v on v.VAA01 = a.VAA01 where a.VAF01 in (%s) order by a.VAF36,a.VAA01,a.CBM01,c.BBX20", madids)
@@ -258,8 +260,8 @@ func (c PCNrl1Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 		datestr1 = ""
 		datestr2 = ""
 	} else {
-		datestr1 = time.Unix(date1/1000-60*60*8, 0).Format("2006-01-02 15:04:05")
-		datestr2 = time.Unix(date2/1000+60*60*16, 0).Format("2006-01-02 15:04:05")
+		datestr1 = time.Unix(date1/1000, 0).Format("2006-01-02 15:04:05")
+		datestr2 = time.Unix(date2/1000+60*60*24, 0).Format("2006-01-02 15:04:05")
 	}
 
 	mods, errdata := model.GetNRL1Data(pid, datestr1, datestr2)
@@ -546,7 +548,6 @@ func (c PCNrl5Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 		fmt.Fprintln(w, "参数错误！  user info error", err13)
 		return
 	}
-	fit.Logger().LogError("fasdfasdf:",mods)
 
 
 	var page int

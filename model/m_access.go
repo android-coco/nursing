@@ -65,22 +65,34 @@ func (m Access) ParseAccessReason(value string) (AccessReason, error) {
 }
 
 func AccessList(classId, page string, accessType AccessType) ([]Access, error) {
+
+	bedArray := make([]BCQ1, 0)
+	fit.SQLServerEngine().SQL("select VAA01 from BCQ1 where BCK01A = ? AND VAA01 > 0 order by ROWNR", classId).Find(&bedArray)
+	var wherestr string
+	for i, bed := range bedArray {
+		if i == len(bedArray)-1{
+			wherestr += strconv.FormatInt(bed.VAA01,10)
+		}else{
+			wherestr += strconv.FormatInt(bed.VAA01,10) + ","
+		}
+	}
+
 	var mods []Access
 	var err error
 	pageInt,_ := strconv.ParseInt(page, 10, 32)
 	if pageInt == -1 { // 全部
 		pageInt = 0
 		if accessType == AccessTypeAll {
-			err = fit.MySqlEngine().SQL("select * from Access where classId = ? ORDER BY `AccessTime` DESC", classId).Limit(20, int(pageInt)).Find(&mods)
+			err = fit.MySqlEngine().SQL("select * from Access where PatientId in ("+ wherestr+ ") AND classId = ? ORDER BY `AccessTime` DESC", classId).Limit(20, int(pageInt)).Find(&mods)
 		} else {
-			err = fit.MySqlEngine().SQL("select * from Access where classId = ? and accesstype = ? ORDER BY `AccessTime` DESC", classId, accessType).Limit(20, int(pageInt)).Find(&mods)
+			err = fit.MySqlEngine().SQL("select * from Access where PatientId in ("+ wherestr+ ") AND classId = ? and accesstype = ? ORDER BY `AccessTime` DESC", classId, accessType).Limit(20, int(pageInt)).Find(&mods)
 		}
 	} else {
 		pageInt *= 20
 		if accessType == AccessTypeAll {
-			err = fit.MySqlEngine().SQL("select * from Access where classId = ? ORDER BY `AccessTime` DESC", classId).Limit(20, int(pageInt)).Find(&mods)
+			err = fit.MySqlEngine().SQL("select * from Access where PatientId in ("+ wherestr+ ") AND classId = ? ORDER BY `AccessTime` DESC", classId).Limit(20, int(pageInt)).Find(&mods)
 		} else {
-			err = fit.MySqlEngine().SQL("select * from Access where classId = ? and accesstype = ? ORDER BY `AccessT ime` DESC", classId, accessType).Limit(20, int(pageInt)).Find(&mods)
+			err = fit.MySqlEngine().SQL("select * from Access where PatientId in ("+ wherestr+ ") AND classId = ? and accesstype = ? ORDER BY `AccessT ime` DESC", classId, accessType).Limit(20, int(pageInt)).Find(&mods)
 		}
 	}
 
@@ -88,16 +100,38 @@ func AccessList(classId, page string, accessType AccessType) ([]Access, error) {
 }
 
 func AccessSearch(classId, paramstr string) ([]Access, error) {
+
+	bedArray := make([]BCQ1, 0)
+	fit.SQLServerEngine().SQL("select VAA01 from BCQ1 where BCK01A = ? AND VAA01 > 0 order by ROWNR", classId).Find(&bedArray)
+	var wherestr string
+	for i, bed := range bedArray {
+		if i == len(bedArray)-1{
+			wherestr += strconv.FormatInt(bed.VAA01,10)
+		}else{
+			wherestr += strconv.FormatInt(bed.VAA01,10) + ","
+		}
+	}
+
 	mods := make([]Access,0)
 	params := "%" + paramstr + "%"
-	err := fit.MySqlEngine().SQL("select * from Access where classId = ? and (bedId like ? or patientName like ?)", classId, params, params).Find(&mods)
+	err := fit.MySqlEngine().SQL("select * from Access where  PatientId in ("+ wherestr+ ") AND classId = ? and (bedId like ? or patientName like ?)", classId, params, params).Find(&mods)
 	return mods, err
 }
 
 
 func AccessALLList(classId string) ([]Access, error) {
+	bedArray := make([]BCQ1, 0)
+	fit.SQLServerEngine().SQL("select VAA01 from BCQ1 where BCK01A = ? AND VAA01 > 0 order by ROWNR", classId).Find(&bedArray)
+	var wherestr string
+	for i, bed := range bedArray {
+		if i == len(bedArray)-1{
+			wherestr += strconv.FormatInt(bed.VAA01,10)
+		}else{
+			wherestr += strconv.FormatInt(bed.VAA01,10) + ","
+		}
+	}
 	var mods []Access
 	var err error
-	err = fit.MySqlEngine().SQL("select * from Access where classId = ?  ORDER BY `AccessTime` DESC", classId).Find(&mods)
+	err = fit.MySqlEngine().SQL("select * from Access where PatientId in ("+ wherestr+ ") AND classId = ?  ORDER BY `AccessTime` DESC", classId).Find(&mods)
 	return mods, err
 }

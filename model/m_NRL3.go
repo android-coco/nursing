@@ -10,7 +10,7 @@ import (
 //基本生活活动能力BADL
 type NRL3 struct {
 	ID       int64     `xorm:"pk autoincr comment(文书id)"`
-	VAA01    int64     `xorm:"comment(patientid病人id)"`
+	VAA01    int64     `xorm:"comment(patientid病人id)" fit:"pid"`
 	BCK01    int       `xorm:"comment(classid科室id)"`
 	BCE01A   string    `xorm:"comment(NursingId责任护士ID)"`
 	BCE03A   string    `xorm:"comment(NursingName责任护士签名)"`
@@ -60,6 +60,7 @@ func (m *NRL3) UpdateData(id int64) (int64, error) {
 }
 
 func (m *NRL3) DeleteData(id int64) (int64, error) {
+	DeleteNRecords(id)
 	return fit.MySqlEngine().ID(id).Delete(m)
 }
 
@@ -69,6 +70,8 @@ func QueryNRL3(rid string) (NRL3, error) {
 	if err != nil {
 		return NRL3{}, err
 	} else {
+		nr3.DateStr = nr3.DateTime.Format("2006-01-02")
+		//nr3.TimeStr = nr3.DateTime.Format("15:04")
 		return nr3, nil
 	}
 }
@@ -79,12 +82,12 @@ func PCQueryNRL3(pid, datestr1, datestr2 string, pagenum int) ([]NRL3, error) {
 	var err error
 
 	if pagenum == -1 {
-		err = fit.MySqlEngine().Table("NRL3").Where("VAA01 = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Find(&mods)
+		err = fit.MySqlEngine().Table("NRL3").Where("VAA01 = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Asc("DateTime").Find(&mods)
 	} else {
 		if datestr2 == "" || datestr1 == "" {
-			err = fit.MySqlEngine().Table("NRL3").Where("VAA01 = ?", pid).Limit(9, (pagenum-1)*9).Find(&mods)
+			err = fit.MySqlEngine().Table("NRL3").Where("VAA01 = ?", pid).Limit(9, (pagenum-1)*9).Asc("DateTime").Find(&mods)
 		} else {
-			err = fit.MySqlEngine().Table("NRL3").Where("VAA01 = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Limit(9, (pagenum-1)*9).Find(&mods)
+			err = fit.MySqlEngine().Table("NRL3").Where("VAA01 = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Limit(9, (pagenum-1)*9).Asc("DateTime").Find(&mods)
 		}
 	}
 	if err != nil {
@@ -168,7 +171,7 @@ func QueryNRLWithRid(nrlType, rid string) (nrl interface{}, pid, uid string, err
 
 /*PC端*/
 //查询页数
-func PCQUeryNRLPageCount(nrlType, pid, datestr1, datestr2 string) (counts int64, err error) {
+func PCQueryNRLPageCount(nrlType, pid, datestr1, datestr2 string) (counts int64, err error) {
 	tablename := "NRL" + nrlType
 	if nrlType == "1" {
 		return 0, errors.New("PCQUeryNRLPageCount: invalid type")
@@ -185,20 +188,27 @@ func PCQUeryNRLPageCount(nrlType, pid, datestr1, datestr2 string) (counts int64,
 }
 
 
-func PCQUeryNRLData(nrlType, pid, datestr1, datestr2 string) (counts int64, err error) {
-	tablename := "NRL" + nrlType
-	if nrlType == "1" {
-		return 0, errors.New("PCQUeryNRLPageCount: invalid type")
-	} else if nrlType == "5" {
-		return 0, errors.New("PCQUeryNRLPageCount: invalid type")
-	} else {
-		if datestr2 == "" || datestr1 == "" {
-			counts, err = fit.MySqlEngine().Table(tablename).Where("VAA01 = ?", pid).Count()
-		} else {
-			counts, err = fit.MySqlEngine().Table(tablename).Where("VAA01 = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Count()
-		}
+func UpdateNRLChcker(nrlType, id, datestr, nurseName string) (err error) {
+
+	sql := ""
+	switch nrlType {
+	case "2":
+		sql = "update NRL2 set NRL39A = ?, NRL39C = ? where ID = ?"
+		_, err = fit.MySqlEngine().Exec(sql, datestr, nurseName, id)
+	case "6":
+		sql = "update NRL6 set NRL15B = ? where ID = ?"
+		_, err = fit.MySqlEngine().Exec(sql, nurseName, id)
+	case "7":
+		sql = "update NRL7 set NRL09B = ? where ID = ?"
+		_, err = fit.MySqlEngine().Exec(sql, nurseName, id)
+	case "8":
+		sql = "update NRL8 set NRL06B = ? where ID = ?"
+		_, err = fit.MySqlEngine().Exec(sql, nurseName, id)
+	default:
+		err = errors.New("API --- update nurse name : invalid type")
+		return
 	}
-	return counts, err
+	return err
 }
 /*
 func PCQueryNRL(pid, datestr1, datestr2, nrlType string, pagenum int, mods interface{}) (err error) {

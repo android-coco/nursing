@@ -7,7 +7,6 @@ import (
 	"time"
 	"github.com/go-xorm/xorm"
 	"strconv"
-	"fmt"
 )
 
 //体温单数据模型
@@ -30,15 +29,19 @@ func WhetherTemperature(sql string, msg ...interface{}) (bool, error) {
 	return fit.MySqlEngine().Table("TemperatrureChat").Where(sql, msg...).Exist()
 }
 
-//得到是否有待测体温
+//查询是否发热
 func GetTemperatureWhetherMeasured(testtime string, pid int64, interval string) (bool, error) {
-	return fit.MySqlEngine().Table("TemperatrureChat").Where("DateTime = ? and PatientId = ? and HeadType = 1 and TypeTime = ?", testtime, pid, interval).Exist()
+	if interval == ""{
+		return fit.MySqlEngine().Table("TemperatrureChat").Where("DateTime = ? and PatientId = ? and HeadType = 1 ", testtime, pid).Exist()
+	}else{
+		return fit.MySqlEngine().Table("TemperatrureChat").Where("DateTime = ? and PatientId = ? and HeadType = 1 and TypeTime in (?)", testtime, pid, interval).Exist()
+	}
 }
 
 //返回体温单数据
 func OutTemperatureHistory(sql string, msg ...interface{}) ([]TemperatrureChat, error) {
 	items := make([]TemperatrureChat, 0)
-	err := fit.MySqlEngine().Where(sql, msg...).Find(&items)
+	err := fit.MySqlEngine().Where(sql, msg...).Asc("TestTime", "Id").Find(&items)
 	return items, err
 }
 
@@ -248,19 +251,20 @@ func GetTemperatureChatData(tp int, patienttd int64, weeks []time.Time) ([]strin
 				}
 			}
 		}
-
-
 	}
-	fmt.Println("---------",tp,value,len(value))
+	fit.Logger().LogError("GetTemperatureChatData",tp,value,len(value))
+	//fmt.Println("---------",tp,value,len(value))
 	return value, nil
 }
 
 type TimeShow interface {
 	ShowTime() (time.Time)
+	ShowSortid() (int)
 }
 
 //体温单返回数据结构
 type TemperatrureChatHistory struct {
+	Sortid         int                        //排序id
 	PatientAge     string `json:"patient_age"`
 	PatientBed     string `json:"patient_bed"`
 	PatientId      int64  `json:"patient_id"`
@@ -307,6 +311,10 @@ func (v TemperatrureChatHistory) ShowTime() (time.Time) {
 	return test_time
 }
 
+func (v TemperatrureChatHistory) ShowSortid() int {
+	return v.Sortid
+}
+
 type PersonSlice []TemperatrureChatHistory
 
 func (a PersonSlice) Len() int { // 重写 Len() 方法
@@ -316,7 +324,7 @@ func (a PersonSlice) Swap(i, j int) { // 重写 Swap() 方法
 	a[i], a[j] = a[j], a[i]
 }
 func (a PersonSlice) Less(i, j int) bool { // 重写 Less() 方法， 从大到小排序
-	return a[j].ShowTime().Unix() > a[i].ShowTime().Unix()
+	return a[j].ShowSortid() > a[i].ShowSortid()
 }
 
 //数据合并返回

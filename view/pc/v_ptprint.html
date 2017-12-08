@@ -1,180 +1,124 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>打印瓶贴</title>
-    <script src="/static/dist/js/lib/jquery.min.js"></script>
-    <script src="/static/dist/js/lib/jquery.qrcode.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        body{
+            margin: 0;
+        }
+        .box{
+            width: 360px;
+            height: 250px;
+            /*padding:2px;*/
+            padding: 0;
+        }
+        .cont{
+            border: 1px solid #000;
+            border-radius: 8px;
+            width: 320px;
+            background-color: #fff;
+        }
+        .hd{
+            border-bottom: 1px solid #000;
+            overflow: auto;
+            margin:0 10px;
+        }
+        .name,.msg{
+            float: left;
+        }
+        .name{
+            font-size:20px;
+            min-width: 100px;
+            text-align: center;
+            /*line-height: 62px;*/
+            line-height: 42px;
+            font-weight: bold;
+        }
+        body{
+            font-family: arial;
+        }
+        .msg p{
+            /*margin:8px 0;*/
+            margin:0;
+            font-size: 14px;
+        }
+        .qr-code{
+            float: right;
+            height: 42px;
+        }
+        .qr-code canvas{
+            display: block;
+        }
+        .val-bar{
+            overflow: auto;
+            margin:0 10px ;
+            padding-right: 62px;
+            position: relative;
+            line-height: 30px;
+            font-size:14px;
+        }
+        .val-bar .val{
+            /*float: right;*/
+            position: absolute;
+            right:0;
+            top:0;
+        }
+        .bt{
+            margin: 0 10px;
+        }
+        .bt p{
+            margin:6px 0;
+        }
+    </style>
 </head>
-<style type="text/css">
-    .imgx {
-        width: 60px;
-        margin-left: 230px;
-        margin-top: 16px;
-    }
-    .qrDiv{
-        width: 60px;
-        margin-left: 230px;
-        margin-top: 16px;
-        display: inline-block;
-    }
-
-    body {
-        margin: 0px
-    }
-
-    .warp {
-        display: inline-block;
-        /*padding-left:10px;*/
-        padding-top: 10px;
-        vertical-align: top;
-        position: absolute;
-        left: 50px;
-    }
-
-    .warp p {
-        margin: 0;
-        font-size: 16px;
-    }
-
-    .warp2 {
-        width: 178px;
-        padding-top: 4px;
-    }
-
-    .imgx.type2 {
-        margin-top: 6px;
-    }
-    .qrDiv.type2{
-        margin-top: 6px;
-    }
-    .warp span.right {
-        float: right;
-    }
-
-    .line {
-        border-top: 1px solid #000;
-        background: #000;
-        width: 300px;
-    }
-
-    .cont {
-        width: 300px;
-        height: 200px;
-        padding: 0 10px;
-        box-sizing: border-box;
-        font-size: 12px;
-    }
-
-    .cont p {
-        margin: 0;
-    }
-
-    .unit {
-        float: right;
-        font-size: 16px;
-    }
-
-    .cont2 {
-        padding-left: 40px
-    }
-</style>
 <body>
-<div>
-    <div class="cont2">
-        <div class="warp">
-            <p>床号：</p>
-            <p>姓名：</p>
-            <p>用法：静滴</p>
+<div class="box">
+    <div class="cont">
+        <div class="hd">
+            <div class="name">
+                王大大
+            </div>
+            <div class="msg">
+                <p>999床  男 38岁</p>
+                <p>住院号:12345678</p>
+            </div>
+            <div class="qr-code">
+
+            </div>
         </div>
-        <img class="imgx"
-             src="https://qr.api.cli.im/qr?data=124&level=H&transparent=false&bgcolor=%23ffffff&forecolor=%23000000&blockpixel=12&marginblock=1&logourl=&size=280&kid=cliim&key=26662b2f080feeb2da43226211b84364">
-        <div class="line">
+        <div class="val-bar">
+            0.9%一二三四五六七八九一二三四五 <span class="val">99999ml</span>
         </div>
-        <div class="cont">
-            <p><span class="unit"></span></p>
-            <p></p>
-            <p><span class="unit"></span></p>
-            <p></p>
-            <p><span class="unit"></span></p>
-            <p></p>
-            <p><span class="unit"></span></p>
-            <p></p>
-            <p><span class="unit"></span></p>
-            <p></p>
-            <p><span class="unit"></span></p>
-            <p></p>
+        <div class="val-bar">
+            0.9%一二三四五六七八九一二三四五 <span class="val">99999ml</span>
         </div>
-        <div class="line">
+        <div class="val-bar">
+            0.9%一二三四五六七八九一二三四五 <span class="val">99999ml</span>
         </div>
-        <div class="warp warp2">
-            <p>嘱托</p>
-            <p></p>
-            <p>频度 <span class="right">序号 </span></p>
+        <div class="val-bar">
+            0.9%一二三四五六七八九一二三四五 <span class="val">99999ml</span>
         </div>
-        <img class="imgx type2"
-             src="https://qr.api.cli.im/qr?data=124&level=H&transparent=false&bgcolor=%23ffffff&forecolor=%23000000&blockpixel=12&marginblock=1&logourl=&size=280&kid=cliim&key=26662b2f080feeb2da43226211b84364">
+        <div class="bt">
+            <p>住院续滴（加药）</p>
+            <p>核对者:王丹丹
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                配药者:王丹丹</p>
+            <p>配药时间: 2019-09-09</p>
+        </div>
     </div>
 </div>
 
+
+<script src="/static/dist/js/lib/jquery.min.js"></script>
 <script src="/static/dist/js/lib/jquery.qrcode.min.js"></script>
-
-<script type="text/javascript">
-    $(function () {
-        var datas = {{.PrintInfo}};//数据
-        var time = {{.Now}};
-        loadData(datas,time);
+<script>
+    $('.qr-code').qrcode({
+        width: 42,
+        height: 42,
+        text:"WD-123"
     });
-
-    function loadData(datas,time) {
-        var len = datas.length;
-        if (len == 0)
-            return;
-        console.log(datas);
-        var html = "";
-        for (var i = 0; i < len; i++) {
-            var times = datas[i].Times;
-            for (var j=0;j < times;j++){
-                html+='<div>\n' +
-                        '    <div class="cont2">' +
-                        '        <div class="warp">' +
-                        '            <p>床号：'+datas[i].Bed+'</p>' +
-                        '            <p>姓名：'+datas[i].PatientName+'</p>' +
-                        '            <p>用法：静滴</p>' +
-                        '        </div>\n' +
-                        '<div class="qrDiv" data-madid='+datas[i].Madid+'></div>'+
-                        // '        <img class="imgx" src="https://qr.api.cli.im/qr?data=124&level=H&transparent=false&bgcolor=%23ffffff&forecolor=%23000000&blockpixel=12&marginblock=1&logourl=&size=280&kid=cliim&key=26662b2f080feeb2da43226211b84364">' +
-                        '        <div class="line">' +
-                        '        </div>\n' +
-                        '        <div class="cont">' +
-                        '            <p>'+datas[i].Content+'<span class="unit">'+datas[i].Dosage+'</span></p>' +
-                        '            <p >500毫升*1袋</p>' +
-                        '        </div>' +
-                        '        <div class="line">' +
-                        '        </div>' +
-                        '        <div class="warp warp2">' +
-                        '            <p>嘱托</p>' +
-                        '            <p>'+time+'</p>' +
-                        '            <p>频度'+datas[i].PcInfo+' <span class="right">序号 '+(j+1)+'</span></p>' +
-                        '        </div>' +
-                        '<div class="qrDiv type2" data-madid='+datas[i].Madid +'></div>'+
-                        // '        <img class="imgx type2"' +
-                        // '             src="https://qr.api.cli.im/qr?data=124&level=H&transparent=false&bgcolor=%23ffffff&forecolor=%23000000&blockpixel=12&marginblock=1&logourl=&size=280&kid=cliim&key=26662b2f080feeb2da43226211b84364">\n' +
-                        '    </div>' +
-                        '</div>';
-            }
-        }
-        $('body').html(html)
-        $('.qrDiv').each(function(i,el){
-            var madid = $(el).data("madid").toString()
-            console.log(madid)
-            $(el).qrcode({
-                width: 60,
-                height: 60,
-                text:"PT-"+madid
-            })
-        })
-    }
-
 </script>
+
 </body>
 </html>

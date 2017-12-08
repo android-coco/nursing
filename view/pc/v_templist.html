@@ -876,6 +876,7 @@
                         + '<span>' + value5 + '</span>'
                         + '<span>' + '<br/>' + value6 + '</span>';
                 $(el).html(html);
+                $(el).css("color", "red");
             }
         });
 
@@ -942,6 +943,12 @@
         // 事件
         $("#incident-td").find(".sj").each(function(i, el){
             $(el).html(incident[i]);
+            $(el).css("color", "red");
+            // var tempval1 = parseFloat(temp1[i]);
+            // var tempval2 = parseFloat(temp2[i]);
+            // var tempval3 = parseFloat(temp3[i]);
+            // if (tempval1 >= 40 || tempval2 >= 40 || tempval3 >= 40) {
+            // }
         });
         // 其他
         $("#incident-td").find(".temp-other").each(function(i, el){

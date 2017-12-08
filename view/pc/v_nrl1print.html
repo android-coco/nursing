@@ -173,27 +173,27 @@
                                 "       <td width=\"50\" height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType != 18 && datas[i * pgeDataNum + j].Mod3.value) || " ")) + "</div></td>\n" +
                                 "       <td width=\"50\" height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType != 18 && datas[i * pgeDataNum + j].Mod4.value) || " ")) + "</div></td>\n" +
                                 "       <td width=\"40\" height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType != 18 && datas[i * pgeDataNum + j].Mod6.value) || " ")) + "</div></td>\n" +
-                                "       <td width=\"74\" height=\"110\"><p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && "输入液量:") || " ")) + "</p>\n" +
+                                "       <td width=\"74\" height=\"110\"><p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && "输入液量:") || datas[i * pgeDataNum + j].Mod15.ValueTitle)) + "</p>\n" +
                                 "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && "饮水:") || " ")) + "</p>\n" +
                                 "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && "饮食:") || " ")) + "</p>\n" +
                                 "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && "其他:") || " ")) + "</p>\n" +
                                 "       <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && "总入量:") || " ")) + "</p></td>\n" +
                                 "       <td width=\"59\" height=\"110\"><div align=\"center\">\n" +
-                                "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && datas[i * pgeDataNum + j].Mod1.value) || " ")) + "</p>\n" +
+                                "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && datas[i * pgeDataNum + j].Mod1.value) || datas[i * pgeDataNum + j].Mod15.value)) + "</p>\n" +
                                 "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && datas[i * pgeDataNum + j].Mod2.value) || " ")) + "</p>\n" +
                                 "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && datas[i * pgeDataNum + j].Mod3.value) || " ")) + "</p>\n" +
                                 "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && datas[i * pgeDataNum + j].Mod4.value) || " ")) + "</p>\n" +
                                 "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && datas[i * pgeDataNum + j].Mod6.value) || " ")) + "</p>\n" +
                                 "       </div></td>\n" +
                                 "       <td width=\"59\" height=\"110\"><div align=\"center\">\n" +
-                                "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && "尿量:") || " ")) + "</p>\n" +
+                                "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && "尿量:") || datas[i * pgeDataNum + j].Mod16.ValueTitle)) + "</p>\n" +
                                 "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && "大便:") || " ")) + "</p>\n" +
                                 "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && "其他:") || " ")) + "</p>\n" +
                                 "         <p> </p>\n" +
                                 "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && "总出量:") || " ")) + "</p>\n" +
                                 "       </div></td>\n" +
                                 "       <td width=\"59\" height=\"110\"><div align=\"center\">\n" +
-                                "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && datas[i * pgeDataNum + j].Mod7.value) || " ")) + "</p>\n" +
+                                "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && datas[i * pgeDataNum + j].Mod7.value) || datas[i * pgeDataNum + j].Mod16.value)) + "</p>\n" +
                                 "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && datas[i * pgeDataNum + j].Mod15.value) || " ")) + "</p>\n" +
                                 "         <p>" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType == 18 && datas[i * pgeDataNum + j].Mod16.value) || " ")) + "</p>\n" +
                                 "         <p> </p>\n" +
@@ -207,7 +207,7 @@
                                 "       <td height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && (datas[i * pgeDataNum + j].Mod35.value || " ")) + "</div></td>\n" +
                                 "       <td height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && (datas[i * pgeDataNum + j].Mod36.value || " ")) + "</div></td>\n" +
                                 "       <td height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && (datas[i * pgeDataNum + j].Mod37.value || " ")) + "</div></td>\n" +
-                                "      <td width=\"225\" height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && (datas[i * pgeDataNum + j].Mod17.value || " ")) + "</div></td>\n" +
+                                "      <td width=\"225\" height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && ((datas[i * pgeDataNum + j].Mod1.headType != 18 && datas[i * pgeDataNum + j].Mod17.value) || " ")) + "</div></td>\n" +
                                 "       <td width=\"112\" height=\"110\"><div align=\"center\">" + ((datas[i * pgeDataNum + j] || "") && (datas[i * pgeDataNum + j].BCE03A || " ")) + "</div></td>\n" +
                                 "    </tr>";
                     }

@@ -78,13 +78,15 @@ type AdviceDetail struct {
 
 /*医嘱执行明细*/
 type MedicalAdviceExecutionRecord struct {
-	Patientid int64                  `json:"pid"`       // 病人ID
-	Nurseid   int                    `json:"nid"`       // 护士ID
-	Period    int                    `json:"period"`    // 周期
-	Madid     int64                  `json:"madid"`     // 医嘱ID
-	Nursename string                 `json:"nursename"` // 执行护士
-	Process   string                 `json:"process"`   // 执行步骤
-	ExecTime  DatetimeWithoutSeconds `json:"exectime"`  // 执行时间
+	Patientid int64  `json:"pid"`       // 病人ID
+	Nurseid   int    `json:"nid"`       // 护士ID
+	Period    int    `json:"period"`    // 周期
+	Madid     int64  `json:"madid"`     // 医嘱ID
+	Nursename string `json:"nursename"` // 执行护士
+	Process   string `json:"process"`   // 执行步骤
+	ExecTime  string `json:"exectime"`  // 执行时间
+	ExCycle   int    `json:"excycle"`   // 同组医嘱的序号
+	Plan      string `json:"plan"`      // 计划执行时间
 }
 
 /*JP 今天的起始时间*/
@@ -325,7 +327,7 @@ func FetchNewMedicalAdvice(pid int64) ([]MedicalAdviceExecution, error) {
 
 		_, err := fit.MySqlEngine().SQL("select count(1) as Exist from AdviceStatus where Madid = ? and (Recordtime >= ? or State in (2,3))", v.VAF01, today).Get(&isEx)
 		if err != nil {
-			fit.Logger().LogError("***JK***",err.Error())
+			fit.Logger().LogError("***JK***", err.Error())
 		}
 		if isEx.Exist == 0 {
 			status := MedicalAdviceExecutionStatus{}

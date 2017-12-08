@@ -9,6 +9,8 @@ import (
 	"github.com/go-xorm/xorm"
 	"strconv"
 	"nursing/utils"
+	/*"strings"*/
+	"strings"
 )
 
 //体征批量录入路由
@@ -27,7 +29,7 @@ func (c PCBatvhinputController) Get(w *fit.Response, r *fit.Request, p fit.Param
 		c.Data["Userinfo"] = userinfo
 		c.Data["Menuindex"] = "4-0"
 
-		response, err_rp := model.QueryDepartmentBeds(classid, false)
+		classresponse, err_rp := model.QueryDepartmentBeds(classid, false)
 		if err_rp != nil {
 			fit.Logger().LogError("gk", err_rp)
 			return
@@ -36,6 +38,52 @@ func (c PCBatvhinputController) Get(w *fit.Response, r *fit.Request, p fit.Param
 		measure_type := r.FormValue("measuretype")
 		test_time := r.FormValue("testtime")
 		interval := r.FormValue("timeblock")
+
+		testtime := time.Now()
+		selecttime := time.Now()
+
+		if test_time == ""{
+			testtime = time.Date(testtime.Year(), testtime.Month(), testtime.Day(), 0, 0, 0, 0, testtime.Location())
+			selecttime = time.Date(testtime.Year(), testtime.Month(), testtime.Day(), 8, 0, 0, 0, testtime.Location())
+		}else{
+			testtime, err_rp = time.ParseInLocation("2006-01-02",test_time,time.Local)
+			/*if err_rp != nil{
+				testtime = time.Date(testtime.Year(), testtime.Month(), testtime.Day(), 0, 0, 0, 0, testtime.Location())
+			}*/
+			switch interval {
+			case "4":
+				selecttime = time.Date(testtime.Year(), testtime.Month(), testtime.Day(), 5, 59, 59, 0, testtime.Location())
+			case "8":
+				selecttime = time.Date(testtime.Year(), testtime.Month(), testtime.Day(), 9, 59, 59, 0, testtime.Location())
+			case "12":
+				selecttime = time.Date(testtime.Year(), testtime.Month(), testtime.Day(), 13, 59, 59, 0, testtime.Location())
+			case "16":
+				selecttime = time.Date(testtime.Year(), testtime.Month(), testtime.Day(), 17, 59, 59, 0, testtime.Location())
+			case "20":
+				selecttime = time.Date(testtime.Year(), testtime.Month(), testtime.Day(), 21, 59, 59, 0, testtime.Location())
+			case "24":
+				selecttime = time.Date(testtime.Year(), testtime.Month(), testtime.Day(), 23, 59, 59, 0, testtime.Location())
+			default:
+				selecttime = time.Date(testtime.Year(), testtime.Month(), testtime.Day(), 5, 59, 59, 0, testtime.Location())
+			}
+		}
+
+		var response []model.PCBedDup
+
+		for _,k := range classresponse{
+			hospitaldate := strings.Split(k.HospitalDate," ")
+			admission_time, err1 := time.ParseInLocation("2006-01-02",hospitaldate[0],time.Local)
+
+			if err1 != nil {
+				fit.Logger().LogError("gk", err1)
+				continue
+			}
+
+			if !admission_time.After(testtime){
+				response = append(response,k)
+			}
+		}
+
 
 		if measure_type == ""{
 			c.Data["Patients"] = response
@@ -48,17 +96,22 @@ func (c PCBatvhinputController) Get(w *fit.Response, r *fit.Request, p fit.Param
 
 				whether := false
 
-				hospitaldate := v.HospitalDate
-				hospitaltime, err := time.ParseInLocation("2006-01-02",hospitaldate,time.Local)
-				testtime, err1 := time.ParseInLocation("2006-01-02",test_time,time.Local)
-				if err != nil || err1 != nil{
+				hospitaldate := strings.Split(v.HospitalDate," ")
+				hospitaltime, err := time.ParseInLocation("2006-01-02",hospitaldate[0],time.Local)
+				//testtime, err1 := time.ParseInLocation("2006-01-02",test_time,time.Local)
+				if err != nil {
+					//|| err1 != nil
+					fit.Logger().LogError("待测体温1",v.VAA01,err,test_time)
 					return
 				}
 
-				whetherfever,err := model.GetWhetherFever(strconv.FormatInt(v.VAA01,64),38.5)
+
+				if !whether {  //获取发热体温
+				whetherfever,err := model.GetWhetherFever(selecttime.Format("2006-01-02 15:04:05"),strconv.FormatInt(v.VAA01,10),38.5);
                 if err != nil{
 					return
 				}
+
 				if whetherfever{
                     bo,err := model.GetTemperatureWhetherMeasured(testtime.String(),v.VAA01,interval)
 					if err != nil {
@@ -69,10 +122,11 @@ func (c PCBatvhinputController) Get(w *fit.Response, r *fit.Request, p fit.Param
 						PCBitems = append(PCBitems,v)
 					}
 				}else{
-					whetherfever,err := model.GetWhetherFever(strconv.FormatInt(v.VAA01,64),37.5)
+					whetherfever,err := model.GetWhetherFever(selecttime.Format("2006-01-02 15:04:05"),strconv.FormatInt(v.VAA01,10),37.5)
 					if err != nil{
 						return
 					}
+					fit.Logger().LogError("待测体温2",v.VAA01,v.VAA05,whetherfever,selecttime)
 					if whetherfever{
 						if interval == "8" || interval == "12" || interval == "16" || interval == "20"{
 							bo,err := model.GetTemperatureWhetherMeasured(testtime.String(),v.VAA01,interval)
@@ -85,10 +139,19 @@ func (c PCBatvhinputController) Get(w *fit.Response, r *fit.Request, p fit.Param
 							}
 						}
 					}
-				}
+				}}
 
-				if GetWhetherNew(hospitaltime,testtime) {
-					if interval == "8" || interval == "16" || interval == "20"{
+				if !whether{  //获取最近三天是否发热
+				    day,_ := time.ParseDuration("24h")
+					recordbefore := testtime.Add(-day*3)
+					//recordlater  := testtime.Add(day)
+					fit.Logger().LogError("三天待测体温",recordbefore,selecttime)
+					whetherfever,err := model.GetWhetherFeverThree(recordbefore.Format("2006-01-02 15:04:05"),selecttime.Format("2006-01-02 15:04:05"),strconv.FormatInt(v.VAA01,10),38.5);
+					if err != nil{
+						return
+					}
+
+					if whetherfever{
 						bo,err := model.GetTemperatureWhetherMeasured(testtime.String(),v.VAA01,interval)
 						if err != nil {
 							return
@@ -97,13 +160,47 @@ func (c PCBatvhinputController) Get(w *fit.Response, r *fit.Request, p fit.Param
 							whether = true
 							PCBitems = append(PCBitems,v)
 						}
+					}else{
+						whetherfever,err := model.GetWhetherFeverThree(recordbefore.Format("2006-01-02 15:04:05"),selecttime.Format("2006-01-02 15:04:05"),strconv.FormatInt(v.VAA01,10),37.5)
+						if err != nil{
+							return
+						}
+						fit.Logger().LogError("待测体温2",v.VAA01,v.VAA05,whetherfever)
+						if whetherfever{
+							if interval == "8" || interval == "12" || interval == "16" || interval == "20"{
+								bo,err := model.GetTemperatureWhetherMeasured(testtime.String(),v.VAA01,interval)
+								if err != nil {
+									return
+								}
+								if !bo && !whether{
+									whether = true
+									PCBitems = append(PCBitems,v)
+								}
+							}
+						}
 					}
 				}
 
+				if !whether { //获取新病人
+					if GetWhetherNew(hospitaltime, testtime) {
+						if interval == "8" || interval == "16" || interval == "20" {
+							bo, err := model.GetTemperatureWhetherMeasured(testtime.String(), v.VAA01, interval)
+							if err != nil {
+								return
+							}
+							if !bo && !whether {
+								whether = true
+								PCBitems = append(PCBitems, v)
+							}
+						}
+					}
+				}
+
+				if !whether { //获取手术
 				day,_ := time.ParseDuration("24h")
-				recordbefore := testtime.Add(-day)
-				recordlater  := testtime.Add(day*3)
-				records,err := model.FetchOperationRecordsDuringHospitalization(v.VAA01,recordbefore.String(),recordlater.String())
+				recordbefore := testtime.Add(-day*3)
+				recordlater  := testtime.Add(day*2)
+				records,err := model.FetchOperationRecordsDuringHospitalization(v.VAA01,recordbefore.Format("2006-01-02 15:04:05"),recordlater.Format("2006-01-02 15:04:05"))
 				if err != nil {
 					return
 				}
@@ -122,7 +219,7 @@ func (c PCBatvhinputController) Get(w *fit.Response, r *fit.Request, p fit.Param
 						}
 					}
 					if record.VAT04 == 3{
-						if  interval == "4"{
+						if  interval == "8"{
 							bo,err := model.GetTemperatureWhetherMeasured(testtime.String(),v.VAA01,interval)
 							if err != nil {
 								return
@@ -134,7 +231,7 @@ func (c PCBatvhinputController) Get(w *fit.Response, r *fit.Request, p fit.Param
 						}
 					}
 					if record.VAT04 == 4{
-						if  interval == "8" || interval == "12" || interval == "16" || interval == "20"{
+						if  interval == "4" || interval == "8" || interval == "16" || interval == "20"{
 							bo,err := model.GetTemperatureWhetherMeasured(testtime.String(),v.VAA01,interval)
 							if err != nil {
 								return
@@ -145,24 +242,51 @@ func (c PCBatvhinputController) Get(w *fit.Response, r *fit.Request, p fit.Param
 							}
 						}
 					}
-				}
+				}}
 
+				if !whether { //正常
+				if v.VAA10 < 15{  //儿童每天四次
+					if  interval == "4" || interval == "8" || interval == "16" || interval == "20"{
+						bo,err := model.GetTemperatureWhetherMeasured(testtime.String(),v.VAA01,interval)
+						if err != nil {
+							return
+						}
+						if !bo && !whether{
+							whether = true
+							PCBitems = append(PCBitems,v)
+						}
+					}
+				}else{          //正常人每天一次
+					bo,err := model.GetTemperatureWhetherMeasured(testtime.String(),v.VAA01,"")
+					if err != nil {
+						return
+					}
+					if !bo && !whether{
+						whether = true
+						PCBitems = append(PCBitems,v)
+					}
+				}
+				}
 			}
 			c.Data["Patients"] = PCBitems
 		}else if measure_type == "3"{
 			var PCBitems []model.PCBedDup
 			for _,v := range response{
-				hospitaldate := v.HospitalDate
-				hospitaltime, err := time.ParseInLocation("2006-01-02",hospitaldate,time.Local)
-				testtime, err1 := time.ParseInLocation("2006-01-02",test_time,time.Local)
-				if err != nil || err1 != nil{
+				hospitaldate := strings.Split(v.HospitalDate," ")
+				hospitaltime, err := time.ParseInLocation("2006-01-02",hospitaldate[0],time.Local)
+				//testtime, err1 := time.ParseInLocation("2006-01-02",test_time,time.Local)
+				if err != nil {
+					//|| err1 != nil
+					fit.Logger().LogError("待测体温1",err)
 					return
 				}
+
 				if GetWeekOntime(hospitaltime,testtime) {
-					spl := "DateTime = ? and PatientId = ?"
+					spl := "HeadType = 8 and DateTime = ? and PatientId = ?"
 					var msg []interface{}
-					msg = append(msg,testtime,v.VAA01)
+					msg = append(msg,testtime.String(),v.VAA01)
 					bo, err := model.WhetherTemperature(spl,msg...)
+					fit.Logger().LogError("待测体温1",v.VAA01,hospitaltime,GetWeekOntime(hospitaltime,testtime),bo)
 					if err!= nil{
 						return
 					}
@@ -180,11 +304,12 @@ func (c PCBatvhinputController) Get(w *fit.Response, r *fit.Request, p fit.Param
 
 //获取从一时间开始计算后面每周一的对比
 func GetWeekOntime(t1 time.Time,t2 time.Time) bool {
-	if t2.After(t1){
+	if  t1.After(t2){
 		return false
 	}
 	d:=t2.Sub(t1).Hours()
-	if d/24*7 == 0{
+	fit.Logger().LogError("GetWeekOntime",t1,t2,d)
+	if int64(d) % (24*7) == 0{
 		return true
 	}else{
 		return false
@@ -193,7 +318,7 @@ func GetWeekOntime(t1 time.Time,t2 time.Time) bool {
 
 //是否新入院，刚入院三天
 func GetWhetherNew(t1 time.Time,t2 time.Time) bool {
-	if t2.After(t1){
+	if  t1.After(t2){
 		return false
 	}
 	d:=t2.Sub(t1).Hours()
@@ -214,6 +339,8 @@ func (c PCBatvhinputController) Post(w *fit.Response, r *fit.Request, p fit.Para
 		c.JsonData.ErrorMsg = "参数不完整"
 		return
 	}
+
+	fit.Logger().LogError("PCBatvhinputController",inputs)
 
 	session := fit.MySqlEngine().NewSession()
 	defer session.Close()

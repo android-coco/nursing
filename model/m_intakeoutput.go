@@ -5,6 +5,7 @@ package model
 import (
 	"fit"
 	"time"
+	/*"github.com/go-xorm/xorm"*/
 )
 
 // customizing time type with special format
@@ -56,7 +57,7 @@ type IntakeOutput struct {
 	OtherStr  string `xorm:"notnull comment(其它的第三级自定义类型)"`
 	Describe  string `xorm:"notnull comment(描述)"`
 	Value     string `xorm:"notnull comment(值、量)"`
-	PatientId int    `xorm:"notnull comment(病人id)"`
+	PatientId int64    `xorm:"notnull comment(病人id)"`
 	NurseId   int    `xorm:"notnull comment(护士id)"`
 	NurseName string `xorm:"notnull comment(护士姓名)"`
 }
@@ -76,7 +77,31 @@ type IntakeOutputDup struct {
 
 // 插入
 func (iot *IntakeOutput) CollectIntakeOrOutputVolume() error {
+
 	_, err := fit.MySqlEngine().Table("NurseChat").InsertOne(iot)
+	return err
+}
+
+//添加护理数据
+func QueryIntakeOrOutput(item *NurseChat) error{
+	has,err := fit.MySqlEngine().QueryString("SELECT id FROM NurseChat WHERE TestTime = ? and PatientId = ? and HeadType = ? and SubType = ?",item.TestTime.String(),item.PatientId,item.HeadType,item.SubType)
+	if err !=nil{
+		return err
+	}
+
+	if len(has)>0 {
+		ids := has[0]
+		if v, ok := ids["id"]; ok {
+			_, err = fit.MySqlEngine().Table("NurseChat").ID(v).Update(item);
+			fit.Logger().LogError("ghhhhhhhh",item.HeadType,v,err,*item)
+		} else {
+			_, err = fit.MySqlEngine().Insert(item);
+		}
+	}else{
+		_, err = fit.MySqlEngine().Insert(item);
+	}
+	fit.Logger().LogError("QueryIntakeOrOutput",has,item.TestTime.String())
+
 	return err
 }
 

@@ -155,7 +155,7 @@ func (c PCBatvhHistoryController) TZHistory(w *fit.Response, r *fit.Request, p f
 					fit.Logger().LogError("hhhhhhh",err,ii)
 					return
 				} else {
-					for _,i := range item{
+					for sortid,i := range item{
 						if v, ok := signhistory_map[time.Time(i.DateTime).Format("2006-01-02") + " 时段:" + strconv.Itoa(i.TypeTime)]; ok {
 							_,boo := model.TransformTemperatrureCH(i,v)
 							if boo {
@@ -167,6 +167,7 @@ func (c PCBatvhHistoryController) TZHistory(w *fit.Response, r *fit.Request, p f
 										}
 									} else {
 										var chat model.TemperatrureChatHistory
+										chat.Sortid = sortid
 										chat.PatientId = ii.PatientId
 										chat.PatientBed = ii.BedCoding
 										chat.PatientAge = ii.Age
@@ -185,6 +186,7 @@ func (c PCBatvhHistoryController) TZHistory(w *fit.Response, r *fit.Request, p f
 							}
 						} else {
 							var chat model.TemperatrureChatHistory
+							chat.Sortid = sortid
 							chat.PatientId = ii.PatientId
 							chat.PatientBed = ii.BedCoding
 							chat.PatientAge = ii.Age
@@ -202,13 +204,18 @@ func (c PCBatvhHistoryController) TZHistory(w *fit.Response, r *fit.Request, p f
 				}
 				fit.Logger().LogError("hhhhhhh",len(item))
 
+				var sts []model.TemperatrureChatHistory
+
 				for _,j :=range  signhistory_map{
-					signhistorys = append(signhistorys,*j)
+					sts  = append(sts,*j)
 				}
+				sort.Sort(model.PersonSlice(sts))
+
+				signhistorys = append(signhistorys,sts...)
 			}
 
 		c.Data["Patients"] = PatientHistorys
-		sort.Sort(model.PersonSlice(signhistorys))
+		//sort.Sort(model.PersonSlice(signhistorys))
 		c.Data["signhistorys"]=signhistorys
 		fit.Logger().LogError("jjjj",len(PatientHistorys))
 	}
@@ -279,6 +286,8 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 		return
 	}
 
+	//var brkeTemperatrure model.TemperatrureChatHistory
+
 	nurse_id,err_nid     := strconv.Atoi(r.FormValue("nurse_id"))
 	nurse_name           := r.FormValue("nurse_name")
 	patient_id,err_pid   := utils.Int64Value(r.FormValue("patient_id"))
@@ -315,9 +324,18 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 				fit.Logger().LogError("PCBatvhUpdateController",err)
 				return
 			}
+		}else  {
+			err := model.DeleteTemperatureHistory(session,thm_id)
+			if err != nil {
+				session.Rollback()
+				c.JsonData.Result = 2
+				c.JsonData.ErrorMsg = "删除错误2"
+				c.JsonData.Datas = err
+				return
+			}
 		}
 	}else{
-	if thm_value != "" || (thm_scene != 0 && thm_scene != 7) {
+	    if thm_value != "" || (thm_scene != 0 && thm_scene != 7) {
 		var item model.NurseChat
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
@@ -337,7 +355,7 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 			c.JsonData.Datas = err.Error()
 			return
 		}
-	}
+	    }
 	}
 
 	pulse_id      := r.FormValue("pulse_id")
@@ -360,6 +378,15 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 				c.JsonData.Result = 3
 				c.JsonData.ErrorMsg = "参数错误1"
 				c.JsonData.Datas = err.Error()
+				return
+			}
+		}else {
+			err := model.DeleteTemperatureHistory(session,pulse_id)
+			if err != nil {
+				session.Rollback()
+				c.JsonData.Result = 2
+				c.JsonData.ErrorMsg = "删除错误2"
+				c.JsonData.Datas = err
 				return
 			}
 		}
@@ -409,6 +436,15 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 				c.JsonData.Datas = err.Error()
 				return
 			}
+		}else {
+			err := model.DeleteTemperatureHistory(session,breathe_id)
+			if err != nil {
+				session.Rollback()
+				c.JsonData.Result = 2
+				c.JsonData.ErrorMsg = "删除错误2"
+				c.JsonData.Datas = err
+				return
+			}
 		}
 	}else {
 		if breathe_value != "" || breathe_scene !=0 {
@@ -454,6 +490,15 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 				c.JsonData.Result = 3
 				c.JsonData.ErrorMsg = "参数错误1"
 				c.JsonData.Datas = err.Error()
+				return
+			}
+		}else {
+			err := model.DeleteTemperatureHistory(session,shit_id)
+			if err != nil {
+				session.Rollback()
+				c.JsonData.Result = 2
+				c.JsonData.ErrorMsg = "删除错误2"
+				c.JsonData.Datas = err
 				return
 			}
 		}
@@ -504,6 +549,15 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 				c.JsonData.Datas = err.Error()
 				return
 			}
+		}else {
+			err := model.DeleteTemperatureHistory(session,pressure_id)
+			if err != nil {
+				session.Rollback()
+				c.JsonData.Result = 2
+				c.JsonData.ErrorMsg = "删除错误2"
+				c.JsonData.Datas = err
+				return
+			}
 		}
 	}else {
 		if (pressure_sys != "" && pressure_dia != "") || pressure_scene != 0 {
@@ -541,6 +595,15 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 				c.JsonData.Result = 3
 				c.JsonData.ErrorMsg = "参数错误1"
 				c.JsonData.Datas = err.Error()
+				return
+			}
+		}else{
+			err := model.DeleteTemperatureHistory(session,heartrate_id)
+			if err != nil {
+				session.Rollback()
+				c.JsonData.Result = 2
+				c.JsonData.ErrorMsg = "删除错误2"
+				c.JsonData.Datas = err
 				return
 			}
 		}
@@ -590,6 +653,15 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 				c.JsonData.Datas = err.Error()
 				return
 			}
+		}else {
+			err := model.DeleteTemperatureHistory(session,weight_id)
+			if err != nil {
+				session.Rollback()
+				c.JsonData.Result = 2
+				c.JsonData.ErrorMsg = "删除错误2"
+				c.JsonData.Datas = err
+				return
+			}
 		}
 	}else {
 		if weight_value != "" || weight_scene != 0 {
@@ -637,6 +709,15 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 				c.JsonData.Datas = err.Error()
 				return
 			}
+		}else {
+			err := model.DeleteTemperatureHistory(session,height_id)
+			if err != nil {
+				session.Rollback()
+				c.JsonData.Result = 2
+				c.JsonData.ErrorMsg = "删除错误2"
+				c.JsonData.Datas = err
+				return
+			}
 		}
 	}else {
 		if height_value != "" || height_scene != 0 {
@@ -674,6 +755,15 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 				c.JsonData.Result = 3
 				c.JsonData.ErrorMsg = "参数错误1"
 				c.JsonData.Datas = err.Error()
+				return
+			}
+		}else{
+			err := model.DeleteTemperatureHistory(session,skin_id)
+			if err != nil {
+				session.Rollback()
+				c.JsonData.Result = 2
+				c.JsonData.ErrorMsg = "删除错误2"
+				c.JsonData.Datas = err
 				return
 			}
 		}
@@ -715,6 +805,15 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 				c.JsonData.Datas = err.Error()
 				return
 			}
+		}else{
+			err := model.DeleteTemperatureHistory(session,other_id)
+			if err != nil {
+				session.Rollback()
+				c.JsonData.Result = 2
+				c.JsonData.ErrorMsg = "删除错误2"
+				c.JsonData.Datas = err
+				return
+			}
 		}
 	}else {
 		if other_value != "" {
@@ -742,7 +841,10 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 
 	incident_id      := r.FormValue("incident_id")
 	incident_scene,err_is := strconv.Atoi(r.FormValue("incident_scene"))
-	if  err_is!=nil {
+	incident_time ,err_is1 := time.ParseInLocation("2006-01-02 15:04:05",r.FormValue("incident_time"),time.Local)
+	fit.Logger().LogError("incident",incident_time,incident_id)
+
+	if  err_is!=nil || err_is1!=nil {
 		c.JsonData.Result = 1
 		c.JsonData.ErrorMsg = "参数不完整10"
 		c.JsonData.Datas = err_is.Error()
@@ -752,12 +854,22 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 		if  incident_scene != 0 {
 			maps := make(map[string]interface{})
 			maps["Other"] = incident_scene
+			maps["TestTime"] = fit.JsonTime(incident_time).String()
 			err := model.UpdateTemperatrureChat(session,incident_id,maps)
 			if(err!=nil){
 				session.Rollback()
 				c.JsonData.Result = 3
 				c.JsonData.ErrorMsg = "参数错误1"
 				c.JsonData.Datas = err.Error()
+				return
+			}
+		}else{
+			err := model.DeleteTemperatureHistory(session,incident_id)
+			if err != nil {
+				session.Rollback()
+				c.JsonData.Result = 2
+				c.JsonData.ErrorMsg = "删除错误2"
+				c.JsonData.Datas = err
 				return
 			}
 		}
@@ -767,7 +879,7 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 			item.NurseName = nurse_name
 			item.NurseId = nurse_id
 			item.PatientId = patient_id
-			item.TestTime = fit.JsonTime(test_time)
+			item.TestTime = fit.JsonTime(incident_time)
 
 			item.HeadType = model.Incident_Type
 			item.Value = ""

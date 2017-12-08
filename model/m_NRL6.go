@@ -53,6 +53,7 @@ func (m *NRL6) UpdateData(id int64) (int64, error) {
 }
 
 func (m *NRL6) DeleteData(id int64) (int64, error) {
+	DeleteNRecords(id)
 	return fit.MySqlEngine().ID(id).Delete(m)
 }
 
@@ -62,6 +63,8 @@ func QueryNRL6(rid string) (NRL6, error) {
 	if err != nil {
 		return NRL6{}, err
 	} else {
+		nr6.DateStr = nr6.DateTime.Format("2006-01-02")
+		//nr6.TimeStr = nr6.DateTime.Format("15:04")
 		return nr6, nil
 	}
 }
@@ -72,12 +75,12 @@ func PCQueryNRL6(pid, datestr1, datestr2 string, pagenum int) ([]NRL6, error) {
 	var err error
 
 	if pagenum == -1 {
-		err = fit.MySqlEngine().Table("NRL6").Where("VAA01 = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Find(&mods)
+		err = fit.MySqlEngine().Table("NRL6").Where("VAA01 = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Asc("DateTime").Find(&mods)
 	} else {
 		if datestr2 == "" || datestr1 == "" {
-			err = fit.MySqlEngine().Table("NRL6").Where("VAA01 = ?", pid).Limit(4, (pagenum-1)*4).Find(&mods)
+			err = fit.MySqlEngine().Table("NRL6").Where("VAA01 = ?", pid).Limit(4, (pagenum-1)*4).Asc("DateTime").Find(&mods)
 		} else {
-			err = fit.MySqlEngine().Table("NRL6").Where("VAA01 = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Limit(4, (pagenum-1)*4).Find(&mods)
+			err = fit.MySqlEngine().Table("NRL6").Where("VAA01 = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Limit(4, (pagenum-1)*4).Asc("DateTime").Find(&mods)
 		}
 	}
 	if err != nil {

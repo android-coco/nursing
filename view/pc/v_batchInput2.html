@@ -101,7 +101,7 @@
                                     <option value="20" {{if eq .endframe "20" }} selected="" {{end}}>20</option>
                                     <option value="24" {{if eq .endframe "24" }} selected="" {{end}}>24</option>
                                 </select>
-                                <a  class="search-btn" id="search-btn">确定</a>
+                                <a  class="search-btn" id="search-btn">搜索</a>
                             </div>
                             <div class="btn-group fr">
                                 {{/*<a href="" class="btn">打印</a>*/}}
@@ -158,7 +158,7 @@
                                         </thead>
                                         <tbody>
                                         {{range .signhistorys}}
-                                            <tr data-pid="{{.PatientId}}" data-nid="12" data-nname="123">
+                                            <tr data-pid="{{.PatientId}}" data-nid="{{$.Userinfo.UID}}" data-nname="{{$.Userinfo.Name}}">
                                                 <td class="pd8"><span>{{.PatientBed}}</span></td>
                                                 <td class="pd8"><span>{{.PatientName}}</span></td>
                                                 <td class="pd8"><span>{{.PatientAge}}</span></td>
@@ -750,18 +750,31 @@
             if(timeBlock&&timeVal){
                 timeVal = timeVal.slice(timeVal.indexOf(" ")+1)
                 timeVal  = timeVal.slice(0,timeVal.length-3);
-
+                $this.data("nowtime",timeVal)
                 var option= {
                     elem: this,
                     type: 'time',
-                    format: 'HH:mm',btns: ['confirm'],
-
+                    format: 'HH:mm',
+                    btns: ['confirm'],
                     value: timeVal,
                 }
 
                 if(timeBlock!="24"){
                     option.min=timeHash[timeBlock].min
                     option.max= timeHash[timeBlock].max
+                }else{
+                    var ftime = {}, stime = {};
+                    ftime.min = new Date();
+                    ftime.min.setHours(0);
+                    ftime.max = new Date();
+                    ftime.max.setHours(1);
+
+                    stime.min = new Date();
+                    stime.min.setHours(22);
+                    stime.max = new Date();
+                    stime.max.setHours(23);
+
+                    option.limitList = new Array(ftime, stime);
                 }
 
                 option.done=function(value, date, endDate) {
@@ -771,14 +784,21 @@
                         if(timeSacp<79200&&timeSacp>7199){
                             alert("不在范围！！");
                             setTimeout(function(){
-                                $this.val(timeVal)
+                                $this.val($this.data("nowtime"))
                             })
-
                             return false;
+                        }else if(timeSacp<7199){
+                            console.log("?")
+                            // $this.data-time
+                            $this.data("nowtime",value)
+                        }else{
+                            $this.data("nowtime",value)
                         }
-                    }else{}
+                    }else{
+                        $this.data("nowtime",value)
+                    }
                 }
-                    laydate.render(option);
+                laydate.render(option);
 
 
             }else{
@@ -823,6 +843,11 @@
             res["pressure_id"] =idArr[4]
             res["pressure_dia"] = $.trim($tr.find(".pressureDia").val())|| ""
             res["pressure_sys"] =$.trim($tr.find(".pressureSys").val())  || ""
+            if (res["pressure_dia"] == "" && res["pressure_sys"] != "" ||  res["pressure_dia"] != "" && res["pressure_sys"] == "")
+            {
+                alert("血压参数不完整")
+                return
+            }
             res["pressure_scene"] = $.trim($tr.find(".pressureScene").val())  || ""
 
             res["heartrate_id"] =idArr[5]
@@ -844,73 +869,127 @@
 
             res["incident_id"] =idArr[10]
             res["incident_scene"] = $.trim($tr.find(".incidentScene").val())  || ""
-            res["incident_time"] = $(this).data("ss") +" "+ $.trim($tr.find(".incidentTime2").val()) +":00"
+            // res["incident_time"] = $(this).data("ss") +" "+ $.trim($tr.find(".incidentTime2").val()) +":00"
 
 //            var reqData ={
 //                value:JSON.stringify(res)
 //            }
 
+            var timeStr =  $.trim($tr.find(".incidentTime2").val())
+            var hour = parseInt(timeStr.split(":")[0])
+            var isAddDay = false;
+            var dateStr = $(this).data("ss");
+            if(hour<2){
+                isAddDay = true
+            }
+            if($(this).data("ss")){
+                var date = new Date($(this).data("ss"))
+                if(isAddDay){
+                    var dateNew = new Date(date.getTime()+24*60*60*1000)
+                    dateStr = fromatDate(dateNew).date
+                }
+                res["incident_time"] = dateStr +" "+ $.trim($tr.find(".incidentTime2").val()) +":00"
+            }
+
+
             $.post("/pc/patvhupdate", res, function (json, status) {
                 //console.log(json, status);
                 if (json.result == 0 ) {
-                    alert(json.errmsg)
+                    // alert(json.errmsg)
+
+                    var userArr = []
+                    $(".user-bar").find("input[type=checkbox]:checked").each(function(i,el){
+                        userArr.push($(el).parents("li").data("id").toString());
+                    })
+                    console.log(userArr)
+
+                    $("#patient_id").val(userArr)
+
+//        var startTime = $("#date1").val()+" "+startTimeObj[$(".startTimeBlcok").val()]
+//        var endTime = "";
+//        if($(".endTimeBlock").val()=="24"){
+//            var dateStr = $("#date2").val()
+//            var dateObj = new Date(dateStr)
+//            endTime = fromatDate(dateObj.getTime()+86400000).date +" "+endTimeObj[$(".endTimeBlock").val()]
+//        }else{
+//            endTime = $("#date2").val()+" "+endTimeObj[$(".endTimeBlock").val()]
+//        }
+                    var startTime = $("#date1").val(),
+                            endTime=$("#date2").val(),
+                            startframe=$(".startTimeBlcok").val(),
+                            endframe= $(".endTimeBlock").val();
+
+                    console.log(startTime,endTime)
+
+                    $("#starttime").val(startTime)
+                    $("#endtime").val(endTime)
+                    $("#startframe").val(startframe)
+                    $("#endframe").val(endframe)
+                    $("#search-from").submit();
+
+                    jkyAlert(json.errmsg,"yes",function(){
+                        /*var t1 = $.trim($this.parents("tr").find(".thmValue").val()),
+                                t2 = $this.parents("tr").find(".thmType").find("option:selected").text(),
+                                t3 = $this.parents("tr").find(".thmScene").find("option:selected").text()
+                        console.log(t1,t2,t3,  $this.parents("tr").find(".thmValue").parents("td").find(".text-msg"))
+                        var selval = $this.parents("tr").find(".thmScene").val()
+                        if((selval==0 ||selval==7)&&!t1){
+                            $this.parents("tr").find(".thmValue").parents("td").find(".text-msg").text("")
+                        }else{
+
+                            $this.parents("tr").find(".thmValue").parents("td").find(".text-msg").text(t1+" "+t2+" "+t3)
+                        }
+                        var t4=$this.parents("tr").find(".pulseValue").val(),
+                                t5 = $this.parents("tr").find(".pulseBriefness").is(":checked")? "短绌":"";
+                        $this.parents("tr").find(".pulseValue").parents("td").find(".text-msg").text(t4+" "+t5)
+                        var t6 = $this.parents("tr").find(".breatheValue").val(),
+                                t7 = $this.parents("tr").find(".breatheScene").find("option:selected").text()
+                        $this.parents("tr").find(".breatheValue").parents("td").find(".text-msg").text(t6+" "+t7)
 
 
-                    var t1 = $this.parents("tr").find(".thmValue").val(),
-                        t2 = $this.parents("tr").find(".thmType").find("option:selected").text(),
-                    t3 = $this.parents("tr").find(".thmScene").find("option:selected").text()
-                    console.log(t1,t2,t3,  $this.parents("tr").find(".thmValue").parents("td").find(".text-msg"))
-                    $this.parents("tr").find(".thmValue").parents("td").find(".text-msg").text(t1+" "+t2+" "+t3)
-                    var t4=$this.parents("tr").find(".pulseValue").val(),
-                        t5 = $this.parents("tr").find(".pulseBriefness").is(":checked")? "短绌":"";
-                    $this.parents("tr").find(".pulseValue").parents("td").find(".text-msg").text(t4+" "+t5)
-                    var t6 = $this.parents("tr").find(".breatheValue").val(),
-                        t7 = $this.parents("tr").find(".breatheScene").find("option:selected").text()
-                    $this.parents("tr").find(".breatheValue").parents("td").find(".text-msg").text(t6+" "+t7)
+                        var t8 = $this.parents("tr").find(".shitValue").val(),
+                                t9 = $this.parents("tr").find(".pressureScene").find("option:selected").text()
+                        $this.parents("tr").find(".shitValue").parents("td").find(".text-msg").text(t8+" "+t9)
+
+                        var t10 = $this.parents("tr").find(".pressureSys").val(),
+                                t11 = $this.parents("tr").find(".pressureDia").val(),
+                                t12 = $this.parents("tr").find(".pressureScene").find("option:selected").text()
+                        $this.parents("tr").find(".pressureSys").parents("td").find(".text-msg").text(t10+"/"+t11+"  "+t12)
+
+                        var t13 = $this.parents("tr").find(".heartrateValue").val();
+                        $this.parents("tr").find(".heartrateValue").parents("td").find(".text-msg").text(t13)
+
+                        var t14 = $this.parents("tr").find(".weightValue").val(),
+                                t15 = $this.parents("tr").find(".weightScene").find("option:selected").text();
+                        $this.parents("tr").find(".weightValue").parents("td").find(".text-msg").text(t14+"  "+t15)
+
+                        var t16 = $this.parents("tr").find(".heightValue").val(),
+                                t17 = $this.parents("tr").find(".heightScene").find("option:selected").text();
+                        $this.parents("tr").find(".heightValue").parents("td").find(".text-msg").text(t16+"  "+t17)
+
+                        var t18 = $this.parents("tr").find(".skinValue").val();
+                        $this.parents("tr").find(".skinValue").parents("td").find(".text-msg").text(t18)
+
+                        var t19 = $this.parents("tr").find(".otherValue").val();
+                        $this.parents("tr").find(".otherValue").parents("td").find(".text-msg").text(t19)
 
 
-                    var t8 = $this.parents("tr").find(".shitValue").val(),
-                        t9 = $this.parents("tr").find(".pressureScene").find("option:selected").text()
-                    $this.parents("tr").find(".shitValue").parents("td").find(".text-msg").text(t8+" "+t9)
+                        var t20 = $.trim($this.parents("tr").find(".incidentScene").find("option:selected").text());
+                        if(!t20){
+                            $this.parents("tr").find(".incidentScene").parents("td").find(".text-msg").text("");
+                        }else{
+                            var t21 = $this.parents("tr").find(".incidentTime2").data("time")
+                            var t22 = $this.parents("tr").find(".incidentTime2").val()
+                            $this.parents("tr").find(".incidentScene").parents("td").find(".text-msg").text(t20+" "+t21.slice(0,t21.indexOf(" "))+" "+t22)
+                        }
 
-                    var t10 = $this.parents("tr").find(".pressureSys").val(),
-                        t11 = $this.parents("tr").find(".pressureDia").val(),
-                        t12 = $this.parents("tr").find(".pressureScene").find("option:selected").text()
-                    $this.parents("tr").find(".pressureSys").parents("td").find(".text-msg").text(t10+"/"+t11+"  "+t12)
+                        $this.parents('tr').removeClass('active')*/
 
-                    var t13 = $this.parents("tr").find(".heartrateValue").val();
-                    $this.parents("tr").find(".heartrateValue").parents("td").find(".text-msg").text(t13)
-
-                    var t14 = $this.parents("tr").find(".weightValue").val(),
-                        t15 = $this.parents("tr").find(".weightScene").find("option:selected").text();
-                    $this.parents("tr").find(".weightValue").parents("td").find(".text-msg").text(t14+"  "+t15)
-
-                    var t16 = $this.parents("tr").find(".heightValue").val(),
-                        t17 = $this.parents("tr").find(".heightScene").find("option:selected").text();
-                    $this.parents("tr").find(".heightValue").parents("td").find(".text-msg").text(t16+"  "+t17)
-
-                    var t18 = $this.parents("tr").find(".skinValue").val();
-                    $this.parents("tr").find(".skinValue").parents("td").find(".text-msg").text(t18)
-
-                    var t19 = $this.parents("tr").find(".otherValue").val();
-                    $this.parents("tr").find(".otherValue").parents("td").find(".text-msg").text(t19)
-
-
-                    var t20 = $this.parents("tr").find(".incidentScene").find("option:selected").text();
-                    var t21 = $this.parents("tr").find(".incidentTime2").data("time")
-                    var t22 = $this.parents("tr").find(".incidentTime2").val()
-
-                    $this.parents("tr").find(".incidentScene").parents("td").find(".text-msg").text(t20+" "+t21.slice(0,t21.indexOf(" "))+" "+t22)
-
-
-
-
-                    $this.parents('tr').removeClass('active')
-
-
+                    })
 
                 } else  {
-                    alert(json.result + json.errmsg+json.Ddatas)
+                    jkyAlert(json.result + json.errmsg+json.Ddatas,"no")
+                    // alert(json.result + json.errmsg+json.Ddatas)
                 }
             }, 'json');
         })
@@ -1016,31 +1095,37 @@
 
     $("body").on("click",".del-btn",function(){
         var id = $(this).data("id")
-        var data = {}
-        data["delete_id"]=id;
         var $this= $(this)
-        $.ajax({
-            url: "/pc/patvhdelete",
-            data: data,
-            type: "POST",
-            success: function (data) {
+        jkyConfirm("是否确认删除",function(){
+            var data = {}
+            data["delete_id"]=id;
+            $.ajax({
+                url: "/pc/patvhdelete",
+                data: data,
+                type: "POST",
+                success: function (data) {
 //                console.log(data);
-                if (data) {
-                    switch (data.result) {
-                        case 0:
-                            $this.parents("tr").remove()
-                            break;
-                        default:
-                            alert(data.errmsg)
+                    if (data) {
+                        switch (data.result) {
+                            case 0:
+                                    jkyAlert("删除成功","yes",function(){
+                                        $this.parents("tr").remove()
+                                    })
+                                break;
+                            default:
+                                alert(data.errmsg)
+                        }
                     }
-                }
-            },
-            error: function (e) {
-                console.log("ajax err:", e)
-            },
-            dataType: "json"
+                },
+                error: function (e) {
+                    console.log("ajax err:", e)
+                },
+                dataType: "json"
+            })
         })
+
     })
+
 
 </script>
 

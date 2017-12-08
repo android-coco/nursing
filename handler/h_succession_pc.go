@@ -5,7 +5,6 @@ import (
 	"time"
 	"nursing/model"
 	"encoding/json"
-	"fmt"
 )
 
 type PCSuccessController struct {
@@ -135,6 +134,8 @@ func (c PCSuccessController) Post(w *fit.Response, r *fit.Request, p fit.Params)
 		return
 	}
 
+	msgstr := ""
+
 	dayshift := r.FormValue(model.Day_Shift)
 	if len(dayshift) != 0 {
 		var maps map[string]string
@@ -152,6 +153,8 @@ func (c PCSuccessController) Post(w *fit.Response, r *fit.Request, p fit.Params)
 				c.JsonData.ErrorMsg = "参数错误1"
 				c.JsonData.Datas = err
 				return
+			}else{
+				msgstr = "白班"
 			}
 		}
 	}
@@ -173,6 +176,8 @@ func (c PCSuccessController) Post(w *fit.Response, r *fit.Request, p fit.Params)
 				c.JsonData.ErrorMsg = "参数错误2"
 				c.JsonData.Datas = err
 				return
+			}else{
+				msgstr = "晚班"
 			}
 		}
 	}
@@ -194,8 +199,17 @@ func (c PCSuccessController) Post(w *fit.Response, r *fit.Request, p fit.Params)
 				c.JsonData.ErrorMsg = "参数错误3"
 				c.JsonData.Datas = err
 				return
+			}else{
+				msgstr = "夜班"
 			}
 		}
+	}
+
+	if msgstr == ""{
+		session.Rollback()
+		c.JsonData.Result = 2
+		c.JsonData.ErrorMsg = "参数不完整，注意签名"
+		return
 	}
 
 	commentshift := r.FormValue(model.Comment_Shift)
@@ -224,7 +238,7 @@ func (c PCSuccessController) Post(w *fit.Response, r *fit.Request, p fit.Params)
 
 
 	delets := r.FormValue("Comment_Delet")
-	fmt.Println(len(delets))
+	fit.Logger().LogError("fffffff",delets)
 	if len(delets) != 0 {
 		var maps []string
 		err := json.Unmarshal([]byte(delets), &maps)
@@ -247,8 +261,6 @@ func (c PCSuccessController) Post(w *fit.Response, r *fit.Request, p fit.Params)
 			}
 		}
 	}
-
-
 
 	err_com := session.Commit()
 	if err_com != nil {

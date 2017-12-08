@@ -55,6 +55,8 @@
                         <input type="text" class="am-form-field  date-input" id="date1">
                         <span class="line">—</span>
                         <input type="text" class="am-form-field  date-input" id="date2">
+                        <div id="time-search-btn" class="btn-search">搜索</div>
+
                         <a href="/pc/record/nrl7?pid={{.PInfo.VAA01}}" class="all-btn">所有记录</a>
                     </div>
                     <div class="btn-group">
@@ -322,7 +324,7 @@
                         <tr class="bt-tit">
                             <td colspan="2">
                                 <div class="cont-warp">
-                                    合计分数
+                                    评估总分
                                 </div>
                             </td>
                         </tr>
@@ -487,7 +489,7 @@
                         <tr class="tr7 tr7-22">
                             <td colspan="2">
                                 <div class="cont-warp">
-                                    22、睡床高低要适当，从床垫面至地板高度45-4 8cm
+                                    22、睡床高低要适当，从床垫面至地板高度45-48cm
                                 </div>
                             </td>
                         </tr>
@@ -501,7 +503,7 @@
                         <tr class="tr7 tr7-24">
                             <td colspan="2">
                                 <div class="cont-warp">
-                                    24、加强床上护理，协助擦浴，开餐，床上洗头及 二便护理，加强肌肉训练
+                                    24、加强床上护理，协助擦浴，开餐，床上洗头及二便护理，加强肌肉训练
                                 </div>
                             </td>
                         </tr>
@@ -1044,10 +1046,13 @@
                                     </div>
                                 </li>
                                 <li class="bt-tit3">
-                                    <div class="cont-warp">
+                                    <div class="cont-warp auditingWarp">
                                         <p class="txt">{{$val.NRL09B}}</p>
                                         <div class="sel-input">
                                             <input type="text" class="input-txt" value="{{$val.NRL09B}}" style="text-align: center">
+                                        </div>
+                                        <div class="auditingName" data-rid="{{$val.ID}}" data-uid="{{$val.BCE01A}}" data-name="{{$val.BCE03A}}" data-pid="{{$val.VAA01}}" style="line-height: 32px;">
+                                            <i class="am-icon-pencil"></i>编辑
                                         </div>
                                     </div>
                                 </li>
@@ -1055,6 +1060,7 @@
                                     <div class="cont-warp">
 
                                         <a href="#1" class="save-btn" data-isjump="0" data-isnew="0"><span>保存</span></a>
+                                        <a class="cancel-btn" data-isnew="0"><span>取消</span></a>
                                         <a href="#1" class="edit-btn" data-id="{{$val.BCE01A}}">
                                             <i class="am-icon-pencil"></i><span>编辑</span>
                                         </a>
@@ -1463,6 +1469,7 @@
                 <div class="cont-warp">
 
                     <a href="#1" class="save-btn" data-isjump="<%= isJump %>" data-isnew="1"><span>保存</span></a>
+                    <a class="cancel-btn" data-isnew="1"><span>取消</span></a>
                     <a href="#1" class="edit-btn" >
                         <i class="am-icon-pencil"></i><span>编辑</span>
                     </a>
@@ -1597,7 +1604,8 @@
 
             if(yId == userId){
                 if ($('.list').find('ul.active').length > 0) {
-                    alert("请先保存信息")
+                    // alert("请先保存信息")
+                    jkyAlert("请先保存信息","no")
                 } else {
                     var $ul = $(this).parents('ul')
                     $ul.addClass("active")
@@ -1606,7 +1614,8 @@
                     // $ul.find('.tr11').find('.cont-warp').find('.sel-input').html($date)
                 }
             }else{
-                alert("您没有权限编辑！");
+                // alert("您没有权限编辑！");
+                jkyAlert("您没有权限编辑！","no")
             }
         })
 
@@ -1665,51 +1674,59 @@
                 })
                 //总共5个固定参数,如果没填长度就为5
                 if(num==5){
-                    alert("请填写内容！")
+                    // alert("请填写内容！")
+                    jkyAlert("请填写内容！","no")
                     return false;
                 }
                 var $this= $(this)
                 req(api,data,function(){
-                    alert("保存成功")
-                    if($this.data("isjump")!="1"){
-                        reqTableTit(data,function(){
-                        })
-                        setTimeout(function(){
-                            location.reload()
-                        },0)
+                    // alert("保存成功")
+                    jkyAlert("保存成功","yes",function(){
+                        if($this.data("isjump")!="1"){
+                            reqTableTit(data,function(){
+                            })
+                            setTimeout(function(){
+                                location.reload()
+                            },0)
 
 
-                    }else{
-                        var baseurl = "/pc/record/nrl7?",
-                            index = parseInt({{.PageIndex}})+1,
-                            pid = parseInt({{.PInfo.VAA01}}),
-                            date1=getURLParam("sdate"),
-                            date2=getURLParam("edate"),
-                            urlStr = baseurl + "pid=" + pid + "&num=" + index;
+                        }else{
+                            var baseurl = "/pc/record/nrl7?",
+                                    index = parseInt({{.PageIndex}})+1,
+                                    pid = parseInt({{.PInfo.VAA01}}),
+                                    date1=getURLParam("sdate"),
+                                    date2=getURLParam("edate"),
+                                    urlStr = baseurl + "pid=" + pid + "&num=" + index;
 
-                        if(date1){
-                            urlStr =urlStr+"&sdate=" + date1
+                            if(date1){
+                                urlStr =urlStr+"&sdate=" + date1
+                            }
+                            if(date2){
+                                urlStr =urlStr+"&edate=" + date2
+                            }
+                            reqTableTit(data,function(){
+                            })
+
+                            setTimeout(function() {
+                                location.href= urlStr
+                            })
+
                         }
-                        if(date2){
-                            urlStr =urlStr+"&edate=" + date2
-                        }
-                        reqTableTit(data,function(){
-                        })
+                    })
 
-                        setTimeout(function() {
-                            location.href= urlStr
-                        })
-
-                    }
 
                 })
             }else{
                 data.rid = $cont.data("rid")
                 var $el = $(this)
                 req(api,data,function(){
-                    alert("修改成功")
-                    setDataText($cont)
-                    $cont.removeClass("active")
+                    // alert("修改成功")
+                    jkyAlert("修改成功","yes",function(){
+                        setDataText($cont)
+                        $cont.removeClass("active")
+                    })
+
+
                 })
                 reqTableTit(data,function(res){
                     console.log(res.datas)
@@ -1868,7 +1885,8 @@
                                 cb();
                                 break;
                             default:
-                                alert(data.errmsg)
+                                // alert(data.errmsg)
+                                jkyAlert(data.errmsg,"no")
                         }
                     }
                 },
@@ -1894,9 +1912,9 @@
                     return false
                 }
                 if(yId == userId){
-                    var isDel = confirm("是否确认删除");
-                    var data = {}
-                    if(isDel){
+                    // var isDel = confirm("是否确认删除");
+                    jkyConfirm("是否确认删除",function(){
+                        var data = {}
                         data.rid = rid;
                         $.ajax({
                             url: "/record/nr7/delete",
@@ -1910,7 +1928,8 @@
                                             location.reload();
                                             break;
                                         default:
-                                            alert(data.errmsg)
+                                            // alert(data.errmsg)
+                                            jkyAlert(data.errmsg,"no")
                                     }
                                 }
                             },
@@ -1919,9 +1938,11 @@
                             },
                             dataType: "json"
                         })
-                    }
+                    })
+
                 }else{
-                    alert("您没有权限删除！");
+                    // alert("您没有权限删除！");
+                    jkyAlert("您没有权限删除!","no")
                     return false
                 }
             }else{
@@ -1997,12 +2018,17 @@
         function sumScore($el){
             var optionVal = [],sum="";
             console.log($el.find(".fen-item .m-input-radio2.active"))
-            $el.find(".fen-item .m-input-radio2.active").each(function(i,el){
-                // console.log($el.find("label"))
-                var val = $.trim($(el).find("label").data("v"))
-                if( val!=0 && val!="0"){
-                    optionVal.push(scoreHash["option"+(i+2)][val])
+            $el.find(".fen-item").each(function(i,el){
+                if($(el).find(".m-input-radio2.active").length){
+                    // console.log($el.find("label"))
+                    var val = $.trim($(el).find(".m-input-radio2.active").find("label").data("v"))
+                    if( val!=0 && val!="0"){
+                        // console.log("option"+(i+2))
+                        // console.log(val)
+                        optionVal.push(scoreHash["option"+(i+2)][val])
+                    }
                 }
+
             })
             console.log(optionVal)
             $.each(optionVal,function(i,n){
@@ -2065,7 +2091,7 @@
 
                     var a = new Date(value);
                     date1 = a.getTime();
-                    reloadSheet();
+                    // reloadSheet();
                 }
             });
 
@@ -2080,9 +2106,13 @@
                     var a = new Date(value);
                     date2 = a.getTime();
                     console.log("date ", date1, date2);
-                    reloadSheet();
+                    // reloadSheet();
                 }
             });
+
+            $("#time-search-btn").on("click",function(){
+                reloadSheet();
+            })
 
             // 总页数
             var pagenum = parseInt({{.PageNum}});
@@ -2130,7 +2160,8 @@
 
             function reloadSheet() {
                 if($(".data-col.active").length>0){
-                    alert("请先保存数据！");
+                    // alert("请先保存数据！");
+                    jkyAlert("请先保存数据！","no")
                     return false;
                 }
                 index = tempindex;
@@ -2155,7 +2186,8 @@
         $(".btn.type2.createCol").on("click", function () {
 
             if($(".data-col.active").length>0){
-                alert("请先保存数据！")
+                // alert("请先保存数据！")
+                jkyAlert("请先保存数据！","no")
                 return false;
             }
 
@@ -2294,6 +2326,60 @@
             })
         })
 
+        $("body").on("click",".cancel-btn",function(){
+            if($(this).data("isnew") && $(this).data("isnew") !="0"){
+                location.reload()
+            }else{
+                $(this).parents(".data-col").removeClass("active")
+            }
+        })
+
+        ;(function (){
+            var $this=null,reqData=null
+            $("body").on("click",".auditingName",function(){
+                $this = $(this);
+
+                if ($('.list').find('ul.active').length > 0) {
+                    // alert("请先保存信息")
+                    jkyAlert("请先保存信息", "no")
+                }else{
+                    var rid = $this.data("rid")
+                    // var uid = $this.data("uid")
+                    // var name = $this.data("name")
+                    // var pid = $this.data("pid")
+                    reqData = {
+                        "nrltype":"7",
+                        "rid": rid
+                    }
+                    var api = "/record/nrl/updatechecker"
+                    if(rid){
+                        var valTxt = $.trim($this.parents(".bt-tit3").find(".txt").text());
+                        jkyPrompt({
+                            txt:"审核者签名",
+                            valTxt:valTxt,
+                            maxlength:10
+                        }, function(data){
+                            data= $.trim(data)
+                            if(data){
+                                reqData["nurseName"] = data
+                                req(api,reqData,function(resData){
+                                    $this.parents(".bt-tit3").find(".txt").text(data)
+                                    // reqData = null;
+                                    // $this= null;
+                                })
+
+                            }
+                        },function(){
+                            $("#jky-prompt-input").val("")
+                        })
+
+
+                    }else{
+                        jkyAlert("意外错误！","no")
+                    }
+                }
+            })
+        })()
     </script>
 </body>
 

@@ -56,13 +56,15 @@
                         <input type="text" class="am-form-field  date-input" id="date1">
                         <span class="line">—</span>
                         <input type="text" class="am-form-field  date-input" id="date2" >
+                        <div id="time-search-btn" class="btn-search">搜索</div>
+
                         <a href="/pc/record/nrl5?pid={{.PInfo.VAA01}}" class="all-btn">所有记录</a>
                     </div>
                     <div class="btn-group">
                         <a class="btn type2 createCol">新建</a>
                         <a class="btn print">打印</a>
                     </div>
-                    <p class="tit">深圳万丰医院深静脉血栓护理观察表</p>
+                    <p class="tit">深圳万丰医院深静脉血栓护理观察单</p>
 
 
                 </div>
@@ -238,7 +240,7 @@
 
                         <tr class="tr10-1">
                             <td rowspan="2">
-                                <div class="cont-warp">主观麻痹感*</div>
+                                <div class="cont-warp">主观麻痹感</div>
                             </td>
                             <td>
                                 <div class="cont-warp">
@@ -249,7 +251,7 @@
                         <tr class="tr10-2">
                             <td>
                                 <div class="cont-warp">
-                                    <p>有</p>
+                                    <p>有*</p>
                                 </div>
                             </td>
                         </tr>
@@ -305,21 +307,21 @@
                         <tr class="tr14-2">
                             <td colspan="2">
                                 <div class="cont-warp type3">
-                                    <p>2、抬高患肢，肢体位置高于心 脏水平20~30cm</p>
+                                    <p>2、抬高患肢，肢体位置高于心脏水平20~30cm</p>
                                 </div>
                             </td>
                         </tr>
                         <tr class="tr14-3">
                             <td colspan="2">
                                 <div class="cont-warp type3">
-                                    <p>3、膝关节微屈15°，腘窝处避免 受压</p>
+                                    <p>3、膝关节微屈15°，腘窝处避免受压</p>
                                 </div>
                             </td>
                         </tr>
                         <tr class="tr14-4">
                             <td colspan="2">
                                 <div class="cont-warp type3">
-                                    <p>4、严禁按摩及热敷，避免下肢 静脉穿刺</p>
+                                    <p>4、严禁按摩及热敷，避免下肢静脉穿刺</p>
                                 </div>
                             </td>
                         </tr>
@@ -919,6 +921,7 @@
                                             <div class="td type3">
                                                 <div class="cont-warp">
                                                     <a href="#1" class="save-btn" data-isjump="0" data-isnew="0"><span>保存</span></a>
+                                                    <a href="#1" class="cancel-btn"  data-isnew="0"><span>取消</span></a>
                                                     <a href="#1" class="edit-btn"  data-id="{{$val.ModelA.BCE01A}}">
                                                         <i class="am-icon-pencil"></i><span>编辑</span>
                                                     </a>
@@ -1349,6 +1352,7 @@
                                             <div class="td type3">
                                                 <div class="cont-warp">
                                                     <a href="#1" class="save-btn" data-isjump="0" data-isnew="0"><span>保存</span></a>
+                                                    <a href="#1" class="cancel-btn"  data-isnew="0"><span>取消</span></a>
                                                     <a href="#1" class="edit-btn"  data-id="{{$val.ModelP.BCE01A}}">
                                                         <i class="am-icon-pencil"></i><span>编辑</span>
                                                     </a>
@@ -1780,6 +1784,7 @@
                                             <div class="td type3">
                                                 <div class="cont-warp">
                                                     <a href="#1" class="save-btn" data-isjump="0" data-isnew="0"><span>保存</span></a>
+                                                    <a href="#1" class="cancel-btn"  data-isnew="0"><span>取消</span></a>
                                                     <a href="#1" class="edit-btn" data-id="{{$val.ModelN.BCE01A}}">
                                                         <i class="am-icon-pencil"></i><span>编辑</span>
                                                     </a>
@@ -2258,6 +2263,7 @@
                         <div class="td type3">
                             <div class="cont-warp">
                                 <a href="#1" class="save-btn" data-isjump="<%= isJump %>" data-isnew="1"><span>保存</span></a>
+                                <a href="#1" class="cancel-btn"  data-isnew="1"><span>取消</span></a>
                                 <a href="#1" class="edit-btn" data-isnew="1"  data-id="0">
                                     <i class="am-icon-pencil"></i><span>编辑</span>
                                 </a>
@@ -2656,6 +2662,7 @@
                         <div class="td type3">
                             <div class="cont-warp">
                                 <a href="#1" class="save-btn" data-isjump="<%= isJump %>" data-isnew="1"><span>保存</span></a>
+                                <a href="#1" class="cancel-btn"  data-isnew="1"><span>取消</span></a>
                                 <a href="#1" class="edit-btn" data-isnew="1" data-id="0">
                                     <i class="am-icon-pencil"></i><span>编辑</span>
                                 </a>
@@ -3059,6 +3066,7 @@
                         <div class="td type3">
                             <div class="cont-warp">
                                 <a href="#1" class="save-btn" data-isjump="<%= isJump %>" data-isnew="1"><span>保存</span></a>
+                                <a href="#1" class="cancel-btn"  data-isnew="1"><span>取消</span></a>
                                 <a href="#1" class="edit-btn" data-isnew="1" data-id="0">
                                     <i class="am-icon-pencil"></i><span>编辑</span>
                                 </a>
@@ -3143,7 +3151,8 @@
                 return false
             }
             if ($('.list').find('ul.active').length > 0) {
-                alert("请先保存信息")
+                // alert("请先保存信息")
+                jkyAlert("请先保存信息","no")
                 return false
             }
             if(isnew){
@@ -3164,7 +3173,8 @@
                         // $ul.find('.tr11').find('.cont-warp').find('.sel-input').html($date)
 
                 }else{
-                    alert("您没有权限编辑！");
+                    // alert("您没有权限编辑！");
+                    jkyAlert("您没有权限编辑！","no")
                 }
             }
 
@@ -3224,35 +3234,39 @@
                 })
                 //总共5个固定参数,如果没填长度就为5
                 if(num==5){
-                    alert("请填写内容！")
+                    // alert("请填写内容！")
+                    jkyAlert("请填写内容！","no")
                     return false;
                 }
                 var $this= $(this)
 
                 req(api,data,function(){
-                    alert("保存成功")
+                    // alert("保存成功")
+                    jkyAlert("保存成功！","yes",function(){
+                        if($this.data("isjump")!="1"){
+                            location.reload()
 
-                    if($this.data("isjump")!="1"){
-                        location.reload()
+                        }else{
+                            var baseurl = "/pc/record/nrl5?",
+                                    index = parseInt({{.PageIndex}})+1,
+                                    pid = parseInt({{.PInfo.VAA01}}),
+                                    date1=getURLParam("sdate"),
+                                    date2=getURLParam("edate"),
+                                    urlStr = baseurl + "pid=" + pid + "&num=" + index;
 
-                    }else{
-                        var baseurl = "/pc/record/nrl5?",
-                                index = parseInt({{.PageIndex}})+1,
-                                pid = parseInt({{.PInfo.VAA01}}),
-                                date1=getURLParam("sdate"),
-                                date2=getURLParam("edate"),
-                                urlStr = baseurl + "pid=" + pid + "&num=" + index;
-
-                        if(date1){
-                            urlStr =urlStr+"&sdate=" + date1
+                            if(date1){
+                                urlStr =urlStr+"&sdate=" + date1
+                            }
+                            if(date2){
+                                urlStr =urlStr+"&edate=" + date2
+                            }
+                            location.href= urlStr
+                            // console.log( baseurl + "pid=" + pid + "&num=" + index + "&sdate=" + date1 + "&edate=" + date2)
+                            // location.href=  baseurl + "pid=" + pid + "&num=" + index + "&sdate=" + date1 + "&edate=" + date2;
                         }
-                        if(date2){
-                            urlStr =urlStr+"&edate=" + date2
-                        }
-                        location.href= urlStr
-                        // console.log( baseurl + "pid=" + pid + "&num=" + index + "&sdate=" + date1 + "&edate=" + date2)
-                        // location.href=  baseurl + "pid=" + pid + "&num=" + index + "&sdate=" + date1 + "&edate=" + date2;
-                    }
+                    })
+
+
 
                 },function(data){
                     console.log(data.errmsg)
@@ -3269,12 +3283,15 @@
                 data.rid = $cont.data("rid")
                 var $el = $(this)
                 req(api,data,function(){
-                    alert("修改成功")
-                    location.reload()
-                    // setDataText($cont)
-                    // $cont.removeClass("active")
-                    $cont.removeClass("active")
-                    $cont.find('.tr11').find('.cont-warp').find('.sel-input').html("")
+                    // alert("修改成功")
+                    jkyAlert("修改成功","yes",function(){
+                        location.reload()
+                        // setDataText($cont)
+                        // $cont.removeClass("active")
+                        $cont.removeClass("active")
+                        $cont.find('.tr11').find('.cont-warp').find('.sel-input').html("")
+                    })
+
                 })
             }
 
@@ -3405,7 +3422,8 @@
                                 cb();
                                 break;
                             default:
-                                alert(data.errmsg)
+                                // alert(data.errmsg)
+                                    jkyAlert(data.errmsg,"no")
                                 errcb && errcb(data)
                         }
                     }
@@ -3432,9 +3450,9 @@
                     return false
                 }
                 if(yId == userId){
-                    var isDel = confirm("是否确认删除");
-                    var data = {}
-                    if(isDel){
+                    // var isDel = confirm("是否确认删除");
+                    jkyConfirm("是否确认删除",function(){
+                        var data = {}
                         data.rid = rid;
                         $.ajax({
                             url: "/record/nr5/delete",
@@ -3448,7 +3466,8 @@
                                             location.reload();
                                             break;
                                         default:
-                                            alert(data.errmsg)
+                                            // alert(data.errmsg)
+                                            jkyAlert(data.errmsg,"no")
                                     }
                                 }
                             },
@@ -3457,13 +3476,27 @@
                             },
                             dataType: "json"
                         })
-                    }
+                    })
+
                 }else{
-                    alert("您没有权限删除！");
+                    // alert("您没有权限删除！");
+                    jkyAlert("您没有权限删除!","no")
+
                     return false
                 }
             }else{
-                $(this).parents("ul").remove()
+                // $(this).parents("ul").remove()
+                // $(this).parents(".item").remove()
+                var isData=false
+                $(this).parents(".item").find("ul").each(function(i,el){
+                    if($(el).data("rid")){
+                        isData = true
+                        return false
+                    }
+                })
+                if(!isData){
+                    $(this).parents(".item").remove()
+                }
                 $cont = $("#tab-list2");
                 // 是否过页
                 var isPage = $(this).parents("ul").find(".save-btn").data("isjump").toString();
@@ -3576,7 +3609,7 @@
 
                     var a = new Date(value);
                     date1 = a.getTime();
-                    reloadSheet();
+                    // reloadSheet();
                 }
             });
 
@@ -3591,9 +3624,13 @@
                     var a = new Date(value);
                     date2 = a.getTime();
                     console.log("date ", date1, date2);
-                    reloadSheet();
+                    // reloadSheet();
                 }
             });
+
+            $("#time-search-btn").on("click",function(){
+                reloadSheet();
+            })
 
             // 总页数
             var pagenum = {{.PageNum}};
@@ -3641,7 +3678,8 @@
 
             function reloadSheet() {
                 if($(".col-cont.active").length>0){
-                    alert("请先保存数据！");
+                    // alert("请先保存数据！");
+                    jkyAlert("请先保存数据！","no")
                     return false;
                 }
                 index = tempindex;
@@ -3664,12 +3702,15 @@
             var username = {{.Userinfo.Name}}; // 护士姓名
             $(".btn.type2.createCol").on("click", function () {
                 if($(".data-col.active").length>0){
-                    alert("请先保存数据！")
+                    // alert("请先保存数据！")
+                    jkyAlert("请先保存数据！","no")
                     return false;
                 }
                 if($(".item.newCol").length>0){
                     // alert("请先保存数据！")
-                    alert("请先填写后创建")
+                    // alert("请先填写后创建")
+                    jkyAlert("请先填写后创建！","no")
+
                     return false;
                 }
 
@@ -3724,6 +3765,14 @@
             })
         })
 
+
+        $("body").on("click",".cancel-btn",function(){
+            if($(this).data("isnew") && $(this).data("isnew") !="0"){
+                location.reload()
+            }else{
+                $(this).parents(".data-col").removeClass("active")
+            }
+        })
     </script>
     </body>
 

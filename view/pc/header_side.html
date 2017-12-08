@@ -1,7 +1,7 @@
 {{define "header_side"}}
 <div class="am-topbar am-topbar-fixed-top top48 type2">
     <div class="am-topbar-left am-hide-sm-only">
-        <a class="username"><span>欢迎你，{{.Userinfo.Name}}</span><i class="zmdi zmdi-layers"></i></a>
+        <a class="username"><span>欢迎您，{{.Userinfo.Name}}</span><i class="zmdi zmdi-layers"></i></a>
     </div>
     <!--
     <div class="contain">
@@ -119,19 +119,27 @@
 
 <script>
     var menuIndex = {{.Menuindex}} || "";
-    var num = JSON.parse(window.localStorage.getItem("num"));
+
+    console.log("---------------------", menuIndex);
+    var num = {{.Num}};
+
     if (num) {
-        document.getElementById("patient-list1").innerHTML = num.t0;
-        document.getElementById("patient-list2").innerHTML = num.t1;
-        document.getElementById("patient-list3").innerHTML = num.t2;
-        document.getElementById("patient-list4").innerHTML = num.t3;
-        document.getElementById("patient-list5").innerHTML = num.t4;
-        document.getElementById("patient-list6").innerHTML = num.t5;
+        window.localStorage.setItem("num", JSON.stringify(num));
     } else {
+        num = JSON.parse(window.localStorage.getItem("num"));
         // window.location.href = "/pc/home"
     }
+
+    document.getElementById("patient-list1").innerHTML = num.t0;
+    document.getElementById("patient-list2").innerHTML = num.t1;
+    document.getElementById("patient-list3").innerHTML = num.t2;
+    document.getElementById("patient-list4").innerHTML = num.t3;
+    document.getElementById("patient-list5").innerHTML = num.t4;
+    document.getElementById("patient-list6").innerHTML = num.t5;
 
 
 
 </script>
+
+
 {{end}}

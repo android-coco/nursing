@@ -48,7 +48,7 @@
             <div class="table-warp">
                 <div class="cont-table">
                     <ul class="ta_hd">
-                        <li class="first tit1"><span>床号</span> <span>姓名</span> <span>诊断</span></li>
+                        <li class="first tit1"><span>床号</span> <span>姓名</span> <span>诊断</span> <span style="margin-left:178px">事件</span></li>
                         <li class="tit2">
                             <p class="name"> 白班 </p>
                             <div class="row1">
@@ -396,7 +396,7 @@
                                                       value="{{.n_NursingName}}" {{if $n_Disabled}}
                                                       disabled {{end}}/></li>
                         <li><label>签名:</label> <input type="text" id="nursing_3"
-                                                      value="{{.n_NursingName}}" {{if $N_Disabled}}
+                                                      value="{{.N_NursingName}}" {{if $N_Disabled}}
                                                       disabled {{end}}/></li>
                     </ul>
                 </div>
@@ -666,12 +666,24 @@
         if ($(this).parents('.td-row').find('.row1-sel').data('isdel') == "1") {
             alert("不能删除")
         } else {
-            var ty = $(this).parents('.td-row').data("ty")
-            ty = ty.toString()
-            if (ty != "0") {
-                CommentDelet.push(ty);
-            }
-            $(this).parents('.td-row').remove();
+            var $this = $(this);
+            jkyConfirm("是否删除 将会删除该行三个班次的内容", function(){
+                var ty = $this.parents('.td-row').data("ty")
+                ty = ty.toString()
+                if (ty != "0") {
+                    CommentDelet.push(ty);
+                }
+                $this.parents('.td-row').remove();
+            })
+            // if(confirm("是否删除 将会删除该行三个班次的内容")){
+            //     var ty = $(this).parents('.td-row').data("ty")
+            //     ty = ty.toString()
+            //     if (ty != "0") {
+            //         CommentDelet.push(ty);
+            //     }
+            //     $(this).parents('.td-row').remove();
+            // }
+
         }
 
     })

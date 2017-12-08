@@ -3,7 +3,7 @@
     <div class="am-topbar am-topbar-fixed-top top48">
         <div class="am-topbar-left am-hide-sm-only"></div>
         <div class="contain">
-            <div class="jky-class-bar">
+            <div class="jky-class-bar">&nbsp;
             </div>
             <div class="jky-tab-hd">
                 <ul>
@@ -53,12 +53,12 @@
                                 <div class="user-list">
                                     <ul>
                                         {{range .Patients}}
-                                        <li data-id="{{.VAA01}}">
+                                        <li data-id="{{.Vid}}">
                                             <div class="l">
-                                                <input type="checkbox" checked><label>{{.BCQ04}}</label>
+                                                <input type="checkbox" checked><label>{{.Bed}}</label>
                                             </div>
                                             <div class="r">
-                                                {{.VAA05}}
+                                                {{.PName}}
                                             </div>
                                         </li>
                                         {{end}}
@@ -97,10 +97,10 @@
                                     <div class="input-box">
                                         <label for="">长期/临时:</label>
                                         <select  id="sel2">
-                                                <option selected="" value="0">全部</option>
-                                                <option value="1">长期</option>
-                                                <option value="2">临时</option>
-                                            </select>
+                                            <option selected="" value="0">全部</option>
+                                            <option value="1">长期</option>
+                                            <option value="2">临时</option>
+                                        </select>
                                     </div>
                                     <div class="input-box">
                                         <label for="">医嘱状态:</label>
@@ -115,7 +115,7 @@
                                 </div>
                                 <br>
                                 <div class="sel-date-box timeSel">
-                                    <span >时间：</span>
+                                    <span >执行时间：</span>
                                     <div class="input-box">
                                         <input type="radio" id="all-radio" name="date" checked data-type="all">
                                         <label for="all-radio">全部</label>
@@ -180,7 +180,6 @@
                                                 <th class="th15">滴速(滴/分)</th>
                                                 <th class="th8">长期/临时</th>
                                                 <th class="th16">医生嘱托</th>
-
                                                 <th class="th9">医生</th>
                                                 <th class="th10">开始时间</th>
                                                 <th class="th11">停止／撤销时间</th>
@@ -192,48 +191,30 @@
                                         <tbody class="change-div">
                                         {{range .MAdvices}}
                                             <tr>
-                                                <td>
-                                                    {{.Bed}}
+                                                <td>{{.Bed}}</td>
+                                                <td>{{.PName}}</td>
+                                                <td class="tc">{{.Category}}</td>
+                                                <td class="yz-item">
+                                                    {{range .Contents}}
+                                                        <p>{{.Content}}</p>
+                                                    {{end}}
                                                 </td>
-                                                <td>
-                                                    {{.PatientName}}
+                                                <td class="yz-item">
+                                                    {{range .Contents}}
+                                                        <p>{{.Dosage}}</p>
+                                                    {{end}}
                                                 </td>
-                                                <td class="tc">
-                                                    {{.Category}}
-                                                </td>
-                                                <td>
-                                                    {{.Content}}
-                                                </td>
-                                                <td class="tc">
-                                                    {{.Dosage}}
-                                                </td>
-                                                <td class="tc">{{.Count}}</td>
-                                                <td class="tc">
-                                                    {{.Method}}
-                                                </td>
-                                                <td class="tc">
-                                                    {{.Speed}}
-                                                </td>
-                                                <td class="tc">{{if eq .TypeOf  1}} 长期 {{else}} 临时 {{end}}</td>
-                                                <td class="tc">
-                                                    {{.Entrust}}
-                                                </td>
-                                                <td class="tc">
-                                                    {{.Physician}}
-                                                </td>
-                                                <td class="tc">
-                                                    {{.StartTime}}
-                                                </td>
-                                                <td class="tc">{{.EndTime}}</td>
-                                                <td class="tc">
-                                                    {{if eq .Status 3}} 未停 {{else if eq .Status 4}} 已作废 {{else}} 已停 {{end}}
-                                                </td>
-                                                <td class="tc">
-                                                    {{.Nurse}}
-                                                </td>
-                                                <td class="tc">
-                                                    {{.CheckTime}}
-                                                </td>
+                                                <td class="tc">{{.Frequency}}</td>
+                                                <td class="tc">{{.Method}}</td>
+                                                <td class="tc">{{.Speed}}</td>
+                                                <td class="tc">{{.TypeOf}}</td>
+                                                <td class="tc">{{.Entrust}}</td>
+                                                <td class="tc">{{.Physician}}</td>
+                                                <td class="tc">{{.StDay}}</td>
+                                                <td class="tc">{{.EdDay}}</td>
+                                                <td class="tc">{{.MStatus}}</td>
+                                                <td class="tc">{{.Sender}}</td>
+                                                <td class="tc">{{.ExDay}}</td>
                                             </tr>
                                         {{end}}
                                         </tbody>
@@ -448,53 +429,38 @@
 
                     for (var i = 0; i < resArr.length; i++) {
                         var obj = resArr[i]
-                        var typeString = obj.TypeOf == 1 ? "长期" : "临时"
-                        var statusStr = obj.Status == 3 ? "未停" : obj.Status == 4 ? "已作废" : "已停"
-                        console.log(obj.Entrust,obj.Nurse)
 
                         html += "<tr>\n" +
-                                "<td>\n" +
-                                obj.Bed+"\n" +
-                                "</td>\n" +
-                                "<td>\n" +
-                                obj.PatientName+"\n" +
-                                "</td>\n" +
-                                "<td class=\"tc\">\n" +
-                                obj.Category+"\n" +
-                                "</td>\n" +
-                                "<td>\n" +
-                                obj.Content+"\n" +
-                                "</td>\n" +
-                                "<td class=\"tc\">\n" +
-                                obj.Dosage+"\n" +
-                                "</td>\n" +
-                                "<td class=\"tc\">"+obj.Count+"</td>\n" +
-                                "<td class=\"tc\">\n" +
-                                obj.Method+"\n" +
-                                "</td>\n" +
-                                "<td class=\"tc\">\n" +
-                                obj.Speed+"\n" +
-                                "</td>\n" +
-                                "<td class=\"tc\">"+typeString+"</td>\n" +
-                                "<td class=\"tc\">\n" +
-                                obj.Entrust+"\n" +
-                                "</td>\n" +
-                                "<td class=\"tc\">\n" +
-                                obj.Physician+"\n" +
-                                "</td>\n" +
-                                "<td class=\"tc\">\n" +
-                                obj.StartTime+"\n" +
-                                "</td>\n" +
-                                "<td class=\"tc\">"+obj.EndTime+"</td>\n" +
-                                "<td class=\"tc\">\n" +
-                                statusStr+"\n" +
-                                "</td>\n" +
-                                "<td class=\"tc\">\n" +
-                                obj.Nurse+"\n" +
-                                "</td>\n" +
-                                "<td class=\"tc\">\n" +
-                                obj.CheckTime+"\n" +
-                                "</td>\n" +
+                                "<td>"+obj.Bed+"</td>\n" +
+                                "<td>"+obj.PName+"</td>\n" +
+                                "<td class=\"tc\">"+obj.Category+"</td>\n" +
+                                "<td class=\"yz-item\">\n"
+
+                        for (var idx = 0; idx < obj.Contents.length; idx ++) {
+                            const temp = obj.Contents[idx]
+                            html += "<p>"+temp.Content+"</p>\n"
+                        }
+
+                        html += "</td>\n" +
+                                "<td class=\"yz-item\">\n"
+
+                        for (var idx = 0; idx < obj.Contents.length; idx ++) {
+                            const temp = obj.Contents[idx]
+                            html += "<p>"+temp.Dosage+"</p>\n"
+                        }
+
+                        html += "</td>\n" +
+                                "<td class=\"tc\">"+obj.Frequency+"</td>\n" +
+                                "<td class=\"tc\">"+obj.Method+"</td>\n" +
+                                "<td class=\"tc\">"+obj.Speed+"</td>\n" +
+                                "<td class=\"tc\">"+obj.TypeOf+"</td>\n" +
+                                "<td class=\"tc\">"+obj.Entrust+"</td>\n" +
+                                "<td class=\"tc\">"+obj.Physician+"</td>\n" +
+                                "<td class=\"tc\">"+obj.StTime+"</td>\n" +
+                                "<td class=\"tc\">"+obj.EdTime+"</td>\n" +
+                                "<td class=\"tc\">"+obj.MStatus+"</td>\n" +
+                                "<td class=\"tc\">"+obj.Sender+"</td>\n" +
+                                "<td class=\"tc\">"+obj.ExTime+"</td>\n" +
                                 "</tr>"
                     }
                     $(".change-div").html(html)

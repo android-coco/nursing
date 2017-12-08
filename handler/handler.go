@@ -71,7 +71,6 @@ func (c *PCController) LoadViewSafely(w *fit.Response, r *fit.Request, tplname .
 			return false
 		} else {
 			// 已登录
-			fit.Logger().LogDebug("**JP**", "已登录")
 			c.LoadView(w, tplname...)
 			return true
 		}
@@ -95,7 +94,6 @@ func (c *PCController) GetLocalUserinfo(w *fit.Response, r *fit.Request) (userin
 			return userinfo, errors.New("未登录，无法获取用户信息")
 		} else {
 			// 已登录
-			fit.Logger().LogDebug("**JP**", "已登录")
 			userinfo = temp.(model.UserInfoDup)
 			return userinfo, nil
 		}
@@ -175,7 +173,7 @@ func (c *PCController) GetPageInfo(w *fit.Response, r *fit.Request, nrlType, pid
 	}
 
 	// 总条数
-	count, errCount := model.PCQUeryNRLPageCount(nrlType, pid, datestr1, datestr2)
+	count, errCount := model.PCQueryNRLPageCount(nrlType, pid, datestr1, datestr2)
 	if errCount != nil {
 		fmt.Fprintln(w, "nrl list err :", errCount)
 		fit.Logger().LogError("nrl page info :", errCount)

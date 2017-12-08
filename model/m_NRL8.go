@@ -47,6 +47,7 @@ func (m NRL8) UpdateData(id int64) (int64, error) {
 }
 
 func (m NRL8) DeleteData(id int64) (int64, error) {
+	DeleteNRecords(id)
 	return fit.MySqlEngine().ID(id).Delete(&m)
 }
 
@@ -68,12 +69,12 @@ func PCQueryNRL8(pid, datestr1, datestr2 string, pagenum int) ([]NRL8, error) {
 	var err error
 
 	if pagenum == -1 { // 打印用，获取全部数据
-		err = fit.MySqlEngine().Table("NRL8").Where("VAA01 = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Find(&mods)
+		err = fit.MySqlEngine().Table("NRL8").Where("VAA01 = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Asc("DateTime").Find(&mods)
 	} else { // pc 翻页用
 		if datestr2 == "" || datestr1 == "" {
 			err = fit.MySqlEngine().Table("NRL8").Where("VAA01 = ?", pid).Limit(9, (pagenum-1)*9).Asc("datetime").Find(&mods)
 		} else {
-			err = fit.MySqlEngine().Table("NRL8").Where("VAA01 = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Limit(9, (pagenum-1)*9).Find(&mods)
+			err = fit.MySqlEngine().Table("NRL8").Where("VAA01 = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Limit(9, (pagenum-1)*9).Asc("DateTime").Find(&mods)
 		}
 	}
 

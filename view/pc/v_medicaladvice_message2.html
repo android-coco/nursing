@@ -53,12 +53,12 @@
                                 <div class="user-list">
                                     <ul>
                                         {{range .Patients}}
-                                        <li data-id="{{.VAA01}}">
+                                        <li data-id="{{.Vid}}">
                                             <div class="l">
-                                                <input type="checkbox" checked><label>{{.BCQ04}}</label>
+                                                <input type="checkbox" checked><label>{{.Bed}}</label>
                                             </div>
                                             <div class="r">
-                                                {{.VAA05}}
+                                                {{.PName}}
                                             </div>
                                         </li>
                                         {{end}}
@@ -115,7 +115,7 @@
                                 </div>
                                 <br>
                                 <div class="sel-date-box timeSel">
-                                    <span >时间：</span>
+                                    <span >执行时间：</span>
                                     <div class="input-box">
                                         <input type="radio" id="all-radio" name="date" data-type="all" checked>
                                         <label for="all-radio">全部</label>
@@ -181,42 +181,27 @@
                                                 </tr>
                                             </thead>
                                             <tbody class="change-div">
-                                            {{/*<tr  class="{{ if eq $k 0}} active{{end}}" >*/}}
                                             {{range .MAdvices}}
-                                                <tr class="mad-select" data-mid="{{.Madid}}">
-                                                    <td>
-                                                        {{.Bed}}
+                                                <tr class="mad-select" data-gid="{{.Gid}}" data-ext="{{.ExDay}}" data-exc="{{.ExCycle}}">
+                                                    <td>{{.Bed}}</td>
+                                                    <td>{{.PName}}</td>
+                                                    <td class="tc">{{.Category}}</td>
+                                                    <td class="yz-item">
+                                                    {{range .Contents}}
+                                                        <p>{{.Content}}</p>
+                                                    {{end}}
                                                     </td>
-                                                    <td>
-                                                        {{.PatientName}}
-                                                    </td>
-                                                    <td class="tc">
-                                                        {{.Category}}
-                                                    </td>
-                                                    <td>
-                                                        <p>
-                                                            {{.Content}}
-                                                        </p>
-                                                    </td>
-                                                    <td class="tc">
-                                                        <p>
-                                                            {{.Dosage}}
-                                                        </p>
+                                                    <td class="yz-item">
+                                                    {{range .Contents}}
+                                                        <p>{{.Dosage}}</p>
+                                                    {{end}}
                                                     </td>
                                                     <td class="tc">{{.Frequency}}</td>
-                                                    <td class="tc">
-                                                        {{.Method}}
-                                                    </td>
-                                                    <td class="tc">
-                                                        {{if eq .TypeOf 1}} 长期 {{else}} 临时 {{end}}
-                                                    </td>
-                                                    <td class="tc">
-                                                        {{.StartTime}}
-                                                    </td>
-                                                    <td class="tc">{{.Nursename}}</td>
-                                                    <td class="tc td11">
-                                                        {{.Process}}
-                                                    </td>
+                                                    <td class="tc">{{.Method}}</td>
+                                                    <td class="tc">{{.TypeOf}}</td>
+                                                    <td class="tc">{{.StDay}}</td>
+                                                    <td class="tc">{{.Sender}}</td>
+                                                    <td class="tc td11">{{.ExStatus}}</td>
                                                 </tr>
                                             {{end}}
 
@@ -417,9 +402,14 @@
         $('.warp-table-box').on('click', 'tr', function() {
             $('.warp-table-box').find('.active').removeClass('active')
             $(this).addClass('active')
-            var mid = $(this).data("mid")
+            const mid = $(this).data("gid")
+            const extime = $(this).data("ext")
+            const excycle = $(this).data("exc")
+
             $.get("/pc/madvice/exec/detail", {
-                "madid":mid
+                "madid":mid,
+                "extime":extime,
+                "excycle":excycle
             }, function (json, status) {
                 if (json.result == 0) {
                     var resArr = json.datas;
@@ -545,42 +535,32 @@
 
                     for (var i = 0; i < resArr.length; i++) {
                         var obj = resArr[i]
-                        var typeString = obj.TypeOf == 1 ? "长期" : "临时"
+                        html += "<tr class=\"mad-select\" data-gid=\""+obj.Gid+"\" data-ext=\""+obj.ExTime+"\" data-exc=\""+obj.ExCycle+"\">\n" +
+                                "<td>"+obj.Bed+"</td>\n" +
+                                "<td>"+obj.PName+"</td>\n" +
+                                "<td class=\"tc\">"+obj.Category+"</td>\n" +
+                                "<td class=\"yz-item\">\n"
 
-                        html += "<tr data-mid=\""+obj.Madid+"\">\n" +
-                                "<td>\n" +
-                                ""+obj.Bed+"\n" +
-                                "</td>\n" +
-                                "<td>\n" +
-                                ""+obj.PatientName+"\n" +
-                                "</td>\n" +
-                                "<td class=\"tc\">\n" +
-                                ""+obj.Category+"\n" +
-                                "</td>\n" +
-                                "<td>\n" +
-                                "<p>\n" +
-                                ""+obj.Content+"\n" +
-                                "</p>\n" +
-                                "</td>\n" +
-                                "<td class=\"tc\">\n" +
-                                "<p>\n" +
-                                ""+obj.Dosage+"\n" +
-                                "</p>\n" +
-                                "</td>\n" +
+                        for (var idx = 0; idx < obj.Contents.length; idx ++) {
+                            const temp = obj.Contents[idx]
+                            html += "<p>"+temp.Content+"</p>\n"
+                        }
+
+                        html += "</td>\n" +
+                                "<td class=\"yz-item\">\n"
+
+                        for (var idx = 0; idx < obj.Contents.length; idx ++) {
+                            const temp = obj.Contents[idx]
+                            html += "<p>"+temp.Dosage+"</p>\n"
+                        }
+
+                        html += "</td>\n" +
                                 "<td class=\"tc\">"+obj.Frequency+"</td>\n" +
-                                "<td class=\"tc\">\n" +
-                                ""+obj.Method+"\n" +
-                                "</td>\n" +
-                                "<td class=\"tc\">\n" +
-                                ""+typeString+"\n" +
-                                "</td>\n" +
-                                "<td class=\"tc\">\n" +
-                                ""+obj.StartTime+"\n" +
-                                "</td>\n" +
-                                "<td class=\"tc\">"+obj.Nursename+"</td>\n" +
-                                "<td class=\"tc td11\">\n" +
-                                ""+obj.Process+"\n" +
-                                "</td>\n" +
+                                "<td class=\"tc\">"+obj.Method+"</td>\n" +
+                                "<td class=\"tc\">"+obj.TypeOf+"</td>\n" +
+                                "<td class=\"tc\">"+obj.StTime+"</td>\n" +
+                                "<td class=\"tc\">"+obj.Sender+"</td>\n" +
+                                "<td class=\"tc td11\">"+obj.ExStatus+"</td>\n" +
                                 "</tr>"
                     }
                     $(".change-div").html(html)

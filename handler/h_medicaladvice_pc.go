@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"nursing/utils"
 	"encoding/json"
+	"strings"
 )
 
 type PCMedicalAdviceController struct {
@@ -26,21 +27,16 @@ func (c PCMedicalAdviceController) PCSearch(w *fit.Response, r *fit.Request, p f
 		for index = 0; index < length; index ++ {
 			p := patients[index]
 			if v := length - 1; index < v {
-				pidStr = fmt.Sprintf("%s%d,", pidStr, p.VAA01)
+				pidStr = fmt.Sprintf("%s%d,", pidStr, p.Vid)
 			} else {
-				pidStr = fmt.Sprintf("%s%d", pidStr, p.VAA01)
+				pidStr = fmt.Sprintf("%s%d", pidStr, p.Vid)
 			}
 		}
-		mAdvices, _ := model.SearchMedicalAdviceForPC(0, 0, userinfo.DepartmentID, "0", pidStr, "all", "all")
-		for i, v := range mAdvices {
-			mAdvices[i].StartTime = v.StTime.ParseToMinute()
-			mAdvices[i].EndTime = v.EdTime.ParseToMinute()
-			mAdvices[i].CheckTime = v.CkTime.ParseToMinute()
-		}
+		mAdvices, _ := model.SearchMedicalAdviceForPC(0, 0, "0", pidStr, "all", "all")
 		c.Data = fit.Data{
-			"Userinfo": userinfo,
-			"Patients": patients,
-			"MAdvices": mAdvices,
+			"Userinfo":  userinfo,
+			"Patients":  patients,
+			"MAdvices":  mAdvices,
 			"Menuindex": "3-0",
 		}
 
@@ -56,14 +52,13 @@ func (c PCMedicalAdviceController) Search(w *fit.Response, r *fit.Request, p fit
 	r.ParseForm()
 
 	patients := r.FormValue("patients")
-	did := r.FormValue("did")
 	st := r.FormValue("starttime")
 	et := r.FormValue("endtime")
 	category := r.FormValue("category")
 	typeOf := r.FormValue("type")
 	status := r.FormValue("status")
 
-	if patients == "" || st == "" || et == "" || category == "" || typeOf == "" || status == "" || did == "" {
+	if patients == "" || st == "" || et == "" || category == "" || typeOf == "" || status == "" {
 		c.RenderingJsonAutomatically(1, "参数不完整")
 		return
 	}
@@ -79,19 +74,15 @@ func (c PCMedicalAdviceController) Search(w *fit.Response, r *fit.Request, p fit
 
 	type_i, err_t := strconv.Atoi(typeOf)
 	status_i, err_s := strconv.Atoi(status)
-	did_i, err_d := strconv.Atoi(did)
 	if err_t != nil {
 		c.RenderingJsonAutomatically(2, "参数错误 type")
 		return
 	} else if err_s != nil {
 		c.RenderingJsonAutomatically(2, "参数错误 status")
 		return
-	} else if err_d != nil {
-		c.RenderingJsonAutomatically(2, "参数错误 did")
-		return
 	}
 
-	mAdvices, err_db := model.SearchMedicalAdviceForPC(type_i, status_i, did_i, category, patients, st, et)
+	mAdvices, err_db := model.SearchMedicalAdviceForPC(type_i, status_i, category, patients, st, et)
 	if err_db != nil {
 		c.RenderingJsonAutomatically(3, "Database "+err_db.Error())
 	} else {
@@ -110,19 +101,19 @@ func (c PCMedicalAdviceController) PCExecState(w *fit.Response, r *fit.Request, 
 		for index = 0; index < length; index ++ {
 			p := patients[index]
 			if v := length - 1; index < v {
-				pidStr = fmt.Sprintf("%s%d,", pidStr, p.VAA01)
+				pidStr = fmt.Sprintf("%s%d,", pidStr, p.Vid)
 			} else {
-				pidStr = fmt.Sprintf("%s%d", pidStr, p.VAA01)
+				pidStr = fmt.Sprintf("%s%d", pidStr, p.Vid)
 			}
 		}
-		mAdvices, err_db := model.SearchMedicalAdviceExecutionForPC(0, 0, userinfo.DepartmentID, "0", pidStr, "all", "all")
+		mAdvices, err_db := model.SearchMedicalAdviceExecutionForPC(0, 0, "0", pidStr, "all", "all")
 		if err_db != nil {
 			fit.Logger().LogError("***JK***", err_db.Error())
 		}
 		c.Data = fit.Data{
-			"Userinfo": userinfo,
-			"Patients": patients,
-			"MAdvices": mAdvices,
+			"Userinfo":  userinfo,
+			"Patients":  patients,
+			"MAdvices":  mAdvices,
 			"Menuindex": "3-0",
 		}
 		_ = c.LoadViewSafely(w, r, "pc/v_medicaladvice_message2.html", "pc/header_side.html", "pc/header_top.html")
@@ -139,12 +130,11 @@ func (c PCMedicalAdviceController) PCExecSearch(w *fit.Response, r *fit.Request,
 	patients := r.FormValue("patients")
 	st := r.FormValue("starttime")
 	et := r.FormValue("endtime")
-	did := r.FormValue("did")
 	category := r.FormValue("category")
 	typeOf := r.FormValue("type")
 	status := r.FormValue("state")
 
-	if patients == "" || st == "" || et == "" || category == "" || typeOf == "" || status == "" || did == ""{
+	if patients == "" || st == "" || et == "" || category == "" || typeOf == "" || status == "" {
 		c.RenderingJsonAutomatically(1, "参数不完整")
 		return
 	}
@@ -160,19 +150,15 @@ func (c PCMedicalAdviceController) PCExecSearch(w *fit.Response, r *fit.Request,
 
 	type_i, err_t := strconv.Atoi(typeOf)
 	status_i, err_s := strconv.Atoi(status)
-	did_i, err_d := strconv.Atoi(did)
 	if err_t != nil {
 		c.RenderingJsonAutomatically(2, "参数错误 type")
 		return
 	} else if err_s != nil {
 		c.RenderingJsonAutomatically(2, "参数错误 state")
 		return
-	} else if err_d != nil {
-		c.RenderingJsonAutomatically(2, "参数错误 did")
-		return
 	}
 
-	mAdvices, err_db := model.SearchMedicalAdviceExecutionForPC(type_i, status_i, did_i, category, patients, st, et)
+	mAdvices, err_db := model.SearchMedicalAdviceExecutionForPC(type_i, status_i, category, patients, st, et)
 	if err_db != nil {
 		c.RenderingJsonAutomatically(3, "Database "+err_db.Error())
 	} else {
@@ -184,15 +170,21 @@ func (c PCMedicalAdviceController) PCExecSearch(w *fit.Response, r *fit.Request,
 func (c PCMedicalAdviceController) PCExecDetail(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 	r.ParseForm()
-	madid := r.FormValue("madid") //医嘱ID
-	if madid == "" {
+	madid := r.FormValue("madid")     // 医嘱ID
+	extime := r.FormValue("extime")   // 计划执行时间
+	excycle := r.FormValue("excycle") // 分组序号
+	if madid == "" || extime == "" || excycle == "" {
 		c.RenderingJsonAutomatically(1, "参数不完整")
 	} else {
 		mid, err_m := utils.Int64Value(madid)
 		if err_m != nil {
-			c.RenderingJsonAutomatically(2, "参数错误 madid")
+			c.RenderingJsonAutomatically(2, "参数错误 madid"+madid)
+		} else if _, err := time.Parse("2006-01-02 15:04:05", extime); err != nil {
+			c.RenderingJsonAutomatically(2, "参数错误 extime"+extime)
+		} else if _, err := strconv.Atoi(excycle); err != nil {
+			c.RenderingJsonAutomatically(2, "参数错误 excycle"+excycle)
 		} else {
-			res, err := model.FetchMedicalAdviceExecutionRecordForPc(mid)
+			res, err := model.FetchMedicalAdviceExecutionRecordForPc(mid, excycle, extime)
 			if err != nil {
 				c.RenderingJsonAutomatically(3, "Database "+err.Error())
 			} else {
@@ -214,9 +206,9 @@ func (c PCMedicalAdviceController) PCSplit(w *fit.Response, r *fit.Request, p fi
 		for index = 0; index < length; index ++ {
 			p := patients[index]
 			if v := length - 1; index < v {
-				pidStr = fmt.Sprintf("%s%d,", pidStr, p.VAA01)
+				pidStr = fmt.Sprintf("%s%d,", pidStr, p.Vid)
 			} else {
-				pidStr = fmt.Sprintf("%s%d", pidStr, p.VAA01)
+				pidStr = fmt.Sprintf("%s%d", pidStr, p.Vid)
 			}
 		}
 
@@ -224,11 +216,20 @@ func (c PCMedicalAdviceController) PCSplit(w *fit.Response, r *fit.Request, p fi
 		st := time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location()).Format("2006-01-02 15:04:05")
 		et := time.Date(t.Year(), t.Month(), t.Day(), 23, 55, 59, 1, t.Location()).Format("2006-01-02 15:04:05")
 
-		mAdvices, _ := model.SearchMedicalAdvicesForSplitting(st, et, pidStr, "0,1,2,3", 0, 0, userinfo.DepartmentID)
+		var temp []model.MedicalAdviceResponse
+		response := make([]model.MedicalAdviceResponse, 0)
+
+		temp, _ = model.SearchSplitMedicalAdviceForInfusion(st, et, pidStr, 0, 2)
+		response = append(response, temp...)
+		temp, _ = model.SearchSplitMedicalAdviceForOralMedical(st, et, pidStr, 0, 2)
+		response = append(response, temp...)
+		temp, _ = model.SearchSplitMedicalAdviceForOralInjection(st, et, pidStr, 0, 2)
+		response = append(response, temp...)
+		//mAdvices, _ := model.SearchMedicalAdvicesForSplitting(st, et, pidStr, "0,1,2,3", 0, 2, userinfo.DepartmentID)
 		c.Data = fit.Data{
-			"Userinfo": userinfo,
-			"Patients": patients,
-			"MAdvices": mAdvices,
+			"Userinfo":  userinfo,
+			"Patients":  patients,
+			"MAdvices":  response,
 			"Menuindex": "2-0",
 		}
 		_ = c.LoadViewSafely(w, r, "pc/v_medicaladvice_split.html", "pc/header_side.html", "pc/header_top.html")
@@ -245,12 +246,11 @@ func (c PCMedicalAdviceController) SpiltSearch(w *fit.Response, r *fit.Request, 
 
 	patients := r.FormValue("patients")
 	dt := r.FormValue("time")
-	did := r.FormValue("did")
 	typeOf := r.FormValue("term")
 	print := r.FormValue("print")
 
-	if patients == "" || dt == "" || typeOf == "" || print == "" || did == "" {
-		c.RenderingJsonAutomatically(1,"参数不完整")
+	if patients == "" || dt == "" || typeOf == "" || print == "" {
+		c.RenderingJsonAutomatically(1, "参数不完整")
 		return
 	}
 
@@ -269,7 +269,7 @@ func (c PCMedicalAdviceController) SpiltSearch(w *fit.Response, r *fit.Request, 
 		return
 	}
 	st := time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location()).Format("2006-01-02 15:04:05")
-	et := time.Date(t.Year(), t.Month(), t.Day(), 23, 55, 59, 1, t.Location()).Format("2006-01-02 15:04:05")
+	et := time.Date(t.Year(), t.Month(), t.Day(), 23, 59, 59, 1, t.Location()).Format("2006-01-02 15:04:05")
 
 	type_i, err_t := strconv.Atoi(typeOf)
 	if err_t != nil {
@@ -278,35 +278,63 @@ func (c PCMedicalAdviceController) SpiltSearch(w *fit.Response, r *fit.Request, 
 	}
 
 	printType := anyObj["type"]
-	if printType == "label" {
-		c.RenderingJsonAutomatically(0, "标签暂无数据")
-		return
-	} else if printType != "excution" {
+	if printType != "excution" && printType != "label" {
 		c.RenderingJsonAutomatically(2, "参数错误 type")
 		return
 	}
 
 	status := anyObj["status"]
 	print_i, err_p := strconv.Atoi(status)
-	did_i, err_d := strconv.Atoi(did)
 	if err_p != nil {
 		c.RenderingJsonAutomatically(2, "参数错误 status")
 		return
-	} else if err_d != nil {
-		c.RenderingJsonAutomatically(2, "参数错误 did")
-		return
 	}
 
-	printStr := anyObj["value"]
-	mAdvices, err_db := model.SearchMedicalAdvicesForSplitting(st, et, patients, printStr, type_i, print_i,did_i)
-	if err_db != nil {
-		c.RenderingJsonAutomatically(3, "Database "+err_db.Error())
+	//printStr := anyObj["value"]
+	prints := strings.Split(anyObj["value"], ",")
+
+	var err_re error
+	response := make([]model.MedicalAdviceResponse, 0)
+	if printType == "excution" {
+		for _, v := range prints {
+			if v == "2" {
+				// 输液单
+				temp, err_db := model.SearchSplitMedicalAdviceForInfusion(st, et, patients, type_i, print_i)
+				err_re = err_db
+				response = append(response, temp...)
+			} else if v == "0" {
+				// 口服单
+				temp, err_db := model.SearchSplitMedicalAdviceForOralMedical(st, et, patients, type_i, print_i)
+				err_re = err_db
+				response = append(response, temp...)
+			} else if v == "1" {
+				// 注射单
+				temp, err_db := model.SearchSplitMedicalAdviceForOralInjection(st, et, patients, type_i, print_i)
+				err_re = err_db
+				response = append(response, temp...)
+			} else if v == "3" {
+				// 治疗单无数据
+			}
+		}
 	} else {
-		c.RenderingJson(0, "成功", mAdvices)
+		for _, v := range prints {
+			if v == "0" {
+				temp, err_db := model.SearchSplitMedicalAdviceForBottlePost(st, et, patients, type_i, print_i)
+				err_re = err_db
+				response = append(response, temp...)
+			} else {
+				// 检验标签无数据
+			}
+		}
+	}
+	//mAdvices, err_db := model.SearchMedicalAdvicesForSplitting(st, et, patients, printStr, type_i, print_i,did_i)
+
+	if err_re != nil {
+		c.RenderingJsonAutomatically(3, "Database "+err_re.Error())
+	} else {
+		c.RenderingJson(0, "成功", response)
 	}
 }
-
-
 
 func (c *PCMedicalAdviceController) RenderingJsonAutomatically(result int, errMsg string) {
 	c.RenderingJson(result, errMsg, make([]interface{}, 0))
@@ -317,4 +345,3 @@ func (c *PCMedicalAdviceController) RenderingJson(result int, errMsg string, dat
 	c.JsonData.ErrorMsg = errMsg
 	c.JsonData.Result = result
 }
-
