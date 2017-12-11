@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		.box{
+			width: 300px;
+		}
+		.bar1{
+			width: 244px;
+			margin:0;
+			text-align: center;
+		}
+		.code-box .r{
+			float: right;
+			text-align: center;
+		}
+		body{
+			font-family: arial;	
+		}
+		.msg{
+			
+
+			margin:4px 0;
+		}
+	</style>
+</head>
+<body>
+<div class="box">
+	<p class="bar1">
+		<span class="name">刘国芳</span>
+		<span>女</span>
+		<span>32岁</span>
+		<span>住院内科</span>
+	</p>
+	<div class="code-box">
+		<canvas class="canvascode"></canvas> 
+		<div class="r">
+			<p>17</p>
+			<p>红</p>
+		</div>
+	</div>
+	<p class="msg">
+		HP,肛功能全套，肾功能六项
+	</p>
+	<p class="msg">
+		HP,肛功能全套，肾功能六项
+	</p>
+	<p class="msg">
+		HP,肛功能全套，肾功能六项
+	</p>
+	<p class="msg">
+		HP,肛功能全套，肾功能六项
+	</p>
+</div>
+
+<script src="/static/dist/js/lib/jquery.min.js"></script>
+<script src="/static/dist/js/lib/JsBarcode.all.min.js"></script>
+<script>
+	$(".canvascode").JsBarcode('17112423000122',{
+		width:2,
+  		height:60,
+	});	  
+</script>
+</body>
+</html>

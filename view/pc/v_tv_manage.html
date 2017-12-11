@@ -1,0 +1,867 @@
+{{template "header_top" .}}
+<div class="admin">
+    <!--<div class="am-g">-->
+    <!-- ========== Left Sidebar Start ========== -->
+    <!--<div class="left side-menu am-hide-sm-only am-u-md-1 am-padding-0">
+        <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 548px;">
+            <div class="sidebar-inner slimscrollleft" style="overflow: hidden; width: auto; height: 548px;">-->
+    <!-- sidebar start -->
+{{template "header_side" .}}
+
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+
+    <div class="content-page jky-table-page doc-input1" data-index="1">
+        <div class="tv-manage" id="app">
+            <p class="tit">TV监控信息编辑</p>
+            <div class="item-block">
+                <div class="tit-bar">
+                    <span class="txt">病区动态</span>
+                    <span class="line"></span>
+                    <div class="edit-btn" @click="editfn">
+                        编辑
+                    </div>
+                    <div class="cancel-btn" @click="cancelfn">
+                        取消
+                    </div>
+                    <div class="save-btn">
+                        保存
+                    </div>
+                </div>
+                <div class="tabel-box ">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th class="td1">名称</th>
+                            <th class="td2">内容</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="no">
+                            <td>
+                                <p class="txt">
+                                    患者总数
+                                </p>
+                                <div class="input-box">
+                                    <p class="d-txt">
+                                        患者总数
+                                    </p>
+
+                                </div>
+
+                            </td>
+                            <td>
+                                <p class="txt" v-cloak>
+                                    ${reqData.v1}
+                                </p>
+                                <div class="input-box">
+                                    <p class="d-txt" v-cloak>
+                                        ${reqData.v1}
+                                    </p>
+                                </div>
+
+
+                            </td>
+                        </tr>
+                        <tr class="no">
+                            <td>
+                                <p class="txt">
+                                    一级护理
+                                </p>
+                                <div class="input-box">
+                                    <p class="d-txt">
+                                        一级护理
+                                    </p>
+
+                                </div>
+                            </td>
+                            <td>
+                                <p class="txt" v-cloak>
+                                    ${reqData.v4}
+                                </p>
+                                <div class="input-box">
+                                    <p class="d-txt" v-cloak>
+                                        ${reqData.v4}
+                                    </p>
+                                </div>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="txt">
+                                    新入
+                                </p>
+                                <div class="input-box">
+                                    <p class="d-txt">
+                                        新入
+                                    </p>
+
+                                </div>
+                            </td>
+                            <td>
+
+                                <p class="txt" v-cloak>
+                                    ${reqData.v2}
+                                </p>
+                                <div class="input-box">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300" v-model="reqData.v2">
+                                </div>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                                <p class="txt">
+                                    出院
+                                </p>
+                                <div class="input-box">
+                                    <p class="d-txt">
+                                        出院
+                                    </p>
+                                </div>
+                            </td>
+                            <td>
+
+                                <p class="txt" v-cloak>
+                                    ${reqData.v3}
+                                </p>
+                                <div class="input-box">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+                                           v-model="reqData.v3">
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <p class="txt">
+                                    病重
+                                </p>
+                                <div class="input-box">
+                                    <p class="d-txt">
+                                        病重
+                                    </p>
+
+                                </div>
+                            </td>
+                            <td>
+
+                                <p class="txt" v-cloak>
+                                    ${reqData.v5}
+                                </p>
+                                <div class="input-box">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+                                           v-model="reqData.v5">
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <p class="txt">
+                                    病危
+                                </p>
+                                <div class="input-box">
+                                    <p class="d-txt">
+                                        病危
+                                    </p>
+
+                                </div>
+                            </td>
+                            <td>
+
+                                <p class="txt" v-cloak>
+                                    ${reqData.v6}
+                                </p>
+                                <div class="input-box">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+                                           v-model="reqData.v6">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="txt">
+                                    心电监护
+                                </p>
+                                <div class="input-box">
+                                    <p class="d-txt">
+                                        心电监护
+                                    </p>
+
+                                </div>
+                            </td>
+                            <td>
+
+                                <p class="txt" v-cloak>
+                                    ${reqData.v7}
+                                </p>
+                                <div class="input-box">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+                                           v-model="reqData.v7">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="txt">
+                                    吸氧
+                                </p>
+                                <div class="input-box">
+                                    <p class="d-txt">
+                                        吸氧
+                                    </p>
+
+                                </div>
+                            </td>
+                            <td>
+
+                                <p class="txt" v-cloak>
+                                    ${reqData.v8}
+                                </p>
+                                <div class="input-box">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+                                           v-model="reqData.v8">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="txt">
+                                    神志瞳孔监测
+                                </p>
+                                <div class="input-box">
+                                    <p class="d-txt">
+                                        神志瞳孔监测
+                                    </p>
+
+                                </div>
+                            </td>
+                            <td>
+
+                                <p class="txt" v-cloak>
+                                    ${reqData.v9}
+                                </p>
+                                <div class="input-box">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+                                           v-model="reqData.v9">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="txt">
+                                    雾化吸入
+                                </p>
+                                <div class="input-box">
+                                    <p class="d-txt">
+                                        雾化吸入
+                                    </p>
+
+                                </div>
+                            </td>
+                            <td>
+                                <p class="txt" v-cloak>
+                                    ${reqData.v10}
+                                </p>
+                                <div class="input-box">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+                                           v-model="reqData.v10">
+                                </div>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                                <p class="txt">
+                                    口腔护理
+                                </p>
+                                <div class="input-box">
+                                    <p class="d-txt">
+                                        口腔护理
+                                    </p>
+
+                                </div>
+                            </td>
+                            <td>
+                                <p class="txt" v-cloak>
+                                    ${reqData.v11}
+                                </p>
+                                <div class="input-box">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+                                           v-model="reqData.v11">
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <p class="txt">
+                                    尿道口护理
+                                </p>
+                                <div class="input-box">
+                                    <p class="d-txt">
+                                        尿道口护理
+                                    </p>
+
+                                </div>
+                            </td>
+                            <td>
+                                <p class="txt" v-cloak>
+                                    ${reqData.v12}
+                                </p>
+                                <div class="input-box">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+                                           v-model="reqData.v12">
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <p class="txt">
+                                    留置导尿
+                                </p>
+                                <div class="input-box">
+                                    <p class="d-txt">
+                                        留置导尿
+                                    </p>
+
+                                </div>
+                            </td>
+                            <td>
+                                <p class="txt" v-cloak>
+                                    ${reqData.v13}
+
+                                </p>
+                                <div class="input-box">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+                                           v-model="reqData.v13">
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <p class="txt">
+                                    计24小时尿量
+                                </p>
+                                <div class="input-box">
+                                    <p class="d-txt">
+                                        计24小时尿量
+                                    </p>
+
+                                </div>
+                            </td>
+                            <td>
+                                <p class="txt" v-cloak>
+                                    ${reqData.v14}
+                                </p>
+                                <div class="input-box">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+                                           v-model="reqData.v14">
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <p class="txt">
+                                    计24小时出入量
+                                </p>
+                                <div class="input-box">
+                                    <p class="d-txt">
+                                        计24小时出入量
+                                    </p>
+
+                                </div>
+                            </td>
+                            <td>
+                                <p class="txt" v-cloak>
+                                    ${reqData.v15}
+                                </p>
+                                <div class="input-box">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+                                           v-model="reqData.v15">
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <p class="txt">
+                                    生命体征监测
+                                </p>
+                                <div class="input-box">
+                                    <p class="d-txt">
+                                        生命体征监测
+                                    </p>
+
+                                </div>
+                            </td>
+                            <td>
+                                <p class="txt" v-cloak>
+                                    ${reqData.v16}
+                                </p>
+                                <div class="input-box">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+                                           v-model="reqData.v16">
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <p class="txt">
+                                    血糖记录
+                                </p>
+                                <div class="input-box">
+                                    <p class="d-txt">
+                                        血糖记录
+                                    </p>
+
+                                </div>
+                            </td>
+                            <td>
+                                <p class="txt" v-cloak>
+                                    ${reqData.v17}
+                                </p>
+                                <div class="input-box">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+                                           v-model="reqData.v17">
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <p class="txt">
+
+                                </p>
+                                <div class="input-box">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="8"
+                                           value="">
+
+                                </div>
+                            </td>
+                            <td>
+                                <p class="txt">
+                                </p>
+                                <div class="input-box">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+                                           value="">
+                                </div>
+                            </td>
+                        </tr>
+
+
+                        </tbody>
+
+                    </table>
+                </div>
+
+
+            </div>
+
+            <div class="pt30"></div>
+            <div class="item-block">
+                <div class="tit-bar">
+                    <span class="txt">通知</span>
+                    <span class="line"></span>
+                    <div class="edit-btn" @click="editfn">
+                        编辑
+                    </div>
+                    <div class="cancel-btn" @click="cancelfn">
+                        取消
+                    </div>
+                    <div class="save-btn">
+                        保存
+                    </div>
+                </div>
+                <div class="tabel-box ">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th class="td1">序号</th>
+                            <th class="td2">内容</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody id="notice-list">
+                        <tr data-index="1">
+                            <td class="num">
+                                <p class="txt">
+                                    1
+                                </p>
+                                <div class="input-box">
+                                    <p class="d-txt">
+                                        1
+                                    </p>
+
+                                </div>
+
+                            </td>
+                            <td>
+                                <p class="txt">
+                                    第22床禁忌按压小腿，气压治疗只做右侧肢体。
+                                </p>
+                                <div class="input-box">
+
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+                                           value="第22床禁忌按压小腿，气压治疗只做右侧肢体。">
+                                </div>
+                            </td>
+                            <td class="del">
+                                <a class="del-btn">
+                                    删除
+                                </a>
+                            </td>
+                        </tr>
+                        <tr data-index="2">
+                            <td class="num">
+                                <p class="txt">
+                                    2
+                                </p>
+                                <div class="input-box">
+                                    <p class="d-txt">
+                                        2
+                                    </p>
+
+                                </div>
+                            </td>
+                            <td>
+                                <p class="txt">
+
+                                </p>
+                                <div class="input-box">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+                                           value="">
+                                </div>
+                            </td>
+                            <td class="del">
+                                <a class="del-btn">
+                                    删除
+                                </a>
+
+                            </td>
+                        </tr>
+
+
+                        </tbody>
+
+                    </table>
+                </div>
+
+                <div class="add-btn">
+                    <a>
+                        <img src="/static/dist/images/admin_pc/add_btn.png" alt="">添加
+                    </a>
+                </div>
+            </div>
+
+            <div class="pt30"></div>
+            <div class="item-block">
+                <div class="tit-bar">
+                    <span class="txt">工作安排</span>
+                    <span class="line"></span>
+                    <div class="edit-btn" @click="editfn">
+                        编辑
+                    </div>
+                    <div class="cancel-btn" @click="cancelfn">
+                        取消
+                    </div>
+                    <div class="save-btn">
+                        保存
+                    </div>
+                </div>
+                <div class="tabel-box ">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th class="td1">名称</th>
+                            <th class="td2">内容</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <p class="txt">
+                                    值班医生
+                                </p>
+                                <div class="input-box">
+                                    <p class="d-txt">
+                                        值班医生
+                                    </p>
+
+                                </div>
+
+                            </td>
+                            <td>
+                                <p class="txt">
+                                    王医生
+                                </p>
+                                <div class="input-box">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+                                           value="王医生">
+                                </div>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="txt">
+                                    值班护士
+                                </p>
+                                <div class="input-box">
+                                    <p class="d-txt">
+                                        值班护士
+                                    </p>
+
+                                </div>
+                            </td>
+                            <td>
+                                <p class="txt">
+                                    李护士
+                                </p>
+                                <div class="input-box">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+                                           value="李护士">
+                                </div>
+                            </td>
+                        </tr>
+
+
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+            <div class="pt30"></div>
+            <div class="item-block">
+                <div class="tit-bar">
+                    <span class="txt">其他控制</span>
+                    <span class="line"></span>
+                    <div class="edit-btn" @click="editfn">
+                        编辑
+                    </div>
+                    <div class="cancel-btn" @click="cancelfn">
+                        取消
+                    </div>
+                    <div class="save-btn">
+                        保存
+                    </div>
+                </div>
+
+                <div class="other-box">
+                    轮播速度级别:
+                    <span class="txt">
+                        1级
+                    </span>
+                    <div class="sel-box">
+                        <select name="" id="">
+                            <option value="1">1级</option>
+                            <option value="2">2级</option>
+                            <option value="3">3级</option>
+                            <option value="4">4级</option>
+                        </select>
+                        <span>*级别越高滚动速度越慢</span>
+                    </div>
+                </div>
+                <div class="other-box">
+                    床位显示控制：<input type="checkbox"> &nbsp;不显示空床位
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+<script type="application/json"  id="col">
+    <tr data-index="<%=index%>">
+        <td class="num">
+            <p class="txt">
+                <%=index%>
+            </p>
+            <div class="input-box">
+                <p class="d-txt">
+                    <%=index%>
+                </p>
+
+            </div>
+        </td>
+        <td>
+            <p class="txt">
+
+            </p>
+            <div class="input-box">
+                <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+                       value="">
+            </div>
+        </td>
+        <td class="del">
+            <a class="del-btn">
+                删除
+            </a>
+        </td>
+    </tr>
+</script>
+
+<script type="text/javascript" src="/static/dist/js/lib/jquery.min.js"></script>
+<!--框架js-->
+<script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/amazeui.min.js"></script>
+
+<script src="/static/dist/js/lib/vue.js"></script>
+<!--前端模板引擎-->
+<script src="/static/dist/js/lib/template-web.js"></script>
+<script type="text/javascript" src="/static/common.js"></script>
+
+<script>
+    // $(".edit-btn").on("click", function () {
+    //     console.log("??")
+    //     $(this).parents(".item-block").addClass("active")
+    // })
+    // $(".cancel-btn").on("click", function () {
+    //     $(this).parents(".item-block").removeClass("active")
+    // })
+
+
+    $(".add-btn").on("click", function () {
+        var len = $("#notice-list").find("tr").length,
+            index = len+1;
+        if(len>=10){
+            return false
+        }
+        var data = {
+            index:len+1
+        }
+
+        var html = template("col",data);
+        $("#notice-list").append(html)
+        if(index==10){
+            $(this).addClass("none")
+        }
+    })
+
+    $("body").on("click",".del-btn",function(){
+        var  $this= $(this)
+        jkyConfirm("是否确认删除该内容",function(){
+            var $parents  = $this.parents("#notice-list")
+            $this.parents("tr").remove()
+            // console.log($this.parents("body"))
+            $parents.find("tr").each(function(i,el){
+                console.log("?")
+                $(el).data("index",i+1)
+                $(el).find(".num").find(".txt").text(i+1)
+                $(el).find(".num").find(".d-txt").text(i+1)
+            })
+
+        })
+
+    })
+    // $(function(){
+    //
+    //
+    // })
+    var classid = {{.Userinfo.DepartmentID}}
+
+    function req(api,data,cb) {
+        $.ajax({
+            url: api,
+            data: data,
+            type: "POST",
+            success: function (data) {
+                console.log(data);
+                if (data) {
+                    switch (data.result) {
+                        case 0:
+                            cb(data.datas);
+                            break;
+                        default:
+                            // alert(data.errmsg)
+                            jkyAlert(data.errmsg,"no")
+                    }
+                }
+            },
+            error: function (e) {
+                console.log("ajax err:", e)
+            },
+            dataType: "json"
+        })
+
+    }
+    req("/tv/list",
+            {"class_id":classid},
+            function(reqData){
+                var app = new Vue({
+                    delimiters: ['${', '}'],
+                    el: '#app',
+                    data: {
+                        reqData:reqData[0]
+                    },
+                    computed: {
+                        customTit:function () {
+                            // `this` 指向 vm 实例
+                            if(this.reqData){
+                                
+                            }
+                            return this.reqData
+                        }
+                    },
+                    methods:{
+                        editfn:function(e){
+                            // console.log(this)
+                            // console.log()
+                            $(e.target).parents(".item-block").addClass("active")
+                        },
+                        cancelfn:function(e){
+                            $(e.target).parents(".item-block").removeClass("active")
+                        }
+                    }
+                })
+    })
+    var testData = {
+        "id": null,
+        "v1": null,
+        "v2": null,
+        "v3":null,
+        "v4":null,
+        "v5": null,
+        "v6": null,
+        "v7": null,
+        "v8": null,
+        "v9": null,
+        "v10": null,
+        "v11": null,
+        "v12": null,
+        "v13": null,
+        "v14": null,
+        "v15": null,
+        "v16": null,
+        "v17": null,
+        "v18": null,
+        "nursename": null,
+        "doctorname": null,
+        "speed": null,
+        "display": null,
+        "updatetime": null,
+        "username": null,
+        "classname":null,
+        "classid": null,
+        "notifys":[]
+    }
+
+</script>
+</body>
+
+</html>

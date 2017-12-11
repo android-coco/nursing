@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		.cont{
+			border: 1px solid #000;
+			border-radius: 8px;
+			width: 400px;
+			background-color: #fff;
+		}
+		.hd{
+			border-bottom: 1px solid #000;
+			overflow: auto;
+			margin:0 10px;
+		}
+		.name,.msg{
+			float: left;
+		}
+		.name{
+			font-size:24px;
+			min-width: 100px;
+			text-align: center;
+			line-height: 62px;
+		}
+		body{
+			font-family: arial;	
+		}
+		.msg p{
+			margin:8px 0;
+		}
+		.qr-code{
+			float: right;
+			height: 62px;
+		}
+		.qr-code canvas{
+			display: block;
+		}
+		.val-bar{
+			overflow: auto;
+			margin:0 10px ;
+			padding-right: 62px;
+			position: relative;
+			line-height: 30px;
+		}
+		.val-bar .val{
+			/*float: right;*/
+			position: absolute;
+			right:0;
+			top:0;
+		}
+		.bt{
+			margin: 0 10px;
+		}
+		.bt p{
+			margin:6px 0;
+		}
+	</style>
+</head>
+<body>
+	<div class="box">
+		<div class="cont">
+			<div class="hd">
+				<div class="name">
+					王大大
+				</div>
+				<div class="msg">
+					<p>999床  男 38岁</p>
+					<p>住院号:12345678</p>
+				</div>
+				<div class="qr-code">
+					
+				</div>
+			</div>
+			<div class="val-bar">
+				0.9%一二三四五六七八九一二三四五 <span class="val">99999ml</span>
+			</div>
+			<div class="val-bar">
+				0.9%一二三四五六七八九一二三四五 <span class="val">99999ml</span>
+			</div>
+			<div class="val-bar">
+				0.9%一二三四五六七八九一二三四五 <span class="val">99999ml</span>
+			</div>
+			<div class="val-bar">
+				0.9%一二三四五六七八九一二三四五 <span class="val">99999ml</span>
+			</div>
+			<div class="val-bar">
+				0.9%一二三四五六七八九一二三四五 <span class="val">99999ml</span>
+			</div>
+			<div class="val-bar">
+				0.9%一二三四五六七八九一二三四五 <span class="val">99999ml</span>
+			</div>
+			<div class="bt">
+				<p>住院续滴（加药）</p>
+				<p>核对者:王丹丹
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				配药者:王丹丹</p>
+				<p>配药时间: 2019-09-09</p>
+			</div>
+		</div>
+	</div>
+
+
+    <script src="/static/dist/js/lib/jquery.min.js"></script>
+    <script src="/static/dist/js/lib/jquery.qrcode.min.js"></script>
+	<script>
+		 $('.qr-code').qrcode({
+	        width: 62,
+	        height: 62,
+	        text:"WD-123"
+	    });
+	</script>
+
+</body>
+</html>

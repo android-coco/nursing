@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        body{
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .box{
+            width: 292px;
+            height: 150px;
+            font-size: 14px;
+        }
+        .bar1{
+            width: 244px;
+            margin:0;
+            text-align: left;
+        }
+        .code-box{
+            width: 186px;
+        }
+        .code-box .r{
+            float: right;
+            text-align: center;
+
+        }
+        .code-box .r p{
+            margin: 0;
+        }
+        .canvascode{
+            width: 180px;
+            margin-left: -10px;
+        }
+        body{
+            font-family: arial;
+        }
+        .msg{
+            margin:0;
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <p class="bar1">
+        <span class="name">刘国芳</span>
+        <span>女</span>
+        <span>32岁</span>
+        <span>住院内科</span>
+    </p>
+    <div class="code-box">
+        <canvas class="canvascode"></canvas>
+        <div class="r">
+            <p>17</p>
+            <p>红</p>
+        </div>
+    </div>
+    <p class="msg">
+        HP,肛功能全套，肾功能六项
+    </p>
+    <p class="msg">
+        HP,肛功能全套，肾功能六项
+    </p>
+    <p class="msg">
+        HP,肛功能全套，肾功能六项
+    </p>
+    <p class="msg">
+        HP,肛功能全套，肾功能六项
+    </p>
+</div>
+
+<script src="/static/dist/js/lib/jquery.min.js"></script>
+<script src="/static/dist/js/lib/JsBarcode.all.min.js"></script>
+<script>
+    $(".canvascode").JsBarcode('17112423000122',{
+        width:2,
+        height:30,
+    });
+</script>
+</body>
+</html>
