@@ -651,23 +651,23 @@
                                             </tr>
                                             <tr id="skin-tr">
                                                 <td class="tit" colspan="2">皮&nbsp;&nbsp;试</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td style="font-size:14px;white-space: normal;"></td>
+                                                <td style="font-size:14px;white-space: normal;"></td>
+                                                <td style="font-size:14px;white-space: normal;"></td>
+                                                <td style="font-size:14px;white-space: normal;"></td>
+                                                <td style="font-size:14px;white-space: normal;"></td>
+                                                <td style="font-size:14px;white-space: normal;"></td>
+                                                <td style="font-size:14px;white-space: normal;"></td>
                                             </tr>
                                             <tr id="other-tr">
                                                 <td class="tit" colspan="2">其&nbsp;&nbsp;他</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td style="font-size:14px;white-space: normal;"></td>
+                                                <td style="font-size:14px;white-space: normal;"></td>
+                                                <td style="font-size:14px;white-space: normal;"></td>
+                                                <td style="font-size:14px;white-space: normal;"></td>
+                                                <td style="font-size:14px;white-space: normal;"></td>
+                                                <td style="font-size:14px;white-space: normal;"></td>
+                                                <td style="font-size:14px;white-space: normal;"></td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -861,7 +861,8 @@
 
         // 呼吸
         $("#hxc_bar").find("td").each(function (i, el) {
-            if (i != 0 && i < 8) {
+            console.log(breathe.length);
+            if (i != 0 && i < breathe.length / 6 + 1) {
                 var value1 = breathe[i * 6 - 6];
                 var value2 = breathe[i * 6 - 5];
                 var value3 = breathe[i * 6 - 4];
@@ -958,6 +959,7 @@
         // 其他
         $("#other-tr").find("td").each(function (i, el) {
             if (i != 0) {
+                console.log(other[i - 1])
                 $(el).text(other[i - 1])
             }
         });

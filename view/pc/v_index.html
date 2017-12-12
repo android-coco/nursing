@@ -31,6 +31,9 @@
                 <p><span class="icon7"></span>新医嘱/停止医嘱</p>
             </li>
             <li>
+                <p><span class="icon10"></span>待手术</p>
+            </li>
+            <li>
                 <p>
                     <input type="checkbox" class="check" id="isShowEmpty">
                     <label for="isShowEmpty">仅显示有病人床位</label></p>
@@ -62,7 +65,7 @@
                     {{range $k, $val := .Beds}}
                         {{if gt $val.Pid 0}}
                             <li>
-                                <div class='item {{if eq $val.NursingDegreeV "0"}}t1{{else if eq $val.NursingDegreeV "1"}}t2{{else if eq $val.NursingDegreeV "2"}}t3{{else if eq $val.NursingDegreeV "3"}}t4{{else}}t5{{end}}'>
+                                <div class='item {{if eq $val.NursingDegreeV "0"}}t1{{else if eq $val.NursingDegreeV "1"}}t2{{else if eq $val.NursingDegreeV "2"}}t3{{else if eq $val.NursingDegreeV "3"}}t4{{else}}t6{{end}}'>
                                     <div class="hide-menu">
                                         <ul>
                                             <li><a target="view_window" class="dy" href="/pc/wdprint?pid={{$val.Pid}}">打印腕带</a></li>
@@ -75,23 +78,31 @@
                                         <p class="msg"> <span>{{$val.Diagnosis}}</span></p>
                                         <p><span class="name-tit">住院医师：</span><span class="ysname">{{$val.Physician}}</span></p>
                                         <div class="icon-bar">
+                                            {{/*新病人*/}}
                                             {{if eq $val.NewPatient 1}}
                                                 <div class="jky-icon">
                                                     <img src="/static/dist/images/admin_pc/icon2.png" alt="">
                                                 </div>
                                             {{end}}
-                                            {{if eq $val.StoppedOrder 1}}
-                                                <div class="jky-icon">
-                                                    <img src="/static/dist/images/admin_pc/icon3.png" alt="">
-                                                </div>
-                                            {{else if eq $val.NewOrder 1}}
+
+                                            {{/*新医嘱、停止医嘱*/}}
+                                            {{if eq 1 $val.StoppedOrder $val.NewOrder}}
                                                 <div class="jky-icon">
                                                     <img src="/static/dist/images/admin_pc/icon3.png" alt="">
                                                 </div>
                                             {{end}}
+
+                                            {{/*发热*/}}
                                             {{if eq $val.Fever 1}}
                                                 <div class="jky-icon">
                                                     <img src="/static/dist/images/admin_pc/icon4.png" style="height:22px" alt="">
+                                                </div>
+                                            {{end}}
+
+                                            {{/*待手术*/}}
+                                            {{if eq $val.Operation 1}}
+                                                <div class="jky-icon">
+                                                    <img src="/static/dist/images/admin_pc/icon49.png" style="height:24px" alt="">
                                                 </div>
                                             {{end}}
                                         </div>
@@ -152,7 +163,7 @@
                                 <td class="t-c">{{$val.Gender}}</td>
                                 <td class="t-c">{{$val.Age}}</td>
                                 <td class="t-c">{{$val.HospNum}}</td>
-                                <td class='t-c {{if eq $val.NursingDegreeV "0"}}t1{{else if eq $val.NursingDegreeV "1"}}t2{{else if eq $val.NursingDegreeV "2"}}t3{{else if eq $val.NursingDegreeV "3"}}t4{{else}}t5{{end}}'>
+                                <td class='t-c {{if eq $val.NursingDegreeV "0"}}t1{{else if eq $val.NursingDegreeV "1"}}t2{{else if eq $val.NursingDegreeV "2"}}t3{{else if eq $val.NursingDegreeV "3"}}t4{{else}}t6{{end}}'>
                                     {{$val.NursingDegree}}
                                 </td>
                                 <td>{{$val.Diagnosis}}</td>
@@ -278,6 +289,8 @@
 
 <script src="/static/common.js"></script>
 <script>
+    {{/*var beds = {{.Beds}}*/}}
+    // console.log("beds", beds)
     $(function () {
 
 

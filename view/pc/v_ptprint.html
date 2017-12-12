@@ -2,14 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>打印瓶贴</title>
+    <script src="/static/dist/js/lib/jquery.min.js"></script>
+    <script src="/static/dist/js/lib/jquery.qrcode.min.js"></script>
     <style>
         body{
             margin: 0;
         }
         .box{
             width: 360px;
-            height: 250px;
+            /*height: 250px;*/
+            height: 287px;
             /*padding:2px;*/
             padding: 0;
         }
@@ -72,6 +75,65 @@
         }
     </style>
 </head>
+<script type="text/javascript">
+    $(function () {
+        var datas = {{.PrintInfo}}//数据
+        loadData(datas);
+    });
+    function loadData(datas) {
+        if(datas.length != 0){
+            var obj = JSON.parse(datas);//转JSON对象
+            console.log(obj)
+            if(obj.length > 0)
+            {
+                var html= "";
+                for(var i=0; i < obj.length; i++){
+                    html+='<div class="box">' +
+                            '    <div class="cont">' +
+                            '        <div class="hd">' +
+                            '            <div class="name">' +
+                            obj[i].name +
+                            '            </div>' +
+                            '            <div class="msg">' +
+                            '                <p>999床  男 38岁</p>' +
+                            '                <p>住院号:12345678</p>' +
+                            '            </div>' +
+                            '            <div class="qr-code" data-code="12112121">' +
+                            '            </div>' +
+                            '        </div>';
+                    for(var j=0; j < obj[i].list.length; j++){
+                        html+=' <div class="val-bar">\n' +
+                                obj[i].list[j][0]+' <span class="val">'+obj[i].list[j][1]+'</span>' +
+                                '        </div>';
+                    }
+
+                    html+='<div class="bt">' +
+                            '            <p>'+obj[i].ff+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{.Now}}</p>' +
+                            '            <p>核对者:' +
+                            '                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+                            '                配药者:</p>' +
+                            '            <p>配药时间: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+obj[i].xh+'</p>' +
+                            '        </div>' +
+                            '    </div>' +
+                            '</div>';
+                }
+            }
+            $('body').html(html)
+            $('.qr-code').each(function(i,el){
+                var code = $(el).data("code");
+                console.log(code)
+                code= code.toString()
+                $(el).qrcode({
+                    width: 42,
+                    height: 42,
+                    text:code
+                });
+            })
+        }
+    }
+
+</script>
+
 <body>
 <div class="box">
     <div class="cont">
@@ -88,30 +150,29 @@
             </div>
         </div>
         <div class="val-bar">
-            0.9%一二三四五六七八九一二三四五 <span class="val">99999ml</span>
+            0.9%氯化钠注射液(软袋) 250ml <span class="val">250 ml</span>
         </div>
         <div class="val-bar">
-            0.9%一二三四五六七八九一二三四五 <span class="val">99999ml</span>
+            0.9%氯化钠注射液(软袋) 250ml <span class="val">250 ml</span>
         </div>
         <div class="val-bar">
-            0.9%一二三四五六七八九一二三四五 <span class="val">99999ml</span>
+            丹参酮ⅡA磺酸钠注射液 2ml:10mg <span class="val">40 mg</span>
         </div>
         <div class="val-bar">
-            0.9%一二三四五六七八九一二三四五 <span class="val">99999ml</span>
+            丹参酮ⅡA磺酸钠注射液 2ml:10mg <span class="val">40 mg</span>
         </div>
         <div class="bt">
-            <p>住院续滴（加药）</p>
-            <p>核对者:王丹丹
+            <p>住院续滴（加药）&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{.Now}}</p>
+            <p>核对者:
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                配药者:王丹丹</p>
-            <p>配药时间: 2019-09-09</p>
+                配药者:</p>
+            <p>配药时间: </p>
         </div>
     </div>
 </div>
 
 
-<script src="/static/dist/js/lib/jquery.min.js"></script>
-<script src="/static/dist/js/lib/jquery.qrcode.min.js"></script>
+
 <script>
     $('.qr-code').qrcode({
         width: 42,

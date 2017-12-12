@@ -84,8 +84,8 @@
                         <span><label>性别：</label>{{.PInfo.Gender}}</span>
                         <span><label>年龄：</label>{{.PInfo.VAA10}}岁</span>
                         <span><label>住院号：</label>{{.PInfo.VAA04}}</span>
-                        <span><label>诊断：</label>{{.PInfo.VAO15}}</span>
-                        <span><label>入院日期：</label>{{.PInfo.HospitalDate}}</span>
+                        <span><label>入院诊断：</label>{{.PInfo.VAO15}}</span>
+                        <span><label>入院日期时间：</label>{{.PInfo.HospitalDate}}</span>
                     </p>
 
                     <div class="doc-table">
@@ -1132,7 +1132,7 @@
                                     </div>
                                     <div class="cont-warp">
                                         <div class="cont-warp">
-                                            <textarea class="input-textarea" value="{{$val.Mod17.Value}}"></textarea>
+                                            <textarea class="input-textarea" >{{$val.Mod17.Value}}</textarea>
                                         </div>
                                     </div>
                                 </td>

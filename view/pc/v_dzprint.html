@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>单子打印</title>
+    <meta content="always" name="referrer">
+    <link rel="stylesheet" href="/static/css/index.css">
+    <style type="text/css">
+        <!--
+        -->
+        p{
+            margin:0px 0;
+        }
+        .dan,.dan1{
+            width: 1000px;
+            height: 440px;
+        }
+        /*.dan1 tr{*/
+            /*border-top:1px solid #000;*/
+        /*}*/
+        .dan1{
+            font-size:14px;
+            /*padding-right: 20px;*/
+
+        }
+        .dan1 .tit-bar{
+            width: 780px;
+            font-size: 16px;
+            text-align: center;
+        }
+        .dan1 table{
+            width: 780px;
+            border-bottom:1px solid #000;
+            border-right:1px solid #000;
+        }
+        .dan1 td{
+            border-left:1px solid #000;
+            border-top:1px solid #000;
+            height: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="dan" >
+        <!--<p class="min-tit">深圳万丰医院住院内科</p>-->
+        <p class="tit">输液单</p>
+        <div class="top">
+            <p>
+                <span>床号：B06</span>
+                <span>姓名：王小晓</span>
+                <span>性别：女</span>
+                <span>年龄：32 岁</span>
+                <span>住院号：489632</span>
+                <span>核对护士：李燕</span>
+                <span class="tit">长嘱</span>
+                <span class="date">日期2017-11-01</span>
+            </p>
+        </div>
+        <div class="cont" >
+            <div class="l">
+                <table class="table" cellspacing=0 cellpadding=0>
+                    <tr class="tr tit">
+                        <td class="td1">组</td>
+                        <td class="td2">药名</td>
+                        <td class="td3">剂量</td>
+                        <td class="td4">频次</td>
+                        <td class="td5">用法</td>
+                        <td class="td6">滴速</td>
+                        <td class="td7">执行时间</td>
+                        <td class="td8">签名</td>
+                    </tr>
+                    <tr class="tr cont">
+                        <td class="td1">2</td>
+                        <td class="td2">
+                            <p>0.9%氯化钠注射液（软袋）</p>
+                            <p>丹参酮IIA磺酸钠注射液</p>
+                        </td>
+                        <td class="td3">
+                            <p>250 ml</p>
+                            <p>40 mg</p>
+                        </td>
+                        <td class="td4">每日2次</td>
+                        <td class="td5">静滴</td>
+                        <td class="td6">60</td>
+                        <td class="td7">
+                            <p class="time">90:90</p>
+                            <p class="time">90:90</p>
+                        </td>
+                        <td class="td8">
+                            <p class="name">李护士</p>
+                            <p class="name">李护士</p>
+                        </td>
+                    </tr>
+                    <tr class="tr cont">
+                        <td class="td1">2</td>
+                        <td class="td2">
+                            <p>0.9%氯化钠注射液（软袋）</p>
+                            <p>丹参酮IIA磺酸钠注射液</p>
+                        </td>
+                        <td class="td3">
+                            <p>250 ml</p>
+                            <p>40 mg</p>
+                        </td>
+                        <td class="td4">Qd</td>
+                       <td class="td5">静滴</td>
+                        <td class="td6">60</td>
+                        <td class="td7">90:90</td>
+                        <td class="td8">李护士</td>
+                    </tr>
+
+                    <tr class="tr cont">
+                        <td class="td1">2</td>
+                        <td class="td2">
+                            <p>0.9%氯化钠注射液（软袋）</p>
+                            <p>丹参酮IIA磺酸钠注射液</p>
+                        </td>
+                        <td class="td3">
+                            <p>250 ml</p>
+                            <p>40 mg</p>
+                        </td>
+                        <td class="td4">Qd</td>
+                        <td class="td5">静滴</td>
+                        <td class="td6">60</td>
+                        <td class="td7">90:90</td>
+                        <td class="td8">李护士</td>
+                    </tr>
+
+                    <tr class="tr cont">
+                        <td class="td1">2</td>
+                        <td class="td2">
+                            <p>0.9%氯化钠注射液（软袋）</p>
+                            <p>丹参酮IIA磺酸钠注射液</p>
+                        </td>
+                        <td class="td3">
+                            <p>250 ml</p>
+                            <p>40 mg</p>
+                        </td>
+                        <td class="td4">Qd</td>
+                        <td class="td5">静滴</td>
+                        <td class="td6">60</td>
+                        <td class="td7">90:90</td>
+                        <td class="td8">李护士</td>
+                    </tr>
+
+                    <tr class="tr cont">
+                        <td class="td1">2</td>
+                        <td class="td2">
+                            <p>0.9%氯化钠注射液（软袋）</p>
+                            <p>丹参酮IIA磺酸钠注射液</p>
+                        </td>
+                        <td class="td3">
+                            <p>250 ml</p>
+                            <p>40 mg</p>
+                        </td>
+                        <td class="td4">Qd</td>
+                        <td class="td5">静滴</td>
+                        <td class="td6">60</td>
+                        <td class="td7">90:90</td>
+                        <td class="td8">李护士</td>
+                    </tr>
+
+                </table>
+            </div>
+            <div class="l m">
+                <div>巡视记录</div>
+            </div>
+            <div class="l">
+                <table class="table2" cellspacing=0 cellpadding=0>
+                    <tr class="tr tit">
+                        <td class="td1">滴速</td>
+                        <td class="td2">时间</td>
+                        <td class="td3">签名</td>
+                        <td class="td1">滴速</td>
+                        <td class="td2">时间</td>
+                        <td class="td3">签名</td>
+                        <td class="td1">滴速</td>
+                        <td class="td2">时间</td>
+                        <td class="td3">签名</td>
+                    </tr>
+                    <tr class="tr cont">
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                    </tr>
+                    <tr class="tr cont">
+                        <td class="td1"></td>
+                        <td class="td2">
+
+                        </td>
+                        <td class="td3">
+                        </td>
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                    </tr>
+                    <tr class="tr cont">
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                    </tr>
+
+                    <tr class="tr cont">
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                    </tr>
+                    <tr class="tr cont">
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                    </tr>
+                    <tr class="tr cont">
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                    </tr>
+                    <tr class="tr cont">
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                    </tr>
+                    <tr class="tr cont">
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                    </tr>
+                    <tr class="tr cont">
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                    </tr>
+                    <tr class="tr cont">
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                        <td class="td1"></td>
+                        <td class="td2">
+                        </td>
+                        <td class="td3">
+                        </td>
+                    </tr>
+                   <!-- <tr class="tr cont">
+                        <td class="td1">20</td>
+                        <td class="td2">
+                            90:90
+                        </td>
+                        <td class="td3">
+                            刘护士
+                        </td>
+                        <td class="td1">20</td>
+                        <td class="td2">
+                            90:90
+                        </td>
+                        <td class="td3">
+                            刘护士
+                        </td>
+                        <td class="td1">20</td>
+                        <td class="td2">
+                            90:90
+                        </td>
+                        <td class="td3">
+                            刘护士
+                        </td>
+                    </tr>-->
+
+                </table>
+            </div>
+        </div>
+
+        <div class="bottom-bar">
+            <span style="">打印日期：2017-10-31</span>
+            <span  style="margin-left:100px">结束时间：2017-10</span>
+            <span  style="margin-left:100px">签名：</span>
+        </div>
+    </div>
+    <div class="dan1">
+        <p align="center" class="tit-bar">口服单</p>
+        <p align="left">床号：B06&nbsp;&nbsp;&nbsp;姓名：王小晓&nbsp;&nbsp;&nbsp;性别：女&nbsp;&nbsp;&nbsp;年龄：32 岁&nbsp;&nbsp;&nbsp;住院号：489632&nbsp;&nbsp;&nbsp;核对护士：李燕&nbsp;&nbsp;&nbsp; 长嘱&nbsp;&nbsp;&nbsp;日期：2017-11-01</p>
+        <table cellspacing=0 cellpadding=0 >
+            <tr>
+                <td width="17" ><div align="center">组</div></td>
+                <td width="137"><div align="center">药名</div></td>
+                <td width="43"><div align="center">剂量</div></td>
+                <td width="60"><div align="center">频次</div></td>
+                <td width="248"><div align="center">用法</div></td>
+                <td width="77"><div align="center">执行时间</div></td>
+                <td width="70"><div align="center">签名</div></td>
+                <td width="76"><div align="center">核对签名</div></td>
+            </tr>
+            <tr>
+                <td  rowspan="2"><div align="center">1</div></td>
+                <td rowspan="2"><div align="center">马来酸氯苯那敏片</div></td>
+                <td rowspan="2"><div align="center">1片</div></td>
+                <td rowspan="2"><div align="center">每日3次</div></td>
+                <td rowspan="2"><div align="center">阿凡达分</div></td>
+                <td rowspan="2"><div align="center"></div></td>
+                <td rowspan="2"><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td ><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td ><div align="center">2</div></td>
+                <td><div align="center">醋酸泼尼松片</div></td>
+                <td><div align="center">6片</div></td>
+                <td><div align="center">每日3次</div></td>
+                <td><div align="center">发达省份发射点发啊的撒法撒旦法</div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td ><div align="center">3</div></td>
+                <td><div align="center">醋酸泼尼松片</div></td>
+                <td><div align="center">6片</div></td>
+                <td><div align="center">每日3次</div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td ><div align="center">3</div></td>
+                <td><div align="center">醋酸泼尼松片</div></td>
+                <td><div align="center">16片</div></td>
+                <td><div align="center">每日3次</div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td ><div align="center">3</div></td>
+                <td><div align="center">醋酸泼尼松片</div></td>
+                <td><div align="center">6片</div></td>
+                <td><div align="center">每日3次</div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td><div align="center">3</div></td>
+                <td><div align="center">醋酸泼尼松片</div></td>
+                <td><div align="center">6片</div></td>
+                <td><div align="center">每日3次</div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td><div align="center">3</div></td>
+                <td><div align="center">醋酸泼尼松片</div></td>
+                <td><div align="center">6片</div></td>
+                <td><div align="center">每日3次</div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td><div align="center">3</div></td>
+                <td><div align="center">醋酸泼尼松片</div></td>
+                <td><div align="center">6片</div></td>
+                <td><div align="center">每日3次</div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td><div align="center">3</div></td>
+                <td><div align="center">醋酸泼尼松片</div></td>
+                <td><div align="center">6片</div></td>
+                <td><div align="center">每日3次</div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+            </tr>
+        </table>
+        <p align="left">打印日期：2017-10-31             结束时间：                                       签名：</p>
+    </div>
+    <div class="dan1">
+        <p align="center" class="tit-bar">注射单</p>
+        <p align="left">床号：B06&nbsp;&nbsp;&nbsp;姓名：王小晓&nbsp;&nbsp;&nbsp;性别：女&nbsp;&nbsp;&nbsp;年龄：32 岁&nbsp;&nbsp;&nbsp;住院号：489632&nbsp;&nbsp;&nbsp;核对护士：李燕&nbsp;&nbsp;&nbsp; 长嘱&nbsp;&nbsp;&nbsp;日期：2017-11-01</p>
+        <table cellspacing=0 cellpadding=0 >
+            <tr>
+                <td width="17" ><div align="center">组</div></td>
+                <td width="137"><div align="center">药名</div></td>
+                <td width="43"><div align="center">剂量</div></td>
+                <td width="60"><div align="center">频次</div></td>
+                <td width="248"><div align="center">用法</div></td>
+                <td width="77"><div align="center">执行时间</div></td>
+                <td width="70"><div align="center">签名</div></td>
+                <td width="76"><div align="center">核对签名</div></td>
+            </tr>
+            <tr>
+                <td  rowspan="2"><div align="center">1</div></td>
+                <td rowspan="2"><div align="center">马来酸氯苯那敏片</div></td>
+                <td rowspan="2"><div align="center">1片</div></td>
+                <td rowspan="2"><div align="center">每日3次</div></td>
+                <td rowspan="2"><div align="center">阿凡达分</div></td>
+                <td rowspan="2"><div align="center"></div></td>
+                <td rowspan="2"><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td ><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td ><div align="center">2</div></td>
+                <td><div align="center">醋酸泼尼松片</div></td>
+                <td><div align="center">6片</div></td>
+                <td><div align="center">每日3次</div></td>
+                <td><div align="center">发达省份发射点发啊的撒法撒旦法</div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td ><div align="center">3</div></td>
+                <td><div align="center">醋酸泼尼松片</div></td>
+                <td><div align="center">6片</div></td>
+                <td><div align="center">每日3次</div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td ><div align="center">3</div></td>
+                <td><div align="center">醋酸泼尼松片</div></td>
+                <td><div align="center">16片</div></td>
+                <td><div align="center">每日3次</div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td ><div align="center">3</div></td>
+                <td><div align="center">醋酸泼尼松片</div></td>
+                <td><div align="center">6片</div></td>
+                <td><div align="center">每日3次</div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td><div align="center">3</div></td>
+                <td><div align="center">醋酸泼尼松片</div></td>
+                <td><div align="center">6片</div></td>
+                <td><div align="center">每日3次</div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td><div align="center">3</div></td>
+                <td><div align="center">醋酸泼尼松片</div></td>
+                <td><div align="center">6片</div></td>
+                <td><div align="center">每日3次</div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td><div align="center">3</div></td>
+                <td><div align="center">醋酸泼尼松片</div></td>
+                <td><div align="center">6片</div></td>
+                <td><div align="center">每日3次</div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td><div align="center">3</div></td>
+                <td><div align="center">醋酸泼尼松片</div></td>
+                <td><div align="center">6片</div></td>
+                <td><div align="center">每日3次</div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+                <td><div align="center"></div></td>
+            </tr>
+        </table>
+        <p align="left">打印日期：2017-10-31             结束时间：                                       签名：</p>
+    </div>
+
+</body>
+
+</html>

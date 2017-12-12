@@ -9,8 +9,17 @@
 {{template "header_side" .}}
 
     <style>
-        [v-cloak]{
+        [v-cloak] {
             display: none;
+        }
+
+        input[disabled] {
+            background: #fff;
+
+        }
+
+        input[disabled]:hover {
+            border-color: #FFF !important;
         }
     </style>
 
@@ -27,7 +36,7 @@
                     <div class="cancel-btn" @click="cancelfn">
                         取消
                     </div>
-                    <div class="save-btn">
+                    <div class="save-btn" @click="savefn">
                         保存
                     </div>
                 </div>
@@ -108,7 +117,8 @@
                                     ${reqData.v2}
                                 </p>
                                 <div class="input-box">
-                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300" v-model="reqData.v2">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+                                           v-model="tmplData.v2">
                                 </div>
                             </td>
                         </tr>
@@ -131,8 +141,7 @@
                                     ${reqData.v3}
                                 </p>
                                 <div class="input-box">
-                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
-                                           v-model="reqData.v3">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300" v-model="tmplData.v3">
                                 </div>
                             </td>
                         </tr>
@@ -155,8 +164,7 @@
                                     ${reqData.v5}
                                 </p>
                                 <div class="input-box">
-                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
-                                           v-model="reqData.v5">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300" v-model="tmplData.v5">
                                 </div>
                             </td>
                         </tr>
@@ -179,8 +187,7 @@
                                     ${reqData.v6}
                                 </p>
                                 <div class="input-box">
-                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
-                                           v-model="reqData.v6">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300" v-model="tmplData.v6">
                                 </div>
                             </td>
                         </tr>
@@ -202,8 +209,7 @@
                                     ${reqData.v7}
                                 </p>
                                 <div class="input-box">
-                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
-                                           v-model="reqData.v7">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300" v-model="tmplData.v7">
                                 </div>
                             </td>
                         </tr>
@@ -225,8 +231,7 @@
                                     ${reqData.v8}
                                 </p>
                                 <div class="input-box">
-                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
-                                           v-model="reqData.v8">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300" v-model="tmplData.v8">
                                 </div>
                             </td>
                         </tr>
@@ -248,8 +253,7 @@
                                     ${reqData.v9}
                                 </p>
                                 <div class="input-box">
-                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
-                                           v-model="reqData.v9">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300" v-model="tmplData.v9">
                                 </div>
                             </td>
                         </tr>
@@ -270,8 +274,7 @@
                                     ${reqData.v10}
                                 </p>
                                 <div class="input-box">
-                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
-                                           v-model="reqData.v10">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300" v-model="tmplData.v10">
                                 </div>
                             </td>
                         </tr>
@@ -294,8 +297,7 @@
                                     ${reqData.v11}
                                 </p>
                                 <div class="input-box">
-                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
-                                           v-model="reqData.v11">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300" v-model="tmplData.v11">
                                 </div>
                             </td>
                         </tr>
@@ -317,8 +319,7 @@
                                     ${reqData.v12}
                                 </p>
                                 <div class="input-box">
-                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
-                                           v-model="reqData.v12">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300" v-model="tmplData.v12">
                                 </div>
                             </td>
                         </tr>
@@ -341,8 +342,7 @@
 
                                 </p>
                                 <div class="input-box">
-                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
-                                           v-model="reqData.v13">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300" v-model="tmplData.v13">
                                 </div>
                             </td>
                         </tr>
@@ -364,8 +364,7 @@
                                     ${reqData.v14}
                                 </p>
                                 <div class="input-box">
-                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
-                                           v-model="reqData.v14">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300" v-model="tmplData.v14">
                                 </div>
                             </td>
                         </tr>
@@ -387,8 +386,7 @@
                                     ${reqData.v15}
                                 </p>
                                 <div class="input-box">
-                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
-                                           v-model="reqData.v15">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300" v-model="tmplData.v15">
                                 </div>
                             </td>
                         </tr>
@@ -410,8 +408,7 @@
                                     ${reqData.v16}
                                 </p>
                                 <div class="input-box">
-                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
-                                           v-model="reqData.v16">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300" v-model="tmplData.v16">
                                 </div>
                             </td>
                         </tr>
@@ -430,32 +427,34 @@
                             </td>
                             <td>
                                 <p class="txt" v-cloak>
-                                    ${reqData.v17}
+                                    ${reqData.customVal1}
                                 </p>
                                 <div class="input-box">
                                     <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
-                                           v-model="reqData.v17">
+                                           v-model="tmplData.customVal1"
+                                           @keydown="keydownfn">
                                 </div>
                             </td>
                         </tr>
 
                         <tr>
                             <td>
-                                <p class="txt">
-
+                                <p class="txt" v-cloak>
+                                    ${reqData.customTit2}
                                 </p>
                                 <div class="input-box">
                                     <input type="text" placeholder="点击编辑" class="input-text" maxlength="8"
-                                           value="">
-
+                                           v-model="tmplData.customTit2"  @keydown="keydownfn" >
+                                    {{/*:disabled="!isShowTit2"*/}}
                                 </div>
                             </td>
                             <td>
-                                <p class="txt">
+                                <p class="txt" v-cloak>
+                                    ${reqData.customVal2}
                                 </p>
                                 <div class="input-box">
                                     <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
-                                           value="">
+                                           v-model="tmplData.customVal2" @keydown="keydownfn">
                                 </div>
                             </td>
                         </tr>
@@ -480,7 +479,7 @@
                     <div class="cancel-btn" @click="cancelfn">
                         取消
                     </div>
-                    <div class="save-btn">
+                    <div class="save-btn"  @click="savefn">
                         保存
                     </div>
                 </div>
@@ -494,64 +493,45 @@
                         </tr>
                         </thead>
                         <tbody id="notice-list">
-                        <tr data-index="1">
-                            <td class="num">
-                                <p class="txt">
-                                    1
+
+                        <tr class="source-tr" v-for="(item,index) in reqData.notifys">
+                            <td class="num" >
+                                <p class="txt" v-cloak>
+                                    ${index+1}
                                 </p>
+                            </td >
+                            <td>
+                                <p class="txt" v-cloak>
+                                    ${item.notifyinfo}
+                                </p>
+                            </td>
+                            <td class="del">
+                                {{/*<a class="del-btn" :data-id="item.id">*/}}
+                                    {{/*删除*/}}
+                                {{/*</a>*/}}
+                            </td>
+                        </tr>
+
+                        <tr class="tmpl-tr" v-for="(item,index) in tmplData.notifys" >
+                            <td class="num" :data-index="index">
                                 <div class="input-box">
-                                    <p class="d-txt">
-                                        1
+                                    <p class="d-txt" >
+                                        ${index+1}
                                     </p>
-
                                 </div>
-
                             </td>
                             <td>
-                                <p class="txt">
-                                    第22床禁忌按压小腿，气压治疗只做右侧肢体。
-                                </p>
                                 <div class="input-box">
-
                                     <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
-                                           value="第22床禁忌按压小腿，气压治疗只做右侧肢体。">
+                                        v-model="item.notifyinfo">
                                 </div>
                             </td>
                             <td class="del">
-                                <a class="del-btn">
+                                <a class="del-btn" :data-id="item.id" @click="deldatafn">
                                     删除
                                 </a>
                             </td>
                         </tr>
-                        <tr data-index="2">
-                            <td class="num">
-                                <p class="txt">
-                                    2
-                                </p>
-                                <div class="input-box">
-                                    <p class="d-txt">
-                                        2
-                                    </p>
-
-                                </div>
-                            </td>
-                            <td>
-                                <p class="txt">
-
-                                </p>
-                                <div class="input-box">
-                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
-                                           value="">
-                                </div>
-                            </td>
-                            <td class="del">
-                                <a class="del-btn">
-                                    删除
-                                </a>
-
-                            </td>
-                        </tr>
-
 
                         </tbody>
 
@@ -559,7 +539,7 @@
                 </div>
 
                 <div class="add-btn">
-                    <a>
+                    <a @click="addBtnFn">
                         <img src="/static/dist/images/admin_pc/add_btn.png" alt="">添加
                     </a>
                 </div>
@@ -576,7 +556,7 @@
                     <div class="cancel-btn" @click="cancelfn">
                         取消
                     </div>
-                    <div class="save-btn">
+                    <div class="save-btn"  @click="savefn">
                         保存
                     </div>
                 </div>
@@ -603,12 +583,12 @@
 
                             </td>
                             <td>
-                                <p class="txt">
-                                    王医生
+                                <p class="txt"  v-cloak>
+                                    ${reqData.doctorname}
                                 </p>
                                 <div class="input-box">
-                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
-                                           value="王医生">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="100"
+                                           v-model="tmplData.doctorname">
                                 </div>
                             </td>
 
@@ -626,12 +606,12 @@
                                 </div>
                             </td>
                             <td>
-                                <p class="txt">
-                                    李护士
+                                <p class="txt"  v-cloak>
+                                    ${reqData.nursename}
                                 </p>
                                 <div class="input-box">
-                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
-                                           value="李护士">
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="100"
+                                           v-model="tmplData.nursename">
                                 </div>
                             </td>
                         </tr>
@@ -654,12 +634,11 @@
                     <div class="cancel-btn" @click="cancelfn">
                         取消
                     </div>
-                    <div class="save-btn">
+                    <div class="save-btn"  @click="savefn">
                         保存
                     </div>
                 </div>
-
-                <div class="other-box">
+            <!--<div class="other-box">
                     轮播速度级别:
                     <span class="txt">
                         1级
@@ -674,8 +653,15 @@
                         <span>*级别越高滚动速度越慢</span>
                     </div>
                 </div>
+                -->
                 <div class="other-box">
-                    床位显示控制：<input type="checkbox"> &nbsp;不显示空床位
+                    <p class="txt">
+                        床位显示控制：<input type="checkbox"  :checked="reqData.display==1" disabled> &nbsp;不显示空床位
+                    </p>
+                    <p class="sel-box">
+                        床位显示控制：<input type="checkbox" v-model="tmplChecked" id="check"> <label for="check">不显示空床位</label>
+                    </p>
+
                 </div>
 
             </div>
@@ -686,34 +672,33 @@
 </div>
 
 
-
-<script type="application/json"  id="col">
+<script type="application/json" id="col">
     <tr data-index="<%=index%>">
-        <td class="num">
-            <p class="txt">
-                <%=index%>
-            </p>
-            <div class="input-box">
-                <p class="d-txt">
-                    <%=index%>
-                </p>
+    <td class="num">
+    <p class="txt">
+    <%=index%>
+    </p>
+    <div class="input-box">
+    <p class="d-txt">
+    <%=index%>
+    </p>
 
-            </div>
-        </td>
-        <td>
-            <p class="txt">
+    </div>
+    </td>
+    <td>
+    <p class="txt">
 
-            </p>
-            <div class="input-box">
-                <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
-                       value="">
-            </div>
-        </td>
-        <td class="del">
-            <a class="del-btn">
-                删除
-            </a>
-        </td>
+    </p>
+    <div class="input-box">
+    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+    value="">
+    </div>
+    </td>
+    <td class="del">
+    <a class="del-btn">
+    删除
+    </a>
+    </td>
     </tr>
 </script>
 
@@ -738,127 +723,253 @@
 
     $(".add-btn").on("click", function () {
         var len = $("#notice-list").find("tr").length,
-            index = len+1;
-        if(len>=10){
+                index = len + 1;
+        if (len >= 10) {
             return false
         }
         var data = {
-            index:len+1
+            index: len + 1
         }
 
-        var html = template("col",data);
+        var html = template("col", data);
         $("#notice-list").append(html)
-        if(index==10){
+        if (index == 10) {
             $(this).addClass("none")
         }
     })
 
-    $("body").on("click",".del-btn",function(){
-        var  $this= $(this)
-        jkyConfirm("是否确认删除该内容",function(){
-            var $parents  = $this.parents("#notice-list")
-            $this.parents("tr").remove()
-            // console.log($this.parents("body"))
-            $parents.find("tr").each(function(i,el){
-                console.log("?")
-                $(el).data("index",i+1)
-                $(el).find(".num").find(".txt").text(i+1)
-                $(el).find(".num").find(".d-txt").text(i+1)
-            })
-
-        })
-
-    })
+    // $("body").on("click", ".del-btn", function () {
+    //     var $this = $(this)
+    //     jkyConfirm("是否确认删除该内容", function () {
+    //         var $parents = $this.parents("#notice-list")
+    //         $this.parents("tr").remove()
+    //         // console.log($this.parents("body"))
+    //         $parents.find("tr").each(function (i, el) {
+    //             $(el).data("index", i + 1)
+    //             $(el).find(".num").find(".txt").text(i + 1)
+    //             $(el).find(".num").find(".d-txt").text(i + 1)
+    //         })
+    //
+    //     })
+    //
+    // })
     // $(function(){
     //
     //
     // })
     var classid = {{.Userinfo.DepartmentID}}
 
-    function req(api,data,cb) {
-        $.ajax({
-            url: api,
-            data: data,
-            type: "POST",
-            success: function (data) {
-                console.log(data);
-                if (data) {
-                    switch (data.result) {
-                        case 0:
-                            cb(data.datas);
-                            break;
-                        default:
-                            // alert(data.errmsg)
-                            jkyAlert(data.errmsg,"no")
-                    }
-                }
-            },
-            error: function (e) {
-                console.log("ajax err:", e)
-            },
-            dataType: "json"
-        })
+            function req(api, data, cb) {
+                $.ajax({
+                    url: api,
+                    data: data,
+                    type: "POST",
+                    success: function (data) {
+                        console.log(data);
+                        if (data) {
+                            switch (data.result) {
+                                case 0:
+                                    cb(data.datas);
+                                    break;
+                                default:
+                                    // alert(data.errmsg)
+                                    jkyAlert(data.errmsg, "no")
+                            }
+                        }
+                    },
+                    error: function (e) {
+                        console.log("ajax err:", e)
+                    },
+                    dataType: "json"
+                })
 
-    }
-    req("/tv/list",
-            {"class_id":classid},
-            function(reqData){
+            }
+    req("/tv/list",{"class_id": classid},
+            function (reqData) {
+                var sourceData = reqData[0];
+                if(sourceData){
+                    setCustom(sourceData)
+                }
+                var tmplData = {}
+                $.extend(true,tmplData,sourceData)
+                a=tmplData
+                d=sourceData
                 var app = new Vue({
                     delimiters: ['${', '}'],
                     el: '#app',
                     data: {
-                        reqData:reqData[0]
+                        reqData: sourceData,
+                        tmplData: tmplData
                     },
                     computed: {
-                        customTit:function () {
-                            // `this` 指向 vm 实例
-                            if(this.reqData){
-                                
+                        isShowTit2: function () {
+                            if(this.reqData.v18){
+                                return false;
+                            }else{
+                                return true
                             }
-                            return this.reqData
+                        },
+                        tmplChecked:{
+                            get: function () {
+                                return this.tmplData.display=="0"?false:true;
+                            },
+                            // setter
+                            set: function (newValue) {
+                                newValue? this.tmplData.display="1":this.tmplData.display="0"
+                            }
+
                         }
+
                     },
-                    methods:{
-                        editfn:function(e){
+                    methods: {
+                        editfn: function (e) {
                             // console.log(this)
                             // console.log()
                             $(e.target).parents(".item-block").addClass("active")
                         },
-                        cancelfn:function(e){
+                        cancelfn: function (e) {
+                            tmplData = $.extend( {}, sourceData)
                             $(e.target).parents(".item-block").removeClass("active")
+                        },
+                        savefn:function(e){
+                            tmplData["v17"] = tmplData["customTit1"] &&(tmplData["customTit1"] +"|"+tmplData["customVal1"])
+                            tmplData["v18"] = tmplData["customTit2"] &&(tmplData["customTit2"] +"|"+tmplData["customVal2"])
+                            // console.log(equals(tmplData,reqData))
+
+                            if(!tmplData["customTit2"] && tmplData["customVal2"]){
+                                jkyAlert("自定义表题不能为空","no")
+                            }else{
+                                var isNullTxt = false;
+                                $.each(tmplData.notifys,function(i,val){
+                                    if(!$.trim(val.notifyinfo)){
+                                        isNullTxt = true
+                                    }
+                                })
+
+                                if(isNullTxt){
+                                    jkyConfirm("未输入内容，请填写或删除该行",function(){
+                                        var newArr = []
+                                        $.each(tmplData.notifys,function(i,val){
+                                            if($.trim(val.notifyinfo)){
+                                                // indexArr.push(val)
+                                                newArr.push(val)
+                                            }
+                                        })
+                                        tmplData.notifys = newArr
+                                    },function(){
+                                        var $input = $("#notice-list").find(".tmpl-tr").find("input")
+                                        $input.each(function(i,el){
+                                            if(!$.trim($(el).val())){
+                                                $(el).focus()
+                                                return false
+                                            }
+                                        })
+                                    },"删除","填写")
+                                    // return false
+                                }else{
+                                    if(equals(tmplData,sourceData)){
+                                        $(e.target).parents(".item-block").removeClass("active")
+                                    }else{
+                                        // tmplData.mid = tmplData.id
+                                        var data = {}
+                                        $.extend(true, data, tmplData)
+                                        data.mid = tmplData.id
+                                        // data.infos = tmplData.notifys
+                                        data.infos =JSON.stringify(tmplData.notifys)
+                                        var self = this;
+                                        req("/pc/tv/monitorinfo",data,function(data){
+                                            jkyAlert("保存成功","yes")
+                                            $(e.target).parents(".item-block").removeClass("active")
+                                            req("/tv/list",{"class_id": classid},function(listData){
+                                                var list = listData[0];
+                                                if(list){
+                                                    setCustom(list)
+                                                }
+                                                sourceData = $.extend(true,{},list)
+                                                tmplData = $.extend(true,{},list)
+                                                self.$set(self,"reqData",sourceData)
+                                                self.$set(self,"tmplData",tmplData)
+                                            })
+                                        })
+
+                                    }
+                                }
+
+                            }
+
+                        },
+                        addBtnFn:function(e){
+                            var notifysArr = this.tmplData.notifys || []
+                            // var notifysArr2 = this.reqData.notifys || []
+                            notifysArr.push({"id":0,"mid":0,"notifyinfo":""})
+                            // notifysArr2.push({"id":0,"mid":0,"notifyinfo":""})
+
+                            if(notifysArr.length>=10){
+                                $(e.target).addClass("none")
+                            }
+                            setTimeout(function(){
+
+                                var $input = $("#notice-list").find(".tmpl-tr").find("input")
+                                $input.last().focus();
+                            })
+                        },
+                        deldatafn:function(e){
+                            var $this =  $(e.target);
+                                // id = $this.data("id");
+                            var index = $this.parents("tr").find(".num").data("index");
+                            var notifysArr = this.tmplData.notifys || [];
+                            // var notifysArr2 = this.reqData.notifys || [];
+                            jkyConfirm("是否确认删除该内容",function(){
+                                var id = $this.attr("data-id");
+                                if(id){
+                                    req("/pc/tv/delnotify",{"nid":id},function(data){
+                                        notifysArr.splice(index,1)
+                                    })
+                                }else{
+                                    console.log(index)
+                                    notifysArr.splice(index,1)
+                                    // notifysArr2.splice(index,1)
+                                    // ary.splice($.inArray(2, ary), 1)
+                                }
+                            })
+
+                        },
+                        keydownfn: function (e) {
+                            console.log(e.keyCode)
+                            var $this =  $(e.target);
+                            setTimeout(function(){
+                                var IllegalStr = "|"
+                                var val = $this.val()
+                                var index = val.length -1;
+                                var s = val.charAt(index)
+                                if(IllegalStr.indexOf(s)>=0){
+                                    val = val.substring(0,index);
+                                    $this.val(val)
+                                }
+                            },0)
+                          
                         }
                     }
                 })
-    })
-    var testData = {
-        "id": null,
-        "v1": null,
-        "v2": null,
-        "v3":null,
-        "v4":null,
-        "v5": null,
-        "v6": null,
-        "v7": null,
-        "v8": null,
-        "v9": null,
-        "v10": null,
-        "v11": null,
-        "v12": null,
-        "v13": null,
-        "v14": null,
-        "v15": null,
-        "v16": null,
-        "v17": null,
-        "v18": null,
-        "nursename": null,
-        "doctorname": null,
-        "speed": null,
-        "display": null,
-        "updatetime": null,
-        "username": null,
-        "classname":null,
-        "classid": null,
-        "notifys":[]
+            })
+
+
+
+    function setCustom(sourceData){
+        if(sourceData.v17){
+            sourceData.customTit1 = sourceData.v17.split("|")[0]
+            sourceData.customVal1 = sourceData.v17.split("|")[1]
+        }else{
+            sourceData.customTit1 = ""
+            sourceData.customVal1 = ""
+        }
+        if(sourceData.v18){
+            sourceData.customTit2 = sourceData.v18.split("|")[0]
+            sourceData.customVal2 = sourceData.v18.split("|")[1]
+        }else{
+            sourceData.customTit2 = ""
+            sourceData.customVal2 = ""
+        }
     }
 
 </script>

@@ -504,7 +504,7 @@
                     </tr>
                     <tr id="output3-tr">
                         <td rowspan="3">
-                            抛<br>出<br>量
+                            排<br>出<br>量
                         </td>
                         <td class="tit">大便<br>(次)</td>
                         <td class=""></td>
@@ -678,7 +678,7 @@
 
         // 呼吸
         $("#hxc_bar").find("td").each(function (i, el) {
-            if (i != 0 && i < 8) {
+            if (i != 0 && i < breathe.length / 6 + 1) {
                 var value1 = breathe[i * 6 - 6];
                 var value2 = breathe[i * 6 - 5];
                 var value3 = breathe[i * 6 - 4];
