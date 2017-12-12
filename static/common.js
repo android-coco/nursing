@@ -77,6 +77,49 @@ function getURLParam(name) {
     }
     return null;
 }
+
+/**
+ * 判断对象是否相等
+ * @param x
+ * @param y
+ * @returns {*}
+ */
+function equals( x, y ) {
+    var in1 = x instanceof Object;
+    var in2 = y instanceof Object;
+    if(!in1||!in2){
+        return x===y;
+    }
+    if(Object.keys(x).length!==Object.keys(y).length){
+        return false;
+    }
+    for(var p in x){
+        var a = x[p] instanceof Object;
+        var b = y[p] instanceof Object;
+        if(a&&b){
+            if(!equals( x[p], y[p])){
+                return false;
+            }
+           // return equals( x[p], y[p]);
+        }
+        else if(x[p]!==y[p]){
+            return false;
+        }
+    }
+
+    return true;
+}
+
+// 获取数据类型
+function getType(data){
+    var typeStr = Object.prototype.toString.call(data)
+    typeStr = typeStr.toLocaleLowerCase()
+    var reg = /\[object (.*)\]/g
+    typeStr = typeStr.replace(reg,"$1");
+    return typeStr
+}
+
+
 // 获取当前时间 hh:mm:ss
 function getNowTime() {
     var str = "";
@@ -84,6 +127,8 @@ function getNowTime() {
     str = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes()) + ":" +addZero(nowD.getSeconds());
     return str;
 }
+
+
 
 
 // 获取当前时间 YYYY-MM-DD
@@ -265,8 +310,10 @@ function jkyAlert(txt,type,fn){
  * @param txt 文本内容
  * @param confirmFn 确认的回调
  * @param cancaelFn 取消的回调
+ * @param confirmTxt 确定的文本内容
+ * @param cancaelTxt 取消的文本内容
  */
-function jkyConfirm(txt,confirmFn,cancaelFn){
+function jkyConfirm(txt,confirmFn,cancaelFn,confirmTxt,cancaelTxt){
     var $confirmEl = null;
 
 
@@ -282,8 +329,8 @@ function jkyConfirm(txt,confirmFn,cancaelFn){
         // "            你，确定要删除这条记录吗？\n" +
         "        </div>\n" +
         "        <div class=\"am-modal-footer\">\n" +
-        "            <span class=\"am-modal-btn\" data-am-modal-cancel>取消</span>\n" +
-        "            <span class=\"am-modal-btn\" data-am-modal-confirm>确定</span>\n" +
+        "            <span class=\"am-modal-btn\" data-am-modal-cancel>"+(cancaelTxt || "取消")+"</span>\n" +
+        "            <span class=\"am-modal-btn\" data-am-modal-confirm>"+(confirmTxt || "确定")+"</span>\n" +
         "        </div>\n" +
         "    </div>\n" +
         "</div>");
