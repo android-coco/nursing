@@ -461,7 +461,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 		return 12,errors.New("thm_scene")
 	}
 
-	if thm_value != "" || (thm_scene != 0 && thm_scene != 7) {
+	if thm_value != "" || thm_scene != 0 {
 		var item model.NurseChat
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id

@@ -311,7 +311,7 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 		return
 	}
 	if thm_id != "0"{
-		if thm_value != "" || (thm_scene != 0 && thm_scene != 7){
+		if thm_value != "" || thm_scene != 0 {
 			maps := make(map[string]interface{})
 			maps["value"] = thm_value
 			maps["other"] = thm_scene
