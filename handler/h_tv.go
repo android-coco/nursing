@@ -52,6 +52,7 @@ func (c TvController) List(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 
 	classId := r.FormValue("class_id")
+	classIdInt := r.FormIntValue("class_id")
 
 	if classId == "" {
 		c.JsonData.Result = 1
@@ -60,6 +61,19 @@ func (c TvController) List(w *fit.Response, r *fit.Request, p fit.Params) {
 		return
 	}
 	response, err := model.TVQueryMonitor(classId)
+	// 获取所有病人
+	beds, _ := model.QueryDepartmentBedList(classIdInt)
+	//病人总数
+	response[0].V1 = strconv.Itoa(len(beds))
+	// 获取一级护理床位
+	var bedsone string
+	for _, bed := range beds {
+		if bed.AAG01 == "1" {
+			bedsone += bed.VAA1.BCQ04 + ","
+		}
+	}
+	response[0].V4 = bedsone[0:len(bedsone)-1]
+	//fit.Logger().LogError("TVListData:", beds, len(beds), response)
 	if err != nil {
 		fit.Logger().LogError("Error", "TVList :", err)
 		c.JsonData.Result = 2
@@ -199,11 +213,11 @@ func (c TvController) UpdateMonitorInfo(w *fit.Response, r *fit.Request, p fit.P
 
 //TV 管理界面
 func (c TvController) Manage(w *fit.Response, r *fit.Request, p fit.Params) {
-	userinfo, err1 := c.GetLocalUserinfo(w, r)//用户信息
-	response, err2 := model.TVQueryMonitor(strconv.Itoa(userinfo.DepartmentID))//TV 信息
-	beds, err3 := model.GetDepartmentBedsByClassifying(userinfo.DepartmentID, 0)//床位信息
+	userinfo, err1 := c.GetLocalUserinfo(w, r)                                   //用户信息
+	response, err2 := model.TVQueryMonitor(strconv.Itoa(userinfo.DepartmentID))  //TV 信息
+	beds, err3 := model.GetDepartmentBedsByClassifying(userinfo.DepartmentID, 0) //床位信息
 	//fit.Logger().LogError("TV 管理界面:",beds)
-	if err1 == nil && err2 == nil && err3 == nil{
+	if err1 == nil && err2 == nil && err3 == nil {
 		defer c.LoadViewSafely(w, r, "pc/v_tv_manage.html", "pc/header_side.html", "pc/header_top.html")
 
 		if len(beds) > 0 && beds["bed"] != nil {

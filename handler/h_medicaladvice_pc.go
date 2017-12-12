@@ -19,7 +19,7 @@ type PCMedicalAdviceController struct {
 func (c PCMedicalAdviceController) PCSearch(w *fit.Response, r *fit.Request, p fit.Params) {
 	userinfo, err := c.GetLocalUserinfo(w, r)
 	if err == nil {
-		patients := model.FetchInpatientWard(userinfo.DepartmentID)
+		patients := model.FetchInpatientWardPatients(userinfo.DepartmentID)
 
 		pidStr := ""
 		var index int
@@ -94,7 +94,7 @@ func (c PCMedicalAdviceController) Search(w *fit.Response, r *fit.Request, p fit
 func (c PCMedicalAdviceController) PCExecState(w *fit.Response, r *fit.Request, p fit.Params) {
 	userinfo, err := c.GetLocalUserinfo(w, r)
 	if err == nil {
-		patients := model.FetchInpatientWard(userinfo.DepartmentID)
+		patients := model.FetchInpatientWardPatients(userinfo.DepartmentID)
 		pidStr := ""
 		var index int
 		length := len(patients)
@@ -198,7 +198,7 @@ func (c PCMedicalAdviceController) PCExecDetail(w *fit.Response, r *fit.Request,
 func (c PCMedicalAdviceController) PCSplit(w *fit.Response, r *fit.Request, p fit.Params) {
 	userinfo, err := c.GetLocalUserinfo(w, r)
 	if err == nil {
-		patients := model.FetchInpatientWard(userinfo.DepartmentID)
+		patients := model.FetchInpatientWardPatients(userinfo.DepartmentID)
 
 		pidStr := ""
 		var index int
