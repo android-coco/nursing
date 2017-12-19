@@ -183,7 +183,6 @@
 
                                                         </span>-->
                                                         <select  class="abs type1 thmType" disabled>
-                                                            <option {{if eq .ThmType 0 }} selected="" {{end}} value="0">&nbsp;</option>
                                                             <option {{if eq .ThmType 1 }} selected="" {{end}} value="1">腋温</option>
                                                             <option {{if eq .ThmType 2 }} selected="" {{end}} value="2">耳温</option>
                                                             <option {{if eq .ThmType 3 }} selected="" {{end}} value="3">口温</option>
@@ -347,7 +346,7 @@
                                                 </td>
                                                 <td class="pd0">
                                                     <div class="table-input-bar">
-                                                        <textarea type="text" id="row1_input22" class="skinValue">{{.SkinValue}}</textarea>
+                                                        <textarea type="text" id="row1_input22" maxlength="16" class="skinValue">{{.SkinValue}}</textarea>
                                                     </div>
                                                     <div class="text-msg">
                                                         {{.SkinValue}}
@@ -355,7 +354,7 @@
                                                 </td>
                                                 <td class="pd0">
                                                     <div class="table-input-bar">
-                                                        <textarea type="text" class="otherValue">{{.OtherValue}}</textarea>
+                                                        <textarea type="text" maxlength="16" class="otherValue">{{.OtherValue}}</textarea>
                                                     </div>
                                                     <div class="text-msg">
                                                         {{.OtherValue}}

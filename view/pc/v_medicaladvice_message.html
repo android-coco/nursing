@@ -157,12 +157,12 @@
                                                 <th class="th7">用法</th>
                                                 <th class="th15">滴速(滴/分)</th>
                                                 <th class="th8">长期/临时</th>
-                                                <th class="th16">医生嘱托</th>
-                                                <th class="th9">医生</th>
-                                                <th class="th10">开始时间</th>
-                                                <th class="th11">停止／撤销时间</th>
+                                                <th class="th16">医嘱嘱托</th>
+                                                <th class="th9">开嘱医师</th>
+                                                <th class="th10">首次执行时间</th>
+                                                <th class="th11">停嘱时间</th>
                                                 <th class="th12">医嘱状态</th>
-                                                <th class="th13">护士签名</th>
+                                                {{/*<th class="th13">护士签名</th>*/}}
                                                 <th class="th14">执行时间</th>
                                             </tr>
                                         </thead>
@@ -179,12 +179,12 @@
                                                 <th class="th7">用法</th>
                                                 <th class="th15">滴速(滴/分)</th>
                                                 <th class="th8">长期/临时</th>
-                                                <th class="th16">医生嘱托</th>
-                                                <th class="th9">医生</th>
-                                                <th class="th10">开始时间</th>
-                                                <th class="th11">停止／撤销时间</th>
+                                                <th class="th16">医嘱嘱托</th>
+                                                <th class="th9">开嘱医师</th>
+                                                <th class="th10">首次执行时间</th>
+                                                <th class="th11">停嘱时间</th>
                                                 <th class="th12">医嘱状态</th>
-                                                <th class="th13">护士签名</th>
+                                                {{/*<th class="th13">护士签名</th>*/}}
                                                 <th class="th14">执行时间</th>
                                             </tr>
                                         </thead>
@@ -213,7 +213,7 @@
                                                 <td class="tc">{{.StDay}}</td>
                                                 <td class="tc">{{.EdDay}}</td>
                                                 <td class="tc">{{.MStatus}}</td>
-                                                <td class="tc">{{.Sender}}</td>
+                                                {{/*<td class="tc">{{.Sender}}</td>*/}}
                                                 <td class="tc">{{.ExDay}}</td>
                                             </tr>
                                         {{end}}
@@ -415,7 +415,7 @@
                     break;
                 case "timeblock":
                     res["starttime"] = $.trim($("#stime").val())+" 00:00:00"
-                    res["endtime"] = $.trim(todayDate)+" 23:59:59"
+                    res["endtime"] = $.trim($("#etime").val())+" 23:59:59"
                     break;
                 case "default":
                     console.log("no type")
@@ -431,36 +431,36 @@
                         var obj = resArr[i]
 
                         html += "<tr>\n" +
-                                "<td>"+obj.Bed+"</td>\n" +
-                                "<td>"+obj.PName+"</td>\n" +
-                                "<td class=\"tc\">"+obj.Category+"</td>\n" +
+                                "<td>"+obj.bed+"</td>\n" +
+                                "<td>"+obj.pName+"</td>\n" +
+                                "<td class=\"tc\">"+obj.category+"</td>\n" +
                                 "<td class=\"yz-item\">\n"
 
-                        for (var idx = 0; idx < obj.Contents.length; idx ++) {
-                            const temp = obj.Contents[idx]
-                            html += "<p>"+temp.Content+"</p>\n"
+                        for (var idx = 0; idx < obj.contents.length; idx ++) {
+                            const temp = obj.contents[idx]
+                            html += "<p>"+temp.content+"</p>\n"
                         }
 
                         html += "</td>\n" +
                                 "<td class=\"yz-item\">\n"
 
-                        for (var idx = 0; idx < obj.Contents.length; idx ++) {
-                            const temp = obj.Contents[idx]
-                            html += "<p>"+temp.Dosage+"</p>\n"
+                        for (var idx = 0; idx < obj.contents.length; idx ++) {
+                            const temp = obj.contents[idx]
+                            html += "<p>"+temp.dosage+"</p>\n"
                         }
 
                         html += "</td>\n" +
-                                "<td class=\"tc\">"+obj.Frequency+"</td>\n" +
-                                "<td class=\"tc\">"+obj.Method+"</td>\n" +
-                                "<td class=\"tc\">"+obj.Speed+"</td>\n" +
-                                "<td class=\"tc\">"+obj.TypeOf+"</td>\n" +
-                                "<td class=\"tc\">"+obj.Entrust+"</td>\n" +
-                                "<td class=\"tc\">"+obj.Physician+"</td>\n" +
-                                "<td class=\"tc\">"+obj.StTime+"</td>\n" +
-                                "<td class=\"tc\">"+obj.EdTime+"</td>\n" +
-                                "<td class=\"tc\">"+obj.MStatus+"</td>\n" +
-                                "<td class=\"tc\">"+obj.Sender+"</td>\n" +
-                                "<td class=\"tc\">"+obj.ExTime+"</td>\n" +
+                                "<td class=\"tc\">"+obj.frequency+"</td>\n" +
+                                "<td class=\"tc\">"+obj.method+"</td>\n" +
+                                "<td class=\"tc\">"+obj.speed+"</td>\n" +
+                                "<td class=\"tc\">"+obj.typeOf+"</td>\n" +
+                                "<td class=\"tc\">"+obj.entrust+"</td>\n" +
+                                "<td class=\"tc\">"+obj.physician+"</td>\n" +
+                                "<td class=\"tc\">"+obj.stTime+"</td>\n" +
+                                "<td class=\"tc\">"+obj.edTime+"</td>\n" +
+                                "<td class=\"tc\">"+obj.mStatus+"</td>\n" +
+                                // "<td class=\"tc\">"+obj.sender+"</td>\n" +
+                                "<td class=\"tc\">"+obj.exTime+"</td>\n" +
                                 "</tr>"
                     }
                     $(".change-div").html(html)

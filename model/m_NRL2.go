@@ -9,11 +9,11 @@ import (
 // 首次护理记录单
 type NRL2 struct {
 	ID     int64    `xorm:"pk autoincr comment(文书id)"`
-	VAA01  int64  `xorm:"comment(patientid病人id)"`
+	PatientId  int64  `xorm:"comment(patientid病人id)"`
 	BCK01  int    `xorm:"comment(classid科室id)"`
 	NRL38  string `xorm:"comment(recordDate记录时间)"`
-	BCE01A string `xorm:"comment(NursingId责任护士ID)"`
-	BCE03A string `xorm:"comment(NursingName责任护士签名)"`
+	NurseId string `xorm:"comment(NursingId责任护士ID)"`
+	NurseName string `xorm:"comment(NursingName责任护士签名)"`
 
 	NRL02  string `xorm:"comment(education教育程度)"`
 	NRL03  string `xorm:"comment(datasource资料来源)"`
@@ -74,7 +74,7 @@ func (nrl2 *NRL2) InsertToDatabase() (int64, error) {
 	var nrl_id int64
 	if err == nil {
 		slice := make([]NRL2, 0)
-		err = fit.MySqlEngine().SQL("select id from NRL2 where NRL38 = ? and VAA01 = ?", nrl2.NRL38, nrl2.VAA01).Find(&slice)
+		err = fit.MySqlEngine().SQL("select id from NRL2 where NRL38 = ? and PatientId = ?", nrl2.NRL38, nrl2.PatientId).Find(&slice)
 		nrl_id = slice[0].ID
 	}
 	return nrl_id, err
@@ -82,7 +82,7 @@ func (nrl2 *NRL2) InsertToDatabase() (int64, error) {
 
 /*查询是否存在某个病人的首次护理单*/
 func IsExistNRL2(withPatientId string) (bool, error) {
-	has, err := fit.MySqlEngine().SQL("select id from NRL2 where VAA01 = ?", withPatientId).Exist()
+	has, err := fit.MySqlEngine().SQL("select id from NRL2 where PatientId = ?", withPatientId).Exist()
 	if err == nil && has {
 		return true, nil
 	} else {
@@ -105,6 +105,6 @@ func QueryNRL2(withNRLId string) (NRL2, error) {
 
 func QueryNRL2WithPid(pid string) (NRL2, error) {
 	var nrl2 NRL2
-	_, err := fit.MySqlEngine().SQL("select * from NRL2 where VAA01 = ?", pid).Get(&nrl2)
+	_, err := fit.MySqlEngine().SQL("select * from NRL2 where PatientId = ?", pid).Get(&nrl2)
 	return nrl2, err
 }

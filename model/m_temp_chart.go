@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"errors"
 	"nursing/utils"
+	"fmt"
 )
 
 type tempChart struct {
@@ -81,18 +82,8 @@ func PCGetTempChartData(pid string, weeks []time.Time) (chartmod tempChart, err 
 	// 其他
 	othermap, err12 := GetTempChart("14", pid, weeks)
 
-	if err1 != nil || err2 != nil || err3 != nil ||
-		err4 != nil || err5 != nil || err6 != nil || err7 != nil || err8 != nil || err9 != nil ||
-		err10 != nil || err11 != nil || err12 != nil {
-		fit.Logger().LogError("error", "temp chart", err1)
-		fit.Logger().LogError("error", "temp chart", err2)
-		fit.Logger().LogError("error", "temp chart", err3)
-		fit.Logger().LogError("error", "temp chart", err4)
-		fit.Logger().LogError("error", "temp chart", err5, err6, err7, err8, err9)
-		fit.Logger().LogError("error", "temp chart", err6)
-		fit.Logger().LogError("error", "temp chart", err9)
-		fit.Logger().LogError("error", "temp chart", err10)
-		fit.Logger().LogError("error", "temp chart", err11, err12)
+	if flag := checkerr("hy: temp chart:", err1, err2, err3, err4, err5, err6, err7,
+		err8, err9, err10, err11, err12); flag {
 		err = errors.New("query temp chart error")
 		return
 	}
@@ -168,14 +159,14 @@ func GetTempChart(ty, pid string, weeks []time.Time) ([]string, error) {
 		//  ORDER BY DateTime1 DESC LIMIT 1
 	case "601": //   总入量
 		jmax = 1
-		sql = "SELECT IntakeTotal AS Value FROM IOStatistics WHERE date_format(DateTime1,'%Y-%m-%d') = ? and VAA01 = ? and DataType = 1 ORDER BY DateTime1 DESC "
+		sql = "SELECT IntakeTotal AS Value FROM IOStatistics WHERE date_format(DateTime1,'%Y-%m-%d') = ? and PatientId = ? and DataType = 1 ORDER BY DateTime1 DESC "
 	case "611": // 出量其他
 		jmax = 1
-		sql = "SELECT OutputC AS Value FROM IOStatistics WHERE date_format(DateTime1,'%Y-%m-%d') = ? and VAA01 = ? and DataType = 1 ORDER BY DateTime1 DESC "
+		sql = "SELECT OutputC AS Value FROM IOStatistics WHERE date_format(DateTime1,'%Y-%m-%d') = ? and PatientId = ? and DataType = 1 ORDER BY DateTime1 DESC "
 
 	case "612": // 出量 排尿/ml,
 		jmax = 1
-		sql = "SELECT OutputA AS Value FROM IOStatistics WHERE date_format(DateTime1,'%Y-%m-%d') = ? and VAA01 = ? and DataType = 1 ORDER BY DateTime1 DESC "
+		sql = "SELECT OutputA AS Value FROM IOStatistics WHERE date_format(DateTime1,'%Y-%m-%d') = ? and PatientId = ? and DataType = 1 ORDER BY DateTime1 DESC "
 
 	case "613": // 出量 大便/次',
 		jmax = 1
@@ -383,4 +374,8 @@ func GetOperationRecords(pid string, edate time.Time) ([]time.Time, error) {
 	return records, err
 }
 
-
+func Test(ty, pid string, weeks []time.Time)  {
+	sql := "SELECT Value FROM TemperatrureChat WHERE DateTime = ? and PatientId = ? and HeadType = 1 and SubType = 3"
+	resultmap, err := fit.MySqlEngine().QueryString(sql, "", pid)
+	fmt.Println(resultmap, err)
+}

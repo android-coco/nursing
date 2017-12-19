@@ -90,11 +90,8 @@ func (c WarnController) DelWarn(w *fit.Response, r *fit.Request, p fit.Params) {
 	}
 }
 
-type WarnListController struct {
-	fit.Controller
-}
 
-func (c WarnListController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
+func (c WarnController) WarnList(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 
 	classId := r.FormValue("class_id")

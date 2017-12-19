@@ -221,6 +221,7 @@ body {
   text-align: left;
   display: block;
   margin-top: -3px;
+  cursor: initial;
 }
 .top48 .am-topbar-left {
   border-right: 1px solid #ebebeb;
@@ -496,7 +497,6 @@ body {
   overflow: hidden;
   position: relative;
   padding-bottom: 42px;
-  cursor: pointer;
 }
 .jky-box-list li .item .hide-menu {
   position: absolute;
@@ -521,6 +521,7 @@ body {
 .jky-box-list li .item .hide-menu li {
   width: 100%;
   padding: 0;
+  cursor: pointer;
 }
 .jky-box-list li .item .hide-menu li a {
   padding: 10px;
@@ -566,6 +567,9 @@ body {
 }
 .jky-box-list li .item.t4 .tit {
   background-color: #982cfd;
+}
+.jky-box-list li .item.t5 {
+  cursor: initial;
 }
 .jky-box-list li .item.t5 .tit {
   background-color: #fff;
@@ -7216,6 +7220,9 @@ body {
   border-radius: 2px;
   font-size: 14px;
   color: #333;
+}
+.search_btn {
+  cursor: pointer;
 }
 .user-bar {
   border: 1px solid #dedede;

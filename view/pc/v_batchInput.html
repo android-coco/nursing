@@ -128,8 +128,7 @@
                                                     <div class="table-input-bar">
                                                         <input type="text"  class="input1 thmValue">
                                                         <select  class="abs type1 thmType">
-                                                            <option selected="" value="0">&nbsp;</option>
-                                                            <option value="1">腋温</option>
+                                                            <option selected="" value="1">腋温</option>
                                                             <option value="2">耳温</option>
                                                             <option value="3">口温</option>
                                                             <option value="4">肛温</option>
@@ -227,13 +226,13 @@
                                                 </td>
                                                 <td class="pd0">
                                                     <div class="table-input-bar">
-                                                        <textarea type="text" class="skinValue"></textarea>
+                                                        <textarea type="text" maxlength="16" class="skinValue"></textarea>
                                                     </div>
                                                 </td>
                                                 <td class="pd0">
                                                     <div class="table-input-bar ">
                                                         <!--<input class="input2 ft-center" type="text" id="row1_input23">-->
-                                                        <textarea type="text" class="otherValue"></textarea>
+                                                        <textarea type="text" maxlength="16" class="otherValue"></textarea>
                                                     </div>
                                                 </td>
                                                 <td class="pd0">
@@ -688,6 +687,7 @@
                 laydate.render({
                     elem: "#testTime", //指定元素
                     showBottom: false,
+                    max:fromatDate().date,
                     value: testtime,
                     done: function(value, date, endDate) {
                         console.log("?")
@@ -705,6 +705,7 @@
             laydate.render({
                 elem: "#testTime", //指定元素
                 showBottom: false,
+                max:fromatDate().date,
                 value: nowDateObj.date,
                 done: function(value, date, endDate) {
                     // console.log("?")

@@ -12,7 +12,7 @@ import (
 //护理记录单 表头
 type NRL1Title struct {
 	ID    int64 `xorm:"pk autoincr comment(文书id)"`
-	VAA01 int64 `xorm:"comment(patientid病人id)"`
+	PatientId int64 `xorm:"comment(patientid病人id)"`
 	BCK01 int   `xorm:"comment(classid科室id)"`
 
 	NRT01  string `xorm:"comment(表头1，1=意识，2=BADL评分，3=DVT评分，4=跌倒评分，5=压疮评分，6=疼痛评分，7=门冬胰岛素，8=瞳孔左mm，9=瞳孔右mm，10=吸氧L/min，11=自定义)"`
@@ -57,10 +57,10 @@ type NRLData struct {
 */
 type NRLModel struct {
 	ID          int64        `xorm:"pk autoincr comment(文书id)"`
-	VAA01       int64        `xorm:"comment(patientid病人id)"`
-	BCK01       int          `xorm:"comment(classid科室id)"`
-	BCE01A      string       `xorm:"comment(NursingId责任护士ID)"`
-	BCE03A      string       `xorm:"comment(NursingName责任护士签名)"`
+	PatientId       int64        `xorm:"comment(patientid病人id)"`
+	//BCK01       int          `xorm:"comment(classid科室id)"`
+	NurseId      string       `xorm:"comment(NursingId责任护士ID)"`
+	NurseName      string       `xorm:"comment(NursingName责任护士签名)"`
 	DateTime    fit.JsonTime `json:"dateTime"`
 	DateTimeStr string       `xorm:"-"`
 	DateStr     string       `xorm:"-"`
@@ -87,10 +87,10 @@ type NRLModel struct {
 
 type IOStatistics struct {
 	ID        int64     `xorm:"pk autoincr comment(id)"`
-	VAA01     int64     `xorm:"comment(patientid病人id)"`
-	BCK01     int       `xorm:"comment(classid科室id)"`
-	BCE01A    string    `xorm:"comment(NursingId责任护士ID)"`
-	BCE03A    string    `xorm:"comment(NursingName责任护士签名)"`
+	PatientId     int64     `xorm:"comment(patientid病人id)"`
+	//BCK01     int       `xorm:"comment(classid科室id)"`
+	NurseId    string    `xorm:"comment(NursingId责任护士ID)"`
+	NurseName    string    `xorm:"comment(NursingName责任护士签名)"`
 	DateTime1 time.Time `xorm:"comment(记录时间)"`
 	DateTime2 time.Time `xorm:"comment(记录时间)"`
 	DataType  string    `xorm:"comment(1=同步到体温单，0=护理记录单)"`
@@ -176,7 +176,7 @@ func GetNRL1Data(pid, datestr1, datestr2 string) ([]NRLModel, error) {
 
 	//变化表头部分数据
 	VAA01, _ := utils.Int64Value(pid)
-	nrl1Title := NRL1Title{VAA01: VAA01}
+	nrl1Title := NRL1Title{PatientId: VAA01}
 
 	// 自定义表头
 	nrl1Title.PCQueryNRL1Title()
@@ -267,23 +267,23 @@ func formatNRLData(mods []NRLData) []NRLModel {
 			resultModel.DateTimeStr = mod.DateTimeStr
 			resultModel.DateStr = mod.DateStr
 			resultModel.TimeStr = mod.TimeStr
-			resultModel.BCE01A = strconv.Itoa(mod.NurseId)
-			resultModel.BCE03A = mod.NurseName
+			resultModel.NurseId = strconv.Itoa(mod.NurseId)
+			resultModel.NurseName = mod.NurseName
 			mateNRLData(&mod, &resultModel)
 			results = append(results, resultModel)
 
 		} else {
 			oldresultModel := &results[len(results)-1]
 			//if mod.DateStr == oldresultModel.DateStr && mod.TimeStr == oldresultModel.TimeStr && strconv.Itoa(mod.NurseId) == oldresultModel.BCE01A {
-			if mod.TestTime == oldresultModel.DateTime && strconv.Itoa(mod.NurseId) == oldresultModel.BCE01A { // 测量时间相同，护士相同
+			if mod.TestTime == oldresultModel.DateTime && strconv.Itoa(mod.NurseId) == oldresultModel.NurseId { // 测量时间相同，护士相同
 				if oldresultModel.Mod15.HeadType == mod.HeadType || oldresultModel.Mod16.HeadType == mod.HeadType { // 同一测量时间下， 出入量多条
 					var newresultModel NRLModel
 					newresultModel.DateTime = mod.TestTime
 					newresultModel.DateTimeStr = mod.DateTimeStr
 					newresultModel.DateStr = mod.DateStr
 					newresultModel.TimeStr = mod.TimeStr
-					newresultModel.BCE01A = strconv.Itoa(mod.NurseId)
-					newresultModel.BCE03A = mod.NurseName
+					newresultModel.NurseId = strconv.Itoa(mod.NurseId)
+					newresultModel.NurseName = mod.NurseName
 					mateNRLData(&mod, &newresultModel)
 					results = append(results, newresultModel)
 				} else {
@@ -295,8 +295,8 @@ func formatNRLData(mods []NRLData) []NRLModel {
 				newresultModel.DateTimeStr = mod.DateTimeStr
 				newresultModel.DateStr = mod.DateStr
 				newresultModel.TimeStr = mod.TimeStr
-				newresultModel.BCE01A = strconv.Itoa(mod.NurseId)
-				newresultModel.BCE03A = mod.NurseName
+				newresultModel.NurseId = strconv.Itoa(mod.NurseId)
+				newresultModel.NurseName = mod.NurseName
 				mateNRLData(&mod, &newresultModel)
 				results = append(results, newresultModel)
 			}
@@ -351,18 +351,18 @@ func mateNRLData(mod *NRLData, resultModel *NRLModel) {
 // 护理记录单
 // 表头
 func (m *NRL1Title) PCQueryNRL1Title() (err error) {
-	_, err = fit.MySqlEngine().Table("NRL1Title").Where("VAA01 = ?", m.VAA01).Get(m)
+	_, err = fit.MySqlEngine().Table("NRL1Title").Where("PatientId = ?", m.PatientId).Get(m)
 	return
 }
 
 func (m *NRL1Title) PCUpdateNRT1Title() error {
-	has, err := fit.MySqlEngine().Table("NRL1Title").Where("VAA01 = ?", m.VAA01).Exist()
+	has, err := fit.MySqlEngine().Table("NRL1Title").Where("PatientId = ?", m.PatientId).Exist()
 	if err != nil {
 		return err
 	}
 	if has {
 		var mod NRL1Title
-		_, err = fit.MySqlEngine().Table("NRL1Title").Where("VAA01 = ?", m.VAA01).Get(&mod)
+		_, err = fit.MySqlEngine().Table("NRL1Title").Where("PatientId = ?", m.PatientId).Get(&mod)
 		if err != nil {
 			return err
 		}
@@ -388,7 +388,7 @@ func (m *NRL1Title) PCUpdateNRT1Title() error {
 		if mod.NRT07 == "11" {
 			m.NRT07V = ""
 		}
-		_, err = fit.MySqlEngine().Table("NRL1Title").ID(mod.ID).Omit("ID", "BCK01", "VAA01").Update(m)
+		_, err = fit.MySqlEngine().Table("NRL1Title").ID(mod.ID).Omit("ID", "BCK01", "PatientId").Update(m)
 
 	} else {
 		_, err = fit.MySqlEngine().Table("NRL1Title").Insert(m)
@@ -424,10 +424,10 @@ func NRLRelatesToMarkSheet(nrlType, headType, pid, datestr1, datestr2 string) (r
 
 	var resultmap []map[string]string
 	if datestr1 == "" || datestr2 == "" {
-		sqlstr := "select ID,BCK01,VAA01,BCE01A,BCE03A,DateTime,Score from" + tablename + " where VAA01 = ?"
+		sqlstr := "select ID,BCK01,PatientId,BCE01A,BCE03A,DateTime,Score from" + tablename + " where PatientId = ?"
 		resultmap, err = fit.MySqlEngine().QueryString(sqlstr, pid)
 	} else {
-		sqlstr := "select ID,BCK01,VAA01,BCE01A,BCE03A,DateTime,Score from" + tablename + " where VAA01 = ? and DateTime >= ? and DateTime < ?"
+		sqlstr := "select ID,BCK01,PatientId,BCE01A,BCE03A,DateTime,Score from" + tablename + " where PatientId = ? and DateTime >= ? and DateTime < ?"
 		resultmap, err = fit.MySqlEngine().QueryString(sqlstr, pid, datestr1, datestr2)
 
 	}
@@ -439,7 +439,7 @@ func NRLRelatesToMarkSheet(nrlType, headType, pid, datestr1, datestr2 string) (r
 
 	for _, val := range resultmap {
 		id, _ := utils.Int64Value(val["ID"])
-		pid, _ := utils.Int64Value(val["VAA01"])
+		pid, _ := utils.Int64Value(val["PatientId"])
 		uid, _ := strconv.Atoi(val["BCE01A"])
 		datetime, _ := time.ParseInLocation("2006-01-02 15:04:05", val["DateTime"], time.Local)
 		datestr := utils.Substr(val["DateTime"], 0, 10)
@@ -474,9 +474,9 @@ func NRLRelatesToIO(pid, datestr1, datestr2 string) (results []NRLModel, err err
 
 	var ioModels []IOStatistics
 	if datestr1 == "" || datestr2 == "" {
-		err = fit.MySqlEngine().Table("IOStatistics").Where("VAA01 = ?", pid).Find(&ioModels)
+		err = fit.MySqlEngine().Table("IOStatistics").Where("PatientId = ?", pid).Find(&ioModels)
 	} else {
-		err = fit.MySqlEngine().Table("IOStatistics").Where("VAA01 = ? and DateTime1 >= ? and DateTime1 < ?", pid, datestr1, datestr2).Find(&ioModels)
+		err = fit.MySqlEngine().Table("IOStatistics").Where("PatientId = ? and DateTime1 >= ? and DateTime1 < ?", pid, datestr1, datestr2).Find(&ioModels)
 	}
 	if err != nil {
 		fit.Logger().LogError("NRL1", "relates to IO sheet error", err)
@@ -489,10 +489,10 @@ func NRLRelatesToIO(pid, datestr1, datestr2 string) (results []NRLModel, err err
 		str := fmt.Sprintf("%s - %s  共%.0f小时%d分 小结", time1.Format("15:04"), time2.Format("15:04"), minutes/60, int(minutes)%60)
 		nrldata := NRLModel{
 			ID:       val.ID,
-			VAA01:    val.VAA01,
-			BCK01:    val.BCK01,
-			BCE01A:   val.BCE01A,
-			BCE03A:   val.BCE03A,
+			PatientId:    val.PatientId,
+			//BCK01:    val.BCK01,
+			NurseId:   val.NurseId,
+			NurseName:   val.NurseName,
 			DateTime: fit.JsonTime(time1),
 			DateStr:  val.DateTime1.Format("2006-01-02"),
 			TimeStr:  str,

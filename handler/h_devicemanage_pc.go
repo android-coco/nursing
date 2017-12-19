@@ -33,7 +33,7 @@ func (c DeviceManageController) Get(w *fit.Response, r *fit.Request, p fit.Param
 			"Devices":     devices,
 		}
 		//fit.Logger().LogError("adsfasdfasdf:",devices[0].DeviceInfos)
-		_ = c.LoadViewSafely(w, r, "pc/v_device_manage.html", "pc/header_side.html")
+		_ = c.LoadViewForAdministrator(true,w, r, "pc/v_device_manage.html", "pc/header_side.html")
 	} else {
 		fmt.Fprintln(w, "服务器有点繁忙！")
 	}

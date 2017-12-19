@@ -81,7 +81,7 @@ func TVUpdataMonitorInfo(info MonitorInfo) (err error) {
 						break
 					}
 				}else{
-					_, err = fit.MySqlEngine().Table("monitornotify").ID(notify.ID).Update(&notify)
+					_, err = fit.MySqlEngine().Table("monitornotify").ID(notify.ID).AllCols().Update(&notify)
 					if err != nil {
 						break
 					}
@@ -89,7 +89,7 @@ func TVUpdataMonitorInfo(info MonitorInfo) (err error) {
 			}
 		}
 	} else {
-		_, err = fit.MySqlEngine().Table("monitorinfo").ID(info.ID).Update(&info)
+		_, err = fit.MySqlEngine().Table("monitorinfo").ID(info.ID).AllCols().Update(&info)
 		if len(info.MonitorNotifys) > 0 {
 			for _, notify := range info.MonitorNotifys {
 				if notify.ID <= 0 {
@@ -99,7 +99,7 @@ func TVUpdataMonitorInfo(info MonitorInfo) (err error) {
 						break
 					}
 				}else{
-					_, err = fit.MySqlEngine().Table("monitornotify").ID(notify.ID).Update(&notify)
+					_, err = fit.MySqlEngine().Table("monitornotify").ID(notify.ID).AllCols().Update(&notify)
 					if err != nil {
 						break
 					}

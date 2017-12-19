@@ -59,15 +59,22 @@ type PCBottleStrapController struct {
 
 // 医嘱各种打印
 func (c PCBottleStrapController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
+	//defer c.LoadView(w, "pc/v_dzprint.html") //输液单,口服单,注射单
 	typeint := r.FormIntValue("type")
 	switch typeint {
 	case 1:
-		defer c.LoadView(w, "pc/v_dzprint.html") //输液单,口服单,注射单
+		defer c.LoadView(w, "pc/v_infusionprint.html") //输液单
 		break
 	case 2:
-		defer c.LoadView(w, "pc/v_ptprint.html") //屏贴
+		defer c.LoadView(w, "pc/v_oralprint.html") //口服单
 		break
 	case 3:
+		defer c.LoadView(w, "pc/v_injectionprint.html") //注射单
+		break
+	case 4:
+		defer c.LoadView(w, "pc/v_ptprint.html") //屏贴
+		break
+	case 5:
 		defer c.LoadView(w, "pc/v_bqprint.html") //标签
 		break
 	}
@@ -215,11 +222,11 @@ func (c PCSuccessionController) Get(w *fit.Response, r *fit.Request, p fit.Param
 
 //打印深圳万丰医院护理记录单
 type PCNrl1Controller struct {
-	PCController
+	PCNRLController
 }
 
 func (c PCNrl1Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
-	defer c.LoadViewSafely(w, r, "pc/v_nrl1print.html")
+	defer c.LoadViewSafely(w, r, "pcnrl/v_nrl1print.html")
 	// 护士信息 床位表 病人id  病人信息
 	userinfo, beds, pid, pInfo, has := c.GetBedsAndUserinfo(w, r, "1")
 	if !has {
@@ -262,7 +269,7 @@ func (c PCNrl1Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 		mods = append(mods, model.NRLModel{})
 	}
 
-	nrl1Title := model.NRL1Title{VAA01: pInfo.VAA01}
+	nrl1Title := model.NRL1Title{PatientId: pInfo.VAA01}
 	errTitle := nrl1Title.PCQueryNRL1Title()
 	if errTitle != nil {
 		fit.Logger().LogError("PCQueryNRL1Title error :", errTitle)
@@ -287,11 +294,11 @@ func (c PCNrl1Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 
 //打印深圳万丰医院首次护理记录单
 type PCNrl2Controller struct {
-	PCController
+	PCNRLController
 }
 
 func (c PCNrl2Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
-	defer c.LoadViewSafely(w, r, "pc/v_nrl2print.html")
+	defer c.LoadViewSafely(w, r, "pcnrl/v_nrl2print.html")
 	// 护士信息 床位表 病人id  病人信息
 	userinfo, beds, pid, pInfo, has := c.GetBedsAndUserinfo(w, r, "2")
 	if !has {
@@ -381,11 +388,11 @@ func (c PCNrl2Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 
 //打印深圳万丰医院基本生活活动能力(BADL)
 type PCNrl3Controller struct {
-	PCController
+	PCNRLController
 }
 
 func (c PCNrl3Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
-	defer c.LoadViewSafely(w, r, "pc/v_nrl3print.html")
+	defer c.LoadViewSafely(w, r, "pcnrl/v_nrl3print.html")
 	// 护士信息 床位表 病人id  病人信息
 	userinfo, beds, pid, pInfo, has := c.GetBedsAndUserinfo(w, r, "3")
 	if !has {
@@ -440,11 +447,11 @@ func (c PCNrl3Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 
 //打印深圳万丰医院深静脉血栓(DVT)形成风险评估表
 type PCNrl4Controller struct {
-	PCController
+	PCNRLController
 }
 
 func (c PCNrl4Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
-	defer c.LoadViewSafely(w, r, "pc/v_nrl4print.html")
+	defer c.LoadViewSafely(w, r, "pcnrl/v_nrl4print.html")
 	// 护士信息 床位表 病人id  病人信息
 	userinfo, beds, pid, pInfo, has := c.GetBedsAndUserinfo(w, r, "4")
 	if !has {
@@ -490,11 +497,11 @@ func (c PCNrl4Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 
 //打印深静脉血栓护理观察表
 type PCNrl5Controller struct {
-	PCController
+	PCNRLController
 }
 
 func (c PCNrl5Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
-	defer c.LoadViewSafely(w, r, "pc/v_nrl5print.html")
+	defer c.LoadViewSafely(w, r, "pcnrl/v_nrl5print.html")
 	// 护士信息 床位表 病人id  病人信息
 	userinfo, beds, pid, pInfo, has := c.GetBedsAndUserinfo(w, r, "5")
 	if !has {
@@ -558,11 +565,11 @@ func (c PCNrl5Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 
 //打印深圳万丰医院压疮风险因素评估表（Braden评分）
 type PCNrl6Controller struct {
-	PCController
+	PCNRLController
 }
 
 func (c PCNrl6Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
-	defer c.LoadViewSafely(w, r, "pc/v_nrl6print.html")
+	defer c.LoadViewSafely(w, r, "pcnrl/v_nrl6print.html")
 	// 护士信息 床位表 病人id  病人信息
 	userinfo, beds, pid, pInfo, has := c.GetBedsAndUserinfo(w, r, "6")
 	if !has {
@@ -607,11 +614,11 @@ func (c PCNrl6Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 
 //打印深圳万丰医院患者跌到风险评估护理单
 type PCNrl7Controller struct {
-	PCController
+	PCNRLController
 }
 
 func (c PCNrl7Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
-	defer c.LoadViewSafely(w, r, "pc/v_nrl7print.html")
+	defer c.LoadViewSafely(w, r, "pcnrl/v_nrl7print.html")
 	// 护士信息 床位表 病人id  病人信息
 	userinfo, beds, pid, pInfo, has := c.GetBedsAndUserinfo(w, r, "7")
 	if !has {
@@ -633,7 +640,7 @@ func (c PCNrl7Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 	}
 
 	nrl7Title := model.NRL7Title{
-		VAA01: pInfo.VAA01,
+		PatientId: pInfo.VAA01,
 	}
 
 	errTitle := nrl7Title.PCQueryNRL7Title()
@@ -671,11 +678,11 @@ func (c PCNrl7Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 
 //打印深圳万丰医院疼痛强度评分量表
 type PCNrl8Controller struct {
-	PCController
+	PCNRLController
 }
 
 func (c PCNrl8Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
-	defer c.LoadViewSafely(w, r, "pc/v_nrl8print.html")
+	defer c.LoadViewSafely(w, r, "pcnrl/v_nrl8print.html")
 
 	// 护士信息 床位表 病人id  病人信息
 	userinfo, beds, pid, pInfo, has := c.GetBedsAndUserinfo(w, r, "8")

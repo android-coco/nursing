@@ -29,6 +29,7 @@
         }
         .name,.msg{
             float: left;
+            margin-top:20px;
         }
         .name{
             font-size:20px;
@@ -48,7 +49,7 @@
         }
         .qr-code{
             float: right;
-            height: 42px;
+            height: 80px;
         }
         .qr-code canvas{
             display: block;
@@ -58,7 +59,8 @@
             margin:0 10px ;
             padding-right: 62px;
             position: relative;
-            line-height: 30px;
+            /*line-height: 30px;*/
+            line-height: 24px;
             font-size:14px;
         }
         .val-bar .val{
@@ -69,9 +71,12 @@
         }
         .bt{
             margin: 0 10px;
+            font-size: 15px;
         }
         .bt p{
-            margin:6px 0;
+            /*margin:6px 0;*/
+            margin:0;
+            line-height: 24px;
         }
     </style>
 </head>
@@ -93,17 +98,17 @@
                             '        <div class="hd">' +
                             '            <div class="name">' +
                             obj[i].name +
-                            '            </div>' +
+                            '            </div>'+
                             '            <div class="msg">' +
-                            '                <p>999床  男 38岁</p>' +
-                            '                <p>住院号:12345678</p>' +
+                            '                <p>'+ obj[i].bed +'床  '+ obj[i].sex+'  ' + obj[i].age+'岁</p>' +
+                            '                <p>住院号:'+ obj[i].hosnum +'</p>' +
                             '            </div>' +
-                            '            <div class="qr-code" data-code="12112121">' +
+                            '            <div class="qr-code" data-code=\"'+'PT-'+obj[i].mid+'|'+obj[i].ext+'|'+obj[i].exc+'\">' +
                             '            </div>' +
                             '        </div>';
                     for(var j=0; j < obj[i].list.length; j++){
                         html+=' <div class="val-bar">\n' +
-                                obj[i].list[j][0]+' <span class="val">'+obj[i].list[j][1]+'</span>' +
+                                obj[i].list[j][0].split(" ")[0]+' <span class="val">'+obj[i].list[j][1]+'</span>' +
                                 '        </div>';
                     }
 
@@ -124,8 +129,8 @@
                 console.log(code)
                 code= code.toString()
                 $(el).qrcode({
-                    width: 42,
-                    height: 42,
+                    width: 80,
+                    height: 80,
                     text:code
                 });
             })
@@ -173,13 +178,6 @@
 
 
 
-<script>
-    $('.qr-code').qrcode({
-        width: 42,
-        height: 42,
-        text:"WD-123"
-    });
-</script>
 
 </body>
 </html>

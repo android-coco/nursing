@@ -30,10 +30,11 @@ func pdalist() {
 
 	fit.Router().AddRouter("/warn/add", new(handler.WarnController))
 	fit.Router().AddRouter("/warn/del", new(handler.WarnController), "get,post:DelWarn")
-	fit.Router().AddRouter("/warn/list", new(handler.WarnListController))
-	fit.Router().AddRouter("/access/add", new(handler.AccessController))
-	fit.Router().AddRouter("/access/list", new(handler.AccessListController))
-	fit.Router().AddRouter("/access/search", new(handler.AccessSearchController))
+	fit.Router().AddRouter("/warn/list", new(handler.WarnController), "get,post:WarnList")
+
+	fit.Router().AddRouter("/access/add", new(handler.AccessController), "get,post:AddAccess")
+	fit.Router().AddRouter("/access/list", new(handler.AccessController), "get,post:AccessList")
+	fit.Router().AddRouter("/access/search", new(handler.AccessController), "get,post:AccessSearch")
 
 	fit.Router().AddRouter("/iov/collect", new(handler.IntakeOutputCollectController))
 	fit.Router().AddRouter("/iov/query", new(handler.IntakeOutputQueryController))
@@ -140,7 +141,10 @@ func pclist() {
 
 	// 设备管理
 	fit.Router().AddRouter("/pc/device/manage", new(handler.DeviceManageController))
+	// 服务器地址
 	fit.Router().AddRouter("/pc/host/config", new(handler.HostConfigController))
+
+
 
 	// 交接班
 	fit.Router().AddRouter("/pc/succession", new(handler.PCSuccessController))
@@ -150,12 +154,13 @@ func pclist() {
 
 	// 医嘱
 	fit.Router().AddRouter("/pc/madvice/search",new(handler.PCMedicalAdviceController),"get:PCSearch")
-	fit.Router().AddRouter("/pc/madvice/exec/state",new(handler.PCMedicalAdviceController),"get:PCExecState")
-	fit.Router().AddRouter("/pc/madvice/split",new(handler.PCMedicalAdviceController),"get:PCSplit")
-	fit.Router().AddRouter("/pc/madvice/exec/search", new(handler.PCMedicalAdviceController),"post:PCExecSearch")
-	fit.Router().AddRouter("/pc/madvice/split/search",new(handler.PCMedicalAdviceController),"post:SpiltSearch")
-	fit.Router().AddRouter("/pc/madvice/exec/detail",new(handler.PCMedicalAdviceController),"get:PCExecDetail")
 	fit.Router().AddRouter("/pc/madvice/search/api",new(handler.PCMedicalAdviceController),"post:Search")
+	fit.Router().AddRouter("/pc/madvice/split",new(handler.PCMedicalAdviceController),"get:PCSplit")
+	fit.Router().AddRouter("/pc/madvice/split/search",new(handler.PCMedicalAdviceController),"post:SpiltSearch")
+	fit.Router().AddRouter("/pc/madvice/exec/state",new(handler.PCMedicalAdviceController),"get:PCExecState")
+	fit.Router().AddRouter("/pc/madvice/exec/search", new(handler.PCMedicalAdviceController),"post:PCExecSearch")
+	fit.Router().AddRouter("/pc/madvice/exec/detail",new(handler.PCMedicalAdviceController),"get:PCExecDetail")
+	fit.Router().AddRouter("/pc/madvice/exec/print",new(handler.PCMedicalAdviceController),"post:PCPrint")
 
 
 	// 体征批量录入

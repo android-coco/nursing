@@ -587,7 +587,7 @@
                                     ${reqData.doctorname}
                                 </p>
                                 <div class="input-box">
-                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="100"
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="30"
                                            v-model="tmplData.doctorname">
                                 </div>
                             </td>
@@ -610,7 +610,7 @@
                                     ${reqData.nursename}
                                 </p>
                                 <div class="input-box">
-                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="100"
+                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="30"
                                            v-model="tmplData.nursename">
                                 </div>
                             </td>
@@ -823,13 +823,23 @@
                     },
                     methods: {
                         editfn: function (e) {
-                            // console.log(this)
-                            // console.log()
+                            if(this.tmplData.notifys.length>=10){
+                                $(".add-btn").find("a").addClass("none")
+                            }
+                            if($(".item-block.active").length>0){
+                                jkyAlert("请先保存数据","no")
+                                return false
+                            }
                             $(e.target).parents(".item-block").addClass("active")
                         },
                         cancelfn: function (e) {
-                            tmplData = $.extend( {}, sourceData)
+                            tmplData = $.extend( true,{}, sourceData)
+                            this.$set(this,"tmplData",tmplData)
                             $(e.target).parents(".item-block").removeClass("active")
+
+                            if(this.tmplData.notifys.length<10){
+                                $(".add-btn").find("a").removeClass("none")
+                            }
                         },
                         savefn:function(e){
                             tmplData["v17"] = tmplData["customTit1"] &&(tmplData["customTit1"] +"|"+tmplData["customVal1"])
@@ -905,25 +915,29 @@
                             // notifysArr2.push({"id":0,"mid":0,"notifyinfo":""})
 
                             if(notifysArr.length>=10){
-                                $(e.target).addClass("none")
+                                $(".add-btn").addClass("none")
                             }
                             setTimeout(function(){
-
                                 var $input = $("#notice-list").find(".tmpl-tr").find("input")
                                 $input.last().focus();
                             })
                         },
                         deldatafn:function(e){
-                            var $this =  $(e.target);
+                            var $this =  $(e.target),self=this;
                                 // id = $this.data("id");
                             var index = $this.parents("tr").find(".num").data("index");
                             var notifysArr = this.tmplData.notifys || [];
+                            var notifysArr2 = this.reqData.notifys || [];
                             // var notifysArr2 = this.reqData.notifys || [];
-                            jkyConfirm("是否确认删除该内容",function(){
-                                var id = $this.attr("data-id");
-                                if(id){
+                            jkyConfirm("是否确认删除该内容",function(){                                
+                                if(self.tmplData.notifys.length==10){
+                                    $(".add-btn").removeClass("none")
+                                }
+                                var id = $this.attr("data-id");                                
+                                if(id && id !="0"){
                                     req("/pc/tv/delnotify",{"nid":id},function(data){
                                         notifysArr.splice(index,1)
+                                        notifysArr2.splice(index,1)
                                     })
                                 }else{
                                     console.log(index)
@@ -931,6 +945,7 @@
                                     // notifysArr2.splice(index,1)
                                     // ary.splice($.inArray(2, ary), 1)
                                 }
+                                
                             })
 
                         },

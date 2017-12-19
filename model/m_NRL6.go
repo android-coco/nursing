@@ -1,19 +1,17 @@
 package model
 
 import (
-	"time"
 	"fit"
 )
 
 //压疮风险因素评估表
 type NRL6 struct {
-	ID       int64     `xorm:"pk autoincr comment(文书id)"`
-	VAA01    int64     `xorm:"comment(patientid病人id)"`
-	BCK01    int       `xorm:"comment(classid科室id)"`
-	BCE01A   string    `xorm:"comment(NursingId责任护士ID)"`
-	BCE03A   string    `xorm:"comment(NursingName责任护士签名)"`
-	DateTime time.Time `xorm:"comment(记录时间)"`
-	DateStr  string    `xorm:"-"`
+	ID        int64        `xorm:"pk autoincr comment(文书id)" fit:"rid"`
+	PatientId int64        `xorm:"comment(patientid病人id)" fit:"pid"`
+	NurseId   string       `xorm:"comment(NursingId责任护士ID)" fit:"uid"`
+	NurseName string       `xorm:"comment(NursingName责任护士签名)" fit:"username"`
+	DateTime  fit.JsonTime `xorm:"comment(记录时间)"`
+	DateStr   string       `xorm:"-" fit:"-"`
 	NRL01    string    `xorm:"comment(感觉知觉程度)"`
 	NRL02    string    `xorm:"comment(潮湿情况)"`
 	NRL03    string    `xorm:"comment(活动能力)"`
@@ -32,14 +30,14 @@ type NRL6 struct {
 	NRL15A string `xorm:"comment(审核护士id)"`
 	NRL15B string `xorm:"comment(审核护士签名)"`
 
-	Score string `xorm:"comment(总分)"`
+	Score string `xorm:"comment(总分)" fit:"score"`
 }
 
 func (m *NRL6) InsertData() (int64, error) {
 	_, err := fit.MySqlEngine().Table("NRL6").Insert(m)
 	var rid int64 = 0
 	if err == nil {
-		_, err1 := fit.MySqlEngine().Table("NRL6").Where("VAA01 = ?", m.VAA01).Cols("id").Desc("id").Get(&rid)
+		_, err1 := fit.MySqlEngine().Table("NRL6").Where("PatientId = ?", m.PatientId).Cols("id").Desc("id").Get(&rid)
 		if err1 == nil {
 			m.ID = rid
 			return rid, err
@@ -63,7 +61,7 @@ func QueryNRL6(rid string) (NRL6, error) {
 	if err != nil {
 		return NRL6{}, err
 	} else {
-		nr6.DateStr = nr6.DateTime.Format("2006-01-02")
+		//nr6.DateStr = nr6.DateTime.Format("2006-01-02")
 		//nr6.TimeStr = nr6.DateTime.Format("15:04")
 		return nr6, nil
 	}
@@ -75,20 +73,20 @@ func PCQueryNRL6(pid, datestr1, datestr2 string, pagenum int) ([]NRL6, error) {
 	var err error
 
 	if pagenum == -1 {
-		err = fit.MySqlEngine().Table("NRL6").Where("VAA01 = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Asc("DateTime").Find(&mods)
+		err = fit.MySqlEngine().Table("NRL6").Where("PatientId = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Asc("DateTime").Find(&mods)
 	} else {
 		if datestr2 == "" || datestr1 == "" {
-			err = fit.MySqlEngine().Table("NRL6").Where("VAA01 = ?", pid).Limit(4, (pagenum-1)*4).Asc("DateTime").Find(&mods)
+			err = fit.MySqlEngine().Table("NRL6").Where("PatientId = ?", pid).Limit(4, (pagenum-1)*4).Asc("DateTime").Find(&mods)
 		} else {
-			err = fit.MySqlEngine().Table("NRL6").Where("VAA01 = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Limit(4, (pagenum-1)*4).Asc("DateTime").Find(&mods)
+			err = fit.MySqlEngine().Table("NRL6").Where("PatientId = ? AND DateTime >= ? AND DateTime < ?", pid, datestr1, datestr2).Limit(4, (pagenum-1)*4).Asc("DateTime").Find(&mods)
 		}
 	}
 	if err != nil {
 		return nil, err
 	}
-	for key, _ := range mods {
-		val := mods[key]
-		mods[key].DateStr = val.DateTime.Format("2006-01-02")
-	}
+	//for key, _ := range mods {
+	//	val := mods[key]
+	//	mods[key].DateStr = val.DateTime.Format("2006-01-02")
+	//}
 	return mods, nil
 }

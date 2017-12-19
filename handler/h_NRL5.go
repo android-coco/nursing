@@ -15,343 +15,33 @@ type NRL5Controller struct {
 
 // 模板 template PDA端
 func (c NRL5Controller) Check(w *fit.Response, r *fit.Request, p fit.Params) {
-	// 文书id
-	rid := r.FormValue("rid")
-	if "" == rid {
-		fmt.Fprintln(w, "参数不完整！")
-		return
-	}
-
-	nr5, err1 := model.QueryNRL5(rid)
-	if err1 != nil {
-		fit.Logger().LogError("m_NR5", err1)
-	}
-
-	pid := nr5.VAA01
-
-	// 查询对应病人信息
-	patient, has := c.LoadPInfoWithPid(w, r, pid)
-	if !has {
-		return
-	}
-
-
-	recordDate := nr5.DateTime.Format("2006-01-02")
-	c.Data = fit.Data{
-		"PInfo": patient,
-		"NRL":   nr5,
-		"RecordDate": recordDate,
-	}
-
-	fmt.Printf("data %+v\n", c.Data)
-	c.LoadView(w, "v_nrl5.html")
+	nrl := model.NRL5{}
+	c.NRLCheck(w, r, p, &nrl)
 }
 
 func (c NRL5Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
-	/*pid := r.FormValue("pid")
-	uid := r.FormValue("uid")
-	rid := r.FormValue("rid") // 护理记录单id
-	ty := r.FormValue("type") // 1=add， 2=edit
-
-	var nr5 model.NRL5
-	if ty == "1" {
-		if "" == pid || "" == uid {
-			fmt.Fprintln(w, "参数错误！")
-			return
-		}
-	} else if ty == "2" {
-		if rid == "" {
-			fmt.Fprintln(w, "参数错误！")
-			return
-		}
-		var err1 error
-		nr5, err1 = model.QueryNRL5(rid)
-		if err1 != nil {
-			fit.Logger().LogError("m_NR1", err1)
-		}
-		pid = strconv.FormatInt(nr5.VAA01, 10)
-		uid = nr5.BCE01A
-	} else {
-		fmt.Fprintln(w, "参数错误！")
-		return
-	}*/
-
-	// 文书model，type， 文书id，病人id，护士id，病人入院时间，参数是否正确
-	nrl, ty, rid, pid, uid, isOk := c.LoadNRLDataWithParm(w, r, "5")
-	if !isOk {
-		return
-	}
-
-	// 查询对应病人信息 护士的信息
-	patient, account, has := c.LoadPInfoAndAccountWithPidUid(w, r, pid, uid)
-	if !has {
-		return
-	}
-
-	c.Data = fit.Data{
-		"PInfo": patient,
-		"NRL":   nrl,
-		"Type":  ty,
-		"Rid": rid,
-		"Account": account,
-	}
-
-	c.LoadView(w, "v_nrl5_edit.html")
+	nrl := model.NRL5{}
+	c.NRLEdit(w, r, p, &nrl)
 }
 
 // 接口
 // 添加护理记录单
 func (c NRL5Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params) {
-	defer c.ResponseToJson(w)
-	// 病人ID
-	VAA01, err1 := strconv.ParseInt(r.FormValue("pid"), 10, 64)
-	// 护士ID
-	BCE01A := r.FormValue("uid")
-	// 护士名
-	BCE03A := r.FormValue("username")
-	// 记录时间
-	datetime, err4 := time.ParseInLocation("2006-01-02 15:04:05", r.FormValue("datetime"), time.Local)
-	// 科室ID
-	did := r.FormValue("did")
-	BCK01, err5 := strconv.Atoi(did)
-	// 文书
-
-	NRL01 := r.FormValue("NRL01")
-	NRL02A := r.FormValue("NRL02A")
-	NRL02B := r.FormValue("NRL02B")
-	NRL03A := r.FormValue("NRL03A")
-	NRL03B := r.FormValue("NRL03B")
-	NRL04A := r.FormValue("NRL04A")
-	NRL04B := r.FormValue("NRL04B")
-	NRL05A := r.FormValue("NRL05A")
-	NRL05B := r.FormValue("NRL05B")
-	NRL06A := r.FormValue("NRL06A")
-	NRL06B := r.FormValue("NRL06B")
-	NRL07A := r.FormValue("NRL07A")
-	NRL07B := r.FormValue("NRL07B")
-	NRL08A := r.FormValue("NRL08A")
-	NRL08B := r.FormValue("NRL08B")
-	NRL09A := r.FormValue("NRL09A")
-	NRL09B := r.FormValue("NRL09B")
-	NRL10A := r.FormValue("NRL10A")
-	NRL10B := r.FormValue("NRL10B")
-	NRL10C := r.FormValue("NRL10C")
-	NRL10D := r.FormValue("NRL10D")
-	NRL11 := r.FormValue("NRL11")
-	NRL12 := r.FormValue("NRL12")
-	score := r.FormValue("score")
-
-
-
-
-	checkerr( "nrl5 add", err1, err4, err5)
-
-	if VAA01 == 0 || BCE01A == "" || BCE03A == "" {
-		c.JsonData.Result = 1
-		c.JsonData.ErrorMsg = "参数不完整"
-		c.JsonData.Datas = []interface{}{}
-		return
-	}
-	if  !(NRL01 == "1" ||  NRL01 == "2" ||  NRL01 == "3") {
-		c.RenderingJson(2, "A,P,N不能为空", []interface{}{})
-	}
-
-	nrl5 := model.NRL5{
-		BCK01:    BCK01,
-		VAA01:    VAA01,
-		BCE01A:   BCE01A,
-		BCE03A:   BCE03A,
-		DateTime: datetime,
-		NRL01:    NRL01,
-		NRL02A:    NRL02A,
-		NRL02B:    NRL02B,
-		NRL03A:    NRL03A,
-		NRL03B:    NRL03B,
-		NRL04A:    NRL04A,
-		NRL04B:    NRL04B,
-		NRL05A:    NRL05A,
-		NRL05B:    NRL05B,
-		NRL06A:    NRL06A,
-		NRL06B:    NRL06B,
-		NRL07A:    NRL07A,
-		NRL07B:    NRL07B,
-		NRL08A:    NRL08A,
-		NRL08B:    NRL08B,
-		NRL09A:    NRL09A,
-		NRL09B:    NRL09B,
-		NRL10A:    NRL10A,
-		NRL10B:    NRL10B,
-		NRL10C:    NRL10C,
-		NRL10D:    NRL10D,
-		NRL11:    NRL11,
-		NRL12:    NRL12,
-		Score:    score,
-	}
-	has, errExist := nrl5.IsExistNRL5()
-	if has {
-		c.RenderingJsonAutomatically(3, "已存在该班次，请勿重复提交。")
-		return
-	}
-	if errExist != nil {
-		c.RenderingJsonAutomatically(2, "上传失败！")
-		return
-	}
-	rid, err17 := nrl5.InsertData()
-
-	if err17 != nil {
-		fit.Logger().LogError("NRL5 add :", err17)
-		c.JsonData.Result = 3
-		c.JsonData.ErrorMsg = "上传失败！"
-		c.JsonData.Datas = []interface{}{}
-	} else {
-		// 文书记录
-		nurseRecord := model.NursingRecords{
-			Updated:     r.FormValue("datetime"),
-			NursType:    5,
-			NursingId:   BCE01A,
-			NursingName: BCE03A,
-			ClassId:     r.FormValue("did"),
-			PatientId:   r.FormValue("pid"),
-			RecordId:    rid,
-			Comment:     "新增",
-		}
-		_,errRecord := model.InsertNRecords(nurseRecord)
-		checkerr("nurse record err:", errRecord)
-
-		c.JsonData.Result = 0
-		c.JsonData.ErrorMsg = "上传成功！"
-		c.JsonData.Datas = []interface{}{}
-	}
-
+	mod := model.NRL5{}
+	c.NRLAddRecord(w, r, p, &mod)
 }
 
 // 修改护理记录单
 func (c NRL5Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Params) {
-	defer c.ResponseToJson(w)
-	// 文书ID
-	rid := r.FormValue("rid")
-	id, err := strconv.ParseInt(rid, 10, 64)
-	if err != nil {
-		fit.Logger().LogError("Error", "nrl1 update :", err)
-		c.JsonData.Result = 3
-		c.JsonData.ErrorMsg = "rid 错误！"
-		c.JsonData.Datas = []interface{}{}
-		return
-	}
-	// 病人ID
-	VAA01, err1 := strconv.ParseInt(r.FormValue("pid"), 10, 64)
-	// 科室ID
-	did := r.FormValue("did")
-	BCK01, err5 := strconv.Atoi(did)
-	// 护士ID
-	BCE01A := r.FormValue("uid")
-	// 护士名
-	BCE03A := r.FormValue("username")
-	// 记录时间
-	datetime, err4 := time.ParseInLocation("2006-01-02 15:04:05", r.FormValue("datetime"), time.Local)
-
-	NRL01 := r.FormValue("NRL01")
-	NRL02A := r.FormValue("NRL02A")
-	NRL02B := r.FormValue("NRL02B")
-	NRL03A := r.FormValue("NRL03A")
-	NRL03B := r.FormValue("NRL03B")
-	NRL04A := r.FormValue("NRL04A")
-	NRL04B := r.FormValue("NRL04B")
-	NRL05A := r.FormValue("NRL05A")
-	NRL05B := r.FormValue("NRL05B")
-	NRL06A := r.FormValue("NRL06A")
-	NRL06B := r.FormValue("NRL06B")
-	NRL07A := r.FormValue("NRL07A")
-	NRL07B := r.FormValue("NRL07B")
-	NRL08A := r.FormValue("NRL08A")
-	NRL08B := r.FormValue("NRL08B")
-	NRL09A := r.FormValue("NRL09A")
-	NRL09B := r.FormValue("NRL09B")
-	NRL10A := r.FormValue("NRL10A")
-	NRL10B := r.FormValue("NRL10B")
-	NRL10C := r.FormValue("NRL10C")
-	NRL10D := r.FormValue("NRL10D")
-	NRL11 := r.FormValue("NRL11")
-	NRL12 := r.FormValue("NRL12")
-	score := r.FormValue("score")
-
-	checkerr( "nrl5 add",err1, err5, err4)
-
-	nrl5 := model.NRL5{
-		VAA01:    VAA01,
-		BCK01:    BCK01,
-		BCE01A:   BCE01A,
-		BCE03A:   BCE03A,
-		DateTime: datetime,
-		NRL01:    NRL01,
-		NRL02A:    NRL02A,
-		NRL02B:    NRL02B,
-		NRL03A:    NRL03A,
-		NRL03B:    NRL03B,
-		NRL04A:    NRL04A,
-		NRL04B:    NRL04B,
-		NRL05A:    NRL05A,
-		NRL05B:    NRL05B,
-		NRL06A:    NRL06A,
-		NRL06B:    NRL06B,
-		NRL07A:    NRL07A,
-		NRL07B:    NRL07B,
-		NRL08A:    NRL08A,
-		NRL08B:    NRL08B,
-		NRL09A:    NRL09A,
-		NRL09B:    NRL09B,
-		NRL10A:    NRL10A,
-		NRL10B:    NRL10B,
-		NRL10C:    NRL10C,
-		NRL10D:    NRL10D,
-		NRL11:    NRL11,
-		NRL12:    NRL12,
-		Score:    score,
-	}
-
-	_, err17 := nrl5.UpdateData(id)
-
-
-	if err17 != nil {
-		fit.Logger().LogError("nrl4 add :", err17)
-		c.JsonData.Result = 2
-		c.JsonData.ErrorMsg = "修改失败！"
-		c.JsonData.Datas = []interface{}{}
-	} else {
-		_, errRecord := model.UpadteNRecords(id, r.FormValue("datetime"))
-		checkerr("nurse record update err:", errRecord)
-		c.JsonData.Result = 0
-		c.JsonData.ErrorMsg = "修改成功！"
-		c.JsonData.Datas = []interface{}{}
-	}
+	mod := model.NRL5{}
+	c.NRLUpdateRecord(w, r, p, &mod)
 }
 
 
 // 删除护理
 func (c NRL5Controller) DeleteRecord(w *fit.Response, r *fit.Request, p fit.Params) {
-	defer c.ResponseToJson(w)
-	// 文书ID
-	rid := r.FormValue("rid")
-	if rid == "" {
-		c.RenderingJsonAutomatically(3, "参数不完整")
-	}
-	id, err := strconv.ParseInt(rid, 10, 64)
-	if err != nil {
-		fit.Logger().LogError("Error", "nrl1 update :", err)
-		c.RenderingJsonAutomatically(3, "rid 错误！")
-		return
-	}
-
-
 	nrl := model.NRL5{}
-
-	_, err18 := nrl.DeleteData(id)
-	if err18 != nil {
-		fit.Logger().LogError("nrl delete :", err18)
-		c.RenderingJsonAutomatically(3, "删除失败！")
-	} else {
-		c.RenderingJsonAutomatically(0, "删除成功！")
-	}
+	c.NRLDeleteRecord(w, r, p, nrl)
 }
 
 func (c NRL5Controller) Exist(w *fit.Response, r *fit.Request, p fit.Params) {
@@ -360,17 +50,91 @@ func (c NRL5Controller) Exist(w *fit.Response, r *fit.Request, p fit.Params) {
 	pid := r.FormValue("pid")
 	datestr := r.FormValue("date")
 	if pid == "" || datestr == "" {
-		c.RenderingJsonAutomatically(1, "参数不完整")
+		c.RenderingJsonAutomatically(10002, "参数不完整")
 		return
 	}
 
 	shifts, err_exs := model.IsExistNRL5Shift(pid, datestr)
 	if err_exs != nil {
-		c.RenderingJsonAutomatically(3, "Database "+err_exs.Error())
+		c.RenderingJson(3, "DB 错误 ", err_exs.Error())
 		return
 	}
 
 	c.RenderingJson(0,"成功！", shifts)
+}
+
+
+type PCNRL5Controller struct {
+	PCNRLController
+}
+
+
+
+func (c PCNRL5Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Params) {
+	// 护士信息 床位表 病人id  病人信息
+	userinfo, beds, pid, pInfo, has := c.GetBedsAndUserinfo(w, r, "5")
+	if !has {
+		return
+	}
+	// 起止时间  页码
+	// 时间
+	var datestr1, datestr2 string
+	var pageindex, pagenum int
+	date1, errs := strconv.ParseInt(r.FormValue("sdate"), 10, 64)
+	date2, erre := strconv.ParseInt(r.FormValue("edate"), 10, 64)
+	if errs != nil || erre != nil {
+		datestr1 = ""
+		datestr2 = ""
+	} else {
+		datestr1 = time.Unix(date1/1000, 0).Format("2006-01-02 15:04:05")
+		datestr2 = time.Unix(date2/1000+60*60*24 - 1, 0).Format("2006-01-02 15:04:05")
+	}
+
+	// 护理单
+	mods, err13 := model.PCQueryNRL5(pid, datestr1, datestr2, pageindex)
+	if err13 != nil {
+		fmt.Fprintln(w, "参数错误！  user info error", err13)
+		return
+	}
+
+	//总条数
+	count := len(mods)
+	peerPage := 5
+	//总页数
+	pagenum = int((count-1)/ peerPage) + 1
+	//当前页数
+	index := r.FormValue("num")
+	pageindex, errnum := strconv.Atoi(index)
+	if errnum != nil {
+		pageindex = int(pagenum)
+	}
+	if pageindex < 1 {
+		pageindex = 1
+	} else if pageindex > pagenum {
+		pageindex = pagenum
+	}
+
+	list :=  make([]model.APNModel, peerPage)
+	if pageindex == pagenum {
+		list = mods[(pageindex - 1) * peerPage:count]
+	} else {
+		list = mods[(pageindex - 1) * peerPage:pageindex * peerPage]
+	}
+
+	//fmt.Printf("mods %+v\n %d\n\n", mods, len(mods))
+	//fmt.Printf("list %+v\n %d\n\n", list, len(list))
+	c.Data = fit.Data{
+		"Userinfo":  userinfo, // 护士信息
+		"PInfo":     pInfo,    // 病人信息
+		"Beds":      beds,     // 床位list
+		"NRLList":   list,
+		"PageNum":   pagenum,
+		"PageIndex": pageindex,
+		"Menuindex": "7-5",
+	}
+
+
+	c.LoadViewSafely(w, r, "pcnrl/v_nrl5.html", "pc/header_side.html", "pc/header_top.html")
 }
 
 

@@ -12,7 +12,7 @@ import (
 
 // 体温单
 type TempChartController struct {
-	PCController
+	PCNRLController
 }
 
 var dateLables = []string{"", "Ⅱ-", "Ⅲ-", "Ⅳ-", "Ⅴ-", "Ⅵ-", "Ⅶ-", "Ⅷ-", "Ⅸ-", "Ⅹ-"}
@@ -93,6 +93,7 @@ func (c TempChartController) PrintTempChart(w *fit.Response, r *fit.Request, p f
 	pInfos, err := model.GetPatientInfo(pid)
 	if err != nil || len(pInfos) == 0 {
 		fmt.Fprintln(w, "参数错误！")
+		fit.Logger().LogError("error print temp chart :", err)
 		return
 	}
 	pInfo := pInfos[0]

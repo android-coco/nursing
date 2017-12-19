@@ -18,20 +18,25 @@
 <body>
 <div class="hd_tit">
     <div class="logo"><img src="/static/dist/images/admin_pc/logo.png"></div>
-    <p class="tit">见康云护理管理信息系统_</p>
-    <div class="am-dropdown jky_dropdown" data-am-dropdown>
-        <button class="am-btn am-btn-primary am-dropdown-toggle" data-am-dropdown-toggle>{{.Userinfo.DepartmentName}}
-            <span class="jky_icon"><img src="/static/dist/images/admin_pc/xl.png" alt=""></span>
-        </button>
-        <!--不存在多科室情况，已隐藏切换科室功能-->
-        <!--<ul class="am-dropdown-content">-->
-        <!--&lt;!&ndash;<li class="am-active"><a href="#">怎么讲登陆页面选择的科室数据传到这里</a></li>&ndash;&gt;-->
+    <p class="tit">见康云护理管理信息系统</p>
+    {{/*<div class="am-dropdown jky_dropdown" data-am-dropdown>*/}}
+        {{/*<button class="am-btn am-btn-primary am-dropdown-toggle" data-am-dropdown-toggle>{{.Userinfo.DepartmentName}}*/}}
+            {{/*<span class="jky_icon"><img src="/static/dist/images/admin_pc/xl.png" alt=""></span>*/}}
+        {{/*</button>*/}}
+        {{/*<!--不存在多科室情况，已隐藏切换科室功能-->*/}}
+        {{/*<!--<ul class="am-dropdown-content">-->*/}}
+        {{/*<!--&lt;!&ndash;<li class="am-active"><a href="#">怎么讲登陆页面选择的科室数据传到这里</a></li>&ndash;&gt;-->*/}}
     {{/*<!--{{range .Userinfo.Departments}}-->*/}}
     {{/*<!--<li class="am-active"><a href="#" data-am-pureview="{{.DepartmentID}}">{{.DepartmentName}}</a></li>-->*/}}
     {{/*<!--{{end}}-->*/}}
-        <!--</ul>-->
-    </div>
+        {{/*<!--</ul>-->*/}}
+    {{/*</div>*/}}
     <div class="r_menu_list">
+        <div class="tv_btn" {{if eq .Userinfo.Authority 2}}style="display:none"{{end}}>
+            <a class="parent_menu" href="/pc/tv/manage">
+                TV 编辑
+            </a>
+        </div>
         <div class="more_btn" {{if eq .Userinfo.Authority 2}}style="display:none"{{end}}>
             <div class="parent_menu">
                 更多
@@ -60,9 +65,9 @@
 </div>
 <!-- Begin page -->
 <div class="am-topbar am-topbar-fixed-top top48">
-    <div class="am-topbar-left am-hide-sm-only">
-        <a class="username"><span>欢迎您，{{.Userinfo.Name}}</span><i class="zmdi zmdi-layers"></i></a>
-    </div>
+{{/*<div class="am-topbar-left am-hide-sm-only">*/}}
+{{/*<a class="username"><span>欢迎您，{{.Userinfo.Name}}</span><i class="zmdi zmdi-layers"></i></a>*/}}
+{{/*</div>*/}}
 
     <div class="contain">
         <div class="jky-class-bar">
@@ -78,28 +83,23 @@
 
 </div>
 
-<div class="admin">
 
+
+<div class="admin">
+    <div class="am-topbar am-topbar-fixed-top top48 type2">
+        <div class="am-topbar-left am-hide-sm-only">
+            <a class="username"><span>欢迎您，{{.Userinfo.Name}}</span><i class="zmdi zmdi-layers"></i></a>
+        </div>
+    </div>
     <!-- 侧边栏 -->
     <div class="admin-sidebar am-offcanvas  am-padding-0 jky_sidebar type2" id="admin-offcanvas">
         <div class="am-offcanvas-bar admin-offcanvas-bar">
 
             <ul class="am-list admin-sidebar-list" id="jky-menu">
-                <li>
-                    <a class="am-cf none">
-                            <span class="jky_icon2">
-                                <img src="/static/dist/images/admin_pc/icon10.png" alt="">
-                            </span>
-                        <span class="tit"> 设备管理 </span>
-                        <div class="jky_icon">
-                            <img src="/static/dist/images/admin_pc/icon5.png" alt="">
-                        </div>
-                    </a>
-                </li>
                 <li class="active">
-                    <a class="am-cf">
+                    <a class="am-cf" href="/pc/account/manage">
                             <span class="jky_icon2">
-                                <img src="/static/dist/images/admin_pc/icon11.png" alt="">
+                                {{/*<img src="/static/dist/images/admin_pc/icon11.png" alt="">*/}}
                             </span>
                         <span class="tit"> 账号管理 </span>
                         <div class="jky_icon">
@@ -108,9 +108,21 @@
                     </a>
                 </li>
                 <li>
-                    <a class="am-cf none">
+                    <a class="am-cf" {{if eq .Userinfo.Authority 2}}{{else}}style="display:none"{{end}} href="/pc/device/manage">
                             <span class="jky_icon2">
-                                <img src="/static/dist/images/admin_pc/icon12.png" alt="">
+                                {{/*<img src="/static/dist/images/admin_pc/icon10.png" alt="">*/}}
+                            </span>
+                        <span class="tit"> 设备管理 </span>
+                        <div class="jky_icon">
+                            <img src="/static/dist/images/admin_pc/icon5.png" alt="">
+                        </div>
+                    </a>
+                </li>
+
+                <li>
+                    <a class="am-cf" {{if eq .Userinfo.Authority 2}}{{else}}style="display:none"{{end}} href="/pc/host/config">
+                            <span class="jky_icon2">
+                                {{/*<img src="/static/dist/images/admin_pc/icon12.png" alt="">*/}}
                             </span>
                         <span class="tit"> 服务器地址 </span>
                         <div class="jky_icon">

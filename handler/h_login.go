@@ -54,7 +54,8 @@ func (c LoginController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 						c.RenderingJson(0, "登录成功", responce)
 					} else if authority == 2 {
 						// 账号管理员
-						c.RenderingJson(4, "此账号禁止在PDA端使用", responce)
+						//c.RenderingJson(4, "此账号禁止在PDA端使用", responce)
+						c.RenderingJson(0, "登录成功", responce)
 					}
 				} else {
 					c.RenderingJson(6, "此账号已停用，请联系管理员", responce)

@@ -32,7 +32,7 @@ func (c NRL2Controller) Check(w *fit.Response, r *fit.Request, p fit.Params) {
 		return
 	}
 
-	pid := nr2.VAA01
+	pid := nr2.PatientId
 	// 查询对应病人信息
 	patient, has := c.LoadPInfoWithPid(w, r, pid)
 	if !has {
@@ -115,8 +115,8 @@ func (c NRL2Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 		if err1 != nil {
 			fit.Logger().LogError("m_NR1", err1)
 		}
-		pid = strconv.FormatInt(nr2.VAA01, 10)
-		uid = nr2.BCE01A
+		pid = strconv.FormatInt(nr2.PatientId, 10)
+		uid = nr2.NurseId
 	} else {
 		fmt.Fprintln(w, "参数错误！3")
 		return
@@ -268,7 +268,7 @@ func (c NRL2Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params)
 	NRL39C := r.FormValue("NRL39C")
 
 	nrl2 := model.NRL2{
-		VAA01:   VAA01,
+		PatientId:   VAA01,
 		BCK01:   BCK01,
 		NRL02:   NRL02,
 		NRL03:   NRL03,
@@ -316,8 +316,8 @@ func (c NRL2Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params)
 		NRL36:   NRL36,
 		NRL37:   NRL37,
 		NRL38:   NRL38,
-		BCE01A:  BCE01A,
-		BCE03A:  BCE03A,
+		NurseId:  BCE01A,
+		NurseName:  BCE03A,
 		NRL39A:  NRL39A,
 		NRL39B:  NRL39B,
 		NRL39C:  NRL39C,
@@ -377,74 +377,6 @@ func (c NRL2Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params)
 
 }
 
-/*
-// 修改护理记录单
-func (c NRL2Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Params) {
-	defer c.ResponseToJson(w)
-	// 文书ID
-	rid := r.FormValue("rid")
-	id, err := strconv.ParseInt(rid, 10, 64)
-	if err != nil {
-		fit.Logger().LogError("Error", "nrl1 update :", err)
-		c.JsonData.Result = 3
-		c.JsonData.ErrorMsg = "rid 错误！"
-		c.JsonData.Datas = []interface{}{}
-	}
-
-	// 护士ID
-	//BCE01A := r.FormValue("uid")
-	// 护士名
-	//BCE03A := r.FormValue("username")
-	// 记录时间
-	datetime, err4 := time.ParseInLocation("2006-01-02 15:04:05", r.FormValue("datetime"), time.Local)
-
-	NRL01, err6 := strconv.Atoi(r.FormValue("NRL01"))
-	NRL02, err7 := strconv.Atoi(r.FormValue("NRL02"))
-	NRL03, err8 := strconv.Atoi(r.FormValue("NRL03"))
-	NRL04, err9 := strconv.Atoi(r.FormValue("NRL04"))
-	NRL05, err10 := strconv.Atoi(r.FormValue("NRL05"))
-	NRL06, err11 := strconv.Atoi(r.FormValue("NRL06"))
-	NRL07, err12 := strconv.Atoi(r.FormValue("NRL07"))
-	NRL08, err13 := strconv.Atoi(r.FormValue("NRL08"))
-	NRL09, err14 := strconv.Atoi(r.FormValue("NRL09"))
-	NRL10, err15 := strconv.Atoi(r.FormValue("NRL10"))
-	NRL11, err16 := strconv.Atoi(r.FormValue("NRL11"))
-	score, err18 := strconv.Atoi(r.FormValue("score"))
-
-	checkerr("nrl3 add", err4, err6, err7, err8, err9, err10, err11, err12, err13, err14, err15, err16, err18)
-
-	nrl3 := model.NRL3{
-		//BCE01A:   BCE01A,
-		//BCE03A:   BCE03A,
-		DateTime: datetime,
-		NRL01:    NRL01,
-		NRL02:    NRL02,
-		NRL03:    NRL03,
-		NRL04:    NRL04,
-		NRL05:    NRL05,
-		NRL06:    NRL06,
-		NRL07:    NRL07,
-		NRL08:    NRL08,
-		NRL09:    NRL09,
-		NRL10:    NRL10,
-		NRL11:    NRL11,
-		Score:    score,
-	}
-
-	_, err17 := nrl3.UpdateData(id)
-	if err17 != nil {
-		fit.Logger().LogError("nrl3 add :", err17)
-		c.JsonData.Result = 2
-		c.JsonData.ErrorMsg = "修改失败！"
-		c.JsonData.Datas = []interface{}{}
-	} else {
-		c.JsonData.Result = 0
-		c.JsonData.ErrorMsg = "修改成功！"
-		c.JsonData.Datas = []interface{}{}
-	}
-}
-*/
-
 func (c NRL2Controller) Exist(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 	r.ParseForm()
@@ -469,4 +401,95 @@ func (c NRL2Controller) Exist(w *fit.Response, r *fit.Request, p fit.Params) {
 	} else {
 		c.RenderingJsonAutomatically(4, "不存在该病人的首次护理单")
 	}
+}
+
+
+type PCNRL2Controller struct {
+	PCNRLController
+}
+
+func (c PCNRL2Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Params) {
+
+	// 护士信息 床位表 病人id  病人信息
+	userinfo, beds, pid, pInfo, has := c.GetBedsAndUserinfo(w,r, "2")
+	if !has {
+		return
+	}
+	var err error
+
+
+	// 护理单
+	flag, errExist := model.IsExistNRL2(pid)
+	if errExist != nil {
+		fit.Logger().LogError("pc nr2 is exist nrl2?", errExist)
+		fmt.Fprintln(w, "参数错误！  user info error", errExist)
+		return
+	}
+
+	var nrl2 model.NRL2
+	if !flag {
+		nrl2 = model.NRL2{}
+	} else {
+		var errn2 error
+		nrl2, errn2 = model.QueryNRL2WithPid(pid)
+		if errn2 != nil {
+			fit.Logger().LogError("pc nr2 query nrl2:", err)
+			fmt.Fprintln(w, "参数错误！  user info error", err)
+			return
+		}
+	}
+	// 过敏史-过敏源-NRL06-Json字符串，key：对应index，value：对应内容
+	NRL06A := ""
+	NRL06B := ""
+	if nrl2.NRL06 == "2" {
+		by := []byte(nrl2.NRL06A)
+		anyObj := make(map[string]string, 0)
+		json.Unmarshal(by, &anyObj)
+		for k, v := range anyObj {
+			NRL06A = k
+			NRL06B = v
+		}
+	}
+
+	// 排便次数- "n,m"，n,m代表2个空的数值，即n次/天，1次/m天
+	NRL18A := ""
+	NRL18B := ""
+	if nrl2.NRL18 != "" {
+		slice := strings.Split(nrl2.NRL18, ",")
+		length := len(slice)
+		if length == 1 {
+			NRL18A = slice[0]
+		} else if length == 2 {
+			NRL18A = slice[0]
+			NRL18B = slice[1]
+		}
+	}
+	// 拆分护理单录入时间
+	tempTime, _ := time.ParseInLocation("2006-01-02 15:04:05", nrl2.NRL38, time.Local)
+	NRL38A := tempTime.Format("2006-01-02")
+	NRL38B := tempTime.Format("15:04")
+
+	tempTime, _ = time.ParseInLocation("2006-01-02 15:04:05", nrl2.NRL39A, time.Local)
+	NRL39B := tempTime.Format("2006-01-02")
+	NRL39C := tempTime.Format("15:04")
+
+	//fmt.Printf("user info %+v:", userinfo)
+
+	c.Data = fit.Data{
+		"Userinfo":  userinfo, // 护士信息
+		"PInfo":     pInfo,    // 病人信息
+		"Beds":      beds,     // 床位list
+		"NRL":       nrl2,
+		"Menuindex": "7-2",
+		"NRL06A":    NRL06A, // 过敏源的index
+		"NRL06B":    NRL06B, // 过敏源的补充内容
+		"NRL18A":    NRL18A, // n次/天
+		"NRL18B":    NRL18B, // 1次/m天
+		"NRL38A":    NRL38A, // 录入护理单的年月日
+		"NRL38B":    NRL38B, // 录入护理单的时分
+		"NRL39B":    NRL39B,
+		"NRL39C":    NRL39C,
+	}
+
+	c.LoadViewSafely(w, r, "pcnrl/v_nrl2.html", "pc/header_side.html", "pc/header_top.html")
 }

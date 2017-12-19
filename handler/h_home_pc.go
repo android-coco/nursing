@@ -57,6 +57,7 @@ func (c PCHomeController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 
 func (c PCBedController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
+
 	r.ParseForm()
 	department_id := r.FormValue("department_id")
 	type_dup := r.FormValue("type")

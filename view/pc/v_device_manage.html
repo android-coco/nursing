@@ -22,19 +22,18 @@
 </div>
 <div class="hd_tit">
     <div class="logo"><img src="/static/dist/images/admin_pc/logo.png"></div>
-    <p class="tit">见康云护理管理信息系统_</p>
-    <div class="am-dropdown jky_dropdown" data-am-dropdown>
-        <button class="am-btn am-btn-primary am-dropdown-toggle" disabled data-am-dropdown-toggle>
-            {{.Userinfo.DepartmentName}}
-            <span class="jky_icon"><img src="/static/dist/images/admin_pc/xl.png" alt=""></span>
-        </button>
-        <!--<ul class="am-dropdown-content">-->
-        <!--<li class="am-active"><a href="#">内分泌科</a></li>-->
-        <!--<li><a href="#">外科</a></li>-->
-        <!--<li><a href="#">XXX科</a></li>-->
-        <!--<li><a href="#">？？科</a></li>-->
-        <!--</ul>-->
-    </div>
+    <p class="tit">见康云护理管理信息系统</p>
+    {{/*<div class="am-dropdown jky_dropdown" data-am-dropdown>*/}}
+        {{/*<button class="am-btn am-btn-primary am-dropdown-toggle" disabled data-am-dropdown-toggle>*/}}
+            {{/*<span class="jky_icon"><img src="/static/dist/images/admin_pc/xl.png" alt=""></span>*/}}
+        {{/*</button>*/}}
+        {{/*<!--<ul class="am-dropdown-content">-->*/}}
+        {{/*<!--<li class="am-active"><a href="#">内分泌科</a></li>-->*/}}
+        {{/*<!--<li><a href="#">外科</a></li>-->*/}}
+        {{/*<!--<li><a href="#">XXX科</a></li>-->*/}}
+        {{/*<!--<li><a href="#">？？科</a></li>-->*/}}
+        {{/*<!--</ul>-->*/}}
+    {{/*</div>*/}}
     <div class="r_menu_list">
         <div class="out_btn">
             <img src="/static/dist/images/admin_pc/out.png" alt=""> 退出
@@ -44,50 +43,40 @@
 </div>
 
 
-<!-- Begin page -->
-<div class="am-topbar am-topbar-fixed-top top48 type2">
-    <div class="am-topbar-left am-hide-sm-only">
-        <a class="username"><span>欢迎您，{{.Userinfo.Name}}</span><i class="zmdi zmdi-layers"></i></a>
-    </div>
-    <!--
-    <div class="contain">
-        <div class="jky-class-bar">
-
-        </div>
-      <div class="jky-tab-hd">
-            <ul>
-                <li><a href="./batchInput.html">批量录入</a></li>
-                <li class="active"><a href="./batchInput2.html">历史数据</a></li>
-            </ul>
-        </div>
-    </div>
-    -->
-
-</div>
-<!-- end page -->
 
 
 <div class="admin">
+
+    <!-- Begin page -->
+    <div class="am-topbar am-topbar-fixed-top top48 type2">
+        <div class="am-topbar-left am-hide-sm-only">
+            <a class="username"><span>欢迎您，{{.Userinfo.Name}}</span><i class="zmdi zmdi-layers"></i></a>
+        </div>
+        <!--
+        <div class="contain">
+            <div class="jky-class-bar">
+
+            </div>
+          <div class="jky-tab-hd">
+                <ul>
+                    <li><a href="./batchInput.html">批量录入</a></li>
+                    <li class="active"><a href="./batchInput2.html">历史数据</a></li>
+                </ul>
+            </div>
+        </div>
+        -->
+
+    </div>
+    <!-- end page -->
     <!-- 侧边栏 -->
     <div class="admin-sidebar am-offcanvas  am-padding-0 jky_sidebar type2" id="admin-offcanvas">
         <div class="am-offcanvas-bar admin-offcanvas-bar">
 
             <ul class="am-list admin-sidebar-list" id="jky-menu">
-                <li class="active">
-                    <a class="am-cf" href="/pc/device/manage">
-                            <span class="jky_icon2">
-                                <img src="/static/dist/images/admin_pc/icon10.png" alt="">
-                            </span>
-                        <span class="tit"> 设备管理 </span>
-                        <div class="jky_icon">
-                            <img src="/static/dist/images/admin_pc/icon5.png" alt="">
-                        </div>
-                    </a>
-                </li>
                 <li>
-                    <a class="am-cf none">
+                    <a class="am-cf" href="/pc/account/manage">
                             <span class="jky_icon2">
-                                <img src="/static/dist/images/admin_pc/icon11.png" alt="">
+                                {{/*<img src="/static/dist/images/admin_pc/icon11.png" alt="">*/}}
                             </span>
                         <span class="tit"> 账号管理 </span>
                         <div class="jky_icon">
@@ -95,10 +84,22 @@
                         </div>
                     </a>
                 </li>
-                <li>
+                <li class="active">
                     <a class="am-cf" href="/pc/device/manage">
                             <span class="jky_icon2">
-                                <img src="/static/dist/images/admin_pc/icon12.png" alt="">
+                                {{/*<img src="/static/dist/images/admin_pc/icon10.png" alt="">*/}}
+                            </span>
+                        <span class="tit"> 设备管理 </span>
+                        <div class="jky_icon">
+                            <img src="/static/dist/images/admin_pc/icon5.png" alt="">
+                        </div>
+                    </a>
+                </li>
+
+                <li>
+                    <a class="am-cf" {{if eq .Userinfo.Authority 2}}{{else}}style="display:none"{{end}} href="/pc/host/config">
+                            <span class="jky_icon2">
+                                {{/*<img src="/static/dist/images/admin_pc/icon12.png" alt="">*/}}
                             </span>
                         <span class="tit"> 服务器地址 </span>
                         <div class="jky_icon">
@@ -154,7 +155,7 @@
 
                                         <div class="input-bar">
                                             <input type="text" data-id="{{.Id}}" value="{{.Devicesname}}"
-                                                   class="hd-in tc_info">
+                                                   class="hd-in tc_info" maxlength="10">
                                             <div class="del-btn">
                                                 <img src="/static/dist/images/admin_pc/icon42.png" alt="">
                                             </div>
@@ -188,7 +189,7 @@
                                             {{end}}
                                             <input data-address={{.Address}} data-name={{.Name}} data-type="{{.Type}}"
                                                    type="text" value="{{ .DeviceInforMation}}"
-                                                   class="itme-in device_comment">
+                                                   class="itme-in device_comment" maxlength="10">
                                             <div class="del-btn">
                                                 <img src="/static/dist/images/admin_pc/icon42.png" alt="">
                                             </div>
@@ -196,7 +197,7 @@
                                         {{end}}
                                         <div class="btn-bar">
                                             <div class="btn ty1 save">保存</div>
-                                            <div class="btn colse-btn">关闭</div>
+                                            {{/*<div class="btn colse-btn">关闭</div>*/}}
                                         </div>
                                     </div>
                                 </div>
@@ -349,17 +350,25 @@
         var tcId = $(this).parents('.divice-cont').find(".tc_info").data("id");//套餐ID
         var $deviceComment = $(this).parents('.divice-cont').find(".device_comment");//设备备注名称
         // var $deviceTypeEl = $(this).parents('.divice-cont').find(".devietype");//设备类型
-        var objJson = [];
+        var objJson = [],isnull = false;
         $deviceComment.each(function (i, el) {
             var obj = {};
             obj["type"] = $(el).data("type") + '';
             obj["deviceinformation"] = $(el).val();
             obj["devicename"] = tcName;
+            if(!$.trim(obj["deviceinformation"]) || !$.trim(obj["devicename"])){
+                isnull = true;
+                return
+            }
             obj["name"] = $(el).data("name");
             obj["address"] = $(el).data("address");
             objJson.push(obj);
         })
-        // console.log(objJson);
+        if(isnull){
+            jkyAlert("内容不能为空！","no")
+            return
+        }
+        console.log(objJson);
 
         $.post("/deviceiput", {
             actiontype: 1,
@@ -369,9 +378,9 @@
         }, function (json, status) {
             console.log(json, status);
             if (json.result == 0) {
-                alert(json.errmsg)
+                jkyAlert(json.errmsg,"yes")
             } else {
-                alert(json.errmsg)
+                jkyAlert(json.errmsg,"no")
             }
         }, 'json');
     });
@@ -400,7 +409,7 @@
                         + "<div class=\"divice-cont none\">"
                         + " <div class=\"hide-btn\">收起</div>"
                         + "<div class=\"input-bar\">"
-                        + " <input type=\"text\" data-id=" + resArr[i].id + " value=" + resArr[i].devicesname + " class=\"hd-in tc_info\">"
+                        + " <input maxlength=\"10\" type=\"text\" data-id=" + resArr[i].id + " value=" + resArr[i].devicesname + " class=\"hd-in tc_info\">"
                         + " <div class=\"del-btn\">"
                         + "<img src=\"/static/dist/images/admin_pc/icon42.png\" alt=\"\">"
                         + " </div>"
@@ -427,13 +436,13 @@
                                 html += " <label class=\"icon\" for=\"\"><img class=\"img1\" src=\"/static/dist/images/admin_pc/icon41.png\" alt=\"\"></label>"
                                 break;
                         }
-                        html += "<input data-address=" + resArr[i].DeviceInfos[j].Address + " data-name=" + resArr[i].DeviceInfos[j].Name + " data-type=" + resArr[i].DeviceInfos[j].Type + " type=\"text\" value=" + resArr[i].DeviceInfos[j].DeviceInforMation + " class=\"itme-in device_comment\">"
+                        html += "<input maxlength=\"10\" data-address=" + resArr[i].DeviceInfos[j].Address + " data-name=" + resArr[i].DeviceInfos[j].Name + " data-type=" + resArr[i].DeviceInfos[j].Type + " type=\"text\" value=" + resArr[i].DeviceInfos[j].DeviceInforMation + " class=\"itme-in device_comment\">"
                             + " <div class=\"del-btn\"> <img src=\"/static/dist/images/admin_pc/icon42.png\" alt= \"\" >"
                             + "</div>" + "</div>";
                     }
                     html += " <div class=\"btn-bar\">"
                         + "<div class=\"btn ty1 save\">保存</div>"
-                        + "<div class=\"btn colse-btn\">关闭</div>"
+                        // + "<div class=\"btn colse-btn\">关闭</div>"
                         + "</div>"
                         + "</div>"
                         + "</div>";

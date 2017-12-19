@@ -42,8 +42,11 @@ func (c AccountManageController) Manage(w *fit.Response, r *fit.Request, p fit.P
 		} else {
 			c.Data["Users"] = users
 		}
-
-		_ = c.LoadViewSafely(w, r, "pc/v_account_manage_create.html")
+		if userinfo.Authority >= 2 {
+			_ = c.LoadViewForAdministrator(true,w, r, "pc/v_account_manage_create.html")
+		} else {
+			_ = c.LoadViewSafely(w,r,"pc/v_account_manage_create.html")
+		}
 	} else {
 		fmt.Fprintln(w, "服务器有点繁忙！")
 	}
@@ -79,7 +82,11 @@ func (c AccountManageController) List(w *fit.Response, r *fit.Request, p fit.Par
 			c.Data["Users"] = users
 		}
 
-		_ = c.LoadViewSafely(w, r, "pc/v_account_manage_update.html")
+		if userinfo.Authority >= 2 {
+			_ = c.LoadViewForAdministrator(true,w, r, "pc/v_account_manage_update.html")
+		} else {
+			_ = c.LoadViewSafely(w,r,"pc/v_account_manage_update.html")
+		}
 	} else {
 		fmt.Fprintln(w, "服务器有点繁忙！")
 	}

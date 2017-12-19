@@ -100,15 +100,15 @@
                                     </div>
                                     <span style="font-size:14px;min-width: 10px;">(</span>
                                     <div class="input-box">
-                                        <input type="checkbox" id="check2-1" name="group2-2" class="check-1">
+                                        <input type="radio" id="check2-1" name="group2-2" class="check-1">
                                         <label for="check2-1">输液单</label>
                                     </div>
                                     <div class="input-box">
-                                        <input type="checkbox" id="check2-2" name="group2-2" class="check-1">
+                                        <input type="radio" id="check2-2" name="group2-2" class="check-1">
                                         <label for="check2-2">口服单</label>
                                     </div>
                                     <div class="input-box">
-                                        <input type="checkbox" id="check2-3" name="group2-2" class="check-1">
+                                        <input type="radio" id="check2-3" name="group2-2" class="check-1">
                                         <label for="check2-3">注射单</label>
                                     </div>
                                 {{/*<div class="input-box">*/}}
@@ -204,7 +204,7 @@
                                     </thead>
                                     <tbody class="change-div">
                                     {{range .MAdvices}}
-                                    <tr data-name="{{.PName}}" data-age="{{.PAge}}" data-bed="{{.PAge}} data-hosnum="{{.PAge}} data-sex="{{.PAge}}">
+                                    <tr data-name="{{.PName}}" data-age="{{.Age}}" data-bed="{{.Bed}}" data-hosnum="{{.HospNum}}" data-sex="{{.Gender}}" data-ptv="{{.PtTypeV}}">
                                         <td>
                                             <div class="table-input-bar">
                                                 <input type="checkbox" data-mid="{{.Gid}}" data-vid="{{.Vid}}"
@@ -214,7 +214,7 @@
                                         </td>
                                         <td>{{.PName}}</td>
                                         <td>{{.ExDay}}</td>
-                                        <td class="tc">{{.GroupNum}}</td>
+                                        <td class="tc gropnum" data-gropnum="{{.GroupNum}}">{{.GroupNum}}</td>
                                         <td class="yz-item">
                                         {{range .Contents}}
                                             <p class="td-p">{{.Content}}</p>
@@ -227,9 +227,9 @@
                                         {{end}}
                                         </td>
                                         <td class="tc">{{.Amount}}</td>
-                                        <td class="tc">{{.Frequency}}</td>
+                                        <td class="tc pc" data-pc="{{.Frequency}}">{{.Frequency}}</td>
                                         <td class="tc method" data-method="{{.Method}}">{{.Method}}</td>
-                                        <td class="tc">{{.Speed}}</td>
+                                        <td class="tc speed" data-speed="{{.Speed}}">{{.Speed}}</td>
                                         <td class="tc">{{.TypeOf}}</td>
                                         <td class="td10">
                                             <span class="l">{{.PtStatus}}</span>
@@ -322,12 +322,12 @@
         qo.print.type = "excution";
 
         $('#allPrint-radio').attr("checked", true);
-        qo.print.status = '0';
+        qo.print.status = '2';
 
         $('.date-input').attr("disabled", true);
 
-        $(".check-1").prop("checked", true);
-        $(".check-2").prop("checked", false);
+        $(".check-1").eq(0).prop("checked", true);
+        $(".check-2").eq(0).prop("checked", false);
     }
 
     var type = 0
@@ -372,10 +372,10 @@
             if (id == "excution") {
                 qo.print.type = "excution";
                 if ($(this).prop("checked")) {
-                    $(".check-1").prop("checked", true)
+                    $(".check-1").eq(0).prop("checked", true)
                     $(".check-2").prop("checked", false)
                 } else {
-                    $(".check-1").prop("checked", false)
+                    $(".check-1").eq(0).prop("checked", false)
                     $(".check-2").prop("checked", true)
                 }
             } else if (id == "label") {
@@ -395,11 +395,11 @@
         $('div.input-box').find("input[name='group3']").change(function () {
             var id = $(this).attr("id");
             if (id == "nonPrint-radio") {
-                qo.print.status = '2';
+                qo.print.status = '0';
             } else if (id == "printed-radio") {
                 qo.print.status = '1';
             } else if (id == "allPrint-radio") {
-                qo.print.status = '0';
+                qo.print.status = '2';
             }
         });
 
@@ -466,61 +466,64 @@
                     //     data: qo
                     // });
 
-                    console.log(params)
+                    // console.log(params)
 
             $.post("/pc/madvice/split/search", params, function (json, status) {
                 if (json.result == 0) {
+
                     var resArr = json.datas;
                     var html = '';
-
                     for (var i = 0; i < resArr.length; i++) {
                         var obj = resArr[i]
-
-                        html += "<tr data-name=" + obj.PName + ">\n" +
+                        html += "<tr data-name=\""+obj.pName+"\" data-age=\""+obj.age+"\" data-bed=\""+obj.bed+"\" data-hosnum=\""+obj.hospNum+"\" data-ptv=\""+obj.ptTypeV+"\" data-sex=\""+obj.gender+"\">" +
                                 "<td>\n" +
                                 "<div class=\"table-input-bar\">\n" +
-                                "<input type=\"checkbox\" data-mid=\"" + obj.Gid + "\" data-vid=\"" + obj.Vid + "\" data-ext=\"" + obj.ExTime + "\" data-exc=\"" + obj.ExCycle + "\">\n" +
-                                "<label for=\"\">" + obj.Bed + "</label>\n" +
+                                "<input type=\"checkbox\" data-mid=\"" + obj.gid + "\" data-vid=\"" + obj.vid + "\" data-ext=\"" + obj.exTime + "\" data-exc=\"" + obj.exCycle + "\">\n" +
+                                "<label for=\"\">" + obj.bed + "</label>\n" +
                                 "</div>\n" +
                                 "</td>\n" +
-                                "<td>" + obj.PName + "</td>\n" +
-                                "<td>" + obj.ExTime + "</td>\n" +
-                                "<td class=\"tc\">" + obj.GroupNum + "</td>\n" +
+                                "<td>" + obj.pName + "</td>\n" +
+                                "<td>" + obj.exTime + "</td>\n" +
+                                "<td class=\"tc gropnum\" data-gropnum=\"" + obj.groupNum + "\">" + obj.groupNum + "</td>\n" +
                                 "<td class=\"yz-item\">"
 
-                        for (var idx = 0; idx < obj.Contents.length; idx++) {
-                            const temp = obj.Contents[idx]
-                            html += "<p class=\"td-p\">" + temp.Content + "</p>\n"
+                        for (var idx = 0; idx < obj.contents.length; idx++) {
+                            const temp = obj.contents[idx]
+                            html += "<p class=\"td-p\">" + temp.content + "</p>\n"
                         }
 
                         html += "</td>\n" +
                                 "<td class=\"yz-item\">\n"
 
-                        for (var idx = 0; idx < obj.Contents.length; idx++) {
-                            const temp = obj.Contents[idx]
-                            html += "<p class=\"td-p\">" + temp.Dosage + "</p>\n"
+                        for (var idx = 0; idx < obj.contents.length; idx++) {
+                            const temp = obj.contents[idx]
+                            html += "<p class=\"td-p\">" + temp.dosage + "</p>\n"
                         }
 
                         html += "</td>\n" +
-                                "<td class=\"tc\">" + obj.Amount + "</td>\n" +
-                                "<td class=\"tc\">" + obj.Frequency + "</td>\n" +
-                                "<td class=\"tc method\" data-method="+obj.Method+">" + obj.Method + "</td>\n" +
-                                "<td class=\"tc\">" + obj.Speed + "</td>\n" +
-                                "<td class=\"tc\">" + obj.TypeOf + "</td>\n" +
+                                "<td class=\"tc\">" + obj.amount + "</td>\n" +
+                                "<td class=\"tc pc\" data-pc=\""+obj.frequency+"\">" + obj.frequency + "</td>\n" +
+                                "<td class=\"tc method\" data-method=\""+obj.method+"\">" + obj.method + "</td>\n" +
+                                "<td class=\"tc speed\" data-speed=\""+obj.speed+"\">" + obj.speed + "</td>\n" +
+                                "<td class=\"tc\">" + obj.typeOf + "</td>\n" +
                                 "<td class=\"td10\">\n" +
-                                "<span class=\"l\">" + obj.PtStatus + "</span>\n" +
-                                "<span class=\"r xh\" data-xh="+ "序号"+obj.ExCycle + "/" + obj.Times+">序号" + obj.ExCycle + "/" + obj.Times + "</span>\n" +
+                                "<span class=\"l\">" + obj.ptStatus + "</span>\n" +
+                                "<span class=\"r xh\" data-xh="+ "序号"+obj.exCycle + "/" + obj.times+">序号" + obj.exCycle + "/" + obj.times + "</span>\n" +
                                 "</td>\n" +
                                 "</tr>"
                     }
                     $(".change-div").html(html)
 
-                    if($("#excution").prop("checked")){
+                    if($("#check2-1").prop("checked")){
                         type=1
-                    }else if($("#check3-1").prop("checked")){
+                    }else if($("#check2-2").prop("checked")){
                         type=2
-                    }else if($("#check3-2").prop("checked")){
+                    }else if($("#check2-3").prop("checked")){
                         type=3
+                    }else if($("#check3-1").prop("checked")){
+                        type=4
+                    }else if($("#check3-2").prop("checked")){
+                        type=5
                     }
                 } else {
                     alert(json.errmsg)
@@ -602,15 +605,34 @@
     })
 
 
-    $('.cont-table').on('click', 'tr', function () {
+    $('.cont-table').on('click', 'tr', function (e) {
+        // console.log(e.target,e)
+        // console.log()
+
         var $checkbox = $(this).find('input[type=checkbox]')
-        if ($checkbox.is(':checked')) {
-            $(this).removeClass("active")
-            $checkbox.prop("checked", false)
-        } else {
-            $(this).addClass("active")
-            $checkbox.prop("checked", true)
+        if($(e.target).is("input[type=checkbox]")){
+            var $this = $(this);
+            setTimeout(function(){
+                var isCheck =  $checkbox.is(':checked')
+                if (isCheck) {
+                    $this.addClass("active")
+                } else {
+                    $this.removeClass("active")
+                }
+            },0)
+
+        }else{
+            if ($checkbox.is(':checked')) {
+                $(this).removeClass("active")
+                $checkbox.prop("checked", false)
+
+            } else {
+                $(this).addClass("active")
+                $checkbox.prop("checked", true)
+
+            }
         }
+
     })
 
 
@@ -695,11 +717,23 @@
         $trActive.each(function (i, el) {
             var obj = {};
             var $chekcbox = $(el).find(".table-input-bar").find("input[type=checkbox]")
-            obj.mid = $chekcbox.data("mid")
-            obj.vid = $chekcbox.data("vid")
-            obj.name = $(el).data("name")
-            obj.ff = $(el).find(".method").data("method")
-            obj.xh = $(el).find(".xh").data("xh")
+            obj.mid = $chekcbox.data("mid")// 医嘱ID
+            obj.vid = $chekcbox.data("vid")+""// 就诊ID（跟病人ID挂钩）
+            obj.exc = $chekcbox.data("exc")+""//执行序号
+            obj.ext = $chekcbox.data("ext")+""//计划执行日期
+            obj.name = $(el).data("name")+""//姓名
+            obj.age = $(el).data("age")+""//年龄
+            obj.bed = $(el).data("bed")+""//床位
+            obj.sex = $(el).data("sex")+""//性别
+            obj.hosnum = $(el).data("hosnum")+""//住院号
+            obj.ptv = $(el).data("ptv")+""//单子类型
+
+            obj.ff = $(el).find(".method").data("method")+""
+            obj.xh = $(el).find(".xh").data("xh")+""
+            obj.gropnum = $(el).find(".gropnum").data("gropnum")+""
+            obj.pc = $(el).find(".pc").data("pc")+""
+            obj.speed = $(el).find(".speed").data("speed")+""//滴速
+
             obj.list = []
             $(el).find(".yz-item").eq(0).find(".td-p").each(function (i, el2) {
                 var arr = [];
@@ -713,16 +747,41 @@
         $("#reqdata").val(resStr)
         if ($trActive.length) {
             if(type==0){
-                jkyAlert("请先搜索后更新数据")
+                jkyAlert("请先搜索后更新数据");
                 return
             }else{
-                $("#fromreq").prop("action","/pc/ptprint?type="+type)
+                $("#fromreq").prop("action","/pc/ptprint?type="+type);
             }
             $("#fromreq").submit();
+            console.log(JSON.stringify({json:res}))
+            var res2 = []
+            $.each(res,function(i,val){
+                var obj = {}
+                obj["gid"] = val.mid+""
+                obj["ext"] = val.ext+""
+                obj["exc"] = val.exc+""
+                obj["ptType"] = val.ptv+""
+                res2.push(obj)
+            })
+            $.ajax({
+                url:"/pc/madvice/exec/print",
+                data: {json:JSON.stringify(res2)},
+                type: "POST",
+                success: function (data) {
+                    console.log(data);
+
+                },
+                error: function (e) {
+                    console.log(e);
+                },
+                dataType: "json"
+            })
+
         } else {
-            jkyAlert("请选择要打印的数据！" + type, "no")
+            jkyAlert("请选择要打印的数据！", "no");
         }
-        // $("#reqdata")
+        // $("#fromreq").prop("action","/pc/ptprint?type="+type)
+        // $("#fromreq").submit();
     })
 </script>
 </body>

@@ -246,7 +246,7 @@
     <p align="center" class="tit">深圳万丰医院-交接班表（内科）</p>
 <table width="1064"  border="1" cellspacing="0" bordercolor="#666666">
     <tr>
-        <td height="24" colspan="7" scope="col"> 日期：
+        <td height="24" colspan="7" scope="col"> 日期：{{.DateTime}}
             <div align="center"></div>
             <div align="center"></div>
             <div align="center"></div>
@@ -268,65 +268,65 @@
         </td>
     </tr>
     <tr>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">原有病人：</span></td>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">现有病人：</span></td>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">原有病人：</span></td>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">现有病人：</span></td>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">原有病人：</span></td>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">现有病人：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">原有病人：{{.d_NoldPatient}}</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">现有病人：{{.d_NnowPatient}}</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">原有病人：{{.n_NoldPatient}}</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">现有病人：{{.n_NnowPatient}}</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">原有病人：{{.N_NoldPatient}}</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">现有病人：{{.N_NnowPatient}}</span></td>
     </tr>
     <tr>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">入院：</span></td>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">出院：</span></td>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">入院：</span></td>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">出院：</span></td>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">入院：</span></td>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">出院：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">入院：{{.d_NintHospital}}</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">出院：{{.d_NoutHospital}}</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">入院：{{.n_NintHospital}}</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">出院：{{.n_NoutHospital}}</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">入院：{{.N_NintHospital}}</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">出院：{{.N_NoutHospital}}</span></td>
     </tr>
     <tr>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">转入：</span></td>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">转出：</span></td>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">转入：</span></td>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">转出：</span></td>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">转入：</span></td>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">转出：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">转入：{{.d_Ninto}}</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">转出：{{.d_Nout}}</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">转入：{{.n_Ninto}}</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">转出：{{.n_Nout}}</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">转入：{{.N_Ninto}}</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">转出：{{.N_Nout}}</span></td>
     </tr>
     <tr>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">手术：</span></td>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">分娩：</span></td>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">手术：</span></td>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">分娩：</span></td>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">手术：</span></td>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">分娩：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">手术：{{.d_Nsurgery}}</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">分娩：{{.d_Nchildbirth}}</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">手术：{{.n_Nsurgery}}</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">分娩：{{.n_Nchildbirth}}</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">手术：{{.N_Nsurgery}}</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">分娩：{{.N_Nchildbirth}}</span></td>
     </tr>
     <tr>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">危重：</span></td>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">死亡：</span></td>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">危重：</span></td>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">死亡：</span></td>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">危重：</span></td>
-        <td width="60" nowrap="nowrap"><span class="STYLE2">死亡：</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">危重：{{.d_Ncritically}}</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">死亡：{{.d_Ndeath}}</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">危重：{{.n_Ncritically}}</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">死亡：{{.n_Ndeath}}</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">危重：{{.N_Ncritically}}</span></td>
+        <td width="60" nowrap="nowrap"><span class="STYLE2">死亡：{{.N_Ndeath}}</span></td>
     </tr>
     <tr>
         <td colspan="2" nowrap="nowrap">
-            <div align="center"><span class="STYLE2">特护：</span><span class="STYLE2"></span></div>
+            <div align="center"><span class="STYLE2">特护：{{.d_NintensiveCare}}</span><span class="STYLE2"></span></div>
         </td>
         <td colspan="2" nowrap="nowrap">
-            <div align="center"><span class="STYLE2">特护：</span><span class="STYLE2"></span></div>
+            <div align="center"><span class="STYLE2">特护：{{.n_NintensiveCare}}</span><span class="STYLE2"></span></div>
         </td>
         <td colspan="2" nowrap="nowrap">
-            <div align="center"><span class="STYLE2">特护：</span><span class="STYLE2"></span></div>
+            <div align="center"><span class="STYLE2">特护：{{.N_NintensiveCare}}</span><span class="STYLE2"></span></div>
         </td>
     </tr>
     <tr>
         <td colspan="2" nowrap="nowrap">
-            <div align="center"><span class="STYLE2">一级护理：</span><span class="STYLE2"></span></div>
+            <div align="center"><span class="STYLE2">一级护理：{{.d_NprimaryCare}}</span><span class="STYLE2"></span></div>
         </td>
         <td colspan="2" nowrap="nowrap">
-            <div align="center"><span class="STYLE2">一级护理：</span><span class="STYLE2"></span></div>
+            <div align="center"><span class="STYLE2">一级护理：{{.n_NprimaryCare}}</span><span class="STYLE2"></span></div>
         </td>
         <td colspan="2" nowrap="nowrap">
-            <div align="center"><span class="STYLE2">一级护理：</span><span class="STYLE2"></span></div>
+            <div align="center"><span class="STYLE2">一级护理：{{.N_NprimaryCare}}</span><span class="STYLE2"></span></div>
         </td>
     </tr>
     <tr>
@@ -431,9 +431,9 @@
     <tr>
         <td width="146" height="50" align="left"><p><span class="STYLE1"><span class="STYLE2"><span
                 class="STYLE2"></span></span></span></p></td>
-        <td height="50" colspan="2">签名：</td>
-        <td height="50" colspan="2"><span class="STYLE2">签名：</span></td>
-        <td height="50" colspan="2"><span class="STYLE2">签名：</span></td>
+        <td height="50" colspan="2">签名：{{.d_NursingName}}</td>
+        <td height="50" colspan="2"><span class="STYLE2">签名：{{.n_NursingName}}</span></td>
+        <td height="50" colspan="2"><span class="STYLE2">签名：{{.N_NursingName}}</span></td>
     </tr>
 </table>
 </div>

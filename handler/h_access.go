@@ -10,17 +10,14 @@ type AccessController struct {
 	fit.Controller
 }
 
-//type VAA1 struct {
-//	VAA01 int    // 病人id
-//	VAA05 string // 姓名
-//	ABW01 string // 性别 0=未知，1=M=男，2=F=女，9=未说明
-//	VAA10 int    // 年龄
-//	BCQ04 string // 床号
-//}
-
-func (c AccessController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
+func (c AccessController) AddAccess(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 
+	/*mod := model.Access{}
+	c.FitSetStruct(&mod, r)
+	fmt.Printf(" access :%+v\n\n", mod)
+	c.RenderingJson(0, "test", mod)
+	return*/
 	accessType, err1 := model.Access{}.ParseAccessType(r.FormValue("access_type"))
 	accessReason, err2 := model.Access{}.ParseAccessReason(r.FormValue("access_reason"))
 	accessTime := r.FormValue("access_time")
@@ -46,10 +43,9 @@ func (c AccessController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 	}
 
 	accessModel := model.Access{
-		BaseModel: model.BaseModel{
-			NurseId:   nurseId,
-			PatientId: patientId,
-			NurseName:    nurseName},
+		NurseId:      nurseId,
+		PatientId:    patientId,
+		NurseName:    nurseName,
 		AccessType:   accessType,
 		AccessReason: accessReason,
 		AccessTime:   accessTime,
@@ -71,11 +67,8 @@ func (c AccessController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
 	}
 }
 
-type AccessListController struct {
-	fit.Controller
-}
 
-func (c AccessListController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
+func (c AccessController) AccessList(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 
 	classId := r.FormValue("class_id")
@@ -109,11 +102,9 @@ func (c AccessListController) Post(w *fit.Response, r *fit.Request, p fit.Params
 	}
 }
 
-type AccessSearchController struct {
-	fit.Controller
-}
 
-func (c AccessSearchController) Post(w *fit.Response, r *fit.Request, p fit.Params) {
+
+func (c AccessController) AccessSearch(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 
 	classId := r.FormValue("class_id")
