@@ -149,18 +149,32 @@ type VAA1 struct {
 func init() {
 	fit.RegisterMime()
 	// 请不要随意创建新的线程
-	go synchronizing()
+	//go synchronizing()
+	//开始一个定时任务同步数据
+	ticker := time.NewTicker(time.Minute * time.Duration(fit.Config().Cycle) )
+	go func() {
+		for range ticker.C {
+			if !fit.SartOK {
+				continue
+			}
+			synchronizingVAA1()
+			synchronizingBCE1()
+		}
+	}()
 }
 
 //同步用户信息到我们系统
 func synchronizing() {
+	t := time.NewTimer(time.Minute * time.Duration(fit.Config().Cycle))
 	for {
 		if !fit.SartOK {
 			continue
 		}
-		synchronizingBCE1()
 		synchronizingVAA1()
-		time.Sleep(time.Minute * time.Duration(fit.Config().Cycle)) // 停顿5分钟
+		synchronizingBCE1()
+		//time.Sleep(time.Minute * time.Duration(fit.Config().Cycle)) // 停顿5分钟
+
+		<-t.C
 	}
 }
 
@@ -168,13 +182,15 @@ func synchronizingBCE1() {
 	mods := make([]BCE1, 0)
 	timeMark := time.Now()
 	fit.SQLServerEngine().SQL("SELECT * FROM BCE1").Find(&mods)
-	for _, k := range mods {
-		_, err := fit.MySqlEngine().Exec("delete from BCE1 where BCE01 = ?", k.BCE01)
-		_, err = fit.MySqlEngine().Table("BCE1").InsertOne(&k)
-		if err != nil {
-			fmt.Println("***JK", err.Error())
-		}
-	}
+	//for _, k := range mods {
+	//	_, err := fit.MySqlEngine().Exec("delete from BCE1 where BCE01 = ?", k.BCE01)
+	//	_, err = fit.MySqlEngine().Table("BCE1").InsertOne(&k)
+	//	if err != nil {
+	//		fmt.Println("***JK", err.Error())
+	//	}
+	//}
+	fit.MySqlEngine().SQL("TRUNCATE BCE1").Find(&mods)
+	fit.MySqlEngine().Table("BCE1").Insert(&mods)
 	timeNow := time.Now()
 	timeDur := timeNow.Sub(timeMark)
 
@@ -190,14 +206,17 @@ func synchronizingVAA1() {
 	// 查询所有病区在院+入院的病人
 	fit.SQLServerEngine().SQL("select VAA1.* from BCK1,BCQ1, VAA1 where BCK1.BCK01A = 141 and BCQ1.BCK01A = BCK1.BCK01 and BCQ1.VAA01 != 0 and VAA1.VAA01 = BCQ1.VAA01").Find(&mods)
 	//fit.SQLServerEngine().SQL("SELECT * FROM VAA1").Find(&mods)
-	for _, k := range mods {
+	//for _, k := range mods {
+	//
+	//	_, err := fit.MySqlEngine().Exec("delete from VAA1 where VAA01 = ?", k.VAA01)
+	//	_, err = fit.MySqlEngine().Table("VAA1").InsertOne(&k)
+	//	if err != nil {
+	//		fmt.Println("***JK", err.Error(), "  ", k)
+	//	}
+	//}
+	fit.MySqlEngine().SQL("TRUNCATE VAA1").Find(&mods)
+	fit.MySqlEngine().Table("VAA1").Insert(&mods)
 
-		_, err := fit.MySqlEngine().Exec("delete from VAA1 where VAA01 = ?", k.VAA01)
-		_, err = fit.MySqlEngine().Table("VAA1").InsertOne(&k)
-		if err != nil {
-			fmt.Println("***JK", err.Error(), "  ", k)
-		}
-	}
 	timeNow := time.Now()
 	timeDur := timeNow.Sub(timeMark)
 
