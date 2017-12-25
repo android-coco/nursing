@@ -13,8 +13,8 @@ import (
 type TemperatrureChat struct {
 	Id        int64        `json:"id" xorm:"pk autoincr"`
 	HeadType  string       `json:"headtype" xorm:"notnull comment(头部类型)"`
-	DateTime  fit.JsonTime `json:"testtime" xorm:"notnull comment(日期时间)"`
-	TestTime  fit.JsonTime `json:"testtime" xorm:"notnull comment(测试时间)"`
+	DateTime  FitTime `json:"testtime" xorm:"notnull comment(日期时间)"`
+	TestTime  FitTime `json:"testtime" xorm:"notnull comment(测试时间)"`
 	TypeTime  int          `json:"typetime" xorm:"notnull comment(时间段)"`
 	SubType   int          `json:"type" xorm:"notnull comment(类型,)"`
 	Other     int          `json:"other" xorm:"notnull comment(其他可能选项,)"`

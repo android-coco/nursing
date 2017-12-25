@@ -15,7 +15,13 @@
         </div>
     </div>-->
     <!-- ========== Left Sidebar end ========== -->
-
+    <style>
+        td{
+            position: relative;
+            z-index: 99;
+            background: #fff;
+        }
+    </style>
 
     <div class="content-page type2" style="margin-top: 10px;">
 
@@ -101,11 +107,11 @@
                             </div>
                             <ul class="week-list">
                                 <li>
-                                    <a  class="leftLast-btn"><img src="/static/dist/images/admin_pc/icon26.png"
+                                    <a  class="leftLast-btn {{if eq .PageIndex 1}}noneClick{{end}}"><img src="/static/dist/images/admin_pc/icon26.png"
                                                                           alt=""></a>
                                 </li>
                                 <li>
-                                    <a  class="left-btn"><img src="/static/dist/images/admin_pc/icon24.png"
+                                    <a  class="left-btn {{if eq .PageIndex 1}}noneClick{{end}}"><img src="/static/dist/images/admin_pc/icon24.png"
                                                                       alt=""></a>
                                 </li>
                                 <li>
@@ -116,11 +122,11 @@
                                     </select>
                                 </li>
                                 <li>
-                                    <a  class="right-btn"><img src="/static/dist/images/admin_pc/icon25.png"
+                                    <a  class="right-btn {{if eq .PageIndex .Weeknum}}noneClick{{end}}"><img src="/static/dist/images/admin_pc/icon25.png"
                                                                        alt=""></a>
                                 </li>
                                 <li>
-                                    <a  class="rightLast-btn"><img src="/static/dist/images/admin_pc/icon27.png"
+                                    <a  class="rightLast-btn {{if eq .PageIndex .Weeknum}}noneClick{{end}}"><img src="/static/dist/images/admin_pc/icon27.png"
                                                                            alt=""></a>
                                 </li>
                             </ul>
@@ -303,7 +309,8 @@
 
 
                                             <tr class="data-box">
-                                                <td class="btop1" colspan="2">&nbsp;
+
+                                                    <td class="btop1" colspan="2">&nbsp;
                                                     <span class="mb-tit sel" data-val="3">
                                                         脉搏<br>
                                                         (次/分)
@@ -329,7 +336,7 @@
 
                                                     </div>
                                                 </td>
-                                                <td colspan="7" class="tab-cont-box" id="incident-td" style="overflow: hidden;">
+                                                    <td colspan="7" class="tab-cont-box" id="incident-td" >
                                                     <div class="data-warp">
                                                         <div id="data-main" style="width: 921px; height: 1200px;"></div>
                                                     </div>
@@ -520,6 +527,7 @@
                                                         </div>
                                                     </div>
                                                 </td>
+
                                             </tr>
                                             <tr class="hx-tr" id="hxc_bar">
                                                 <td class="tit" colspan="2">呼吸(次/分)</td>
@@ -905,7 +913,7 @@
             }
         });
 
-        // 血压
+        // 体重
         $("#weight-tr").find("td").each(function (i, el) {
             if (i != 0) {
                 $(el).text(weight[i - 1])
@@ -1034,7 +1042,9 @@
         })
 
     });
-
+    $("body").on("click",".noneClick",function(){
+        return false;
+    })
 
 </script>
 

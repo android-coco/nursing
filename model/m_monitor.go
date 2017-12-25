@@ -21,9 +21,11 @@ type MonitorInfo struct {
 	V13            string          `xorm:"comment(留置导尿)" json:"v13"`
 	V14            string          `xorm:"comment(计24小时尿量)" json:"v14"`
 	V15            string          `xorm:"comment(计24小时出入量)" json:"v15"`
-	V16            string          `xorm:"comment(生命体征监测)" json:"v16"`
-	V17            string          `xorm:"comment(自定义1)" json:"v17"`
-	V18            string          `xorm:"comment(自定义2)" json:"v18"`
+	V16            string          `xorm:"comment(血压监测)" json:"v16"`
+	V17            string          `xorm:"comment(血糖监测)" json:"v17"`
+	V18            string          `xorm:"comment(自定义1)" json:"v18"`
+	V19            string          `xorm:"comment(自定义2)" json:"v19"`
+	V20            string          `xorm:"comment(其他)" json:"v20"`
 	NurseName      string          `xorm:"comment(值班护士)" json:"nursename"`
 	DoctorName     string          `xorm:"comment(值班医生)" json:"doctorname"`
 	Speed          string          `xorm:"comment(轮播速度等级1,2,3,4)" json:"speed"`
@@ -32,7 +34,7 @@ type MonitorInfo struct {
 	UserName       string          `xorm:"comment(最后编辑人)" json:"username"`
 	ClassName      string          `xorm:"comment(科室名称)" json:"classname"`
 	ClassId        string          `xorm:"comment(科室ID)" json:"classid"`
-	MonitorNotifys []MonitorNotify `xorm:"-" json:"notifys"` //通知内容 多个内容
+	MonitorNotifys []MonitorNotify `xorm:"extends" json:"notifys"` //通知内容 多个内容
 }
 
 type MonitorNotify struct {
@@ -44,7 +46,7 @@ type MonitorNotify struct {
 // 查询数据
 func TVQueryMonitor(classid string) (monitors []MonitorInfo, err error) {
 	monitors = make([]MonitorInfo, 0)
-	err = fit.MySqlEngine().SQL("SELECT * FROM monitorinfo WHERE classid = ? ORDER BY updatetime DESC limit 1", classid).Find(&monitors)
+	err = fit.MySqlEngine().SQL("SELECT * FROM monitorinfo WHERE classid = ?  ORDER BY updatetime DESC", classid).Find(&monitors)
 	if err != nil {
 		return
 	}

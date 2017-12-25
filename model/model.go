@@ -6,6 +6,7 @@ import (
 	//"fmt"
 	"fmt"
 	"fit"
+	"time"
 )
 
 type I_BaseMoel interface {
@@ -38,6 +39,46 @@ func AbsInt(i int64) int64 {
 }
 
 
+//type JsonTime time.Time
+
+type FitTime time.Time
+
+func (t FitTime) MarshalJSON() ([]byte, error) {
+	return []byte(`"`+time.Time(t).Format("2006-01-02 15:04:05")+`"`), nil
+}
+
+func (t FitTime) String() string {
+	return time.Time(t).Format("2006-01-02 15:04:05")
+}
+
+func (t FitTime) NormParse() string {
+	return time.Time(t).Format("2006-01-02 15:04:05")
+}
+
+func (t FitTime) NormParse2() string {
+	return time.Time(t).Format("2006-01-02 15:04")
+}
+
+
+func (t FitTime) ParseDate() string {
+	return time.Time(t).Format("2006-01-02")
+}
+
+func (t FitTime) ParseTime() string {
+	return time.Time(t).Format("15:04")
+}
+
+func (t FitTime) IOParse() string {
+	return time.Time(t).Format("01-02 15:04")
+}
+
+func (t FitTime) Before(t2 FitTime) bool  {
+	return time.Time(t).Before(time.Time(t2))
+}
+
+func (t FitTime) Sub(t2 FitTime) time.Duration  {
+	return time.Time(t).Sub(time.Time(t2))
+}
 
 /*func (mod BaseModel) InsertData(a interface{}) error {
 	_, err := fit.MySqlEngine().Insert(a)

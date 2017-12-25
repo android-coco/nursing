@@ -34,7 +34,7 @@ func (t DatetimeWithoutSeconds) ParseToMinute() string {
 //	Value         uint16       `json:"value" xorm:"notnull comment(采集值)"`
 //	Desc          string       `json:"desc" xorm:"comment(描述)"`
 //	NurseName     string       `json:"nurse_name" xorm:"notnull comment(护士姓名)"`
-//	Testtime      fit.JsonTime `json:"recordTime" xorm:"notnull comment(采集时间)"`
+//	Testtime      FitTime `json:"recordTime" xorm:"notnull comment(采集时间)"`
 //	OtherDesc     string       `json:"other_desc" xorm:"comment(其它出量的补充描述)"`
 //}
 //

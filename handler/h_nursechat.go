@@ -53,7 +53,7 @@ func (c NurseChatController) NurseChatInput(w *fit.Response, r *fit.Request, p f
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
 		item.PatientId = patient_id
-		item.TestTime = fit.JsonTime(test_time)
+		item.TestTime = model.FitTime(test_time)
 
 		item.HeadType = model.Temperature_Type
 		item.Value = thm_value
@@ -83,7 +83,7 @@ func (c NurseChatController) NurseChatInput(w *fit.Response, r *fit.Request, p f
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
 		item.PatientId = patient_id
-		item.TestTime = fit.JsonTime(test_time)
+		item.TestTime = model.FitTime(test_time)
 
 		item.HeadType = model.Pulse_Type
 		item.Value = pulse_value
@@ -113,7 +113,7 @@ func (c NurseChatController) NurseChatInput(w *fit.Response, r *fit.Request, p f
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
 		item.PatientId = patient_id
-		item.TestTime = fit.JsonTime(test_time)
+		item.TestTime = model.FitTime(test_time)
 
 		item.HeadType = model.Breathe_Type
 		item.Value = breathe_value
@@ -143,7 +143,7 @@ func (c NurseChatController) NurseChatInput(w *fit.Response, r *fit.Request, p f
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
 		item.PatientId = patient_id
-		item.TestTime = fit.JsonTime(test_time)
+		item.TestTime = model.FitTime(test_time)
 
 		item.HeadType = model.Shit_Type
 		item.Value = shit_value
@@ -173,7 +173,7 @@ func (c NurseChatController) NurseChatInput(w *fit.Response, r *fit.Request, p f
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
 		item.PatientId = patient_id
-		item.TestTime = fit.JsonTime(test_time)
+		item.TestTime = model.FitTime(test_time)
 
 		item.HeadType = model.Pressure_Type
 		item.Value = pressure_value
@@ -196,7 +196,7 @@ func (c NurseChatController) NurseChatInput(w *fit.Response, r *fit.Request, p f
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
 		item.PatientId = patient_id
-		item.TestTime = fit.JsonTime(test_time)
+		item.TestTime = model.FitTime(test_time)
 
 		item.HeadType = model.Heartrate_Type
 		item.Value = heartrate_value
@@ -219,7 +219,7 @@ func (c NurseChatController) NurseChatInput(w *fit.Response, r *fit.Request, p f
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
 		item.PatientId = patient_id
-		item.TestTime = fit.JsonTime(test_time)
+		item.TestTime = model.FitTime(test_time)
 
 		item.HeadType = model.Spo2h_Type
 		item.Value = spo2h_value
@@ -250,7 +250,7 @@ func (c NurseChatController) NurseChatInput(w *fit.Response, r *fit.Request, p f
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
 		item.PatientId = patient_id
-		item.TestTime = fit.JsonTime(test_time)
+		item.TestTime = model.FitTime(test_time)
 
 		item.HeadType = model.Glucose_Type
 		item.Value = glucose_value
@@ -280,7 +280,7 @@ func (c NurseChatController) NurseChatInput(w *fit.Response, r *fit.Request, p f
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
 		item.PatientId = patient_id
-		item.TestTime = fit.JsonTime(test_time)
+		item.TestTime = model.FitTime(test_time)
 
 		item.HeadType = model.Weight_Type
 		item.Value = weight_value
@@ -310,7 +310,7 @@ func (c NurseChatController) NurseChatInput(w *fit.Response, r *fit.Request, p f
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
 		item.PatientId = patient_id
-		item.TestTime = fit.JsonTime(test_time)
+		item.TestTime = model.FitTime(test_time)
 
 		item.HeadType = model.Height_Type
 		item.Value = height_value
@@ -333,7 +333,7 @@ func (c NurseChatController) NurseChatInput(w *fit.Response, r *fit.Request, p f
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
 		item.PatientId = patient_id
-		item.TestTime = fit.JsonTime(test_time)
+		item.TestTime = model.FitTime(test_time)
 
 		item.HeadType = model.Skin_Type
 		item.Value = skin_value
@@ -356,7 +356,7 @@ func (c NurseChatController) NurseChatInput(w *fit.Response, r *fit.Request, p f
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
 		item.PatientId = patient_id
-		item.TestTime = fit.JsonTime(test_time)
+		item.TestTime = model.FitTime(test_time)
 
 		item.HeadType = model.Other_Type
 		item.Value = other_value
@@ -385,7 +385,7 @@ func (c NurseChatController) NurseChatInput(w *fit.Response, r *fit.Request, p f
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
 		item.PatientId = patient_id
-		item.TestTime = fit.JsonTime(test_time)
+		item.TestTime = model.FitTime(test_time)
 
 		item.HeadType = model.Incident_Type
 		item.Value = ""

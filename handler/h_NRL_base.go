@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"strconv"
 	"time"
+	"nursing/utils"
 )
 
 type NRLController struct {
@@ -137,13 +138,13 @@ func (c NRLController) NRLCheck(w *fit.Response, r *fit.Request, p fit.Params, n
 		return
 	}
 
-	pid, err1 := model.NRLQueryNRLModel(nrlMod)
+	pid, _, err1 := model.NRLQueryNRLModel(nrlMod)
 	if err1 != nil {
 		fit.Logger().LogError("m_NRL", err1)
 		fmt.Fprintln(w, " 无法查询到相关病人的信息. error :", err1.Error())
 		return
 	}
-	fmt.Println("pid:", pid)
+	//fmt.Println("pid:", pid)
 
 	if obj, ok := nrlMod.(*model.NRL7); ok {
 		nrl7Title := model.NRL7Title{PatientId: obj.PatientId}
@@ -207,11 +208,11 @@ func (c NRLController) NRLEdit(w *fit.Response, r *fit.Request, p fit.Params, nr
 			fmt.Fprintln(w, "参数错误！")
 			return
 		}
-
 		switch obj := nrlMod.(type) {
 		case *model.NRL3:
 			tplname = "v_nrl3_edit.html"
 			obj.ID = rid
+
 		case *model.NRL4:
 			tplname = "v_nrl4_edit.html"
 			obj.ID = rid
@@ -233,13 +234,14 @@ func (c NRLController) NRLEdit(w *fit.Response, r *fit.Request, p fit.Params, nr
 			return
 		}
 
-		_, err1 := model.NRLQueryNRLModel(nrlMod)
+		pidnum, uidstr, err1 := model.NRLQueryNRLModel(nrlMod)
 		if err1 != nil {
 			fit.Logger().LogError("m_NRL", err1)
 			fmt.Fprintln(w, " 无法查询到相关病人的信息. error :", err1.Error())
 			return
 		}
-
+		pid = utils.FormatInt64(pidnum)
+		uid = uidstr
 	} else {
 		fmt.Fprintln(w, "参数错误！")
 		return
@@ -257,7 +259,7 @@ func (c NRLController) NRLEdit(w *fit.Response, r *fit.Request, p fit.Params, nr
 		return
 	}
 	patient := pinfo[0]
-
+	fmt.Println("-----------", pid, "uid:", uid)
 	account, err2 := model.FetchAccountWithUid(uid)
 	if err2 != nil {
 		fit.Logger().LogError("NRL PDA err：", err2)
@@ -298,37 +300,44 @@ func (c NRLController) NRLAddRecord(w *fit.Response, r *fit.Request, p fit.Param
 		patientId          int64
 		nurseId, nurseName string
 	)
+	var nrlType int64
 	switch obj := nrlMod.(type) {
 	case *model.NRL3:
-		obj.DateTime = fit.JsonTime(datetime)
+		obj.DateTime = model.FitTime(datetime)
 		patientId = obj.PatientId
 		nurseId = obj.NurseId
 		nurseName = obj.NurseName
+		nrlType = 3
 	case *model.NRL4:
-		obj.DateTime = fit.JsonTime(datetime)
+		obj.DateTime = model.FitTime(datetime)
 		patientId = obj.PatientId
 		nurseId = obj.NurseId
 		nurseName = obj.NurseName
+		nrlType = 4
 	case *model.NRL5:
-		obj.DateTime = fit.JsonTime(datetime)
+		obj.DateTime = model.FitTime(datetime)
 		patientId = obj.PatientId
 		nurseId = obj.NurseId
 		nurseName = obj.NurseName
+		nrlType = 5
 	case *model.NRL6:
-		obj.DateTime = fit.JsonTime(datetime)
+		obj.DateTime = model.FitTime(datetime)
 		patientId = obj.PatientId
 		nurseId = obj.NurseId
 		nurseName = obj.NurseName
+		nrlType = 6
 	case *model.NRL7:
-		obj.DateTime = fit.JsonTime(datetime)
+		obj.DateTime = model.FitTime(datetime)
 		patientId = obj.PatientId
 		nurseId = obj.NurseId
 		nurseName = obj.NurseName
+		nrlType = 7
 	case *model.NRL8:
-		obj.DateTime = fit.JsonTime(datetime)
+		obj.DateTime = model.FitTime(datetime)
 		patientId = obj.PatientId
 		nurseId = obj.NurseId
 		nurseName = obj.NurseName
+		nrlType = 8
 	default:
 		fit.Logger().LogError("NRLAddRecord : invalid nrlMod")
 		c.RenderingJsonAutomatically(10001, "参数错误！")
@@ -350,7 +359,7 @@ func (c NRLController) NRLAddRecord(w *fit.Response, r *fit.Request, p fit.Param
 		// 文书记录
 		nurseRecord := model.NursingRecords{
 			Updated:     r.FormValue("datetime"),
-			NursType:    3,
+			NursType:    nrlType,
 			NursingId:   nurseId,
 			NursingName: nurseName,
 			ClassId:     r.FormValue("did"),
@@ -386,32 +395,32 @@ func (c NRLController) NRLUpdateRecord(w *fit.Response, r *fit.Request, p fit.Pa
 	)
 	switch obj := nrlMod.(type) {
 	case *model.NRL3:
-		obj.DateTime = fit.JsonTime(datetime)
+		obj.DateTime = model.FitTime(datetime)
 		patientId = obj.PatientId
 		nurseId = obj.NurseId
 		nurseName = obj.NurseName
 	case *model.NRL4:
-		obj.DateTime = fit.JsonTime(datetime)
+		obj.DateTime = model.FitTime(datetime)
 		patientId = obj.PatientId
 		nurseId = obj.NurseId
 		nurseName = obj.NurseName
 	case *model.NRL5:
-		obj.DateTime = fit.JsonTime(datetime)
+		obj.DateTime = model.FitTime(datetime)
 		patientId = obj.PatientId
 		nurseId = obj.NurseId
 		nurseName = obj.NurseName
 	case *model.NRL6:
-		obj.DateTime = fit.JsonTime(datetime)
+		obj.DateTime = model.FitTime(datetime)
 		patientId = obj.PatientId
 		nurseId = obj.NurseId
 		nurseName = obj.NurseName
 	case *model.NRL7:
-		obj.DateTime = fit.JsonTime(datetime)
+		obj.DateTime = model.FitTime(datetime)
 		patientId = obj.PatientId
 		nurseId = obj.NurseId
 		nurseName = obj.NurseName
 	case *model.NRL8:
-		obj.DateTime = fit.JsonTime(datetime)
+		obj.DateTime = model.FitTime(datetime)
 		patientId = obj.PatientId
 		nurseId = obj.NurseId
 		nurseName = obj.NurseName

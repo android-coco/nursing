@@ -9,7 +9,7 @@ type MainController struct {
 	fit.Controller
 }
 
-type Sdata struct {
+/*type Sdata struct {
 	Name string `json:"name"`
 }
 
@@ -31,15 +31,15 @@ type User2 struct {
 	Datatime fit.JsonTime `json:"datatime"`
 	VAA01    int          `json:"vaa_01"`
 	VAA05    string       `json:"vaa_05"`
-}
+}*/
 
-type VAA struct {
+/*type VAA struct {
 	VAA01 int
 	VAA02 string
 	VAA03 string
 	VAA04 string
 	VAA05 string
-}
+}*/
 
 func (c MainController) GetFunc(w *fit.Response, r *fit.Request, p fit.Params) {
 	//fmt.Fprint(w.Writer(), "OK")
@@ -89,9 +89,9 @@ func (c MainController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 	//results, err := fit.SQLServerEngine().Query("select * from user1")
 	//fit.Logger().LogInfo("MainController:",results, err)
 
-	results := make([]VAA,0)
-	err1 := fit.SQLServerEngine().SQL("select * from VAA1").Find(&results)
-	fit.Logger().LogInfo("MainController:",results[0].VAA05, err1)
+	//results := make([]VAA,0)
+	//err1 := fit.SQLServerEngine().SQL("select * from VAA1").Find(&results)
+	//fit.Logger().LogInfo("MainController:",results[0].VAA05, err1)
 
 	//c.JsonData.Result = 0
 	//c.JsonData.ErrorMsg = "OK"

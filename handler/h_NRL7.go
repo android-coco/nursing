@@ -44,7 +44,7 @@ func (c NRL7Controller) UpdateTitle(w *fit.Response, r *fit.Request, p fit.Param
 
 	// 记录时间
 	datetime, err2 := r.FormTimeStruct("datetime")
-	mod.DateTime = fit.JsonTime(datetime)
+	mod.DateTime = model.FitTime(datetime)
 	if err2 != nil {
 		c.RenderingJson(10001, "参数错误！", err2.Error())
 		return

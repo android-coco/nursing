@@ -56,7 +56,7 @@ func (c NRL1Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 
 		id := mod.ID
 		if id == 0 {
-			mod.TestTime = fit.JsonTime(datetime)
+			mod.TestTime = model.FitTime(datetime)
 			mod.PatientId = pid
 			mod.NurseId = uid
 			mod.NurseName = BCE03A
@@ -197,7 +197,6 @@ type PCNRL1Controller struct {
 
 // 护理记录单
 // 查看  list
-
 func (c PCNRL1Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Params) {
 
 	// 护士信息 床位表 病人id  病人信息

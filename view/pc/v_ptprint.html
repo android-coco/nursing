@@ -11,10 +11,10 @@
         }
         .box{
             width: 360px;
-            /*height: 250px;*/
-            height: 287px;
+            height: 265px;
+            /*height: 287px;*/
             /*padding:2px;*/
-            padding: 0;
+            padding-top: 10px;
         }
         .cont{
             border: 1px solid #000;
@@ -22,10 +22,13 @@
             width: 320px;
             background-color: #fff;
         }
+        .warp-cont{
+            min-height: 96px;
+        }
         .hd{
             border-bottom: 1px solid #000;
             overflow: auto;
-            margin:0 10px;
+            margin:3px 10px 3px;
         }
         .name,.msg{
             float: left;
@@ -50,10 +53,19 @@
         .qr-code{
             float: right;
             height: 80px;
+            overflow: hidden;
         }
         .qr-code canvas{
-            display: block;
+            display: none;
         }
+        .qr-code-img{
+            height: 80px;
+            width: 80px;
+            border:0;
+        }
+        /*.qr-code canvas{*/
+            /*display: block;*/
+        /*}*/
         .val-bar{
             overflow: auto;
             margin:0 10px ;
@@ -83,7 +95,7 @@
 <script type="text/javascript">
     $(function () {
         var datas = {{.PrintInfo}}//数据
-        loadData(datas);
+                loadData(datas);
     });
     function loadData(datas) {
         if(datas.length != 0){
@@ -104,20 +116,21 @@
                             '                <p>住院号:'+ obj[i].hosnum +'</p>' +
                             '            </div>' +
                             '            <div class="qr-code" data-code=\"'+'PT-'+obj[i].mid+'|'+obj[i].ext+'|'+obj[i].exc+'\">' +
+                            '<img class="qr-code-img">'+
                             '            </div>' +
-                            '        </div>';
+                            '        </div>'+'<div class="warp-cont">';
                     for(var j=0; j < obj[i].list.length; j++){
-                        html+=' <div class="val-bar">\n' +
+                        html+='<div class="val-bar">\n' +
                                 obj[i].list[j][0].split(" ")[0]+' <span class="val">'+obj[i].list[j][1]+'</span>' +
                                 '        </div>';
                     }
 
-                    html+='<div class="bt">' +
-                            '            <p>'+obj[i].ff+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{.Now}}</p>' +
+                    html+='</div><div class="bt">' +
+                            '            <p>'+obj[i].ff+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>' +
                             '            <p>核对者:' +
                             '                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
                             '                配药者:</p>' +
-                            '            <p>配药时间: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+obj[i].xh+'</p>' +
+                            '            <p>配药时间: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{.Now}}</p>' +
                             '        </div>' +
                             '    </div>' +
                             '</div>';
@@ -128,11 +141,14 @@
                 var code = $(el).data("code");
                 console.log(code)
                 code= code.toString()
-                $(el).qrcode({
+                var qrcodeCanvas = $(el).qrcode({
                     width: 80,
                     height: 80,
                     text:code
                 });
+
+                var canvas=$(el).find('canvas').get(0);
+                $(el).find('.qr-code-img').attr('src',canvas.toDataURL('image/jpg'))
             })
         }
     }
@@ -167,11 +183,11 @@
             丹参酮ⅡA磺酸钠注射液 2ml:10mg <span class="val">40 mg</span>
         </div>
         <div class="bt">
-            <p>住院续滴（加药）&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{.Now}}</p>
+            <p>住院续滴（加药）</p>
             <p>核对者:
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 配药者:</p>
-            <p>配药时间: </p>
+            <p>配药时间:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{.Now}}</p>
         </div>
     </div>
 </div>

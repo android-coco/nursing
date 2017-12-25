@@ -15,8 +15,8 @@ type TempChartController struct {
 	PCNRLController
 }
 
-var dateLables = []string{"", "Ⅱ-", "Ⅲ-", "Ⅳ-", "Ⅴ-", "Ⅵ-", "Ⅶ-", "Ⅷ-", "Ⅸ-", "Ⅹ-"}
-//Ⅰ-
+var dateLables = []string{"", "", "Ⅱ-", "Ⅲ-", "Ⅳ-", "Ⅴ-", "Ⅵ-", "Ⅶ-", "Ⅷ-", "Ⅸ-", "Ⅹ-"}
+//Ⅰ- "",
 
 func (c TempChartController) LoadTable(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer utils.Trace("temp list")()
@@ -145,11 +145,25 @@ func (c TempChartController) PrintTempChart(w *fit.Response, r *fit.Request, p f
 	c.LoadView(w, "pc/v_templist_print.html")
 }
 
+func (c TempChartController) Test(w *fit.Response, r *fit.Request, p fit.Params)  {
+	defer c.ResponseToJson(w)
+	pid := "809502"
+	// 手术产后日期时间model
+	hospdate, err := getWeeksByOperationDates("2017-12-02 10:02:05", pid, "")
+	if err != nil {
+		fit.Logger().LogInfo("info templist", "参数错误！temp ", err)
+		fmt.Fprintln(w, "参数错误！temp ", err)
+		return
+	}
+	data := model.Test(pid, hospdate.weeks)
+	c.RenderingJson(1, "test", data)
+}
+
 type hospDateModel struct {
 	weeks     []time.Time // 日期, 这一周内有哪些天
 	weekstr   []string    // 日期, 这一周内有哪些天, 体温单显示用
 	dates1    []string    // 住院日数
-	dates2    []string    //手术日数
+	dates2    []string    // 手术日数
 	weeknum   int         // 入院至今天一共多少周
 	weekindex int         // 当前第几周
 }
@@ -234,29 +248,36 @@ func fetchOperationLable(pid string, sdate time.Time) (strlables []string, err e
 		return
 	}
 	operationTimes = append(operationTimes, edate)
-	fmt.Println("手术时间：", operationTimes)
+	//fmt.Println("手术时间：", operationTimes)
 	var t1, t2 time.Time
 	var lable string
-	var flag = -1
+	var flag = 1
 	for index := 0; index < len(operationTimes)-1; index++ {
 		t1 = operationTimes[index]
 		t2 = operationTimes[index+1]
 
 		offset := int(t2.Sub(t1).Hours() / 24)
 		//fmt.Println("offset:", t1, t2, "offset day:", offset, t2.Sub(t1).Hours())
-		if t2.Sub(t1).Hours() <= 24*10 {
-			flag++
-		} else {
-			flag = 0
-		}
+		//if t2.Sub(t1).Hours() <= 24*10 {
+		//fmt.Println("index:", index, "flag:",flag, "lable:", dateLables[flag - 1])
+
 		for ii := 0; ii < offset; ii++ {
 			lable = dateLables[flag]
 			str := fmt.Sprintf("%s%d", lable, ii)
+			if ii > 10 {
+				str = ""
+			}
 			results = append(results, str)
 			//fmt.Println("flag:", flag, lable, "str:", str, t1.AddDate(0, 0, ii))
 		}
+		if offset <= 10 {
+			flag++
+		} else {
+			flag = 1
+		}
+
 	}
-	//fmt.Println("results:", results)
+	fmt.Println("results:", results, "len:", len(results))
 	length := len(results)
 	if length >= 7 {
 		strlables = results[length-7:]

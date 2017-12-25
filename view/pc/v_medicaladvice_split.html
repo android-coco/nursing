@@ -23,7 +23,7 @@
                     </div>
                     <div class="user-warp">
                         <div class="tit-bar">
-                            <input type="checkbox" id="all-btn" checked> <label for="all-btn">全部患者</label>
+                            <input type="checkbox" id="all-btn"> <label for="all-btn">全部患者</label>
                         </div>
 
                         <div class="user-bar">
@@ -40,8 +40,7 @@
                                 {{range .Patients}}
                                     <li>
                                         <div class="l">
-                                            <input class="user-list-input" data-pid="{{.Vid}}" type="checkbox"
-                                                   checked><label>{{.Bed}}</label>
+                                            <input class="user-list-input" data-pid="{{.Vid}}" type="checkbox" ><label>{{.Bed}}</label>
                                         </div>
                                         <div class="r">
                                         {{.PName}}
@@ -100,17 +99,18 @@
                                     </div>
                                     <span style="font-size:14px;min-width: 10px;">(</span>
                                     <div class="input-box">
-                                        <input type="radio" id="check2-1" name="group2-2" class="check-1">
+                                        <input type="checkbox" id="check2-1" name="group2-2" class="check-1">
                                         <label for="check2-1">输液单</label>
+                                    </div>
+                                    <div class="input-box">
+                                        <input type="checkbox" id="check2-3" name="group2-2" class="check-1">
+                                        <label for="check2-3">注射单</label>
                                     </div>
                                     <div class="input-box">
                                         <input type="radio" id="check2-2" name="group2-2" class="check-1">
                                         <label for="check2-2">口服单</label>
                                     </div>
-                                    <div class="input-box">
-                                        <input type="radio" id="check2-3" name="group2-2" class="check-1">
-                                        <label for="check2-3">注射单</label>
-                                    </div>
+
                                 {{/*<div class="input-box">*/}}
                                 {{/*<input type="checkbox" id="check2-4" name="group2-2" class="check-1">*/}}
                                 {{/*<label for="check2-4">治疗单</label>*/}}
@@ -125,10 +125,10 @@
                                         <input type="radio" id="check3-1" name="group3-2" class="check-2">
                                         <label for="check3-1">输液标签</label>
                                     </div>
-                                    <div class="input-box">
-                                        <input type="radio" id="check3-2" name="group3-2" class="check-2">
-                                        <label for="check3-2">检验标签</label>
-                                    </div>
+                                    {{/*<div class="input-box">*/}}
+                                        {{/*<input type="radio" id="check3-2" name="group3-2" class="check-2">*/}}
+                                        {{/*<label for="check3-2">检验标签</label>*/}}
+                                    {{/*</div>*/}}
                                     <span style="font-size:14px;min-width: 10px;">)</span>
                                 </div>
                             </div>
@@ -137,7 +137,7 @@
                                 <div class="input-box">
                                     <span>打印状态：</span>
                                     <div class="input-box">
-                                        <input type="radio" id="nonPrint-radio" name="group3">
+                                        <input type="radio" id="nonPrint-radio" name="group3" checked>
                                         <label for="nonPrint-radio">未打印</label>
                                     </div>
                                     <div class="input-box">
@@ -145,7 +145,7 @@
                                         <label for="printed-radio">已打印</label>
                                     </div>
                                     <div class="input-box">
-                                        <input type="radio" id="allPrint-radio" name="group3" checked>
+                                        <input type="radio" id="allPrint-radio" name="group3">
                                         <label for="allPrint-radio">全部</label>
                                     </div>
                                 </div>
@@ -203,40 +203,40 @@
                                     </tr>
                                     </thead>
                                     <tbody class="change-div">
-                                    {{range .MAdvices}}
-                                    <tr data-name="{{.PName}}" data-age="{{.Age}}" data-bed="{{.Bed}}" data-hosnum="{{.HospNum}}" data-sex="{{.Gender}}" data-ptv="{{.PtTypeV}}">
-                                        <td>
-                                            <div class="table-input-bar">
-                                                <input type="checkbox" data-mid="{{.Gid}}" data-vid="{{.Vid}}"
-                                                       data-ext="{{.ExDay}}" data-exc="{{.ExCycle}}">
-                                                <label for="">{{.Bed}}</label>
-                                            </div>
-                                        </td>
-                                        <td>{{.PName}}</td>
-                                        <td>{{.ExDay}}</td>
-                                        <td class="tc gropnum" data-gropnum="{{.GroupNum}}">{{.GroupNum}}</td>
-                                        <td class="yz-item">
-                                        {{range .Contents}}
-                                            <p class="td-p">{{.Content}}</p>
-                                        {{end}}
+                                    {{/*{{range .MAdvices}}*/}}
+                                    {{/*<tr data-name="{{.PName}}" data-age="{{.Age}}" data-bed="{{.Bed}}" data-hosnum="{{.HospNum}}" data-sex="{{.Gender}}" data-ptv="{{.PtTypeV}}">*/}}
+                                        {{/*<td>*/}}
+                                            {{/*<div class="table-input-bar">*/}}
+                                                {{/*<input type="checkbox" data-mid="{{.Gid}}" data-vid="{{.Vid}}"*/}}
+                                                       {{/*data-ext="{{.ExDay}}" data-exc="{{.ExCycle}}" checked>*/}}
+                                                {{/*<label for="">{{.Bed}}</label>*/}}
+                                            {{/*</div>*/}}
+                                        {{/*</td>*/}}
+                                        {{/*<td>{{.PName}}</td>*/}}
+                                        {{/*<td>{{.ExDay}}</td>*/}}
+                                        {{/*<td class="tc gropnum" data-gropnum="{{.GroupNum}}">{{.GroupNum}}</td>*/}}
+                                        {{/*<td class="yz-item">*/}}
+                                        {{/*{{range .Contents}}*/}}
+                                            {{/*<p class="td-p">{{.Content}}</p>*/}}
+                                        {{/*{{end}}*/}}
 
-                                        </td>
-                                        <td class="yz-item">
-                                        {{range .Contents}}
-                                            <p class="td-p">{{.Dosage}}</p>
-                                        {{end}}
-                                        </td>
-                                        <td class="tc">{{.Amount}}</td>
-                                        <td class="tc pc" data-pc="{{.Frequency}}">{{.Frequency}}</td>
-                                        <td class="tc method" data-method="{{.Method}}">{{.Method}}</td>
-                                        <td class="tc speed" data-speed="{{.Speed}}">{{.Speed}}</td>
-                                        <td class="tc">{{.TypeOf}}</td>
-                                        <td class="td10">
-                                            <span class="l">{{.PtStatus}}</span>
-                                            <span class="r">序号{{.ExCycle}}/{{.Times}}</span>
-                                        </td>
-                                    </tr>
-                                    {{end}}
+                                        {{/*</td>*/}}
+                                        {{/*<td class="yz-item">*/}}
+                                        {{/*{{range .Contents}}*/}}
+                                            {{/*<p class="td-p">{{.Dosage}}</p>*/}}
+                                        {{/*{{end}}*/}}
+                                        {{/*</td>*/}}
+                                        {{/*<td class="tc">{{.Amount}}</td>*/}}
+                                        {{/*<td class="tc pc" data-pc="{{.Frequency}}">{{.Frequency}}</td>*/}}
+                                        {{/*<td class="tc method" data-method="{{.Method}}">{{.Method}}</td>*/}}
+                                        {{/*<td class="tc speed" data-speed="{{.Speed}}">{{.Speed}}</td>*/}}
+                                        {{/*<td class="tc">{{.TypeOf}}</td>*/}}
+                                        {{/*<td class="td10">*/}}
+                                            {{/*<span class="l">{{.PtStatus}}</span>*/}}
+                                            {{/*<span class="r">序号{{.ExCycle}}/{{.Times}}</span>*/}}
+                                        {{/*</td>*/}}
+                                    {{/*</tr>*/}}
+                                    {{/*{{end}}*/}}
                                     </tbody>
                                 </table>
                             </div>
@@ -321,8 +321,8 @@
         $('#executionOrder').attr("checked", true);
         qo.print.type = "excution";
 
-        $('#allPrint-radio').attr("checked", true);
-        qo.print.status = '2';
+        $('#nonPrint-radio').attr("checked", true);
+        qo.print.status = '0';
 
         $('.date-input').attr("disabled", true);
 
@@ -422,6 +422,12 @@
                 default:
                     console.log("无类型")
             }
+            if($(this).prop("id") =="check2-3"|| $(this).prop("id") =="check2-1"){
+                $("#check2-2").prop("checked",false);
+            }else if($(this).prop("id") =="check2-2"){
+                $("#check2-3,#check2-1").prop("checked",false);
+            }
+
             if ($check.length == 0) {
                 return false
             }
@@ -441,12 +447,17 @@
             }
 
             var inputViews = $('.user-list').find('.user-list-input')
+
             var pidArr = []
             for (var i = 0; i < inputViews.length; i++) {
                 var view = inputViews[i]
                 if (view.checked) {
                     pidArr.push($(view).data('pid'))
                 }
+            }
+            if (pidArr.length == 0) {
+                alert("请选择需要打印医嘱的患者")
+                return
             }
             var params = {}
             params['term'] = qo.term
@@ -478,7 +489,7 @@
                         html += "<tr data-name=\""+obj.pName+"\" data-age=\""+obj.age+"\" data-bed=\""+obj.bed+"\" data-hosnum=\""+obj.hospNum+"\" data-ptv=\""+obj.ptTypeV+"\" data-sex=\""+obj.gender+"\">" +
                                 "<td>\n" +
                                 "<div class=\"table-input-bar\">\n" +
-                                "<input type=\"checkbox\" data-mid=\"" + obj.gid + "\" data-vid=\"" + obj.vid + "\" data-ext=\"" + obj.exTime + "\" data-exc=\"" + obj.exCycle + "\">\n" +
+                                "<input type=\"checkbox\" data-mid=\"" + obj.gid + "\" data-vid=\"" + obj.vid + "\" data-ext=\"" + obj.exTime + "\" data-exc=\"" + obj.exCycle + "\" + checked>\n" +
                                 "<label for=\"\">" + obj.bed + "</label>\n" +
                                 "</div>\n" +
                                 "</td>\n" +

@@ -18,7 +18,7 @@ const (
 //交接班
 type Succession struct {
 	ID          int          `json:"id" xorm:"notnull comment(数据id)"`
-	DataTime    fit.JsonTime `json:"datatime" xorm:"notnull comment(日期)"`
+	DataTime    FitTime `json:"datatime" xorm:"notnull comment(日期)"`
 	Type        int          `json:"type" xorm:"notnull comment('类型1，白班 2，晚班 3，夜班',)"`
 	NursingName string       `json:"nursingname" xorm:"notnull comment(护士名称)"`
 	NursingID   int          `json:"nursingid" xorm:"notnull comment(护士id)"`
@@ -46,7 +46,7 @@ func IputSuccession(session *xorm.Session, strData map[string]string) error {
 		if err != nil {
 			return errors.New("没有datatime")
 		} else {
-			item.DataTime = fit.JsonTime(texttime)
+			item.DataTime = FitTime(texttime)
 		}
 	} else {
 		return errors.New("没有datatime")
@@ -190,7 +190,7 @@ func OutSuccession(sql string, msg ...interface{}) ([]Succession, error) {
 //交接班详情
 type SuccessionDetails struct {
 	ID          int          `json:"id" xorm:"notnull comment(数据id)"`
-	DataTime    fit.JsonTime `json:"datatime" xorm:"notnull comment(日期)"`
+	DataTime    FitTime `json:"datatime" xorm:"notnull comment(日期)"`
 	ClassId     string       `json:"classid" xorm:"notnull comment(科室ID)"`
 	BedID       string       `json:"bedid" xorm:"notnull comment(床位号)"`
 	PatientName string       `json:"patientname" xorm:"notnull comment(病人名称)"`
@@ -211,7 +211,7 @@ func IputSuccessionDetails(session *xorm.Session, strData map[string]string) err
 		if err != nil {
 			return errors.New("没有datatime")
 		} else {
-			item.DataTime = fit.JsonTime(texttime)
+			item.DataTime = FitTime(texttime)
 		}
 	} else {
 		return errors.New("没有datatime")

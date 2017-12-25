@@ -230,8 +230,8 @@
                                         <td class="td-7">
                                             <a class="edit-btn">修改</a>
                                             <a class="save-btn ty1 ">保存</a>
-                                            <!--<span class="line">|</span>-->
-                                            <!--<a href="#">删除</a>-->
+                                            <span class="line">|</span>
+                                            <a class='del-btn'>删除</a>
                                         </td>
                                     </tr>
                                     {{end}}
@@ -353,7 +353,7 @@
             zxScroll = 0;
         $('.scroll-box').on('scroll', function() {
             var sl = this.scrollLeft,
-                st = this.scrollTop
+                st = this.scrollTop;
             if (sl != hxScroll) {
                 console.log('横向滚动')
                 hxScroll = sl
@@ -378,7 +378,7 @@
 
         $('body').on('click', '.edit-btn', function() {
             $(this).parents('tr').addClass('active');
-        })
+        });
         $('body').on('click', '.save-btn', function() {
             var authority = $(this).parents("tr").find(".sel-sub-1").val()
             var status = $(this).parents("tr").find(".sel-sub-2").val()
@@ -399,8 +399,30 @@
                     alert(json.errmsg)
                 }
             }, 'json');
-        })
+        });
 
+        $("body").on("click", '.del-btn', function () {
+            var authority = $(this).parents("tr").find(".sel-sub-1").val();
+            var status = 3;
+            var code = $(this).parents("tr").find(".td-3-code").text();
+            const handler = {{.Userinfo.Code}};
+
+            jkyConfirm("是否确认删除该账号",function () {
+                $.post("/pc/account/update", {
+                    handler: handler,
+                    code: code,
+                    status: status,
+                    authority: authority,
+                }, function (json, status) {
+                    if (json.result == 0) {
+                        loadUserList()
+                    } else {
+                        alert(json.errmsg)
+                    }
+                }, 'json');
+            })
+        });
+        
         function loadUserList() {
             var did = $('#ks-sel-dep option:selected').val()
             var auth = $('#ks-sel-auth option:selected').val()
@@ -417,7 +439,7 @@
                 // console.log(json, status);
                 if (json.result == 0) {
                     var resArr = json.datas;
-                    console.log(resArr);
+                    // console.log(resArr);
                     var html = '';
                     html += "<thead>\n" +
                         "<tr>\n" +
@@ -467,10 +489,10 @@
                             "</div>\n" +
                             "</td>\n" +
                             "<td class=\"td-7\">\n" +
-                            "<a href=\"#\" class=\"edit-btn\">修改</a>\n" +
-                            "<a href=\"#\" class=\"save-btn ty1 \">保存</a>\n" +
-                            "<!--<span class=\"line\">|</span>-->\n" +
-                            "<!--<a href=\"#\">删除</a>-->\n" +
+                            "<a class=\"edit-btn\">修改</a>\n" +
+                            "<a class=\"save-btn ty1 \">保存</a>\n" +
+                            "<span class=\"line\">|</span>\n" +
+                            "<a class=\"del-btn\">删除</a>\n" +
                             "</td>\n" +
                             "</tr>";
                     }

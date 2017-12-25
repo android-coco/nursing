@@ -235,6 +235,16 @@ func (c AccountManageController) Update(w *fit.Response, r *fit.Request, p fit.P
 	if userinfo.Authority == authority_i && userinfo.Status == status_i {
 		c.RenderingJsonAutomatically(0, "操作成功")
 	} else {
+		if status_i == 3 {
+			//fmt.Printf("----- %+v", userinfo)
+			errdel := userinfo.DeleteAccount()
+			if errdel != nil {
+				c.RenderingJson(2, "删除失败！", errdel.Error())
+			} else {
+				c.RenderingJsonAutomatically(0, "删除成功！")
+			}
+			return
+		}
 		userinfo.Authority = authority_i
 		userinfo.Status = status_i
 		err_db := userinfo.UpdateAccountAuthorityAndStatus()

@@ -59,6 +59,7 @@ type VAT1 struct {
 func GetPatientInfo(patientId string) ([]PatientInfo, error) {
 	responseObj := make([]PatientInfo, 0)
 	// 查询病人详情
+	//fit.SQLServerEngine().ShowSQL(true)
 	patientInfo := PatientInfo{}
 	sqlStr := fmt.Sprintf("SELECT TOP 1 a.VAE01 Vid, a.VAE95 VAA05, a.VAA01, a.BCK01C, a.VAE44 VAA61, a.BCQ04B BCQ04, a.VAE96 ABW01, a.VAE94 VAA04, a.VAE46 VAA10, a.BDP02, CASE a.VAE96 WHEN 1 THEN '男' WHEN 2 THEN '女' ELSE '未知' END AS Gender, a.BCE03B, a.BCE03C, a.VAE11, b.BCF01 AAG01 FROM VAE1 a LEFT JOIN BBY1 b ON b.BBY01 = a.AAG01 WHERE a.VAA01 = %s AND a.VAE44 = 2 ORDER BY a.VAE11 DESC", patientId)
 	_, err := fit.SQLServerEngine().SQL(sqlStr).Get(&patientInfo)
@@ -67,10 +68,13 @@ func GetPatientInfo(patientId string) ([]PatientInfo, error) {
 		_, err = fit.SQLServerEngine().SQL("select BCK03 as BCK03C from BCK1 where BCK01 = ?", patientInfo.BCK01C).Get(&patientInfo)
 		hospitalDate := patientInfo.VAE11.ParseToSecond()
 		// 查询诊断症状
+
 		sqlStr = fmt.Sprintf("SELECT top 1 VAO2.VAO15 FROM VAO2 WHERE VAO2.ACF01 = 2 AND VAO2.VAA01 = %s AND VAO2.VAO19 > '%s' ORDER BY VAO2.VAO19 DESC", patientId, hospitalDate)
 		_, err = fit.SQLServerEngine().SQL(sqlStr).Get(&patientInfo)
 		responseObj = append(responseObj, patientInfo)
 	}
+	//fit.SQLServerEngine().ShowSQL(false)
+
 	return responseObj, err
 }
 

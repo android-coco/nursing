@@ -58,6 +58,7 @@ func pdalist() {
 	//TV接口
 	fit.Router().AddRouter("/tv/bedlist", new(handler.TvController),"post:BedList")//TV床位列表
 	fit.Router().AddRouter("/tv/list", new(handler.TvController),"post:List")//TV床位列表
+	fit.Router().AddRouter("/tv/time", new(handler.TvController),"get:Time")//TV时间
 }
 
 func nrlist() {
@@ -172,6 +173,7 @@ func pclist() {
 
 	// 体温单
 	fit.Router().AddRouter("/pc/templist", new(handler.TempChartController), "get,post:LoadTable")
+	fit.Router().AddRouter("/pc/test", new(handler.TempChartController), "get,post:Test")
 
 
 	//提醒管理

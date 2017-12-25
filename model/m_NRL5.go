@@ -17,7 +17,7 @@ type NRL5 struct {
 	PatientId int64        `xorm:"comment(patientid病人id)" fit:"pid"`
 	NurseId   string       `xorm:"comment(NursingId责任护士ID)" fit:"uid"`
 	NurseName string       `xorm:"comment(NursingName责任护士签名)" fit:"username"`
-	DateTime  fit.JsonTime `xorm:"comment(记录时间)"`
+	DateTime  FitTime `xorm:"comment(记录时间)"`
 	DateStr   string       `xorm:"-" fit:"-"`
 	//,部位左右下肢,1=A左,2=A右,3=P左,4=P右,5=A左,6=A右
 	NRL01  string `xorm:"comment(时间APN,1=A,2=P,3=N)"`
@@ -46,7 +46,7 @@ type NRL5 struct {
 	Score  string `xorm:"comment(总分)" fit:"score"`
 }
 
-func (m *NRL5) InsertData() (int64, error) {
+/*func (m *NRL5) InsertData() (int64, error) {
 	_, err := fit.MySqlEngine().Table("NRL5").Insert(m)
 	var rid int64 = 0
 	if err == nil {
@@ -57,7 +57,7 @@ func (m *NRL5) InsertData() (int64, error) {
 		}
 	}
 	return 0, err
-}
+}*/
 
 func (m *NRL5) IsExistNRL5() (has bool, err error) {
 	var datestr = m.DateTime.ParseDate()
@@ -65,7 +65,7 @@ func (m *NRL5) IsExistNRL5() (has bool, err error) {
 	return
 }
 
-func (m *NRL5) UpdateData(id int64) (int64, error) {
+/*func (m *NRL5) UpdateData(id int64) (int64, error) {
 	return fit.MySqlEngine().ID(id).AllCols().Omit("ID").Update(m)
 }
 
@@ -84,7 +84,7 @@ func QueryNRL5(rid string) (NRL5, error) {
 		//nr5.TimeStr = nr5.DateTime.Format("15:04")
 		return nr5, nil
 	}
-}
+}*/
 
 // pc端接口
 func PCQueryNRL5(pid, datestr1, datestr2 string, pagenum int) ([]APNModel, error) {
@@ -104,10 +104,10 @@ func PCQueryNRL5(pid, datestr1, datestr2 string, pagenum int) ([]APNModel, error
 	if err != nil {
 		return nil, err
 	}
-	//for key, _ := range mods {
-	//	val := mods[key]
-	//	mods[key].DateStr = val.DateTime.Format("2006-01-02")
-	//}
+	for key, _ := range mods {
+		val := mods[key]
+		mods[key].DateStr = val.DateTime.ParseDate()
+	}
 	list := mateNRL5Data(mods)
 	return list, nil
 }

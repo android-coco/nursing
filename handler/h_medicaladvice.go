@@ -46,7 +46,6 @@ func (c MedicalAdviceController) Search(w *fit.Response, r *fit.Request, p fit.P
 		c.RenderingJsonAutomatically(2, "参数错误 vid")
 		return
 	}
-
 	mAdvices, err_db := model.SearchMedicalAdviceForPC(type_i, status_i, mavCategory, vid, starttime, endtime)
 	if err_db == nil {
 		c.RenderingJson(0, "查询成功", mAdvices)
@@ -89,7 +88,6 @@ func (c MedicalAdviceController) ExecSearch(w *fit.Response, r *fit.Request, p f
 		c.RenderingJsonAutomatically(2, "参数错误 vid")
 		return
 	}
-
 	mAdvices, err_db := model.SearchMedicalAdviceExecutionForPC(type_i, status_i, mavCategory, vid, starttime, endtime)
 	if err_db == nil {
 		c.RenderingJson(0, "查询成功", mAdvices)

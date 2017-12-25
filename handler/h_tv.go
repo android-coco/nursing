@@ -47,6 +47,14 @@ func (c TvController) BedList(w *fit.Response, r *fit.Request, p fit.Params) {
 	}
 }
 
+//TV时间
+func (c TvController) Time(w *fit.Response, r *fit.Request, p fit.Params) {
+	defer c.ResponseToJson(w)
+	c.JsonData.Result = 0
+	c.JsonData.ErrorMsg = "OK！"
+	c.JsonData.Datas = time.Now().Format("2006年01月02日 15:04")
+}
+
 //查看信息
 func (c TvController) List(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
@@ -62,18 +70,17 @@ func (c TvController) List(w *fit.Response, r *fit.Request, p fit.Params) {
 	}
 	response, err := model.TVQueryMonitor(classId)
 	// 获取所有病人
-	beds, _ := model.QueryDepartmentBedList(classIdInt)
-	//病人总数
-	response[0].V1 = strconv.Itoa(len(beds))
-	// 获取一级护理床位
-	var bedsone string
-	for _, bed := range beds {
-		if bed.AAG01 == "1" {
-			bedsone += bed.VAA1.BCQ04 + ","
-		}
+	amount, bedStr := model.FetchInpatientsForTV(classIdInt)
+	if len(response) == 0 {
+		response = make([]model.MonitorInfo, 1)
+		response[0].MonitorNotifys = make([]model.MonitorNotify, 0)
+		response[0].ClassId = classId
+		response[0].Display = "1"
 	}
-	response[0].V4 = bedsone[0:len(bedsone)-1]
-	//fit.Logger().LogError("TVListData:", beds, len(beds), response)
+	//病人总数
+	response[0].V1 = strconv.Itoa(amount)
+	// 获取一级护理床位
+	response[0].V4 = bedStr
 	if err != nil {
 		fit.Logger().LogError("Error", "TVList :", err)
 		c.JsonData.Result = 2
@@ -138,9 +145,11 @@ func (c TvController) UpdateMonitorInfo(w *fit.Response, r *fit.Request, p fit.P
 	v13 := r.FormValue("v13")               //留置导尿
 	v14 := r.FormValue("v14")               //计24小时尿量
 	v15 := r.FormValue("v15")               //计24小时出入量
-	v16 := r.FormValue("v16")               //生命体征监测
-	v17 := r.FormValue("v17")               //自定义1
-	v18 := r.FormValue("v18")               //自定义2
+	v16 := r.FormValue("v16")               //血压监测
+	v17 := r.FormValue("v17")               //血糖检测
+	v18 := r.FormValue("v18")               //自定义1
+	v19 := r.FormValue("v19")               //自定义2
+	v20 := r.FormValue("v20")               //
 	nursename := r.FormValue("nursename")   //值班护士
 	doctorname := r.FormValue("doctorname") //值班医生
 	//mid := r.FormValue("Speed") //轮播速度等级1,2,3,4
@@ -155,7 +164,7 @@ func (c TvController) UpdateMonitorInfo(w *fit.Response, r *fit.Request, p fit.P
 	//通知字符串Json格式[{"id": 1, "mid": 1,"notifyinfo": "就弗拉季德胜路附11近"},{"id": 2, "mid": 1,"notifyinfo": "就弗拉季德胜路附近11"}]
 	infostr := r.FormValue("infos") //通知内容
 
-	if classid == "" || classname == "" || username == "" {
+	if classid == "" {
 		c.JsonData.Result = 1
 		c.JsonData.ErrorMsg = "参数不完整"
 		c.JsonData.Datas = []interface{}{}
@@ -186,6 +195,8 @@ func (c TvController) UpdateMonitorInfo(w *fit.Response, r *fit.Request, p fit.P
 	data.V16 = v16
 	data.V17 = v17
 	data.V18 = v18
+	data.V19 = v19
+	data.V20 = v20
 	data.UpdateTime = time.Now().Format("2006-01-02 15:04:05")
 	data.NurseName = nursename
 	data.DoctorName = doctorname
@@ -196,7 +207,7 @@ func (c TvController) UpdateMonitorInfo(w *fit.Response, r *fit.Request, p fit.P
 	data.ClassId = classid
 	data.MonitorNotifys = inofs
 
-	fit.Logger().LogError("TV更新数据：", data)
+	//fit.Logger().LogError("TV更新数据：", data)
 
 	err = model.TVUpdataMonitorInfo(data)
 	if err != nil {
@@ -213,19 +224,10 @@ func (c TvController) UpdateMonitorInfo(w *fit.Response, r *fit.Request, p fit.P
 
 //TV 管理界面
 func (c TvController) Manage(w *fit.Response, r *fit.Request, p fit.Params) {
-	userinfo, err1 := c.GetLocalUserinfo(w, r)                                   //用户信息
-	response, err2 := model.TVQueryMonitor(strconv.Itoa(userinfo.DepartmentID))  //TV 信息
-	beds, err3 := model.GetDepartmentBedsByClassifying(userinfo.DepartmentID, 0) //床位信息
-	//fit.Logger().LogError("TV 管理界面:",beds)
-	if err1 == nil && err2 == nil && err3 == nil {
+	userinfo, err1 := c.GetLocalUserinfo(w, r)                                  //用户信息
+	response, err2 := model.TVQueryMonitor(strconv.Itoa(userinfo.DepartmentID)) //TV 信息
+	if err1 == nil && err2 == nil {
 		defer c.LoadViewSafely(w, r, "pc/v_tv_manage.html", "pc/header_side.html", "pc/header_top.html")
-
-		if len(beds) > 0 && beds["bed"] != nil {
-			// 遍历map
-			for k, v := range beds {
-				fmt.Println(k, v)
-			}
-		}
 
 		c.Data = fit.Data{
 			"Userinfo":     userinfo,

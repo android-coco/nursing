@@ -6,6 +6,7 @@ import (
 	"fit"
 	"time"
 	"fmt"
+	"strings"
 )
 
 /*PDA端专用 科床位室病人*/
@@ -24,7 +25,6 @@ type Beds struct {
 	VAE11        DatetimeWithoutSeconds `json:"hospital_date"`  // 入院时间
 	Gender       string                 `json:"gender"`         // 性别(结果字符串)
 }
-
 
 /*PC端通用 科室床位病人*/
 type PCBedDup struct {
@@ -485,4 +485,41 @@ func GetDepartmentBedsByClassifyingByPage(BCK01 int, typeDup int, page, pagenum 
 	obj["bed"] = slice[start:end]
 	obj["totalpage"] = totalPage
 	return obj, err
+}
+
+
+/*TV专用的病人信息*/
+type TVInpatient struct {
+	PName          string `json:"pName"` // 病人姓名
+	Pid            int64  `json:"pid"`   // 病人ID
+	Vid            int64  `json:"vid"`   // 就诊ID
+	Did            int    `json:"did"`   // 住院病区
+	Bed            string `json:"bed"`   // 床位号
+	NursingDegreeV string `json:"degree"` // 护理级别
+}
+
+/*获取在床病人总数和一级护理床位*/
+func FetchInpatientsForTV(did int) (amount int, bedStr string) {
+	res := make([]TVInpatient, 0)
+	err := fit.SQLServerEngine().SQL("SELECT a.VAE95 PName, a.VAA01 Pid, a.VAE01 Vid, a.BCK01C Did, a.BCQ04B Bed FROM VAE1 a WHERE a.BCK01C = ? AND a.VAE44 = 2 ORDER BY a.BCQ04B", did).Find(&res)
+	if err != nil {
+		fit.Logger().LogError("***JK***", err.Error())
+	}
+
+	amount = len(res)
+	var i int
+	beds := make([]string, 0)
+	for i = 0; i < amount; i ++ {
+		v := res[i]
+		_, err = fit.SQLServerEngine().SQL("SELECT TOP 1 b.BCF01 NursingDegreeV FROM VAE1 a LEFT JOIN BBY1 b ON b.BBY01 = a.AAG01 WHERE a.VAE01 = ? AND a.VAE44 = 2 ORDER BY a.VAE11 DESC", v.Vid).Get(&v)
+		if err != nil {
+			fit.Logger().LogError("***JK***", err.Error())
+		}
+
+		if v.NursingDegreeV == "1" {
+			beds = append(beds, v.Bed)
+		}
+	}
+	bedStr = strings.Join(beds, ",")
+	return
 }

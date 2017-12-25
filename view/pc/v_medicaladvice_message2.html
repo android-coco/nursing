@@ -38,7 +38,7 @@
                         </div>
                         <div class="user-warp">
                             <div class="tit-bar">
-                                <input type="checkbox" id="all-btn" checked> <label for="all-btn">全部患者</label>
+                                <input type="checkbox" id="all-btn"> <label for="all-btn">全部患者</label>
                             </div>
 
                             <div class="user-bar">
@@ -55,7 +55,7 @@
                                         {{range .Patients}}
                                         <li data-id="{{.Vid}}">
                                             <div class="l">
-                                                <input type="checkbox" checked><label>{{.Bed}}</label>
+                                                <input type="checkbox"><label>{{.Bed}}</label>
                                             </div>
                                             <div class="r">
                                                 {{.PName}}
@@ -106,8 +106,8 @@
                                     <div class="input-box">
                                         <label for="">医嘱执行状态:</label>
                                         <select id="sel3" class="adviceState">
-                                                <option selected="" value="0">全部</option>
-                                                <option value="1">未执行</option>
+                                                <option value="0">全部</option>
+                                                <option selected="true" value="1">未执行</option>
                                                 <option value="2">正在执行</option>
                                                 <option value="3">已结束</option>
                                             </select>
@@ -117,11 +117,11 @@
                                 <div class="sel-date-box timeSel">
                                     <span >执行时间：</span>
                                     <div class="input-box">
-                                        <input type="radio" id="all-radio" name="date" data-type="all" checked>
+                                        <input type="radio" id="all-radio" name="date" data-type="all">
                                         <label for="all-radio">全部</label>
                                     </div>
                                     <div class="input-box">
-                                        <input type="radio" id="today-radio" name="date" data-type="today">
+                                        <input type="radio" id="today-radio" name="date" data-type="today" checked>
                                         <label for="today-radio">当天</label>
                                     </div>
 
@@ -181,29 +181,29 @@
                                                 </tr>
                                             </thead>
                                             <tbody class="change-div">
-                                            {{range .MAdvices}}
-                                                <tr class="mad-select" data-gid="{{.Gid}}" data-ext="{{.ExDay}}" data-exc="{{.ExCycle}}">
-                                                    <td>{{.Bed}}</td>
-                                                    <td>{{.PName}}</td>
-                                                    <td class="tc">{{.Category}}</td>
-                                                    <td class="yz-item">
-                                                    {{range .Contents}}
-                                                        <p>{{.Content}}</p>
-                                                    {{end}}
-                                                    </td>
-                                                    <td class="yz-item">
-                                                    {{range .Contents}}
-                                                        <p>{{.Dosage}}</p>
-                                                    {{end}}
-                                                    </td>
-                                                    <td class="tc">{{.Frequency}}</td>
-                                                    <td class="tc">{{.Method}}</td>
-                                                    <td class="tc">{{.TypeOf}}</td>
-                                                    <td class="tc">{{.StDay}}</td>
+                                            {{/*{{range .MAdvices}}*/}}
+                                                {{/*<tr class="mad-select" data-gid="{{.Gid}}" data-ext="{{.ExDay}}" data-exc="{{.ExCycle}}">*/}}
+                                                    {{/*<td>{{.Bed}}</td>*/}}
+                                                    {{/*<td>{{.PName}}</td>*/}}
+                                                    {{/*<td class="tc">{{.Category}}</td>*/}}
+                                                    {{/*<td class="yz-item">*/}}
+                                                    {{/*{{range .Contents}}*/}}
+                                                        {{/*<p>{{.Content}}</p>*/}}
+                                                    {{/*{{end}}*/}}
+                                                    {{/*</td>*/}}
+                                                    {{/*<td class="yz-item">*/}}
+                                                    {{/*{{range .Contents}}*/}}
+                                                        {{/*<p>{{.Dosage}}</p>*/}}
+                                                    {{/*{{end}}*/}}
+                                                    {{/*</td>*/}}
+                                                    {{/*<td class="tc">{{.Frequency}}</td>*/}}
+                                                    {{/*<td class="tc">{{.Method}}</td>*/}}
+                                                    {{/*<td class="tc">{{.TypeOf}}</td>*/}}
+                                                    {{/*<td class="tc">{{.StDay}}</td>*/}}
                                                     {{/*<td class="tc">{{.Sender}}</td>*/}}
-                                                    <td class="tc td11">{{.ExStatus}}</td>
-                                                </tr>
-                                            {{end}}
+                                                    {{/*<td class="tc td11">{{.ExStatus}}</td>*/}}
+                                                {{/*</tr>*/}}
+                                            {{/*{{end}}*/}}
 
                                             </tbody>
                                         </table>
@@ -493,6 +493,10 @@
                     userList.push(val)
                 }
             })
+            if (userList.length == 0) {
+                alert("请选择患者再进行搜索")
+                return
+            }
 
             res["patients"] =  userList.join(",")
             res["category"] = $("#sel1").val()

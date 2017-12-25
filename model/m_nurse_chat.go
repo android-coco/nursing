@@ -28,7 +28,7 @@ const (
 type NurseChat struct {
 	Id        int64        `json:"id" xorm:"pk autoincr"`
 	HeadType  string       `json:"headtype" xorm:"notnull comment(头部id,对应头部类型)"`
-	TestTime  fit.JsonTime `json:"testtime" xorm:"notnull comment(测试时间)"`
+	TestTime  FitTime `json:"testtime" xorm:"notnull comment(测试时间)"`
 	SubType   int          `json:"type" xorm:"notnull comment(类型,)"`
 	Other     int          `json:"other" xorm:"notnull comment(其他可能选项,)"`
 	OtherStr  string       `json:"otherstr" xorm:"notnull comment(其他可能选项string存储针对出入量)"`
@@ -119,8 +119,8 @@ func IputChat(session *xorm.Session,strData NurseChat) (int,error) {
 			old_time := time.Time(item.TestTime)
 			if test_time.Format("2006-01-02 15:04:05") == old_time.Format("2006-01-02 15:04:05") {
 				item.HeadType = test_headtype
-				item.DateTime = fit.JsonTime(text_datetime)
-				item.TestTime = fit.JsonTime(test_time)
+				item.DateTime = FitTime(text_datetime)
+				item.TestTime = FitTime(test_time)
 				item.TypeTime = text_typetime
 				item.SubType     = test_type
 				item.Other    = test_other
@@ -133,8 +133,8 @@ func IputChat(session *xorm.Session,strData NurseChat) (int,error) {
 				return 32,err
 			}else {
 				item.HeadType = test_headtype
-				item.DateTime = fit.JsonTime(text_datetime)
-				item.TestTime = fit.JsonTime(test_time)
+				item.DateTime = FitTime(text_datetime)
+				item.TestTime = FitTime(test_time)
 				item.TypeTime = text_typetime
 				item.SubType     = test_type
 				item.Other    = test_other
@@ -147,8 +147,8 @@ func IputChat(session *xorm.Session,strData NurseChat) (int,error) {
 			}
 		}else{
 			item.HeadType = test_headtype
-			item.DateTime = fit.JsonTime(text_datetime)
-			item.TestTime = fit.JsonTime(test_time)
+			item.DateTime = FitTime(text_datetime)
+			item.TestTime = FitTime(test_time)
 			item.TypeTime = text_typetime
 			item.SubType     = test_type
 			item.Other    = test_other
@@ -209,8 +209,8 @@ func IputChat(session *xorm.Session,strData NurseChat) (int,error) {
 			var item1 = &NurseChat{}
 			if test_time.Format("2006-01-02 15:04:05") == old_time.Format("2006-01-02 15:04:05") {
 				item.HeadType = test_headtype
-				item.DateTime = fit.JsonTime(text_datetime)
-				item.TestTime = fit.JsonTime(test_time)
+				item.DateTime = FitTime(text_datetime)
+				item.TestTime = FitTime(test_time)
 				item.TypeTime = text_typetime
 				item.SubType     = test_type
 				item.Other    = test_other
@@ -237,8 +237,8 @@ func IputChat(session *xorm.Session,strData NurseChat) (int,error) {
 				}
 
 				item.HeadType = test_headtype
-				item.DateTime = fit.JsonTime(text_datetime)
-				item.TestTime = fit.JsonTime(test_time)
+				item.DateTime = FitTime(text_datetime)
+				item.TestTime = FitTime(test_time)
 				item.TypeTime = text_typetime
 				item.SubType     = test_type
 				item.Other    = test_other
@@ -250,7 +250,7 @@ func IputChat(session *xorm.Session,strData NurseChat) (int,error) {
 				return 33,err
 			}else{
 				item1.HeadType = test_headtype
-				item1.TestTime = fit.JsonTime(test_time)
+				item1.TestTime = FitTime(test_time)
 				item1.SubType = test_type
 				item1.Other = test_other
 				item1.Value = test_value
@@ -263,8 +263,8 @@ func IputChat(session *xorm.Session,strData NurseChat) (int,error) {
 			}
 		}else{
 			item.HeadType = test_headtype
-			item.DateTime = fit.JsonTime(text_datetime)
-			item.TestTime = fit.JsonTime(test_time)
+			item.DateTime = FitTime(text_datetime)
+			item.TestTime = FitTime(test_time)
 			item.TypeTime = text_typetime
 			item.SubType     = test_type
 			item.Other    = test_other
@@ -334,8 +334,8 @@ func IputChat(session *xorm.Session,strData NurseChat) (int,error) {
 			var item1 = &NurseChat{}
 			if test_time.Format("2006-01-02 15:04:05") == old_time.Format("2006-01-02 15:04:05") {
 				item.HeadType = test_headtype
-				item.DateTime = fit.JsonTime(text_datetime)
-				item.TestTime = fit.JsonTime(test_time)
+				item.DateTime = FitTime(text_datetime)
+				item.TestTime = FitTime(test_time)
 				item.TypeTime = text_typetime
 				item.SubType     = test_type
 				item.Other    = test_other
@@ -362,8 +362,8 @@ func IputChat(session *xorm.Session,strData NurseChat) (int,error) {
 				}
 
 				item.HeadType = test_headtype
-				item.DateTime = fit.JsonTime(text_datetime)
-				item.TestTime = fit.JsonTime(test_time)
+				item.DateTime = FitTime(text_datetime)
+				item.TestTime = FitTime(test_time)
 				item.TypeTime = text_typetime
 				item.SubType     = test_type
 				item.Other    = test_other
@@ -375,7 +375,7 @@ func IputChat(session *xorm.Session,strData NurseChat) (int,error) {
 				return 33,err
 			}else{
 				item1.HeadType = test_headtype
-				item1.TestTime = fit.JsonTime(test_time)
+				item1.TestTime = FitTime(test_time)
 				item1.SubType = test_type
 				item1.Other = test_other
 				item1.Value = test_value
@@ -388,8 +388,8 @@ func IputChat(session *xorm.Session,strData NurseChat) (int,error) {
 			}
 		}else{
 			item.HeadType = test_headtype
-			item.DateTime = fit.JsonTime(text_datetime)
-			item.TestTime = fit.JsonTime(test_time)
+			item.DateTime = FitTime(text_datetime)
+			item.TestTime = FitTime(test_time)
 			item.TypeTime = text_typetime
 			item.SubType     = test_type
 			item.Other    = test_other

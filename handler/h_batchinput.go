@@ -387,7 +387,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 	var nurse_id        int
 	var nurse_name      string
 	var patient_id      int64
-	var test_time       fit.JsonTime
+	var test_time       model.FitTime
 
 	if v, ok := strData["nurse_id"]; ok {
 		k,err  := strconv.Atoi(v)
@@ -422,7 +422,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 		if err != nil {
 			return 6,err
 		} else {
-			test_time = fit.JsonTime(texttime)
+			test_time = model.FitTime(texttime)
 		}
 	} else {
 		return 7,errors.New("没有test_time")
@@ -466,7 +466,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
 		item.PatientId = patient_id
-		item.TestTime = fit.JsonTime(test_time)
+		item.TestTime = model.FitTime(test_time)
 
 		item.HeadType = model.Temperature_Type
 		item.Value = thm_value
@@ -505,7 +505,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
 		item.PatientId = patient_id
-		item.TestTime = fit.JsonTime(test_time)
+		item.TestTime = model.FitTime(test_time)
 
 		item.HeadType = model.Pulse_Type
 		item.Value = pulse_value
@@ -544,7 +544,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
 		item.PatientId = patient_id
-		item.TestTime = fit.JsonTime(test_time)
+		item.TestTime = model.FitTime(test_time)
 
 		item.HeadType = model.Breathe_Type
 		item.Value = breathe_value
@@ -582,7 +582,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
 		item.PatientId = patient_id
-		item.TestTime = fit.JsonTime(test_time)
+		item.TestTime = model.FitTime(test_time)
 
 		item.HeadType = model.Shit_Type
 		item.Value = shit_value
@@ -628,7 +628,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
 		item.PatientId = patient_id
-		item.TestTime = fit.JsonTime(test_time)
+		item.TestTime = model.FitTime(test_time)
 
 		item.HeadType = model.Pressure_Type
 		if (pressure_sys != "" && pressure_dia != ""){
@@ -656,7 +656,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
 		item.PatientId = patient_id
-		item.TestTime = fit.JsonTime(test_time)
+		item.TestTime = model.FitTime(test_time)
 
 		item.HeadType = model.Heartrate_Type
 		item.Value = heartrate_value
@@ -694,7 +694,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
 		item.PatientId = patient_id
-		item.TestTime = fit.JsonTime(test_time)
+		item.TestTime = model.FitTime(test_time)
 
 		item.HeadType = model.Weight_Type
 		item.Value = weight_value
@@ -732,7 +732,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
 		item.PatientId = patient_id
-		item.TestTime = fit.JsonTime(test_time)
+		item.TestTime = model.FitTime(test_time)
 
 		item.HeadType = model.Height_Type
 		item.Value = height_value
@@ -757,7 +757,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
 		item.PatientId = patient_id
-		item.TestTime = fit.JsonTime(test_time)
+		item.TestTime = model.FitTime(test_time)
 
 		item.HeadType = model.Skin_Type
 		item.Value = skin_value
@@ -782,7 +782,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
 		item.PatientId = patient_id
-		item.TestTime = fit.JsonTime(test_time)
+		item.TestTime = model.FitTime(test_time)
 
 		item.HeadType = model.Other_Type
 		item.Value = other_value
@@ -796,7 +796,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 	}
 
 	var incident_scene int   //事件
-	var incident_time fit.JsonTime  //事件时间
+	var incident_time model.FitTime  //事件时间
 
 	if v, ok := strData["incident_scene"]; ok {
 		k,err  := strconv.Atoi(v)
@@ -814,7 +814,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 		if err != nil {
 			return 36,errors.New("没有incident_time")
 		} else {
-			incident_time = fit.JsonTime(texttime)
+			incident_time = model.FitTime(texttime)
 		}
 	} else {
 		return 1,errors.New("没有incident_time")
@@ -825,7 +825,7 @@ func BatchAnalysis(session *xorm.Session,strData map[string]string) (int,error){
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
 		item.PatientId = patient_id
-		item.TestTime = fit.JsonTime(incident_time)
+		item.TestTime = model.FitTime(incident_time)
 
 		item.HeadType = model.Incident_Type
 		item.Value = ""

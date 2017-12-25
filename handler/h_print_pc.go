@@ -63,13 +63,14 @@ func (c PCBottleStrapController) Post(w *fit.Response, r *fit.Request, p fit.Par
 	typeint := r.FormIntValue("type")
 	switch typeint {
 	case 1:
-		defer c.LoadView(w, "pc/v_infusionprint.html") //输液单
+		defer c.LoadView(w, "pc/v_infusionprint.html") //输液单 注射单 合并
 		break
 	case 2:
 		defer c.LoadView(w, "pc/v_oralprint.html") //口服单
 		break
 	case 3:
-		defer c.LoadView(w, "pc/v_injectionprint.html") //注射单
+		//defer c.LoadView(w, "pc/v_injectionprint.html") //注射单
+		defer c.LoadView(w, "pc/v_infusionprint.html") //输液单 注射单 合并
 		break
 	case 4:
 		defer c.LoadView(w, "pc/v_ptprint.html") //屏贴
@@ -79,7 +80,7 @@ func (c PCBottleStrapController) Post(w *fit.Response, r *fit.Request, p fit.Par
 		break
 	}
 	printInfos := r.FormValue("reqdata")
-	fmt.Println(printInfos)
+	//fmt.Println(printInfos)
 	timenow := time.Now().Format("2006-01-02")
 	c.Data = fit.Data{
 		"PrintInfo": printInfos, // 打印信息

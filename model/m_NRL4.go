@@ -17,7 +17,7 @@ type NRL4 struct {
 	PatientId int64        `xorm:"comment(patientid病人id)" fit:"pid"`
 	NurseId   string       `xorm:"comment(NursingId责任护士ID)" fit:"uid"`
 	NurseName string       `xorm:"comment(NursingName责任护士签名)" fit:"username"`
-	DateTime  fit.JsonTime `xorm:"comment(记录时间)"`
+	DateTime  FitTime `xorm:"comment(记录时间)"`
 	DateStr   string       `xorm:"-" fit:"-"`
 	NRL01    int       `xorm:"comment(年龄评分)"`
 	NRL02    int       `xorm:"comment(体重评分)"`
@@ -29,7 +29,7 @@ type NRL4 struct {
 	Score    string    `xorm:"comment(总分)" fit:"score"`
 }
 
-func (m *NRL4) InsertData() (int64, error) {
+/*func (m *NRL4) InsertData() (int64, error) {
 	_, err := fit.MySqlEngine().Table("NRL4").Insert(m)
 	var rid int64 = 0
 	if err == nil {
@@ -61,7 +61,7 @@ func QueryNRL4(rid string) (NRL4, error) {
 		//nr4.TimeStr = nr4.DateTime.Format("15:04")
 		return nr4, nil
 	}
-}
+}*/
 
 // pc端接口
 func PCQueryNRL4(pid, datestr1, datestr2 string, pagenum int) ([]NRL4, error) {
@@ -80,9 +80,9 @@ func PCQueryNRL4(pid, datestr1, datestr2 string, pagenum int) ([]NRL4, error) {
 	if err != nil {
 		return nil, err
 	}
-	//for key, _ := range mods {
-	//	val := mods[key]
-		//mods[key].DateStr = val.DateTime.Format("2006-01-02")
-	//}
+	for key, _ := range mods {
+		val := mods[key]
+		mods[key].DateStr = val.DateTime.ParseDate()
+	}
 	return mods, nil
 }

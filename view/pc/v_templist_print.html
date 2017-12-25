@@ -40,6 +40,11 @@
         .table-data-box table .data-box .bg_line .line .temp-other{
             top:74%;
         }
+        td{
+            position: relative;
+            z-index: 99;
+            background: #fff;
+        }
     </style>
 </head>
 <body style="overflow: auto;">
@@ -240,7 +245,7 @@
 
                             </div>
                         </td>
-                        <td colspan="7" class="tab-cont-box" id="incident-td" style="overflow: hidden;">
+                        <td colspan="7" class="tab-cont-box" id="incident-td" >
                             <div class="data-warp">
                                 {{/*height: 1200px;*/}}
                                 <div id="data-main" style="width: 921px; height: 900px;"></div>

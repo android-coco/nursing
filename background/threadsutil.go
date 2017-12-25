@@ -137,17 +137,8 @@ type VAA1 struct {
 	VAA84  string    // 体检登记号
 }
 
-//
-//type User struct {
-//	Username   string
-//	Code       string
-//	Password   string
-//	Employeeid uint64
-//	Authority  int
-//}
 
 func init() {
-	fit.RegisterMime()
 	// 请不要随意创建新的线程
 	//go synchronizing()
 	//开始一个定时任务同步数据
@@ -163,20 +154,6 @@ func init() {
 	}()
 }
 
-//同步用户信息到我们系统
-func synchronizing() {
-	t := time.NewTimer(time.Minute * time.Duration(fit.Config().Cycle))
-	for {
-		if !fit.SartOK {
-			continue
-		}
-		synchronizingVAA1()
-		synchronizingBCE1()
-		//time.Sleep(time.Minute * time.Duration(fit.Config().Cycle)) // 停顿5分钟
-
-		<-t.C
-	}
-}
 
 func synchronizingBCE1() {
 	mods := make([]BCE1, 0)

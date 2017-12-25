@@ -108,11 +108,10 @@ func PCGetTempChartData(pid string, weeks []time.Time) (chartmod tempChart, err 
 	return
 }
 
-
 func GetTempChart(ty, pid string, weeks []time.Time) ([]string, error) {
 	//fit.MySqlEngine().ShowSQL(true)
 
-	var sql  = ""
+	var sql = ""
 	var results []string
 	var jmax int
 	switch ty {
@@ -159,14 +158,14 @@ func GetTempChart(ty, pid string, weeks []time.Time) ([]string, error) {
 		//  ORDER BY DateTime1 DESC LIMIT 1
 	case "601": //   总入量
 		jmax = 1
-		sql = "SELECT IntakeTotal AS Value FROM IOStatistics WHERE date_format(DateTime1,'%Y-%m-%d') = ? and PatientId = ? and DataType = 1 ORDER BY DateTime1 DESC "
+		sql = "SELECT IntakeTotal AS Value FROM IOStatistics WHERE date(DateTime1) = ? and PatientId = ? and DataType = 1 ORDER BY DateTime1 DESC "
 	case "611": // 出量其他
 		jmax = 1
-		sql = "SELECT OutputC AS Value FROM IOStatistics WHERE date_format(DateTime1,'%Y-%m-%d') = ? and PatientId = ? and DataType = 1 ORDER BY DateTime1 DESC "
+		sql = "SELECT OutputC AS Value FROM IOStatistics WHERE date(DateTime1) = ? and PatientId = ? and DataType = 1 ORDER BY DateTime1 DESC "
 
 	case "612": // 出量 排尿/ml,
 		jmax = 1
-		sql = "SELECT OutputA AS Value FROM IOStatistics WHERE date_format(DateTime1,'%Y-%m-%d') = ? and PatientId = ? and DataType = 1 ORDER BY DateTime1 DESC "
+		sql = "SELECT OutputA AS Value FROM IOStatistics WHERE date(DateTime1) = ? and PatientId = ? and DataType = 1 ORDER BY DateTime1 DESC "
 
 	case "613": // 出量 大便/次',
 		jmax = 1
@@ -205,7 +204,7 @@ func GetTempChart(ty, pid string, weeks []time.Time) ([]string, error) {
 				if len(resultmap) > 0 {
 
 					switch ty {
-					case "12"://事件可以多次
+					case "12": //事件可以多次
 						totalvalue := ""
 						for _, dict := range resultmap {
 							if v, ok := dict["Other"]; ok {
@@ -276,11 +275,11 @@ func GetTempChart(ty, pid string, weeks []time.Time) ([]string, error) {
 							results = append(results, "")
 						}
 
-					case "613":// 大便一天多次需要合计
+					case "613": // 大便一天多次需要合计
 						totalvalue := 0
 						for _, dict := range resultmap {
 							if v, ok := dict["Value"]; ok {
-								it,_:=strconv.Atoi(v)
+								it, _ := strconv.Atoi(v)
 								totalvalue = totalvalue + it
 							} else {
 								totalvalue = totalvalue + 0
@@ -309,7 +308,6 @@ func GetTempChart(ty, pid string, weeks []time.Time) ([]string, error) {
 	return results, nil
 }
 
-
 /*查询住院期间的手术记录
 func FetchOperationRecordsDate(pid int64) ([]string, error) {
 	records := make([]string, 0)
@@ -333,7 +331,7 @@ func FetchOperationRecordsDate(pid int64) ([]string, error) {
 func GetValidOperationDates(pid string, sdate time.Time) ([]string, error) {
 	records := make([]string, 0)
 	date1 := sdate.Format("2006-01-02")
-	date2 := sdate.AddDate(0,0,8).Format("2006-01-02")
+	date2 := sdate.AddDate(0, 0, 8).Format("2006-01-02")
 	var err error
 	// VAT04 = 4 表示已结束手术
 	resultsmap, err := fit.SQLServerEngine().QueryString("select VAT08 from VAT1 where VAA01 = ? and VAT08 >= ? and VAT08 < ? and VAT04 = 4 ORDER BY VAT08 ASC", pid, date1, date2)
@@ -343,9 +341,10 @@ func GetValidOperationDates(pid string, sdate time.Time) ([]string, error) {
 	}
 	return records, err
 }
+
 // 获取离当前周最近的一次手术
-func GetLastOperationDates(pid string, sdate time.Time)  (lastRecords string, err error) {
-	date2 := sdate.AddDate(0,0,0).Format("2006-01-02")
+func GetLastOperationDates(pid string, sdate time.Time) (lastRecords string, err error) {
+	date2 := sdate.AddDate(0, 0, 0).Format("2006-01-02")
 	// VAT04 = 4 表示已结束手术
 	resultsmap, err := fit.SQLServerEngine().QueryString("select top 1 VAT08 from VAT1 where VAA01 = ? and VAT08 < ? and VAT04 = 4 ORDER BY VAT08 DESC", pid, date2)
 	if len(resultsmap) == 0 {
@@ -374,8 +373,101 @@ func GetOperationRecords(pid string, edate time.Time) ([]time.Time, error) {
 	return records, err
 }
 
-func Test(ty, pid string, weeks []time.Time)  {
-	sql := "SELECT Value FROM TemperatrureChat WHERE DateTime = ? and PatientId = ? and HeadType = 1 and SubType = 3"
-	resultmap, err := fit.MySqlEngine().QueryString(sql, "", pid)
-	fmt.Println(resultmap, err)
+type TempModel struct {
+	HeadType  string       `json:"headtype" xorm:"notnull comment(头部类型)"`
+	SubType   int          `json:"type" xorm:"notnull comment(类型,)"`
+	DateTime  FitTime `json:"testtime" xorm:"notnull comment(日期时间)"`
+	TypeTime  int          `json:"typetime" xorm:"notnull comment(时间段)"`
+	Value     string       `json:"value" xorm:"notnull comment(值)"`
+	Other     int          `json:"other" xorm:"notnull comment(其他可能选项,)"`
+	//PatientId int64        `json:"patientid" xorm:"notnull comment(病人id)"`
+	//NurseId   int          `json:"nurseid" xorm:"notnull comment(护士id)"`
+	//NurseName string       `json:"nursename" xorm:"notnull comment(护士姓名)"`
+}
+
+func Test(pid string, weeks []time.Time) ([]TempModel) {
+	t0 := weeks[0]
+	t6 := weeks[len(weeks) - 1]
+	t0str := t0.Format("2006-01-02 15:04:05")
+	t6str := t6.AddDate(0, 0, 1).Format("2006-01-02 15:04:05")
+	var mods []TempModel
+	sql := "SELECT HeadType, SubType, DateTime, TypeTime, Value, Other FROM TemperatrureChat WHERE DateTime >= ? and DateTime < ? and PatientId = ?"
+	//resultmap, err := fit.MySqlEngine().QueryString(sql, "2017-12-17", pid)
+	err := fit.MySqlEngine().SQL(sql, t0str, t6str, pid).Find(&mods)
+	fmt.Println("err:", err, "t0:", t0)
+
+	sql2 := "SELECT OutputA, OutputC, IntakeTotal AS Value FROM IOStatistics WHERE DateTime1 >= ? and DateTime < ? and PatientId = ? and DataType = 1"
+	resultmap, err2 := fit.MySqlEngine().QueryString(sql2, t0str, t6str, pid)
+	if err2 != nil {
+		fit.Logger().LogError("hy:", "temp chart:", err2.Error())
+	}
+	for _, val := range resultmap {
+		fmt.Println("value:", val)
+	}
+
+	data := new(TempChart)
+
+	for _,val := range mods {
+		t1 := val.DateTime
+		duration := t1.Sub(FitTime(t0))
+		days := duration.Hours() / 24
+		fmt.Println("t1:", t1, "days:", days, "duration:", duration)
+
+		index := int(days) * 6 + val.TypeTime / 4
+		index2 := int(days)
+		// 1体温2脉搏3呼吸4血压5心率8体重9身高10皮试12事件13大便次数14其他
+		switch val.HeadType {
+		case "1":
+			switch val.SubType {
+			case 3:
+				data.Temp1[index] = val.Value
+			case 1:
+				data.Temp2[index] = val.Value
+			case 4:
+				data.Temp3[index] = val.Value
+			}
+
+		case "2":
+			data.Pulse[index] = val.Value
+		case "3":
+			data.Breathe[index] = val.Value
+		case "4":
+			data.Pressure[index2] = val.Value
+		case "5":
+			data.Heartrate[index] = val.Value
+		case "8":
+			data.Weight[index2] = val.Value
+		case "10":
+			data.Skin[index2] = val.Value
+		case "12":
+			data.Incident[index2] = val.Value
+		case "13":
+			data.Output3[index2] = val.Value
+		case "14":
+			data.Other[index2] = val.Value
+		default:
+			fmt.Println("error ----------------")
+		}
+	}
+	fmt.Printf("data: %+v", data)
+	return mods
+}
+
+type TempChart struct {
+	Temp1     [42]string // 口表 3
+	Temp2     [42]string // 腋表 1
+	Temp3     [42]string // 肛表 4
+	TempOther [42]string // 体温事件
+	Pulse     [42]string // 脉搏
+	Heartrate [42]string // 心率
+	Breathe   [42]string // 呼吸
+	Intake    [7]string // 输入液量
+	Output1   [7]string // 排出其他
+	Output2   [7]string // 排出尿量
+	Output3   [7]string // 排出大便
+	Pressure  [7]string // 血压
+	Weight    [7]string // 体重
+	Skin      [7]string // 皮试
+	Other     [7]string // 其他
+	Incident  [7]string // 事件
 }

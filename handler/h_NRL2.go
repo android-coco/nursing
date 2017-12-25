@@ -86,12 +86,12 @@ func (c NRL2Controller) Check(w *fit.Response, r *fit.Request, p fit.Params) {
 		"NRL18B": NRL18B,  // 1次/m天
 		"NRL38A": NRL38A,  // 录入护理单的年月日
 		"NRL38B": NRL38B,  // 录入护理单的时分
-		"NRL39B":    NRL39B, //审核时间
-		"NRL39C":    NRL39C,
+		"NRL39B": NRL39B,  //审核时间
+		"NRL39C": NRL39C,
 	}
 
-	fmt.Printf("data %+v\n", c.Data)
-	c.LoadView(w, "v_nrl2.html")
+	//fmt.Printf("data %+v\n", c.Data)
+	c.LoadView(w, "pda/v_nrl2.html")
 }
 
 func (c NRL2Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
@@ -184,7 +184,7 @@ func (c NRL2Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 		"NRL39C":    NRL39C,
 	}
 
-	c.LoadView(w, "v_nrl2_edit.html")
+	c.LoadView(w, "pda/v_nrl2_edit.html")
 }
 
 // 接口

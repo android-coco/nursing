@@ -88,7 +88,7 @@ func (c IntakeOutputCollectController) Post(w *fit.Response, r *fit.Request, p f
 		Other:     opertion_i,
 		OtherStr:  other_desc,
 		Describe:  desc,
-		TestTime:  fit.JsonTime(testtime),
+		TestTime:  model.FitTime(testtime),
 		Value:     value,
 	}
 

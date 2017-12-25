@@ -19,7 +19,7 @@ type PCBatvhHistoryController struct{
 func (c PCBatvhHistoryController) TZHistory(w *fit.Response, r *fit.Request, p fit.Params) {
 	userinfo, err := c.GetLocalUserinfo(w, r)
 	if err == nil {
-		defer c.LoadViewSafely(w, r, "pc/v_batchinput2.html", "pc/header_side.html", "pc/header_top.html")
+		defer c.LoadViewSafely(w, r, "pc/v_batchInput2.html", "pc/header_side.html", "pc/header_top.html")
 		c.Data = make(fit.Data)
 
 		c.Data["Userinfo"] = userinfo
@@ -340,7 +340,7 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 		item.NurseName = nurse_name
 		item.NurseId  =  nurse_id
 		item.PatientId = patient_id
-		item.TestTime = fit.JsonTime(test_time)
+		item.TestTime = model.FitTime(test_time)
 
 		item.HeadType = model.Temperature_Type
 		item.Value = thm_value
@@ -396,7 +396,7 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 			item.NurseName = nurse_name
 			item.NurseId = nurse_id
 			item.PatientId = patient_id
-			item.TestTime = fit.JsonTime(test_time)
+			item.TestTime = model.FitTime(test_time)
 
 			item.HeadType = model.Pulse_Type
 			item.Value = pulse_value
@@ -452,7 +452,7 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 			item.NurseName = nurse_name
 			item.NurseId = nurse_id
 			item.PatientId = patient_id
-			item.TestTime = fit.JsonTime(test_time)
+			item.TestTime = model.FitTime(test_time)
 
 			item.HeadType = model.Breathe_Type
 			item.Value = breathe_value
@@ -508,7 +508,7 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 			item.NurseName = nurse_name
 			item.NurseId = nurse_id
 			item.PatientId = patient_id
-			item.TestTime = fit.JsonTime(test_time)
+			item.TestTime = model.FitTime(test_time)
 
 			item.HeadType = model.Shit_Type
 			item.Value = shit_value
@@ -565,7 +565,7 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 			item.NurseName = nurse_name
 			item.NurseId = nurse_id
 			item.PatientId = patient_id
-			item.TestTime = fit.JsonTime(test_time)
+			item.TestTime = model.FitTime(test_time)
 
 			item.HeadType = model.Pressure_Type
 			item.Value =  pressure_sys + "/" + pressure_dia
@@ -613,7 +613,7 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 			item.NurseName = nurse_name
 			item.NurseId = nurse_id
 			item.PatientId = patient_id
-			item.TestTime = fit.JsonTime(test_time)
+			item.TestTime = model.FitTime(test_time)
 
 			item.HeadType = model.Heartrate_Type
 			item.Value = heartrate_value
@@ -669,7 +669,7 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 			item.NurseName = nurse_name
 			item.NurseId = nurse_id
 			item.PatientId = patient_id
-			item.TestTime = fit.JsonTime(test_time)
+			item.TestTime = model.FitTime(test_time)
 
 			item.HeadType = model.Weight_Type
 			item.Value = weight_value
@@ -725,7 +725,7 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 			item.NurseName = nurse_name
 			item.NurseId = nurse_id
 			item.PatientId = patient_id
-			item.TestTime = fit.JsonTime(test_time)
+			item.TestTime = model.FitTime(test_time)
 
 			item.HeadType = model.Height_Type
 			item.Value = height_value
@@ -773,7 +773,7 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 			item.NurseName = nurse_name
 			item.NurseId = nurse_id
 			item.PatientId = patient_id
-			item.TestTime = fit.JsonTime(test_time)
+			item.TestTime = model.FitTime(test_time)
 
 			item.HeadType = model.Skin_Type
 			item.Value = skin_value
@@ -821,7 +821,7 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 			item.NurseName = nurse_name
 			item.NurseId = nurse_id
 			item.PatientId = patient_id
-			item.TestTime = fit.JsonTime(test_time)
+			item.TestTime = model.FitTime(test_time)
 
 			item.HeadType = model.Other_Type
 			item.Value = other_value
@@ -854,7 +854,7 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 		if  incident_scene != 0 {
 			maps := make(map[string]interface{})
 			maps["Other"] = incident_scene
-			maps["TestTime"] = fit.JsonTime(incident_time).String()
+			maps["TestTime"] = model.FitTime(incident_time).String()
 			err := model.UpdateTemperatrureChat(session,incident_id,maps)
 			if(err!=nil){
 				session.Rollback()
@@ -879,7 +879,7 @@ func (c PCBatvhHistoryController) TZUpdate(w *fit.Response, r *fit.Request, p fi
 			item.NurseName = nurse_name
 			item.NurseId = nurse_id
 			item.PatientId = patient_id
-			item.TestTime = fit.JsonTime(incident_time)
+			item.TestTime = model.FitTime(incident_time)
 
 			item.HeadType = model.Incident_Type
 			item.Value = ""

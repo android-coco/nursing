@@ -21,22 +21,22 @@ func (c PCMedicalAdviceController) PCSearch(w *fit.Response, r *fit.Request, p f
 	if err == nil {
 		patients := model.FetchInpatientWardPatients(userinfo.DepartmentID)
 
-		pidStr := ""
-		var index int
-		length := len(patients)
-		for index = 0; index < length; index ++ {
-			p := patients[index]
-			if v := length - 1; index < v {
-				pidStr = fmt.Sprintf("%s%d,", pidStr, p.Vid)
-			} else {
-				pidStr = fmt.Sprintf("%s%d", pidStr, p.Vid)
-			}
-		}
-		mAdvices, _ := model.SearchMedicalAdviceForPC(0, 0, "0", pidStr, "all", "all")
+		//pidStr := ""
+		//var index int
+		//length := len(patients)
+		//for index = 0; index < length; index ++ {
+		//	p := patients[index]
+		//	if v := length - 1; index < v {
+		//		pidStr = fmt.Sprintf("%s%d,", pidStr, p.Vid)
+		//	} else {
+		//		pidStr = fmt.Sprintf("%s%d", pidStr, p.Vid)
+		//	}
+		//}
+		//mAdvices, _ := model.SearchMedicalAdviceForPC(0, 0, "0", pidStr, "all", "all")
 		c.Data = fit.Data{
 			"Userinfo":  userinfo,
 			"Patients":  patients,
-			"MAdvices":  mAdvices,
+			//"MAdvices":  mAdvices,
 			"Menuindex": "3-0",
 		}
 
@@ -95,25 +95,25 @@ func (c PCMedicalAdviceController) PCExecState(w *fit.Response, r *fit.Request, 
 	userinfo, err := c.GetLocalUserinfo(w, r)
 	if err == nil {
 		patients := model.FetchInpatientWardPatients(userinfo.DepartmentID)
-		pidStr := ""
-		var index int
-		length := len(patients)
-		for index = 0; index < length; index ++ {
-			p := patients[index]
-			if v := length - 1; index < v {
-				pidStr = fmt.Sprintf("%s%d,", pidStr, p.Vid)
-			} else {
-				pidStr = fmt.Sprintf("%s%d", pidStr, p.Vid)
-			}
-		}
-		mAdvices, err_db := model.SearchMedicalAdviceExecutionForPC(0, 0, "0", pidStr, "all", "all")
-		if err_db != nil {
-			fit.Logger().LogError("***JK***", err_db.Error())
-		}
+		//pidStr := ""
+		//var index int
+		//length := len(patients)
+		//for index = 0; index < length; index ++ {
+		//	p := patients[index]
+		//	if v := length - 1; index < v {
+		//		pidStr = fmt.Sprintf("%s%d,", pidStr, p.Vid)
+		//	} else {
+		//		pidStr = fmt.Sprintf("%s%d", pidStr, p.Vid)
+		//	}
+		//}
+		//mAdvices, err_db := model.SearchMedicalAdviceExecutionForPC(0, 0, "0", pidStr, "all", "all")
+		//if err_db != nil {
+		//	fit.Logger().LogError("***JK***", err_db.Error())
+		//}
 		c.Data = fit.Data{
 			"Userinfo":  userinfo,
 			"Patients":  patients,
-			"MAdvices":  mAdvices,
+			//"MAdvices":  mAdvices,
 			"Menuindex": "3-0",
 		}
 		_ = c.LoadViewSafely(w, r, "pc/v_medicaladvice_message2.html", "pc/header_side.html", "pc/header_top.html")
@@ -200,27 +200,27 @@ func (c PCMedicalAdviceController) PCSplit(w *fit.Response, r *fit.Request, p fi
 	if err == nil {
 		patients := model.FetchInpatientWardPatients(userinfo.DepartmentID)
 
-		pidStr := ""
-		var index int
-		length := len(patients)
-		for index = 0; index < length; index ++ {
-			p := patients[index]
-			if v := length - 1; index < v {
-				pidStr = fmt.Sprintf("%s%d,", pidStr, p.Vid)
-			} else {
-				pidStr = fmt.Sprintf("%s%d", pidStr, p.Vid)
-			}
-		}
+		//pidStr := ""
+		//var index int
+		//length := len(patients)
+		//for index = 0; index < length; index ++ {
+		//	p := patients[index]
+		//	if v := length - 1; index < v {
+		//		pidStr = fmt.Sprintf("%s%d,", pidStr, p.Vid)
+		//	} else {
+		//		pidStr = fmt.Sprintf("%s%d", pidStr, p.Vid)
+		//	}
+		//}
 
-		t := time.Now()
-		st := time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location()).Format("2006-01-02 15:04:05")
-		et := time.Date(t.Year(), t.Month(), t.Day(), 23, 55, 59, 1, t.Location()).Format("2006-01-02 15:04:05")
+		//t := time.Now()
+		//st := time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location()).Format("2006-01-02 15:04:05")
+		//et := time.Date(t.Year(), t.Month(), t.Day(), 23, 55, 59, 1, t.Location()).Format("2006-01-02 15:04:05")
 
-		var temp []model.MedicalAdviceResponse
-		response := make([]model.MedicalAdviceResponse, 0)
+		//var temp []model.MedicalAdviceResponse
+		//response := make([]model.MedicalAdviceResponse, 0)
+		//temp, _ = model.SearchSplitMedicalAdviceForInfusion(st, et, pidStr, 0, 2, userinfo.DepartmentID)
 
-		temp, _ = model.SearchSplitMedicalAdviceForInfusion(st, et, pidStr, 0, 2, userinfo.DepartmentID)
-		response = append(response, temp...)
+		//response = append(response, temp...)
 		//temp, _ = model.SearchSplitMedicalAdviceForOralMedical(st, et, pidStr, 0, 2, userinfo.DepartmentID)
 		//response = append(response, temp...)
 		//temp, _ = model.SearchSplitMedicalAdviceForOralInjection(st, et, pidStr, 0, 2, userinfo.DepartmentID)
@@ -229,7 +229,7 @@ func (c PCMedicalAdviceController) PCSplit(w *fit.Response, r *fit.Request, p fi
 		c.Data = fit.Data{
 			"Userinfo":  userinfo,
 			"Patients":  patients,
-			"MAdvices":  response,
+			//"MAdvices":  response,
 			"Menuindex": "2-0",
 		}
 		_ = c.LoadViewSafely(w, r, "pc/v_medicaladvice_split.html", "pc/header_side.html", "pc/header_top.html")

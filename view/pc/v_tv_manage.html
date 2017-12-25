@@ -112,9 +112,8 @@
                                 </div>
                             </td>
                             <td>
-
                                 <p class="txt" v-cloak>
-                                    ${reqData.v2}
+                                    ${reqData.v2}                                    
                                 </p>
                                 <div class="input-box">
                                     <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
@@ -375,11 +374,9 @@
                                     计24小时出入量
                                 </p>
                                 <div class="input-box">
-                                    <p class="d-txt">
-                                        计24小时出入量
-                                    </p>
-
-                                </div>
+                                        <p class="d-txt">计24小时出入量</p>                                        
+                                <div>
+                                        
                             </td>
                             <td>
                                 <p class="txt" v-cloak>
@@ -392,52 +389,183 @@
                         </tr>
 
                         <tr>
-                            <td>
-                                <p class="txt">
-                                    生命体征监测
-                                </p>
-                                <div class="input-box">
-                                    <p class="d-txt">
-                                        生命体征监测
+                                <td>
+                                    <p class="txt">
+                                        血压监控 Tid
                                     </p>
+                                    <div class="input-box">
+                                        <p class="d-txt">
+                                                血压监控 Tid
+                                        </p>
+    
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="txt" v-cloak>   
+                                            ${reqData.Tid}                                     
+                                    </p>
+                                    <div class="input-box">
+                                        <input type="text" placeholder="点击编辑" class="input-text" maxlength="300" v-model="tmplData.Tid">
+                                    </div>
+                                </td>
+                            </tr>
 
-                                </div>
-                            </td>
-                            <td>
-                                <p class="txt" v-cloak>
-                                    ${reqData.v16}
-                                </p>
-                                <div class="input-box">
-                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300" v-model="tmplData.v16">
-                                </div>
-                            </td>
-                        </tr>
+                            <tr>
+                                    <td>
+                                        <p class="txt">
+                                            血压监控 Qid
+                                        </p>
+                                        <div class="input-box">
+                                            <p class="d-txt">
+                                                    血压监控 Qid
+                                            </p>
+        
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p class="txt" v-cloak >                                                
+                                            ${reqData.Qid}
+                                        </p>
+                                        <div class="input-box">
+                                            <input type="text" placeholder="点击编辑" class="input-text" maxlength="300" v-model="tmplData.Qid">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                        <td>
+                                            <p class="txt">
+                                                血压监控 Bid
+                                            </p>
+                                            <div class="input-box">
+                                                <p class="d-txt">
+                                                        血压监控 Bid
+                                                </p>
+            
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="txt" v-cloak > 
+                                                    ${reqData.Bid}                                                        
+                                            </p>
+                                            <div class="input-box">
+                                                <input type="text" placeholder="点击编辑" class="input-text" maxlength="300" v-model="tmplData.Bid">
+                                            </div>
+                                        </td>
+                                    </tr>                      
 
                         <tr>
                             <td>
                                 <p class="txt">
-                                    血糖记录
+                                    血糖记录(1)
                                 </p>
                                 <div class="input-box">
                                     <p class="d-txt">
-                                        血糖记录
+                                        血糖记录(1)
                                     </p>
 
                                 </div>
                             </td>
                             <td>
                                 <p class="txt" v-cloak>
-                                    ${reqData.customVal1}
+                                    ${reqData.blood1}
                                 </p>
                                 <div class="input-box">
                                     <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
-                                           v-model="tmplData.customVal1"
+                                           v-model="tmplData.blood1"
                                            @keydown="keydownfn">
                                 </div>
                             </td>
                         </tr>
-
                         <tr>
+                                <td>
+                                    <p class="txt">
+                                        血糖记录(2)
+                                    </p>
+                                    <div class="input-box">
+                                        <p class="d-txt">
+                                            血糖记录(2)
+                                        </p>
+    
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="txt" v-cloak>
+                                        ${reqData.blood2}
+                                    </p>
+                                    <div class="input-box">
+                                        <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+                                               v-model="tmplData.blood2"
+                                               @keydown="keydownfn">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                    <td>
+                                        <p class="txt">
+                                            血糖记录(3)
+                                        </p>
+                                        <div class="input-box">
+                                            <p class="d-txt">
+                                                血糖记录(3)
+                                            </p>
+        
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p class="txt" v-cloak>
+                                            ${reqData.blood3}
+                                        </p>
+                                        <div class="input-box">
+                                            <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+                                                   v-model="tmplData.blood3"
+                                                   @keydown="keydownfn">
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                        <td>
+                                            <p class="txt" v-cloak> 其他 </p>
+                                            <div class="input-box">
+                                                    <p class="d-txt">  其他 </p>                
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="txt" v-cloak>
+                                                ${reqData.v20}
+                                            </p>
+                                            <div class="input-box">
+                                                <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+                                                       v-model="tmplData.v20" @keydown="keydownfn">
+                                            </div>
+                                        </td>
+                                    </tr>
+            
+                        
+
+                                <tr>
+                                        <td>
+                                            <p class="txt" v-cloak>
+                                                ${reqData.customTit1}
+                                            </p>
+                                            <div class="input-box">
+                                                <input type="text" placeholder="点击编辑" class="input-text" maxlength="8"
+                                                       v-model="tmplData.customTit1"  @keydown="keydownfn" >
+                                                {{/*:disabled="!isShowTit2"*/}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="txt" v-cloak>
+                                                ${reqData.customVal1}
+                                            </p>
+                                            <div class="input-box">
+                                                <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
+                                                       v-model="tmplData.customVal1" @keydown="keydownfn">
+                                            </div>
+                                        </td>
+                                    </tr>
+            
+                        
                             <td>
                                 <p class="txt" v-cloak>
                                     ${reqData.customTit2}
@@ -624,7 +752,7 @@
 
             </div>
             <div class="pt30"></div>
-            <div class="item-block">
+            <div class="item-block" style="display: none">
                 <div class="tit-bar">
                     <span class="txt">其他控制</span>
                     <span class="line"></span>
@@ -654,7 +782,7 @@
                     </div>
                 </div>
                 -->
-                <div class="other-box">
+                <div class="other-box" style="display: none">
                     <p class="txt">
                         床位显示控制：<input type="checkbox"  :checked="reqData.display==1" disabled> &nbsp;不显示空床位
                     </p>
@@ -787,6 +915,7 @@
     req("/tv/list",{"class_id": classid},
             function (reqData) {
                 var sourceData = reqData[0];
+                var c = reqData[0];
                 if(sourceData){
                     setCustom(sourceData)
                 }
@@ -803,7 +932,7 @@
                     },
                     computed: {
                         isShowTit2: function () {
-                            if(this.reqData.v18){
+                            if(this.reqData.v19){
                                 return false;
                             }else{
                                 return true
@@ -823,7 +952,7 @@
                     },
                     methods: {
                         editfn: function (e) {
-                            if(this.tmplData.notifys.length>=10){
+                            if(this.tmplData.notifys.length>=4){
                                 $(".add-btn").find("a").addClass("none")
                             }
                             if($(".item-block.active").length>0){
@@ -837,17 +966,23 @@
                             this.$set(this,"tmplData",tmplData)
                             $(e.target).parents(".item-block").removeClass("active")
 
-                            if(this.tmplData.notifys.length<10){
+                            if(this.tmplData.notifys.length<4){
                                 $(".add-btn").find("a").removeClass("none")
                             }
                         },
-                        savefn:function(e){
-                            tmplData["v17"] = tmplData["customTit1"] &&(tmplData["customTit1"] +"|"+tmplData["customVal1"])
-                            tmplData["v18"] = tmplData["customTit2"] &&(tmplData["customTit2"] +"|"+tmplData["customVal2"])
+                        savefn:function(e){                            
+                            tmplData["v18"] = tmplData["customTit1"] &&(tmplData["customTit1"] +"| "+tmplData["customVal1"])
+                            tmplData["v19"] = tmplData["customTit2"] &&(tmplData["customTit2"] +"| "+tmplData["customVal2"])
+                            
+                            bloodPress = [tmplData.Tid || " ", tmplData.Qid || " ", tmplData.Bid || " "];
+                            tmplData["v16"] = bloodPress.join('|');
+                            bloodSugar = [tmplData.blood1 || " ", tmplData.blood2 || " ", tmplData.blood3 || " "];
+                            tmplData["v17"] = bloodSugar.join('|');
                             // console.log(equals(tmplData,reqData))
-
-                            if(!tmplData["customTit2"] && tmplData["customVal2"]){
-                                jkyAlert("自定义表题不能为空","no")
+                            if(!tmplData["customTit1"] && tmplData["customVal1"]){
+                                jkyAlert("自定义表题1不能为空","no")
+                            } else if(!tmplData["customTit2"] && tmplData["customVal2"]){
+                                jkyAlert("自定义表题2不能为空","no")
                             }else{
                                 var isNullTxt = false;
                                 $.each(tmplData.notifys,function(i,val){
@@ -914,8 +1049,8 @@
                             notifysArr.push({"id":0,"mid":0,"notifyinfo":""})
                             // notifysArr2.push({"id":0,"mid":0,"notifyinfo":""})
 
-                            if(notifysArr.length>=10){
-                                $(".add-btn").addClass("none")
+                            if(notifysArr.length>=4){
+                                $(".add-btn").find("a").addClass("none")
                             }
                             setTimeout(function(){
                                 var $input = $("#notice-list").find(".tmpl-tr").find("input")
@@ -930,8 +1065,8 @@
                             var notifysArr2 = this.reqData.notifys || [];
                             // var notifysArr2 = this.reqData.notifys || [];
                             jkyConfirm("是否确认删除该内容",function(){                                
-                                if(self.tmplData.notifys.length==10){
-                                    $(".add-btn").removeClass("none")
+                                if(self.tmplData.notifys.length==4){
+                                    $(".add-btn").find("a").removeClass("none")
                                 }
                                 var id = $this.attr("data-id");                                
                                 if(id && id !="0"){
@@ -971,19 +1106,32 @@
 
 
     function setCustom(sourceData){
-        if(sourceData.v17){
-            sourceData.customTit1 = sourceData.v17.split("|")[0]
-            sourceData.customVal1 = sourceData.v17.split("|")[1]
+        if(sourceData.v18){
+            sourceData.customTit1 = sourceData.v18.split("|")[0]
+            sourceData.customVal1 = sourceData.v18.split("|")[1]
         }else{
             sourceData.customTit1 = ""
             sourceData.customVal1 = ""
         }
-        if(sourceData.v18){
-            sourceData.customTit2 = sourceData.v18.split("|")[0]
-            sourceData.customVal2 = sourceData.v18.split("|")[1]
+        if(sourceData.v19){
+            sourceData.customTit2 = sourceData.v19.split("|")[0]
+            sourceData.customVal2 = sourceData.v19.split("|")[1]
         }else{
             sourceData.customTit2 = ""
             sourceData.customVal2 = ""
+        }
+
+        if(sourceData.v16) {
+            var arr = sourceData.v16.split('|');
+            sourceData.Tid = (typeof arr[0] !== undefined ) ? arr[0]: "";
+            sourceData.Qid = (typeof arr[1] !== undefined ) ? arr[1]: "";
+            sourceData.Bid = (typeof arr[2] !== undefined ) ? arr[2]: "";
+        }
+        if(sourceData.v17) {
+            var arr = sourceData.v17.split('|');
+            sourceData.blood1 = (typeof arr[0] !== undefined ) ? arr[0]: "";
+            sourceData.blood2 = (typeof arr[1] !== undefined ) ? arr[1]: "";
+            sourceData.blood3 = (typeof arr[2] !== undefined ) ? arr[2]: "";
         }
     }
 

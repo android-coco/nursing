@@ -140,6 +140,12 @@ func (acc Account) UpdateAccountAuthorityAndStatus() error {
 	return err
 }
 
+func (m Account) DeleteAccount() error  {
+	//_, err := fit.MySqlEngine().Where("Code = ?", m.Code).Delete(m)
+	_, err := fit.MySqlEngine().Exec("delete from User where Code = ?", m.Code)
+	return err
+}
+
 /*创建新账号*/
 func CreateAccountWithOriginalUserinfo(bce BCE1, authority, status int) error {
 	const pwd = "123456"

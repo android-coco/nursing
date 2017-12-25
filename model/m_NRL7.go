@@ -9,7 +9,7 @@ type NRL7Title struct {
 	ID       int64     `xorm:"pk autoincr comment(id)"`
 	PatientId    int64     `xorm:"comment(patientid病人id)" fit:"pid"`
 	//BCK01    int       `xorm:"comment(classid科室id)"`
-	DateTime fit.JsonTime `xorm:"comment(记录时间)"`
+	DateTime FitTime `xorm:"comment(记录时间)"`
 
 	NRT01  string `xorm:"comment(表头25，11=固定，其他空值)"`
 	NRT01V string `xorm:"comment(表头25，自定义内容)"`
@@ -27,7 +27,7 @@ type NRL7 struct {
 	PatientId int64        `xorm:"comment(patientid病人id)" fit:"pid"`
 	NurseId   string       `xorm:"comment(NursingId责任护士ID)" fit:"uid"`
 	NurseName string       `xorm:"comment(NursingName责任护士签名)" fit:"username"`
-	DateTime  fit.JsonTime `xorm:"comment(记录时间)"`
+	DateTime  FitTime `xorm:"comment(记录时间)"`
 	DateStr   string       `xorm:"-" fit:"-"`
 	TimeStr  string    `xorm:"-"`
 	//NRL08    string    `xorm:"comment(陪护情况，有无)"`
@@ -46,7 +46,7 @@ type NRL7 struct {
 	Score string `xorm:"comment(总分)" fit:"score"`
 }
 
-func (m *NRL7) InsertData() (int64, error) {
+/*func (m *NRL7) InsertData() (int64, error) {
 	_, err := fit.MySqlEngine().Table("NRL7").Insert(m)
 	var rid int64 = 0
 	if err == nil {
@@ -79,7 +79,7 @@ func QueryNRL7(rid string) (NRL7, error) {
 		//nr7.TimeStr = nr7.DateTime.Format("15:04")
 		return nr7, nil
 	}
-}
+}*/
 
 // pc端接口
 func (m *NRL7Title) PCQueryNRL7Title() (err error) {
@@ -160,11 +160,11 @@ func PCQueryNRL7(pid, datestr1, datestr2 string, pagenum int) ([]NRL7, error) {
 	if err != nil {
 		return nil, err
 	}
-	//for key, _ := range mods {
-	//	val := mods[key]
-	//	mods[key].DateStr = val.DateTime.Format("2006-01-02")
-	//	mods[key].TimeStr = val.DateTime.Format("15:04")
-	//}
+	for key, _ := range mods {
+		val := mods[key]
+		mods[key].DateStr = val.DateTime.ParseDate()
+		mods[key].TimeStr = val.DateTime.ParseTime()
+	}
 	return mods, nil
 }
 
