@@ -49,6 +49,8 @@ func (c PCBatvhHistoryController) TZHistory(w *fit.Response, r *fit.Request, p f
 		    starttime = st.Format("2006-01-02 15:04:05")
 		    endtime   = et.Format("2006-01-02 15:04:05")
 		    c.Data["key"] = 1
+			c.Data["starttime"] = st.Format("2006-01-02")
+			c.Data["endtime"] = et.Format("2006-01-02")
 			c.Data["startframe"] = "8"
 			c.Data["endframe"] = "8"
 

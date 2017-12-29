@@ -40,12 +40,19 @@ func (c PCHomeController) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 			return
 		}
 
+		menu := "t" + num
+		len := 0
+		if obj, ok := response["num"].(map[string]int); ok {
+			 len = obj[menu]
+		}
+
 		menuindex := "1-" + num
 		c.Data = fit.Data {
 			"Userinfo": userinfo,
 			"Menuindex": menuindex,
 			"Beds": response["bed"],
 			"Num": response["num"],
+			"Len": len,
 		}
 		//fit.Logger().LogError("Beds:",response["bed"])
 		_ = c.LoadViewSafely(w, r, "pc/v_index.html", "pc/header_side.html","pc/header_top.html")

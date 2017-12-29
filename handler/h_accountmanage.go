@@ -275,8 +275,9 @@ func (c AccountManageController) Uncreated(w *fit.Response, r *fit.Request, p fi
 	if err_res != nil {
 		c.RenderingJsonAutomatically(3, "Database "+err_res.Error())
 	} else {
-		c.RenderingJson(0, "请求成功", response)
+		c.RenderingJson(0, "请求成功!", response)
 	}
+	return
 }
 
 /*API 获取已创建的账号*/

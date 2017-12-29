@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"nursing/utils"
 	"fmt"
+	"regexp"
 )
 
 type MedicalAdviceController struct {
@@ -54,7 +55,7 @@ func (c MedicalAdviceController) Search(w *fit.Response, r *fit.Request, p fit.P
 	}
 }
 
-/*医嘱执行查询PAI PDA*/
+/*医嘱执行查询API PDA*/
 func (c MedicalAdviceController) ExecSearch(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 	r.ParseForm()
@@ -96,7 +97,7 @@ func (c MedicalAdviceController) ExecSearch(w *fit.Response, r *fit.Request, p f
 	}
 }
 
-/*医嘱执行明细PAI PDA*/
+/*医嘱执行明细API PDA*/
 func (c MedicalAdviceController) ExecDetail(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 	r.ParseForm()
@@ -105,6 +106,7 @@ func (c MedicalAdviceController) ExecDetail(w *fit.Response, r *fit.Request, p f
 	ext := r.FormValue("ext")
 	exc := r.FormValue("exc")
 
+	fit.Logger().LogDebug("***JK***",r.Form)
 
 	if gid == "" || ext == "" || exc == "" {
 		c.RenderingJsonAutomatically(1, "参数不完整")
@@ -129,7 +131,7 @@ func (c MedicalAdviceController) ExecDetail(w *fit.Response, r *fit.Request, p f
 	}
 }
 
-/*查询新医嘱、已停医嘱PAI PDA*/
+/*查询新医嘱、已停医嘱API PDA*/
 func (c MedicalAdviceController) StatusSearch(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 	r.ParseForm()
@@ -177,7 +179,7 @@ func (c MedicalAdviceController) StatusSearch(w *fit.Response, r *fit.Request, p
 	}
 }
 
-/*医嘱执行PAI PDA*/
+/*医嘱执行API PDA*/
 func (c MedicalAdviceController) Execute(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 	r.ParseForm()
@@ -248,7 +250,9 @@ func (c MedicalAdviceController) Execute(w *fit.Response, r *fit.Request, p fit.
 	}
 
 	mAdvice := model.MedicalAdviceModal{}
-	_, err_sql := fit.SQLServerEngine().SQL(fmt.Sprintf("SELECT d.* FROM( SELECT a.VAF06 Vid, a.VAF01 MadId, c.VAA01 Pid, c.BCQ04B Bed, c.VAE95 PName,CAST(c.VAE46 as varchar(10)) Age, c.VAE94 HospNum, CASE c.VAE96 WHEN 1 THEN '男' WHEN 2 THEN '女' ELSE '未知' END AS Gender, b.VBI10 ExTime, a.VAF59 GroupNum, a.VAF22 Content, CASE a.VAF19 WHEN '' THEN '-' ELSE a.VAF19 END Dosage, a.VAF21 Amount, a.VAF26 Frequency, CASE WHEN DATEDIFF(DAY, a.VAF36, b.VBI10) = 0 THEN CAST(a.VAF61 AS INT) ELSE CAST(a.VAF27 AS INT) END Times, a1.VAF22 Method, a.VAF60 Speed, a.VAF11 TypeV, CASE a.VAF11 WHEN 1 THEN '长嘱' WHEN 2 THEN '临嘱' END AS TypeOf, a.VAF36 StTime, CASE WHEN a.VAF10 = 3 THEN '未停' WHEN a.VAF10 = 4 THEN '已作废' WHEN a.VAF10 >= 8 THEN '已停' ELSE '其它' END AS MStatus, a.VAF10 MStatusV, e.BDA02 Category, a.BDA01 CategoryV, CASE WHEN a2.BBX20 = 0 THEN '口服单' WHEN a2.BBX20 = 1 THEN '注射单' WHEN(a2.BBX20 = 2) OR(a2.BBX20 = 4) THEN '输液单' WHEN a2.BBX20 = 3 THEN '治疗单' WHEN a2.BBX20 = 5 THEN '输血单' WHEN a2.BBX20 = 6 THEN '护理单' END AS PtType, a.CBM01 PtNum, a.Rownr PtRownr, a.VAF23 Entrust, a.BCE03A Physician, a.VAF47 EdTime, b.BCE03A Sender FROM VAF2 a LEFT JOIN VAF2 a1 ON a.VAF01A = a1.VAF01 LEFT JOIN BBX1 a2 ON a1.BBX01 = a2.BBX01 JOIN VBI2 b ON a.VAF01 = b.VAF01 JOIN VAE1 c ON a.VAF06 = c.VAE01 LEFT JOIN BDA1 e ON a.BDA01 = e.BDA01 WHERE a.VAF06 = %d AND a.VAF01 = %d AND b.VBI10 = '%s') d ORDER BY d.TypeV, d.ExTime, d.PtNum, d.GroupNum, d.PtRownr ", vid_i, mid, ext)).Get(&mAdvice)
+	//fit.SQLServerEngine().ShowSQL(true)
+	_, err_sql := fit.SQLServerEngine().SQL(fmt.Sprintf("SELECT d.* FROM( SELECT a.VAF06 Vid, a.VAF01 MadId, c.VAA01 Pid, c.BCQ04B Bed, c.VAE95 PName,CAST(c.VAE46 as varchar(10)) Age, c.VAE94 HospNum, CASE c.VAE96 WHEN 1 THEN '男' WHEN 2 THEN '女' ELSE '未知' END AS Gender, b.VBI10 ExTime, a.VAF59 GroupNum, a.VAF22 Content, CASE a.VAF19 WHEN '' THEN '-' ELSE a.VAF19 END Dosage, a.VAF21 Amount, a.VAF26 Frequency, CASE WHEN DATEDIFF(DAY, a.VAF36, b.VBI10) = 0 THEN CAST(a.VAF61 AS INT) ELSE CAST(a.VAF27 AS INT) END Times, a1.VAF22 Method, a.VAF60 Speed, a.VAF11 TypeV, CASE a.VAF11 WHEN 1 THEN '长嘱' WHEN 2 THEN '临嘱' END AS TypeOf, a.VAF36 StTime, CASE WHEN a.VAF10 = 3 THEN '未停' WHEN a.VAF10 = 4 THEN '已作废' WHEN a.VAF10 >= 8 THEN '已停' ELSE '其它' END AS MStatus, a.VAF10 MStatusV, e.BDA02 Category, a.BDA01 CategoryV, CASE WHEN a2.BBX20 = 0 THEN '口服单' WHEN a2.BBX20 = 1 THEN '注射单' WHEN(a2.BBX20 = 2) OR(a2.BBX20 = 4) THEN '输液单' WHEN a2.BBX20 = 3 THEN '治疗单' WHEN a2.BBX20 = 5 THEN '输血单' WHEN a2.BBX20 = 6 THEN '护理单' END AS PtType, a.CBM01 PtNum, a.Rownr PtRownr, a.VAF23 Entrust, a.BCE03A Physician, a.VAF47 EdTime, b.BCE03A Sender FROM VAF2 a LEFT JOIN VAF2 a1 ON a.VAF01A = a1.VAF01 LEFT JOIN BBX1 a2 ON a1.BBX01 = a2.BBX01 JOIN VBI2 b ON a.VAF01 = b.VAF01 JOIN VAE1 c ON a.VAF06 = c.VAE01 LEFT JOIN BDA1 e ON a.BDA01 = e.BDA01 WHERE a.VAF06 = %d AND a.VAF01 = %d AND DATEDIFF(SECOND, b.VBI10, '%s') = 0) d ORDER BY d.TypeV, d.ExTime, d.PtNum, d.GroupNum, d.PtRownr ", vid_i, mid, ext)).Get(&mAdvice)
+	//fit.SQLServerEngine().ShowSQL(false)
 	if err_sql != nil {
 		fit.Logger().LogError("***JK***", err_sql)
 	}
@@ -383,6 +387,31 @@ func (c MedicalAdviceController) Execute(w *fit.Response, r *fit.Request, p fit.
 	//		}
 	//	}
 	//}
+}
+
+/*检验标签校验*/
+func (c MedicalAdviceController) Checking(w *fit.Response, r *fit.Request, p fit.Params) {
+	defer c.ResponseToJson(w)
+	r.ParseForm()
+	code := r.FormValue("code")
+	if code == "" {
+		 c.RenderingJsonAutomatically(1,"参数不完整")
+		 return
+	}
+
+	// 14 位数字
+	if length := len(code); length != 14 {
+		c.RenderingJsonAutomatically(2,"参数错误 code")
+		return
+	}
+
+	match, _ := regexp.MatchString("^\\d{14}$", code)
+	if match == true {
+		res := model.CheckingMedicalAdviceLabel(code)
+		c.RenderingJson(0 ,"成功", res)
+	} else {
+		c.RenderingJsonAutomatically(2,"参数错误 code")
+	}
 }
 
 func (c *MedicalAdviceController) RenderingJsonAutomatically(result int, errMsg string) {

@@ -499,7 +499,6 @@ func (c *PCNRLController) GetBedsAndUserinfo(w *fit.Response, r *fit.Request, nr
 			fmt.Fprintln(w, "beds is empty")
 			return
 		}
-
 		pidnum := beds[0].VAA01
 		pid = strconv.FormatInt(pidnum, 10)
 		url := "/pc/record/nrl" + nrlType + "?pid=" + pid
@@ -508,6 +507,7 @@ func (c *PCNRLController) GetBedsAndUserinfo(w *fit.Response, r *fit.Request, nr
 		} else if nrlType == "91" {
 			url = "/pc/templist/print?pid=" + pid
 		}
+
 		c.Redirect(w, r, url, 302)
 		return userinfo, beds, pid, pInfo, false
 	}
@@ -659,8 +659,15 @@ func (c *PCNRLController) BaseNRLRecord(w *fit.Response, r *fit.Request, nrlType
 	date1, errs := strconv.ParseInt(r.FormValue("sdate"), 10, 64)
 	date2, erre := strconv.ParseInt(r.FormValue("edate"), 10, 64)
 	if errs != nil || erre != nil {
-		datestr1 = ""
-		datestr2 = ""
+		datestr1 = pInfo.VAE11.ParseToSecond()
+		datestr2 = time.Now().Format("2006-01-02 15:04:05")
+
+		date1 := time.Time(pInfo.VAE11).Unix() * 1000
+		date2 := time.Now().Unix() * 1000
+		paramstr := fmt.Sprintf("&sdate=%d&edate=%d", date1, date2)
+		urlstr := r.URL.String() + paramstr
+		c.Redirect(w, r, urlstr, 302)
+		return
 	} else {
 		datestr1 = time.Unix(date1/1000, 0).Format("2006-01-02 15:04:05")
 		datestr2 = time.Unix(date2/1000+60*60*24-1, 0).Format("2006-01-02 15:04:05")
