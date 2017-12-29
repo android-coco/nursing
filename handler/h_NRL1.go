@@ -28,7 +28,7 @@ func (c NRL1Controller) UpdateRecord(w *fit.Response, r *fit.Request, p fit.Para
 	// 记录时间
 	datetime, err4 := r.FormTimeStruct("datetime")
 
-	if err4 != nil || pid == 0 || uid == 0 || BCE03A == ""{
+	if err4 != nil || pid == 0 || uid == 0 || BCE03A == "" {
 		c.RenderingJsonAutomatically(10002, "参数不完整")
 		return
 	}
@@ -133,7 +133,6 @@ func (c NRL1Controller) DeleteRecord(w *fit.Response, r *fit.Request, p fit.Para
 		return
 	}
 
-
 	for _, mod := range mods {
 		fmt.Printf("model: %+v\n\n", mod)
 		id := mod.ID
@@ -143,7 +142,7 @@ func (c NRL1Controller) DeleteRecord(w *fit.Response, r *fit.Request, p fit.Para
 			return
 		} else {
 			if mod.HeadType == "18" {
-				modio := model.IOStatistics{ID:id}
+				modio := model.IOStatistics{ID: id}
 
 				affected, errUpdate := session.Table("IOStatistics").ID(id).Delete(&modio)
 				if errUpdate != nil {
@@ -189,7 +188,6 @@ func (c NRL1Controller) DeleteRecord(w *fit.Response, r *fit.Request, p fit.Para
 	}
 }
 
-
 // 护理记录单 PC端
 type PCNRL1Controller struct {
 	PCNRLController
@@ -211,8 +209,20 @@ func (c PCNRL1Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Param
 	date1, errs := strconv.ParseInt(r.FormValue("sdate"), 10, 64)
 	date2, erre := strconv.ParseInt(r.FormValue("edate"), 10, 64)
 	if errs != nil || erre != nil {
-		datestr1 = ""
-		datestr2 = ""
+		//hospDate := time.Time(pInfo.VAE11)
+		//local1, _ := time.LoadLocation("Local")
+		//local2 := time.Local
+		//fmt.Println("local:", hospDate, hospDate.In(local1), local1.String(), local2.String())
+
+		date1 := time.Time(pInfo.VAE11).Unix() * 1000
+		date2 := time.Now().Unix() * 1000
+		paramstr := fmt.Sprintf("&sdate=%d&edate=%d", date1, date2)
+		datestr1 = pInfo.VAE11.ParseToSecond()
+		datestr2 = time.Now().Format("2006-01-02 15:04:05")
+		urlstr := r.URL.String() + paramstr
+		fmt.Println("-------str:", paramstr, "datestr:", datestr1, datestr2)
+		c.Redirect(w, r, urlstr, 302)
+		return
 	} else {
 		datestr1 = time.Unix(date1/1000, 0).Format("2006-01-02 15:04:05")
 		datestr2 = time.Unix(date2/1000, 0).Format("2006-01-02 15:04:05")
@@ -243,11 +253,27 @@ func (c PCNRL1Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Param
 	}
 
 	list := make([]model.NRLModel, peerPage)
+
 	if pageindex == pagenum {
-		list = mods[(pageindex-1)*peerPage:count]
+		ls := mods[(pageindex-1)*peerPage:count]
+		length := len(ls)
+		for index := 0; index < peerPage; index++ {
+			if index < length {
+				list[index] = ls[index]
+			} else {
+				list[index] = model.NRLModel{
+					State:     "empty",
+					PatientId: pInfo.VAA01,
+					NurseId:   strconv.Itoa(userinfo.UID),
+					NurseName: userinfo.Name,
+				}
+			}
+
+		}
 	} else {
 		list = mods[(pageindex-1)*peerPage:pageindex*peerPage]
 	}
+
 
 	nrl1Title := model.NRL1Title{PatientId: pInfo.VAA01}
 	errTitle := nrl1Title.PCQueryNRL1Title()
@@ -408,10 +434,10 @@ func (c PCNRL1Controller) NRLIOTypeIn(w *fit.Response, r *fit.Request, p fit.Par
 	outputTotal := r.FormValue("outputTotal")
 
 	mod := model.IOStatistics{
-		PatientId:       VAA01,
+		PatientId: VAA01,
 		//BCK01:       BCK01,
-		NurseId:      BCE01A,
-		NurseName:      BCE03A,
+		NurseId:     BCE01A,
+		NurseName:   BCE03A,
 		DateTime1:   DateTime1,
 		DateTime2:   DateTime2,
 		DataType:    dataType,
@@ -434,6 +460,5 @@ func (c PCNRL1Controller) NRLIOTypeIn(w *fit.Response, r *fit.Request, p fit.Par
 	} else {
 		c.RenderingJson(0, "成功", []interface{}{})
 	}
-
 
 }

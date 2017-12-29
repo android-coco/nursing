@@ -3,7 +3,6 @@ package background
 import (
 	"fit"
 	"time"
-	"fmt"
 )
 
 // 员工表
@@ -157,7 +156,7 @@ func init() {
 
 func synchronizingBCE1() {
 	mods := make([]BCE1, 0)
-	timeMark := time.Now()
+	//timeMark := time.Now()
 	fit.SQLServerEngine().SQL("SELECT * FROM BCE1").Find(&mods)
 	//for _, k := range mods {
 	//	_, err := fit.MySqlEngine().Exec("delete from BCE1 where BCE01 = ?", k.BCE01)
@@ -168,17 +167,17 @@ func synchronizingBCE1() {
 	//}
 	fit.MySqlEngine().SQL("TRUNCATE BCE1").Find(&mods)
 	fit.MySqlEngine().Table("BCE1").Insert(&mods)
-	timeNow := time.Now()
-	timeDur := timeNow.Sub(timeMark)
+	//timeNow := time.Now()
+	//timeDur := timeNow.Sub(timeMark)
 
-	str := fmt.Sprintf("耗时：%.1f秒", timeDur.Seconds())
-	fit.Logger().LogError("BackgorundThread：", "同步BCE1结束", "数据条数：", len(mods), str)
+	//str := fmt.Sprintf("耗时：%.1f秒", timeDur.Seconds())
+	//fit.Logger().LogError("BackgorundThread：", "同步BCE1结束", "数据条数：", len(mods), str)
 }
 
 /*同步病人信息到我们系统*/
 func synchronizingVAA1() {
 	mods := make([]VAA1, 0)
-	timeMark := time.Now()
+	//timeMark := time.Now()
 
 	// 查询所有病区在院+入院的病人
 	fit.SQLServerEngine().SQL("select VAA1.* from BCK1,BCQ1, VAA1 where BCK1.BCK01A = 141 and BCQ1.BCK01A = BCK1.BCK01 and BCQ1.VAA01 != 0 and VAA1.VAA01 = BCQ1.VAA01").Find(&mods)
@@ -194,9 +193,9 @@ func synchronizingVAA1() {
 	fit.MySqlEngine().SQL("TRUNCATE VAA1").Find(&mods)
 	fit.MySqlEngine().Table("VAA1").Insert(&mods)
 
-	timeNow := time.Now()
-	timeDur := timeNow.Sub(timeMark)
+	//timeNow := time.Now()
+	//timeDur := timeNow.Sub(timeMark)
 
-	str := fmt.Sprintf("耗时：%.1f秒", timeDur.Seconds())
-	fit.Logger().LogError("BackgorundThread：", "同步VAA1结束", "数据条数：", len(mods), str)
+	//str := fmt.Sprintf("耗时：%.1f秒", timeDur.Seconds())
+	//fit.Logger().LogError("BackgorundThread：", "同步VAA1结束", "数据条数：", len(mods), str)
 }
