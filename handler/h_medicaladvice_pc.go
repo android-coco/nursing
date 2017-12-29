@@ -283,7 +283,7 @@ func (c PCMedicalAdviceController) SpiltSearch(w *fit.Response, r *fit.Request, 
 	}
 
 	printType := anyObj["type"]
-	if printType != "excution" && printType != "label" {
+	if printType != "excution" && printType != "label" && printType != "temporary" {
 		c.RenderingJsonAutomatically(2, "参数错误 type")
 		return
 	}
@@ -321,7 +321,7 @@ func (c PCMedicalAdviceController) SpiltSearch(w *fit.Response, r *fit.Request, 
 				// 治疗单无数据
 			}
 		}
-	} else {
+	} else if printType == "label" {
 		for _, v := range prints {
 			if v == "0" {
 				temp, err_db := model.SearchSplitMedicalAdviceForBottlePost(st, et, patients, type_i, print_i)
@@ -331,6 +331,11 @@ func (c PCMedicalAdviceController) SpiltSearch(w *fit.Response, r *fit.Request, 
 				// 检验标签无数据
 			}
 		}
+	} else  {
+		// 口服+临嘱
+		temp, err_db := model.SearchSplitMedicalAdviceForOralMedical(st, et, patients, type_i, print_i, did_i)
+		err_re = err_db
+		response = append(response, temp...)
 	}
 	//mAdvices, err_db := model.SearchMedicalAdvicesForSplitting(st, et, patients, printStr, type_i, print_i,did_i)
 

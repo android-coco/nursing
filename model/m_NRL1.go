@@ -62,6 +62,7 @@ type NRLModel struct {
 	NurseId     string  `xorm:"comment(NursingId责任护士ID)"`
 	NurseName   string  `xorm:"comment(NursingName责任护士签名)"`
 	DateTime    FitTime `json:"dateTime"`
+	State       string  `xorm:"-"`
 	DateTimeStr string  `xorm:"-"`
 	DateStr     string  `xorm:"-"`
 	TimeStr     string  `xorm:"-"`
@@ -263,6 +264,7 @@ func formatNRLData(mods []NRLData) []NRLModel {
 		//fmt.Println("--- time  :", mod.TestTime, mod.DateTimeStr)
 		if index == 0 {
 			var resultModel NRLModel
+			resultModel.State = "normal"
 			resultModel.DateTime = mod.TestTime
 			resultModel.DateTimeStr = mod.DateTimeStr
 			resultModel.DateStr = mod.DateStr
@@ -278,6 +280,7 @@ func formatNRLData(mods []NRLData) []NRLModel {
 			if mod.TestTime == oldresultModel.DateTime && strconv.Itoa(mod.NurseId) == oldresultModel.NurseId { // 测量时间相同，护士相同
 				if oldresultModel.Mod15.HeadType == mod.HeadType || oldresultModel.Mod16.HeadType == mod.HeadType { // 同一测量时间下， 出入量多条
 					var newresultModel NRLModel
+					newresultModel.State = "normal"
 					newresultModel.DateTime = mod.TestTime
 					newresultModel.DateTimeStr = mod.DateTimeStr
 					newresultModel.DateStr = mod.DateStr
@@ -291,6 +294,7 @@ func formatNRLData(mods []NRLData) []NRLModel {
 				}
 			} else {
 				var newresultModel NRLModel
+				newresultModel.State = "normal"
 				newresultModel.DateTime = mod.TestTime
 				newresultModel.DateTimeStr = mod.DateTimeStr
 				newresultModel.DateStr = mod.DateStr
@@ -491,7 +495,7 @@ func NRLRelatesToIO(pid, datestr1, datestr2 string) (results []NRLModel, err err
 		nrldata := NRLModel{
 			ID:        val.ID,
 			PatientId: val.PatientId,
-			//BCK01:    val.BCK01,
+			State:     "io",
 			NurseId:   val.NurseId,
 			NurseName: val.NurseName,
 			DateTime:  FitTime(time1),

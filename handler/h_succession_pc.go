@@ -5,6 +5,7 @@ import (
 	"time"
 	"nursing/model"
 	"encoding/json"
+	"strings"
 )
 
 type PCSuccessController struct {
@@ -32,6 +33,7 @@ func (c PCSuccessController) Get(w *fit.Response, r *fit.Request, p fit.Params) 
 			fit.Logger().LogError("gk", err_rp)
 			return
 		}
+		Data["starttime"] = strings.Split(starttime," ")[0]
 		Data["Patients"] = response
 		//fit.Logger().LogError("gk dd", response ,classid)
 

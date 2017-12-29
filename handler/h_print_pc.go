@@ -76,7 +76,7 @@ func (c PCBottleStrapController) Post(w *fit.Response, r *fit.Request, p fit.Par
 		defer c.LoadView(w, "pc/v_ptprint.html") //屏贴
 		break
 	case 5:
-		defer c.LoadView(w, "pc/v_bqprint.html") //标签
+		defer c.LoadView(w, "pc/v_bqprint.html") //标签 口服贴
 		break
 	}
 	printInfos := r.FormValue("reqdata")
@@ -674,7 +674,7 @@ func (c PCNrl7Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 		"Menuindex":   "7-7",
 	}
 
-	fit.Logger().LogError("PCNRL7Controller  :", mods, nrl7Title)
+	//fit.Logger().LogError("PCNRL7Controller  :", mods, nrl7Title)
 }
 
 //打印深圳万丰医院疼痛强度评分量表

@@ -66,6 +66,9 @@ type NRL2 struct {
 	NRL39A string `xorm:"comment(审核时间)"`
 	NRL39B string `xorm:"comment(审核护士id)"`
 	NRL39C string `xorm:"comment(审核护士签名)"`
+
+	NRL40 string `xorm:"comment(职业)"`
+	NRL41 string `xorm:"comment(民族宗教)"`
 }
 
 /*插入 首次护理记录*/

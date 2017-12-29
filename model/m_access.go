@@ -10,12 +10,14 @@ type AccessType int
 type AccessReason int
 
 const (
+	AccessTypeUnknown = 0
 	AccessTypeBack AccessType = 1 << iota
 	AccessTypeOut
 	AccessTypeAll
 )
 
 const (
+	AccessReasonUnknown = 0
 	AccessReasonCheck     AccessReason = 1 << iota
 	AccessReasonOperation
 	AccessReasonOther
@@ -48,7 +50,7 @@ func (m Access) ParseAccessType(value string) (AccessType, error) {
 	case "4":
 		return AccessTypeAll, nil
 	default:
-		return AccessTypeAll, fmt.Errorf("not fund such of AccessType: %v", value)
+		return AccessTypeUnknown, fmt.Errorf("not fund such of AccessType: %v", value)
 	}
 }
 
@@ -58,11 +60,11 @@ func (m Access) ParseAccessReason(value string) (AccessReason, error) {
 		return AccessReasonCheck, nil
 	case "2":
 		return AccessReasonOperation, nil
-	case "3":
+	case "4":
 		return AccessReasonOther, nil
 
 	default:
-		return AccessReasonOther, fmt.Errorf("not fund such of AccessReason: %v", value)
+		return AccessReasonUnknown, fmt.Errorf("not fund such of AccessReason: %v", value)
 	}
 }
 
@@ -116,7 +118,7 @@ func AccessSearch(classId, paramstr string) ([]Access, error) {
 
 	mods := make([]Access, 0)
 	params := "%" + paramstr + "%"
-	err := fit.MySqlEngine().SQL("select * from Access where  PatientId in ("+wherestr+") AND classId = ? and (bedId like ? or patientName like ?)", classId, params, params).Find(&mods)
+	err := fit.MySqlEngine().SQL("select * from Access where  PatientId in ("+wherestr+") AND classId = ? and (bedId like ? or patientName like ?) ORDER BY `AccessTime` DESC", classId, params, params).Find(&mods)
 	return mods, err
 }
 

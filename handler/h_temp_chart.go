@@ -147,9 +147,9 @@ func (c TempChartController) PrintTempChart(w *fit.Response, r *fit.Request, p f
 
 func (c TempChartController) Test(w *fit.Response, r *fit.Request, p fit.Params)  {
 	defer c.ResponseToJson(w)
-	pid := "809502"
+	pid := "817242"
 	// 手术产后日期时间model
-	hospdate, err := getWeeksByOperationDates("2017-12-02 10:02:05", pid, "")
+	hospdate, err := getWeeksByOperationDates("2017-12-20 10:02:05", pid, "1")
 	if err != nil {
 		fit.Logger().LogInfo("info templist", "参数错误！temp ", err)
 		fmt.Fprintln(w, "参数错误！temp ", err)
