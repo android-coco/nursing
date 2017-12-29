@@ -180,8 +180,8 @@ func (c NRL2Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 		"NRL18B": NRL18B, // 1次/m天
 		"NRL38A": NRL38A, // 录入护理单的年月日
 		"NRL38B": NRL38B, // 录入护理单的时分
-		"NRL39B":    NRL39B, //审核时间
-		"NRL39C":    NRL39C,
+		"NRL39B": NRL39B, //审核时间
+		"NRL39C": NRL39C,
 	}
 
 	c.LoadView(w, "pda/v_nrl2_edit.html")
@@ -266,61 +266,65 @@ func (c NRL2Controller) AddRecord(w *fit.Response, r *fit.Request, p fit.Params)
 	NRL39A := r.FormValue("NRL39A")
 	NRL39B := r.FormValue("NRL39B")
 	NRL39C := r.FormValue("NRL39C")
+	NRL40 := r.FormValue("NRL40")
+	NRL41 := r.FormValue("NRL41")
 
 	nrl2 := model.NRL2{
-		PatientId:   VAA01,
-		BCK01:   BCK01,
-		NRL02:   NRL02,
-		NRL03:   NRL03,
-		NRL04:   NRL04,
-		NRL05:   NRL05,
-		NRL06:   NRL06,
-		NRL06A:  NRL06A,
-		NRL07:   NRL07,
-		NRL07A:  NRL07A,
-		NRL08:   NRL08,
-		NRL09:   NRL09,
-		NRL10:   NRL10,
-		NRL11:   NRL11,
-		NRL12:   NRL12,
-		NRL12A:  NRL12A,
-		NRL13:   NRL13,
-		NRL14:   NRL14,
-		NRL14A:  NRL14A,
-		NRL15:   NRL15,
-		NRL16:   NRL16,
-		NRL16A:  NRL16A,
-		NRL17:   NRL17,
-		NRL17A:  NRL17A,
-		NRL18:   NRL18,
-		NRL19:   NRL19,
-		LimbsId: LimbsId,
-		NRL20:   NRL20,
-		NRL20A:  NRL20A,
-		NRL21:   NRL21,
-		NRL22:   NRL22,
-		NRL23:   NRL23,
-		NRL24:   NRL24,
-		NRL25:   NRL25,
-		NRL26:   NRL26,
-		NRL27:   NRL27,
-		NRL28:   NRL28,
-		NRL29:   NRL29,
-		NRL30:   NRL30,
-		NRL30A:  NRL30A,
-		NRL31:   NRL31,
-		NRL32:   NRL32,
-		NRL33:   NRL33,
-		NRL34:   NRL34,
-		NRL35:   NRL35,
-		NRL36:   NRL36,
-		NRL37:   NRL37,
-		NRL38:   NRL38,
-		NurseId:  BCE01A,
-		NurseName:  BCE03A,
-		NRL39A:  NRL39A,
-		NRL39B:  NRL39B,
-		NRL39C:  NRL39C,
+		PatientId: VAA01,
+		BCK01:     BCK01,
+		NRL02:     NRL02,
+		NRL03:     NRL03,
+		NRL04:     NRL04,
+		NRL05:     NRL05,
+		NRL06:     NRL06,
+		NRL06A:    NRL06A,
+		NRL07:     NRL07,
+		NRL07A:    NRL07A,
+		NRL08:     NRL08,
+		NRL09:     NRL09,
+		NRL10:     NRL10,
+		NRL11:     NRL11,
+		NRL12:     NRL12,
+		NRL12A:    NRL12A,
+		NRL13:     NRL13,
+		NRL14:     NRL14,
+		NRL14A:    NRL14A,
+		NRL15:     NRL15,
+		NRL16:     NRL16,
+		NRL16A:    NRL16A,
+		NRL17:     NRL17,
+		NRL17A:    NRL17A,
+		NRL18:     NRL18,
+		NRL19:     NRL19,
+		LimbsId:   LimbsId,
+		NRL20:     NRL20,
+		NRL20A:    NRL20A,
+		NRL21:     NRL21,
+		NRL22:     NRL22,
+		NRL23:     NRL23,
+		NRL24:     NRL24,
+		NRL25:     NRL25,
+		NRL26:     NRL26,
+		NRL27:     NRL27,
+		NRL28:     NRL28,
+		NRL29:     NRL29,
+		NRL30:     NRL30,
+		NRL30A:    NRL30A,
+		NRL31:     NRL31,
+		NRL32:     NRL32,
+		NRL33:     NRL33,
+		NRL34:     NRL34,
+		NRL35:     NRL35,
+		NRL36:     NRL36,
+		NRL37:     NRL37,
+		NRL38:     NRL38,
+		NurseId:   BCE01A,
+		NurseName: BCE03A,
+		NRL39A:    NRL39A,
+		NRL39B:    NRL39B,
+		NRL39C:    NRL39C,
+		NRL40:     NRL40,
+		NRL41:     NRL41,
 	}
 
 	if recordId == "" { // 添加
@@ -403,7 +407,6 @@ func (c NRL2Controller) Exist(w *fit.Response, r *fit.Request, p fit.Params) {
 	}
 }
 
-
 type PCNRL2Controller struct {
 	PCNRLController
 }
@@ -411,12 +414,11 @@ type PCNRL2Controller struct {
 func (c PCNRL2Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Params) {
 
 	// 护士信息 床位表 病人id  病人信息
-	userinfo, beds, pid, pInfo, has := c.GetBedsAndUserinfo(w,r, "2")
+	userinfo, beds, pid, pInfo, has := c.GetBedsAndUserinfo(w, r, "2")
 	if !has {
 		return
 	}
 	var err error
-
 
 	// 护理单
 	flag, errExist := model.IsExistNRL2(pid)
