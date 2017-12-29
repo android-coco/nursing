@@ -60,7 +60,9 @@ func FetchMedicalAdviceExecutionDetail(gid int64, ext string, exc int) ([]Medica
 		return response, err_res
 	}
 	mAdvices := make([]MedicalAdviceModal, 0)
-	err_res = fit.SQLServerEngine().SQL(fmt.Sprintf("SELECT d.* FROM( SELECT CASE WHEN(( a2.BBX20 = 2 OR a2.BBX20 = 4 OR a2.BBX20 = 5) AND(a.BDA01 = '1' OR a.BDA01 = '2') AND a2.BDA01 = 'T' AND a2.BBX13 = '2') THEN 4 ELSE 0 END PtTypeV, a.VAF06 Vid, a.VAF01 MadId, c.VAA01 Pid, c.BCQ04B Bed, c.VAE95 PName,c.VAE46 Age, c.VAE94 HospNum, CASE c.VAE96 WHEN 1 THEN '男' WHEN 2 THEN '女' ELSE '未知' END AS Gender, b.VBI10 ExTime, a.VAF59 GroupNum, a.VAF22 Content, CASE a.VAF19 WHEN '' THEN '-' ELSE a.VAF19 END Dosage, CAST(a.VAF21 AS INT) Amount, a.VAF26 Frequency, CASE WHEN DATEDIFF(DAY, a.VAF36, b.VBI10) = 0 AND a.VAF61 > 0 THEN CAST(a.VAF61 AS INT) ELSE CAST(a.VAF27 AS INT) END Times, a1.VAF22 Method, a.VAF60 Speed, a.VAF11 TypeV, CASE a.VAF11 WHEN 1 THEN '长嘱' WHEN 2 THEN '临嘱' END AS TypeOf, a.VAF36 StTime, CASE WHEN a.VAF10 = 3 THEN '未停' WHEN a.VAF10 = 4 THEN '已作废' WHEN a.VAF10 >= 8 THEN '已停' ELSE '其它' END AS MStatus, a.VAF10 MStatusV, e.BDA02 Category, a.BDA01 CategoryV, CASE WHEN a2.BBX20 = 0 THEN '口服单' WHEN a2.BBX20 = 1 THEN '注射单' WHEN(a2.BBX20 = 2) OR(a2.BBX20 = 4) THEN '输液单' WHEN a2.BBX20 = 3 THEN '治疗单' WHEN a2.BBX20 = 5 THEN '输血单' WHEN a2.BBX20 = 6 THEN '护理单' END AS PtType, a.CBM01 PtNum, a.Rownr PtRownr, a.VAF23 Entrust, a.BCE03A Physician, a.VAF47 EdTime, b.BCE03A Sender, b.VBI13 HisExStatus FROM VAF2 a LEFT JOIN VAF2 a1 ON a.VAF01A = a1.VAF01 LEFT JOIN BBX1 a2 ON a1.BBX01 = a2.BBX01 JOIN VBI2 b ON a.VAF01 = b.VAF01 JOIN VAE1 c ON a.VAF06 = c.VAE01 LEFT JOIN BDA1 e ON a.BDA01 = e.BDA01 WHERE a.VAF06 = %d AND a.VAF32 = 0 AND a.VAF04 = 2 AND a.BDA01 != '0' AND a.CBM01 = %d AND a.VAF59 = %d AND b.VBI10 = '%s') d ORDER BY d.TypeV, d.ExTime, d.PtNum, d.GroupNum, d.PtRownr ", orgin.Vid, orgin.PtNum, orgin.GroupNum, ext)).Find(&mAdvices)
+	//fit.SQLServerEngine().ShowSQL(true)
+	err_res = fit.SQLServerEngine().SQL(fmt.Sprintf("SELECT d.* FROM( SELECT CASE WHEN(( a2.BBX20 = 2 OR a2.BBX20 = 4 OR a2.BBX20 = 5) AND(a.BDA01 = '1' OR a.BDA01 = '2') AND a2.BDA01 = 'T' AND a2.BBX13 = '2') THEN 4 ELSE 0 END PtTypeV, a.VAF06 Vid, a.VAF01 MadId, c.VAA01 Pid, c.BCQ04B Bed, c.VAE95 PName,c.VAE46 Age, c.VAE94 HospNum, CASE c.VAE96 WHEN 1 THEN '男' WHEN 2 THEN '女' ELSE '未知' END AS Gender, b.VBI10 ExTime, a.VAF59 GroupNum, a.VAF22 Content, CASE a.VAF19 WHEN '' THEN '-' ELSE a.VAF19 END Dosage, CAST(a.VAF21 AS INT) Amount, a.VAF26 Frequency, CASE WHEN DATEDIFF(DAY, a.VAF36, b.VBI10) = 0 AND a.VAF61 > 0 THEN CAST(a.VAF61 AS INT) ELSE CAST(a.VAF27 AS INT) END Times, a1.VAF22 Method, a.VAF60 Speed, a.VAF11 TypeV, CASE a.VAF11 WHEN 1 THEN '长嘱' WHEN 2 THEN '临嘱' END AS TypeOf, a.VAF36 StTime, CASE WHEN a.VAF10 = 3 THEN '未停' WHEN a.VAF10 = 4 THEN '已作废' WHEN a.VAF10 >= 8 THEN '已停' ELSE '其它' END AS MStatus, a.VAF10 MStatusV, e.BDA02 Category, a.BDA01 CategoryV, CASE WHEN a2.BBX20 = 0 THEN '口服单' WHEN a2.BBX20 = 1 THEN '注射单' WHEN(a2.BBX20 = 2) OR(a2.BBX20 = 4) THEN '输液单' WHEN a2.BBX20 = 3 THEN '治疗单' WHEN a2.BBX20 = 5 THEN '输血单' WHEN a2.BBX20 = 6 THEN '护理单' END AS PtType, a.CBM01 PtNum, a.Rownr PtRownr, a.VAF23 Entrust, a.BCE03A Physician, a.VAF47 EdTime, b.BCE03A Sender, b.VBI13 HisExStatus FROM VAF2 a LEFT JOIN VAF2 a1 ON a.VAF01A = a1.VAF01 LEFT JOIN BBX1 a2 ON a1.BBX01 = a2.BBX01 JOIN VBI2 b ON a.VAF01 = b.VAF01 JOIN VAE1 c ON a.VAF06 = c.VAE01 LEFT JOIN BDA1 e ON a.BDA01 = e.BDA01 WHERE a.VAF06 = %d AND a.VAF32 = 0 AND a.VAF04 = 2 AND a.BDA01 != '0' AND a.CBM01 = %d AND a.VAF59 = %d AND DATEDIFF(SECOND, b.VBI10, '%s') = 0) d ORDER BY d.TypeV, d.ExTime, d.PtNum, d.GroupNum, d.PtRownr ", orgin.Vid, orgin.PtNum, orgin.GroupNum, ext)).Find(&mAdvices)
+	//fit.SQLServerEngine().ShowSQL(false)
 	if err_res != nil {
 		fit.Logger().LogError("***JK***", err_res.Error())
 		return response, err_res
@@ -87,7 +89,7 @@ func FetchMedicalAdviceExecutionDetail(gid int64, ext string, exc int) ([]Medica
 		ExTime:      temp.ExTime,
 		ExDay:       temp.ExDay,
 		GroupNum:    temp.GroupNum,
-		Amount:      temp.Amount,
+		//Amount:      temp.Amount,
 		Frequency:   temp.Frequency,
 		Times:       temp.Times,
 		Method:      temp.Method,
@@ -114,7 +116,7 @@ func FetchMedicalAdviceExecutionDetail(gid int64, ext string, exc int) ([]Medica
 	}
 	object.Gid = temp.Madid
 	object.Contents = make([]MedicalAdviceContent, 1)
-	object.Contents[0] = MedicalAdviceContent{temp.Madid, strings.Split(temp.Content, " ")[0], temp.Dosage}
+	object.Contents[0] = MedicalAdviceContent{temp.Madid, strings.Split(temp.Content, " ")[0], temp.Dosage, temp.Amount}
 
 	length := len(mAdvices)
 	// 按组合并，最后一次创建的Object不会被拆分
@@ -126,7 +128,7 @@ func FetchMedicalAdviceExecutionDetail(gid int64, ext string, exc int) ([]Medica
 
 		// 同 人+时+单+组 则合并
 		if object.Vid == v.Vid && object.ExTime.ParseToSecond() == v.ExTime.ParseToSecond() && object.PtNum == v.PtNum && object.GroupNum == v.GroupNum {
-			object.Contents = append(object.Contents, MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage})
+			object.Contents = append(object.Contents, MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage, v.Amount})
 		} else {
 			//	按次拆分
 			for idx := 1; idx <= object.Times; idx ++ {
@@ -148,7 +150,7 @@ func FetchMedicalAdviceExecutionDetail(gid int64, ext string, exc int) ([]Medica
 							ExTime:      object.ExTime,
 							ExDay:       object.ExDay,
 							GroupNum:    object.GroupNum,
-							Amount:      object.Amount,
+							//Amount:      object.Amount,
 							Frequency:   object.Frequency,
 							Times:       object.Times,
 							Method:      object.Method,
@@ -192,7 +194,7 @@ func FetchMedicalAdviceExecutionDetail(gid int64, ext string, exc int) ([]Medica
 				ExTime:      v.ExTime,
 				ExDay:       v.ExDay,
 				GroupNum:    v.GroupNum,
-				Amount:      v.Amount,
+				//Amount:      v.Amount,
 				Frequency:   v.Frequency,
 				Times:       v.Times,
 				Method:      v.Method,
@@ -219,7 +221,7 @@ func FetchMedicalAdviceExecutionDetail(gid int64, ext string, exc int) ([]Medica
 			}
 			object.Gid = v.Madid
 			object.Contents = make([]MedicalAdviceContent, 1)
-			object.Contents[0] = MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage}
+			object.Contents[0] = MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage, v.Amount}
 		}
 	}
 	// 继续拆分最后一次创建的object
@@ -245,7 +247,7 @@ func FetchMedicalAdviceExecutionDetail(gid int64, ext string, exc int) ([]Medica
 						ExTime:      object.ExTime,
 						ExDay:       object.ExDay,
 						GroupNum:    object.GroupNum,
-						Amount:      object.Amount,
+						//Amount:      object.Amount,
 						Frequency:   object.Frequency,
 						Times:       object.Times,
 						Method:      object.Method,
@@ -279,7 +281,9 @@ func FetchMedicalAdviceExecutionDetail(gid int64, ext string, exc int) ([]Medica
 		}
 	}
 
+
 	length = len(arrA)
+	fit.Logger().LogDebug("***JK***1***",length,arrA)
 	if length == 0 {
 		return response, err_res
 	}
@@ -333,16 +337,21 @@ func FetchMedicalAdviceExecutionDetail(gid int64, ext string, exc int) ([]Medica
 		timeNow := time.Now()
 		if timeNow.Sub(timeMark).Hours() <= 24 {
 			if timeNow.Day()-timeMark.Day() > 0 {
-				res.Desc = "该临嘱已失效"
+				res.Desc = "该临嘱已过期"
 			}
 		} else {
-			res.Desc = "该临嘱已失效"
+			res.Desc = "该临嘱已过期"
 		}
 	}
 
+
 	if res.Desc != "" {
+		fit.Logger().LogDebug("***JK***2***",res.Desc)
+		response = append(response, res)
 		return response, err_res
 	}
+
+	fit.Logger().LogDebug("***JK***3***")
 
 	err_res = fit.MySqlEngine().SQL("select * from AdviceDetail where Madid = ? and Plan = ? And ExCycle = ?", gid, ext, exc).Find(&res.Records)
 	if len(res.Records) == 0 {
@@ -394,7 +403,7 @@ func IsExistNewMedicalAdvice(vid int64, did int, hospitalDate string) int {
 		ExTime:    temp.ExTime,
 		ExDay:     temp.ExDay,
 		GroupNum:  temp.GroupNum,
-		Amount:    temp.Amount,
+		//Amount:    temp.Amount,
 		Frequency: temp.Frequency,
 		Times:     temp.Times,
 		Method:    temp.Method,
@@ -419,7 +428,7 @@ func IsExistNewMedicalAdvice(vid int64, did int, hospitalDate string) int {
 	}
 	object.Gid = temp.Madid
 	object.Contents = make([]MedicalAdviceContent, 1)
-	object.Contents[0] = MedicalAdviceContent{temp.Madid, strings.Split(temp.Content, " ")[0], temp.Dosage}
+	object.Contents[0] = MedicalAdviceContent{temp.Madid, strings.Split(temp.Content, " ")[0], temp.Dosage, temp.Amount}
 
 	// 按组合并，最后一次创建的Object不会被拆分
 	for i := 1; i < length; i ++ {
@@ -430,7 +439,7 @@ func IsExistNewMedicalAdvice(vid int64, did int, hospitalDate string) int {
 
 		// 同 人+时+单+组 则合并
 		if object.Vid == v.Vid && object.ExTime.ParseToSecond() == v.ExTime.ParseToSecond() && object.PtNum == v.PtNum && object.GroupNum == v.GroupNum {
-			object.Contents = append(object.Contents, MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage})
+			object.Contents = append(object.Contents, MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage, v.Amount})
 		} else {
 			//	按次拆分
 			for idx := 1; idx <= object.Times; idx ++ {
@@ -449,7 +458,7 @@ func IsExistNewMedicalAdvice(vid int64, did int, hospitalDate string) int {
 						ExTime:    object.ExTime,
 						ExDay:     object.ExDay,
 						GroupNum:  object.GroupNum,
-						Amount:    object.Amount,
+						//Amount:    object.Amount,
 						Frequency: object.Frequency,
 						Times:     object.Times,
 						Method:    object.Method,
@@ -490,7 +499,7 @@ func IsExistNewMedicalAdvice(vid int64, did int, hospitalDate string) int {
 				ExTime:    v.ExTime,
 				ExDay:     v.ExDay,
 				GroupNum:  v.GroupNum,
-				Amount:    v.Amount,
+				//Amount:    v.Amount,
 				Frequency: v.Frequency,
 				Times:     v.Times,
 				Method:    v.Method,
@@ -515,7 +524,7 @@ func IsExistNewMedicalAdvice(vid int64, did int, hospitalDate string) int {
 			}
 			object.Gid = v.Madid
 			object.Contents = make([]MedicalAdviceContent, 1)
-			object.Contents[0] = MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage}
+			object.Contents[0] = MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage, v.Amount}
 		}
 	}
 	// 继续拆分最后一次创建的object
@@ -538,7 +547,7 @@ func IsExistNewMedicalAdvice(vid int64, did int, hospitalDate string) int {
 					ExTime:    object.ExTime,
 					ExDay:     object.ExDay,
 					GroupNum:  object.GroupNum,
-					Amount:    object.Amount,
+					//Amount:    object.Amount,
 					Frequency: object.Frequency,
 					Times:     object.Times,
 					Method:    object.Method,
@@ -638,7 +647,7 @@ func FetchNewMedicalAdvice(vid int64) ([]MedicalAdviceResponse, error) {
 		ExTime:    temp.ExTime,
 		ExDay:     temp.ExDay,
 		GroupNum:  temp.GroupNum,
-		Amount:    temp.Amount,
+		//Amount:    temp.Amount,
 		Frequency: temp.Frequency,
 		Times:     temp.Times,
 		Method:    temp.Method,
@@ -664,7 +673,7 @@ func FetchNewMedicalAdvice(vid int64) ([]MedicalAdviceResponse, error) {
 	}
 	object.Gid = temp.Madid
 	object.Contents = make([]MedicalAdviceContent, 1)
-	object.Contents[0] = MedicalAdviceContent{temp.Madid, strings.Split(temp.Content, " ")[0], temp.Dosage}
+	object.Contents[0] = MedicalAdviceContent{temp.Madid, strings.Split(temp.Content, " ")[0], temp.Dosage, temp.Amount}
 
 	// 按组合并，最后一次创建的Object不会被拆分
 	for i := 1; i < length; i ++ {
@@ -675,7 +684,7 @@ func FetchNewMedicalAdvice(vid int64) ([]MedicalAdviceResponse, error) {
 
 		// 同 人+时+单+组 则合并
 		if object.Vid == v.Vid && object.ExTime.ParseToSecond() == v.ExTime.ParseToSecond() && object.PtNum == v.PtNum && object.GroupNum == v.GroupNum {
-			object.Contents = append(object.Contents, MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage})
+			object.Contents = append(object.Contents, MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage, v.Amount})
 		} else {
 			//	按次拆分
 			for idx := 1; idx <= object.Times; idx ++ {
@@ -694,7 +703,7 @@ func FetchNewMedicalAdvice(vid int64) ([]MedicalAdviceResponse, error) {
 						ExTime:    object.ExTime,
 						ExDay:     object.ExDay,
 						GroupNum:  object.GroupNum,
-						Amount:    object.Amount,
+						//Amount:    object.Amount,
 						Frequency: object.Frequency,
 						Times:     object.Times,
 						Method:    object.Method,
@@ -736,7 +745,7 @@ func FetchNewMedicalAdvice(vid int64) ([]MedicalAdviceResponse, error) {
 				ExTime:    v.ExTime,
 				ExDay:     v.ExDay,
 				GroupNum:  v.GroupNum,
-				Amount:    v.Amount,
+				//Amount:    v.Amount,
 				Frequency: v.Frequency,
 				Times:     v.Times,
 				Method:    v.Method,
@@ -762,7 +771,7 @@ func FetchNewMedicalAdvice(vid int64) ([]MedicalAdviceResponse, error) {
 			}
 			object.Gid = v.Madid
 			object.Contents = make([]MedicalAdviceContent, 1)
-			object.Contents[0] = MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage}
+			object.Contents[0] = MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage, v.Amount}
 		}
 	}
 	// 继续拆分最后一次创建的object
@@ -785,7 +794,7 @@ func FetchNewMedicalAdvice(vid int64) ([]MedicalAdviceResponse, error) {
 					ExTime:    object.ExTime,
 					ExDay:     object.ExDay,
 					GroupNum:  object.GroupNum,
-					Amount:    object.Amount,
+					//Amount:    object.Amount,
 					Frequency: object.Frequency,
 					Times:     object.Times,
 					Method:    object.Method,
@@ -901,7 +910,7 @@ func FetchFinishedMedicalAdvice(vid int64) ([]MedicalAdviceResponse, error) {
 		ExTime:    temp.ExTime,
 		ExDay:     temp.ExDay,
 		GroupNum:  temp.GroupNum,
-		Amount:    temp.Amount,
+		//Amount:    temp.Amount,
 		Frequency: temp.Frequency,
 		Times:     temp.Times,
 		Method:    temp.Method,
@@ -926,7 +935,7 @@ func FetchFinishedMedicalAdvice(vid int64) ([]MedicalAdviceResponse, error) {
 	}
 	object.Gid = temp.Madid
 	object.Contents = make([]MedicalAdviceContent, 1)
-	object.Contents[0] = MedicalAdviceContent{temp.Madid, strings.Split(temp.Content, " ")[0], temp.Dosage}
+	object.Contents[0] = MedicalAdviceContent{temp.Madid, strings.Split(temp.Content, " ")[0], temp.Dosage, temp.Amount}
 
 	// 按组合并，最后一次创建的Object不会被拆分
 	for i := 1; i < length; i ++ {
@@ -937,7 +946,7 @@ func FetchFinishedMedicalAdvice(vid int64) ([]MedicalAdviceResponse, error) {
 
 		// 同 人+时+单+组 则合并
 		if object.Vid == v.Vid && object.ExTime.ParseToSecond() == v.ExTime.ParseToSecond() && object.PtNum == v.PtNum && object.GroupNum == v.GroupNum {
-			object.Contents = append(object.Contents, MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage})
+			object.Contents = append(object.Contents, MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage, v.Amount})
 		} else {
 			//	按次拆分
 			for idx := 1; idx <= object.Times; idx ++ {
@@ -956,7 +965,7 @@ func FetchFinishedMedicalAdvice(vid int64) ([]MedicalAdviceResponse, error) {
 						ExTime:    object.ExTime,
 						ExDay:     object.ExDay,
 						GroupNum:  object.GroupNum,
-						Amount:    object.Amount,
+						//Amount:    object.Amount,
 						Frequency: object.Frequency,
 						Times:     object.Times,
 						Method:    object.Method,
@@ -997,7 +1006,7 @@ func FetchFinishedMedicalAdvice(vid int64) ([]MedicalAdviceResponse, error) {
 				ExTime:    v.ExTime,
 				ExDay:     v.ExDay,
 				GroupNum:  v.GroupNum,
-				Amount:    v.Amount,
+				//Amount:    v.Amount,
 				Frequency: v.Frequency,
 				Times:     v.Times,
 				Method:    v.Method,
@@ -1022,7 +1031,7 @@ func FetchFinishedMedicalAdvice(vid int64) ([]MedicalAdviceResponse, error) {
 			}
 			object.Gid = v.Madid
 			object.Contents = make([]MedicalAdviceContent, 1)
-			object.Contents[0] = MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage}
+			object.Contents[0] = MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage, v.Amount}
 		}
 	}
 	// 继续拆分最后一次创建的object
@@ -1045,7 +1054,7 @@ func FetchFinishedMedicalAdvice(vid int64) ([]MedicalAdviceResponse, error) {
 					ExTime:    object.ExTime,
 					ExDay:     object.ExDay,
 					GroupNum:  object.GroupNum,
-					Amount:    object.Amount,
+					//Amount:    object.Amount,
 					Frequency: object.Frequency,
 					Times:     object.Times,
 					Method:    object.Method,
@@ -1110,4 +1119,26 @@ func FetchFinishedMedicalAdvice(vid int64) ([]MedicalAdviceResponse, error) {
 		resp.PtStatus = exec.PtStatus
 	}
 	return arrA, err_db
+}
+
+/*检验标签*/
+type MedicalAdviceLabelCode struct {
+	Pid     int64  `json:"pid"`     // 病人ID
+	Vid     int64  `json:"vid"`     // 就诊ID
+	Code    string `json:"code"`    // 条形码
+	Bed     string `json:"bed"`     // 病人床位
+	PName   string `json:"pName"`   // 病人姓名
+	Gender  string `json:"gender"`  // 性别
+	Age     string `json:"age"`     // 年龄
+	HospNum string `json:"hospNum"` // 住院号
+}
+
+/*查询瓶签数据*/
+func CheckingMedicalAdviceLabel(data string) ([]MedicalAdviceLabelCode) {
+	res := make([]MedicalAdviceLabelCode, 0)
+	err := fit.SQLServerEngine().SQL(fmt.Sprintf("SELECT top 1 a.VAA01 Pid, a.VAA07 Vid, a.VBI21 Code, b.BCQ04B Bed, b.VAE95 PName, b.VAE94 HospNum, b.VAE46 Age, CASE b.VAE96 WHEN 1 THEN '男' WHEN 2 THEN '女' ELSE '未知' END AS Gender from VBI2 a join VAE1 b on a.VAA07 = b.VAE01 where a.VBI21 = '%s'", data)).Find(&res)
+	if err != nil {
+		fit.Logger().LogDebug("***JK***", err)
+	}
+	return res
 }

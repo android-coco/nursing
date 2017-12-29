@@ -94,13 +94,17 @@ func FetchAllOfTheAccountHasCreated(departmentId, authority, status, uid int) (s
 func FetchAllOfTheAccountNotBeenCreated(departmentId int) (slice []BCE1Dup, err error) {
 	slice = make([]BCE1Dup, 0)
 	err = fit.MySqlEngine().SQL("select BCE1.BCE01, BCE1.BCE02, BCE1.BCE03, BCE1.BCK01 from BCE1 where (select count(1) as num from `User` where `User`.departmentid = ? and BCE1.BCE01 = `User`.employeeid) = 0 and BCE1.BCK01 = ? and BCE41 in ('0','1')", departmentId, departmentId).Find(&slice)
-	if err == nil {
-		for i, _ := range slice {
-			slice[i].BCK03, err = QueryDepartmentNameWithId(departmentId)
-			if err != nil {
-				break
-			}
-		}
+	if err != nil {
+		return slice, err
+	}
+	var name string
+	name, err = QueryDepartmentNameWithId(departmentId)
+	if err != nil {
+		fit.Logger().LogError("jp:", err)
+		return
+	}
+	for i, _ := range slice {
+		slice[i].BCK03 = name
 	}
 	return
 }

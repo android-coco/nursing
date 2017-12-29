@@ -208,6 +208,9 @@ func GetTempChart(ty, pid string, weeks []time.Time) ([]string, error) {
 						totalvalue := ""
 						for _, dict := range resultmap {
 							if v, ok := dict["Other"]; ok {
+								t := time.Now()
+								fmt.Println("-----time str :", utils.STime(t))
+								//fmt.Printf("mods: %+v  len:%d\n", list, len(list))
 								switch v {
 								case "1":
 									totalvalue = totalvalue + "入院<br/><br/>"
@@ -232,6 +235,30 @@ func GetTempChart(ty, pid string, weeks []time.Time) ([]string, error) {
 								default:
 									totalvalue = totalvalue + ""
 								}
+								/*switch v {
+								case "1":
+									totalvalue = totalvalue + "入院<br/><br/>"
+								case "2":
+									totalvalue = totalvalue + "出院<br/><br/>"
+								case "3":
+									totalvalue = totalvalue + "手术<br/><br/>"
+								case "4":
+									totalvalue = totalvalue + "分娩<br/><br/>"
+								case "5":
+									totalvalue = totalvalue + "出生<br/><br/>"
+								case "6":
+									totalvalue = totalvalue + "转入<br/><br/>"
+								case "7":
+									totalvalue = totalvalue + "转科<br/><br/>"
+								case "8":
+									totalvalue = totalvalue + "<span>转院<br/><br/></span>"
+								case "9":
+									totalvalue = totalvalue + "死亡<br/><br/>"
+								case "10":
+									totalvalue = totalvalue + "外出<br/><br/>"
+								default:
+									totalvalue = totalvalue + ""
+								}*/
 							} else {
 								totalvalue = totalvalue + ""
 							}
@@ -374,20 +401,30 @@ func GetOperationRecords(pid string, edate time.Time) ([]time.Time, error) {
 }
 
 type TempModel struct {
-	HeadType  string       `json:"headtype" xorm:"notnull comment(头部类型)"`
-	SubType   int          `json:"type" xorm:"notnull comment(类型,)"`
-	DateTime  FitTime `json:"testtime" xorm:"notnull comment(日期时间)"`
-	TypeTime  int          `json:"typetime" xorm:"notnull comment(时间段)"`
-	Value     string       `json:"value" xorm:"notnull comment(值)"`
-	Other     int          `json:"other" xorm:"notnull comment(其他可能选项,)"`
+	HeadType string  `json:"headtype" xorm:"notnull comment(头部类型)"`
+	SubType  int     `json:"type" xorm:"notnull comment(类型,)"`
+	DateTime FitTime `json:"testtime" xorm:"notnull comment(日期时间)"`
+	TypeTime int     `json:"typetime" xorm:"notnull comment(时间段)"`
+	Value    string  `json:"value" xorm:"notnull comment(值)"`
+	Other    int     `json:"other" xorm:"notnull comment(其他可能选项,)"`
 	//PatientId int64        `json:"patientid" xorm:"notnull comment(病人id)"`
 	//NurseId   int          `json:"nurseid" xorm:"notnull comment(护士id)"`
 	//NurseName string       `json:"nursename" xorm:"notnull comment(护士姓名)"`
 }
 
+type IOModel struct {
+	DateTime1 FitTime `xorm:"comment(记录时间)" json:"dateTime1"`
+	// 入量 1输液2饮食3饮水4其他
+	IntakeTotal string `xorm:"comment(总入量)"`
+
+	// 出量 1尿量2大便3其他
+	OutputA string `xorm:"comment(出量尿量)"`
+	OutputC string `xorm:"comment(出量其他)"`
+}
+
 func Test(pid string, weeks []time.Time) ([]TempModel) {
 	t0 := weeks[0]
-	t6 := weeks[len(weeks) - 1]
+	t6 := weeks[len(weeks)-1]
 	t0str := t0.Format("2006-01-02 15:04:05")
 	t6str := t6.AddDate(0, 0, 1).Format("2006-01-02 15:04:05")
 	var mods []TempModel
@@ -396,24 +433,31 @@ func Test(pid string, weeks []time.Time) ([]TempModel) {
 	err := fit.MySqlEngine().SQL(sql, t0str, t6str, pid).Find(&mods)
 	fmt.Println("err:", err, "t0:", t0)
 
-	sql2 := "SELECT OutputA, OutputC, IntakeTotal AS Value FROM IOStatistics WHERE DateTime1 >= ? and DateTime < ? and PatientId = ? and DataType = 1"
-	resultmap, err2 := fit.MySqlEngine().QueryString(sql2, t0str, t6str, pid)
+	var IOMods []IOModel
+	sql2 := "SELECT OutputA, OutputC, IntakeTotal, DateTime1 FROM IOStatistics WHERE DateTime1 >= ? and DateTime1 < ? and PatientId = ? and DataType = 1"
+	//resultmap, err2 := fit.MySqlEngine().QueryString(sql2, t0str, t6str, pid)
+	err2 := fit.MySqlEngine().SQL(sql2, t0str, t6str, pid).Find(&IOMods)
 	if err2 != nil {
 		fit.Logger().LogError("hy:", "temp chart:", err2.Error())
 	}
-	for _, val := range resultmap {
-		fmt.Println("value:", val)
-	}
+	for _, val := range IOMods {
+		t1 := val.DateTime1
+		duration := t1.Sub(FitTime(t0))
+		days := duration.Hours() / 24
+		fmt.Println("value:", val, days)
 
+	}
+	fmt.Printf("io model: %+v\n", IOMods)
+	fmt.Println("----", t0str, t6str)
 	data := new(TempChart)
 
-	for _,val := range mods {
+	for _, val := range mods {
 		t1 := val.DateTime
 		duration := t1.Sub(FitTime(t0))
 		days := duration.Hours() / 24
-		fmt.Println("t1:", t1, "days:", days, "duration:", duration)
+		//fmt.Println("t1:", t1, "days:", days, "duration:", duration)
 
-		index := int(days) * 6 + val.TypeTime / 4
+		index := int(days)*6 + val.TypeTime/4
 		index2 := int(days)
 		// 1体温2脉搏3呼吸4血压5心率8体重9身高10皮试12事件13大便次数14其他
 		switch val.HeadType {
@@ -449,7 +493,7 @@ func Test(pid string, weeks []time.Time) ([]TempModel) {
 			fmt.Println("error ----------------")
 		}
 	}
-	fmt.Printf("data: %+v", data)
+	fmt.Printf("data: %+v\n", data)
 	return mods
 }
 
@@ -461,13 +505,13 @@ type TempChart struct {
 	Pulse     [42]string // 脉搏
 	Heartrate [42]string // 心率
 	Breathe   [42]string // 呼吸
-	Intake    [7]string // 输入液量
-	Output1   [7]string // 排出其他
-	Output2   [7]string // 排出尿量
-	Output3   [7]string // 排出大便
-	Pressure  [7]string // 血压
-	Weight    [7]string // 体重
-	Skin      [7]string // 皮试
-	Other     [7]string // 其他
-	Incident  [7]string // 事件
+	Intake    [7]string  // 输入液量
+	Output1   [7]string  // 排出其他
+	Output2   [7]string  // 排出尿量
+	Output3   [7]string  // 排出大便
+	Pressure  [7]string  // 血压
+	Weight    [7]string  // 体重
+	Skin      [7]string  // 皮试
+	Other     [7]string  // 其他
+	Incident  [7]string  // 事件
 }

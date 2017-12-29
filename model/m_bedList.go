@@ -487,20 +487,22 @@ func GetDepartmentBedsByClassifyingByPage(BCK01 int, typeDup int, page, pagenum 
 	return obj, err
 }
 
-
 /*TV专用的病人信息*/
 type TVInpatient struct {
-	PName          string `json:"pName"` // 病人姓名
-	Pid            int64  `json:"pid"`   // 病人ID
-	Vid            int64  `json:"vid"`   // 就诊ID
-	Did            int    `json:"did"`   // 住院病区
-	Bed            string `json:"bed"`   // 床位号
-	NursingDegreeV string `json:"degree"` // 护理级别
+	PName          string    `json:"pName"`  // 病人姓名
+	Pid            int64     `json:"pid"`    // 病人ID
+	Vid            int64     `json:"vid"`    // 就诊ID
+	Did            int       `json:"did"`    // 住院病区
+	Bed            string    `json:"bed"`    // 床位号
+	NursingDegreeV string    `json:"degree"` // 护理级别
+	AdmissionTime  time.Time `json:"adtime"` // 入院时间
+	DischargeTime  time.Time `json:"dctime"` // 出院时间
+	State          int       `json:"state"`  // 状态
 }
 
 /*获取在床病人总数和一级护理床位*/
-func FetchInpatientsForTV(did int) (amount int, bedStr string) {
-	res := make([]TVInpatient, 0)
+func FetchInpatientsForTV(did int) (amount int, bedStr string, bedStr1 string, bedStr2 string) {
+	res := make([]TVInpatient, 0) //全部病人
 	err := fit.SQLServerEngine().SQL("SELECT a.VAE95 PName, a.VAA01 Pid, a.VAE01 Vid, a.BCK01C Did, a.BCQ04B Bed FROM VAE1 a WHERE a.BCK01C = ? AND a.VAE44 = 2 ORDER BY a.BCQ04B", did).Find(&res)
 	if err != nil {
 		fit.Logger().LogError("***JK***", err.Error())
@@ -509,17 +511,42 @@ func FetchInpatientsForTV(did int) (amount int, bedStr string) {
 	amount = len(res)
 	var i int
 	beds := make([]string, 0)
+	beds1 := make([]string, 0)
+
 	for i = 0; i < amount; i ++ {
 		v := res[i]
-		_, err = fit.SQLServerEngine().SQL("SELECT TOP 1 b.BCF01 NursingDegreeV FROM VAE1 a LEFT JOIN BBY1 b ON b.BBY01 = a.AAG01 WHERE a.VAE01 = ? AND a.VAE44 = 2 ORDER BY a.VAE11 DESC", v.Vid).Get(&v)
+		_, err = fit.SQLServerEngine().SQL("SELECT TOP 1 b.BCF01 NursingDegreeV, a.VAE11 AdmissionTime, a.VAE44 State, a.VAE26 DischargeTime FROM VAE1 a LEFT JOIN BBY1 b ON b.BBY01 = a.AAG01 WHERE a.VAE01 = ? ORDER BY a.VAE11 DESC", v.Vid).Get(&v) //v.Vid
 		if err != nil {
 			fit.Logger().LogError("***JK***", err.Error())
 		}
 
-		if v.NursingDegreeV == "1" {
+		if v.NursingDegreeV == "1" && v.State == 2 { //获取在院一级护理
 			beds = append(beds, v.Bed)
 		}
+
+		// 判断是否为新病人
+		timeNow := time.Now()
+
+		// 当前系统时间大于8点（比较今天8点）
+		if timeNow.Hour() > 8 {
+			reference := time.Date(timeNow.Year(), timeNow.Month(), timeNow.Day(), 8, 0, 0, 0, time.Local)
+			if wh := v.AdmissionTime.After(reference); wh == true {
+				beds1 = append(beds1, v.Bed)
+			}
+			// 当前系统时间小于8点（比较昨天8点到今天8点）
+		} else {
+			// 参考时间：前一天早上8点
+			temp := time.Date(timeNow.Year(), timeNow.Month(), timeNow.Day(), 8, 0, 0, 0, time.Local)
+			reference := temp.AddDate(0, 0, -1)
+			// 入院时间大于前一天早上8点
+			if wh := reference.Before(v.AdmissionTime); wh == true {
+				beds1 = append(beds1, v.Bed)
+			}
+		}
 	}
-	bedStr = strings.Join(beds, ",")
+	bedStr = strings.Join(beds, ",")   //一级护理
+	bedStr1 = strings.Join(beds1, ",") //新入院病人
+	bedStr2 = "" //新出院病人
+
 	return
 }

@@ -59,6 +59,7 @@ type MedicalAdviceContent struct {
 	Madid   int64  `json:"madid"`   // 医嘱ID
 	Content string `json:"content"` // 医嘱内容
 	Dosage  string `json:"dosage"`  // 用量、剂量
+	Amount  string `json:"amount"`  // 数量
 }
 
 /*PC接口返回的医嘱数据*/
@@ -75,7 +76,7 @@ type MedicalAdviceResponse struct {
 	ExDay       string                 `json:"exTime"`    // 计划执行日期[不存储]
 	GroupNum    int                    `json:"groupNum"`  // 组号
 	Contents    []MedicalAdviceContent `json:"contents"`  // 医嘱内容
-	Amount      string                 `json:"amount"`    // 数量
+	//Amount      string                 `json:"amount"`    // 数量,值=0,以防止PDA出现崩溃，移至MedicalAdviceContent内
 	Frequency   string                 `json:"frequency"` // 频次
 	Times       int                    `json:"times"`     // 频次数值(医嘱执行次数)
 	Method      string                 `json:"method"`    // 医嘱用法
@@ -160,16 +161,16 @@ type MedicalAdvicePrintSubModel struct {
 	ExStatus  string `json:"exStatus"`  // 执行状态,0=未执行,1=正在执行,2=已结束[不存储]
 	ExStatusV int    `json:"exStatusV"` // 执行状态值
 	ExStep    string `json:"exStep"`    // 执行步骤,当前执行步骤
-	PtTimes   int    `json:"ptTimes"`   // 打印次数
+	PtTimes   int    `json:"ptTimes"`   // 打印次数1:打印,0：未打印,(输液单已打印=1;瓶签已打印＝2;输液单和瓶签都已打印＝3)
 	PtStatus  string `json:"ptStatus"`  // 打印状态[不存储,PtTimes=0=未打,PtTimes=1=已打]
 }
 
 /*医嘱拆分-瓶签*/
 func SearchSplitMedicalAdviceForBottlePost(startTime, endTime, vids string, typeOf, print int) ([]MedicalAdviceResponse, error) {
 	sqlDeclare := fmt.Sprintf("Declare @lDt1 varchar(30) ,@lDt2 varchar(30) ,@asign tinyint Set @lDt1 = Convert( varchar(16), Cast('%s' as datetime), 121) + ':00' Set @lDt2 = Convert( varchar(16), Cast('%s' as datetime), 121) + ':59' set @asign = 0 if DATEDIFF(DAY ,@lDt1 ,@lDt2) = 0 set @asign = 1 ", startTime, endTime)
-	sqlHeader := "SELECT d.* FROM( SELECT a.VAF06 Vid, 4 PtTypeV, a.VAF01 MadId, c.VAA01 Pid, c.BCQ04B Bed, c.VAE95 PName, CAST(c.VAE46 as varchar(10)) Age, c.VAE94 HospNum, CASE c.VAE96 WHEN 1 THEN '男' WHEN 2 THEN '女' ELSE '未知' END AS Gender, b.VBI10 ExTime, a.VAF59 GroupNum, a.VAF22 Content, CASE a.VAF19 WHEN '' THEN '-' ELSE a.VAF19 END Dosage, CAST(a.VAF21 AS INT) Amount, a.VAF26 Frequency, CASE WHEN DATEDIFF(DAY, a.VAF36, b.VBI10) = 0 THEN CAST(a.VAF61 AS INT) ELSE CAST(a.VAF27 AS INT) END Times, a2.BBX05 Method, a.VAF60 Speed, a.VAF11 TypeV, CASE a.VAF11 WHEN 1 THEN '长嘱' WHEN 2 THEN '临嘱' END AS TypeOf, a.VAF36 StTime, CASE WHEN a.VAF10 = 3 THEN '未停' WHEN a.VAF10 = 4 THEN '已作废' WHEN a.VAF10 >= 8 THEN '已停' ELSE '其它' END AS MStatus, a.VAF10 MStatusV, e.BDA02 Category, a.BDA01 CategoryV, '瓶签' PtType, a.CBM01 PtNum, a.Rownr PtRownr, a.VAF23 Entrust, a.BCE03A Physician, a.VAF47 EdTime, b.BCE03A Sender "
+	sqlHeader := "SELECT d.* FROM( SELECT a.VAF06 Vid, 4 PtTypeV, a.VAF01 MadId, c.VAA01 Pid, c.BCQ04B Bed, c.VAE95 PName, CAST(c.VAE46 as varchar(10)) Age, c.VAE94 HospNum, CASE c.VAE96 WHEN 1 THEN '男' WHEN 2 THEN '女' ELSE '未知' END AS Gender, b.VBI10 ExTime, a.VAF59 GroupNum, a.VAF22 Content, CASE a.VAF19 WHEN '' THEN '-' ELSE a.VAF19 END Dosage, CAST(a.VAF21 AS INT) Amount, a.VAF26 Frequency, CASE WHEN DATEDIFF(DAY, a.VAF36, b.VBI10) = 0 AND a.VAF61 > 0 THEN CAST(a.VAF61 AS INT) ELSE CAST(a.VAF27 AS INT) END Times, a2.BBX05 Method, a.VAF60 Speed, a.VAF11 TypeV, CASE a.VAF11 WHEN 1 THEN '长嘱' WHEN 2 THEN '临嘱' END AS TypeOf, a.VAF36 StTime, CASE WHEN a.VAF10 = 3 THEN '未停' WHEN a.VAF10 = 4 THEN '已作废' WHEN a.VAF10 >= 8 THEN '已停' ELSE '其它' END AS MStatus, a.VAF10 MStatusV, e.BDA02 Category, a.BDA01 CategoryV, '瓶签' PtType, a.CBM01 PtNum, a.Rownr PtRownr, a.VAF23 Entrust, a.BCE03A Physician, a.VAF47 EdTime, b.BCE03A Sender "
 	sqlTable := "FROM VAF2 a JOIN VAF2 a1 ON a.VAF01A = a1.VAF01 JOIN BBX1 a2 ON a1.BBX01 = a2.BBX01 JOIN VBI2 b ON a.VAF01 = b.VAF01 JOIN VAE1 c ON a.VAF06 = c.VAE01 JOIN BDA1 e ON a.BDA01 = e.BDA01 "
-	sqlStr := fmt.Sprintf("%s%s%sWHERE a.VAF04 = 2 AND b.VBI07 > 0 AND((%d = 0) OR(%d > 0 AND a.VAF11 = %d)) AND c.VAE01 IN(%s) AND a2.BBX20 IN(2, 4, 5) AND((a.VAF11 = 2 AND a.VAF10 >= 8) OR( a.VAF11 = 1 AND(a.VAF10 = 3 OR a.VAF10 >= 8))) AND(a.BDA01 = '1' OR a.BDA01 = '2') AND a2.BDA01 = 'T' AND a2.BBX13 = '2' AND datediff(MINUTE ,@lDt1, b.VBI10) >= 0 AND datediff(MINUTE, b.VBI10 ,@lDt2) >= 0 AND( @asign = 0 OR(@asign = 1 AND a.VAF11 = 2) OR( a.VAF11 = 1 AND @asign = 1 AND DATEDIFF(DAY, a.VAF36, b.VBI10) <> 0) OR( a.VAF11 = 1 AND @asign = 1 AND DATEDIFF(DAY, a.VAF36, b.VBI10) = 0 AND a.VAF61 > 0.000001))) d ORDER BY d.Bed, d.TypeV, d.Vid, d.ExTime, d.PtNum, d.GroupNum, d.PtRownr", sqlDeclare, sqlHeader, sqlTable, typeOf, typeOf, typeOf, vids)
+	sqlStr := fmt.Sprintf("%s%s%sWHERE a.VAF04 = 2 AND((%d = 0) OR(%d > 0 AND a.VAF11 = %d)) AND c.VAE01 IN(%s) AND a2.BBX20 = 2 AND a.VAF54 = 0 AND((a.VAF11 = 2 AND a.VAF10 >= 8) OR( a.VAF11 = 1 AND(a.VAF10 = 3 OR a.VAF10 >= 8))) AND(a.BDA01 = '1' OR a.BDA01 = '2') AND a2.BDA01 = 'T' AND a2.BBX13 = '2' AND datediff(MINUTE ,@lDt1, b.VBI10) >= 0 AND datediff(MINUTE, b.VBI10 ,@lDt2) >= 0 AND( @asign = 0 OR(@asign = 1 AND a.VAF11 = 2) OR( a.VAF11 = 1 AND @asign = 1 AND DATEDIFF(DAY, a.VAF36, b.VBI10) <> 0) OR( a.VAF11 = 1 AND @asign = 1 AND DATEDIFF(DAY, a.VAF36, b.VBI10) = 0 AND a.VAF61 > 0.000001))) d ORDER BY d.Bed, d.TypeV, d.Vid, d.ExTime, d.PtNum, d.GroupNum, d.PtRownr", sqlDeclare, sqlHeader, sqlTable, typeOf, typeOf, typeOf, vids)
 	//fmt.Println("***JK***瓶签", sqlStr)
 	mAdvices := make([]MedicalAdviceModal, 0)
 	err_ss := fit.SQLServerEngine().SQL(sqlStr).Find(&mAdvices)
@@ -204,7 +205,7 @@ func SearchSplitMedicalAdviceForBottlePost(startTime, endTime, vids string, type
 		ExTime:    temp.ExTime,
 		ExDay:     temp.ExDay,
 		GroupNum:  temp.GroupNum,
-		Amount:    temp.Amount,
+		//Amount:    temp.Amount,
 		Frequency: temp.Frequency,
 		Times:     temp.Times,
 		Method:    temp.Method,
@@ -230,7 +231,7 @@ func SearchSplitMedicalAdviceForBottlePost(startTime, endTime, vids string, type
 	}
 	object.Gid = temp.Madid
 	object.Contents = make([]MedicalAdviceContent, 1)
-	object.Contents[0] = MedicalAdviceContent{temp.Madid, strings.Split(temp.Content, " ")[0], temp.Dosage}
+	object.Contents[0] = MedicalAdviceContent{temp.Madid, strings.Split(temp.Content, " ")[0], temp.Dosage, temp.Amount}
 
 	// 按组合并，最后一次创建的Object不会被拆分
 	for i := 1; i < length; i ++ {
@@ -241,7 +242,7 @@ func SearchSplitMedicalAdviceForBottlePost(startTime, endTime, vids string, type
 
 		// 同 人+时+单+组 则合并
 		if object.Vid == v.Vid && object.ExTime.ParseToSecond() == v.ExTime.ParseToSecond() && object.PtNum == v.PtNum && object.GroupNum == v.GroupNum {
-			object.Contents = append(object.Contents, MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage})
+			object.Contents = append(object.Contents, MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage, v.Amount})
 		} else {
 			//	按次拆分
 			for idx := 1; idx <= object.Times; idx ++ {
@@ -260,7 +261,7 @@ func SearchSplitMedicalAdviceForBottlePost(startTime, endTime, vids string, type
 						ExTime:    object.ExTime,
 						ExDay:     object.ExDay,
 						GroupNum:  object.GroupNum,
-						Amount:    object.Amount,
+						//Amount:    object.Amount,
 						Frequency: object.Frequency,
 						Times:     object.Times,
 						Method:    object.Method,
@@ -302,7 +303,7 @@ func SearchSplitMedicalAdviceForBottlePost(startTime, endTime, vids string, type
 				ExTime:    v.ExTime,
 				ExDay:     v.ExDay,
 				GroupNum:  v.GroupNum,
-				Amount:    v.Amount,
+				//Amount:    v.Amount,
 				Frequency: v.Frequency,
 				Times:     v.Times,
 				Method:    v.Method,
@@ -328,7 +329,7 @@ func SearchSplitMedicalAdviceForBottlePost(startTime, endTime, vids string, type
 			}
 			object.Gid = v.Madid
 			object.Contents = make([]MedicalAdviceContent, 1)
-			object.Contents[0] = MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage}
+			object.Contents[0] = MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage, v.Amount}
 		}
 	}
 	// 继续拆分最后一次创建的object
@@ -351,7 +352,7 @@ func SearchSplitMedicalAdviceForBottlePost(startTime, endTime, vids string, type
 					ExTime:    object.ExTime,
 					ExDay:     object.ExDay,
 					GroupNum:  object.GroupNum,
-					Amount:    object.Amount,
+					//Amount:    object.Amount,
 					Frequency: object.Frequency,
 					Times:     object.Times,
 					Method:    object.Method,
@@ -422,11 +423,15 @@ func SearchSplitMedicalAdviceForBottlePost(startTime, endTime, vids string, type
 		resp.PtTimes = exec.PtTimes
 		resp.PtStatus = exec.PtStatus
 
-		if print == 0 && exec.PtTimes == 0 {
+		// 1:打印,0：未打印,(输液单已打印=1;瓶签已打印＝2;输液单和瓶签都已打印＝3)
+		if print == 0 && (exec.PtTimes == 0 || exec.PtTimes == 1) {
 			response = append(response, *resp)
-		} else if print == 1 && exec.PtTimes >= 1 {
+		} else if print == 1 && (exec.PtTimes == 2 || exec.PtTimes == 3) {
+			response = append(response, *resp)
+		} else if print == 2 && (exec.PtTimes == 0 || exec.PtTimes == 1 || exec.PtTimes == 2 || exec.PtTimes == 3) {
 			response = append(response, *resp)
 		}
+
 		//if exec.Madid != madid {
 		//	//	 无记录,将第一条医嘱插入MySQL，代替整组医嘱
 		//	obj := MedicalAdviceItem{
@@ -482,11 +487,8 @@ func SearchSplitMedicalAdviceForBottlePost(startTime, endTime, vids string, type
 		//	}
 		//}
 	}
-	if print == 2 {
-		return arrA, err_ss
-	} else {
-		return response, err_ss
-	}
+
+	return response, err_ss
 }
 
 /*医嘱拆分-输液卡*/
@@ -528,7 +530,7 @@ func SearchSplitMedicalAdviceForInfusion(startTime, endTime, vids string, typeOf
 		ExTime:    temp.ExTime,
 		ExDay:     temp.ExDay,
 		GroupNum:  temp.GroupNum,
-		Amount:    temp.Amount,
+		//Amount:    temp.Amount,
 		Frequency: temp.Frequency,
 		Times:     temp.Times,
 		Method:    temp.Method,
@@ -554,7 +556,7 @@ func SearchSplitMedicalAdviceForInfusion(startTime, endTime, vids string, typeOf
 	}
 	object.Gid = temp.Madid
 	object.Contents = make([]MedicalAdviceContent, 1)
-	object.Contents[0] = MedicalAdviceContent{temp.Madid, strings.Split(temp.Content, " ")[0], temp.Dosage}
+	object.Contents[0] = MedicalAdviceContent{temp.Madid, strings.Split(temp.Content, " ")[0], temp.Dosage, temp.Amount}
 
 	// 按组合并，最后一次创建的Object不会被拆分
 	for i := 1; i < length; i ++ {
@@ -565,7 +567,7 @@ func SearchSplitMedicalAdviceForInfusion(startTime, endTime, vids string, typeOf
 
 		// 同 人+时+单+组 则合并
 		if object.Vid == v.Vid && object.ExTime.ParseToSecond() == v.ExTime.ParseToSecond() && object.PtNum == v.PtNum && object.GroupNum == v.GroupNum {
-			object.Contents = append(object.Contents, MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage})
+			object.Contents = append(object.Contents, MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage, v.Amount})
 		} else {
 			//	按次拆分
 			for idx := 1; idx <= object.Times; idx ++ {
@@ -584,7 +586,7 @@ func SearchSplitMedicalAdviceForInfusion(startTime, endTime, vids string, typeOf
 						ExTime:    object.ExTime,
 						ExDay:     object.ExDay,
 						GroupNum:  object.GroupNum,
-						Amount:    object.Amount,
+						//Amount:    object.Amount,
 						Frequency: object.Frequency,
 						Times:     object.Times,
 						Method:    object.Method,
@@ -626,7 +628,7 @@ func SearchSplitMedicalAdviceForInfusion(startTime, endTime, vids string, typeOf
 				ExTime:    v.ExTime,
 				ExDay:     v.ExDay,
 				GroupNum:  v.GroupNum,
-				Amount:    v.Amount,
+				//Amount:    v.Amount,
 				Frequency: v.Frequency,
 				Times:     v.Times,
 				Method:    v.Method,
@@ -652,7 +654,7 @@ func SearchSplitMedicalAdviceForInfusion(startTime, endTime, vids string, typeOf
 			}
 			object.Gid = v.Madid
 			object.Contents = make([]MedicalAdviceContent, 1)
-			object.Contents[0] = MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage}
+			object.Contents[0] = MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage, v.Amount}
 		}
 	}
 	// 继续拆分最后一次创建的object
@@ -675,7 +677,7 @@ func SearchSplitMedicalAdviceForInfusion(startTime, endTime, vids string, typeOf
 					ExTime:    object.ExTime,
 					ExDay:     object.ExDay,
 					GroupNum:  object.GroupNum,
-					Amount:    object.Amount,
+					//Amount:    object.Amount,
 					Frequency: object.Frequency,
 					Times:     object.Times,
 					Method:    object.Method,
@@ -745,9 +747,12 @@ func SearchSplitMedicalAdviceForInfusion(startTime, endTime, vids string, typeOf
 		resp.PtTimes = exec.PtTimes
 		resp.PtStatus = exec.PtStatus
 
-		if print == 0 && exec.PtTimes == 0 {
+		// 1:打印,0：未打印,(输液单已打印=1;瓶签已打印＝2;输液单和瓶签都已打印＝3)
+		if print == 0 && (exec.PtTimes == 0 || exec.PtTimes == 2) {
 			response = append(response, *resp)
-		} else if print == 1 && exec.PtTimes >= 1 {
+		} else if print == 1 && (exec.PtTimes == 1 || exec.PtTimes == 3) {
+			response = append(response, *resp)
+		} else if print == 2 && (exec.PtTimes == 0 || exec.PtTimes == 1 || exec.PtTimes == 2 || exec.PtTimes == 3) {
 			response = append(response, *resp)
 		}
 		//if exec.Madid != madid {
@@ -805,16 +810,16 @@ func SearchSplitMedicalAdviceForInfusion(startTime, endTime, vids string, typeOf
 		//	}
 		//}
 	}
-	if print == 2 {
-		return arrA, err_ss
-	} else {
-		return response, err_ss
-	}
+	return response, err_ss
 }
 
 /*医嘱拆分-口服单*/
 func SearchSplitMedicalAdviceForOralMedical(startTime, endTime, vids string, typeOf, print, did int) ([]MedicalAdviceResponse, error) {
-	sqlStr := fmt.Sprintf("DECLARE @lVAF11 INT, @lBCK01 INT, @lType INT DECLARE  @lStop TINYINT DECLARE @lDt1 VARCHAR(30) ,@lDt2 VARCHAR(30), @p262 VARCHAR(10) SET @lBCK01 = %d SET @lVAF11 = %d SET @lDt1 = CONVERT( VARCHAR(16), CAST( '%s' AS DATETIME), 121) + ':00' SET @lDt2 = CONVERT( VARCHAR(16), CAST( '%s' AS DATETIME), 121) + ':59' SET @lType = 2 SET @lStop = 0 SELECT d.* FROM( SELECT a.VAF06 Vid, 2 PtTypeV, a.VAF01 MadId, c.VAA01 Pid, c.BCQ04B Bed, c.VAE95 PName, CAST(c.VAE46 as varchar(10)) Age, c.VAE94 HospNum, CASE c.VAE96 WHEN 1 THEN '男' WHEN 2 THEN '女' ELSE '未知' END AS Gender, b.VBI10 ExTime, a.VAF59 GroupNum, a.VAF22 Content, CASE a.VAF19 WHEN '' THEN '-' ELSE a.VAF19 END Dosage, CAST(a.VAF21 AS INT) Amount, a.VAF26 Frequency, CAST(a.VAF27 AS INT) Times, a2.BBX05 Method, a.VAF60 Speed, a.VAF11 TypeV, CASE a.VAF11 WHEN 1 THEN '长嘱' WHEN 2 THEN '临嘱' END AS TypeOf, a.VAF36 StTime, CASE WHEN a.VAF10 = 3 THEN '未停' WHEN a.VAF10 = 4 THEN '已作废' WHEN a.VAF10 >= 8 THEN '已停' ELSE '其它' END AS MStatus, a.VAF10 MStatusV, e.BDA02 Category, a.BDA01 CategoryV, CASE WHEN a2.BBX20 = 0 THEN '口服单' WHEN a2.BBX20 = 1 THEN '注射单' WHEN(a2.BBX20 = 2) OR(a2.BBX20 = 4) THEN '输液单' WHEN a2.BBX20 = 3 THEN '治疗单' WHEN a2.BBX20 = 5 THEN '输血单' WHEN a2.BBX20 = 6 THEN '护理单' END AS PtType, a.CBM01 PtNum, a.Rownr PtRownr, CASE WHEN a.BDA01 = '3' THEN a1.VAF23 ELSE a.VAF23 END Entrust, a.BCE03A Physician, a.VAF47 EdTime, b.BCE03A Sender FROM VAF2 a JOIN VAF2 a1 ON a.VAF01A = a1.VAF01 JOIN BBX1 a2 ON a1.BBX01 = a2.BBX01 JOIN VBI2 b ON a.VAF01 = b.VAF01 JOIN VAE1 c ON a.VAF06 = c.VAE01 JOIN BDA1 e ON a.BDA01 = e.BDA01 WHERE a.VAF04 = 2 AND b.VBI07 > 0 AND((@lVAF11 = 0) OR(@lVAF11 > 0 AND a.VAF11 = @lVAF11)) AND c.VAE01 IN( %s) AND a2.BBX20 IN(0) AND((a.VAF11 = 2 AND a.VAF10 >= 8) OR( a.VAF11 = 1 AND((@lStop = 0 AND a.VAF10 = 3) OR(@lStop = 1 AND a.VAF10 >= 8)))) AND(a.BDA01 >= '1' AND a.BDA01 <= '3') AND a2.BDA01 = 'T' AND a2.BBX13 IN('2', '4') AND datediff(MINUTE ,@lDt1, b.VBI10) >= 0 AND datediff(MINUTE, b.VBI10 ,@lDt2) >= 0 UNION ALL SELECT a.VAF06 Vid, 2 PtTypeV, a.VAF01 MadId, c.VAA01 Pid, c.BCQ04B Bed, c.VAE95 PName, CAST(c.VAE46 as varchar(10)) Age, c.VAE94 HospNum, CASE c.VAE96 WHEN 1 THEN '男' WHEN 2 THEN '女' ELSE '未知' END AS Gender, b.VBI10 ExTime, a.VAF59 GroupNum, a.VAF22 Content, '' Dosage, CAST(a.VAF21 AS INT) Amount, a.VAF26 Frequency, CAST(a.VAF27 AS INT) Times, '' Method, '0' Speed, a.VAF11 TypeV, CASE a.VAF11 WHEN 1 THEN '长嘱' WHEN 2 THEN '临嘱' END AS TypeOf, a.VAF36 StTime, CASE WHEN a.VAF10 = 3 THEN '未停' WHEN a.VAF10 = 4 THEN '已作废' WHEN a.VAF10 >= 8 THEN '已停' ELSE '其它' END AS MStatus, a.VAF10 MStatusV, e.BDA02 Category, a.BDA01 CategoryV, CASE WHEN a1.BBX20 = 0 THEN '口服单' WHEN a1.BBX20 = 1 THEN '注射单' WHEN(a1.BBX20 = 2) OR(a1.BBX20 = 4) THEN '输液单' WHEN a1.BBX20 = 3 THEN '治疗单' WHEN a1.BBX20 = 5 THEN '输血单' WHEN a1.BBX20 = 6 THEN '护理单' END AS PtType, a.CBM01 PtNum, a.Rownr PtRownr, a.VAF23 Entrust, a.BCE03A Physician, a.VAF47 EdTime, b.BCE03A Sender FROM VAF2 a JOIN BBX1 a1 ON a.BBX01 = a1.BBX01 JOIN VBI2 b ON a.VAF01 = b.VAF01 JOIN VAE1 c ON a.VAF06 = c.VAE01 JOIN BDA1 e ON a.BDA01 = e.BDA01 WHERE a.BDA01 IN('B', 'D', 'N', 'O', 'T', 'Z') AND a.VAF32 = 0 AND a.VAF01A = 0 AND((@lVAF11 = 0) OR(@lVAF11 > 0 AND a.VAF11 = @lVAF11)) AND a.VAF04 = 2 AND c.VAE01 IN( %s) AND a1.BBX20 IN(0) AND((a.VAF11 = 2 AND a.VAF10 >= 8) OR( a.VAF11 = 1 AND((@lStop = 0 AND a.VAF10 = 3) OR(@lStop = 1 AND a.VAF10 >= 8)))) AND datediff(MINUTE ,@lDt1, b.VBI10) >= 0 AND datediff(MINUTE, b.VBI10 ,@lDt2) >= 0 UNION ALL SELECT a.VAF06 Vid, 2 PtTypeV, a.VAF01 MadId, c.VAA01 Pid, c.BCQ04B Bed, c.VAE95 PName, CAST(c.VAE46 as varchar(10)) Age, c.VAE94 HospNum, CASE c.VAE96 WHEN 1 THEN '男' WHEN 2 THEN '女' ELSE '未知' END AS Gender, b.VBI10 ExTime, a.VAF59 GroupNum, a.VAF22 Content, '' Dosage, CAST(a.VAF21 AS INT) Amount, a.VAF26 Frequency, CAST(a.VAF27 AS INT) Times, '' Method, '0' Speed, a.VAF11 TypeV, CASE a.VAF11 WHEN 1 THEN '长嘱' WHEN 2 THEN '临嘱' END AS TypeOf, a.VAF36 StTime, CASE WHEN a.VAF10 = 3 THEN '未停' WHEN a.VAF10 = 4 THEN '已作废' WHEN a.VAF10 >= 8 THEN '已停' ELSE '其它' END AS MStatus, a.VAF10 MStatusV, e.BDA02 Category, a.BDA01 CategoryV, CASE WHEN a.VAF53 = 0 THEN '口服单' WHEN a.VAF53 = 1 THEN '注射单' WHEN(a.VAF53 = 2) OR(a.VAF53 = 4) THEN '输液单' WHEN a.VAF53 = 3 THEN '治疗单' WHEN a.VAF53 = 5 THEN '输血单' WHEN a.VAF53 = 6 THEN '护理单' END AS PtType, a.CBM01 PtNum, a.Rownr PtRownr, a.VAF23 Entrust, a.BCE03A Physician, a.VAF47 EdTime, b.BCE03A Sender FROM VAF2 a JOIN VBI2 b ON a.VAF01 = b.VAF01 JOIN VAE1 c ON a.VAF06 = c.VAE01 JOIN BDA1 e ON a.BDA01 = e.BDA01 WHERE a.BDA01 = '0' AND((@lVAF11 = 0) OR(@lVAF11 > 0 AND a.VAF11 = @lVAF11)) AND a.VAF04 = 2 AND c.VAE01 IN( %s) AND a.VAF53 IN(0) AND((a.VAF11 = 2 AND a.VAF10 >= 8) OR( a.VAF11 = 1 AND((@lStop = 0 AND a.VAF10 = 3) OR(@lStop = 1 AND a.VAF10 >= 8)))) AND datediff(MINUTE ,@lDt1, b.VBI10) >= 0 AND datediff(MINUTE, b.VBI10 ,@lDt2) >= 0) d ORDER BY d.Bed, d.TypeV, d.Vid, d.ExTime, d.PtNum, d.GroupNum, d.PtRownr", did, typeOf, startTime, endTime, vids, vids, vids)
+	//12.28以前
+	//sqlStr := fmt.Sprintf("DECLARE @lVAF11 INT, @lBCK01 INT, @lType INT DECLARE  @lStop TINYINT DECLARE @lDt1 VARCHAR(30) ,@lDt2 VARCHAR(30), @p262 VARCHAR(10) SET @lBCK01 = %d SET @lVAF11 = %d SET @lDt1 = CONVERT( VARCHAR(16), CAST( '%s' AS DATETIME), 121) + ':00' SET @lDt2 = CONVERT( VARCHAR(16), CAST( '%s' AS DATETIME), 121) + ':59' SET @lType = 2 SET @lStop = 0 SELECT d.* FROM( SELECT a.VAF06 Vid, 2 PtTypeV, a.VAF01 MadId, c.VAA01 Pid, c.BCQ04B Bed, c.VAE95 PName, CAST(c.VAE46 as varchar(10)) Age, c.VAE94 HospNum, CASE c.VAE96 WHEN 1 THEN '男' WHEN 2 THEN '女' ELSE '未知' END AS Gender, b.VBI10 ExTime, a.VAF59 GroupNum, a.VAF22 Content, CASE a.VAF19 WHEN '' THEN '-' ELSE a.VAF19 END Dosage, CAST(a.VAF21 AS INT) Amount, a.VAF26 Frequency, CAST(a.VAF27 AS INT) Times, a2.BBX05 Method, a.VAF60 Speed, a.VAF11 TypeV, CASE a.VAF11 WHEN 1 THEN '长嘱' WHEN 2 THEN '临嘱' END AS TypeOf, a.VAF36 StTime, CASE WHEN a.VAF10 = 3 THEN '未停' WHEN a.VAF10 = 4 THEN '已作废' WHEN a.VAF10 >= 8 THEN '已停' ELSE '其它' END AS MStatus, a.VAF10 MStatusV, e.BDA02 Category, a.BDA01 CategoryV, CASE WHEN a2.BBX20 = 0 THEN '口服单' WHEN a2.BBX20 = 1 THEN '注射单' WHEN(a2.BBX20 = 2) OR(a2.BBX20 = 4) THEN '输液单' WHEN a2.BBX20 = 3 THEN '治疗单' WHEN a2.BBX20 = 5 THEN '输血单' WHEN a2.BBX20 = 6 THEN '护理单' END AS PtType, a.CBM01 PtNum, a.Rownr PtRownr, CASE WHEN a.BDA01 = '3' THEN a1.VAF23 ELSE a.VAF23 END Entrust, a.BCE03A Physician, a.VAF47 EdTime, b.BCE03A Sender FROM VAF2 a JOIN VAF2 a1 ON a.VAF01A = a1.VAF01 JOIN BBX1 a2 ON a1.BBX01 = a2.BBX01 JOIN VBI2 b ON a.VAF01 = b.VAF01 JOIN VAE1 c ON a.VAF06 = c.VAE01 JOIN BDA1 e ON a.BDA01 = e.BDA01 WHERE a.VAF04 = 2 AND b.VBI07 > 0 AND((@lVAF11 = 0) OR(@lVAF11 > 0 AND a.VAF11 = @lVAF11)) AND c.VAE01 IN( %s) AND a2.BBX20 IN(0) AND((a.VAF11 = 2 AND a.VAF10 >= 8) OR( a.VAF11 = 1 AND((@lStop = 0 AND a.VAF10 = 3) OR(@lStop = 1 AND a.VAF10 >= 8)))) AND(a.BDA01 >= '1' AND a.BDA01 <= '3') AND a2.BDA01 = 'T' AND a2.BBX13 IN('2', '4') AND datediff(MINUTE ,@lDt1, b.VBI10) >= 0 AND datediff(MINUTE, b.VBI10 ,@lDt2) >= 0 UNION ALL SELECT a.VAF06 Vid, 2 PtTypeV, a.VAF01 MadId, c.VAA01 Pid, c.BCQ04B Bed, c.VAE95 PName, CAST(c.VAE46 as varchar(10)) Age, c.VAE94 HospNum, CASE c.VAE96 WHEN 1 THEN '男' WHEN 2 THEN '女' ELSE '未知' END AS Gender, b.VBI10 ExTime, a.VAF59 GroupNum, a.VAF22 Content, '' Dosage, CAST(a.VAF21 AS INT) Amount, a.VAF26 Frequency, CAST(a.VAF27 AS INT) Times, '' Method, '0' Speed, a.VAF11 TypeV, CASE a.VAF11 WHEN 1 THEN '长嘱' WHEN 2 THEN '临嘱' END AS TypeOf, a.VAF36 StTime, CASE WHEN a.VAF10 = 3 THEN '未停' WHEN a.VAF10 = 4 THEN '已作废' WHEN a.VAF10 >= 8 THEN '已停' ELSE '其它' END AS MStatus, a.VAF10 MStatusV, e.BDA02 Category, a.BDA01 CategoryV, CASE WHEN a1.BBX20 = 0 THEN '口服单' WHEN a1.BBX20 = 1 THEN '注射单' WHEN(a1.BBX20 = 2) OR(a1.BBX20 = 4) THEN '输液单' WHEN a1.BBX20 = 3 THEN '治疗单' WHEN a1.BBX20 = 5 THEN '输血单' WHEN a1.BBX20 = 6 THEN '护理单' END AS PtType, a.CBM01 PtNum, a.Rownr PtRownr, a.VAF23 Entrust, a.BCE03A Physician, a.VAF47 EdTime, b.BCE03A Sender FROM VAF2 a JOIN BBX1 a1 ON a.BBX01 = a1.BBX01 JOIN VBI2 b ON a.VAF01 = b.VAF01 JOIN VAE1 c ON a.VAF06 = c.VAE01 JOIN BDA1 e ON a.BDA01 = e.BDA01 WHERE a.BDA01 IN('B', 'D', 'N', 'O', 'T', 'Z') AND a.VAF32 = 0 AND a.VAF01A = 0 AND((@lVAF11 = 0) OR(@lVAF11 > 0 AND a.VAF11 = @lVAF11)) AND a.VAF04 = 2 AND c.VAE01 IN( %s) AND a1.BBX20 IN(0) AND((a.VAF11 = 2 AND a.VAF10 >= 8) OR( a.VAF11 = 1 AND((@lStop = 0 AND a.VAF10 = 3) OR(@lStop = 1 AND a.VAF10 >= 8)))) AND datediff(MINUTE ,@lDt1, b.VBI10) >= 0 AND datediff(MINUTE, b.VBI10 ,@lDt2) >= 0 UNION ALL SELECT a.VAF06 Vid, 2 PtTypeV, a.VAF01 MadId, c.VAA01 Pid, c.BCQ04B Bed, c.VAE95 PName, CAST(c.VAE46 as varchar(10)) Age, c.VAE94 HospNum, CASE c.VAE96 WHEN 1 THEN '男' WHEN 2 THEN '女' ELSE '未知' END AS Gender, b.VBI10 ExTime, a.VAF59 GroupNum, a.VAF22 Content, '' Dosage, CAST(a.VAF21 AS INT) Amount, a.VAF26 Frequency, CAST(a.VAF27 AS INT) Times, '' Method, '0' Speed, a.VAF11 TypeV, CASE a.VAF11 WHEN 1 THEN '长嘱' WHEN 2 THEN '临嘱' END AS TypeOf, a.VAF36 StTime, CASE WHEN a.VAF10 = 3 THEN '未停' WHEN a.VAF10 = 4 THEN '已作废' WHEN a.VAF10 >= 8 THEN '已停' ELSE '其它' END AS MStatus, a.VAF10 MStatusV, e.BDA02 Category, a.BDA01 CategoryV, CASE WHEN a.VAF53 = 0 THEN '口服单' WHEN a.VAF53 = 1 THEN '注射单' WHEN(a.VAF53 = 2) OR(a.VAF53 = 4) THEN '输液单' WHEN a.VAF53 = 3 THEN '治疗单' WHEN a.VAF53 = 5 THEN '输血单' WHEN a.VAF53 = 6 THEN '护理单' END AS PtType, a.CBM01 PtNum, a.Rownr PtRownr, a.VAF23 Entrust, a.BCE03A Physician, a.VAF47 EdTime, b.BCE03A Sender FROM VAF2 a JOIN VBI2 b ON a.VAF01 = b.VAF01 JOIN VAE1 c ON a.VAF06 = c.VAE01 JOIN BDA1 e ON a.BDA01 = e.BDA01 WHERE a.BDA01 = '0' AND((@lVAF11 = 0) OR(@lVAF11 > 0 AND a.VAF11 = @lVAF11)) AND a.VAF04 = 2 AND c.VAE01 IN( %s) AND a.VAF53 IN(0) AND((a.VAF11 = 2 AND a.VAF10 >= 8) OR( a.VAF11 = 1 AND((@lStop = 0 AND a.VAF10 = 3) OR(@lStop = 1 AND a.VAF10 >= 8)))) AND datediff(MINUTE ,@lDt1, b.VBI10) >= 0 AND datediff(MINUTE, b.VBI10 ,@lDt2) >= 0) d ORDER BY d.Bed, d.TypeV, d.Vid, d.ExTime, d.PtNum, d.GroupNum, d.PtRownr", did, typeOf, startTime, endTime, vids, vids, vids)
+
+	//12.28修改
+	sqlStr := fmt.Sprintf("DECLARE @lVAF11 INT, @lBCK01 INT, @lType INT DECLARE  @lStop TINYINT DECLARE @lDt1 VARCHAR(30) ,@lDt2 VARCHAR(30), @p262 VARCHAR(10) SET @lBCK01 = %d SET @lVAF11 = %d SET @lDt1 = CONVERT( VARCHAR(16), CAST( '%s' AS DATETIME), 121) + ':00' SET @lDt2 = CONVERT( VARCHAR(16), CAST( '%s' AS DATETIME), 121) + ':59' SET @lType = 2 SET @lStop = 0 SELECT d.* FROM( SELECT a.VAF06 Vid, 2 PtTypeV, a.VAF01 MadId, c.VAA01 Pid, c.BCQ04B Bed, c.VAE95 PName, CAST(c.VAE46 as varchar(10)) Age, c.VAE94 HospNum, CASE c.VAE96 WHEN 1 THEN '男' WHEN 2 THEN '女' ELSE '未知' END AS Gender, b.VBI10 ExTime, a.VAF59 GroupNum, a.VAF22 Content, CASE a.VAF19 WHEN '' THEN '-' ELSE a.VAF19 END Dosage, CAST(a.VAF21 AS INT) Amount, a.VAF26 Frequency, CAST(a.VAF27 AS INT) Times, a2.BBX05 Method, a.VAF60 Speed, a.VAF11 TypeV, CASE a.VAF11 WHEN 1 THEN '长嘱' WHEN 2 THEN '临嘱' END AS TypeOf, a.VAF36 StTime, CASE WHEN a.VAF10 = 3 THEN '未停' WHEN a.VAF10 = 4 THEN '已作废' WHEN a.VAF10 >= 8 THEN '已停' ELSE '其它' END AS MStatus, a.VAF10 MStatusV, e.BDA02 Category, a.BDA01 CategoryV, CASE WHEN a2.BBX20 = 0 THEN '口服单' WHEN a2.BBX20 = 1 THEN '注射单' WHEN(a2.BBX20 = 2) OR(a2.BBX20 = 4) THEN '输液单' WHEN a2.BBX20 = 3 THEN '治疗单' WHEN a2.BBX20 = 5 THEN '输血单' WHEN a2.BBX20 = 6 THEN '护理单' END AS PtType, a.CBM01 PtNum, a.Rownr PtRownr, CASE WHEN a.BDA01 = '3' THEN a1.VAF23 ELSE a.VAF23 END Entrust, a.BCE03A Physician, a.VAF47 EdTime, b.BCE03A Sender FROM VAF2 a JOIN VAF2 a1 ON a.VAF01A = a1.VAF01 JOIN BBX1 a2 ON a1.BBX01 = a2.BBX01 JOIN VBI2 b ON a.VAF01 = b.VAF01 JOIN VAE1 c ON a.VAF06 = c.VAE01 JOIN BDA1 e ON a.BDA01 = e.BDA01 WHERE a.VAF04 = 2 AND b.VBI07 > 0 AND((@lVAF11 = 0) OR(@lVAF11 > 0 AND a.VAF11 = @lVAF11)) AND c.VAE01 IN( %s) AND a2.BBX20 IN(0) AND((a.VAF11 = 2 AND a.VAF10 >= 8) OR( a.VAF11 = 1 AND((@lStop = 0 AND a.VAF10 = 3) OR(@lStop = 1 AND a.VAF10 >= 8)))) AND(a.BDA01 >= '1' AND a.BDA01 <= '3') AND a2.BDA01 = 'T' AND a2.BBX13 IN('2', '4') AND datediff(MINUTE ,@lDt1, b.VBI10) >= 0 AND datediff(MINUTE, b.VBI10 ,@lDt2) >= 0) d ORDER BY d.Bed, d.TypeV, d.Vid, d.ExTime, d.PtNum, d.GroupNum, d.PtRownr", did, typeOf, startTime, endTime, vids)
 	//fmt.Println("***JK***口服单", sqlStr)
 	mAdvices := make([]MedicalAdviceModal, 0)
 	err_ss := fit.SQLServerEngine().SQL(sqlStr).Find(&mAdvices)
@@ -849,7 +854,7 @@ func SearchSplitMedicalAdviceForOralMedical(startTime, endTime, vids string, typ
 		ExTime:    temp.ExTime,
 		ExDay:     temp.ExDay,
 		GroupNum:  temp.GroupNum,
-		Amount:    temp.Amount,
+		//Amount:    temp.Amount,
 		Frequency: temp.Frequency,
 		Times:     temp.Times,
 		Method:    temp.Method,
@@ -875,7 +880,7 @@ func SearchSplitMedicalAdviceForOralMedical(startTime, endTime, vids string, typ
 	}
 	object.Gid = temp.Madid
 	object.Contents = make([]MedicalAdviceContent, 1)
-	object.Contents[0] = MedicalAdviceContent{temp.Madid, strings.Split(temp.Content, " ")[0], temp.Dosage}
+	object.Contents[0] = MedicalAdviceContent{temp.Madid, strings.Split(temp.Content, " ")[0], temp.Dosage, temp.Amount}
 
 	// 按组合并，最后一次创建的Object不会被拆分
 	for i := 1; i < length; i ++ {
@@ -886,7 +891,7 @@ func SearchSplitMedicalAdviceForOralMedical(startTime, endTime, vids string, typ
 
 		// 同 人+时+单+组 则合并
 		if object.Vid == v.Vid && object.ExTime.ParseToSecond() == v.ExTime.ParseToSecond() && object.PtNum == v.PtNum && object.GroupNum == v.GroupNum {
-			object.Contents = append(object.Contents, MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage})
+			object.Contents = append(object.Contents, MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage, v.Amount})
 		} else {
 			//	按次拆分
 			for idx := 1; idx <= object.Times; idx ++ {
@@ -905,7 +910,7 @@ func SearchSplitMedicalAdviceForOralMedical(startTime, endTime, vids string, typ
 						ExTime:    object.ExTime,
 						ExDay:     object.ExDay,
 						GroupNum:  object.GroupNum,
-						Amount:    object.Amount,
+						//Amount:    object.Amount,
 						Frequency: object.Frequency,
 						Times:     object.Times,
 						Method:    object.Method,
@@ -947,7 +952,7 @@ func SearchSplitMedicalAdviceForOralMedical(startTime, endTime, vids string, typ
 				ExTime:    v.ExTime,
 				ExDay:     v.ExDay,
 				GroupNum:  v.GroupNum,
-				Amount:    v.Amount,
+				//Amount:    v.Amount,
 				Frequency: v.Frequency,
 				Times:     v.Times,
 				Method:    v.Method,
@@ -973,7 +978,7 @@ func SearchSplitMedicalAdviceForOralMedical(startTime, endTime, vids string, typ
 			}
 			object.Gid = v.Madid
 			object.Contents = make([]MedicalAdviceContent, 1)
-			object.Contents[0] = MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage}
+			object.Contents[0] = MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage, v.Amount}
 		}
 	}
 	// 继续拆分最后一次创建的object
@@ -996,7 +1001,7 @@ func SearchSplitMedicalAdviceForOralMedical(startTime, endTime, vids string, typ
 					ExTime:    object.ExTime,
 					ExDay:     object.ExDay,
 					GroupNum:  object.GroupNum,
-					Amount:    object.Amount,
+					//Amount:    object.Amount,
 					Frequency: object.Frequency,
 					Times:     object.Times,
 					Method:    object.Method,
@@ -1066,9 +1071,12 @@ func SearchSplitMedicalAdviceForOralMedical(startTime, endTime, vids string, typ
 		resp.PtTimes = exec.PtTimes
 		resp.PtStatus = exec.PtStatus
 
-		if print == 0 && exec.PtTimes == 0 {
+		//1:打印,0：未打印,(输液单已打印=1;瓶签已打印＝2;输液单和瓶签都已打印＝3)
+		if print == 0 && (exec.PtTimes == 0 || exec.PtTimes == 2 || exec.PtTimes == 3) {
 			response = append(response, *resp)
-		} else if print == 1 && exec.PtTimes >= 1 {
+		} else if print == 1 && exec.PtTimes == 1 {
+			response = append(response, *resp)
+		} else if print == 2 && (exec.PtTimes == 0 || exec.PtTimes == 1 || exec.PtTimes == 2 || exec.PtTimes == 3) {
 			response = append(response, *resp)
 		}
 		//if exec.Madid != madid {
@@ -1126,11 +1134,7 @@ func SearchSplitMedicalAdviceForOralMedical(startTime, endTime, vids string, typ
 		//	}
 		//}
 	}
-	if print == 2 {
-		return arrA, err_ss
-	} else {
-		return response, err_ss
-	}
+	return response, err_ss
 }
 
 /*医嘱拆分-注射单*/
@@ -1170,7 +1174,7 @@ func SearchSplitMedicalAdviceForOralInjection(startTime, endTime, vids string, t
 		ExTime:    temp.ExTime,
 		ExDay:     temp.ExDay,
 		GroupNum:  temp.GroupNum,
-		Amount:    temp.Amount,
+		//Amount:    temp.Amount,
 		Frequency: temp.Frequency,
 		Times:     temp.Times,
 		Method:    temp.Method,
@@ -1196,7 +1200,7 @@ func SearchSplitMedicalAdviceForOralInjection(startTime, endTime, vids string, t
 	}
 	object.Gid = temp.Madid
 	object.Contents = make([]MedicalAdviceContent, 1)
-	object.Contents[0] = MedicalAdviceContent{temp.Madid, strings.Split(temp.Content, " ")[0], temp.Dosage}
+	object.Contents[0] = MedicalAdviceContent{temp.Madid, strings.Split(temp.Content, " ")[0], temp.Dosage, temp.Amount}
 
 	// 按组合并，最后一次创建的Object不会被拆分
 	for i := 1; i < length; i ++ {
@@ -1207,7 +1211,7 @@ func SearchSplitMedicalAdviceForOralInjection(startTime, endTime, vids string, t
 
 		// 同 人+时+单+组 则合并
 		if object.Vid == v.Vid && object.ExTime.ParseToSecond() == v.ExTime.ParseToSecond() && object.PtNum == v.PtNum && object.GroupNum == v.GroupNum {
-			object.Contents = append(object.Contents, MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage})
+			object.Contents = append(object.Contents, MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage, v.Amount})
 		} else {
 			//	按次拆分
 			for idx := 1; idx <= object.Times; idx ++ {
@@ -1226,7 +1230,7 @@ func SearchSplitMedicalAdviceForOralInjection(startTime, endTime, vids string, t
 						ExTime:    object.ExTime,
 						ExDay:     object.ExDay,
 						GroupNum:  object.GroupNum,
-						Amount:    object.Amount,
+						//Amount:    object.Amount,
 						Frequency: object.Frequency,
 						Times:     object.Times,
 						Method:    object.Method,
@@ -1268,7 +1272,7 @@ func SearchSplitMedicalAdviceForOralInjection(startTime, endTime, vids string, t
 				ExTime:    v.ExTime,
 				ExDay:     v.ExDay,
 				GroupNum:  v.GroupNum,
-				Amount:    v.Amount,
+				//Amount:    v.Amount,
 				Frequency: v.Frequency,
 				Times:     v.Times,
 				Method:    v.Method,
@@ -1294,7 +1298,7 @@ func SearchSplitMedicalAdviceForOralInjection(startTime, endTime, vids string, t
 			}
 			object.Gid = v.Madid
 			object.Contents = make([]MedicalAdviceContent, 1)
-			object.Contents[0] = MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage}
+			object.Contents[0] = MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage, v.Amount}
 		}
 	}
 	// 继续拆分最后一次创建的object
@@ -1317,7 +1321,7 @@ func SearchSplitMedicalAdviceForOralInjection(startTime, endTime, vids string, t
 					ExTime:    object.ExTime,
 					ExDay:     object.ExDay,
 					GroupNum:  object.GroupNum,
-					Amount:    object.Amount,
+					//Amount:    object.Amount,
 					Frequency: object.Frequency,
 					Times:     object.Times,
 					Method:    object.Method,
@@ -1387,9 +1391,12 @@ func SearchSplitMedicalAdviceForOralInjection(startTime, endTime, vids string, t
 		resp.PtTimes = exec.PtTimes
 		resp.PtStatus = exec.PtStatus
 
-		if print == 0 && exec.PtTimes == 0 {
+		//1:打印,0：未打印,(输液单已打印=1;瓶签已打印＝2;输液单和瓶签都已打印＝3)
+		if print == 0 && (exec.PtTimes == 0 || exec.PtTimes == 2 || exec.PtTimes == 3) {
 			response = append(response, *resp)
-		} else if print == 1 && exec.PtTimes >= 1 {
+		} else if print == 1 && exec.PtTimes == 1 {
+			response = append(response, *resp)
+		} else if print == 2 && (exec.PtTimes == 0 || exec.PtTimes == 1 || exec.PtTimes == 2 || exec.PtTimes == 3) {
 			response = append(response, *resp)
 		}
 		//if exec.Madid != madid {
@@ -1447,11 +1454,7 @@ func SearchSplitMedicalAdviceForOralInjection(startTime, endTime, vids string, t
 		//	}
 		//}
 	}
-	if print == 2 {
-		return arrA, err_ss
-	} else {
-		return response, err_ss
-	}
+	return response, err_ss
 }
 
 /*医嘱执行查询*/
@@ -1476,9 +1479,13 @@ func SearchMedicalAdviceExecutionForPC(typeOf, status int, category, vids, st, e
 	t := time.Now()
 	today := time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 1, 0, t.Location()).Format("2006-01-02 15:04:05")
 
+	//condition_state = fmt.Sprintf(" AND (((a.VAF11 = 1 and a.VAF10 >= 8) or (a.VAF11 = 2 and a.VAF10 >= 8 and DATEDIFF(DAY, '%s', b.VBI10) < 0)) or ((a.VAF11 = 1 and a.VAF10 = 3 and b.VBI13 != 9) or (a.VAF11 = 2 and a.VAF10 = 8 and DATEDIFF(DAY, '%s', b.VBI10) = 0)) or (a.VAF10 = 4 or b.VBI13 = 9))", today, today)
+
 	mAdvices := make([]MedicalAdviceModal, 0)
-	//sqlStr := fmt.Sprintf("SELECT d.* FROM( SELECT CASE WHEN(( a2.BBX20 = 2 OR a2.BBX20 = 4 OR a2.BBX20 = 5) AND(a.BDA01 = '1' OR a.BDA01 = '2') AND a2.BDA01 = 'T' AND a2.BBX13 = '2') THEN 4 ELSE 0 END PtTypeV, c.VAE01 Vid, a.VAF01 MadId, c.VAA01 Pid, c.BCQ04B Bed, c.VAE95 PName, CAST(c.VAE46 as varchar(10)) Age, c.VAE94 HospNum, CASE c.VAE96 WHEN 1 THEN '男' WHEN 2 THEN '女' ELSE '未知' END AS Gender, b.VBI10 ExTime, a.VAF59 GroupNum, a.VAF22 Content, CASE a.VAF19 WHEN '' THEN '-' ELSE a.VAF19 END Dosage, CAST(a.VAF21 AS INT) Amount, a.VAF26 Frequency, a.VAF27 Times, a1.VAF22 Method, a.VAF60 Speed, a.VAF11 TypeV, CASE a.VAF11 WHEN 1 THEN '长嘱' WHEN 2 THEN '临嘱' END AS TypeOf, a.VAF36 StTime, CASE WHEN a.VAF10 = 3 THEN '未停' WHEN a.VAF10 = 4 THEN '已作废' WHEN a.VAF10 >= 8 THEN '已停' ELSE '其它' END AS MStatus, a.VAF10 MStatusV, e.BDA02 Category, a.BDA01 CategoryV, CASE WHEN a2.BBX20 = 0 THEN '口服单' WHEN a2.BBX20 = 1 THEN '注射单' WHEN(a2.BBX20 = 2) OR(a2.BBX20 = 4) THEN '输液单' WHEN a2.BBX20 = 3 THEN '治疗单' WHEN a2.BBX20 = 5 THEN '输血单' WHEN a2.BBX20 = 6 THEN '护理单' WHEN e.BDA01 = 'T' THEN '治疗单' WHEN e.BDA01 = 'N' THEN '护理单' ELSE '其它' END AS PtType, a.CBM01 PtNum, a.Rownr PtRownr, a.VAF23 Entrust, a.BCE03A Physician, CASE WHEN a.VAF10 >= 8 THEN a.VAF47 ELSE '' END AS EdTime, b.BCE03A Sender FROM VAF2 a LEFT JOIN VAF2 a1 ON a.VAF01A = a1.VAF01 LEFT JOIN BBX1 a2 ON a1.BBX01 = a2.BBX01 JOIN VBI2 b ON a.VAF01 = b.VAF01 JOIN VAE1 c ON a.VAF06 = c.VAE01 JOIN BDA1 e ON a.BDA01 = e.BDA01 WHERE a.VAF04 = 2 AND a.VAF32 = 0 %s AND b.VBI07 > 0 AND c.VAE01 IN(%s) %s and a.VAF10 = 3 %s) d ORDER BY d.Bed, d.TypeV, d.Vid, d.ExTime, d.PtNum, d.GroupNum, d.PtRownr", condition_catg, vids, condition_type, condition_time)
-	sqlStr := fmt.Sprintf("SELECT d.* FROM( SELECT CASE WHEN(( a2.BBX20 = 2 OR a2.BBX20 = 4 OR a2.BBX20 = 5) AND(a.BDA01 = '1' OR a.BDA01 = '2') AND a2.BDA01 = 'T' AND a2.BBX13 = '2') THEN 4 ELSE 0 END PtTypeV, c.VAE01 Vid, a.VAF01 MadId, c.VAA01 Pid, c.BCQ04B Bed, c.VAE95 PName, CAST(c.VAE46 AS VARCHAR(10)) Age, c.VAE94 HospNum, CASE c.VAE96 WHEN 1 THEN '男' WHEN 2 THEN '女' ELSE '未知' END AS Gender, b.VBI10 ExTime, a.VAF59 GroupNum, a.VAF22 Content, CASE a.VAF19 WHEN '' THEN '-' ELSE a.VAF19 END Dosage, CAST(a.VAF21 AS INT) Amount, a.VAF26 Frequency, CASE WHEN DATEDIFF(DAY, a.VAF36, b.VBI10) = 0 AND a.VAF61 > 0 THEN CAST(a.VAF61 AS INT) ELSE CAST(a.VAF27 AS INT) END Times, a1.VAF22 Method, a.VAF60 Speed, a.VAF11 TypeV, CASE a.VAF11 WHEN 1 THEN '长嘱' WHEN 2 THEN '临嘱' END AS TypeOf, a.VAF36 StTime, CASE WHEN a.VAF10 = 3 THEN '未停' WHEN a.VAF10 = 4 OR b.VBI13 = 9 THEN '已作废' WHEN a.VAF10 >= 8 AND a.VAF11 = 1 THEN '已停' WHEN a.VAF10 = 8 AND a.VAF11 = 2 AND DATEDIFF( DAY, '%s', b.VBI10) = 0 THEN '未停' WHEN a.VAF10 = 8 AND a.VAF11 = 2 AND DATEDIFF( DAY, '%s', b.VBI10) < 0 THEN '已停' ELSE '其它' END AS MStatus, CASE WHEN a.VAF10 = 3 THEN 3 WHEN a.VAF10 = 4 OR b.VBI13 = 9 THEN 4 WHEN a.VAF10 >= 8 AND a.VAF11 = 1 THEN 8 WHEN a.VAF10 = 8 AND a.VAF11 = 2 AND DATEDIFF( DAY, '%s', b.VBI10) = 0 THEN 3 WHEN a.VAF10 = 8 AND a.VAF11 = 2 AND DATEDIFF( DAY, '%s', b.VBI10) < 0 THEN 8 ELSE a.VAF10 END AS MStatusV, e.BDA02 Category, a.BDA01 CategoryV, CASE WHEN a2.BBX20 = 0 THEN '口服单' WHEN a2.BBX20 = 1 THEN '注射单' WHEN(a2.BBX20 = 2) OR(a2.BBX20 = 4) THEN '输液单' WHEN a2.BBX20 = 3 THEN '治疗单' WHEN a2.BBX20 = 5 THEN '输血单' WHEN a2.BBX20 = 6 THEN '护理单' WHEN e.BDA01 = 'T' THEN '治疗单' WHEN e.BDA01 = 'N' THEN '护理单' ELSE '其它' END AS PtType, a.CBM01 PtNum, a.Rownr PtRownr, a.VAF23 Entrust, a.BCE03A Physician, CASE WHEN a.VAF10 >= 8 THEN a.VAF47 ELSE '' END AS EdTime, b.BCE03A Sender, b.VBI13 HisExStatus FROM VAF2 a LEFT JOIN VAF2 a1 ON a.VAF01A = a1.VAF01 LEFT JOIN BBX1 a2 ON a1.BBX01 = a2.BBX01 JOIN VBI2 b ON a.VAF01 = b.VAF01 JOIN VAE1 c ON a.VAF06 = c.VAE01 JOIN BDA1 e ON a.BDA01 = e.BDA01 WHERE c.VAE01 IN(%s) AND a.VAF04 = 2 AND a.VAF32 = 0%s AND b.VBI07 > 0%s AND(( a.VAF11 = 1 AND a.VAF10 = 3 AND b.VBI13 != 9) OR( a.VAF11 = 2 AND a.VAF10 = 8 AND DATEDIFF( DAY, '%s', b.VBI10) = 0))%s) d ORDER BY d.Bed, d.TypeV, d.Vid, d.ExTime, d.PtNum, d.GroupNum, d.PtRownr", today, today, today, today, vids, condition_catg, condition_type, today, condition_time)
+	// 包含了已停且有执行记录
+	//sqlStr := fmt.Sprintf("SELECT d.* FROM( SELECT CASE WHEN(( a2.BBX20 = 2 OR a2.BBX20 = 4 OR a2.BBX20 = 5) AND(a.BDA01 = '1' OR a.BDA01 = '2') AND a2.BDA01 = 'T' AND a2.BBX13 = '2') THEN 4 ELSE 0 END PtTypeV, c.VAE01 Vid, a.VAF01 MadId, c.VAA01 Pid, c.BCQ04B Bed, c.VAE95 PName, CAST(c.VAE46 AS VARCHAR(10)) Age, c.VAE94 HospNum, CASE c.VAE96 WHEN 1 THEN '男' WHEN 2 THEN '女' ELSE '未知' END AS Gender, b.VBI10 ExTime, a.VAF59 GroupNum, a.VAF22 Content, CASE a.VAF19 WHEN '' THEN '-' ELSE a.VAF19 END Dosage, CAST(a.VAF21 AS INT) Amount, a.VAF26 Frequency, CASE WHEN DATEDIFF(DAY, a.VAF36, b.VBI10) = 0 AND a.VAF61 > 0 THEN CAST(a.VAF61 AS INT) ELSE CAST(a.VAF27 AS INT) END Times, a1.VAF22 Method, a.VAF60 Speed, a.VAF11 TypeV, CASE a.VAF11 WHEN 1 THEN '长嘱' WHEN 2 THEN '临嘱' END AS TypeOf, a.VAF36 StTime, CASE WHEN a.VAF10 = 3 THEN '未停' WHEN a.VAF10 = 4 OR b.VBI13 = 9 THEN '已作废' WHEN a.VAF10 >= 8 AND a.VAF11 = 1 THEN '已停' WHEN a.VAF10 = 8 AND a.VAF11 = 2 AND DATEDIFF( DAY, '%s', b.VBI10) = 0 THEN '未停' WHEN a.VAF10 = 8 AND a.VAF11 = 2 AND DATEDIFF( DAY, '%s', b.VBI10) < 0 THEN '已停' ELSE '其它' END AS MStatus, CASE WHEN a.VAF10 = 3 THEN 3 WHEN a.VAF10 = 4 OR b.VBI13 = 9 THEN 4 WHEN a.VAF10 >= 8 AND a.VAF11 = 1 THEN 8 WHEN a.VAF10 = 8 AND a.VAF11 = 2 AND DATEDIFF( DAY, '%s', b.VBI10) = 0 THEN 3 WHEN a.VAF10 = 8 AND a.VAF11 = 2 AND DATEDIFF( DAY, '%s', b.VBI10) < 0 THEN 8 ELSE a.VAF10 END AS MStatusV, e.BDA02 Category, a.BDA01 CategoryV, CASE WHEN a2.BBX20 = 0 THEN '口服单' WHEN a2.BBX20 = 1 THEN '注射单' WHEN(a2.BBX20 = 2) OR(a2.BBX20 = 4) THEN '输液单' WHEN a2.BBX20 = 3 THEN '治疗单' WHEN a2.BBX20 = 5 THEN '输血单' WHEN a2.BBX20 = 6 THEN '护理单' WHEN e.BDA01 = 'T' THEN '治疗单' WHEN e.BDA01 = 'N' THEN '护理单' ELSE '其它' END AS PtType, a.CBM01 PtNum, a.Rownr PtRownr, a.VAF23 Entrust, a.BCE03A Physician, CASE WHEN a.VAF10 >= 8 THEN a.VAF47 ELSE '' END AS EdTime, b.BCE03A Sender, b.VBI13 HisExStatus FROM VAF2 a LEFT JOIN VAF2 a1 ON a.VAF01A = a1.VAF01 LEFT JOIN BBX1 a2 ON a1.BBX01 = a2.BBX01 JOIN VBI2 b ON a.VAF01 = b.VAF01 JOIN VAE1 c ON a.VAF06 = c.VAE01 JOIN BDA1 e ON a.BDA01 = e.BDA01 WHERE c.VAE01 IN(%s) AND a.VAF04 = 2 AND a.VAF32 = 0%s AND b.VBI07 > 0%s AND (((a.VAF11 = 1 and a.VAF10 >= 8) or (a.VAF11 = 2 and a.VAF10 >= 8 and DATEDIFF(DAY, '%s', b.VBI10) < 0)) or ((a.VAF11 = 1 and a.VAF10 = 3 and b.VBI13 != 9) or (a.VAF11 = 2 and a.VAF10 = 8 and DATEDIFF(DAY, '%s', b.VBI10) = 0)))%s) d ORDER BY d.Bed, d.TypeV, d.Vid, d.ExTime, d.PtNum, d.GroupNum, d.PtRownr", today, today, today, today, vids, condition_catg, condition_type, today, today, condition_time)
+	// 不包括已停
+	sqlStr := fmt.Sprintf("SELECT d.* FROM( SELECT CASE WHEN(( a2.BBX20 = 2 OR a2.BBX20 = 4 OR a2.BBX20 = 5) AND(a.BDA01 = '1' OR a.BDA01 = '2') AND a2.BDA01 = 'T' AND a2.BBX13 = '2') THEN 4 ELSE 0 END PtTypeV, c.VAE01 Vid, a.VAF01 MadId, c.VAA01 Pid, c.BCQ04B Bed, c.VAE95 PName, CAST(c.VAE46 AS VARCHAR(10)) Age, c.VAE94 HospNum, CASE c.VAE96 WHEN 1 THEN '男' WHEN 2 THEN '女' ELSE '未知' END AS Gender, b.VBI10 ExTime, a.VAF59 GroupNum, a.VAF22 Content, CASE a.VAF19 WHEN '' THEN '-' ELSE a.VAF19 END Dosage, CAST(a.VAF21 AS INT) Amount, a.VAF26 Frequency, CASE WHEN DATEDIFF(DAY, a.VAF36, b.VBI10) = 0 AND a.VAF61 > 0 THEN CAST(a.VAF61 AS INT) ELSE CAST(a.VAF27 AS INT) END Times, a1.VAF22 Method, a.VAF60 Speed, a.VAF11 TypeV, CASE a.VAF11 WHEN 1 THEN '长嘱' WHEN 2 THEN '临嘱' END AS TypeOf, a.VAF36 StTime, CASE WHEN a.VAF10 = 3 THEN '未停' WHEN a.VAF10 = 4 OR b.VBI13 = 9 THEN '已作废' WHEN a.VAF10 >= 8 AND a.VAF11 = 1 THEN '已停' WHEN a.VAF10 = 8 AND a.VAF11 = 2 AND DATEDIFF( DAY, '%s', b.VBI10) = 0 THEN '未停' WHEN a.VAF10 = 8 AND a.VAF11 = 2 AND DATEDIFF( DAY, '%s', b.VBI10) < 0 THEN '已停' ELSE '其它' END AS MStatus, CASE WHEN a.VAF10 = 3 THEN 3 WHEN a.VAF10 = 4 OR b.VBI13 = 9 THEN 4 WHEN a.VAF10 >= 8 AND a.VAF11 = 1 THEN 8 WHEN a.VAF10 = 8 AND a.VAF11 = 2 AND DATEDIFF( DAY, '%s', b.VBI10) = 0 THEN 3 WHEN a.VAF10 = 8 AND a.VAF11 = 2 AND DATEDIFF( DAY, '%s', b.VBI10) < 0 THEN 8 ELSE a.VAF10 END AS MStatusV, e.BDA02 Category, a.BDA01 CategoryV, CASE WHEN a2.BBX20 = 0 THEN '口服单' WHEN a2.BBX20 = 1 THEN '注射单' WHEN(a2.BBX20 = 2) OR(a2.BBX20 = 4) THEN '输液单' WHEN a2.BBX20 = 3 THEN '治疗单' WHEN a2.BBX20 = 5 THEN '输血单' WHEN a2.BBX20 = 6 THEN '护理单' WHEN e.BDA01 = 'T' THEN '治疗单' WHEN e.BDA01 = 'N' THEN '护理单' ELSE '其它' END AS PtType, a.CBM01 PtNum, a.Rownr PtRownr, a.VAF23 Entrust, a.BCE03A Physician, CASE WHEN a.VAF10 >= 8 THEN a.VAF47 ELSE '' END AS EdTime, b.BCE03A Sender, b.VBI13 HisExStatus FROM VAF2 a LEFT JOIN VAF2 a1 ON a.VAF01A = a1.VAF01 LEFT JOIN BBX1 a2 ON a1.BBX01 = a2.BBX01 JOIN VBI2 b ON a.VAF01 = b.VAF01 JOIN VAE1 c ON a.VAF06 = c.VAE01 JOIN BDA1 e ON a.BDA01 = e.BDA01 WHERE c.VAE01 IN(%s) AND a.VAF04 = 2 AND a.VAF32 = 0%s AND b.VBI07 > 0%s AND ((a.VAF11 = 1 and a.VAF10 = 3 and b.VBI13 != 9) or (a.VAF11 = 2 and a.VAF10 = 8 and DATEDIFF(DAY, '%s', b.VBI10) = 0))%s) d ORDER BY d.Bed, d.TypeV, d.Vid, d.ExTime, d.PtNum, d.GroupNum, d.PtRownr", today, today, today, today, vids, condition_catg, condition_type, today, condition_time)
 	//fit.Logger().LogDebug("***JK***医嘱执行查询", sqlStr)
 	err_ss := fit.SQLServerEngine().SQL(sqlStr).Find(&mAdvices)
 
@@ -1509,7 +1516,7 @@ func SearchMedicalAdviceExecutionForPC(typeOf, status int, category, vids, st, e
 		ExTime:      temp.ExTime,
 		ExDay:       temp.ExDay,
 		GroupNum:    temp.GroupNum,
-		Amount:      temp.Amount,
+		//Amount:      temp.Amount,
 		Frequency:   temp.Frequency,
 		Times:       temp.Times,
 		Method:      temp.Method,
@@ -1536,7 +1543,7 @@ func SearchMedicalAdviceExecutionForPC(typeOf, status int, category, vids, st, e
 	}
 	object.Gid = temp.Madid
 	object.Contents = make([]MedicalAdviceContent, 1)
-	object.Contents[0] = MedicalAdviceContent{temp.Madid, strings.Split(temp.Content, " ")[0], temp.Dosage}
+	object.Contents[0] = MedicalAdviceContent{temp.Madid, strings.Split(temp.Content, " ")[0], temp.Dosage, temp.Amount}
 
 	// 按组合并，最后一次创建的Object不会被拆分
 	for i := 1; i < length; i ++ {
@@ -1547,7 +1554,7 @@ func SearchMedicalAdviceExecutionForPC(typeOf, status int, category, vids, st, e
 
 		// 同 人+时+单+组 则合并
 		if object.Vid == v.Vid && object.ExTime.ParseToSecond() == v.ExTime.ParseToSecond() && object.PtNum == v.PtNum && object.GroupNum == v.GroupNum {
-			object.Contents = append(object.Contents, MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage})
+			object.Contents = append(object.Contents, MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage, v.Amount})
 		} else {
 			//	按次拆分
 			for idx := 1; idx <= object.Times; idx ++ {
@@ -1566,7 +1573,7 @@ func SearchMedicalAdviceExecutionForPC(typeOf, status int, category, vids, st, e
 						ExTime:      object.ExTime,
 						ExDay:       object.ExDay,
 						GroupNum:    object.GroupNum,
-						Amount:      object.Amount,
+						//Amount:      object.Amount,
 						Frequency:   object.Frequency,
 						Times:       object.Times,
 						Method:      object.Method,
@@ -1609,7 +1616,7 @@ func SearchMedicalAdviceExecutionForPC(typeOf, status int, category, vids, st, e
 				ExTime:      v.ExTime,
 				ExDay:       v.ExDay,
 				GroupNum:    v.GroupNum,
-				Amount:      v.Amount,
+				//Amount:      v.Amount,
 				Frequency:   v.Frequency,
 				Times:       v.Times,
 				Method:      v.Method,
@@ -1636,7 +1643,7 @@ func SearchMedicalAdviceExecutionForPC(typeOf, status int, category, vids, st, e
 			}
 			object.Gid = v.Madid
 			object.Contents = make([]MedicalAdviceContent, 1)
-			object.Contents[0] = MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage}
+			object.Contents[0] = MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage, v.Amount}
 		}
 	}
 	// 继续拆分最后一次创建的object
@@ -1659,7 +1666,7 @@ func SearchMedicalAdviceExecutionForPC(typeOf, status int, category, vids, st, e
 					ExTime:      object.ExTime,
 					ExDay:       object.ExDay,
 					GroupNum:    object.GroupNum,
-					Amount:      object.Amount,
+					//Amount:      object.Amount,
 					Frequency:   object.Frequency,
 					Times:       object.Times,
 					Method:      object.Method,
@@ -1710,14 +1717,19 @@ func SearchMedicalAdviceExecutionForPC(typeOf, status int, category, vids, st, e
 			err_ss = err_pt
 			return make([]MedicalAdviceResponse, 0), err_ss
 		}
+
 		if exec.Madid != madid {
-			exec.Madid = madid
-			exec.ExNurse = ""
-			exec.ExStatus = "未执行"
-			exec.ExStatusV = 1
-			exec.ExStep = ""
-			exec.PtTimes = 0
-			exec.PtStatus = "未打印"
+			if resp.MStatusV >= 8 {
+				continue
+			} else {
+				exec.Madid = madid
+				exec.ExNurse = ""
+				exec.ExStatus = "未执行"
+				exec.ExStatusV = 1
+				exec.ExStep = ""
+				exec.PtTimes = 0
+				exec.PtStatus = "未打印"
+			}
 		}
 		if exec.ExStatusV == 0 {
 			exec.ExStatusV = 1
@@ -1873,7 +1885,7 @@ func SearchMedicalAdviceForPC(typeOf, status int, category, vids, st, et string)
 		ExTime:      temp.ExTime,
 		ExDay:       temp.ExDay,
 		GroupNum:    temp.GroupNum,
-		Amount:      temp.Amount,
+		//Amount:      temp.Amount,
 		Frequency:   temp.Frequency,
 		Times:       temp.Times,
 		Method:      temp.Method,
@@ -1899,7 +1911,7 @@ func SearchMedicalAdviceForPC(typeOf, status int, category, vids, st, et string)
 	}
 	object.Gid = temp.Madid
 	object.Contents = make([]MedicalAdviceContent, 1)
-	object.Contents[0] = MedicalAdviceContent{temp.Madid, strings.Split(temp.Content, " ")[0], temp.Dosage}
+	object.Contents[0] = MedicalAdviceContent{temp.Madid, strings.Split(temp.Content, " ")[0], temp.Dosage, temp.Amount}
 
 	// 按组合并，最后一次创建的Object不会被拆分
 	for i := 1; i < length; i ++ {
@@ -1910,7 +1922,7 @@ func SearchMedicalAdviceForPC(typeOf, status int, category, vids, st, et string)
 
 		// 同 人+时+单+组 则合并
 		if object.Vid == v.Vid && object.ExTime.ParseToSecond() == v.ExTime.ParseToSecond() && object.PtNum == v.PtNum && object.GroupNum == v.GroupNum {
-			object.Contents = append(object.Contents, MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage})
+			object.Contents = append(object.Contents, MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage, v.Amount})
 		} else {
 			//	按次拆分
 			for idx := 1; idx <= object.Times; idx ++ {
@@ -1929,7 +1941,7 @@ func SearchMedicalAdviceForPC(typeOf, status int, category, vids, st, et string)
 						ExTime:      object.ExTime,
 						ExDay:       object.ExDay,
 						GroupNum:    object.GroupNum,
-						Amount:      object.Amount,
+						//Amount:      object.Amount,
 						Frequency:   object.Frequency,
 						Times:       object.Times,
 						Method:      object.Method,
@@ -1971,7 +1983,7 @@ func SearchMedicalAdviceForPC(typeOf, status int, category, vids, st, et string)
 				ExTime:      v.ExTime,
 				ExDay:       v.ExDay,
 				GroupNum:    v.GroupNum,
-				Amount:      v.Amount,
+				//Amount:      v.Amount,
 				Frequency:   v.Frequency,
 				Times:       v.Times,
 				Method:      v.Method,
@@ -1997,7 +2009,7 @@ func SearchMedicalAdviceForPC(typeOf, status int, category, vids, st, et string)
 			}
 			object.Gid = v.Madid
 			object.Contents = make([]MedicalAdviceContent, 1)
-			object.Contents[0] = MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage}
+			object.Contents[0] = MedicalAdviceContent{v.Madid, strings.Split(v.Content, " ")[0], v.Dosage, v.Amount}
 		}
 	}
 	// 继续拆分最后一次创建的object
@@ -2020,7 +2032,7 @@ func SearchMedicalAdviceForPC(typeOf, status int, category, vids, st, et string)
 					ExTime:      object.ExTime,
 					ExDay:       object.ExDay,
 					GroupNum:    object.GroupNum,
-					Amount:      object.Amount,
+					//Amount:      object.Amount,
 					Frequency:   object.Frequency,
 					Times:       object.Times,
 					Method:      object.Method,
@@ -2191,7 +2203,7 @@ func UpdateMedicalAdvicePrintStatus(gid int64, exc, ext, ptType string, obj Medi
 /*查询该组医嘱是否存在， 病人返回MedicalAdviceItem*/
 func CheckingMedicalAdvice(gid int64, ext string, exc int) (MedicalAdviceItem, error) {
 	mAdvice := MedicalAdviceModal{}
-	_, err_sql := fit.SQLServerEngine().SQL(fmt.Sprintf("SELECT d.* FROM( SELECT a.VAF06 Vid, a.VAF01 MadId, c.VAA01 Pid, c.BCQ04B Bed, c.VAE95 PName,CAST(c.VAE46 as varchar(10)) Age, c.VAE94 HospNum, CASE c.VAE96 WHEN 1 THEN '男' WHEN 2 THEN '女' ELSE '未知' END AS Gender, b.VBI10 ExTime, a.VAF59 GroupNum, a.VAF22 Content, CASE a.VAF19 WHEN '' THEN '-' ELSE a.VAF19 END Dosage, a.VAF21 Amount, a.VAF26 Frequency, CASE WHEN DATEDIFF(DAY, a.VAF36, b.VBI10) = 0 AND a.VAF61 > 0 THEN CAST(a.VAF61 AS INT) ELSE CAST(a.VAF27 AS INT) END Times, a1.VAF22 Method, a.VAF60 Speed, a.VAF11 TypeV, CASE a.VAF11 WHEN 1 THEN '长嘱' WHEN 2 THEN '临嘱' END AS TypeOf, a.VAF36 StTime, CASE WHEN a.VAF10 = 3 THEN '未停' WHEN a.VAF10 = 4 THEN '已作废' WHEN a.VAF10 >= 8 THEN '已停' ELSE '其它' END AS MStatus, a.VAF10 MStatusV, e.BDA02 Category, a.BDA01 CategoryV, CASE WHEN a2.BBX20 = 0 THEN '口服单' WHEN a2.BBX20 = 1 THEN '注射单' WHEN(a2.BBX20 = 2) OR(a2.BBX20 = 4) THEN '输液单' WHEN a2.BBX20 = 3 THEN '治疗单' WHEN a2.BBX20 = 5 THEN '输血单' WHEN a2.BBX20 = 6 THEN '护理单' END AS PtType, a.CBM01 PtNum, a.Rownr PtRownr, a.VAF23 Entrust, a.BCE03A Physician, a.VAF47 EdTime, b.BCE03A Sender FROM VAF2 a LEFT JOIN VAF2 a1 ON a.VAF01A = a1.VAF01 LEFT JOIN BBX1 a2 ON a1.BBX01 = a2.BBX01 JOIN VBI2 b ON a.VAF01 = b.VAF01 JOIN VAE1 c ON a.VAF06 = c.VAE01 LEFT JOIN BDA1 e ON a.BDA01 = e.BDA01 WHERE a.VAF01 = %d AND b.VBI10 = '%s') d ORDER BY d.TypeV, d.ExTime, d.PtNum, d.GroupNum, d.PtRownr", gid, ext)).Get(&mAdvice)
+	_, err_sql := fit.SQLServerEngine().SQL(fmt.Sprintf("SELECT d.* FROM( SELECT a.VAF06 Vid, a.VAF01 MadId, c.VAA01 Pid, c.BCQ04B Bed, c.VAE95 PName,CAST(c.VAE46 as varchar(10)) Age, c.VAE94 HospNum, CASE c.VAE96 WHEN 1 THEN '男' WHEN 2 THEN '女' ELSE '未知' END AS Gender, b.VBI10 ExTime, a.VAF59 GroupNum, a.VAF22 Content, CASE a.VAF19 WHEN '' THEN '-' ELSE a.VAF19 END Dosage, a.VAF21 Amount, a.VAF26 Frequency, CASE WHEN DATEDIFF(DAY, a.VAF36, b.VBI10) = 0 AND a.VAF61 > 0 THEN CAST(a.VAF61 AS INT) ELSE CAST(a.VAF27 AS INT) END Times, a1.VAF22 Method, a.VAF60 Speed, a.VAF11 TypeV, CASE a.VAF11 WHEN 1 THEN '长嘱' WHEN 2 THEN '临嘱' END AS TypeOf, a.VAF36 StTime, CASE WHEN a.VAF10 = 3 THEN '未停' WHEN a.VAF10 = 4 THEN '已作废' WHEN a.VAF10 >= 8 THEN '已停' ELSE '其它' END AS MStatus, a.VAF10 MStatusV, e.BDA02 Category, a.BDA01 CategoryV, CASE WHEN a2.BBX20 = 0 THEN '口服单' WHEN a2.BBX20 = 1 THEN '注射单' WHEN(a2.BBX20 = 2) OR(a2.BBX20 = 4) THEN '输液单' WHEN a2.BBX20 = 3 THEN '治疗单' WHEN a2.BBX20 = 5 THEN '输血单' WHEN a2.BBX20 = 6 THEN '护理单' END AS PtType, a.CBM01 PtNum, a.Rownr PtRownr, a.VAF23 Entrust, a.BCE03A Physician, a.VAF47 EdTime, b.BCE03A Sender FROM VAF2 a LEFT JOIN VAF2 a1 ON a.VAF01A = a1.VAF01 LEFT JOIN BBX1 a2 ON a1.BBX01 = a2.BBX01 JOIN VBI2 b ON a.VAF01 = b.VAF01 JOIN VAE1 c ON a.VAF06 = c.VAE01 LEFT JOIN BDA1 e ON a.BDA01 = e.BDA01 WHERE a.VAF01 = %d AND DATEDIFF(SECOND, b.VBI10, '%s') = 0) d ORDER BY d.TypeV, d.ExTime, d.PtNum, d.GroupNum, d.PtRownr", gid, ext)).Get(&mAdvice)
 	if err_sql != nil {
 		fit.Logger().LogError("***JK***", err_sql)
 		return MedicalAdviceItem{}, err_sql
