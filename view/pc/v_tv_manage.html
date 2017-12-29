@@ -99,7 +99,7 @@
 
                             </td>
                         </tr>
-                        <tr>
+                        <tr class="no">
                             <td>
                                 <p class="txt">
                                     新入
@@ -116,12 +116,14 @@
                                     ${reqData.v2}                                    
                                 </p>
                                 <div class="input-box">
-                                    <input type="text" placeholder="点击编辑" class="input-text" maxlength="300"
-                                           v-model="tmplData.v2">
+                                    {{/*<input type="text" placeholder="点击编辑" class="input-text" maxlength="300"*/}}
+                                           {{/*v-model="tmplData.v2">*/}}
+                                    <p class="d-txt" v-cloak>
+                                        ${reqData.v2}
+                                    </p>
                                 </div>
                             </td>
                         </tr>
-
 
                         <tr>
                             <td>
@@ -138,7 +140,7 @@
 
                                 <p class="txt" v-cloak>
                                     ${reqData.v3}
-                                </p>
+                                </p> 
                                 <div class="input-box">
                                     <input type="text" placeholder="点击编辑" class="input-text" maxlength="300" v-model="tmplData.v3">
                                 </div>
@@ -413,11 +415,11 @@
                             <tr>
                                     <td>
                                         <p class="txt">
-                                            血压监控 Qid
+                                            血压监控 Qd
                                         </p>
                                         <div class="input-box">
                                             <p class="d-txt">
-                                                    血压监控 Qid
+                                                    血压监控 Qd
                                             </p>
         
                                         </div>
@@ -840,78 +842,33 @@
 <script type="text/javascript" src="/static/common.js"></script>
 
 <script>
-    // $(".edit-btn").on("click", function () {
-    //     console.log("??")
-    //     $(this).parents(".item-block").addClass("active")
-    // })
-    // $(".cancel-btn").on("click", function () {
-    //     $(this).parents(".item-block").removeClass("active")
-    // })
-
-
-    $(".add-btn").on("click", function () {
-        var len = $("#notice-list").find("tr").length,
-                index = len + 1;
-        if (len >= 10) {
-            return false
-        }
-        var data = {
-            index: len + 1
-        }
-
-        var html = template("col", data);
-        $("#notice-list").append(html)
-        if (index == 10) {
-            $(this).addClass("none")
-        }
-    })
-
-    // $("body").on("click", ".del-btn", function () {
-    //     var $this = $(this)
-    //     jkyConfirm("是否确认删除该内容", function () {
-    //         var $parents = $this.parents("#notice-list")
-    //         $this.parents("tr").remove()
-    //         // console.log($this.parents("body"))
-    //         $parents.find("tr").each(function (i, el) {
-    //             $(el).data("index", i + 1)
-    //             $(el).find(".num").find(".txt").text(i + 1)
-    //             $(el).find(".num").find(".d-txt").text(i + 1)
-    //         })
-    //
-    //     })
-    //
-    // })
-    // $(function(){
-    //
-    //
-    // })
     var classid = {{.Userinfo.DepartmentID}}
+    function req(api, data, cb) {
+        $.ajax({
+            url: api,
+            data: data,
+            type: "POST",
+            success: function (data) {
+                console.log(data);
+                if (data) {
+                    switch (data.result) {
+                        case 0:
+                            cb(data.datas);
+                            break;
+                        default:
+                            // alert(data.errmsg)
+                            jkyAlert(data.errmsg, "no")
+                    }
+                }
+            },
+            error: function (e) {
+                console.log("ajax err:", e)
+            },
+            dataType: "json"
+        })
 
-            function req(api, data, cb) {
-                $.ajax({
-                    url: api,
-                    data: data,
-                    type: "POST",
-                    success: function (data) {
-                        console.log(data);
-                        if (data) {
-                            switch (data.result) {
-                                case 0:
-                                    cb(data.datas);
-                                    break;
-                                default:
-                                    // alert(data.errmsg)
-                                    jkyAlert(data.errmsg, "no")
-                            }
-                        }
-                    },
-                    error: function (e) {
-                        console.log("ajax err:", e)
-                    },
-                    dataType: "json"
-                })
+    }
 
-            }
     req("/tv/list",{"class_id": classid},
             function (reqData) {
                 var sourceData = reqData[0];
@@ -1107,15 +1064,15 @@
 
     function setCustom(sourceData){
         if(sourceData.v18){
-            sourceData.customTit1 = sourceData.v18.split("|")[0]
-            sourceData.customVal1 = sourceData.v18.split("|")[1]
+            sourceData.customTit1 = $.trim(sourceData.v18.split("|")[0])
+            sourceData.customVal1 = $.trim(sourceData.v18.split("|")[1])
         }else{
             sourceData.customTit1 = ""
             sourceData.customVal1 = ""
         }
         if(sourceData.v19){
-            sourceData.customTit2 = sourceData.v19.split("|")[0]
-            sourceData.customVal2 = sourceData.v19.split("|")[1]
+            sourceData.customTit2 = $.trim(sourceData.v19.split("|")[0])
+            sourceData.customVal2 = $.trim(sourceData.v19.split("|")[1])
         }else{
             sourceData.customTit2 = ""
             sourceData.customVal2 = ""
@@ -1123,15 +1080,15 @@
 
         if(sourceData.v16) {
             var arr = sourceData.v16.split('|');
-            sourceData.Tid = (typeof arr[0] !== undefined ) ? arr[0]: "";
-            sourceData.Qid = (typeof arr[1] !== undefined ) ? arr[1]: "";
-            sourceData.Bid = (typeof arr[2] !== undefined ) ? arr[2]: "";
+            sourceData.Tid = (typeof arr[0] !== undefined ) ? $.trim(arr[0]): "";
+            sourceData.Qid = (typeof arr[1] !== undefined ) ? $.trim(arr[1]): "";
+            sourceData.Bid = (typeof arr[2] !== undefined ) ? $.trim(arr[2]): "";
         }
         if(sourceData.v17) {
             var arr = sourceData.v17.split('|');
-            sourceData.blood1 = (typeof arr[0] !== undefined ) ? arr[0]: "";
-            sourceData.blood2 = (typeof arr[1] !== undefined ) ? arr[1]: "";
-            sourceData.blood3 = (typeof arr[2] !== undefined ) ? arr[2]: "";
+            sourceData.blood1 = (typeof arr[0] !== undefined ) ? $.trim(arr[0]): "";
+            sourceData.blood2 = (typeof arr[1] !== undefined ) ? $.trim(arr[1]): "";
+            sourceData.blood3 = (typeof arr[2] !== undefined ) ? $.trim(arr[2]): "";
         }
     }
 

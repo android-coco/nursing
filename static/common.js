@@ -365,11 +365,12 @@ function jkyPrompt(option,confirmFn,cancaelFn){
     option.valTxt = option.valTxt || ""
     option.txt = option.txt || ""
 
-    if($('#jky-prompt').length>0){
+    var isExist = $('#jky-prompt').length > 0;
+
+    if(isExist){
         $promptEl = $('#jky-prompt')
         $promptEl.find("#txt-prompt").text(option.txt)
         $promptEl.find("#jky-prompt-input").val(option.valTxt)
-
     }else{
         $promptEl = $(' <div class="am-modal am-modal-prompt" tabindex="-1" id="jky-prompt">\n' +
         '        <div class="am-modal-dialog">\n' +
@@ -384,7 +385,6 @@ function jkyPrompt(option,confirmFn,cancaelFn){
         '            </div>\n' +
         '        </div>\n' +
         '    </div>');
-        $("body").append($promptEl)
     }
 
     if(option.maxlength){
@@ -394,14 +394,28 @@ function jkyPrompt(option,confirmFn,cancaelFn){
     }
 
 
-    $('#jky-prompt').modal({
-        relatedTarget: this,
-        onConfirm: function(e) {
-            confirmFn && confirmFn(e.data)
-        },
-        onCancel: function(e) {
-            cancaelFn && cancaelFn(e.data)
-        }
-    });
 
+    if(isExist){
+        var oldOption =  $promptEl.data('amui.modal')
+        console.log(oldOption)
+        oldOption.options.onConfirm =  function(e) {
+            confirmFn && confirmFn(e.data)
+        };
+        oldOption.options.onCancel =  function(e) {
+            cancaelFn && cancaelFn(e.data)
+        };
+        oldOption.toggle(this);
+
+    }else{
+        $("body").append($promptEl)
+        $('#jky-prompt').modal({
+            relatedTarget: this,
+            onConfirm: function(e) {
+                confirmFn && confirmFn(e.data)
+            },
+            onCancel: function(e) {
+                cancaelFn && cancaelFn(e.data)
+            }
+        });
+    }
 }

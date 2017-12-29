@@ -48,6 +48,7 @@ func pdalist() {
 	fit.Router().AddRouter("/madvice/exec/search", new(handler.MedicalAdviceController),"post:ExecSearch")
 	fit.Router().AddRouter("/madvice/exec/detail", new(handler.MedicalAdviceController),"post:ExecDetail")
 	fit.Router().AddRouter("/madvice/exec", new(handler.MedicalAdviceController),"post:Execute")
+	fit.Router().AddRouter("/madvice/label/checking",new(handler.MedicalAdviceController),"get:Checking")
 
 	fit.Router().AddRouter("/deviceiput", new(handler.DeviceiputController))
 	fit.Router().AddRouter("/deviceout", new(handler.DeviceoutController))

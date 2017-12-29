@@ -24,8 +24,15 @@ label {
 body {
   background-color: #eaecf2;
 }
+.content-page .content {
+  padding: 0;
+}
 .none {
   display: none !important;
+}
+.null-data {
+  text-align: center;
+  line-height: 50px;
 }
 .hd_tit {
   background-color: #0072e7;
@@ -111,6 +118,9 @@ body {
   background-size: cover;
   left: 20px;
   top: 10px;
+  background-position: center;
+  background-repeat: no-repeat;
+  image-rendering: -webkit-optimize-contrast;
 }
 .hd_tit .r_menu_list .more_btn:hover ul,
 .hd_tit .r_menu_list .setup_btn:hover ul,
@@ -234,14 +244,13 @@ body {
 }
 .top48 .jky-class-bar {
   overflow: auto;
-  margin-left: -20px;
   min-height: 44px;
 }
 .top48 .jky-class-bar li {
   float: left;
   height: 30px;
   margin-top: 14px;
-  margin-left: 40px;
+  margin-left: 20px;
 }
 .top48 .jky-class-bar li p {
   font-size: 12px;
@@ -252,7 +261,7 @@ body {
   width: 12px;
   height: 12px;
   vertical-align: top;
-  margin-right: 10px;
+  margin-right: 5px;
   background-color: #ff983d;
 }
 .top48 .jky-class-bar .icon2 {
@@ -260,7 +269,7 @@ body {
   width: 12px;
   height: 12px;
   vertical-align: top;
-  margin-right: 10px;
+  margin-right: 5px;
   background-color: #fd6262;
 }
 .top48 .jky-class-bar .icon9 {
@@ -268,7 +277,7 @@ body {
   width: 12px;
   height: 12px;
   vertical-align: top;
-  margin-right: 10px;
+  margin-right: 5px;
   border: 1px solid #ddd;
   background-color: #d3d7e0;
 }
@@ -277,7 +286,7 @@ body {
   width: 12px;
   height: 12px;
   vertical-align: top;
-  margin-right: 10px;
+  margin-right: 5px;
   background-color: #09c66f;
 }
 .top48 .jky-class-bar .icon4 {
@@ -285,7 +294,7 @@ body {
   width: 12px;
   height: 12px;
   vertical-align: top;
-  margin-right: 10px;
+  margin-right: 5px;
   background-color: #982cfd;
 }
 .top48 .jky-class-bar .icon5 {
@@ -325,7 +334,7 @@ body {
   width: 12px;
   height: 12px;
   vertical-align: top;
-  margin-right: 10px;
+  margin-right: 5px;
   background-color: #fff;
   border: 1px solid #b7bcc7;
   border-radius: 2px;
@@ -372,6 +381,10 @@ body {
   border-bottom: 1px solid transparent;
   color: #0072e7;
 }
+.top48 .jky-tab-hd li a:hover {
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #f5f5f5 !important;
+}
 .top48 .jky-tab-hd li.active a {
   border: 1px solid #ddd;
   border-bottom: 1px solid #fff;
@@ -417,6 +430,7 @@ body {
 }
 .jky_sidebar .admin-sidebar-list li.active > a {
   border-left: 4px solid #0072e7;
+  color: #0072e7;
 }
 .jky_sidebar .admin-sidebar-list a:hover {
   border-left: 4px solid #0072e7;
@@ -481,12 +495,15 @@ body {
 .top48.small-type {
   left: -210px;
 }
+.jky-box-list {
+  padding: 5px !important;
+}
 .jky-box-list ul {
   overflow: auto;
 }
 .jky-box-list li {
   width: 25%;
-  padding: 10px;
+  padding: 5px;
   float: left;
 }
 .jky-box-list li .item {
@@ -583,11 +600,11 @@ body {
 .jky-box-list li .item .cont {
   font-size: 14px;
   padding: 0 10px;
-  color: #555;
+  color: #333;
   padding-top: 12px;
 }
 .jky-box-list li .item .cont .name {
-  color: #333;
+  color: #212121;
   font-weight: bold;
 }
 .jky-box-list li .item .cont .name-tit {
@@ -624,13 +641,15 @@ body {
 }
 .jky-box-list li .item .icon-bar .jky-icon img {
   display: block;
+  margin-top: -8px;
 }
 .jky-table-index {
   background-color: #eaecf2;
-  padding: 0 10px !important;
-  min-width: 1145px;
+  padding: 5px !important;
+  min-width: 947px;
 }
 .jky-table-index .am-table {
+  margin: 5px !important;
   margin-bottom: 0;
   border-color: #dedede;
   background-color: #fff;
@@ -644,21 +663,26 @@ body {
   border-color: #dedede;
   color: #333;
   text-align: center;
+  text-align: left;
 }
 .jky-table-index .am-table thead .th1 {
-  width: 90px;
+  width: 72px;
 }
 .jky-table-index .am-table thead .th2 {
-  width: 88px;
+  width: 74px;
 }
 .jky-table-index .am-table thead .th3,
 .jky-table-index .am-table thead .th4 {
-  width: 58px;
+  width: 46px;
 }
-.jky-table-index .am-table thead .th5,
-.jky-table-index .am-table thead .th6,
+.jky-table-index .am-table thead .th5 {
+  width: 70px;
+}
 .jky-table-index .am-table thead .th8,
-.jky-table-index .am-table thead .th9,
+.jky-table-index .am-table thead .th9 {
+  width: 74px;
+}
+.jky-table-index .am-table thead .th6,
 .jky-table-index .am-table thead .th11 {
   width: 88px;
 }
@@ -666,7 +690,7 @@ body {
   width: 148px;
 }
 .jky-table-index .am-table tbody {
-  color: #333;
+  color: #212121;
 }
 .jky-table-index .am-table tbody td {
   border-color: #dedede;
@@ -883,7 +907,7 @@ body {
   position: relative;
 }
 .shiftTable {
-  margin-left: 244px;
+  margin-left: 170px;
   position: absolute;
   top: 10px;
   bottom: 10px;
@@ -1265,7 +1289,7 @@ body {
 }
 .cont-batchInput .cont-warp {
   overflow: auto;
-  width: 1910px;
+  width: 1624px;
 }
 .cont-batchInput .scroll-box {
   padding: 10px;
@@ -1276,7 +1300,7 @@ body {
 }
 .cont-batchInput .cont-table-div {
   display: block;
-  width: 1910px;
+  width: 1624px;
   float: left;
   position: relative;
 }
@@ -1321,13 +1345,13 @@ body {
   width: 146px;
 }
 .cont-batchInput .cont-table thead .th1 {
-  width: 80px;
+  width: 40px;
 }
 .cont-batchInput .cont-table thead .th2 {
-  width: 85px;
+  width: 60px;
 }
 .cont-batchInput .cont-table thead .th3 {
-  width: 56px;
+  width: 40px;
 }
 .cont-batchInput .cont-table thead .th4 {
   width: 196px;
@@ -1346,7 +1370,7 @@ body {
   width: 180px;
 }
 .cont-batchInput .cont-table thead .th8 {
-  width: 106px;
+  width: 92px;
 }
 .cont-batchInput .cont-table thead .th10 {
   width: 414px;
@@ -1364,10 +1388,10 @@ body {
   width: 140px;
 }
 .cont-batchInput .cont-table thead .th18 {
-  width: 200px;
+  width: 128px;
 }
 .cont-batchInput .cont-table thead .th16 {
-  width: 224px;
+  width: 138px;
 }
 .cont-batchInput .cont-table .date-box {
   vertical-align: middle;
@@ -1522,15 +1546,15 @@ body {
   position: relative;
 }
 .history-batchInput .user-warp {
-  width: 224px;
+  width: 154px;
   float: left;
   margin-right: 10px;
   height: 100%;
 }
 .history-batchInput .user-warp .tit-bar {
-  line-height: 66px;
+  line-height: 50px;
   text-align: left;
-  font-style: 14px;
+  font-size: 14px;
   color: #333;
 }
 .history-batchInput .user-warp .tit-bar input {
@@ -1543,7 +1567,7 @@ body {
 }
 .history-batchInput .user-warp .user-bar {
   left: 10px;
-  top: 66px;
+  top: 50px;
 }
 .history-batchInput .hd-bar {
   min-height: 66px;
@@ -1581,7 +1605,7 @@ body {
   overflow: auto;
 }
 .history-batchInput .batchInput-box .warp-box {
-  width: 2258px;
+  width: 1910px;
   position: relative;
 }
 .history-batchInput .batchInput-box .cont-table {
@@ -1619,13 +1643,13 @@ body {
   width: 146px;
 }
 .history-batchInput .batchInput-box .cont-table thead .th1 {
-  width: 80px;
+  width: 40px;
 }
 .history-batchInput .batchInput-box .cont-table thead .th2 {
-  width: 85px;
+  width: 60px;
 }
 .history-batchInput .batchInput-box .cont-table thead .th3 {
-  width: 56px;
+  width: 40px;
 }
 .history-batchInput .batchInput-box .cont-table thead .th4 {
   width: 196px;
@@ -1644,7 +1668,7 @@ body {
   width: 180px;
 }
 .history-batchInput .batchInput-box .cont-table thead .th8 {
-  width: 106px;
+  width: 92px;
 }
 .history-batchInput .batchInput-box .cont-table thead .th10 {
   width: 414px;
@@ -1662,10 +1686,10 @@ body {
   width: 140px;
 }
 .history-batchInput .batchInput-box .cont-table thead .th18 {
-  width: 200px;
+  width: 128px;
 }
 .history-batchInput .batchInput-box .cont-table thead .th16 {
-  width: 224px;
+  width: 138px;
 }
 .history-batchInput .batchInput-box .cont-table .date-box {
   vertical-align: middle;
@@ -1870,7 +1894,7 @@ body {
   background-color: #fff;
 }
 .temperatureFrom .user-warp {
-  width: 224px;
+  width: 154px;
   float: left;
   margin-right: 10px;
   height: 100%;
@@ -1955,19 +1979,19 @@ body {
   background-color: #fff;
 }
 .doctorSplit .user-warp {
-  width: 224px;
+  width: 154px;
   float: left;
   margin-right: 10px;
   height: 100%;
 }
 .doctorSplit .user-warp .tit-bar {
-  line-height: 66px;
+  line-height: 50px;
   text-align: left;
   font-style: 14px;
   color: #333;
 }
 .doctorSplit .user-warp .tit-bar input {
-  vertical-align: -4px;
+  vertical-align: -3px;
 }
 .doctorSplit .user-warp .tit-bar label {
   font-size: 14px;
@@ -1976,7 +2000,7 @@ body {
 }
 .doctorSplit .user-warp .user-bar {
   left: 10px;
-  top: 80px;
+  top: 50px;
 }
 .doctorSplit .hd-bar {
   min-height: 80px;
@@ -2094,7 +2118,7 @@ body {
 }
 .doctorSplit .hd-bar .date-box .sel-filter-box .input-box {
   display: inline-block;
-  margin-right: 10px;
+  margin-right: 6px;
   line-height: 26px;
 }
 .doctorSplit .hd-bar .date-box .sel-filter-box .input-box.type2 {
@@ -2123,7 +2147,7 @@ body {
   overflow: auto;
 }
 .doctorSplit .doctorSplit-box .warp-box {
-  width: 1250px;
+  width: 1015px;
   position: relative;
 }
 .doctorSplit .doctorSplit-box .cont-table {
@@ -2156,28 +2180,36 @@ body {
   border-bottom: 1px solid #ddd;
 }
 .doctorSplit .doctorSplit-box .cont-table thead .th1 {
-  width: 84px;
+  width: 54px;
 }
 .doctorSplit .doctorSplit-box .cont-table thead .th2 {
-  width: 90px;
+  width: 60px;
 }
 .doctorSplit .doctorSplit-box .cont-table thead .th3 {
-  width: 132px;
+  width: 86px;
+}
+.doctorSplit .doctorSplit-box .cont-table thead .th4 {
+  width: 250px;
+}
+.doctorSplit .doctorSplit-box .cont-table thead .th6 {
+  width: 38px;
 }
 .doctorSplit .doctorSplit-box .cont-table thead .th5,
-.doctorSplit .doctorSplit-box .cont-table thead .th6,
 .doctorSplit .doctorSplit-box .cont-table thead .th7,
 .doctorSplit .doctorSplit-box .cont-table thead .th8 {
   width: 66px;
 }
 .doctorSplit .doctorSplit-box .cont-table thead .th9 {
-  width: 80px;
+  width: 66px;
 }
 .doctorSplit .doctorSplit-box .cont-table thead .th10 {
-  width: 144px;
+  width: 122px;
 }
 .doctorSplit .doctorSplit-box .cont-table thead .th11 {
-  width: 84px;
+  width: 38px;
+}
+.doctorSplit .doctorSplit-box .cont-table thead .th12 {
+  width: 72px;
 }
 .doctorSplit .doctorSplit-box .cont-table .table-input-bar input[type=checkbox] {
   vertical-align: -2px;
@@ -2190,7 +2222,7 @@ body {
 }
 .doctorSplit .doctorSplit-box .cont-table tbody td {
   border-right: 1px solid #ddd;
-  height: 48px;
+  height: 38px;
   padding-left: 8px;
   font-size: 14px;
 }
@@ -2209,8 +2241,9 @@ body {
 }
 .doctorSplit .doctorSplit-box .cont-table tbody .yz-item .td-p {
   border-bottom: 1px solid #ddd;
+  line-height: 18px;
+  padding: 7px 0;
   padding-left: 8px;
-  line-height: 30px;
 }
 .doctorSplit .doctorSplit-box .cont-table tbody .yz-item .td-p:nth-last-child(1) {
   border-bottom: 0;
@@ -2232,16 +2265,16 @@ body {
 }
 .doctorSearch .user-warp,
 .doctorSearch2 .user-warp {
-  width: 224px;
+  width: 154px;
   float: left;
   margin-right: 10px;
   height: 100%;
 }
 .doctorSearch .user-warp .tit-bar,
 .doctorSearch2 .user-warp .tit-bar {
-  line-height: 66px;
+  line-height: 50px;
   text-align: left;
-  font-style: 14px;
+  font-size: 14px;
   color: #333;
 }
 .doctorSearch .user-warp .tit-bar input,
@@ -2257,7 +2290,7 @@ body {
 .doctorSearch .user-warp .user-bar,
 .doctorSearch2 .user-warp .user-bar {
   left: 10px;
-  top: 66px;
+  top: 50px;
 }
 .doctorSearch .hd-bar,
 .doctorSearch2 .hd-bar {
@@ -2265,6 +2298,10 @@ body {
   border-top: 1px solid #fff;
   margin-left: -234px;
   overflow: auto;
+}
+.doctorSearch .hd-bar .search-btn,
+.doctorSearch2 .hd-bar .search-btn {
+  background-color: #fff;
 }
 .doctorSearch .hd-bar .fr,
 .doctorSearch2 .hd-bar .fr {
@@ -2277,6 +2314,11 @@ body {
 .doctorSearch .hd-bar .btn-group,
 .doctorSearch2 .hd-bar .btn-group {
   margin-top: 20px;
+}
+.doctorSearch .hd-bar .sel-box,
+.doctorSearch2 .hd-bar .sel-box {
+  padding-top: 10px;
+  float: left;
 }
 .doctorSearch .hd-bar .sel-box .sel-date-box,
 .doctorSearch2 .hd-bar .sel-box .sel-date-box {
@@ -2383,7 +2425,7 @@ body {
 }
 .doctorSearch .doctorSearch-box .warp-box,
 .doctorSearch2 .doctorSearch-box .warp-box {
-  width: 1714px;
+  width: 1454px;
   position: relative;
 }
 .doctorSearch .doctorSearch-box .cont-table,
@@ -2424,15 +2466,19 @@ body {
 }
 .doctorSearch .doctorSearch-box .cont-table thead .th1,
 .doctorSearch2 .doctorSearch-box .cont-table thead .th1 {
-  width: 84px;
+  width: 46px;
 }
 .doctorSearch .doctorSearch-box .cont-table thead .th2,
 .doctorSearch2 .doctorSearch-box .cont-table thead .th2 {
-  width: 90px;
+  width: 70px;
 }
 .doctorSearch .doctorSearch-box .cont-table thead .th3,
 .doctorSearch2 .doctorSearch-box .cont-table thead .th3 {
   width: 64px;
+}
+.doctorSearch .doctorSearch-box .cont-table thead .th4,
+.doctorSearch2 .doctorSearch-box .cont-table thead .th4 {
+  width: 250px;
 }
 .doctorSearch .doctorSearch-box .cont-table thead .th5,
 .doctorSearch2 .doctorSearch-box .cont-table thead .th5,
@@ -2444,7 +2490,7 @@ body {
 }
 .doctorSearch .doctorSearch-box .cont-table thead .th7,
 .doctorSearch2 .doctorSearch-box .cont-table thead .th7 {
-  width: 200px;
+  width: 84px;
 }
 .doctorSearch .doctorSearch-box .cont-table thead .th8,
 .doctorSearch2 .doctorSearch-box .cont-table thead .th8 {
@@ -2456,7 +2502,7 @@ body {
 .doctorSearch2 .doctorSearch-box .cont-table thead .th11,
 .doctorSearch .doctorSearch-box .cont-table thead .th14,
 .doctorSearch2 .doctorSearch-box .cont-table thead .th14 {
-  width: 138px;
+  width: 140px;
 }
 .doctorSearch .doctorSearch-box .cont-table thead .th12,
 .doctorSearch2 .doctorSearch-box .cont-table thead .th12,
@@ -2487,7 +2533,7 @@ body {
 .doctorSearch .doctorSearch-box .cont-table tbody td,
 .doctorSearch2 .doctorSearch-box .cont-table tbody td {
   border-right: 1px solid #ddd;
-  height: 48px;
+  height: 38px;
   padding-left: 8px;
   font-size: 14px;
 }
@@ -2511,7 +2557,9 @@ body {
 .doctorSearch .doctorSearch-box .cont-table tbody .yz-item p,
 .doctorSearch2 .doctorSearch-box .cont-table tbody .yz-item p {
   padding-left: 8px;
-  line-height: 48px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  line-height: 20px;
   border-bottom: 1px solid #ddd;
 }
 .doctorSearch .doctorSearch-box .cont-table tbody .yz-item p:nth-last-child(1),
@@ -2529,17 +2577,20 @@ body {
   color: #0072e7;
 }
 .doctorSearch2 .doctorSearch-box .warp-box {
-  width: 1614px;
+  width: 1318px;
   height: 100%;
 }
 .doctorSearch2 .doctorSearch-box .warp-box .warp-table-box {
-  width: 1254px;
+  width: 958px;
   position: relative;
   height: 100%;
   overflow: auto;
 }
+.doctorSearch2 .doctorSearch-box .warp-box .warp-table-box.fx {
+  z-index: 2;
+}
 .doctorSearch2 .doctorSearch-box .warp-box .warp-table-box table {
-  width: 1224px;
+  width: 928px;
 }
 .doctorSearch2 .doctorSearch-box .warp-box .warp-table-box tbody tr {
   width: 100%;
@@ -2549,7 +2600,7 @@ body {
   color: #fff;
 }
 .doctorSearch2 .doctorSearch-box .warp-box .warp-table-box tbody tr td p {
-  line-height: 48px;
+  line-height: 28px;
   border-bottom: 1px solid #ddd;
 }
 .doctorSearch2 .doctorSearch-box .warp-box .warp-table-box tbody tr td p:nth-last-child(1) {
@@ -3804,7 +3855,7 @@ body {
   bottom: 0;
 }
 .doc-input1 .doc-input1-cont {
-  margin-left: 244px;
+  margin-left: 162px;
   position: relative;
   height: 100%;
 }
@@ -4141,7 +4192,7 @@ body {
 .doc-input1 .doc-input2-cont {
   position: relative;
   height: 100%;
-  margin-left: 244px;
+  margin-left: 162px;
 }
 .doc-input1 .doc-input2-cont.content {
   padding: 118px 5px 0 5px;
@@ -4518,7 +4569,7 @@ body {
 .doc-input1 .doc-input3-cont {
   position: relative;
   height: 100%;
-  margin-left: 244px;
+  margin-left: 162px;
 }
 .doc-input1 .doc-input3-cont.content {
   padding: 118px 5px 0 5px;
@@ -4906,7 +4957,7 @@ body {
 .doc-input1 .doc-input4-cont {
   position: relative;
   height: 100%;
-  margin-left: 244px;
+  margin-left: 162px;
 }
 .doc-input1 .doc-input4-cont.content {
   padding: 118px 5px 0 5px;
@@ -5269,7 +5320,7 @@ body {
 .doc-input1 .doc-input5-cont {
   position: relative;
   height: 100%;
-  margin-left: 244px;
+  margin-left: 162px;
 }
 .doc-input1 .doc-input5-cont.content {
   padding: 118px 5px 0 5px;
@@ -5660,7 +5711,7 @@ body {
 .doc-input1 .doc-input6-cont {
   position: relative;
   height: 100%;
-  margin-left: 244px;
+  margin-left: 162px;
 }
 .doc-input1 .doc-input6-cont.content {
   padding: 118px 5px 0 5px;
@@ -6219,7 +6270,7 @@ body {
 .doc-input1 .doc-input7-cont {
   position: relative;
   height: 100%;
-  margin-left: 244px;
+  margin-left: 162px;
 }
 .doc-input1 .doc-input7-cont.content {
   padding: 118px 5px 0 5px;
@@ -6762,7 +6813,7 @@ body {
 .doc-input1 .doc-input8-cont {
   position: relative;
   height: 100%;
-  margin-left: 244px;
+  margin-left: 162px;
 }
 .doc-input1 .doc-input8-cont.content {
   padding: 96px 5px 0 5px;
@@ -7226,7 +7277,7 @@ body {
 }
 .user-bar {
   border: 1px solid #dedede;
-  width: 224px;
+  width: 154px;
   position: absolute;
   top: 10px;
   bottom: 10px;
@@ -7243,14 +7294,16 @@ body {
 .user-bar .tit .l {
   float: left;
   text-align: center;
-  line-height: 38px;
 }
 .user-bar .tit .l {
   border-right: 1px solid #dedede;
   width: 84px;
+  line-height: 38px;
+  width: 54px;
 }
 .user-bar .tit .r {
-  width: 136px;
+  width: 90px;
+  line-height: 38px;
 }
 .user-bar .user-list {
   overflow-y: scroll;
@@ -7262,7 +7315,7 @@ body {
 .user-bar .user-list li {
   overflow: auto;
   border-bottom: 1px solid #dedede;
-  line-height: 46px;
+  line-height: 34px;
   cursor: pointer;
 }
 .user-bar .user-list li.active {
@@ -7278,10 +7331,12 @@ body {
 }
 .user-bar .user-list li .l {
   border-right: 1px solid #dedede;
-  width: 84px;
+  width: 54px;
 }
 .user-bar .user-list li .r {
-  width: 120px;
+  width: 75px;
+  line-height: 24px;
+  padding: 5px 0;
 }
 .user-bar .user-list li input[type=checkbox] {
   margin-right: 4px;

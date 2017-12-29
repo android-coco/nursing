@@ -6,36 +6,65 @@
     <script src="/static/dist/js/lib/jquery.min.js"></script>
     <script src="/static/dist/js/lib/jquery.qrcode.min.js"></script>
     <style>
+        @media print {
+            body {-webkit-print-color-adjust: exact;}
+            .no-print {display: none;}
+        }
+        @page  {size: landscape}
+        @page  {margin:1px}
         body{
             margin: 0;
+            font-family: "黑体";
+        }
+        #main{
+            width: 360px;
+
+        }
+        #main img{
+            display: block;
         }
         .box{
             width: 360px;
-            height: 265px;
+            /*height: 265px;*/
+            height: 280px;
+            /*height: 500px;*/
             /*height: 287px;*/
             /*padding:2px;*/
-            padding-top: 10px;
+            box-sizing: border-box;
         }
         .cont{
+
             border: 1px solid #000;
             border-radius: 8px;
             width: 320px;
             background-color: #fff;
+
         }
         .warp-cont{
-            min-height: 96px;
+            /*min-height: 96px;*/
+            height: 96px;
         }
         .hd{
-            border-bottom: 1px solid #000;
+            /* border-bottom: 1px solid #000; */
             overflow: auto;
             margin:3px 10px 3px;
+            position: relative;
+        }
+        .hd:after{
+            content: "";
+            position: absolute;
+            bottom:0;
+            width: 100%;
+            height: 1px;
+            left: 0;
+            background-color: #000;
         }
         .name,.msg{
             float: left;
             margin-top:20px;
         }
         .name{
-            font-size:20px;
+            font-size:30px;
             min-width: 100px;
             text-align: center;
             /*line-height: 62px;*/
@@ -73,7 +102,7 @@
             position: relative;
             /*line-height: 30px;*/
             line-height: 24px;
-            font-size:14px;
+            font-size:15px;
         }
         .val-bar .val{
             /*float: right;*/
@@ -103,7 +132,7 @@
             console.log(obj)
             if(obj.length > 0)
             {
-                var html= "";
+                var html= "<div id='main'>";
                 for(var i=0; i < obj.length; i++){
                     html+='<div class="box">' +
                             '    <div class="cont">' +
@@ -130,16 +159,17 @@
                             '            <p>核对者:' +
                             '                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
                             '                配药者:</p>' +
-                            '            <p>配药时间: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{.Now}}</p>' +
+                            '            <p>配药时间: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{.Now}}</p>' +
                             '        </div>' +
                             '    </div>' +
                             '</div>';
                 }
             }
+            html+="</div>"
             $('body').html(html)
             $('.qr-code').each(function(i,el){
                 var code = $(el).data("code");
-                console.log(code)
+                // console.log(code)
                 code= code.toString()
                 var qrcodeCanvas = $(el).qrcode({
                     width: 80,
@@ -156,44 +186,79 @@
 </script>
 
 <body>
-<div class="box">
-    <div class="cont">
-        <div class="hd">
-            <div class="name">
-                王大大
-            </div>
-            <div class="msg">
-                <p>999床  男 38岁</p>
-                <p>住院号:12345678</p>
-            </div>
-            <div class="qr-code">
+{{/*<div class="box">*/}}
+    {{/*<div class="cont">*/}}
+        {{/*<div class="hd">*/}}
+            {{/*<div class="name">*/}}
+                {{/*王大大*/}}
+            {{/*</div>*/}}
+            {{/*<div class="msg">*/}}
+                {{/*<p>999床  男 38岁</p>*/}}
+                {{/*<p>住院号:12345678</p>*/}}
+            {{/*</div>*/}}
+            {{/*<div class="qr-code">*/}}
 
-            </div>
-        </div>
-        <div class="val-bar">
-            0.9%氯化钠注射液(软袋) 250ml <span class="val">250 ml</span>
-        </div>
-        <div class="val-bar">
-            0.9%氯化钠注射液(软袋) 250ml <span class="val">250 ml</span>
-        </div>
-        <div class="val-bar">
-            丹参酮ⅡA磺酸钠注射液 2ml:10mg <span class="val">40 mg</span>
-        </div>
-        <div class="val-bar">
-            丹参酮ⅡA磺酸钠注射液 2ml:10mg <span class="val">40 mg</span>
-        </div>
-        <div class="bt">
-            <p>住院续滴（加药）</p>
-            <p>核对者:
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                配药者:</p>
-            <p>配药时间:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{.Now}}</p>
-        </div>
-    </div>
-</div>
+            {{/*</div>*/}}
+        {{/*</div>*/}}
+        {{/*<div class="val-bar">*/}}
+            {{/*0.9%氯化钠注射液(软袋) 250ml <span class="val">250 ml</span>*/}}
+        {{/*</div>*/}}
+        {{/*<div class="val-bar">*/}}
+            {{/*0.9%氯化钠注射液(软袋) 250ml <span class="val">250 ml</span>*/}}
+        {{/*</div>*/}}
+        {{/*<div class="val-bar">*/}}
+            {{/*丹参酮ⅡA磺酸钠注射液 2ml:10mg <span class="val">40 mg</span>*/}}
+        {{/*</div>*/}}
+        {{/*<div class="val-bar">*/}}
+            {{/*丹参酮ⅡA磺酸钠注射液 2ml:10mg <span class="val">40 mg</span>*/}}
+        {{/*</div>*/}}
+        {{/*<div class="bt">*/}}
+            {{/*<p>住院续滴（加药）</p>*/}}
+            {{/*<p>核对者:*/}}
+                {{/*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}}
+                {{/*配药者:</p>*/}}
+            {{/*<p>配药时间:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{.Now}}</p>*/}}
+        {{/*</div>*/}}
+    {{/*</div>*/}}
+{{/*</div>*/}}
+
+<script src="/static/dist/js/lib/html2canvas.min.js"></script>
+
+<script>
+    $(function(){
+
+       var imgStr = ''
+        html2canvas($("#main")[0]).then(function(canvas){
+            // document.body.appendChild(canvas)
+            imgStr = canvas.toDataURL('image/jpg')
+            // document.body.appendChild()
+            //callback();
+        });
+        function callback(){
+            $("#main").html("<img src="+imgStr+">")
+        }
+        console.log($(".box").length)
+        // var imgArr = [];
+        // $(".box").each(function(i,el){
+        //     console.log(el[0])            
+        //     html2canvas(el).then(function(canvas){
+        //         // document.body.appendChild(canvas)
+        //         imgArr.push(canvas.toDataURL('image/jpg'))
+        //         // document.body.appendChild()
+        //         // callback();
+        //     });
+        // })
+        // console.log(imgArr)
+        // function callback(){
+        //     $(".box").each(function(i,el){
+        //         $(el).html("<img src="+imgArr[i]+">")
+        //     })
+        // }
+        
 
 
-
-
+    })
+   
+</script>
 </body>
 </html>

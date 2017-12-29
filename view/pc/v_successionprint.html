@@ -7,6 +7,11 @@
     <script src="/static/dist/js/lib/jquery.qrcode.min.js"></script>
     <title>交接班表</title>
     <style>
+        @media print {
+            body {-webkit-print-color-adjust: exact;}
+            .no-print {display: none;}
+        }
+        @page  {size: portrait}
         .bagw {
             height: 1540px;
             width: 1064px;

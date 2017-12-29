@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>标签</title>
+    <script src="/static/dist/js/lib/jquery.min.js"></script>
+    <script src="/static/dist/js/lib/jquery.qrcode.min.js"></script>
     <style>
+        @media print {
+            body {-webkit-print-color-adjust: exact;}
+            .no-print {display: none;}
+        }
+        @page  {size: landscape}
+        @page  {margin:1px}
         body{
             margin-top: 0;
             margin-bottom: 0;
@@ -11,7 +19,7 @@
         .box{
             width: 292px;
             height: 150px;
-            font-size: 14px;
+            font-size: 20px;
         }
         .bar1{
             width: 244px;
@@ -40,43 +48,41 @@
             margin:0;
         }
     </style>
+    <script type="text/javascript">
+        var html = "";
+        $(function () {
+            var datas = {{.PrintInfo}}//数据
+                   loadData(datas);
+           $('body').html(html)
+        });
+        function loadData(datas) {
+            if(datas.length != 0){
+                var obj = JSON.parse(datas);//转JSON对象
+                console.log(obj)
+                if(obj.length > 0)
+                {
+                    for(var i=0; i < obj.length; i++){
+                        html += '<div class="box">';
+                        html+='<p class="bar1">' +
+                                '        <span class="name">'+obj[i].name+'</span>' +
+                                '        <span>'+obj[i].sex+'</span>' +
+                                '        <span>'+obj[i].age+'</span>' +
+                                '    </p><hr />';
+                        for(var j=0; j < obj[i].list.length; j++){
+                            html+='<p class="msg">'+obj[i].list[j][0].split(" ")[0]+'</p>';
+                        }
+                        html+='<hr /><p class="msg">口服：'+obj[i].pc+'</p>';
+                        for(var j=0; j < obj[i].list.length; j++){
+                            html+='<p class="msg">每次：'+obj[i].list[j][1]+'</p>';
+                        }
+                        html+="</div>"
+                    }
+                }
+            }
+        }
+
+    </script>
 </head>
 <body>
-<div class="box">
-    <p class="bar1">
-        <span class="name">刘国芳</span>
-        <span>女</span>
-        <span>32岁</span>
-        <span>住院内科</span>
-    </p>
-    <div class="code-box">
-        <canvas class="canvascode"></canvas>
-        <div class="r">
-            <p>17</p>
-            <p>红</p>
-        </div>
-    </div>
-    <p class="msg">
-        HP,肛功能全套，肾功能六项
-    </p>
-    <p class="msg">
-        HP,肛功能全套，肾功能六项
-    </p>
-    <p class="msg">
-        HP,肛功能全套，肾功能六项
-    </p>
-    <p class="msg">
-        HP,肛功能全套，肾功能六项
-    </p>
-</div>
-
-<script src="/static/dist/js/lib/jquery.min.js"></script>
-<script src="/static/dist/js/lib/JsBarcode.all.min.js"></script>
-<script>
-    $(".canvascode").JsBarcode('17112423000122',{
-        width:2,
-        height:30,
-    });
-</script>
 </body>
 </html>

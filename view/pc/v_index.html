@@ -71,11 +71,11 @@
                                             <li><a target="view_window" class="dy" href="/pc/wdprint?pid={{$val.Pid}}">打印腕带</a></li>
                                         </ul>
                                     </div>
-                                    <div class="tit">{{$val.Bed}}</div>
+                                    <div class="tit">{{$val.Bed}}床</div>
                                     <div class="cont">
-                                        <p> <span class="name">{{$val.PName}}</span>&nbsp;&nbsp;&nbsp; {{$val.Gender}}&nbsp;&nbsp;&nbsp; {{$val.Age}}岁&nbsp;&nbsp;&nbsp; {{$val.Category}}</p>
-                                        <p class="id"> <span>{{$val.DName}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;住院号：{{$val.HospNum}}</span></p>
-                                        <p class="msg"> <span>{{$val.Diagnosis}}</span></p>
+                                        <p> <span class="name">{{$val.PName}}</span>&nbsp;&nbsp;&nbsp; {{$val.Gender}}&nbsp;&nbsp;&nbsp; {{$val.Age}}岁&nbsp;&nbsp;&nbsp; {{$val.Category}}&nbsp;&nbsp;&nbsp;{{$val.DName}}</p>
+                                        <p class="id"><span class="name-tit">住院号：</span><span>{{$val.HospNum}}</span></p>
+                                        <p class="msg"><span class="name-tit">诊断：</span> <span>{{$val.Diagnosis}}</span></p>
                                         <p><span class="name-tit">住院医师：</span><span class="ysname">{{$val.Physician}}</span></p>
                                         <div class="icon-bar">
                                             {{/*新病人*/}}
@@ -113,12 +113,17 @@
                         {{else}}
                             <li>
                                 <div class="item t5">
-                                    <div class="tit">{{$val.Bed}} (空床)</div>
+                                    <div class="tit">{{$val.Bed}}床 (空床)</div>
                                 </div>
                             </li>
                         {{end}}
                     {{end}}
+
+
                 </ul>
+                {{if eq .Len 0}}
+                    <p class="null-data">暂无数据</p>
+                {{end}}
             </div>
 
         </div>
@@ -131,6 +136,11 @@
     <div class="content-page none" data-index="2">
         <div class="content jky-table-index">
             <div class="am-g">
+
+
+            {{if eq .Len 0}}
+                <p class="null-data">暂无数据</p>
+            {{else}}
                 <table class="am-table am-table-bordered">
                     <thead>
                     <tr>
@@ -144,51 +154,53 @@
                         <th class="th8">住院医师</th>
                         <th class="th9">责任护士</th>
                         <th class="th10">入院时间</th>
-                        {{/*<th class="th11">费用差额</th>*/}}
+                    {{/*<th class="th11">费用差额</th>*/}}
 
                     </tr>
                     </thead>
                     <tbody id="jky-p-list">
                     {{range $k, $val := .Beds}}
-                        {{if gt $val.Pid 0}}
-                            <tr>
-                                <td class="id">
-                                    <div class="hideCe">
-                                        <a target="view_window" href="/pc/wdprint?pid={{$val.Pid}}">打印腕带 </a>
-                                    </div>
-                                    <p class="txt">{{$val.Bed}}</p>
-                                    <div class="icon"><img src="/static/dist/images/admin_pc/icon17.png" alt=""></div>
-                                </td>
-                                <td>{{$val.PName}}</td>
-                                <td class="t-c">{{$val.Gender}}</td>
-                                <td class="t-c">{{$val.Age}}</td>
-                                <td class="t-c">{{$val.HospNum}}</td>
-                                <td class='t-c {{if eq $val.NursingDegreeV "0"}}t1{{else if eq $val.NursingDegreeV "1"}}t2{{else if eq $val.NursingDegreeV "2"}}t3{{else if eq $val.NursingDegreeV "3"}}t4{{else}}t6{{end}}'>
-                                    {{$val.NursingDegree}}
-                                </td>
-                                <td>{{$val.Diagnosis}}</td>
-                                <td>{{$val.Physician}}</td>
-                                <td>{{$val.Nurse}}</td>
-                                <td class="t-c">{{$val.HospDay}}</td>
-                            </tr>
-                        {{else}}
-                            <tr class="td-5">
-                                <td >{{$val.Bed}}(空床)</td>
-                                <td></td>
-                                <td class="t-c"></td>
-                                <td class="t-c"></td>
-                                <td class="t-c"></td>
-                                <td class="t2 t-c"></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td class="t-c"></td>
-                                {{/*<td class="t-c "></td>*/}}
-                            </tr>
-                        {{end}}
+                    {{if gt $val.Pid 0}}
+                    <tr>
+                        <td class="id">
+                            <div class="hideCe">
+                                <a target="view_window" href="/pc/wdprint?pid={{$val.Pid}}">打印腕带 </a>
+                            </div>
+                            <p class="txt">{{$val.Bed}}</p>
+                            <div class="icon"><img src="/static/dist/images/admin_pc/icon17.png" alt=""></div>
+                        </td>
+                        <td>{{$val.PName}}</td>
+                        <td class="">{{$val.Gender}}</td>
+                        <td class="">{{$val.Age}}</td>
+                        <td class="">{{$val.HospNum}}</td>
+                        <td class=' {{if eq $val.NursingDegreeV "0"}}t1{{else if eq $val.NursingDegreeV "1"}}t2{{else if eq $val.NursingDegreeV "2"}}t3{{else if eq $val.NursingDegreeV "3"}}t4{{else}}t6{{end}}'>
+                        {{$val.NursingDegree}}
+                        </td>
+                        <td>{{$val.Diagnosis}}</td>
+                        <td>{{$val.Physician}}</td>
+                        <td>{{$val.Nurse}}</td>
+                        <td class="">{{$val.HospDay}}</td>
+                    </tr>
+                    {{else}}
+                    <tr class="td-5">
+                        <td >{{$val.Bed}}(空床)</td>
+                        <td></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class="t2 "></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class=""></td>
+                    {{/*<td class="t-c "></td>*/}}
+                    </tr>
+                    {{end}}
                     {{end}}
                     </tbody>
                 </table>
+            {{end}}
+
 
             </div>
         </div>
@@ -268,7 +280,7 @@
 
     function resizeFn() {
         // + parseFloat($('.top48').css('margin-bottom'))
-        $('.content-page').css('margin-top', $('.jky-class-bar').height() - 5 +40)
+        $('.content-page').css('margin-top', $('.jky-class-bar').height() - 8 +40)
     }
 
     setCont(0);

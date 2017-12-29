@@ -66,3 +66,29 @@ func CompareTimeNow(time1 string) bool {
 	}
 	return false
 }
+
+//数字时间转汉字时间
+var timeChina =  []string{"", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十"}
+//var dateChina =  []string{"零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十"}
+func sinicizingTime(intval int) (datestr string) {
+	if intval == 0 {
+		datestr = "零"
+	} else if intval < 10 {
+		datestr = timeChina[intval]
+	} else if intval == 10 {
+		datestr = "十"
+	} else {
+		datestr = timeChina[intval / 10] + "十" + timeChina[intval % 10]
+	}
+
+	//if intval >= 0 && intval <= 60 {
+	//
+	//} else {
+	//	datestr = ""
+	//}
+	return
+}
+
+func STime(t time.Time) (datestr string) {
+	return sinicizingTime(t.Hour()) + "时:" + sinicizingTime(t.Minute()) + "分"
+}

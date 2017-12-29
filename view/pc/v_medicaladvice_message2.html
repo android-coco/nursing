@@ -112,6 +112,15 @@
                                                 <option value="3">已结束</option>
                                             </select>
                                     </div>
+                                    {{/*<div class="input-box">*/}}
+                                            {{/*<label for="">医嘱状态:</label>*/}}
+                                            {{/*<select  id="sel4">*/}}
+                                                {{/*<option value="">全部</option>*/}}
+                                                {{/*<option value="" selected="true">未停</option>*/}}
+                                                {{/*<option value="">已停</option>*/}}
+                                                {{/*<option value="">已作废</option>*/}}
+                                            {{/*</select>*/}}
+                                        {{/*</div>*/}}
                                 </div>
                                 <br>
                                 <div class="sel-date-box timeSel">
@@ -136,11 +145,14 @@
                                         <input type="text" class="date-input2" id="etime">
                                     </div>
 
-                                    <span class="search-btn">
-                                        搜索
-                                    </span>
+                                    {{/*<span class="search-btn">*/}}
+                                        {{/*搜索*/}}
+                                    {{/*</span>*/}}
                                 </div>
 
+                            </div>
+                            <div class="btn-group fr">
+                                <button type="button" class="btn search-btn">搜索</button>
                             </div>
                         </div>
                         <div class="doctorSearch-box">
@@ -158,6 +170,7 @@
                                                     <th class="th6">频次</th>
                                                     <th class="th7">用法</th>
                                                     <th class="th8">长期/临时</th>
+                                                    <th class="th10">医嘱状态</th>
                                                     <th class="th9">首次执行时间</th>
                                                     {{/*<th class="th10">护士签名</th>*/}}
                                                     <th class="th11">执行状态</th>
@@ -175,6 +188,7 @@
                                                     <th class="th6">频次</th>
                                                     <th class="th7">用法</th>
                                                     <th class="th8">长期/临时</th>
+                                                    <th class="th10">医嘱状态</th>
                                                     <th class="th9">首次执行时间</th>
                                                     {{/*<th class="th10">护士签名</th>*/}}
                                                     <th class="th11">执行状态</th>
@@ -562,6 +576,7 @@
                                 "<td class=\"tc\">"+obj.frequency+"</td>\n" +
                                 "<td class=\"tc\">"+obj.method+"</td>\n" +
                                 "<td class=\"tc\">"+obj.typeOf+"</td>\n" +
+                                "<td class=\"tc\">"+obj.mStatus+"</td>\n" +
                                 "<td class=\"tc\">"+obj.stTime+"</td>\n" +
                                 // "<td class=\"tc\">"+obj.sender+"</td>\n" +
                                 "<td class=\"tc td11\">"+obj.exStatus+"</td>\n" +

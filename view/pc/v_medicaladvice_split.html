@@ -53,7 +53,7 @@
                     </div>
                     <div class="hd-bar">
                         <div class="date-box fl">
-                            <div class="sel-date-box  br1" style="min-width: 350px">
+                            <div class="sel-date-box " style="min-width: 350px">
                                     <span>
                                         执行时间：
                                     </span>
@@ -66,29 +66,13 @@
                                     <input type="radio" id="tomorrow-radio" name="date">
                                     <label for="tomorrow-radio">明日</label>
                                 </div>
-                                <div class="input-box type2">
+                                <div class="input-box type2 date-input-box">
                                     <input type="radio" id="select-radio" name="date">
-                                    <input type="text" class="date-input">
-                                </div>
-                            </div>
-                            <div class="sel-filter-box">
-                                <div class="input-box">
-                                    <span class="pd-20">长期/临时:</span>
-                                    <div class="input-box">
-                                        <input type="radio" id="longTerm-radio" name="group1">
-                                        <label for="longTerm-radio">长期</label>
-                                    </div>
-                                    <div class="input-box">
-                                        <input type="radio" id="shortTerm-radio" name="group1">
-                                        <label for="shortTerm-radio">临时</label>
-                                    </div>
-                                    <div class="input-box">
-                                        <input type="radio" id="allTerm-radio" name="group1" checked>
-                                        <label for="allTerm-radio">全部</label>
-                                    </div>
-                                </div>
+                                    <input type="text" class="date-input" for="select-radio">                                    
 
+                                </div>
                             </div>
+                          
                             <br>
                             <div class="sel-filter-box">
                                 <div class="input-box">
@@ -116,7 +100,7 @@
                                 {{/*<label for="check2-4">治疗单</label>*/}}
                                 {{/*</div>*/}}
                                     <span style="font-size:14px; min-width: 10px;">)</span>
-                                    <div class="input-box" style="margin-left: 20px">
+                                    <div class="input-box" style="margin-left: 10px">
                                         <input type="radio" id="label" name="group2">
                                         <label for="label">瓶签</label>
                                     </div>
@@ -130,6 +114,31 @@
                                         {{/*<label for="check3-2">检验标签</label>*/}}
                                     {{/*</div>*/}}
                                     <span style="font-size:14px;min-width: 10px;">)</span>
+
+
+                                    <div class="input-box" style="margin-left: 10px">
+                                        <input type="radio" id="temporary" name="group2">
+                                        <label for="temporary">口服药临嘱标签</label>
+                                    </div>                    
+                                                  
+                                </div>
+                            </div>
+                            <br>
+                            <div class="sel-filter-box">
+                                <div class="input-box">
+                                    <span class="">长期/临时:</span>
+                                    <div class="input-box">
+                                        <input type="radio" id="longTerm-radio" name="group1">
+                                        <label for="longTerm-radio">长期</label>
+                                    </div>
+                                    <div class="input-box">
+                                        <input type="radio" id="shortTerm-radio" name="group1">
+                                        <label for="shortTerm-radio">临时</label>
+                                    </div>
+                                    <div class="input-box">
+                                        <input type="radio" id="allTerm-radio" name="group1" checked>
+                                        <label for="allTerm-radio">全部</label>
+                                    </div>
                                 </div>
                             </div>
                             <br>
@@ -179,7 +188,7 @@
                                         <th class="th6">数量</th>
                                         <th class="th7">频次</th>
                                         <th class="th8">用法</th>
-                                        <th class="th11">滴速(滴/分)</th>
+                                        <th class="th12">滴速(滴/分)</th>
                                         <th class="th9">长期/临时</th>
                                         <th class="th10">打印状态</th>
                                     </tr>
@@ -197,7 +206,7 @@
                                         <th class="th6">数量</th>
                                         <th class="th7">频次</th>
                                         <th class="th8">用法</th>
-                                        <th class="th11">滴速(滴/分)</th>
+                                        <th class="th12">滴速(滴/分)</th>
                                         <th class="th9">长期/临时</th>
                                         <th class="th10">打印状态</th>
                                     </tr>
@@ -226,7 +235,11 @@
                                             {{/*<p class="td-p">{{.Dosage}}</p>*/}}
                                         {{/*{{end}}*/}}
                                         {{/*</td>*/}}
-                                        {{/*<td class="tc">{{.Amount}}</td>*/}}
+                                        {{/*<td class="yz-item">*/}}
+                                        {{/*{{range .Contents}}*/}}
+                                            {{/*<p class="td-p">{{.Amount}}</p>*/}}
+                                        {{/*{{end}}*/}}
+                                        {{/*</td>*/}}
                                         {{/*<td class="tc pc" data-pc="{{.Frequency}}">{{.Frequency}}</td>*/}}
                                         {{/*<td class="tc method" data-method="{{.Method}}">{{.Method}}</td>*/}}
                                         {{/*<td class="tc speed" data-speed="{{.Speed}}">{{.Speed}}</td>*/}}
@@ -239,6 +252,7 @@
                                     {{/*{{end}}*/}}
                                     </tbody>
                                 </table>
+                                <p class="null-data">暂无数据</p>
                             </div>
                         </div>
                     </div>
@@ -294,6 +308,9 @@
             "check3-2": 1
         };
 
+        var temporaryList = {
+            "temporary":0
+        };
         qo.print.values = [];
         if (qo.print.type == "excution") {
             $(".check-1").each(function () {
@@ -307,6 +324,8 @@
                     qo.print.values.push(lableList[$(this).attr("id")]);
                 }
             });
+        }else if(qo.print.type == "temporary"){
+            qo.print.values.push(temporaryList["temporary"]);
         }
     }
 
@@ -328,7 +347,10 @@
 
         $(".check-1").eq(0).prop("checked", true);
         $(".check-2").eq(0).prop("checked", false);
+
+        // $("#temporary").prop("disabled",true)
     }
+
 
     var type = 0
 
@@ -354,19 +376,23 @@
                 $('.date-input').removeAttr("disabled");
             }
         });
+
         //term
         $('div.input-box').find("input[name='group1']").click(function () {
             var id = $(this).attr("id");
             if (id == "longTerm-radio") {
                 qo.term = 1;
+                // $("#temporary").prop("disabled",true)
             } else if (id == "shortTerm-radio") {
                 qo.term = 2;
+                // $("#temporary").prop("disabled",false)                
             } else if (id == "allTerm-radio") {
                 qo.term = 0;
+                // $("#temporary").prop("disabled",true)                
             }
         });
-        //print type
 
+        //print type
         $('div.input-box').find("input[name='group2']").change(function () {
             var id = $(this).attr("id");
             if (id == "excution") {
@@ -374,18 +400,26 @@
                 if ($(this).prop("checked")) {
                     $(".check-1").eq(0).prop("checked", true)
                     $(".check-2").prop("checked", false)
-                } else {
-                    $(".check-1").eq(0).prop("checked", false)
-                    $(".check-2").prop("checked", true)
+                    $("#longTerm-radio").prop("disabled",false)
+                    $("#allTerm-radio").prop("disabled",false)
                 }
             } else if (id == "label") {
                 qo.print.type = "label";
                 if ($(this).prop("checked")) {
                     $(".check-2").eq(0).prop("checked", true)
                     $(".check-1").prop("checked", false)
-                } else {
-                    $(".check-2").eq(0).prop("checked", false)
-                    $(".check-1").prop("checked", true)
+                    $("#longTerm-radio").prop("disabled",false)
+                    $("#allTerm-radio").prop("disabled",false)
+                } 
+            }else if (id == "temporary") {
+                qo.print.type = "temporary";
+                if ($(this).prop("checked")) {
+                    $(".check-1").prop("checked", false)
+                    $(".check-2").prop("checked", false)
+                    $("#longTerm-radio").prop("disabled",true)
+                    $("#allTerm-radio").prop("disabled",true)
+                    qo.term = 2;
+                    $("#shortTerm-radio").prop("checked",true)
                 }
             }
 
@@ -412,13 +446,15 @@
                     if ($(this).hasClass("check-2")) {
                         return false;
                     }
-
                     break;
                 case "label":
                     if ($(this).hasClass("check-1")) {
                         return false;
                     }
                     break;
+                case "temporary":
+                    return false
+                    break;    
                 default:
                     console.log("无类型")
             }
@@ -486,7 +522,7 @@
                     var html = '';
                     for (var i = 0; i < resArr.length; i++) {
                         var obj = resArr[i]
-                        html += "<tr data-name=\""+obj.pName+"\" data-age=\""+obj.age+"\" data-bed=\""+obj.bed+"\" data-hosnum=\""+obj.hospNum+"\" data-ptv=\""+obj.ptTypeV+"\" data-sex=\""+obj.gender+"\">" +
+                        html += "<tr class=\"active\" data-name=\""+obj.pName+"\" data-age=\""+obj.age+"\" data-bed=\""+obj.bed+"\" data-hosnum=\""+obj.hospNum+"\" data-ptv=\""+obj.ptTypeV+"\" data-sex=\""+obj.gender+"\">" +
                                 "<td>\n" +
                                 "<div class=\"table-input-bar\">\n" +
                                 "<input type=\"checkbox\" data-mid=\"" + obj.gid + "\" data-vid=\"" + obj.vid + "\" data-ext=\"" + obj.exTime + "\" data-exc=\"" + obj.exCycle + "\" + checked>\n" +
@@ -510,15 +546,22 @@
                             const temp = obj.contents[idx]
                             html += "<p class=\"td-p\">" + temp.dosage + "</p>\n"
                         }
-
                         html += "</td>\n" +
-                                "<td class=\"tc\">" + obj.amount + "</td>\n" +
+                                "<td class=\"yz-item\">\n"
+                        for (var idx = 0; idx < obj.contents.length; idx++) {
+                            const temp = obj.contents[idx]
+                            html += "<p class=\"td-p\">" + temp.amount + "</p>\n"
+                        }
+
+                        var type2Css = obj.ptStatus == "未打印"?"type2":""
+                        html += "</td>\n" +
+                                // "<td class=\"tc\">" + obj.amount + "</td>\n" +
                                 "<td class=\"tc pc\" data-pc=\""+obj.frequency+"\">" + obj.frequency + "</td>\n" +
                                 "<td class=\"tc method\" data-method=\""+obj.method+"\">" + obj.method + "</td>\n" +
                                 "<td class=\"tc speed\" data-speed=\""+obj.speed+"\">" + obj.speed + "</td>\n" +
                                 "<td class=\"tc\">" + obj.typeOf + "</td>\n" +
                                 "<td class=\"td10\">\n" +
-                                "<span class=\"l\">" + obj.ptStatus + "</span>\n" +
+                                "<span class=\"l " + type2Css + "\">" + obj.ptStatus + "</span>\n" +
                                 "<span class=\"r xh\" data-xh="+ "序号"+obj.exCycle + "/" + obj.times+">序号" + obj.exCycle + "/" + obj.times + "</span>\n" +
                                 "</td>\n" +
                                 "</tr>"
@@ -533,8 +576,13 @@
                         type=3
                     }else if($("#check3-1").prop("checked")){
                         type=4
-                    }else if($("#check3-2").prop("checked")){
+                    }else if($("#temporary").prop("checked")){
                         type=5
+                    }
+                    if(resArr.length>0){
+                        $(".warp-box").find(".null-data").addClass("none")
+                    }else{
+                        $(".warp-box").find(".null-data").removeClass("none")
                     }
                 } else {
                     alert(json.errmsg)
@@ -793,6 +841,15 @@
         }
         // $("#fromreq").prop("action","/pc/ptprint?type="+type)
         // $("#fromreq").submit();
+    })
+
+
+    $("body").on("click", ".date-input-box", function(){
+        console.log("???")
+        console.log( $(this).find("input[type=radio]"))
+        $(this).find("input[type=radio]").prop("checked",true)
+        console.log($(this).find("input[type=input]"))
+        $(this).find(".date-input").prop("disabled",false)
     })
 </script>
 </body>
