@@ -644,7 +644,7 @@ CREATE TABLE `vaa1` (
   `BCK01B` int(11) DEFAULT NULL COMMENT '科室ID',
   `BCK01C` int(11) DEFAULT NULL COMMENT '病区ID',
   `BCQ04` varchar(20) DEFAULT NULL COMMENT '床号',
-  `VAA73` datetime DEFAULT NULL COMMENT '入院时间',
+  `VAA73` datetime DEFAULT NULL COMMENT '入院日期',
   `VAA74` datetime DEFAULT NULL COMMENT '出院时间',
   `VAA75` datetime DEFAULT NULL COMMENT '建档时间',
   `BEP05` decimal(18,4) DEFAULT NULL COMMENT '住院报警值',

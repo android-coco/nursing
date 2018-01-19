@@ -1,0 +1,1193 @@
+{{template "header_top" .}}
+<!-- end page -->
+<div class="admin">
+    <!--<div class="am-g">-->
+    <!-- ========== Left Sidebar Start ========== -->
+    <!--<div class="left side-menu am-hide-sm-only am-u-md-1 am-padding-0">
+        <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 548px;">
+            <div class="sidebar-inner slimscrollleft" style="overflow: hidden; width: auto; height: 548px;">-->
+    <!-- sidebar start -->
+    {{template "header_side" .}}
+    <!-- sidebar end -->
+    <!--</div>
+        </div>
+    </div>-->
+    <!-- ========== Left Sidebar end ========== -->
+    <!--	<div class="am-g">-->
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <div class="content-page jky-table-page doc-input1" data-index="1">
+        <div class="s-btn">
+            <!-- <img src="/static/dist/images/admin_pc/icon22.png" alt=""> -->
+        </div>
+        <div class="user-bar">
+            <div class="tit">
+                <div class="l">
+                    床号
+                </div>
+                <div class="r">
+                    姓名
+                </div>
+            </div>
+            <div class="user-list">
+                <ul>
+                    {{range $key, $val := .Beds}}
+                    <li data-id="{{$key}}" data-msg="{{$val.VAA01}}" class="{{if eq  $.PInfo.VAA01 $val.VAA01}}active{{end}}">
+                        <div class="l">
+                            <label>{{$val.BCQ04}}</label>
+                        </div>
+                        <div class="r">
+                            {{$val.VAA05}}
+                        </div>
+                    </li>
+                    {{end}}
+                </ul>
+            </div>
+        </div>
+        <!-- Start content -->
+        <div class="content doc-input4-cont">
+            <div class="tit-warp">
+                <div class="tit-bar">
+                    <div class="date-box fl">
+                        <div class="icon">
+                            <img src="/static/dist/images/admin_pc/icon20.png" alt="">
+                        </div>
+                        <input type="text" class="am-form-field  date-input" id="date1">
+                        <span class="line">—</span>
+                        <input type="text" class="am-form-field  date-input" id="date2">
+                        <div id="time-search-btn" class="btn-search">搜索</div>
+
+                        <a class="all-btn" href="/pc/record/nrl8?pid={{.PInfo.VAA01}}">所有记录</a>
+                    </div>
+                    <div class="btn-group">
+                    {{ if eq .PageNum .PageIndex}}
+                        <a class="btn type2 createCol">新建</a>
+                    {{end}}
+                        {{/*<a class="btn type2 createCol">新建</a>*/}}
+
+                        <a class="btn print">打印</a>
+                    </div>
+                    <p class="tit">深圳万丰医院疼痛强度评分量表</p>
+
+
+                </div>
+            </div>
+            <div class="scroll-box">
+                <div class="doc-cont">
+                    <p class="row-txt">
+                        <span><label>床号：</label>{{.PInfo.BCQ04}}</span>
+                        <span><label>姓名：</label>{{.PInfo.VAA05}}</span>
+                        <span><label>性别：</label>{{.PInfo.Gender}}</span>
+                        <span><label>年龄：</label>{{.PInfo.VAA10}}岁</span>
+                        <span><label>住院号：</label>{{.PInfo.VAA04}}</span>
+                        <span><label>诊断：</label>{{.PInfo.VAO15}}</span>
+                    </p>
+
+                    <!-- cont -->
+                    <div class="doc-table">
+                        <dl class="col-tit">
+                            <dd>日期</dd>
+                            <dd>时间</dd>
+                            <dd>疼痛评分量表</dd>
+                            <dd>疼痛评分</dd>
+                            <dd>责任护士签名</dd>
+                            <dd>审核人签名</dd>
+                            <dd class="last">操作</dd>
+                        </dl>
+                        <dl class="line-bg">
+                            <dd></dd>
+                            <dd></dd>
+                            <dd></dd>
+                            <dd></dd>
+                            <dd></dd>
+                            <dd></dd>
+                            <dd class="last"></dd>
+                        </dl>
+                        <div class="cont" id="tab-list">
+                            {{range $k, $val := .NRLList}}
+                            <ul class="col-cont" data-rid="{{$val.ID}}">
+                                <li>
+                                    <p class="txt"> {{$val.DateStr}} </p>
+                                    <div class="sel-box date">
+                                        <div class="td-date-input" data-date="{{$val.DateStr}}"></div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p class="txt">{{$val.TimeStr}}</p>
+                                    <div class="sel-box time">
+                                        <div class="td-time-input" data-time="{{$val.TimeStr}}"></div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p class="txt"></p>
+                                    <div class="sel-box category">
+                                        <select class="category-sel">
+                                            <option value="0">&nbsp;</option>
+                                            <option value="1" {{if eq $val.NRL05 "1"}}selected{{end}}>VRS</option>
+                                            <option value="2" {{if eq $val.NRL05 "2"}}selected{{end}}>NRS</option>
+                                            <option value="3" {{if eq $val.NRL05 "3"}}selected{{end}}>Wong-Baker</option>
+                                            <option value="4" {{if eq $val.NRL05 "4"}}selected{{end}}>FPS-R</option>
+                                        </select>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p class="txt "></p>
+                                    <div class="sel-box grade">
+                                        <select class="type1 {{if ne $val.NRL05 "1"}}none{{end}}">
+                                            <option value="0"></option>
+                                            <option value="1" {{if eq $val.NRL05 "1"}}{{if eq $val.NRL05A "1"}}selected{{end}}{{end}}>0级</option>
+                                            <option value="2" {{if eq $val.NRL05 "1"}}{{if eq $val.NRL05A "2"}}selected{{end}}{{end}}>I级</option>
+                                            <option value="3" {{if eq $val.NRL05 "1"}}{{if eq $val.NRL05A "3"}}selected{{end}}{{end}}>II级</option>
+                                            <option value="4" {{if eq $val.NRL05 "1"}}{{if eq $val.NRL05A "4"}}selected{{end}}{{end}}>III级</option>
+                                        </select>
+                                        <select class="type2 {{if ne $val.NRL05 "2"}}none{{end}}">
+                                            <option value="0"></option>
+                                            <option value="1" {{if eq $val.NRL05 "2"}}{{if eq $val.NRL05A "1"}}selected{{end}}{{end}}>0</option>
+                                            <option value="2" {{if eq $val.NRL05 "2"}}{{if eq $val.NRL05A "2"}}selected{{end}}{{end}}>1</option>
+                                            <option value="3" {{if eq $val.NRL05 "2"}}{{if eq $val.NRL05A "3"}}selected{{end}}{{end}}>2</option>
+                                            <option value="4" {{if eq $val.NRL05 "2"}}{{if eq $val.NRL05A "4"}}selected{{end}}{{end}}>3</option>
+                                            <option value="5" {{if eq $val.NRL05 "2"}}{{if eq $val.NRL05A "5"}}selected{{end}}{{end}}>4</option>
+                                            <option value="6" {{if eq $val.NRL05 "2"}}{{if eq $val.NRL05A "6"}}selected{{end}}{{end}}>5</option>
+                                            <option value="7" {{if eq $val.NRL05 "2"}}{{if eq $val.NRL05A "7"}}selected{{end}}{{end}}>6</option>
+                                            <option value="8" {{if eq $val.NRL05 "2"}}{{if eq $val.NRL05A "8"}}selected{{end}}{{end}}>7</option>
+                                            <option value="9" {{if eq $val.NRL05 "2"}}{{if eq $val.NRL05A "9"}}selected{{end}}{{end}}>8</option>
+                                            <option value="10" {{if eq $val.NRL05 "2"}}{{if eq $val.NRL05A "10"}}selected{{end}}{{end}}>9</option>
+                                            <option value="11" {{if eq $val.NRL05 "2"}}{{if eq $val.NRL05A "11"}}selected{{end}}{{end}}>10</option>
+                                        </select>
+                                        <select class="type3 {{if ne $val.NRL05 "3"}}none{{end}}">
+                                            <option value="0"></option>
+                                            <option value="1"  {{if eq $val.NRL05 "3"}}{{if eq $val.NRL05A "1"}}selected{{end}}{{end}}>0</option>
+                                            <option value="2"  {{if eq $val.NRL05 "3"}}{{if eq $val.NRL05A "2"}}selected{{end}}{{end}}>2</option>
+                                            <option value="3"  {{if eq $val.NRL05 "3"}}{{if eq $val.NRL05A "3"}}selected{{end}}{{end}}>4</option>
+                                            <option value="4"  {{if eq $val.NRL05 "3"}}{{if eq $val.NRL05A "4"}}selected{{end}}{{end}}>6</option>
+                                            <option value="5"  {{if eq $val.NRL05 "3"}}{{if eq $val.NRL05A "5"}}selected{{end}}{{end}}>8</option>
+                                            <option value="6"  {{if eq $val.NRL05 "3"}}{{if eq $val.NRL05A "6"}}selected{{end}}{{end}}>10</option>
+                                        </select>
+                                        <select class="type4 {{if ne $val.NRL05 "4"}}none{{end}}">
+                                            <option value="0"></option>
+                                            <option value="1" {{if eq $val.NRL05 "4"}}{{if eq $val.NRL05A "1"}}selected{{end}}{{end}}>0</option>
+                                            <option value="2" {{if eq $val.NRL05 "4"}}{{if eq $val.NRL05A "2"}}selected{{end}}{{end}}>1</option>
+                                            <option value="3" {{if eq $val.NRL05 "4"}}{{if eq $val.NRL05A "3"}}selected{{end}}{{end}}>2</option>
+                                            <option value="4" {{if eq $val.NRL05 "4"}}{{if eq $val.NRL05A "4"}}selected{{end}}{{end}}>3</option>
+                                            <option value="5" {{if eq $val.NRL05 "4"}}{{if eq $val.NRL05A "5"}}selected{{end}}{{end}}>4</option>
+                                            <option value="6" {{if eq $val.NRL05 "4"}}{{if eq $val.NRL05A "6"}}selected{{end}}{{end}}>5</option>
+                                            <option value="7" {{if eq $val.NRL05 "4"}}{{if eq $val.NRL05A "7"}}selected{{end}}{{end}}>6</option>
+                                            <option value="8" {{if eq $val.NRL05 "4"}}{{if eq $val.NRL05A "8"}}selected{{end}}{{end}}>7</option>
+                                            <option value="9" {{if eq $val.NRL05 "4"}}{{if eq $val.NRL05A "9"}}selected{{end}}{{end}}>8</option>
+                                            <option value="10" {{if eq $val.NRL05 "4"}}{{if eq $val.NRL05A "10"}}selected{{end}}{{end}}>9</option>
+                                            <option value="11" {{if eq $val.NRL05 "4"}}{{if eq $val.NRL05A "11"}}selected{{end}}{{end}}>10</option>
+                                        </select>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p class="txt2">{{$val.NurseName}}</p>
+                                </li>
+                                <li>
+                                    <div class="auditingWarp" style="height: 100%">
+                                        <p class="txt">{{$val.NRL06B}}</p>
+                                        <div class="sel-box">
+                                            <input type="text" class="name-input" value="{{$val.NRL06B}}">
+                                        </div>
+                                        <div class="auditingName" data-rid="{{$val.ID}}" style="line-height: 34px;">
+                                            <i class="am-icon-pencil"></i><span>编辑</span>
+                                        </div>
+                                    </div>
+
+                                </li>
+                                <li class="last">
+                                    <a href="#1" class="save-btn" data-isjump="0"  data-isnew="0"><span>保存</span></a>
+                                    <a class="cancel-btn" data-isnew="0"><span>取消</span></a>
+                                    <a href="#1" class="edit-btn"  data-id="{{$val.NurseId}}">
+                                        <i class="am-icon-pencil"></i><span>编辑</span>
+                                    </a>
+                                    <a href="#1" class="del-btn" data-id="{{$val.NurseId}}"><i class="am-icon-trash"></i><span>删除</span></a>
+
+                                </li>
+                            </ul>
+                            {{end}}
+                        </div>
+                    </div>
+
+                    <!--cont2-->
+                    <div class="doc-table newPage none">
+                        <dl class="col-tit">
+                            <dd>日期</dd>
+                            <dd>时间</dd>
+                            <dd>疼痛评分量表选择</dd>
+                            <dd>疼痛评分</dd>
+                            <dd>责任护士签名</dd>
+                            <dd>审核人签名</dd>
+                            <dd class="last">操作</dd>
+                        </dl>
+                        <dl class="line-bg">
+                            <dd></dd>
+                            <dd></dd>
+                            <dd></dd>
+                            <dd></dd>
+                            <dd></dd>
+                            <dd></dd>
+                            <dd class="last"></dd>
+                        </dl>
+                        <div class="cont" id="tab-list2">
+
+                        </div>
+                    </div>
+
+                    <!-- 分页栏 -->
+                    <div class="page-bar">
+                        <span>页面位置</span>
+                        <ul>
+                            <li>
+                                <a id="leftLast-btn">
+                                    <img src="/static/dist/images/admin_pc/icon43.png" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                <a id="left-btn">
+                                    <img src="/static/dist/images/admin_pc/icon44.png" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                第<input type="text" class="pageNum" value="{{.PageIndex}}"> 页
+                                <a id="go-btn">Go</a>
+                            </li>
+                            <li>
+                                <a id="right-btn">
+                                    <img src="/static/dist/images/admin_pc/icon45.png" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                <a id="rightLast-btn">
+                                    <img src="/static/dist/images/admin_pc/icon46.png" alt="">
+                                </a>
+                            </li>
+                        </ul>
+                        <span>共<i class="pageSum">{{.PageNum}}</i>页</span>
+                    </div>
+
+                    <!-- 备注 -->
+                    <div class="remarks-box">
+                        <div class="img-box">
+                            <p class="tit2">诉言词量表（VRS）</p>
+                            <p class="txt2">0级： 无痛。</p>
+                            <p class="txt2">I级（轻度）：有疼痛但可忍受，能正常生活，睡眠不受干扰。</p>
+                            <p class="txt2">II级（中度）：疼痛明显，不能忍受，要求使用止痛剂睡眠受干扰。</p>
+                            <p class="txt2">III级（重度）：疼痛剧烈，不能忍受，睡眠受严重干扰，可伴有自主神经紊乱或被动体位。</p>
+                        </div>
+                        <div class="pd-20"></div>
+                        <div class="img-box">
+                            <p class="tit">数字评定量表（NRS）</p>
+                            <ul class="list">
+                                <li>
+                                    <div class="line"></div>
+                                    0
+                                    <div>无痛</div>
+                                </li>
+                                <li>
+                                    <div class="line"></div> 1</li>
+                                <li>
+                                    <div class="line"></div> 2</li>
+                                <li>
+                                    <div class="line"></div> 3</li>
+                                <li>
+                                    <div class="line"></div> 4</li>
+                                <li>
+                                    <div class="line"></div> 5
+                                    <div>中度疼痛</div>
+                                </li>
+                                <li>
+                                    <div class="line"></div> 6</li>
+                                <li>
+                                    <div class="line"></div> 7</li>
+                                <li>
+                                    <div class="line"></div> 8</li>
+                                <li>
+                                    <div class="line"></div> 9</li>
+                                <li>
+                                    <div class="line"></div> 10
+                                    <div>剧痛</div>
+                                </li>
+
+                                <li class="lastLine"></li>
+                            </ul>
+                        </div>
+                        <div class="pd-20"></div>
+
+                        <div class="img-box">
+                            <p class="tit"> 面部表情量表（Wong-Baker） </p>
+                            <div class="img">
+                                <img src="/static/dist/images/admin_pc/tmp1.jpg" alt="">
+                            </div>
+                            <ul class="list2">
+                                <li>
+                                    0
+                                    <div>无痛</div>
+                                </li>
+                                <li>
+                                    2
+                                    <div>轻微疼痛</div>
+                                </li>
+                                <li>
+                                    4
+                                    <div>轻度疼痛</div>
+                                </li>
+                                <li>
+                                    6
+                                    <div>中度疼痛</div>
+                                </li>
+                                <li>
+                                    8
+                                    <div>重度疼痛</div>
+                                </li>
+                                <li>
+                                    10
+                                    <div>剧痛</div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="pd-20"></div>
+
+                        <div class="img-box">
+                            <p class="tit">面部表情量表（FPS-R）</p>
+                            <div class="img">
+                                <img src="/static/dist/images/admin_pc/tmp2.jpg" alt="">
+                            </div>
+                            <ul class="list3">
+                                <li style="width: 50px;">
+                                    <div>无痛</div>
+                                </li>
+                                <li  style="width: 150px;">
+
+                                    <div>轻度疼痛</div>
+                                </li>
+                                <li  style="width: 150px;">
+
+                                    <div>中度疼痛</div>
+                                </li>
+                                <li  style="width: 165px;">
+
+                                    <div>重度疼痛</div>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="pd-20"></div>
+
+                        <div>
+                            <p class="tit">备注：</p>
+                            <p class="txt">1. 评估时机: 发生疼痛时随时评估，疼痛治疗干预后评估，疼痛过程中至少每30min评估一次。</p>
+                            <p class="txt">2. 评分标准：根据患者的疼痛情况选择合适的疼痛评估方法与工具。</p>
+                        </div>
+
+                    </div>
+                    <div class="pd-20"></div>
+
+                </div>
+
+            </div>
+        </div>
+        <!-- end right Content here -->
+        <!--</div>-->
+    </div>
+    <!-- </div> -->
+    <script  type="application/json" id="col">
+        <ul class="col-cont active">
+            <li>
+                <p class="txt"> </p>
+                <div class="sel-box date" style="overflow:hidden">
+                    <div class="td-date-input" style="" data-date="<%= datestr %>"></div>
+                 </div>
+            </li>
+            <li>
+                <p class="txt"></p>
+                <div class="sel-box time">
+                 <div class="td-time-input" style="" data-time="<%= timestr %>">
+                 </div>
+            </li>
+            <li>
+                <p class="txt">VRS</p>
+                <div class="sel-box category">
+                    <select class="category-sel">
+                        <option value="0">&nbsp;</option>
+                        <option value="1" >VRS</option>
+                        <option value="2">NRS</option>
+                        <option value="3">Wong-Baker</option>
+                        <option value="4">FPS-R</option>o
+                    </select>
+                </div>
+            </li>
+            <li>
+                <p class="txt ">I级</p>
+                <div class="sel-box grade">
+                    <select class="type1 none">
+                        <option value="0"></option>
+                        <option value="1">0级</option>
+                        <option value="2">I级</option>
+                        <option value="3">II级</option>
+                        <option value="4">III级</option>
+                    </select>
+                    <select class="type2 none">
+                        <option value="0"></option>
+                        <option value="1">0</option>
+                        <option value="2">1</option>
+                        <option value="3">2</option>
+                        <option value="4">3</option>
+                        <option value="5">4</option>
+                        <option value="6">5</option>
+                        <option value="7">6</option>
+                        <option value="8">7</option>
+                        <option value="9">8</option>
+                        <option value="10">9</option>
+                        <option value="11">10</option>
+                    </select>
+                    <select class="type3 none">
+                        <option value="0"></option>
+                        <option value="1">0</option>
+                        <option value="2">2</option>
+                        <option value="3">4</option>
+                        <option value="4">6</option>
+                        <option value="5">8</option>
+                        <option value="6">10</option>
+                    </select>
+                    <select class="type4 none">
+                        <option value="0"></option>
+                        <option value="1">0</option>
+                        <option value="2">1</option>
+                        <option value="3">2</option>
+                        <option value="4">3</option>
+                        <option value="5">4</option>
+                        <option value="6">5</option>
+                        <option value="7">6</option>
+                        <option value="8">7</option>
+                        <option value="9">8</option>
+                        <option value="10">9</option>
+                        <option value="11">10</option>
+                    </select>
+                </div>
+            </li>
+            <li>
+                <p class="txt2">
+                <%= username %>
+                </p>
+            </li>
+            <li>
+                <p class="txt">444659</p>
+                <div class="sel-box">
+                    <input type="text" class="name-input">
+                </div>
+            </li>
+            <li class="last">
+                <a href="#1" class="save-btn" data-isjump="<%= isJump %>" data-isnew="1"><span>保存</span></a>
+                <a class="cancel-btn" data-isnew="1"><span>取消</span></a>
+                <a href="#1" class="edit-btn">
+                    <i class="am-icon-pencil"></i><span>编辑</span>
+                </a>
+                <a href="#1" class="del-btn"><i class="am-icon-trash"></i><span>删除</span></a>
+
+            </li>
+        </ul>
+    </script>
+
+    <!-- navbar -->
+    <a href="admin-offcanvas" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}">
+        <!--<i class="fa fa-bars" aria-hidden="true"></i>--></a>
+    <script type="text/javascript" src="/static/dist/js/lib/jquery.min.js"></script>
+    <!--框架js-->
+    <script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/amazeui.min.js"></script>
+    <script src="/static/dist/js/lib/laydate/laydate.js"></script>
+    <!--前端模板引擎-->
+    <script src="/static/dist/js/lib/template-web.js"></script>
+
+
+
+
+
+    <script type="text/javascript" src="/static/common.js" ></script>
+    <!--<script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/charts/indexChart.js" ></script>-->
+    <script>        
+        var nowDateObj = fromatDate()
+
+
+        var $inputNum = $('.tit2,.tit3,.tit4').find('input')
+        $inputNum.on('input', throttle(function() {
+            if (isNaN(parseFloat($(this).val()))) {
+                $(this).val("")
+            } else {
+                $(this).val(parseFloat($(this).val()))
+            }
+        }, 500, {
+            leading: false, //配置第一次不立即执行 true 第一次执行 false 第一次不执行
+            trailing: true // 是否抛弃 还是 往后堆积
+        }))
+
+
+
+        function toggleTar() {
+            if ($('.top48').hasClass('small-type')) {
+                $('.top48').removeClass('small-type')
+                $('.jky_sidebar').removeClass('small-type')
+            } else {
+                $('.top48').addClass('small-type')
+                $('.jky_sidebar').addClass('small-type')
+            }
+        }
+
+        $('.s-btn').on('click', function() {
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+                $('.user-bar').show();
+                $('.doc-input4-cont').css('margin-left', 162)
+            } else {
+                $(this).addClass('active');
+                $('.doc-input4-cont').css('margin-left', 0)
+                $('.user-bar').hide();
+            }
+        })
+
+
+
+        // 编辑
+        $('body').on('click', '.edit-btn', function() {
+            var userId = {{.Userinfo.UID}}
+            var yId = $(this).data("id")
+
+            if(!userId){
+                alert("err: 用户信息错误");
+                return false
+            }else if(!yId){
+                alert("err: 用户信息错误");
+                return false
+            }
+            if(yId == userId){
+                if ($('.list').find('ul.active').length > 0) {
+                    // alert("请先保存信息")
+                    jkyAlert("请先保存信息","no")
+                } else {
+                    var $ul = $(this).parents('ul')
+                    $ul.addClass("active")
+                    $date = $("<input class='date-input-td'>")
+                    $ul.find('.tr11').find('.cont-warp').find('.sel-input').html($date)
+                    laydate.render({
+                        elem: '.date-input-td', //指定元素
+                        showBottom: false,
+                        value: nowDateObj.date,
+                        done: function(value, date, endDate) {
+                            console.log(value); //得到日期生成的值，如：2017-08-18
+                            console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                            console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                        }
+                    });
+                }
+            }else{
+                // alert("您没有权限编辑！");
+                jkyAlert("您没有权限编辑！","no")
+            }
+
+
+        })
+
+        //保存
+        var soureHash = {
+            "option1":{
+                "1":"0级",
+                "2":"I级",
+                "3":"II级",
+                "4":"III级",
+            },
+            "option2":{
+                "1":"0",
+                "2":"1",
+                "3":"2",
+                "4":"3",
+                "5":"4",
+                "6":"5",
+                "7":"6",
+                "8":"7",
+                "9":"8",
+                "10":"9",
+                "11":"10",
+            },
+            "option3":{
+                "1":"0",
+                "2":"2",
+                "3":"4",
+                "4":"6",
+                "5":"8",
+                "6":"10",
+            },
+            "option4":{
+                "1":"0",
+                "2":"1",
+                "3":"2",
+                "4":"3",
+                "5":"4",
+                "6":"5",
+                "7":"6",
+                "8":"7",
+                "9":"8",
+                "10":"9",
+                "11":"10",
+            }
+        }
+        $('body').on('click', '.save-btn', function() {
+            var isNew = false;
+            if($(this).data("isnew")=="1"){
+                isNew = true;
+                api = "/record/nr8/add"
+                typeStr = '保存'
+            }else{
+                api = "/record/nr8/update"
+                typeStr = '修改'
+            }
+
+            var data = {
+                // 护士ID
+                "uid": {{.Userinfo.UID}},
+                // 护士名
+                "username": {{.Userinfo.Name}},
+                //病人id
+                "pid": {{.PInfo.VAA01}},
+                //科室id
+                "did":  {{.PInfo.BCK01C}},
+            }
+            var $cont= $(this).parents("ul")
+            setDataDateTime(data,$cont)
+            setDatavNRL05(data,$cont);
+            setDatavNRL05A(data,$cont);
+            setDatavNRL06B(data,$cont);
+
+            console.log(isNew,data)
+
+            if(isNew){
+                var num = 0;
+                $.each(data,function(i,n){
+                    num++;
+                })
+                // console.log('num',num)
+                //总共5个固定参数,如果没填长度就为5
+                if(num==5){
+                    // alert("请填写内容！")
+                    jkyAlert("请填写内容!","no")
+                    return false;
+                }
+                var $this= $(this)
+                req(api,data,function(){
+                    // alert("保存成功")
+                    jkyAlert("保存成功","yes",function(){
+                        if($this.data("isjump")!="1"){
+                            location.reload()
+                        }else{
+                            var baseurl = "/pc/record/nrl8?",
+                                    index = parseInt({{.PageIndex}})+1,
+                                    pid = parseInt({{.PInfo.VAA01}}),
+                                    date1=getURLParam("sdate"),
+                                    date2=getURLParam("edate"),
+                                    urlStr = baseurl + "pid=" + pid + "&num=" + index;
+
+                            if(date1){
+                                urlStr =urlStr+"&sdate=" + date1
+                            }
+                            if(date2){
+                                urlStr =urlStr+"&edate=" + date2
+                            }
+                            location.href= urlStr
+                            // console.log( baseurl + "pid=" + pid + "&num=" + index + "&sdate=" + date1 + "&edate=" + date2)
+                            // location.href=  baseurl + "pid=" + pid + "&num=" + index + "&sdate=" + date1 + "&edate=" + date2;
+                        }
+                    })
+
+
+
+                })
+            }else{
+                data.rid = $cont.data("rid")
+                var $el = $(this)
+                // console.log(data)
+                req(api,data,function(){
+                    // alert("修改成功")
+                    jkyAlert("修改成功","yes",function(){
+                        setDataText($cont)
+                        $cont.removeClass("active")
+                    })
+
+                })
+            }
+
+        })
+        //设置日期
+        function setDataDateTime(data,$el) {
+            var $mTime = $el
+            dateStr = $.trim($mTime.find('.date').text())
+            timeStr = $.trim($mTime.find('.time').text())
+            if (dateStr) {
+                data.datetime = dateStr + " "+timeStr+":00"
+            }
+        }
+
+        function setDatavNRL05(data,$el){
+            var checkVal = $.trim($el.find(".category-sel").val());
+
+            if(checkVal!="0"){
+                data.NRL05 = checkVal
+            }
+        }
+        function setDatavNRL05A(data,$el){
+            var index = data.NRL05;
+            if(index){
+                var checkVal = $.trim($el.find(".grade").find(".type"+index).val())
+                if(checkVal!="0"){
+                    data.NRL05A = checkVal
+                    data.score = soureHash["option"+index][checkVal]
+                }
+            }
+
+        }
+        function setDatavNRL06B(data,$el){
+            var checkVal = $.trim($el.find(".name-input").val());
+            if(checkVal){
+                data.NRL06B = checkVal
+            }
+        }
+
+        function req(api,data,cb) {
+            $.ajax({
+                url: api,
+                data: data,
+                type: "POST",
+                success: function (data) {
+                    console.log(data);
+                    if (data) {
+                        switch (data.result) {
+                            case 0:
+                                cb();
+                                break;
+                            default:
+                                // alert(data.errmsg)
+                                jkyAlert(data.errmsg,"no")
+                        }
+                    }
+                },
+                error: function (e) {
+                    console.log("ajax err:", e)
+                },
+                dataType: "json"
+            })
+
+        }
+
+
+        $(".col-cont").each(function(i,el){
+            setDataText($(el))
+        })
+
+        function setDataText($el){
+            var $t1 =$el.find(".td-date-input").parents("li").find(".txt");
+            $t1.text($.trim($el.find(".td-date-input").data("date")))
+            var $t2 =$el.find(".td-time-input").parents("li").find(".txt");
+            $t2.text($.trim($el.find(".td-time-input").data("time")))
+
+            var $t3 =$el.find(".category-sel").parents("li").find(".txt");
+            $t3.text($.trim($el.find(".category-sel").find("option:selected").text()))
+
+            var $t4 =$el.find(".grade").parents("li").find(".txt");
+            // console.log($el.find(".grade").find("select").not(".none").find("option:selected").text())
+            $t4.text($.trim($el.find(".grade").find("select").not(".none").find("option:selected").text()))
+
+            var $t5 =$el.find(".name-input").parents("li").find(".txt");
+            $t5.text($.trim($el.find(".name-input").val()))
+        }
+
+        $('body').on('click', '.del-btn', function() {
+
+
+
+            var rid = $(this).parents("ul").data("rid") || 0;
+            if(rid){
+                var userId = {{.Userinfo.UID}}
+                var yId = $(this).data("id")
+
+                if(!userId){
+                    alert("err: 用户信息错误");
+                    return false
+                }else if(!yId){
+                    alert("err: 用户信息错误");
+                    return false
+                }
+                if(yId == userId){
+
+                    // var isDel = confirm("是否确认删除");
+                    jkyConfirm("是否确认删除",function () {
+                        var data = {}
+                        data.rid = rid;
+                        $.ajax({
+                            url: "/record/nr8/delete",
+                            data: data,
+                            type: "POST",
+                            success: function (data) {
+                                console.log(data);
+                                if (data) {
+                                    switch (data.result) {
+                                        case 0:
+                                            location.reload();
+                                            break;
+                                        default:
+                                            // alert(data.errmsg)
+                                            jkyAlert(data.errmsg,"no")
+                                    }
+                                }
+                            },
+                            error: function (e) {
+                                console.log("ajax err:", e)
+                            },
+                            dataType: "json"
+                        })
+                    })
+
+                }else{
+                    // alert("您没有权限删除！");
+                    jkyAlert("您没有权限删除！","no")
+                    return false
+                }
+
+
+
+
+
+            }else{
+                $(this).parents("ul").remove()
+                $cont = $("#tab-list2");
+                // 是否过页
+                var isPage = $(this).parents("ul").find(".save-btn").data("isjump").toString();
+                if(isPage=="1"){
+                    $(".doc-table").addClass("none")
+                    $(".doc-table").not(".newPage").removeClass("none");
+
+                    $(".pageSum").text(parseInt($(".pageSum").text())-1)
+                    $(".pageNum").val(parseInt($(".pageSum").text()))
+                }
+
+
+            }
+
+
+        })
+
+
+        $('body').on('change', '.category-sel', function() {
+            $('.grade').find('select').addClass("none")
+            $('.grade').find('.type' + $(this).val()).removeClass("none")
+        })
+
+        $("body").on("change",".grade select",function(){
+            // console.log($(this).parents("ul").find(".grade select").not($(this)));
+            $(this).parents("ul").find(".grade select").not($(this)).val("0")
+        })
+    </script>
+
+    <script>
+        $(function () {
+            // 起止时间
+            var hospitalDate = {{.PInfo.HospitalDate}};
+            hospitalDate = hospitalDate.substr(0, 10);
+            var nowDate = nowDateObj.date;
+
+            var date1, date2 = 0;
+            var a = new Date(hospitalDate);
+            date1 = a.getTime();
+            var b = new Date(nowDate);
+            date2 = b.getTime();
+
+            var sdate = getURLParam("sdate");
+            var edate = getURLParam("edate");
+            if (sdate == null || sdate == "0" || edate == null ||  edate == "0") {
+                sdate = hospitalDate;
+                edate = nowDate;
+            } else {
+                date1 = sdate;
+                date2 = edate;
+
+                sdate = fromatDate(parseInt(sdate)).date;
+                edate = fromatDate(parseInt(edate)).date;
+            }
+
+
+            laydate.render({
+                elem: '#date1', //指定元素
+                showBottom: false,
+                min:{{.PInfo.HospitalDate}},
+                max:nowDateObj.date,
+                value: sdate,
+                done: function(value, date, endDate) {
+                    var a = new Date(value);
+                    date1 = a.getTime();
+                    // reloadSheet();
+                }
+            });
+
+            laydate.render({
+                elem: '#date2', //指定元素
+                showBottom: false,
+                value: edate,
+                min:"{{.PInfo.HospitalDate}}",
+                max: nowDateObj.date,
+                done: function(value, date, endDate) {
+
+                    var a = new Date(value);
+                    date2 = a.getTime();
+                    console.log("date ", date1, date2);
+                    // reloadSheet();
+                }
+            });
+
+            $("#time-search-btn").on("click",function(){
+                reloadSheet();
+            })
+            // 总页数
+            var pagenum = parseInt({{.PageNum}});
+            // 当前页数
+            var index = parseInt({{.PageIndex}});
+            var pid = parseInt({{.PInfo.VAA01}});
+
+            var baseurl = "/pc/record/nrl8?";
+
+            console.log("hhee--" + pid + "--" + index + "--" + pagenum);
+            var  tempindex = index;
+            $("#leftLast-btn").on("click",function () {
+                tempindex = 1;
+                reloadSheet()
+            });
+
+            $("#left-btn").on("click",function () {
+                if (index <= 1) {
+                    tempindex = 1;
+                } else {
+                    tempindex = index-1;
+                }
+                reloadSheet();
+            });
+
+            $("#right-btn").on("click",function () {
+                if (index >= pagenum) {
+                    tempindex = pagenum;
+                } else {
+                    tempindex = index+1;
+                }
+                reloadSheet();
+            });
+
+
+            $("#rightLast-btn").on("click",function () {
+                tempindex = pagenum;
+                reloadSheet()
+            });
+
+            $("#go-btn").on("click", function () {
+                var val = $(".pageNum").val();
+                tempindex = val;
+                reloadSheet()
+            });
+
+            function reloadSheet() {
+                if($(".col-cont.active").length>0){
+                    // alert("请先保存数据！");
+                    jkyAlert("请先保存数据！","no")
+                    return false;
+                }
+                index = tempindex;
+                window.location.href =  baseurl + "pid=" + pid + "&num=" + index + "&sdate=" + date1 + "&edate=" + date2;
+            };
+
+            $(".user-list").on("click", "li", function () {
+                pid = $(this).data('msg');
+                //console.log($(this).data('msg'));                
+                window.location.href = baseurl + "pid=" + pid ;
+            });
+            //打印
+            $(".print").on("click", function () {
+                // 起止时间
+                var hospitalDate = {{.PInfo.HospitalDate}};
+                hospitalDate = hospitalDate.substr(0, 10);
+                var nowDate = nowDateObj.date;
+
+                var date1, date2 = 0;
+                var a = new Date(hospitalDate);
+                date1 = a.getTime();
+                var b = new Date(nowDate);
+                date2 = b.getTime();
+
+
+                var sdate = getURLParam("sdate");
+                var edate = getURLParam("edate");
+                console.log("----", sdate, edate);
+                if (sdate == null || sdate == "0" || edate == null || edate == "0") {
+                    sdate = hospitalDate;
+                    edate = nowDate;
+                } else {
+                    date1 = sdate;
+                    date2 = edate;
+
+                    sdate = fromatDate(parseInt(sdate)).date;
+                    edate = fromatDate(parseInt(edate)).date;
+                }
+                window.open("/pc/nrl8print?pid=" + {{.PInfo.VAA01}}+"&num=-1&sdate=" + date1 + "&edate=" + date2);
+            });
+
+        });
+    </script>
+
+    <script>
+        var nowD = getNowDateTime();
+        var datestr = nowD.date;
+        var timestr = nowD.time;
+        var username = {{.Userinfo.Name}}; // 护士姓名
+        $(".btn.type2.createCol").on("click", function () {
+
+            if($(".col-cont.active").length>0){
+                // alert("请先保存数据！")
+                jkyAlert("请先保存数据！","no")
+                return false;
+            }
+            var $cont = $("#tab-list");
+            var isJump = "0";
+            // if($(".col-cont").length>=9){
+            if($(".col-cont").length>=9){
+                $cont = $("#tab-list2");
+                $(".doc-table").addClass("none")
+                $(".newPage.doc-table").removeClass("none")
+                isJump = "1";
+                $(".pageSum").text(parseInt($(".pageSum").text())+1)
+                $(".pageNum").val(parseInt($(".pageSum").text()))
+            }
+
+
+            var data = {
+                datestr:datestr,
+                timestr:timestr,
+                username:username,
+                isJump:isJump
+            }
+            var html = template("col",data);
+
+            $cont.append(html)
+            lay('.td-date-input').each(function() {
+                var dateV = $(this).data("date"),
+                        $self=$(this);
+                laydate.render({
+                    elem: this,
+                    showBottom: false,
+                    value: dateV,
+                    min:"{{.PInfo.HospitalDate}}",
+                    max: nowDateObj.date,
+                    done: function(value, date, endDate) {
+                        $self.data("date",value)
+                    }
+                });
+            });
+            lay('.td-time-input').each(function() {
+                var timeV = $(this).data("time"),
+                        $self=$(this);
+                laydate.render({
+                    elem: this,
+                    type: 'time',
+                    format: 'HH:mm',
+                    btns: ['confirm'],
+                    value: timeV,
+                    done: function(value, date, endDate) {
+                        $self.data("time",value)
+                    }
+                });
+            });
+        });
+
+        // for (var i = 1; i < 10; i++) {
+        //     $(".list ul").find(".c"+i).find("option:selected").each(function(i,el){
+        //         // console.log("??")
+        //         $(el).parents("li").find(".txt").text($(el).text())
+        //     })
+        // }
+
+
+        lay('.td-date-input').each(function() {
+            var dateV = $(this).data("date"),
+                    $self=$(this);
+            laydate.render({
+                elem: this,
+                showBottom: false,
+                value: dateV,
+                done: function(value, date, endDate) {
+                    $self.data("date",value)
+                }
+            });
+        });
+        lay('.td-time-input').each(function() {
+            var timeV = $(this).data("time"),
+                    $self=$(this);
+            laydate.render({
+                elem: this,
+                type: 'time',
+                format: 'HH:mm',
+                btns: ['confirm'],
+                value: timeV,
+                done: function(value, date, endDate) {
+                    $self.data("time",value)
+                }
+            });
+        });
+
+        $("body").on("click",".cancel-btn",function(){
+            if($(this).data("isnew") && $(this).data("isnew") !="0"){
+                location.reload()
+            }else{
+                $(this).parents(".col-cont").removeClass("active")
+            }
+        })
+
+
+        ;(function (){
+            var $this=null,reqData=null
+            $("body").on("click",".auditingName",function(){
+                $this = $(this);
+
+                if ($('.list').find('ul.active').length > 0) {
+                    // alert("请先保存信息")
+                    jkyAlert("请先保存信息", "no")
+                }else{
+                    var rid = $this.data("rid")
+                    reqData = {
+                        "nrltype":"8",
+                        "rid": rid
+                    }
+                    var api = "/record/nrl/updatechecker"
+                    if(rid){
+                        var valTxt = $.trim($this.parents("li").find(".txt").text());
+                        jkyPrompt({
+                            txt:"审核人签名",
+                            valTxt:valTxt,
+                            maxlength:10
+                        }, function(data){
+                            data= $.trim(data)
+                            if(data){
+                                reqData["nurseName"] = data
+                                req(api,reqData,function(resData){
+                                    $this.parents("li").find(".txt").text(data)
+                                    // reqData = null;
+                                    // $this= null;
+                                })
+
+                            }
+                        },function(){
+                            $("#jky-prompt-input").val("")
+                        })
+
+
+                    }else{
+                        jkyAlert("意外错误！","no")
+                    }
+                }
+            })
+        })()
+
+    </script>
+</body>
+
+</html>

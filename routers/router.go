@@ -41,6 +41,7 @@ func pdalist() {
 	fit.Router().AddRouter("/bedlist", new(handler.BedListController))
 	fit.Router().AddRouter("/departments", new(handler.DepartmentController))
 	fit.Router().AddRouter("/patient/info", new(handler.PatientInfoController))
+	fit.Router().AddRouter("/patient/entry/record",new(handler.PatientInfoController), "post:UpdateEntry")
 
 	//医嘱
 	fit.Router().AddRouter("/madvice/search", new(handler.MedicalAdviceController),"post:Search")

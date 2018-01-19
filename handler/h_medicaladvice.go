@@ -106,7 +106,7 @@ func (c MedicalAdviceController) ExecDetail(w *fit.Response, r *fit.Request, p f
 	ext := r.FormValue("ext")
 	exc := r.FormValue("exc")
 
-	fit.Logger().LogDebug("***JK***",r.Form)
+	//fit.Logger().LogDebug("***JK***",r.Form)
 
 	if gid == "" || ext == "" || exc == "" {
 		c.RenderingJsonAutomatically(1, "参数不完整")
@@ -194,6 +194,7 @@ func (c MedicalAdviceController) Execute(w *fit.Response, r *fit.Request, p fit.
 	period := r.FormValue("period")
 	process := r.FormValue("process")
 
+	fit.Logger().LogDebug("***JK***",r.Form)
 
 	if vid == "" || madid == "" || state == "" || ext == "" || execCycle == "" || nid == "" || process == "" || period == "" || exectime == "" {
 		c.RenderingJsonAutomatically(1, "参数不完整")
@@ -250,9 +251,7 @@ func (c MedicalAdviceController) Execute(w *fit.Response, r *fit.Request, p fit.
 	}
 
 	mAdvice := model.MedicalAdviceModal{}
-	//fit.SQLServerEngine().ShowSQL(true)
 	_, err_sql := fit.SQLServerEngine().SQL(fmt.Sprintf("SELECT d.* FROM( SELECT a.VAF06 Vid, a.VAF01 MadId, c.VAA01 Pid, c.BCQ04B Bed, c.VAE95 PName,CAST(c.VAE46 as varchar(10)) Age, c.VAE94 HospNum, CASE c.VAE96 WHEN 1 THEN '男' WHEN 2 THEN '女' ELSE '未知' END AS Gender, b.VBI10 ExTime, a.VAF59 GroupNum, a.VAF22 Content, CASE a.VAF19 WHEN '' THEN '-' ELSE a.VAF19 END Dosage, a.VAF21 Amount, a.VAF26 Frequency, CASE WHEN DATEDIFF(DAY, a.VAF36, b.VBI10) = 0 THEN CAST(a.VAF61 AS INT) ELSE CAST(a.VAF27 AS INT) END Times, a1.VAF22 Method, a.VAF60 Speed, a.VAF11 TypeV, CASE a.VAF11 WHEN 1 THEN '长嘱' WHEN 2 THEN '临嘱' END AS TypeOf, a.VAF36 StTime, CASE WHEN a.VAF10 = 3 THEN '未停' WHEN a.VAF10 = 4 THEN '已作废' WHEN a.VAF10 >= 8 THEN '已停' ELSE '其它' END AS MStatus, a.VAF10 MStatusV, e.BDA02 Category, a.BDA01 CategoryV, CASE WHEN a2.BBX20 = 0 THEN '口服单' WHEN a2.BBX20 = 1 THEN '注射单' WHEN(a2.BBX20 = 2) OR(a2.BBX20 = 4) THEN '输液单' WHEN a2.BBX20 = 3 THEN '治疗单' WHEN a2.BBX20 = 5 THEN '输血单' WHEN a2.BBX20 = 6 THEN '护理单' END AS PtType, a.CBM01 PtNum, a.Rownr PtRownr, a.VAF23 Entrust, a.BCE03A Physician, a.VAF47 EdTime, b.BCE03A Sender FROM VAF2 a LEFT JOIN VAF2 a1 ON a.VAF01A = a1.VAF01 LEFT JOIN BBX1 a2 ON a1.BBX01 = a2.BBX01 JOIN VBI2 b ON a.VAF01 = b.VAF01 JOIN VAE1 c ON a.VAF06 = c.VAE01 LEFT JOIN BDA1 e ON a.BDA01 = e.BDA01 WHERE a.VAF06 = %d AND a.VAF01 = %d AND DATEDIFF(SECOND, b.VBI10, '%s') = 0) d ORDER BY d.TypeV, d.ExTime, d.PtNum, d.GroupNum, d.PtRownr ", vid_i, mid, ext)).Get(&mAdvice)
-	//fit.SQLServerEngine().ShowSQL(false)
 	if err_sql != nil {
 		fit.Logger().LogError("***JK***", err_sql)
 	}
@@ -311,6 +310,12 @@ func (c MedicalAdviceController) Execute(w *fit.Response, r *fit.Request, p fit.
 		Plan:      obj.ExTime,
 	}
 
+	// 先扫瓶签，再重复扫腕带会重复执行，所以需要过滤掉重复数据
+	if isExist := model.IsExistRecord(true, "advicedetail", fmt.Sprintf("Madid = %d and Plan = '%s' and ExCycle = %d and Process = '%s'", mid, ext, exc, execution.Process)); isExist.Exist == 1 {
+		c.RenderingJsonAutomatically(5, "请勿重复执行")
+		return
+	}
+
 	if isExist := model.IsExistRecord(true, "medicaladvice", fmt.Sprintf("Madid = %d and ExTime = '%s' and ExCycle = %d ", mid, ext, exc)); isExist.Exist == 0 {
 		_, err_in := fit.MySqlEngine().Table("medicaladvice").InsertOne(&obj)
 		if err_in != nil {
@@ -325,6 +330,7 @@ func (c MedicalAdviceController) Execute(w *fit.Response, r *fit.Request, p fit.
 		}
 	}
 
+	// 如果没有重复数据，则插入执行记录
 	_, err_in := fit.MySqlEngine().Table("advicedetail").Insert(&execution)
 	if err_in != nil {
 		fit.Logger().LogError("***JK***", err_in.Error())

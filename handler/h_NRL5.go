@@ -83,15 +83,17 @@ func (c PCNRL5Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Param
 	date1, errs := strconv.ParseInt(r.FormValue("sdate"), 10, 64)
 	date2, erre := strconv.ParseInt(r.FormValue("edate"), 10, 64)
 	if errs != nil || erre != nil {
-		datestr1 = pInfo.VAE11.ParseToSecond()
-		datestr2 = time.Now().Format("2006-01-02 15:04:05")
-
-		date1 := time.Time(pInfo.VAE11).Unix() * 1000
-		date2 := time.Now().Unix() * 1000
-		paramstr := fmt.Sprintf("&sdate=%d&edate=%d", date1, date2)
-		urlstr := r.URL.String() + paramstr
-		c.Redirect(w, r, urlstr, 302)
-		return
+		//datestr1 = pInfo.VAE11.ParseToSecond()
+		//datestr2 = time.Now().Format("2006-01-02 15:04:05")
+		//
+		//date1 := time.Time(pInfo.VAE11).Unix() * 1000
+		//date2 := time.Now().Unix() * 1000
+		//paramstr := fmt.Sprintf("&sdate=%d&edate=%d", date1, date2)
+		//urlstr := r.URL.String() + paramstr
+		//c.Redirect(w, r, urlstr, 302)
+		//return
+		datestr1 = ""
+		datestr2 = ""
 	} else {
 		datestr1 = time.Unix(date1/1000, 0).Format("2006-01-02 15:04:05")
 		datestr2 = time.Unix(date2/1000+60*60*24 - 1, 0).Format("2006-01-02 15:04:05")

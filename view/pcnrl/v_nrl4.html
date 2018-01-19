@@ -1,0 +1,1298 @@
+{{template "header_top" .}}
+<!-- end page -->
+<div class="admin">
+    <!--<div class="am-g">-->
+    <!-- ========== Left Sidebar Start ========== -->
+    <!--<div class="left side-menu am-hide-sm-only am-u-md-1 am-padding-0">
+        <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 548px;">
+            <div class="sidebar-inner slimscrollleft" style="overflow: hidden; width: auto; height: 548px;">-->
+    <!-- sidebar start -->
+{{template "header_side" .}}
+    <!-- sidebar end -->
+    <!--</div>
+        </div>
+    </div>-->
+    <!-- ========== Left Sidebar end ========== -->
+    <!--	<div class="am-g">-->
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <div class="content-page jky-table-page doc-input1" data-index="1">
+        <div class="s-btn">
+            <!-- <img src="/static/dist/images/admin_pc/icon22.png" alt=""> -->
+        </div>
+        <div class="user-bar">
+            <div class="tit">
+                <div class="l">
+                    床号
+                </div>
+                <div class="r">
+                    姓名
+                </div>
+            </div>
+            <div class="user-list">
+                <ul>
+                {{range $key, $val := .Beds}}
+                    <li data-id="{{$key}}" data-msg="{{$val.VAA01}}"
+                        class="{{if eq  $.PInfo.VAA01 $val.VAA01}}active{{end}}">
+                        <div class="l">
+                            <label>{{$val.BCQ04}}</label>
+                        </div>
+                        <div class="r">
+                        {{$val.VAA05}}
+                        </div>
+                    </li>
+                {{end}}
+                </ul>
+            </div>
+        </div>
+        <!-- Start content -->
+        <div class="content doc-input3-cont">
+            <div class="tit-warp">
+                <div class="tit-bar">
+                    <div class="date-box fl">
+                        <div class="icon">
+                            <img src="/static/dist/images/admin_pc/icon20.png" alt="">
+                        </div>
+                        <input type="text" class="am-form-field  date-input" id="date1">
+                        <span class="line">—</span>
+                        <input type="text" class="am-form-field  date-input" id="date2">
+                        <div id="time-search-btn" class="btn-search">搜索</div>
+
+                        <a href="/pc/record/nrl4?pid={{.PInfo.VAA01}}" class="all-btn">所有记录</a>
+                    </div>
+                    <div class="btn-group">
+                    {{ if eq .PageNum .PageIndex}}
+                        <a class="btn type2 createCol">新建</a>
+                    {{end}}
+                        <a class="btn print">打印</a>
+                    </div>
+                    <p class="tit">深圳万丰医院深静脉血栓(DVT)形成风险评估表</p>
+
+
+                </div>
+            </div>
+            <div class="scroll-box">
+                <div class="doc-cont">
+                    <p class="row-txt">
+                        <span><label>床号：</label>{{.PInfo.BCQ04}}</span>
+                        <span><label>姓名：</label>{{.PInfo.VAA05}}</span>
+                        <span><label>性别：</label>{{.PInfo.Gender}}</span>
+                        <span><label>年龄：</label>{{.PInfo.VAA10}}岁</span>
+                        <span><label>住院号：</label>{{.PInfo.VAA04}}</span>
+                        <span><label>诊断：</label>{{.PInfo.VAO15}}</span>
+                    </p>
+
+                    <!-- cont -->
+                    <table class="doc-table">
+                        <tr class="tit-tr">
+                            <td>
+                                <div class="cont-warp">项目</div>
+                            </td>
+                            <td>
+                                <div class="cont-warp">评分</div>
+                            </td>
+                            <td>
+                                <div class="cont-warp">评估标准</div>
+                            </td>
+                        </tr>
+                        <tr class="tr1">
+                            <td>
+                                <div class="cont-warp">年龄(岁)</div>
+                            </td>
+                            <td>
+                                <div class="cont-warp">
+                                    <p>0</p>
+                                    <p>1</p>
+                                    <p>2</p>
+                                    <p>3</p>
+                                    <p>4</p>
+                                    <p>5</p>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="cont-warp">
+                                    <p>10---30岁</p>
+                                    <p>31---40岁</p>
+                                    <p>41---50岁</p>
+                                    <p>51---60岁</p>
+                                    <p>61---70岁</p>
+                                    <p>&gt;70岁</p>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr2">
+                            <td>
+                                <div class="cont-warp">BMI= 体重（kg）/身高（m）^2</div>
+                            </td>
+                            <td>
+                                <div class="cont-warp">
+                                    <p>0</p>
+                                    <p>1</p>
+                                    <p>2</p>
+                                    <p>3</p>
+                                    <p>4</p>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="cont-warp">
+                                    <p>16---19</p>
+                                    <p>20---25</p>
+                                    <p>26---30</p>
+                                    <p>31---40</p>
+                                    <p>&gt;40</p>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr3">
+                            <td>
+                                <div class="cont-warp">运动能力</div>
+                            </td>
+                            <td>
+                                <div class="cont-warp">
+                                    <p>0</p>
+                                    <p>1</p>
+                                    <p>2</p>
+                                    <p>3</p>
+                                    <p>4</p>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="cont-warp">
+                                    <p>能走动</p>
+                                    <p>运动受限(需要辅助工具)</p>
+                                    <p>运动严重受限(需要他人协助)</p>
+                                    <p>轮椅</p>
+                                    <p>完全卧床</p>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr4">
+                            <td>
+                                <div class="cont-warp">特殊风险种类</div>
+                            </td>
+                            <td>
+                                <div class="cont-warp">
+                                    <p>&nbsp;</p>
+                                    <p>1</p>
+                                    <p>2</p>
+                                    <p>3</p>
+                                    <p>4</p>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="cont-warp">
+                                    <p>服用避孕药</p>
+                                    <p>20 ~ 35岁</p>
+                                    <p>大于35岁或激素替代治疗</p>
+                                    <p>怀孕及产褥期</p>
+                                    <p>易栓症</p>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr5">
+                            <td>
+                                <div class="cont-warp">创伤风险种类（术前）</div>
+                            </td>
+                            <td>
+                                <div class="cont-warp">
+                                    <p>1</p>
+                                    <p>2</p>
+                                    <p>3</p>
+                                    <p>4</p>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="cont-warp">
+                                    <p>头部损伤或胸部损伤</p>
+                                    <p>脊柱损伤</p>
+                                    <p>盆腔损伤</p>
+                                    <p>下肢损伤</p>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="tr6">
+                            <td>
+                                <div class="cont-warp">外科干预</div>
+                            </td>
+                            <td>
+                                <div class="cont-warp">
+                                    <p>1</p>
+                                    <p>2</p>
+                                    <p>3</p>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="cont-warp">
+                                    <p>小手术小于30分钟</p>
+                                    <p>择期大型手术</p>
+                                    <p>急诊大手术、腹部手术、泌尿科手术、神经外科手术</p>
+                                </div>
+
+                            </td>
+                        </tr>
+                        <tr class="tr7">
+                            <td>
+                                <div class="cont-warp">现有的高风险疾病</div>
+                            </td>
+                            <td>
+                                <div class="cont-warp">
+                                    <p>1</p>
+                                    <p>2<br/>&nbsp;
+                                    </p>
+                                    <p>3</p>
+                                    <p>4</p>
+                                    <p>5</p>
+                                    <p>6</p>
+                                    <p>7</p>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="cont-warp">
+                                    <p>溃疡性结石肠炎</p>
+                                    <p>红血球增多症、镰状细胞贫血、溶血性贫血 </p>
+                                    <p>静脉曲张、慢性心脏疾病</p>
+                                    <p>急性心肌梗塞 </p>
+                                    <p>恶性肿瘤（活性） </p>
+                                    <p>脑血管意外 </p>
+                                    <p>DVT病史 </p>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="bt-tit">
+                            <td colspan="3">
+                                <div class="cont-warp">
+                                    总得分
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="bt-tit2">
+                            <td colspan="3">
+                                <div class="cont-warp">
+                                    评估人
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="bt-tit4">
+                            <td colspan="3">
+                                <div class="cont-warp">
+                                    操作
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="sel-box">
+                        <div class="tit">
+                            评估日期
+                        </div>
+                        <ul class="line-box">
+                            <li class="tr11">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr1">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr3">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr4">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr5">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr6">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr7">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="bt-tit">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="bt-tit2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="bt-tit4">
+                                <div class="cont-warp"></div>
+                            </li>
+                        </ul>
+                        <div class="list" id="tab-list">
+                        {{range $k, $val := .NRLList}}
+                            <ul class="data-col" data-rid="{{$val.ID}}">
+                                <li class="tr11">
+                                    <div class="cont-warp">
+                                        <p class="txt" style="line-height:45px; ">{{$val.DateStr}}</p>
+                                        <div class="sel-input">
+                                            <input class="td-date-input" value="{{$val.DateStr}}"
+                                                   data-date="{{$val.DateStr}}"/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="tr1 fen-item">
+                                    <div class="cont-warp">
+                                        <p class="txt"></p>
+                                        <div class="sel-input">
+                                            <select class="c1">
+                                                <option value="0"></option>
+                                                <option value="1" {{if eq $val.NRL01 1}}selected{{end}}>0</option>
+                                                <option value="2" {{if eq $val.NRL01 2}}selected{{end}}>1</option>
+                                                <option value="3" {{if eq $val.NRL01 3}}selected{{end}}>2</option>
+                                                <option value="4" {{if eq $val.NRL01 4}}selected{{end}}>3</option>
+                                                <option value="5" {{if eq $val.NRL01 5}}selected{{end}}>4</option>
+                                                <option value="6" {{if eq $val.NRL01 6}}selected{{end}}>5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="tr2 fen-item">
+                                    <div class="cont-warp">
+                                        <p class="txt"></p>
+                                        <div class="sel-input">
+                                            <select class="c2">
+                                                <option value="0"></option>
+                                                <option value="1" {{if eq $val.NRL02 1}}selected{{end}}>0</option>
+                                                <option value="2" {{if eq $val.NRL02 2}}selected{{end}}>1</option>
+                                                <option value="3" {{if eq $val.NRL02 3}}selected{{end}}>2</option>
+                                                <option value="4" {{if eq $val.NRL02 4}}selected{{end}}>3</option>
+                                                <option value="5" {{if eq $val.NRL02 5}}selected{{end}}>4</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="tr3 fen-item">
+                                    <div class="cont-warp">
+                                        <p class="txt"></p>
+                                        <div class="sel-input">
+                                            <select class="c3">
+                                                <option value="0"></option>
+                                                <option value="1" {{if eq $val.NRL03 1}}selected{{end}}>0</option>
+                                                <option value="2" {{if eq $val.NRL03 2}}selected{{end}}>1</option>
+                                                <option value="3" {{if eq $val.NRL03 3}}selected{{end}}>2</option>
+                                                <option value="4" {{if eq $val.NRL03 4}}selected{{end}}>3</option>
+                                                <option value="5" {{if eq $val.NRL03 5}}selected{{end}}>4</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="tr4 fen-item">
+                                    <div class="cont-warp">
+                                        <p class="txt"></p>
+                                        <div class="sel-input">
+                                            <select class="c4">
+                                                <option value="0"></option>
+
+                                                <option value="1" {{if eq $val.NRL04 1}}selected{{end}}>1</option>
+                                                <option value="2" {{if eq $val.NRL04 2}}selected{{end}}>2</option>
+                                                <option value="3" {{if eq $val.NRL04 3}}selected{{end}}>3</option>
+                                                <option value="4" {{if eq $val.NRL04 4}}selected{{end}}>4</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="tr5 fen-item">
+                                    <div class="cont-warp">
+                                        <p class="txt"></p>
+                                        <div class="sel-input">
+                                            <select class="c5">
+                                                <option value="0"></option>
+                                                <option value="1" {{if eq $val.NRL05 1}}selected{{end}}>1</option>
+                                                <option value="2" {{if eq $val.NRL05 2}}selected{{end}}>2</option>
+                                                <option value="3" {{if eq $val.NRL05 3}}selected{{end}}>3</option>
+                                                <option value="4" {{if eq $val.NRL05 4}}selected{{end}}>4</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="tr6 fen-item">
+                                    <div class="cont-warp">
+                                        <p class="txt"></p>
+                                        <div class="sel-input">
+                                            <select class="c6">
+                                                <option value="0"></option>
+                                                <option value="1" {{if eq $val.NRL06 1}}selected{{end}}>1</option>
+                                                <option value="2" {{if eq $val.NRL06 2}}selected{{end}}>2</option>
+                                                <option value="3" {{if eq $val.NRL06 3}}selected{{end}}>3</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="tr7 fen-item">
+                                    <div class="cont-warp">
+                                        <p class="txt"></p>
+                                        <div class="sel-input">
+                                            <select class="c7">
+                                                <option value="0"></option>
+
+                                                <option value="1" {{if eq $val.NRL07 1}}selected{{end}}>1</option>
+                                                <option value="2" {{if eq $val.NRL07 2}}selected{{end}}>2</option>
+                                                <option value="3" {{if eq $val.NRL07 3}}selected{{end}}>3</option>
+                                                <option value="4" {{if eq $val.NRL07 4}}selected{{end}}>4</option>
+                                                <option value="5" {{if eq $val.NRL07 5}}selected{{end}}>5</option>
+                                                <option value="6" {{if eq $val.NRL07 6}}selected{{end}}>6</option>
+                                                <option value="7" {{if eq $val.NRL07 7}}selected{{end}}>7</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li class="bt-tit">
+                                    <div class="cont-warp">
+                                        <p class="txt sumFen">
+                                        {{$val.Score}}
+                                        </p>
+                                        <div class="sel-input">
+                                            <p class="sumFen">
+                                            {{$val.Score}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li class="bt-tit2">
+                                    <div class="cont-warp">
+                                        <p class="txt2">{{$val.NurseName}}</p>
+                                    </div>
+                                </li>
+
+                                <li class="bt-tit4">
+                                    <div class="cont-warp">
+
+                                        <a href="#1" class="save-btn" data-isjump="0" data-isnew="0"><span>保存</span></a>
+                                        <a class="cancel-btn" data-isnew="0"><span>取消</span></a>
+                                        <a href="#1" class="edit-btn" data-id="{{$val.NurseId}}">
+                                            <i class="am-icon-pencil"></i><span>编辑</span>
+                                        </a>
+                                        <a href="#1" class="del-btn" data-id="{{$val.NurseId}}"><i
+                                                class="am-icon-trash"></i><span>删除</span></a>
+
+                                    </div>
+                                </li>
+                            </ul>
+                        {{end}}
+                        </div>
+                        <div class="list none" id="tab-list2"></div>
+                    </div>
+                    <!-- 分页栏 -->
+                    <div class="page-bar">
+                        <span>页面位置</span>
+                        <ul>
+                            <li>
+                                <a id="leftLast-btn">
+                                    <img src="/static/dist/images/admin_pc/icon43.png" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                <a id="left-btn">
+                                    <img src="/static/dist/images/admin_pc/icon44.png" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                第<input type="text" class="pageNum" value="{{.PageIndex}}"> 页
+                                <a id="go-btn">Go</a>
+                            </li>
+                            <li>
+                                <a id="right-btn">
+                                    <img src="/static/dist/images/admin_pc/icon45.png" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                <a id="rightLast-btn">
+                                    <img src="/static/dist/images/admin_pc/icon46.png" alt="">
+                                </a>
+                            </li>
+                        </ul>
+                        <span>共<i class="pageSum">{{.PageNum}}</i>页</span>
+                    </div>
+
+                    <!-- 备注 -->
+                    <div class="remarks-box">
+                        <div class="l">
+                            <p class="tit">评分方案：</p>
+                            <p class="txt">≤ 6分无风险；7~10分为低危（关注病情变化，随时评估）；11~14分为中危（第一周评估2次， 此后4周内每周评估一次，之后每月评估一次）；≥15分为高危（手术后3天内每天评估1次，之后接中危病人评估）</p>
+                            <p class="tit">评估时机：</p>
+                            <p class="txt">
+                                患者入院24h内完成
+                            </p>
+                        </div>
+
+                    </div>
+                    <div class="pd-20"></div>
+
+                </div>
+
+            </div>
+        </div>
+        <!-- end right Content here -->
+        <!--</div>-->
+    </div>
+    <!-- </div> -->
+
+
+    <!-- navbar -->
+    <a href="admin-offcanvas" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu"
+       data-am-offcanvas="{target: '#admin-offcanvas'}">
+        <!--<i class="fa fa-bars" aria-hidden="true"></i>--></a>
+
+    <script type="application/json" id="col">
+        <ul class=" data-col active">
+        <li class="tr11">
+        <div class="cont-warp">
+        <p class="txt"><%= datestr%></p>
+        <div class="sel-input">
+        <input type="text" class="td-date-input" data-date="<%= datestr%>"/>
+        </div>
+        </div>
+        </li>
+        <li class="tr1 fen-item">
+        <div class="cont-warp">
+        <p class="txt"></p>
+        <div class="sel-input">
+        <select class="c1">
+        <option value="0"></option>
+        <option value="1">0</option>
+        <option value="2">1</option>
+        <option value="3">2</option>
+        <option value="4">3</option>
+        <option value="5">4</option>
+        <option value="6">5</option>
+        </select>
+        </div>
+        </div>
+        </li>
+        <li class="tr2 fen-item">
+        <div class="cont-warp">
+        <p class="txt"></p>
+        <div class="sel-input">
+        <select class="c2">
+        <option value="0"></option>
+        <option value="1">0</option>
+        <option value="2">1</option>
+        <option value="3">2</option>
+        <option value="4">3</option>
+        <option value="5">4</option>
+        </select>
+        </div>
+        </div>
+        </li>
+        <li class="tr3 fen-item">
+        <div class="cont-warp">
+        <p class="txt"></p>
+        <div class="sel-input">
+        <select class="c3">
+        <option value="0"></option>
+        <option value="1">0</option>
+        <option value="2">1</option>
+        <option value="3">2</option>
+        <option value="4">3</option>
+        <option value="5">4</option>
+        </select>
+        </div>
+        </div>
+        </li>
+        <li class="tr4 fen-item">
+        <div class="cont-warp">
+        <p class="txt"></p>
+        <div class="sel-input">
+        <select class="c4">
+        <option value="0"></option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        </select>
+        </div>
+        </div>
+        </li>
+        <li class="tr5 fen-item">
+        <div class="cont-warp">
+        <p class="txt"></p>
+        <div class="sel-input">
+        <select class="c5">
+        <option value="0"></option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        </select>
+        </div>
+        </div>
+        </li>
+        <li class="tr6  fen-item">
+        <div class="cont-warp">
+        <p class="txt"></p>
+        <div class="sel-input">
+        <select class="c6">
+        <option value="0"></option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        </select>
+        </div>
+        </div>
+        </li>
+        <li class="tr7  fen-item">
+        <div class="cont-warp">
+        <p class="txt"></p>
+        <div class="sel-input">
+        <select class="c7">
+        <option value="0"></option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        </select>
+        </div>
+        </div>
+        </li>
+        <li class="bt-tit">
+        <div class="cont-warp">
+        <p class="txt sumFen"></p>
+        <div class="sel-input">
+        <p class="sumFen"></p>
+        </div>
+        </div>
+        </li>
+        <li class="bt-tit2">
+        <div class="cont-warp">
+        <p class="txt2"><%=username%></p>
+        </div>
+        </li>
+        <li class="bt-tit4">
+        <div class="cont-warp">
+        <a href="#1" class="save-btn" data-isjump="<%= isJump %>" data-isnew="1"><span>保存</span></a>
+        <a class="cancel-btn" data-isnew="1"><span>取消</span></a>
+        <a href="#1" class="edit-btn">
+        <i class="am-icon-pencil"></i><span>编辑</span>
+        </a>
+        <a href="#1" class="del-btn"><i class="am-icon-trash"></i><span>删除</span></a>
+        </div>
+        </li>
+        </ul>
+    </script>
+
+    <script type="text/javascript" src="/static/dist/js/lib/jquery.min.js"></script>
+    <!--框架js-->
+    <script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/amazeui.min.js"></script>
+
+    <!--前端模板引擎-->
+    <script src="/static/dist/js/lib/template-web.js"></script>
+    <script src="/static/dist/js/lib/laydate/laydate.js"></script>
+    <script type="text/javascript" src="/static/common.js"></script>
+    <!--<script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/charts/echarts.min.js" ></script>-->
+    <!--<script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/charts/indexChart.js" ></script>-->
+    <script>
+        //打印
+        $(".print").on("click", function () {
+
+            // 起止时间
+            var hospitalDate = {{.PInfo.HospitalDate}};
+            hospitalDate = hospitalDate.substr(0, 10);
+            var nowDate = nowDateObj.date;
+
+            var date1, date2 = 0;
+            var a = new Date(hospitalDate);
+            date1 = a.getTime();
+            var b = new Date(nowDate);
+            date2 = b.getTime();
+
+
+            var sdate = getURLParam("sdate");
+            var edate = getURLParam("edate");
+            console.log("----", sdate, edate);
+            if (sdate == null || sdate == "0" || edate == null || edate == "0") {
+                sdate = hospitalDate;
+                edate = nowDate;
+            } else {
+                date1 = sdate;
+                date2 = edate;
+
+                sdate = fromatDate(parseInt(sdate)).date;
+                edate = fromatDate(parseInt(edate)).date;
+            }
+            window.open("/pc/nrl4print?pid=" + {{.PInfo.VAA01}}+"&num=-1&sdate=" + date1 + "&edate=" + date2);
+        });
+        var nowDateObj = fromatDate();
+
+        var $inputNum = $('.tit2,.tit3,.tit4').find('input')
+        $inputNum.on('input', throttle(function () {
+            if (isNaN(parseFloat($(this).val()))) {
+                $(this).val("")
+            } else {
+                $(this).val(parseFloat($(this).val()))
+            }
+        }, 500, {
+            leading: false, //配置第一次不立即执行 true 第一次执行 false 第一次不执行
+            trailing: true // 是否抛弃 还是 往后堆积
+        }))
+
+
+        function toggleTar() {
+            if ($('.top48').hasClass('small-type')) {
+                $('.top48').removeClass('small-type')
+                $('.jky_sidebar').removeClass('small-type')
+            } else {
+                $('.top48').addClass('small-type')
+                $('.jky_sidebar').addClass('small-type')
+            }
+        }
+
+
+        $('.s-btn').on('click', function () {
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+                $('.user-bar').show();
+                $('.doc-input3-cont').css('margin-left', 162)
+            } else {
+                $(this).addClass('active');
+                $('.doc-input3-cont').css('margin-left', 0)
+                $('.user-bar').hide();
+            }
+        })
+
+
+        // 编辑
+        $('body').on('click', '.edit-btn', function () {
+            var userId = {{.Userinfo.UID}}
+            var yId = $(this).data("id")
+
+            if (!userId) {
+                alert("err: 用户信息错误");
+                return false
+            } else if (!yId) {
+                alert("err: 用户信息错误");
+                return false
+            }
+            if (yId == userId) {
+                if ($('.list').find('ul.active').length > 0) {
+                    // alert("请先保存信息")
+                    jkyAlert("请先保存信息","no")
+                } else {
+                    var $ul = $(this).parents('ul')
+                    $ul.addClass("active")
+
+                    // $date = $("<input class='date-input-td'>")
+                    // $ul.find('.tr11').find('.cont-warp').find('.sel-input').html($date)
+                }
+            } else {
+                // alert("您没有权限编辑！");
+                jkyAlert("您没有权限编辑!","no")
+            }
+
+        })
+
+        // 填值
+        function setDataText($el) {
+            var $t1 = $el.find(".td-date-input").parents("li").find(".txt");
+            $t1.text($.trim($el.find(".td-date-input").data("date")))
+
+            for (var i = 1; i < 8; i++) {
+                var $t = $el.find(".c" + i).parents("li").find(".txt");
+                $t.text($.trim($el.find(".c" + i).find("option:selected").text()))
+            }
+
+        }
+
+        // 保存
+        $('body').on('click', '.save-btn', function () {
+
+            var isNew = false;
+            if ($(this).data("isnew") == "1") {
+                isNew = true;
+                api = "/record/nr4/add"
+                typeStr = '保存'
+            } else {
+                api = "/record/nr4/update"
+                typeStr = '修改'
+            }
+
+            var data = {
+                // 护士ID
+                "uid": {{.Userinfo.UID}},
+                // 护士名
+                "username": {{.Userinfo.Name}},
+                //病人id
+                "pid": {{.PInfo.VAA01}},
+                //科室id
+                "did":  {{.PInfo.BCK01C}},
+            }
+
+            var $cont = $(this).parents('ul')
+
+            setDataDateTime(data, $cont)
+
+            setDatavSelect(data, $cont)
+
+            setDatavScore(data, $cont)
+
+            var $this = $(this);
+            if (isNew) { //是编辑还是新建
+                var num = 0;
+                $.each(data, function (i, n) {
+                    num++;
+                })
+                //总共5个固定参数,如果没填长度就为5
+                if (num == 5) {
+                    // alert("请填写内容！")
+                    jkyAlert("请填写内容!","no")
+                    return false;
+                }
+                req(api, data, function () {
+                    // alert("保存成功")
+                    jkyAlert("保存成功","yes",function(){
+                        if ($this.data("isjump") != "1") {
+                            location.reload()
+                        } else {
+                            var baseurl = "/pc/record/nrl4?",
+                                    index = parseInt({{.PageIndex}}) + 1,
+                                    pid = parseInt({{.PInfo.VAA01}}),
+                                    date1 = getURLParam("sdate"),
+                                    date2 = getURLParam("edate"),
+                                    urlStr = baseurl + "pid=" + pid + "&num=" + index;
+                            if (date1) {
+                                urlStr = urlStr + "&sdate=" + date1
+                            }
+                            if (date2) {
+                                urlStr = urlStr + "&edate=" + date2
+                            }
+                            location.href = urlStr
+                        }
+                    })
+
+
+
+                })
+
+            } else {
+                data.rid = $cont.data("rid")
+                req(api, data, function () {
+                    // alert("修改成功")
+                    jkyAlert("修改成功","yes",function(){
+                        setDataText($cont)
+                        $cont.removeClass("active")
+                    })
+
+                })
+
+            }
+        })
+
+
+        //设置日期
+        function setDataDateTime(data, $el) {
+            var $mTime = $el
+            dateStr = $.trim($mTime.find('.td-date-input').val())
+            if (dateStr) {
+                data.datetime = dateStr + " "+getNowTime()
+            }
+        }
+
+        // 获取下拉框数据
+        function setDatavSelect(data, $el) {
+            for (var i = 1; i < 8; i++) {
+                var checkVal = $.trim($el.find(".c" + i).val())
+                // console.log(checkVal)
+                // console.log(typeof checkVal)
+                if (checkVal) {
+                    checkVal = checkVal.toString()
+                }
+                if (checkVal != "0") {
+                    data["NRL" + addZero(i)] = checkVal
+                }
+            }
+        }
+
+        // 获取总分
+        function setDatavScore(data, $el) {
+            var scoreVal = $.trim($el.find(".sel-input .sumFen").text())
+            if (scoreVal) {
+                data.score = scoreVal
+            }
+        }
+
+
+        function req(api, data, cb) {
+            $.ajax({
+                url: api,
+                data: data,
+                type: "POST",
+                success: function (data) {
+                    console.log(data);
+                    if (data) {
+                        switch (data.result) {
+                            case 0:
+                                cb();
+                                break;
+                            default:
+                                // alert(data.errmsg)
+                                jkyAlert(data.errmsg,"no")
+                        }
+                    }
+                },
+                error: function (e) {
+                    console.log("ajax err:", e)
+                },
+                dataType: "json"
+            })
+
+        }
+
+        // 删除
+        $('body').on('click', '.del-btn', function () {
+            var rid = $(this).parents("ul").data("rid") || 0;
+
+            if (rid) { //是否是已存在的真实数据
+                var userId = {{.Userinfo.UID}}
+                var yId = $(this).data("id")
+                if (!userId) {
+                    alert("err: 用户信息错误");
+                    return false
+                } else if (!yId) {
+                    alert("err: 用户信息错误");
+                    return false
+                }
+                if (yId == userId) {
+                    // var isDel = confirm("是否确认删除");
+                    jkyConfirm("是否确认删除",function(){
+                        var data = {}
+                        data.rid = rid;
+                        $.ajax({
+                            url: "/record/nr4/delete",
+                            data: data,
+                            type: "POST",
+                            success: function (data) {
+                                console.log(data);
+                                if (data) {
+                                    switch (data.result) {
+                                        case 0:
+                                            location.reload();
+                                            break;
+                                        default:
+                                            // alert(data.errmsg)
+                                            jkyAlert(data.errmsg,"no")
+                                    }
+                                }
+                            },
+                            error: function (e) {
+                                console.log("ajax err:", e)
+                            },
+                            dataType: "json"
+                        })
+                    })
+
+                } else {
+                    // alert("您没有权限删除！");
+                    jkyAlert("您没有权限删除！","no")
+                    return false
+                }
+
+            } else {
+                $(this).parents("ul").remove()
+                $cont = $("#tab-list2");
+                // 是否过页
+                var isPage = $(this).parents("ul").find(".save-btn").data("isjump").toString();
+                if (isPage == "1") {
+
+                    $("#tab-list2").addClass("none")
+                    $("#tab-list").removeClass("none");
+
+                    $(".pageSum").text(parseInt($(".pageSum").text()) - 1)
+                    $(".pageNum").val(parseInt($(".pageSum").text()))
+                }
+            }
+        })
+
+
+        $("body").on("change", ".fen-item select", function () {
+            var $ul = $(this).parents("ul")
+            var sum = sumScore($ul)
+            console.log(sum)
+            $ul.find(".sumFen").text(sum)
+        })
+        var scoreHash = {
+            "option1": { //年龄
+                "1": 0,
+                "2": 1,
+                "3": 2,
+                "4": 3,
+                "5": 4,
+                "6": 5,
+            },
+            "option2": { //BMI= 体重（kg）/身高（m） 2
+                "1": 0,
+                "2": 1,
+                "3": 2,
+                "4": 3,
+                "5": 4,
+            },
+            "option3": {  //运动能力
+                "1": 0,
+                "2": 1,
+                "3": 2,
+                "4": 3,
+                "5": 4,
+            },
+            "option4": { //特殊风险种类：
+                "1": 1,
+                "2": 2,
+                "3": 3,
+                "4": 4,
+            },
+            "option5": { //创伤风险种类（术前）
+                "1": 1,
+                "2": 2,
+                "3": 3,
+                "4": 4,
+                "5": 5,
+            },
+            "option6": { //外科干预：
+                "1": 1,
+                "2": 2,
+                "3": 3,
+            },
+            "option7": { //现有的高风险疾病：
+                "1": 1,
+                "2": 2,
+                "3": 3,
+                "4": 4,
+                "5": 5,
+                "6": 6,
+                "7": 7,
+            },
+        }
+
+        function sumScore($el) {
+            var optionVal = [], sum = "";
+            $el.find(".fen-item select").each(function (i, el) {
+                if ($(el).val() != 0 && $(el).val() != "0") {
+                    optionVal.push(scoreHash["option" + (i + 1)][$(el).val()])
+                }
+            })
+            $.each(optionVal, function (i, n) {
+                if (n != undefined && parseFloat(n) != NaN) {
+                    if (sum == "") {
+                        sum = 0;
+                    }
+                    sum += parseFloat(n)
+                }
+            })
+            return sum;
+        }
+    </script>
+
+    <script>
+        $(function () {
+            // 起止时间
+            var hospitalDate = {{.PInfo.HospitalDate}};
+            hospitalDate = hospitalDate.substr(0, 10);
+            var nowDate = nowDateObj.date;
+
+            var date1, date2 = 0;
+            var a = new Date(hospitalDate);
+            date1 = a.getTime();
+            var b = new Date(nowDate);
+            date2 = b.getTime();
+
+            var sdate = getURLParam("sdate");
+            var edate = getURLParam("edate");
+            if (sdate == null || sdate == "0" || edate == null || edate == "0") {
+                sdate = hospitalDate;
+                edate = nowDate;
+            } else {
+                date1 = sdate;
+                date2 = edate;
+
+                sdate = fromatDate(parseInt(sdate)).date;
+                edate = fromatDate(parseInt(edate)).date;
+            }
+
+            laydate.render({
+                elem: '#date1', //指定元素
+                showBottom: false,
+                value: sdate,
+                min:"{{.PInfo.HospitalDate}}",
+                max: nowDateObj.date,
+                done: function (value, date, endDate) {
+
+                    var a = new Date(value);
+                    date1 = a.getTime();
+                    // reloadSheet();
+                }
+            });
+
+            laydate.render({
+                elem: '#date2', //指定元素
+                showBottom: false,
+                value: edate,
+                min:"{{.PInfo.HospitalDate}}",
+                max: nowDateObj.date,
+                done: function (value, date, endDate) {
+
+                    var a = new Date(value);
+                    date2 = a.getTime();
+                    console.log("date ", date1, date2);
+                    // reloadSheet();
+                }
+            });
+
+
+            $("#time-search-btn").on("click",function(){
+                reloadSheet();
+            })
+
+            // 总页数
+            var pagenum = {{.PageNum}};
+            // 当前页数
+            var index = {{.PageIndex}};
+            var pid = parseInt({{.PInfo.VAA01}});
+
+            var baseurl = "/pc/record/nrl4?";
+
+            var tempindex = index;
+            $("#leftLast-btn").on("click", function () {
+                tempindex = 1;
+                reloadSheet()
+            });
+
+            $("#left-btn").on("click", function () {
+                if (index <= 1) {
+                    tempindex = 1;
+                } else {
+                    tempindex = index - 1;
+                }
+                reloadSheet();
+            });
+
+            $("#right-btn").on("click", function () {
+                if (index >= pagenum) {
+                    tempindex = pagenum;
+                } else {
+                    tempindex = index + 1;
+                }
+                reloadSheet();
+            });
+
+
+            $("#rightLast-btn").on("click", function () {
+                tempindex = pagenum;
+                reloadSheet()
+            });
+
+            $("#go-btn").on("click", function () {
+                var val = $(".pageNum").val();
+                tempindex = val;
+                reloadSheet()
+            });
+
+            function reloadSheet() {
+                if ($(".data-col.active").length > 0) {
+                    // alert("请先保存数据！");
+                    jkyAlert("请先保存数据!","no")
+                    return false;
+                }
+                index = tempindex;
+                window.location.href = baseurl + "pid=" + pid + "&num=" + index + "&sdate=" + date1 + "&edate=" + date2;
+            };
+
+            $(".user-list").on("click", "li", function () {
+                var pid = $(this).data('msg');
+                console.log($(this).data('msg'));
+                window.location.href = baseurl + "pid=" + pid;
+            })
+
+        });
+    </script>
+
+    <script>
+        var username = {{.Userinfo.Name}}; // 护士姓名
+        var nowD = getNowDateTime();
+        var datestr = nowD.date;
+        //新建
+        $(".btn.type2.createCol").on("click", function () {
+
+            if ($(".data-col.active").length > 0) {
+                // alert("请先保存数据！")
+                jkyAlert("请先保存数据!","no")
+                return false;
+            }
+
+            var $cont = $("#tab-list");
+            var isJump = "0";
+
+            if ($cont.find(".data-col").length >= 9) {
+                $cont = $("#tab-list2");
+                $("#tab-list").addClass("none")
+                $("#tab-list2").removeClass("none")
+                isJump = "1";
+                $(".pageSum").text(parseInt($(".pageSum").text()) + 1)
+                $(".pageNum").val(parseInt($(".pageSum").text()))
+            }
+
+            var data = {
+                datestr: datestr,
+                username: username,
+                isJump: isJump
+            }
+
+            var html = template("col", data);
+
+            $cont.append(html)
+
+            lay('.td-date-input').each(function () {
+                var dateV = $(this).data("date"),
+                        $self = $(this);
+                laydate.render({
+                    elem: this,
+                    showBottom: false,
+                    value: dateV,
+                    min:"{{.PInfo.HospitalDate}}",
+                    max: nowDateObj.date,
+                    done: function (value, date, endDate) {
+                        $self.data("date", value)
+                    }
+                });
+            });
+        });
+
+        lay('.td-date-input').each(function () {
+            var dateV = $(this).data("date"),
+                    $self = $(this);
+            laydate.render({
+                elem: this,
+                showBottom: false,
+                value: dateV,
+                done: function (value, date, endDate) {
+                    $self.data("date", value)
+                }
+            });
+        });
+
+        //填值下拉框
+        for (var i = 1; i < 8; i++) {
+            $(".list ul").find(".c" + i).find("option:selected").each(function (i, el) {
+                // console.log("??")
+                $(el).parents("li").find(".txt").text($(el).text())
+            })
+        }
+
+
+        $("body").on("click",".cancel-btn",function(){
+            if($(this).data("isnew") && $(this).data("isnew") !="0"){
+                location.reload()
+            }else{
+                $(this).parents(".data-col").removeClass("active")
+            }
+        })
+    </script>
+
+    </body>
+
+    </html>

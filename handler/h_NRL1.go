@@ -214,15 +214,17 @@ func (c PCNRL1Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Param
 		//local2 := time.Local
 		//fmt.Println("local:", hospDate, hospDate.In(local1), local1.String(), local2.String())
 
-		date1 := time.Time(pInfo.VAE11).Unix() * 1000
-		date2 := time.Now().Unix() * 1000
-		paramstr := fmt.Sprintf("&sdate=%d&edate=%d", date1, date2)
-		datestr1 = pInfo.VAE11.ParseToSecond()
-		datestr2 = time.Now().Format("2006-01-02 15:04:05")
-		urlstr := r.URL.String() + paramstr
-		fmt.Println("-------str:", paramstr, "datestr:", datestr1, datestr2)
-		c.Redirect(w, r, urlstr, 302)
-		return
+		//date1 := time.Time(pInfo.VAE11).Unix() * 1000
+		//date2 := time.Now().Unix() * 1000
+		//paramstr := fmt.Sprintf("&sdate=%d&edate=%d", date1, date2)
+		//datestr1 = pInfo.VAE11.ParseToSecond()
+		//datestr2 = time.Now().Format("2006-01-02 15:04:05")
+		//urlstr := r.URL.String() + paramstr
+		//fmt.Println("-------str:", paramstr, "datestr:", datestr1, datestr2)
+		//c.Redirect(w, r, urlstr, 302)
+		//return
+		datestr1 = ""
+		datestr2 = ""
 	} else {
 		datestr1 = time.Unix(date1/1000, 0).Format("2006-01-02 15:04:05")
 		datestr2 = time.Unix(date2/1000, 0).Format("2006-01-02 15:04:05")
@@ -274,7 +276,6 @@ func (c PCNRL1Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Param
 		list = mods[(pageindex-1)*peerPage:pageindex*peerPage]
 	}
 
-
 	nrl1Title := model.NRL1Title{PatientId: pInfo.VAA01}
 	errTitle := nrl1Title.PCQueryNRL1Title()
 	if errTitle != nil {
@@ -282,6 +283,14 @@ func (c PCNRL1Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Param
 		fmt.Fprintln(w, "查询NRL 错误！  NRL error", errTitle)
 		return
 	}
+
+	// 获取入科日期，如果没登记，则使用入院时间
+	entryDate := model.FetchEntryDepartmentDate(pInfo.VAA01)
+	if entryDate.IsExist == 0 {
+		entryDate.EntryDay = time.Time(pInfo.VAE11).Format("2006-01-02")
+		entryDate.EntryTime = time.Time(pInfo.VAE11).Format("15:04")
+	}
+	entry := entryDate.EntryDay + " " + entryDate.EntryTime
 
 	//fmt.Printf("mods %+v\n length：%d\n\n", mods, len(mods))
 	//fmt.Printf("list %+v\n length：%d\n\n", list, len(list))
@@ -294,6 +303,7 @@ func (c PCNRL1Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Param
 		"NRLTitle":  nrl1Title,
 		"PageNum":   pagenum,
 		"PageIndex": pageindex,
+		"EntryDate": entry,
 		"Menuindex": "7-1",
 	}
 

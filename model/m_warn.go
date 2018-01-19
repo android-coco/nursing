@@ -67,7 +67,7 @@ func WarnAll(classId string) []Warn {
 }
 
 func (m Warn) DeleteWarn() (int64, error) {
-	//// 入院时间
+	//// 入院日期
 	//var VAA73 time.Time
 	//// 出院时间
 	//var VAA74 time.Time

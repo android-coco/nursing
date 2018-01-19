@@ -116,14 +116,15 @@ func IsExistRecord(mysql bool, tableName, where string) IsExist {
 		sqlStr := fmt.Sprintf("select (count(1) > 0) as Exist from %s where %s", tableName, where)
 		_, err := fit.MySqlEngine().SQL(sqlStr).Get(&isEx)
 		if err != nil {
-			fit.Logger().LogError("***JK***IsExistRecord***",err.Error())
+			fit.Logger().LogError("***JK***IsExistRecord***", sqlStr, err.Error())
 		}
+		//fit.Logger().LogDebug("***JK***",sqlStr)
 		return isEx
 	} else {
 		sqlStr := fmt.Sprintf("if exists (select 1 from %s where %s) select '1' as Exist else select '0' as Exist", tableName, where)
 		_, err := fit.SQLServerEngine().SQL(sqlStr).Get(&isEx)
 		if err != nil {
-			fit.Logger().LogError("***JK***IsExistRecord***",err.Error())
+			fit.Logger().LogError("***JK***IsExistRecord***", sqlStr,err.Error())
 		}
 		return isEx
 	}

@@ -1,0 +1,3238 @@
+{{template "header_top" .}}
+<!-- end page -->
+<div class="admin">
+    <!--<div class="am-g">-->
+    <!-- ========== Left Sidebar Start ========== -->
+    <!--<div class="left side-menu am-hide-sm-only am-u-md-1 am-padding-0">
+        <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 548px;">
+            <div class="sidebar-inner slimscrollleft" style="overflow: hidden; width: auto; height: 548px;">-->
+    <!-- sidebar start -->
+{{template "header_side" .}}
+    <!-- sidebar end -->
+    <!--</div>
+        </div>
+    </div>-->
+    <!-- ========== Left Sidebar end ========== -->
+    <!--	<div class="am-g">-->
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <div class="content-page jky-table-page doc-input1" data-index="1">
+        <div class="s-btn">
+            <!-- <img src="/static/dist/images/admin_pc/icon22.png" alt=""> -->
+        </div>
+        <div class="user-bar">
+            <div class="tit">
+                <div class="l">
+                    床号
+                </div>
+                <div class="r">
+                    姓名
+                </div>
+            </div>
+            <div class="user-list">
+                <ul>
+                {{range $key, $val := .Beds}}
+                    <li data-id="{{$key}}" data-msg="{{$val.VAA01}}"
+                        class="{{if eq  $.PInfo.VAA01 $val.VAA01}}active{{end}}">
+                        <div class="l">
+                            <label>{{$val.BCQ04}}</label>
+                        </div>
+                        <div class="r">
+                        {{$val.VAA05}}
+                        </div>
+                    </li>
+                {{end}}
+                </ul>
+            </div>
+        </div>
+        <!-- Start content -->
+        <div class="content doc-input8-cont">
+            <div class="tit-warp">
+                <div class="tit-bar">
+                    <div class="date-box fl">
+                        <div class="icon">
+                            <img src="/static/dist/images/admin_pc/icon20.png" alt="">
+                        </div>
+                        <input type="text" class="am-form-field  date-input" id="date1">
+                        <input type="text" class="am-form-field  time-input" id="time1"
+                               style="font-size:14px;text-align: center">
+                        <span class="line">—</span>
+                        <input type="text" class="am-form-field  date-input" id="date2">
+                        <input type="text" class="am-form-field  time-input" id="time2"
+                               style="font-size:14px;text-align: center">
+
+                        <div id="time-search-btn" class="btn-search">搜索</div>
+
+                        <a href="/pc/record/nrl1?pid={{.PInfo.VAA01}}" class="all-btn">所有记录</a>
+
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn type3 ">出入量统计</a>
+                    {{ if eq .PageNum .PageIndex}}
+                        <a class="btn type2 createCol">新建</a>
+                    {{end}}
+                        <a class="btn print">打印</a>
+                    </div>
+                    <p class="tit">深圳万丰医院护理记录单</p>
+                </div>
+            </div>
+            <div class="scroll-box">
+                <div class="doc-cont">
+                    <p class="row-txt">
+                        <span><label>床号：</label>{{.PInfo.BCQ04}}</span>
+                        <span><label>姓名：</label>{{.PInfo.VAA05}}</span>
+                        <span><label>性别：</label>{{.PInfo.Gender}}</span>
+                        <span><label>年龄：</label>{{.PInfo.VAA10}}岁</span>
+                        <span><label>住院号：</label>{{.PInfo.VAA04}}</span>
+                        <span><label>入院诊断：</label>{{.PInfo.VAO15}}</span>
+                        <span><label>入院日期：</label>{{.PInfo.HospitalDate}}</span>
+                        <span><label>入科日期：</label>{{.EntryDate}}</span>
+                    </p>
+
+                    <div class="doc-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">
+                                        <div class="cont-warp w100">
+                                            日期
+                                        </div>
+                                    </th>
+                                    <th rowspan="2">
+                                        <div class="cont-warp w90">
+                                            时间
+                                        </div>
+                                    </th>
+                                    <th rowspan="2">
+                                        <div class="cont-warp w46">
+                                            体温<span class="unit">(℃)</span>
+                                        </div>
+                                    </th>
+                                    <th rowspan="2">
+                                        <div class="cont-warp w64">脉搏<span class="unit">(次/分)</span></div>
+                                    </th>
+                                    <th rowspan="2">
+                                        <div class="cont-warp w64">呼吸<span class="unit">(次/分)</span></div>
+                                    </th>
+                                    <th rowspan="2">
+                                        <div class="cont-warp w64">血压<span class="unit">(mmHg)</span></div>
+                                    </th>
+                                    <th rowspan="2">
+                                        <div class="cont-warp w75">
+                                            <div class="txt">
+                                            {{if eq .NRLTitle.NRT01 "1"}}意识{{end}}
+                                            {{if eq .NRLTitle.NRT01 "2"}}BADL评分{{end}}
+                                            {{if eq .NRLTitle.NRT01 "3"}}DVT评分{{end}}
+                                            {{if eq .NRLTitle.NRT01 "4"}}跌倒评分{{end}}
+                                            {{if eq .NRLTitle.NRT01 "5"}}压疮评分{{end}}
+                                            {{if eq .NRLTitle.NRT01 "6"}}疼痛评分{{end}}
+                                            {{if eq .NRLTitle.NRT01 "7"}}门冬胰岛素u{{end}}
+                                            {{if eq .NRLTitle.NRT01 "8"}}瞳孔左mm{{end}}
+                                            {{if eq .NRLTitle.NRT01 "9"}}瞳孔右mm{{end}}
+                                            {{if eq .NRLTitle.NRT01 "10"}}吸氧L/min{{end}}
+                                            {{if eq .NRLTitle.NRT01 "11"}}{{.NRLTitle.NRT01V}}{{end}}
+                                            </div>
+                                            <div class="sel-box">
+                                                <select>
+                                                    <option value="0">&nbsp;</option>
+                                                    <option value="1" {{if eq .NRLTitle.NRT01 "1"}}selected{{end}}>意识
+                                                    </option>
+                                                    <option value="2" {{if eq .NRLTitle.NRT01 "2"}}selected{{end}}>BADL评分
+                                                    </option><!--  基本生活 -->
+                                                    <option value="3" {{if eq .NRLTitle.NRT01 "3"}}selected{{end}}>DVT评分
+                                                    </option> <!-- 深静脉血栓-->
+                                                    <option value="4" {{if eq .NRLTitle.NRT01 "4"}}selected{{end}}>跌倒评分
+                                                    </option>
+                                                    <option value="5" {{if eq .NRLTitle.NRT01 "5"}}selected{{end}}>压疮评分
+                                                    </option>
+                                                    <option value="6" {{if eq .NRLTitle.NRT01 "6"}}selected{{end}}>疼痛评分
+                                                    </option>
+                                                    <option value="7" {{if eq .NRLTitle.NRT01 "7"}}selected{{end}}>门冬胰岛素u
+                                                    </option>
+                                                    <option value="8" {{if eq .NRLTitle.NRT01 "8"}}selected{{end}}>瞳孔左mm
+                                                    </option>
+                                                    <option value="9" {{if eq .NRLTitle.NRT01 "9"}}selected{{end}}>瞳孔右mm
+                                                    </option>
+                                                    <option value="10" {{if eq .NRLTitle.NRT01 "10"}}selected{{end}}>
+                                                        吸氧L/min
+                                                    </option>
+                                                    <option value="11" {{if eq .NRLTitle.NRT01 "11"}}selected{{end}}>自定义
+                                                    </option>
+                                                </select>
+                                                <input type="text" class="input-txt none" value="">
+
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th rowspan="2">
+                                        <div class="cont-warp w75">
+                                            <div class="txt">
+                                            {{if eq .NRLTitle.NRT02 "1"}}意识{{end}}
+                                            {{if eq .NRLTitle.NRT02 "2"}}BADL评分{{end}}
+                                            {{if eq .NRLTitle.NRT02 "3"}}DVT评分{{end}}
+                                            {{if eq .NRLTitle.NRT02 "4"}}跌倒评分{{end}}
+                                            {{if eq .NRLTitle.NRT02 "5"}}压疮评分{{end}}
+                                            {{if eq .NRLTitle.NRT02 "6"}}疼痛评分{{end}}
+                                            {{if eq .NRLTitle.NRT02 "7"}}门冬胰岛素u{{end}}
+                                            {{if eq .NRLTitle.NRT02 "8"}}瞳孔左mm{{end}}
+                                            {{if eq .NRLTitle.NRT02 "9"}}瞳孔右mm{{end}}
+                                            {{if eq .NRLTitle.NRT02 "10"}}吸氧L/min{{end}}
+                                            {{if eq .NRLTitle.NRT02 "11"}}{{.NRLTitle.NRT02V}}{{end}}
+                                            </div>
+                                            <div class="sel-box">
+                                                <select>
+                                                    <option value="0">&nbsp;</option>
+                                                    <option value="1" {{if eq .NRLTitle.NRT02 "1"}}selected{{end}}>意识
+                                                    </option>
+                                                    <option value="2" {{if eq .NRLTitle.NRT02 "2"}}selected{{end}}>BADL评分
+                                                    </option><!--  基本生活 -->
+                                                    <option value="3" {{if eq .NRLTitle.NRT02 "3"}}selected{{end}}>DVT评分
+                                                    </option> <!-- 深静脉血栓-->
+                                                    <option value="4" {{if eq .NRLTitle.NRT02 "4"}}selected{{end}}>跌倒评分
+                                                    </option>
+                                                    <option value="5" {{if eq .NRLTitle.NRT02 "5"}}selected{{end}}>压疮评分
+                                                    </option>
+                                                    <option value="6" {{if eq .NRLTitle.NRT02 "6"}}selected{{end}}>疼痛评分
+                                                    </option>
+                                                    <option value="7" {{if eq .NRLTitle.NRT02 "7"}}selected{{end}}>门冬胰岛素u
+                                                    </option>
+                                                    <option value="8" {{if eq .NRLTitle.NRT02 "8"}}selected{{end}}>瞳孔左mm
+                                                    </option>
+                                                    <option value="9" {{if eq .NRLTitle.NRT02 "9"}}selected{{end}}>瞳孔右mm
+                                                    </option>
+                                                    <option value="10" {{if eq .NRLTitle.NRT02 "10"}}selected{{end}}>
+                                                        吸氧L/min
+                                                    </option>
+                                                    <option value="11" {{if eq .NRLTitle.NRT02 "11"}}selected{{end}}>自定义
+                                                    </option>
+                                                </select>
+                                                <input type="text" class="input-txt none">
+
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th rowspan="2">
+                                        <div class="cont-warp w75">
+                                            <div class="txt">
+                                            {{if eq .NRLTitle.NRT03 "1"}}意识{{end}}
+                                            {{if eq .NRLTitle.NRT03 "2"}}BADL评分{{end}}
+                                            {{if eq .NRLTitle.NRT03 "3"}}DVT评分{{end}}
+                                            {{if eq .NRLTitle.NRT03 "4"}}跌倒评分{{end}}
+                                            {{if eq .NRLTitle.NRT03 "5"}}压疮评分{{end}}
+                                            {{if eq .NRLTitle.NRT03 "6"}}疼痛评分{{end}}
+                                            {{if eq .NRLTitle.NRT03 "7"}}门冬胰岛素u{{end}}
+                                            {{if eq .NRLTitle.NRT03 "8"}}瞳孔左mm{{end}}
+                                            {{if eq .NRLTitle.NRT03 "9"}}瞳孔右mm{{end}}
+                                            {{if eq .NRLTitle.NRT03 "10"}}吸氧L/min{{end}}
+                                            {{if eq .NRLTitle.NRT03 "11"}}{{.NRLTitle.NRT03V}}{{end}}
+                                            </div>
+                                            <div class="sel-box">
+                                                <select>
+                                                    <option value="0">&nbsp;</option>
+                                                    <option value="1" {{if eq .NRLTitle.NRT03 "1"}}selected{{end}}>意识
+                                                    </option>
+                                                    <option value="2" {{if eq .NRLTitle.NRT03 "2"}}selected{{end}}>BADL评分
+                                                    </option><!--  基本生活 -->
+                                                    <option value="3" {{if eq .NRLTitle.NRT03 "3"}}selected{{end}}>DVT评分
+                                                    </option> <!-- 深静脉血栓-->
+                                                    <option value="4" {{if eq .NRLTitle.NRT03 "4"}}selected{{end}}>跌倒评分
+                                                    </option>
+                                                    <option value="5" {{if eq .NRLTitle.NRT03 "5"}}selected{{end}}>压疮评分
+                                                    </option>
+                                                    <option value="6" {{if eq .NRLTitle.NRT03 "6"}}selected{{end}}>疼痛评分
+                                                    </option>
+                                                    <option value="7" {{if eq .NRLTitle.NRT03 "7"}}selected{{end}}>门冬胰岛素u
+                                                    </option>
+                                                    <option value="8" {{if eq .NRLTitle.NRT03 "8"}}selected{{end}}>瞳孔左mm
+                                                    </option>
+                                                    <option value="9" {{if eq .NRLTitle.NRT03 "9"}}selected{{end}}>瞳孔右mm
+                                                    </option>
+                                                    <option value="10" {{if eq .NRLTitle.NRT03 "10"}}selected{{end}}>
+                                                        吸氧L/min
+                                                    </option>
+                                                    <option value="11" {{if eq .NRLTitle.NRT03 "11"}}selected{{end}}>自定义
+                                                    </option>
+                                                </select>
+                                                <input type="text" class="input-txt none">
+
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th rowspan="2">
+                                        <div class="cont-warp w48">
+                                            血氧<span class="unit">(%)</span>
+                                        </div>
+                                    </th>
+                                    <th colspan="2">
+                                        <div class="cont-warp w140 h40">入量</div>
+                                    </th>
+                                    <th colspan="2">
+                                        <div class="cont-warp w140 h40">出量</div>
+                                    </th>
+                                    <th rowspan="2">
+                                        <div class="cont-warp w75">
+                                            血糖<span class="unit">(mmol/l)</span>
+                                        </div>
+                                    </th>
+                                    <th rowspan="2">
+                                        <div class="cont-warp w75">
+                                            <div class="txt">
+                                            {{if eq .NRLTitle.NRT04 "1"}}意识{{end}}
+                                            {{if eq .NRLTitle.NRT04 "2"}}BADL评分{{end}}
+                                            {{if eq .NRLTitle.NRT04 "3"}}DVT评分{{end}}
+                                            {{if eq .NRLTitle.NRT04 "4"}}跌倒评分{{end}}
+                                            {{if eq .NRLTitle.NRT04 "5"}}压疮评分{{end}}
+                                            {{if eq .NRLTitle.NRT04 "6"}}疼痛评分{{end}}
+                                            {{if eq .NRLTitle.NRT04 "7"}}门冬胰岛素u{{end}}
+                                            {{if eq .NRLTitle.NRT04 "8"}}瞳孔左mm{{end}}
+                                            {{if eq .NRLTitle.NRT04 "9"}}瞳孔右mm{{end}}
+                                            {{if eq .NRLTitle.NRT04 "10"}}吸氧L/min{{end}}
+                                            {{if eq .NRLTitle.NRT04 "11"}}{{.NRLTitle.NRT04V}}{{end}}</div>
+                                            <div class="sel-box">
+                                                <select>
+                                                    <option value="0">&nbsp;</option>
+                                                    <option value="1" {{if eq .NRLTitle.NRT04 "1"}}selected{{end}}>意识
+                                                    </option>
+                                                    <option value="2" {{if eq .NRLTitle.NRT04 "2"}}selected{{end}}>BADL评分
+                                                    </option><!--  基本生活 -->
+                                                    <option value="3" {{if eq .NRLTitle.NRT04 "3"}}selected{{end}}>DVT评分
+                                                    </option> <!-- 深静脉血栓-->
+                                                    <option value="4" {{if eq .NRLTitle.NRT04 "4"}}selected{{end}}>跌倒评分
+                                                    </option>
+                                                    <option value="5" {{if eq .NRLTitle.NRT04 "5"}}selected{{end}}>压疮评分
+                                                    </option>
+                                                    <option value="6" {{if eq .NRLTitle.NRT04 "6"}}selected{{end}}>疼痛评分
+                                                    </option>
+                                                    <option value="7" {{if eq .NRLTitle.NRT04 "7"}}selected{{end}}>门冬胰岛素u
+                                                    </option>
+                                                    <option value="8" {{if eq .NRLTitle.NRT04 "8"}}selected{{end}}>瞳孔左mm
+                                                    </option>
+                                                    <option value="9" {{if eq .NRLTitle.NRT04 "9"}}selected{{end}}>瞳孔右mm
+                                                    </option>
+                                                    <option value="10" {{if eq .NRLTitle.NRT04 "10"}}selected{{end}}>
+                                                        吸氧L/min
+                                                    </option>
+                                                    <option value="11" {{if eq .NRLTitle.NRT04 "11"}}selected{{end}}>自定义
+                                                    </option>
+                                                </select>
+                                                <input type="text" class="input-txt none">
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th rowspan="2">
+                                        <div class="cont-warp w75">
+                                            <div class="txt">
+                                            {{if eq .NRLTitle.NRT05 "1"}}意识{{end}}
+                                            {{if eq .NRLTitle.NRT05 "2"}}BADL评分{{end}}
+                                            {{if eq .NRLTitle.NRT05 "3"}}DVT评分{{end}}
+                                            {{if eq .NRLTitle.NRT05 "4"}}跌倒评分{{end}}
+                                            {{if eq .NRLTitle.NRT05 "5"}}压疮评分{{end}}
+                                            {{if eq .NRLTitle.NRT05 "6"}}疼痛评分{{end}}
+                                            {{if eq .NRLTitle.NRT05 "7"}}门冬胰岛素u{{end}}
+                                            {{if eq .NRLTitle.NRT05 "8"}}瞳孔左mm{{end}}
+                                            {{if eq .NRLTitle.NRT05 "9"}}瞳孔右mm{{end}}
+                                            {{if eq .NRLTitle.NRT05 "10"}}吸氧L/min{{end}}
+                                            {{if eq .NRLTitle.NRT05 "11"}}{{.NRLTitle.NRT05V}}{{end}}
+                                            </div>
+                                            <div class="sel-box">
+                                                <select>
+                                                    <option value="0">&nbsp;</option>
+                                                    <option value="1" {{if eq .NRLTitle.NRT05 "1"}}selected{{end}}>意识
+                                                    </option>
+                                                    <option value="2" {{if eq .NRLTitle.NRT05 "2"}}selected{{end}}>BADL评分
+                                                    </option><!--  基本生活 -->
+                                                    <option value="3" {{if eq .NRLTitle.NRT05 "3"}}selected{{end}}>DVT评分
+                                                    </option> <!-- 深静脉血栓-->
+                                                    <option value="4" {{if eq .NRLTitle.NRT05 "4"}}selected{{end}}>跌倒评分
+                                                    </option>
+                                                    <option value="5" {{if eq .NRLTitle.NRT05 "5"}}selected{{end}}>压疮评分
+                                                    </option>
+                                                    <option value="6" {{if eq .NRLTitle.NRT05 "6"}}selected{{end}}>疼痛评分
+                                                    </option>
+                                                    <option value="7" {{if eq .NRLTitle.NRT05 "7"}}selected{{end}}>门冬胰岛素u
+                                                    </option>
+                                                    <option value="8" {{if eq .NRLTitle.NRT05 "8"}}selected{{end}}>瞳孔左mm
+                                                    </option>
+                                                    <option value="9" {{if eq .NRLTitle.NRT05 "9"}}selected{{end}}>瞳孔右mm
+                                                    </option>
+                                                    <option value="10" {{if eq .NRLTitle.NRT05 "10"}}selected{{end}}>
+                                                        吸氧L/min
+                                                    </option>
+                                                    <option value="11" {{if eq .NRLTitle.NRT05 "11"}}selected{{end}}>自定义
+                                                    </option>
+                                                </select>
+
+                                                <input type="text" class="input-txt none">
+
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th rowspan="2">
+                                        <div class="cont-warp w75">
+                                            <div class="txt">
+                                            {{if eq .NRLTitle.NRT06 "1"}}意识{{end}}
+                                            {{if eq .NRLTitle.NRT06 "2"}}BADL评分{{end}}
+                                            {{if eq .NRLTitle.NRT06 "3"}}DVT评分{{end}}
+                                            {{if eq .NRLTitle.NRT06 "4"}}跌倒评分{{end}}
+                                            {{if eq .NRLTitle.NRT06 "5"}}压疮评分{{end}}
+                                            {{if eq .NRLTitle.NRT06 "6"}}疼痛评分{{end}}
+                                            {{if eq .NRLTitle.NRT06 "7"}}门冬胰岛素u{{end}}
+                                            {{if eq .NRLTitle.NRT06 "8"}}瞳孔左mm{{end}}
+                                            {{if eq .NRLTitle.NRT06 "9"}}瞳孔右mm{{end}}
+                                            {{if eq .NRLTitle.NRT06 "10"}}吸氧L/min{{end}}
+                                            {{if eq .NRLTitle.NRT06 "11"}}{{.NRLTitle.NRT06V}}{{end}}
+                                            </div>
+                                            <div class="sel-box">
+                                                <select>
+                                                    <option value="0">&nbsp;</option>
+                                                    <option value="1" {{if eq .NRLTitle.NRT06 "1"}}selected{{end}}>意识
+                                                    </option>
+                                                    <option value="2" {{if eq .NRLTitle.NRT06 "2"}}selected{{end}}>BADL评分
+                                                    </option><!--  基本生活 -->
+                                                    <option value="3" {{if eq .NRLTitle.NRT06 "3"}}selected{{end}}>DVT评分
+                                                    </option> <!-- 深静脉血栓-->
+                                                    <option value="4" {{if eq .NRLTitle.NRT06 "4"}}selected{{end}}>跌倒评分
+                                                    </option>
+                                                    <option value="5" {{if eq .NRLTitle.NRT06 "5"}}selected{{end}}>压疮评分
+                                                    </option>
+                                                    <option value="6" {{if eq .NRLTitle.NRT06 "6"}}selected{{end}}>疼痛评分
+                                                    </option>
+                                                    <option value="7" {{if eq .NRLTitle.NRT06 "7"}}selected{{end}}>门冬胰岛素u
+                                                    </option>
+                                                    <option value="8" {{if eq .NRLTitle.NRT06 "8"}}selected{{end}}>瞳孔左mm
+                                                    </option>
+                                                    <option value="9" {{if eq .NRLTitle.NRT06 "9"}}selected{{end}}>瞳孔右mm
+                                                    </option>
+                                                    <option value="10" {{if eq .NRLTitle.NRT06 "10"}}selected{{end}}>
+                                                        吸氧L/min
+                                                    </option>
+                                                    <option value="11" {{if eq .NRLTitle.NRT06 "11"}}selected{{end}}>自定义
+                                                    </option>
+                                                </select>
+                                                <input type="text" class="input-txt none">
+
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th rowspan="2">
+                                        <div class="cont-warp w75">
+                                            <div class="txt">
+                                            {{if eq .NRLTitle.NRT07 "1"}}意识{{end}}
+                                            {{if eq .NRLTitle.NRT07 "2"}}BADL评分{{end}}
+                                            {{if eq .NRLTitle.NRT07 "3"}}DVT评分{{end}}
+                                            {{if eq .NRLTitle.NRT07 "4"}}跌倒评分{{end}}
+                                            {{if eq .NRLTitle.NRT07 "5"}}压疮评分{{end}}
+                                            {{if eq .NRLTitle.NRT07 "6"}}疼痛评分{{end}}
+                                            {{if eq .NRLTitle.NRT07 "7"}}门冬胰岛素u{{end}}
+                                            {{if eq .NRLTitle.NRT07 "8"}}瞳孔左mm{{end}}
+                                            {{if eq .NRLTitle.NRT07 "9"}}瞳孔右mm{{end}}
+                                            {{if eq .NRLTitle.NRT07 "10"}}吸氧L/min{{end}}
+                                            {{if eq .NRLTitle.NRT07 "11"}}{{.NRLTitle.NRT07V}}{{end}}
+                                            </div>
+                                            <div class="sel-box">
+                                                <select>
+                                                    <option value="0">&nbsp;</option>
+                                                    <option value="1" {{if eq .NRLTitle.NRT07 "1"}}selected{{end}}>意识
+                                                    </option>
+                                                    <option value="2" {{if eq .NRLTitle.NRT07 "2"}}selected{{end}}>BADL评分
+                                                    </option><!--  基本生活 -->
+                                                    <option value="3" {{if eq .NRLTitle.NRT07 "3"}}selected{{end}}>DVT评分
+                                                    </option> <!-- 深静脉血栓-->
+                                                    <option value="4" {{if eq .NRLTitle.NRT07 "4"}}selected{{end}}>跌倒评分
+                                                    </option>
+                                                    <option value="5" {{if eq .NRLTitle.NRT07 "5"}}selected{{end}}>压疮评分
+                                                    </option>
+                                                    <option value="6" {{if eq .NRLTitle.NRT07 "6"}}selected{{end}}>疼痛评分
+                                                    </option>
+                                                    <option value="7" {{if eq .NRLTitle.NRT07 "7"}}selected{{end}}>门冬胰岛素u
+                                                    </option>
+                                                    <option value="8" {{if eq .NRLTitle.NRT07 "8"}}selected{{end}}>瞳孔左mm
+                                                    </option>
+                                                    <option value="9" {{if eq .NRLTitle.NRT07 "9"}}selected{{end}}>瞳孔右mm
+                                                    </option>
+                                                    <option value="10" {{if eq .NRLTitle.NRT07 "10"}}selected{{end}}>
+                                                        吸氧L/min
+                                                    </option>
+                                                    <option value="11" {{if eq .NRLTitle.NRT07 "11"}}selected{{end}}>自定义
+                                                    </option>
+                                                </select>
+                                                <input type="text" class="input-txt none">
+
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th rowspan="2">
+                                        <div class="cont-warp w180">
+                                            病情记录
+                                        </div>
+                                    </th>
+                                    <th rowspan="2">
+                                        <div class="cont-warp w75">护士签名</div>
+                                    </th>
+                                    <th class="w150" rowspan="2">
+                                        <div class="cont-warp w150">
+                                            <a class="save-btn"><span>保存</span></a>
+                                            <a class="cancel-btn">取消</a>
+                                            <a class="edit-btn none">
+                                                <i class="am-icon-pencil"></i><span>编辑</span>
+                                            </a>
+                                            <!-- <a href="#1" class="del-btn"><i class="am-icon-trash"></i><span>删除</span></a> -->
+                                        </div>
+
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <div class="cont-warp h40 w70">
+                                            内容
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div class="cont-warp h40 w70">
+                                            量(ml)
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div class="cont-warp h40 w70">
+                                            内容
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div class="cont-warp h40 w70">
+                                            量(ml)
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="list" id="tab-list">
+                            {{range $k, $val := .NRLList}}
+                                {{if eq $val.State "io"}}
+                                {{/*出入量统计*/}}
+                                <tr class="col-cont {{$val.State}}" data-id="{{$val.ID}}" data-headtype="18">
+                                    <td>
+                                        <div class="show-txt">
+                                        {{$val.DateStr}}
+                                        </div>
+                                        <div class="cont-warp"></div>
+                                    </td>
+                                    <td>
+                                        <div class="show-txt">
+                                        {{$val.TimeStr}}
+                                        </div>
+                                        <div class="cont-warp">
+                                            <input type="text" class="time-input2">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="show-txt">
+                                        </div>
+                                        <div class="cont-warp"></div>
+                                    </td>
+                                    <td>
+                                        <div class="show-txt"></div>
+                                        <div class="cont-warp"></div>
+                                    </td>
+                                    <td>
+                                        <div class="show-txt"></div>
+                                        <div class="cont-warp"></div>
+                                    </td>
+                                    <td>
+                                        <div class="show-txt"></div>
+                                        <div class="cont-warp"></div>
+                                    </td>
+                                    <td class="custom">
+                                        <div class="show-txt">
+                                        </div>
+                                        <div class="cont-warp">
+
+                                        </div>
+                                    </td>
+                                    <td class="custom">
+                                        <div class="show-txt"></div>
+                                        <div class="cont-warp">
+
+                                        </div>
+                                    </td>
+                                    <td class="custom">
+                                        <div class="show-txt">
+                                        </div>
+                                        <div class="cont-warp">
+
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="show-txt">
+                                        </div>
+
+                                        <div class="cont-warp">
+
+
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div class="show-txt">
+                                            <p>输入液量:</p>
+                                            <p>饮食:</p>
+                                            <p>饮水:</p>
+                                            <p>其他:</p>
+                                            <p>总入量:</p>
+                                        </div>
+
+                                        <div class="cont-warp">
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div class="show-txt">
+                                            <p>{{$val.Mod1.Value}}</p>
+                                            <p>{{$val.Mod2.Value}}</p>
+                                            <p>{{$val.Mod3.Value}}</p>
+                                            <p>{{$val.Mod4.Value}}</p>
+                                            <p>{{$val.Mod6.Value}}</p>
+                                        </div>
+
+                                        <div class="cont-warp">
+
+
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div class="show-txt">
+                                            <p>尿量:</p>
+                                            <p>大便:</p>
+                                            <p>其他:</p>
+                                            <p>&nbsp;</p>
+                                            <p>总出量:</p>
+                                        </div>
+                                        <div class="cont-warp">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="show-txt">
+                                            <p>{{$val.Mod7.Value}}</p>
+                                            <p>{{$val.Mod15.Value}}</p>
+                                            <p>{{$val.Mod16.Value}}</p>
+                                            <p>&nbsp;</p>
+                                            <p>{{$val.Mod17.Value}}</p>
+                                        </div>
+                                        <div class="cont-warp">
+                                            <div class="cont-warp">
+
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="show-txt">
+                                        </div>
+                                        <div class="cont-warp">
+                                            <div class="cont-warp">
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="custom">
+                                        <div class="show-txt">
+
+                                        </div>
+                                        <div class="cont-warp">
+                                        </div>
+                                    </td>
+                                    <td class="custom">
+                                        <div class="show-txt">
+
+                                        </div>
+                                        <div class="cont-warp">
+
+                                        </div>
+                                    </td>
+                                    <td class="custom">
+                                        <div class="show-txt"></div>
+                                        <div class="cont-warp">
+
+                                        </div>
+                                    </td>
+                                    <td class="custom">
+                                        <div class="show-txt"></div>
+                                        <div class="cont-warp">
+
+
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="show-txt"></div>
+                                        <div class="cont-warp">
+                                            <div class="cont-warp">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="show-txt">
+                                        {{$val.NurseName}}
+                                        </div>
+                                        <div class="cont-warp">
+
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="cz">
+                                            <a href="#1" class="del-btn" data-id="{{$val.NurseId}}"><i
+                                                    class="am-icon-trash"></i><span>删除</span></a>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                {{else if eq $val.State "empty"}}                             
+                                <tr class="col-cont {{$val.State}}">
+                                    <td>
+                                        <div class="show-txt">                                            
+                                        </div>
+                                        <div class="cont-warp">
+                                            <p class="dateStr date-input2">                                                
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="show-txt">                                            
+                                        </div>
+                                        <div class="cont-warp">
+                                            <p class="timeStr time-input2">                                                
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td class="input-param" data-headtype="1" data-id="0">
+                                        <div class="show-txt">
+                                        </div>
+                                        <div class="cont-warp">
+                                            <input type="text" class="input-txt" value="">
+                                        </div>
+                                    </td>
+                                    <td class="input-param" data-headtype="2" data-id="0">
+                                        <div class="show-txt">
+                                        </div>
+                                        <div class="cont-warp">
+                                            <input type="text" class="input-txt" value="">
+                                        </div>
+                                    </td>
+                                    <td class="input-param" data-headtype="3" data-id="0">
+                                        <div class="show-txt">
+                                        </div>
+                                        <div class="cont-warp">
+                                            <input type="text" class="input-txt" value="">
+                                        </div>
+                                    </td>
+                                    <td class="input-param" data-headtype="4" data-id="0">
+                                        <div class="show-txt">
+                                        </div>
+                                        <div class="cont-warp">
+                                            <input type="text" class="input-txt2 txt1"> /
+                                            <input type="text" class="input-txt2 txt2">
+                                        </div>
+                                    </td>
+                                    <td class="custom input-param" data-headtype="31" data-id="0" data-titid="<%= titid[0]%>">
+                                        <div class="show-txt">
+                                        </div>
+                                        <div class="cont-warp">
+                                            <select class="v1 none">
+                                                <option value="0">&nbsp;</option>
+                                                <option value="清醒">清醒</option>
+                                                <option value="嗜睡">嗜睡</option>
+                                                <option value="昏睡">昏睡</option>
+                                                <option value="浅昏迷">浅昏迷</option>
+                                                <option value="深昏迷">深昏迷</option>
+                                                <option value="意识混浊">意识混浊</option>
+                                                <option value="谵妄状态">谵妄状态</option>
+                                            </select>
+                                            <div class="fen v2 none">
+                                            </div>
+                                            <input type="text" class="input-txt v3 none" value="">
+                                        </div>
+                                    </td>
+                                    <td class="custom input-param" data-headtype="32" data-id="0" data-titid="<%= titid[1] %>">
+                                        <div class="show-txt">
+                                        </div>
+                                        <div class="cont-warp">
+                                            <select class="v1 none">
+                                                <option value="0">&nbsp;</option>
+                                                <option value="清醒">清醒</option>
+                                                <option value="嗜睡">嗜睡</option>
+                                                <option value="昏睡">昏睡</option>
+                                                <option value="浅昏迷">浅昏迷</option>
+                                                <option value="深昏迷">深昏迷</option>
+                                                <option value="意识混浊">意识混浊</option>
+                                                <option value="谵妄状态">谵妄状态</option>
+                                            </select>
+                                            <div class="fen v2 none">
+                                            </div>
+                                            <input type="text" class="input-txt v3 none" value="">
+                                        </div>
+                                    </td>
+                                    <td class="custom input-param" data-headtype="33" data-id="0" data-titid="<%= titid[2] %>">
+                                        <div class="show-txt">
+                                        </div>
+                                        <div class="cont-warp">
+                                            <select class="v1 none">
+                                                <option value="0">&nbsp;</option>
+                                                <option value="清醒">清醒</option>
+                                                <option value="嗜睡">嗜睡</option>
+                                                <option value="昏睡">昏睡</option>
+                                                <option value="浅昏迷">浅昏迷</option>
+                                                <option value="深昏迷">深昏迷</option>
+                                                <option value="意识混浊">意识混浊</option>
+                                                <option value="谵妄状态">谵妄状态</option>
+                                            </select>
+                                            <div class="fen v2 none">
+                                            </div>
+                                            <input type="text" class="input-txt v3 none" value="">
+                                        </div>
+                                    </td>
+                                    <td class="input-param" data-headtype="6" data-id="0">
+                                        <div class="show-txt">
+                                        </div>
+                                        <div class="cont-warp">
+                                            <input type="text" class="input-txt" value="">
+                                        </div>
+                                    </td>
+                                    <td class="input-param" data-headtype="15A" data-id="0">
+                                        <div class="show-txt">
+                                        </div>
+                                        <div class="cont-warp">
+                                            <select name="" id="" class="rl-sel">
+                                                <option value="1">输入液量</option>
+                                                <option value="2">饮食</option>
+                                                <option value="3">饮水</option>
+                                                <option value="4">其他</option>
+                                            </select>
+                                            <input class="rl-input none" maxlength="4" type="text">
+                                        </div>
+                                    </td>
+                                    <td class="input-param" data-headtype="15B" data-id="0">
+                                        <div class="show-txt">
+                                        </div>
+                                        <div class="cont-warp">
+                                            <input type="text" class="input-txt" value="">
+                                        </div>
+                                    </td>
+                                    <td class="input-param" data-headtype="16A" data-id="0">
+                                        <div class="show-txt">
+                                        </div>
+                                        <div class="cont-warp">
+                                            <select name="" id="" class="cl-sel">
+                                                <option value="1">尿量</option>
+                                                <option value="2">大便</option>
+                                                <option value="3">其他</option>
+                                            </select>
+                                            <input class="cl-input none" maxlength="4" type="text">
+                                        </div>
+                                    </td>
+                                    <td class="input-param" data-headtype="16B" data-id="0">
+                                        <div class="show-txt">
+                                        </div>
+                                        <div class="cont-warp">
+                                            <div class="cont-warp">
+                                                <input type="text" class="input-txt" value="">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="input-param" data-headtype="7" data-id="0">
+                                        <div class="show-txt">
+                                        </div>
+                                        <div class="cont-warp">
+                                            <div class="cont-warp">
+                                                <input type="text" class="input-txt" value="">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="custom input-param" data-headtype="34" data-id="0" data-titid="<%= titid[3] %>">
+                                        <div class="show-txt">
+                                        </div>
+                                        <div class="cont-warp">
+                                            <select class="v1 none">
+                                                <option value="0">&nbsp;</option>
+                                                <option value="清醒">清醒</option>
+                                                <option value="嗜睡">嗜睡</option>
+                                                <option value="昏睡">昏睡</option>
+                                                <option value="浅昏迷">浅昏迷</option>
+                                                <option value="深昏迷">深昏迷</option>
+                                                <option value="意识混浊">意识混浊</option>
+                                                <option value="谵妄状态">谵妄状态</option>
+                                            </select>
+                                            <div class="fen v2 none">
+                                            </div>
+                                            <input type="text" class="input-txt v3 none" value="">
+                                        </div>
+                                    </td>
+                                    <td class="custom input-param" data-headtype="35" data-id="0" data-titid="<%= titid[4] %>">
+                                        <div class="show-txt">
+                                        </div>
+                                        <div class="cont-warp">
+                                            <select class="v1 none">
+                                                <option value="0">&nbsp;</option>
+                                                <option value="清醒">清醒</option>
+                                                <option value="嗜睡">嗜睡</option>
+                                                <option value="昏睡">昏睡</option>
+                                                <option value="浅昏迷">浅昏迷</option>
+                                                <option value="深昏迷">深昏迷</option>
+                                                <option value="意识混浊">意识混浊</option>
+                                                <option value="谵妄状态">谵妄状态</option>
+                                            </select>
+                                            <div class="fen v2 none">
+                                            </div>
+                                            <input type="text" class="input-txt v3 none" value="">
+                                        </div>
+                                    </td>
+                                    <td class="custom input-param" data-headtype="36" data-id="0" data-titid="<%= titid[5] %>">
+                                        <div class="show-txt">
+                                        </div>
+                                        <div class="cont-warp">
+                                            <select class="v1 none">
+                                                <option value="0">&nbsp;</option>
+                                                <option value="清醒">清醒</option>
+                                                <option value="嗜睡">嗜睡</option>
+                                                <option value="昏睡">昏睡</option>
+                                                <option value="浅昏迷">浅昏迷</option>
+                                                <option value="深昏迷">深昏迷</option>
+                                                <option value="意识混浊">意识混浊</option>
+                                                <option value="谵妄状态">谵妄状态</option>
+                                            </select>
+                                            <div class="fen v2 none">
+                                            </div>
+                                            <input type="text" class="input-txt v3 none" value="">
+                                        </div>
+                                    </td>
+                                    <td class="custom input-param" data-headtype="37" data-id="0" data-titid="<%= titid[6] %>">
+                                        <div class="show-txt">
+                                        </div>
+                                        <div class="cont-warp">
+                                            <select class="v1 none">
+                                                <option value="0">&nbsp;</option>
+                                                <option value="清醒">清醒</option>
+                                                <option value="嗜睡">嗜睡</option>
+                                                <option value="昏睡">昏睡</option>
+                                                <option value="浅昏迷">浅昏迷</option>
+                                                <option value="深昏迷">深昏迷</option>
+                                                <option value="意识混浊">意识混浊</option>
+                                                <option value="谵妄状态">谵妄状态</option>
+                                            </select>
+                                            <div class="fen v2 none">
+                                            </div>
+                                            <input type="text" class="input-txt v3 none" value="">
+                                        </div>
+                                    </td>
+                                    <td class="input-param" data-headtype="17" data-id="0">
+                                        <div class="show-txt">
+                                        </div>
+                                        <div class="cont-warp">
+                                            <div class="cont-warp">
+                                                <textarea class="input-textarea" value=""></textarea>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="show-txt">                                            
+                                            &nbsp;
+                                        </div>
+                                        <div class="cont-warp">
+                                            {{$val.NurseName}}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="cz">
+                                            <a class="save-btn" data-isjump="0" data-isnew="1"><span>保存</span></a>
+                                            <a class="cancel-btn" data-isnew="1"><span>取消</span></a>
+                                            <a class="edit-btn" data-id="{{$val.NurseId}}">
+                                                <i class="am-icon-pencil"></i><span>编辑</span>
+                                            </a>
+                                            <a class="del-btn" data-isnew="1" data-id="{{$val.NurseId}}"><i class="am-icon-trash"></i><span>删除</span></a>                                           
+                                        </div>
+                                    </td>
+                                </tr>
+                                {{else if eq $val.State "normal"}}
+                                <tr class="col-cont {{$val.State}}">
+                                    <td>
+                                        <div class="show-txt">
+                                        {{$val.DateStr}}
+                                        </div>
+                                        <div class="cont-warp">
+                                        {{/*<input type="text" class="date-input2" value="{{$val.DateStr}}">*/}}
+                                        {{/*<p class="date-input2" style="cursor: pointer;margin: 0 auto;">{{$val.DateStr}}</p>*/}}
+                                            <p class="dateStr">{{$val.DateStr}}</p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="show-txt">
+                                        {{$val.TimeStr}}
+                                        </div>
+                                        <div class="cont-warp">
+                                        {{/*<input type="text" class="time-input2" value="{{$val.TimeStr}}">*/}}
+                                            <p class="timeStr" data-time="{{$val.DateTimeStr}}"> {{$val.TimeStr}}</p>
+                                        </div>
+                                    </td>
+                                    <!--体温-->
+                                    <td class="input-param" data-headtype="1" data-id="{{$val.Mod1.ID}}">
+                                        <div class="show-txt">
+                                        {{$val.Mod1.Value}}
+                                            {{/*{{if eq $val.HeadType "1"}}{{$val.Value}}{{end}}*/}}
+                                        </div>
+                                        <div class="cont-warp">
+                                            <input type="text" maxlength="4" class="input-txt number"
+                                                   value="{{$val.Mod1.Value}}">
+                                        </div>
+                                    </td>
+                                    <!--脉搏-->
+                                    <td class="input-param" data-headtype="2" data-id="{{$val.Mod2.ID}}">
+                                        <div class="show-txt">
+                                        {{$val.Mod2.Value}}
+                                        {{/*{{if eq $val.HeadType "2"}}{{$val.Value}}{{end}}*/}}
+                                        </div>
+                                        <div class="cont-warp">
+                                            <input type="text" maxlength="4" class="input-txt" value="{{$val.Mod2.Value}}">
+
+                                        </div>
+                                    </td>
+                                    <!--呼吸-->
+                                    <td class="input-param" data-headtype="3" data-id="{{$val.Mod3.ID}}">
+                                        <div class="show-txt">
+                                        {{$val.Mod3.Value}}
+                                        {{/*{{if eq $val.HeadType "3"}}{{$val.Value}}{{end}}*/}}
+                                        </div>
+                                        <div class="cont-warp">
+                                            <input type="text" class="input-txt" value="{{$val.Mod3.Value}}">
+
+                                        </div>
+                                    </td>
+
+                                    <!--血压-->
+                                    <td class="input-param xy-td" data-val="{{$val.Mod4.Value}}" data-headtype="4"
+                                        data-id="{{$val.Mod4.ID}}">
+                                        <div class="show-txt">
+                                        {{$val.Mod4.Value}}
+                                        {{/*{{if eq $val.HeadType "4"}}{{$val.Value}}{{end}}*/}}
+                                        </div>
+                                        <div class="cont-warp">
+                                            <input type="text" class="input-txt2 txt1"> /
+                                            <input type="text" class="input-txt2 txt2">
+                                        </div>
+                                    </td>
+                                    <!--自定义1-->
+                                    <td class="custom input-param" data-headtype="31" data-id="{{$val.Mod31.ID}}"
+                                        data-titid="{{$.NRLTitle.NRT01}}">
+                                        <div class="show-txt">
+                                        {{$val.Mod31.Value}}
+                                        </div>
+                                        <div class="cont-warp">
+                                        {{/*1=意识，2=BADL评分，3=DVT评分，4=跌倒评分，5=压疮评分，6=疼痛评分，7=门冬胰岛素，8=瞳孔左mm，9=瞳孔右mm，10=吸氧L/min，11=自定义*/}}
+                                        {{if eq $.NRLTitle.NRT01 "1"}}
+                                            <select class="v1 none">
+                                                <option value="0">&nbsp;</option>
+                                                <option {{if eq $val.Mod31.Value "清醒"}}selected{{end}} value="清醒">清醒
+                                                </option>
+                                                <option {{if eq $val.Mod31.Value "嗜睡"}}selected{{end}} value="嗜睡">嗜睡
+                                                </option>
+                                                <option {{if eq $val.Mod31.Value "昏睡"}}selected{{end}} value="昏睡">昏睡
+                                                </option>
+                                                <option {{if eq $val.Mod31.Value "浅昏迷"}}selected{{end}} value="浅昏迷">浅昏迷
+                                                </option>
+                                                <option {{if eq $val.Mod31.Value "深昏迷"}}selected{{end}} value="深昏迷">深昏迷
+                                                </option>
+                                                <option {{if eq $val.Mod31.Value "意识混浊"}}selected{{end}} value="意识混浊">意识混浊
+                                                </option>
+                                                <option {{if eq $val.Mod31.Value "谵妄状态"}}selected{{end}} value="谵妄状态">谵妄状态
+                                                </option>
+                                            </select>
+                                        {{end}}
+                                        {{if eq $.NRLTitle.NRT01 "2" "3" "4" "5" "6"}}
+                                            <div class="fen v2 none">
+                                            {{$val.Mod31.Value}}
+                                            </div>
+                                        {{end}}
+                                        {{if eq $.NRLTitle.NRT01 "7" "8" "9" "10" "11"}}
+                                            <input type="text" class="input-txt v3 none" value="{{$val.Mod31.Value}}">
+                                        {{end}}
+
+                                        </div>
+                                    </td>
+                                    <!--自定义2-->
+                                    <td class="custom input-param" data-headtype="32" data-id="{{$val.Mod32.ID}}"
+                                        data-titid="{{$.NRLTitle.NRT02}}">
+                                        <div class="show-txt">
+                                        {{$val.Mod32.Value}}
+
+                                        </div>
+                                        <div class="cont-warp">
+                                        {{/*1=意识，2=BADL评分，3=DVT评分，4=跌倒评分，5=压疮评分，6=疼痛评分，7=门冬胰岛素，8=瞳孔左mm，9=瞳孔右mm，10=吸氧L/min，11=自定义*/}}
+                                        {{if eq $.NRLTitle.NRT02 "1"}}
+                                            <select class="v1 none">
+                                                <option value="0">&nbsp;</option>
+                                                <option {{if eq $val.Mod32.Value "清醒"}}selected{{end}} value="清醒">清醒
+                                                </option>
+                                                <option {{if eq $val.Mod32.Value "嗜睡"}}selected{{end}} value="嗜睡">嗜睡
+                                                </option>
+                                                <option {{if eq $val.Mod32.Value "昏睡"}}selected{{end}} value="昏睡">昏睡
+                                                </option>
+                                                <option {{if eq $val.Mod32.Value "浅昏迷"}}selected{{end}} value="浅昏迷">浅昏迷
+                                                </option>
+                                                <option {{if eq $val.Mod32.Value "深昏迷"}}selected{{end}} value="深昏迷">深昏迷
+                                                </option>
+                                                <option {{if eq $val.Mod32.Value "意识混浊"}}selected{{end}} value="意识混浊">意识混浊
+                                                </option>
+                                                <option {{if eq $val.Mod32.Value "谵妄状态"}}selected{{end}} value="谵妄状态">谵妄状态
+                                                </option>
+                                            </select>
+                                        {{end}}
+                                        {{if eq $.NRLTitle.NRT02 "2" "3" "4" "5" "6"}}
+                                            <div class="fen v2 none">
+                                            {{$val.Mod32.Value}}
+                                            </div>
+                                        {{end}}
+                                        {{if eq $.NRLTitle.NRT02 "7" "8" "9" "10" "11"}}
+                                            <input type="text" class="input-txt v3 none" value="{{$val.Mod32.Value}}">
+                                        {{end}}
+
+                                        </div>
+                                    </td>
+                                    <!--自定义3-->
+                                    <td class="custom input-param" data-headtype="33" data-id="{{$val.Mod33.ID}}"
+                                        data-titid="{{$.NRLTitle.NRT03}}">
+                                        <div class="show-txt">
+                                        {{$val.Mod33.Value}}
+                                                {{/*{{if eq $val.Mod33.Value ""}}未填{{else}}{{$val.Mod33.Value}}{{end}}*/}}
+                                        </div>
+                                        <div class="cont-warp">
+                                        {{/*1=意识，2=BADL评分，3=DVT评分，4=跌倒评分，5=压疮评分，6=疼痛评分，7=门冬胰岛素，8=瞳孔左mm，9=瞳孔右mm，10=吸氧L/min，11=自定义*/}}
+                                        {{if eq $.NRLTitle.NRT03 "1"}}
+                                            <select class="v1 none">
+                                                <option value="0">&nbsp;</option>
+                                                <option {{if eq $val.Mod33.Value "清醒"}}selected{{end}} value="清醒">清醒
+                                                </option>
+                                                <option {{if eq $val.Mod33.Value "嗜睡"}}selected{{end}} value="嗜睡">嗜睡
+                                                </option>
+                                                <option {{if eq $val.Mod33.Value "昏睡"}}selected{{end}} value="昏睡">昏睡
+                                                </option>
+                                                <option {{if eq $val.Mod33.Value "浅昏迷"}}selected{{end}} value="浅昏迷">浅昏迷
+                                                </option>
+                                                <option {{if eq $val.Mod33.Value "深昏迷"}}selected{{end}} value="深昏迷">深昏迷
+                                                </option>
+                                                <option {{if eq $val.Mod33.Value "意识混浊"}}selected{{end}} value="意识混浊">意识混浊
+                                                </option>
+                                                <option {{if eq $val.Mod33.Value "谵妄状态"}}selected{{end}} value="谵妄状态">谵妄状态
+                                                </option>
+                                            </select>
+                                        {{end}}
+                                        {{if eq $.NRLTitle.NRT03 "2" "3" "4" "5" "6"}}
+                                            <div class="fen v2 none">
+                                            {{$val.Mod33.Value}}
+                                            </div>
+                                        {{end}}
+                                        {{if eq $.NRLTitle.NRT03 "7" "8" "9" "10" "11"}}
+                                            <input type="text" class="input-txt v3 none" value="{{$val.Mod33.Value}}">
+                                        {{end}}
+
+                                        </div>
+                                    </td>
+                                    <!--血氧-->
+                                    <td class="input-param" data-headtype="6" data-id="{{$val.Mod6.ID}}">
+                                        <div class="show-txt">
+                                        {{$val.Mod6.Value}}
+                                        {{/*{{if eq $val.HeadType "6"}}{{$val.Value}}{{end}}*/}}
+                                        </div>
+
+                                        <div class="cont-warp">
+                                            <input type="text" class="input-txt" value="{{$val.Mod6.Value}}">
+
+                                        </div>
+
+                                    </td>
+                                    <!--入量内容-->
+                                    <td class="input-param" data-headtype="15A" data-id="{{$val.Mod15.ID}}">
+                                        <div class="show-txt">
+                                        {{$val.Mod15.ValueTitle}}
+                                        {{/*{{if eq $val.HeadType "15"}}{{$val.ValueTitle}}{{end}}*/}}
+                                        </div>
+
+                                        <div class="cont-warp">
+                                        {{/*<input type="text" class="input-txt">*/}}
+                                        {{if eq $val.Mod15.ValueTitle "" }}
+                                            <select name="" id="" class="rl-sel">
+                                            {{/*<option value="0">&nbsp;</option>*/}}
+                                                <option value="1" {{if eq $val.Mod15.SubType 1}}selected{{end}}>输入液量
+                                                </option>
+                                                <option value="2" {{if eq $val.Mod15.SubType 2}}selected{{end}}>饮食</option>
+                                                <option value="3" {{if eq $val.Mod15.SubType 3}}selected{{end}}>饮水</option>
+                                                <option value="4" {{if eq $val.Mod15.SubType 4}}selected{{end}}>其他</option>
+                                            </select>
+                                            <input type="text" class="rl-input none">
+                                        {{else}}
+                                            <p class="sel-val" data-val="{{$val.Mod15.SubType}}"
+                                               data-other="{{$val.Mod15.ValueTitle}}">
+                                            {{$val.Mod15.ValueTitle}}
+                                            </p>
+
+                                        {{end}}
+                                        </div>
+
+                                    </td>
+                                    <!--入量-量-->
+                                    <td class="input-param" data-headtype="15B" data-id="{{$val.Mod15.ID}}">
+                                        <div class="show-txt">
+                                        {{$val.Mod15.Value}}
+                                        {{/*{{if eq $val.HeadType "15"}}{{$val.Value}}{{end}}*/}}
+                                        </div>
+
+                                        <div class="cont-warp">
+                                            <input type="text" class="input-txt" value="{{$val.Mod15.Value}}">
+                                        </div>
+
+                                    </td>
+                                    <!--出量-内容-->
+                                    <td class="input-param" data-headtype="16A" data-id="{{$val.Mod16.ID}}">
+                                        <div class="show-txt">
+                                        {{$val.Mod16.ValueTitle}}
+
+                                        {{/*{{if eq $val.HeadType "16"}}{{$val.ValueTitle}}{{end}}*/}}
+                                        </div>
+                                        <div class="cont-warp">
+                                        {{/*<input type="text" class="input-txt">*/}}
+                                        {{if eq $val.Mod16.ValueTitle ""}}
+                                            <select name="" id="" class="cl-sel">
+                                            {{/*<option value="0">&nbsp;</option>*/}}
+                                                <option value="1" {{if eq $val.Mod16.SubType 1}}selected{{end}}>尿量</option>
+                                                <option value="2" {{if eq $val.Mod16.SubType 2}}selected{{end}}>大便</option>
+                                                <option value="3" {{if eq $val.Mod16.SubType 3}}selected{{end}}>其他</option>
+                                            </select>
+                                            <input type="text" class="cl-input {{if ne $val.Mod16.SubType 3}}none{{end}}">
+                                        {{else}}
+                                            <p class="sel-val" data-val="{{$val.Mod16.SubType}}"
+                                               data-other="{{$val.Mod16.ValueTitle}}">
+                                            {{$val.Mod16.ValueTitle}}
+                                            </p>
+                                        {{end}}
+                                        </div>
+                                    </td>
+                                    <!--出量-量-->
+                                    <td class="input-param" data-headtype="16B" data-id="{{$val.Mod16.ID}}">
+                                        <div class="show-txt">
+                                        {{$val.Mod16.Value}}
+                                        {{/*{{if eq $val.HeadType "16"}}{{$val.Value}}{{end}}*/}}
+                                        </div>
+                                        <div class="cont-warp">
+                                            <div class="cont-warp">
+                                                <input type="text" class="input-txt" value="{{$val.Mod16.Value}}">
+
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <!--血糖-->
+                                    <td class="input-param" data-headtype="7" data-id="{{$val.Mod7.ID}}">
+                                        <div class="show-txt">
+                                        {{$val.Mod7.Value}}
+                                        {{/*{{if eq $val.HeadType "7"}}{{$val.Value}}{{end}}*/}}
+                                        </div>
+                                        <div class="cont-warp">
+                                            <div class="cont-warp">
+                                                <input type="text" class="input-txt" value="{{$val.Mod7.Value}}">
+
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <!--自定义4-->
+                                    <td class="custom input-param" data-headtype="34" data-id="{{$val.Mod34.ID}}"
+                                        data-titid="{{$.NRLTitle.NRT04}}">
+                                        <div class="show-txt">
+                                        {{$val.Mod34.Value}}
+                                        </div>
+                                        <div class="cont-warp">
+                                        {{/*1=意识，2=BADL评分，3=DVT评分，4=跌倒评分，5=压疮评分，6=疼痛评分，7=门冬胰岛素，8=瞳孔左mm，9=瞳孔右mm，10=吸氧L/min，11=自定义*/}}
+                                        {{if eq $.NRLTitle.NRT04 "1"}}
+                                            <select class="v1 none">
+                                                <option value="0">&nbsp;</option>
+                                                <option {{if eq $val.Mod34.Value "清醒"}}selected{{end}} value="清醒">清醒
+                                                </option>
+                                                <option {{if eq $val.Mod34.Value "嗜睡"}}selected{{end}} value="嗜睡">嗜睡
+                                                </option>
+                                                <option {{if eq $val.Mod34.Value "昏睡"}}selected{{end}} value="昏睡">昏睡
+                                                </option>
+                                                <option {{if eq $val.Mod34.Value "浅昏迷"}}selected{{end}} value="浅昏迷">浅昏迷
+                                                </option>
+                                                <option {{if eq $val.Mod34.Value "深昏迷"}}selected{{end}} value="深昏迷">深昏迷
+                                                </option>
+                                                <option {{if eq $val.Mod34.Value "意识混浊"}}selected{{end}} value="意识混浊">意识混浊
+                                                </option>
+                                                <option {{if eq $val.Mod34.Value "谵妄状态"}}selected{{end}} value="谵妄状态">谵妄状态
+                                                </option>
+                                            </select>
+                                        {{end}}
+                                        {{if eq $.NRLTitle.NRT04 "2" "3" "4" "5" "6"}}
+                                            <div class="fen v2 none">
+                                            {{$val.Mod34.Value}}
+                                            </div>
+                                        {{end}}
+                                        {{if eq $.NRLTitle.NRT04 "7" "8" "9" "10" "11"}}
+                                            <input type="text" class="input-txt v3 none" value="{{$val.Mod34.Value}}">
+                                        {{end}}
+
+                                        </div>
+                                    </td>
+                                    <!--自定义5-->
+                                    <td class="custom input-param" data-headtype="35" data-id="{{$val.Mod35.ID}}"
+                                        data-titid="{{$.NRLTitle.NRT05}}">
+                                        <div class="show-txt">
+                                        {{$val.Mod35.Value}}
+                                        </div>
+                                        <div class="cont-warp">
+                                        {{/*1=意识，2=BADL评分，3=DVT评分，4=跌倒评分，5=压疮评分，6=疼痛评分，7=门冬胰岛素，8=瞳孔左mm，9=瞳孔右mm，10=吸氧L/min，11=自定义*/}}
+                                        {{if eq $.NRLTitle.NRT05 "1"}}
+                                            <select class="v1 none">
+                                                <option value="0">&nbsp;</option>
+                                                <option {{if eq $val.Mod35.Value "清醒"}}selected{{end}} value="清醒">清醒
+                                                </option>
+                                                <option {{if eq $val.Mod35.Value "嗜睡"}}selected{{end}} value="嗜睡">嗜睡
+                                                </option>
+                                                <option {{if eq $val.Mod35.Value "昏睡"}}selected{{end}} value="昏睡">昏睡
+                                                </option>
+                                                <option {{if eq $val.Mod35.Value "浅昏迷"}}selected{{end}} value="浅昏迷">浅昏迷
+                                                </option>
+                                                <option {{if eq $val.Mod35.Value "深昏迷"}}selected{{end}} value="深昏迷">深昏迷
+                                                </option>
+                                                <option {{if eq $val.Mod35.Value "意识混浊"}}selected{{end}} value="意识混浊">意识混浊
+                                                </option>
+                                                <option {{if eq $val.Mod35.Value "谵妄状态"}}selected{{end}} value="谵妄状态">谵妄状态
+                                                </option>
+                                            </select>
+                                        {{end}}
+                                        {{if eq $.NRLTitle.NRT05 "2" "3" "4" "5" "6"}}
+                                            <div class="fen v2 none">
+                                            {{$val.Mod35.Value}}
+                                            </div>
+                                        {{end}}
+                                        {{if eq $.NRLTitle.NRT05 "7" "8" "9" "10" "11"}}
+                                            <input type="text" class="input-txt v3 none" value="{{$val.Mod35.Value}}">
+                                        {{end}}
+
+                                        </div>
+                                    </td>
+                                    <!--自定义6-->
+                                    <td class="custom input-param" data-headtype="36" data-id="{{$val.Mod36.ID}}"
+                                        data-titid="{{$.NRLTitle.NRT06}}">
+                                        <div class="show-txt">
+                                        {{$val.Mod36.Value}}
+
+                                        </div>
+                                        <div class="cont-warp">
+                                        {{/*1=意识，2=BADL评分，3=DVT评分，4=跌倒评分，5=压疮评分，6=疼痛评分，7=门冬胰岛素，8=瞳孔左mm，9=瞳孔右mm，10=吸氧L/min，11=自定义*/}}
+                                        {{if eq $.NRLTitle.NRT06 "1"}}
+                                            <select class="v1 none">
+                                                <option value="0">&nbsp;</option>
+                                                <option {{if eq $val.Mod36.Value "清醒"}}selected{{end}} value="清醒">清醒
+                                                </option>
+                                                <option {{if eq $val.Mod36.Value "嗜睡"}}selected{{end}} value="嗜睡">嗜睡
+                                                </option>
+                                                <option {{if eq $val.Mod36.Value "昏睡"}}selected{{end}} value="昏睡">昏睡
+                                                </option>
+                                                <option {{if eq $val.Mod36.Value "浅昏迷"}}selected{{end}} value="浅昏迷">浅昏迷
+                                                </option>
+                                                <option {{if eq $val.Mod36.Value "深昏迷"}}selected{{end}} value="深昏迷">深昏迷
+                                                </option>
+                                                <option {{if eq $val.Mod36.Value "意识混浊"}}selected{{end}} value="意识混浊">意识混浊
+                                                </option>
+                                                <option {{if eq $val.Mod36.Value "谵妄状态"}}selected{{end}} value="谵妄状态">谵妄状态
+                                                </option>
+                                            </select>
+                                        {{end}}
+                                        {{if eq $.NRLTitle.NRT06 "2" "3" "4" "5" "6"}}
+                                            <div class="fen v2 none">
+                                            {{$val.Mod36.Value}}
+                                            </div>
+                                        {{end}}
+                                        {{if eq $.NRLTitle.NRT06 "7" "8" "9" "10" "11"}}
+                                            <input type="text" class="input-txt v3 none" value="{{$val.Mod36.Value}}">
+                                        {{end}}
+                                        </div>
+                                    </td>
+                                    <!--自定义7-->
+                                    <td class="custom input-param" data-headtype="37" data-id="{{$val.Mod37.ID}}"
+                                        data-titid="{{$.NRLTitle.NRT07}}">
+                                        <div class="show-txt">
+                                        {{$val.Mod37.Value}}
+
+                                        </div>
+                                        <div class="cont-warp">
+                                        {{/*1=意识，2=BADL评分，3=DVT评分，4=跌倒评分，5=压疮评分，6=疼痛评分，7=门冬胰岛素，8=瞳孔左mm，9=瞳孔右mm，10=吸氧L/min，11=自定义*/}}
+                                        {{if eq $.NRLTitle.NRT07 "1"}}
+                                            <select class="v1 none">
+                                                <option value="0">&nbsp;</option>
+                                                <option {{if eq $val.Mod37.Value "清醒"}}selected{{end}} value="清醒">清醒
+                                                </option>
+                                                <option {{if eq $val.Mod37.Value "嗜睡"}}selected{{end}} value="嗜睡">嗜睡
+                                                </option>
+                                                <option {{if eq $val.Mod37.Value "昏睡"}}selected{{end}} value="昏睡">昏睡
+                                                </option>
+                                                <option {{if eq $val.Mod37.Value "浅昏迷"}}selected{{end}} value="浅昏迷">浅昏迷
+                                                </option>
+                                                <option {{if eq $val.Mod37.Value "深昏迷"}}selected{{end}} value="深昏迷">深昏迷
+                                                </option>
+                                                <option {{if eq $val.Mod37.Value "意识混浊"}}selected{{end}} value="意识混浊">意识混浊
+                                                </option>
+                                                <option {{if eq $val.Mod37.Value "谵妄状态"}}selected{{end}} value="谵妄状态">谵妄状态
+                                                </option>
+                                            </select>
+                                        {{end}}
+                                        {{if eq $.NRLTitle.NRT07 "2" "3" "4" "5" "6"}}
+                                            <div class="fen v2 none">
+                                            {{$val.Mod37.Value}}
+                                            </div>
+                                        {{end}}
+                                        {{if eq $.NRLTitle.NRT07 "7" "8" "9" "10" "11"}}
+                                            <input type="text" class="input-txt v3 none" value="{{$val.Mod37.Value}}">
+                                        {{end}}
+
+                                        </div>
+                                    </td>
+
+                                    <!--病情记录-->
+                                    <td class="input-param" data-headtype="17" data-id="{{$val.Mod17.ID}}">
+                                        <div class="show-txt">
+                                        {{$val.Mod17.Value}}
+                                        </div>
+                                        <div class="cont-warp">
+                                            <div class="cont-warp">
+                                                <textarea class="input-textarea" >{{$val.Mod17.Value}}</textarea>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <!--护士签名-->
+                                    <td>
+                                        <div class="show-txt">
+                                        {{$val.NurseName}}
+
+                                        </div>
+                                        <div class="cont-warp">
+                                        {{$val.NurseName}}
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="cz">
+                                            <a href="#1" class="save-btn" data-isjump="0" data-isnew="0"><span>保存</span></a>
+                                            <a class="cancel-btn" data-isnew="0"><span>取消</span></a>
+                                            <a href="#1" class="edit-btn" data-id="{{$val.NurseId}}">
+                                                <i class="am-icon-pencil"></i><span>编辑</span>
+                                            </a>
+                                            <a href="#1" class="del-btn" data-id="{{$val.NurseId}}"><i
+                                                    class="am-icon-trash"></i><span>删除</span></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {{else}}
+                                    error !!!!!!!!
+                                {{end}}
+                            {{end}}
+                            </tbody>
+
+                            <tbody class="list none" id="tab-list2">
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+
+
+                    <!-- 分页栏 -->
+                    <div class="page-bar">
+                        <span>页面位置</span>
+                        <ul>
+                            <li>
+                                <a id="leftLast-btn" class="{{if eq .PageIndex 1}}noneClick{{end}}">
+                                    <img src="/static/dist/images/admin_pc/icon43.png" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                <a id="left-btn" class="{{if eq .PageIndex 1}}noneClick{{end}}">
+                                    <img src="/static/dist/images/admin_pc/icon44.png" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                第 <input type="text" class="pageNum" value="{{.PageIndex}}"> 页
+                                <a id="go-btn">Go</a>
+                            </li>
+                            <li>
+                                <a id="right-btn" class="{{if eq .PageIndex .PageNum}}noneClick{{end}}">
+                                    <img src="/static/dist/images/admin_pc/icon45.png" alt="">
+                                </a>
+
+                            </li>
+                            <li>
+                                <a id="rightLast-btn" class="{{if eq .PageIndex .PageNum}}noneClick{{end}}">
+                                    <img src="/static/dist/images/admin_pc/icon46.png" alt="">
+                                </a>
+                            </li>
+                        </ul>
+                        <span>共<i class="pageSum">{{.PageNum}}</i>页</span>
+                    </div>
+
+
+                    <div class="pd-20"></div>
+
+                </div>
+
+            </div>
+        </div>
+        <!-- end right Content here -->
+        <!--</div>-->
+    </div>
+    <!-- </div> -->
+
+
+</div>
+{{/*出入量统计弹窗*/}}
+<div class="m-modal none">
+    <div class="bg">
+    </div>
+    <div class="cont">
+        <p class="hd">
+            出入量统计
+        </p>
+        <div class="main-box">
+            <div class="l">
+                <div class="date-box">
+                    <div class="icon">
+                        <img src="/static/dist/images/admin_pc/icon20.png" alt="">
+                    </div>
+                    <input type="text" class="am-form-field  date-input" id="io-date1">
+                    <input type="text" class="am-form-field  time-input" id="io-time1">
+                    <span class="line">—</span>
+                    <input type="text" class="am-form-field  date-input" id="io-date2">
+                    <input type="text" class="am-form-field  time-input" id="io-time2">
+
+                    <a class="sub-btn" id="sub-btn">确认统计</a>
+                </div>
+                <div class="sum-box">
+                    <ul>
+                        <li><span class="tit">输入液量:</span> <span class="val" id="intakeA"></span></li>
+                        <li>
+                            <span class="tit">饮食:</span> <span class="val" id="intakeB"></span>
+                        </li>
+                        <li>
+                            <span class="tit">饮水:</span> <span class="val" id="intakeC"></span>
+                        </li>
+                        <li id="intakeD">
+                        </li>
+                        <li class="fill">
+                            <span class="tit">入量总计:</span> <span class="val" id="intakeTotal">400ml</span>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                            <span class="tit">尿量:</span> <span class="val" id="outputA"></span>
+                        </li>
+                        <li>
+                            <span class="tit">大便:</span> <span class="val" id="outputB"></span>
+                        </li>
+                        <li id="outputC">
+                        </li>
+                        <li>
+                            <span class="tit">出量总计:</span> <span class="val" id="outputTotal"></span>
+                        </li>
+                    </ul>
+
+                </div>
+                <div class="bt">
+                    <div class="bar">
+                        <input type="checkbox" id="tb"><label for="tb">同步到体温单</label>
+                    </div>
+                    <div class="btn-group">
+                        <a class="qx-btn" id="cancel-btn">取消</a>
+                        <a class="ok-btn" id="ok-btn">确认</a>
+                    </div>
+                </div>
+            </div>
+            <div class="r">
+                <p class="tit">
+                    入量
+                </p>
+                <ul id="intake">
+                    <li>
+                        <p>
+                            <span class="b1">08-26 22:00</span>
+                            <span class="b2">输入液量</span>
+                            <span class="b3">100ml</span>
+                            <span class="b4">李护士</span>
+                        </p>
+                    </li>
+
+                </ul>
+                <p class="tit">
+                    出量
+                </p>
+                <ul id="output">
+                    <li>
+                        <p>
+                            <span class="b1">08-26 22:00</span>
+                            <span class="b2">输入液量</span>
+                            <span class="b3">100ml</span>
+                            <span class="b4">李护士</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <span class="b1">08-26 22:00</span>
+                            <span class="b2">其他（胃管引流量）</span>
+                            <span class="b3">100ml</span>
+                            <span class="b4">李护士</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <span class="b1">08-26 22:00</span>
+                            <span class="b2">输入液量</span>
+                            <span class="b3">100ml</span>
+                            <span class="b4">李护士</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <span class="b1">08-26 22:00</span>
+                            <span class="b2">输入液量</span>
+                            <span class="b3">100ml</span>
+                            <span class="b4">李护士</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <span class="b1">08-26 22:00</span>
+                            <span class="b2">输入液量</span>
+                            <span class="b3">100ml</span>
+                            <span class="b4">李护士</span>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script type="application/json" id="col">
+    <tr class="col-cont empty">
+    <td>
+    <div class="show-txt">    
+    </div>
+    <div class="cont-warp">
+        <p  class="dateStr date-input2"></p>
+    </div>
+    </td>
+    <td>
+    <div class="show-txt">
+    </div>
+    <div class="cont-warp">
+    <p class="timeStr time-input2"></p>
+    </div>
+    </td>
+
+    <td class="input-param" data-headtype="1" data-id="0">
+    <div class="show-txt">
+
+    </div>
+    <div class="cont-warp">
+    <input type="text" class="input-txt" value="">
+    </div>
+    </td>
+
+    <td class="input-param" data-headtype="2" data-id="0">
+    <div class="show-txt">
+    </div>
+    <div class="cont-warp">
+    <input type="text" class="input-txt" value="">
+
+    </div>
+    </td>
+
+    <td class="input-param" data-headtype="3" data-id="0">
+    <div class="show-txt">
+
+    </div>
+    <div class="cont-warp">
+    <input type="text" class="input-txt" value="">
+
+    </div>
+    </td>
+
+
+    <td class="input-param" data-headtype="4" data-id="0">
+    <div class="show-txt">
+
+
+    </div>
+    <div class="cont-warp">
+    <input type="text" class="input-txt2 txt1"> /
+    <input type="text" class="input-txt2 txt2">
+    </div>
+    </td>
+
+    <td class="custom input-param" data-headtype="31" data-id="0" data-titid="<%= titid[0]%>">
+    <div class="show-txt">
+
+    </div>
+    <div class="cont-warp">
+    <select class="v1 none">
+    <option value="0">&nbsp;</option>
+    <option value="清醒">清醒</option>
+    <option value="嗜睡">嗜睡</option>
+    <option value="昏睡">昏睡</option>
+    <option value="浅昏迷">浅昏迷</option>
+    <option value="深昏迷">深昏迷</option>
+    <option value="意识混浊">意识混浊</option>
+    <option value="谵妄状态">谵妄状态</option>
+    </select>
+
+    <div class="fen v2 none">
+
+    </div>
+
+    <input type="text" class="input-txt v3 none" value="">
+
+    </div>
+    </td>
+
+    <td class="custom input-param" data-headtype="32" data-id="0" data-titid="<%= titid[1] %>">
+    <div class="show-txt">
+
+
+    </div>
+    <div class="cont-warp">
+
+    <select class="v1 none">
+    <option value="0">&nbsp;</option>
+    <option value="清醒">清醒</option>
+    <option value="嗜睡">嗜睡</option>
+    <option value="昏睡">昏睡</option>
+    <option value="浅昏迷">浅昏迷</option>
+    <option value="深昏迷">深昏迷</option>
+    <option value="意识混浊">意识混浊</option>
+    <option value="谵妄状态">谵妄状态</option>
+    </select>
+
+    <div class="fen v2 none">
+
+    </div>
+
+    <input type="text" class="input-txt v3 none" value="">
+
+    </div>
+    </td>
+
+    <td class="custom input-param" data-headtype="33" data-id="0" data-titid="<%= titid[2] %>">
+    <div class="show-txt">
+
+
+    </div>
+    <div class="cont-warp">
+
+    <select class="v1 none">
+    <option value="0">&nbsp;</option>
+    <option value="清醒">清醒</option>
+    <option value="嗜睡">嗜睡</option>
+    <option value="昏睡">昏睡</option>
+    <option value="浅昏迷">浅昏迷</option>
+    <option value="深昏迷">深昏迷</option>
+    <option value="意识混浊">意识混浊</option>
+    <option value="谵妄状态">谵妄状态</option>
+    </select>
+
+    <div class="fen v2 none">
+
+    </div>
+
+    <input type="text" class="input-txt v3 none" value="">
+
+
+    </div>
+    </td>
+
+    <td class="input-param" data-headtype="6" data-id="0">
+    <div class="show-txt">
+
+
+    </div>
+
+    <div class="cont-warp">
+    <input type="text" class="input-txt" value="">
+
+    </div>
+
+    </td>
+
+    <td class="input-param" data-headtype="15A" data-id="0">
+    <div class="show-txt">
+
+
+    </div>
+
+    <div class="cont-warp">
+
+    <select name="" id="" class="rl-sel">
+    <option value="1">输入液量</option>
+    <option value="2">饮食</option>
+    <option value="3">饮水</option>
+    <option value="4">其他</option>
+    </select>
+    <input class="rl-input none" maxlength="4" type="text">
+    </div>
+
+    </td>
+
+    <td class="input-param" data-headtype="15B" data-id="0">
+    <div class="show-txt">
+
+
+    </div>
+
+    <div class="cont-warp">
+    <input type="text" class="input-txt" value="">
+    </div>
+
+    </td>
+
+    <td class="input-param" data-headtype="16A" data-id="0">
+    <div class="show-txt">
+
+
+
+    </div>
+    <div class="cont-warp">
+
+    <select name="" id="" class="cl-sel">
+
+    <option value="1">尿量</option>
+    <option value="2">大便</option>
+    <option value="3">其他</option>
+    </select>
+    <input class="cl-input none" maxlength="4" type="text">
+    </div>
+    </td>
+
+    <td class="input-param" data-headtype="16B" data-id="0">
+    <div class="show-txt">
+
+
+    </div>
+    <div class="cont-warp">
+    <div class="cont-warp">
+    <input type="text" class="input-txt" value="">
+
+    </div>
+    </div>
+    </td>
+
+    <td class="input-param" data-headtype="7" data-id="0">
+    <div class="show-txt">
+
+
+    </div>
+    <div class="cont-warp">
+    <div class="cont-warp">
+    <input type="text" class="input-txt" value="">
+
+    </div>
+    </div>
+    </td>
+
+    <td class="custom input-param" data-headtype="34" data-id="0" data-titid="<%= titid[3] %>">
+    <div class="show-txt">
+
+    </div>
+    <div class="cont-warp">
+
+
+    <select class="v1 none">
+    <option value="0">&nbsp;</option>
+    <option value="清醒">清醒</option>
+    <option value="嗜睡">嗜睡</option>
+    <option value="昏睡">昏睡</option>
+    <option value="浅昏迷">浅昏迷</option>
+    <option value="深昏迷">深昏迷</option>
+    <option value="意识混浊">意识混浊</option>
+    <option value="谵妄状态">谵妄状态</option>
+    </select>
+
+    <div class="fen v2 none">
+
+    </div>
+
+    <input type="text" class="input-txt v3 none" value="">
+
+
+    </div>
+    </td>
+
+    <td class="custom input-param" data-headtype="35" data-id="0" data-titid="<%= titid[4] %>">
+    <div class="show-txt">
+
+    </div>
+    <div class="cont-warp">
+
+
+    <select class="v1 none">
+    <option value="0">&nbsp;</option>
+    <option value="清醒">清醒</option>
+    <option value="嗜睡">嗜睡</option>
+    <option value="昏睡">昏睡</option>
+    <option value="浅昏迷">浅昏迷</option>
+    <option value="深昏迷">深昏迷</option>
+    <option value="意识混浊">意识混浊</option>
+    <option value="谵妄状态">谵妄状态</option>
+    </select>
+
+    <div class="fen v2 none">
+
+    </div>
+
+    <input type="text" class="input-txt v3 none" value="">
+
+
+    </div>
+    </td>
+
+    <td class="custom input-param" data-headtype="36" data-id="0" data-titid="<%= titid[5] %>">
+    <div class="show-txt">
+
+
+    </div>
+    <div class="cont-warp">
+
+
+    <select class="v1 none">
+    <option value="0">&nbsp;</option>
+    <option value="清醒">清醒</option>
+    <option value="嗜睡">嗜睡</option>
+    <option value="昏睡">昏睡</option>
+    <option value="浅昏迷">浅昏迷</option>
+    <option value="深昏迷">深昏迷</option>
+    <option value="意识混浊">意识混浊</option>
+    <option value="谵妄状态">谵妄状态</option>
+    </select>
+
+    <div class="fen v2 none">
+
+    </div>
+
+    <input type="text" class="input-txt v3 none" value="">
+
+    </div>
+    </td>
+
+    <td class="custom input-param" data-headtype="37" data-id="0" data-titid="<%= titid[6] %>">
+    <div class="show-txt">
+
+
+    </div>
+    <div class="cont-warp">
+
+
+    <select class="v1 none">
+    <option value="0">&nbsp;</option>
+    <option value="清醒">清醒</option>
+    <option value="嗜睡">嗜睡</option>
+    <option value="昏睡">昏睡</option>
+    <option value="浅昏迷">浅昏迷</option>
+    <option value="深昏迷">深昏迷</option>
+    <option value="意识混浊">意识混浊</option>
+    <option value="谵妄状态">谵妄状态</option>
+    </select>
+
+    <div class="fen v2 none">
+
+    </div>
+
+    <input type="text" class="input-txt v3 none" value="">
+
+
+
+
+    </div>
+    </td>
+
+
+    <td class="input-param" data-headtype="17" data-id="0">
+    <div class="show-txt">
+
+    </div>
+    <div class="cont-warp">
+    <div class="cont-warp">
+    <textarea class="input-textarea" value=""></textarea>
+    </div>
+    </div>
+    </td>
+
+    <td>
+    <div class="show-txt">   
+        &nbsp; 
+    </div>
+    <div class="cont-warp">
+    <%=username%>
+    </div>
+    </td>
+
+    <td>
+    <div class="cz">
+    <a class="save-btn" data-isjump="<%= isJump %>" data-isnew="1" ><span>保存</span></a>
+    <a class="cancel-btn" data-isnew="1"><span>取消</span></a>
+    <a class="edit-btn" data-id="<%=userId%>">
+    <i class="am-icon-pencil"></i><span>编辑</span>
+    </a>
+    <a class="del-btn" data-isnew="1"  data-id="<%=userId%>"><i class="am-icon-trash"></i><span>删除</span></a>
+    </div>
+    </td>
+    </tr>
+</script>
+
+
+<script type="text/javascript" src="/static/dist/js/lib/jquery.min.js"></script>
+<!--框架js-->
+<script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/amazeui.min.js"></script>
+<script src="/static/dist/js/lib/laydate/laydate.js"></script>
+<!--前端模板引擎-->
+<script src="/static/dist/js/lib/template-web.js"></script>
+
+<script type="text/javascript" src="/static/common.js"></script>
+<!--<script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/charts/indexChart.js" ></script>-->
+<script>
+
+    //打印
+    $(".print").on("click", function () {
+        // 起止时间
+        var hospitalDate = {{.PInfo.HospitalDate}};
+        hospitalDate = hospitalDate.substr(0, 10);
+        var nowDate = nowDateObj.date;
+
+        var date1, date2 = 0;
+        var a = new Date(hospitalDate);
+        date1 = a.getTime();
+        var b = new Date(nowDate);
+        date2 = b.getTime();
+
+
+        var sdate = getURLParam("sdate");
+        var edate = getURLParam("edate");
+        console.log("----", sdate, edate);
+        if (sdate == null || sdate == "0" || edate == null || edate == "0") {
+            sdate = hospitalDate;
+            edate = nowDate;
+        } else {
+            date1 = sdate;
+            date2 = edate;
+
+            sdate = fromatDate(parseInt(sdate)).date;
+            edate = fromatDate(parseInt(edate)).date;
+        }
+        window.open("/pc/nrl1print?pid=" + {{.PInfo.VAA01}}+"&num=-1&sdate=" + date1 + "&edate=" + date2);
+    });
+
+    var nowDateObj = fromatDate();
+
+    var $inputNum = $('.tit2,.tit3,.tit4').find('input')
+    $inputNum.on('input', throttle(function () {
+        if (isNaN(parseFloat($(this).val()))) {
+            $(this).val("")
+        } else {
+            $(this).val(parseFloat($(this).val()))
+        }
+    }, 500, {
+        leading: false, //配置第一次不立即执行 true 第一次执行 false 第一次不执行
+        trailing: true // 是否抛弃 还是 往后堆积
+    }))
+
+    function toggleTar() {
+        if ($('.top48').hasClass('small-type')) {
+            $('.top48').removeClass('small-type')
+            $('.jky_sidebar').removeClass('small-type')
+        } else {
+            $('.top48').addClass('small-type')
+            $('.jky_sidebar').addClass('small-type')
+        }
+    }
+
+
+    $('.s-btn').on('click', function () {
+        if ($(this).hasClass('active')) {
+            $(this).removeClass('active');
+            $('.user-bar').show();
+            $('.doc-input8-cont').css('margin-left', 162)
+        } else {
+            $(this).addClass('active');
+            $('.doc-input8-cont').css('margin-left', 0)
+            $('.user-bar').hide();
+        }
+    })
+
+
+    // -----------------------表头事件----------------
+
+    $("thead").on('change', ".sel-box select", function () {
+        if ($(this).val() == "11") {
+            $(this).parents(".sel-box").find(".input-txt").removeClass("none")
+        } else {
+            $(this).parents(".sel-box").find(".input-txt").addClass("none")
+        }
+    })
+
+    $("thead").on("click", ".cancel-btn", function () {
+        $(this).parents("thead").removeClass("active")
+    })
+    $("thead").on("click", ".save-btn", function () {
+        var $thead = $("thead");
+        //回填数据
+        $thead.find("select").each(function (i, el) {
+            if ($(el).parents(".sel-box.none").length) {
+                return true
+            }
+            var res = "";
+            if ($(el).val() == "11") {
+                res = $(el).parents(".sel-box").find(".input-txt").val();
+            } else {
+                // res = $(el).val();
+                res = $(el).find("option:selected").text();
+            }
+            $(el).parents("th").find(".txt").text(res)
+        })
+
+        var reqData = {
+            //病人id
+            "pid": {{.PInfo.VAA01}},
+            //科室id
+            "did":  {{.PInfo.BCK01C}}
+        }
+        $thead.find("select").each(function (i, el) {
+            if ($(el).parents(".sel-box.none").length) {
+                return true
+            }
+            var valSel = $(el).val()
+            if (valSel != "0" && valSel != "11") {
+                reqData["NRT0" + (i + 1)] = valSel
+            }
+            if (valSel == "11") {
+                console.log($(el).parents(".sel-box").find(".input-txt"))
+                var txt = $(el).parents(".sel-box").find(".input-txt").val()
+                if ($.trim(txt) != "") {
+                    reqData["NRT0" + (i + 1)] = "11"
+                    reqData["NRT0" + (i + 1) + "V"] = txt
+                }
+            }
+        })
+        num = 0
+        $.each(reqData, function () {
+            num++;
+        })
+        if (num > 2) {
+            req("/record/nr1/updatetitle", reqData, function (data) {
+                console.log(data)
+                // $thead.removeClass("active");
+                location.reload()
+            }, function (err) {
+                // alert(err)
+                jkyAlert(err, "yes")
+            })
+        } else if (num == 2) {
+            $thead.removeClass("active");
+        }
+
+
+    })
+
+
+    // 编辑
+    $("thead").on("click", ".edit-btn", function () {
+        if ($(".col-cont.active").length > 0) {
+            // alert("请先保存信息")
+            jkyAlert("请先保存信息", "no")
+            return false
+        }
+        var $thead = $("thead");
+        $thead.addClass("active");
+        $("thead").find(".txt").each(function (i, el) {
+            if ($.trim($(el).text()) != "") {
+                $(el).parents("th").find(".sel-box").addClass("none");
+                $(el).parents("th").find(".txt").css("display", "block");
+                // $(el).parents("th").find("select,input").prop("disabled",true)
+            }
+        })
+
+    })
+
+
+    // 检查是否显示编辑按钮
+    checkEditHead()
+
+    function checkEditHead() {
+        var isEdit = false
+        $("thead").find(".txt").each(function (i, el) {
+            if ($.trim($(el).text()) == "") {
+                isEdit = true;
+                return false
+            }
+        })
+
+        if (isEdit) {
+            $("thead").find(".edit-btn").removeClass("none")
+        }
+    }
+
+    function req(api, data, cb, errcb) {
+        $.ajax({
+            url: api,
+            data: data,
+            type: "POST",
+            success: function (data) {
+                console.log(data);
+                if (data) {
+                    switch (data.result) {
+                        case 0:
+                            cb(data);
+                            break;
+                        case 9:
+                            errcb && errcb(data.errmsg, 9);
+                            break
+                        default:
+                            errcb && errcb(data.errmsg)
+                            // alert(data.errmsg)
+                    }
+                }
+            },
+            error: function (e) {
+                console.log("ajax err:", e)
+            },
+            dataType: "json"
+        })
+    }
+
+    // -----------------------end表头事件----------------
+
+    var secodnsStr = "00"
+    $("tbody").on("click", ".edit-btn", function () {
+
+        var dateObj = new Date()
+        secodnsStr = addZero(dateObj.getSeconds())
+
+        if ($('.list').find('.col-cont.active').length > 0 || $("thead").hasClass("active")) {
+            // alert("请先保存信息")
+            jkyAlert("请先保存信息", "no")
+        } else {
+           
+
+            var userId = {{.Userinfo.UID}}
+            var yId = $(this).data("id")
+            console.log("yId",yId )
+            if (!userId) {
+                alert("err: 用户信息错误");
+                return false
+            } else if (!yId) {
+                alert("err: 用户信息错误");
+                return false
+            }            
+            if (yId == userId) {
+                var $tr = $(this).parents("tr");
+                $tr.addClass("active")
+                //如果是空白行
+                if($tr.hasClass("empty")){                                                   
+                      //每一行时间
+                    var nowDateObj = fromatDate();                    
+                    laydate.render({
+                        elem: $tr.find(".date-input2")[0],
+                        showBottom: false,
+                        value: nowDateObj.date,
+                        min: "{{.PInfo.HospitalDate}}",
+                        max: nowDateObj.date,
+                        done: function (value, date, endDate) {
+                            console.log(value); //得到日期生成的值，如：2017-08-18
+                            console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                            console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                        }
+                    });
+                
+                    
+                    laydate.render({
+                        elem: $tr.find(".time-input2")[0],
+                        type: 'time',
+                        btns: ['confirm'],
+                        format: 'HH:mm',
+                        value: nowDateObj.time,
+                        done: function (value, date, endDate) {
+                            console.log(value); //得到日期生成的值，如：2017-08-18
+                            console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                            console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                        }
+                    });
+                    
+                }
+
+                $("thead").find("select").each(function (i, el) {
+                    val = $.trim($(el).val());
+                    if (val != "") {
+                        if (val == 1) {
+                            $tr.find(".custom").eq(i).find("select").removeClass("none")
+                        } else if (val < 7) {
+                            $tr.find(".custom").eq(i).find(".fen").removeClass("none")
+                        } else {
+                            $tr.find(".custom").eq(i).find(".input-txt").removeClass("none")
+                        }
+                    }
+                })
+            } else {
+                // alert("您没有权限编辑！");
+                jkyAlert("您没有权限编辑", "no")
+            }
+        }
+
+        var xyVal = $(this).parents(".col-cont").find(".xy-td").data("val") || ""
+        console.log(xyVal)
+        var valArr = xyVal.split("/")
+        $(this).parents(".col-cont").find(".txt1").val(valArr[0])
+        $(this).parents(".col-cont").find(".txt2").val(valArr[1])
+
+    })
+
+    $("tbody").on("click", ".save-btn", function () {
+
+        var isNew = false;
+        var api = "/record/nr1/update"
+        if ($(this).data("isnew") == "1") {
+            isNew = true;
+            typeStr = '保存'
+        } else {
+            typeStr = '修改'
+        }
+        var data = {
+            // 护士ID
+            "uid": {{.Userinfo.UID}},
+            // 护士名
+            "username": {{.Userinfo.Name}},
+            //病人id
+            "pid": {{.PInfo.VAA01}},
+            //科室id
+            "did":  {{.PInfo.BCK01C}},
+        }
+
+        var $cont = $(this).parents('.col-cont')
+
+
+        setDataDateTime(data, $cont)
+        setDataInput(data, $cont)
+        console.log(data)
+
+        if (isNew) {
+            var num = 0;
+            $.each(data, function (i, n) {
+                num++;
+            })
+            //总共5个固定参数,如果没填长度就为5
+            if (num == 5) {
+                // alert("请填写内容！")
+                jkyAlert("请填写内容!", "no")
+                return false;
+            }
+            var $this = $(this)
+            req(api, data, function () {
+                // alert("保存成功")
+                // $('#my-modal-loading').modal('open')
+                jkyAlert("保存成功", "yes", function () {
+                    // return false;
+                    if ($this.data("isjump") != "1") {
+                        if( $cont.hasClass("empty")){
+                            location.href = "/pc/record/nrl1?pid={{.PInfo.VAA01}}"
+                        }else{
+                            location.reload()
+                        }
+
+                    } else {
+                        var baseurl = "/pc/record/nrl1?",
+                                index = parseInt({{.PageIndex}}) + 1,
+                                pid = parseInt({{.PInfo.VAA01}}),
+                                date1 = getURLParam("sdate"),
+                                date2 = getURLParam("edate"),
+                                urlStr = baseurl + "pid=" + pid + "&num=" + index;
+
+                        if (date1) {
+                            urlStr = urlStr + "&sdate=" + date1
+                        }
+                        if (date2) {
+                            urlStr = urlStr + "&edate=" + date2
+                        }
+                        if( $cont.hasClass("empty")){
+                            location.href = "/pc/record/nrl1?pid={{.PInfo.VAA01}}"
+                        }else{
+                            location.href = urlStr
+                        }
+
+                    }
+                })
+
+
+            })
+        } else {
+            req(api, data, function () {
+                // alert("保存成功")
+                jkyAlert("保存成功", "yes", function () {
+                    location.reload()
+                    // $cont.removeClass("active")
+                })
+
+                // setDataText(data,$cont)
+                // $cont.removeClass("active")
+
+
+            })
+        }
+
+
+    })
+
+    function setDataDateTime(data, $el) {
+
+        var isNew = $el.find(".save-btn").data("isnew")
+        if (isNew && isNew != "0") {
+            var dateStr = $.trim($el.find(".dateStr").text())
+            var timeStr = $.trim($el.find(".timeStr").text())
+            var resStr = ""
+            if (dateStr) {
+                resStr = dateStr
+            }
+            if (timeStr) {
+                resStr += " " + timeStr + ":" + secodnsStr
+            } else {
+                resStr += " 00:00:00"
+            }
+        } else {
+
+            var timeStr = $el.find(".timeStr").data("time")
+            resStr = timeStr
+        }
+
+        data.datetime = resStr
+    }
+
+    function setDataInput(data, $el) {
+        var res = []
+        var ioVal = {}, ioVal2 = {};
+        $el.find(".input-param").each(function (i, el) {
+            var $el = $(el)
+            var headtype = $el.data("headtype"), dataObj = {}
+            headtype = headtype.toString()
+            switch (headtype) {
+                case "4": //血压
+                    var txt1 = $.trim($el.find(".txt1").val())
+                    var txt2 = $.trim($el.find(".txt2").val())
+                    if (txt1 || txt2) {
+                        dataObj["headType"] = headtype;
+                        dataObj["value"] = txt1 + "/" + txt2;
+                        $el.data("id") && (dataObj["id"] = $el.data("id"))
+                        res.push(dataObj)
+                    }
+                    break;
+                case "15A": //出入量
+                    if ($el.find(".sel-val").length) {
+                        ioVal["subType"] = $el.find(".sel-val").data("val")
+                        ioVal["subType"] = ioVal["subType"].toString()
+                        if (ioVal["subType"] == "4") {
+                            var otherStr = $.trim($el.find(".sel-val").data("other"))
+                            otherStr && (ioVal["otherStr"] = otherStr)
+                        }
+                    } else {
+                        ioVal["subType"] = $el.find("select").val()
+                        if (ioVal["subType"] == "4") {
+                            var otherStr = $.trim($el.find(".rl-input").val())
+                            otherStr && (ioVal["otherStr"] = otherStr)
+                        }
+                    }
+                    break;
+                case "15B":
+                    var valStr = $.trim($el.find(".input-txt").val());
+                    if (valStr) {
+                        ioVal["value"] = valStr
+                        $el.data("id") && (ioVal["id"] = $el.data("id"))
+                    }
+                    break;
+                case "16A":
+                    if ($el.find(".sel-val").length) {
+                        ioVal2["subType"] = $el.find(".sel-val").data("val")
+                        ioVal2["subType"] = ioVal2["subType"].toString()
+                        if (ioVal2["subType"] == "3") {
+                            var otherStr2 = $.trim($el.find(".sel-val").data("other"))
+                            otherStr2 && (ioVal2["otherStr"] = otherStr2)
+                        }
+                    } else {
+                        ioVal2["subType"] = $el.find("select").val()
+                        if (ioVal2["subType"] == "3") {
+                            var otherStr2 = $.trim($el.find(".cl-input").val())
+                            otherStr2 && (ioVal2["otherStr"] = otherStr2)
+                        }
+                    }
+                    break;
+                case "16B":
+                    var valStr = $.trim($el.find(".input-txt").val());
+                    if (valStr) {
+                        ioVal2["value"] = valStr
+                        $el.data("id") && (ioVal2["id"] = $el.data("id"))
+                    }
+                    break;
+                case "31":
+                case "32":
+                case "33":
+                case "34":
+                case "35":
+                case "36":
+                case "37": //自定义
+                    // 1=意识，2=BADL评分，3=DVT评分，4=跌倒评分，5=压疮评分，6=疼痛评分，7=门冬胰岛素，8=瞳孔左mm，9=瞳孔右mm，10=吸氧L/min，11=自定义
+                    var titId = $el.data("titid")
+                    titId = parseInt(titId)
+                    if (!isNaN(titId)) {
+                        if (titId == 1) {
+                            // console.log("意识")
+                            var val = $.trim($el.find("select").val())
+                            if (val != "0") {
+                                dataObj["headType"] = headtype;
+                                dataObj["value"] = $el.find("select").val();
+                                $el.data("id") && (dataObj["id"] = $el.data("id"))
+                                res.push(dataObj)
+                            }
+                        } else if (titId < 7) {
+                            // console.log("评分")
+                        } else {
+                            var valTxt = $.trim($el.find(".input-txt").val())
+                            if (valTxt) {
+                                dataObj["headType"] = headtype;
+                                dataObj["value"] = valTxt;
+                                $el.data("id") && (dataObj["id"] = $el.data("id"))
+                                res.push(dataObj)
+                            }
+                        }
+                    }
+
+                    break;
+
+                case "17":
+                    var valTxt = $.trim($el.find(".input-textarea").val())
+                    if (valTxt) {
+                        dataObj["headType"] = headtype;
+                        dataObj["value"] = valTxt;
+                        $el.data("id") && (dataObj["id"] = $el.data("id"))
+                        res.push(dataObj)
+                    }
+                    break;
+                default:
+                    var valTxt = $.trim($el.find(".input-txt").val())
+                    if (valTxt) {
+                        dataObj["headType"] = headtype;
+                        dataObj["value"] = valTxt;
+                        $el.data("id") && (dataObj["id"] = $el.data("id"))
+                        res.push(dataObj)
+                    }
+
+            }
+        })
+        if (ioVal.value && ioVal.subType) {
+            if(ioVal.subType==4){
+                if(ioVal.otherStr){
+                    ioVal["headType"] = "15"
+                    res.push(ioVal)
+                }
+
+            }else{
+                ioVal["headType"] = "15"
+                res.push(ioVal)
+            }
+
+        }
+
+        if (ioVal2.value && ioVal2.subType) {
+            if(ioVal2.subType==3){
+                if(ioVal2.otherStr){
+                    ioVal2["headType"] = "16"
+                    res.push(ioVal2)
+                }
+            }else{
+                ioVal2["headType"] = "16"
+                res.push(ioVal2)
+            }
+        }
+        // console.log(res)
+        if (res.length) {
+            data["jsonstr"] = JSON.stringify(res)
+        }
+
+    }
+
+
+    function setDataText(data, $el) {
+        if (data) {
+            try {
+                var resObj = JSON.parse(data.jsonstr)
+                $.each(resObj, function (i, obj) {
+
+                })
+            } catch (e) {
+                console.log("json解析错误")
+            }
+
+        }
+    }
+
+    var nowD = getNowDateTime();
+    var datestr = nowD.date;
+    var timestr = nowD.time;
+    var username = {{.Userinfo.Name}};
+
+    //新建
+    $('body').on('click', '.createCol', function () {
+        if($(".col-cont.empty").length > 0){
+            jkyAlert("请先填写空白行！","no")
+            return false;
+        }
+
+        if ($(".col-cont.active").length > 0) {
+            // alert("请先保存数据！")
+            jkyAlert("请先保存数据！","no")
+            return false;
+        }
+        var dateObj = new Date()
+        secodnsStr = addZero(dateObj.getSeconds())
+
+        var $cont = $("#tab-list");
+        var isJump = "0";
+
+        if ($cont.find(".col-cont").length >= 9) {
+            $cont = $("#tab-list2");
+            $("#tab-list").addClass("none")
+            $("#tab-list2").removeClass("none")
+            isJump = "1";
+            $(".pageSum").text(parseInt($(".pageSum").text()) + 1)
+            $(".pageNum").val(parseInt($(".pageSum").text()))
+        }
+
+        var data = {
+            datestr: datestr,
+            timestr: timestr,
+            titid: [{{$.NRLTitle.NRT01}},{{$.NRLTitle.NRT02}},{{$.NRLTitle.NRT03}},{{$.NRLTitle.NRT04}},{{$.NRLTitle.NRT05}},{{$.NRLTitle.NRT06}},{{$.NRLTitle.NRT07}}],
+            username: username,
+            isJump: isJump,
+            userId:{{.Userinfo.UID}}
+        }
+
+        var html = '';
+        for(var i = 0;i<9;i++){
+            html+=template("col", data);
+        }
+
+        var $html = $(html);
+        $cont.append($html);
+
+        var $tr = $html;
+        $("thead").find("select").each(function (i, el) {
+            val = $.trim($(el).val());
+            // val = parseInt(val)
+            if (val != "") {
+                if (val == 1) {
+                    $tr.find(".custom").eq(i).find("select").removeClass("none")
+                    console.log("?")
+                } else if (val < 7) {
+                    $tr.find(".custom").eq(i).find(".fen").removeClass("none")
+                } else {
+                    $tr.find(".custom").eq(i).find(".input-txt").removeClass("none")
+                }
+            }
+        })
+
+
+        //每一行时间
+        lay('.date-input2').each(function () {
+            laydate.render({
+                elem: this,
+                showBottom: false,
+                value: nowDateObj.date,
+                min: "{{.PInfo.HospitalDate}}",
+                max: nowDateObj.date,
+                done: function (value, date, endDate) {
+                    console.log(value); //得到日期生成的值，如：2017-08-18
+                    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                    console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                }
+            });
+        });
+        lay('.time-input2').each(function () {
+            laydate.render({
+                elem: this,
+                type: 'time',
+                btns: ['confirm'],
+                format: 'HH:mm',
+                value: nowDateObj.time,
+                done: function (value, date, endDate) {
+                    console.log(value); //得到日期生成的值，如：2017-08-18
+                    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                    console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                }
+            });
+        });
+    })
+
+
+    // 删除
+    $('tbody').on('click', '.del-btn', function () {
+        var $tr = $(this).parents(".col-cont")
+
+        if ($(this).data("isnew") == 1) {
+            $tr.remove()
+            return true
+        }
+        var ioSumData = []
+        if ($tr.data("headtype") == "18") {
+            var headType = $tr.data("headtype")
+            headType = headType.toString()
+            ioSumData.push({
+                "id": $tr.data("id"),
+                "headType": headType
+            })
+            console.log(ioSumData)
+        }
+
+        var userId = {{.Userinfo.UID}}
+        var yId = $(this).data("id")
+        if (!userId) {
+            alert("err: 用户信息错误");
+            return false
+        } else if (!yId) {
+            alert("err: 用户信息错误");
+            return false
+        }
+        if (yId == userId) {
+            jkyConfirm("是否确认删除", function () {
+                var res = [], ioObj = {}, ioObj2 = {}, num = 0;
+                if (ioSumData.length == 0) {
+                    $tr.find("td.input-param").each(function (i, el) {
+                        var id = $(el).data("id"),
+                                headtype = $(el).data("headtype");
+                        headtype = headtype.toString();
+                        var paramObj = {}
+                        if (id && id != "0") {
+                            num++;
+                            switch (headtype) {
+                                case "15A":
+                                    ioObj["subType"] = $(el).find(".sel-val").data("val")
+                                    break;
+                                case "15B":
+                                    ioObj["headType"] = "15";
+                                    ioObj["id"] = id;
+                                    break;
+                                case "16A":
+                                    ioObj2["subType"] = $(el).find(".sel-val").data("val")
+                                    break;
+                                case "16B":
+                                    ioObj2["headType"] = "16";
+                                    ioObj2["id"] = id;
+                                    break;
+                                case "31":
+                                case "32":
+                                case "33":
+                                case "34":
+                                case "35":
+                                case "36":
+                                case "37":
+                                    if ($(el).data("titid") > 7 || $(el).data("titid") == 1) {
+                                        paramObj["id"] = id;
+                                        paramObj["headType"] = headtype;
+                                        res.push(paramObj)
+                                    }
+                                    break;
+                                default:
+                                    paramObj["id"] = id;
+                                    paramObj["headType"] = headtype;
+                                    res.push(paramObj)
+
+                            }
+
+                        }
+                    })
+
+                    if (ioObj.id && ioObj.subType) {
+                        ioObj.subType = ioObj.subType.toString()
+                        res.push(ioObj)
+                    }
+                    if (ioObj2.id && ioObj2.subType) {
+                        ioObj2.subType = ioObj2.subType.toString()
+                        res.push(ioObj2)
+                    }
+                } else {
+                    res = ioSumData
+                }
+
+                console.log(res)
+                var reqData = {};
+                if (res.length > 0) {
+                    reqData["jsonstr"] = JSON.stringify(res)
+                    console.log(reqData)
+                    req("/record/nr1/delete", reqData, function (data) {
+                        // alert("删除成功");
+                        jkyAlert("删除成功", "yes", function () {
+                            console.log(data)
+                            location.reload();
+                        })
+
+
+                    }, function (err) {
+                        // alert(err)
+                        jkyAlert(err, "no", function () {
+                            location.reload();
+
+                        })
+                    })
+                } else {
+                    if (num > 0) {
+                        jkyAlert("评分项不删除")
+                        // alert("评分项不删除");
+                    }
+                }
+            });
+
+
+        } else {
+            // alert("您没有权限删除！");
+            jkyAlert("您没有权限删除", "no")
+            return false
+        }
+
+
+        // confirm("是否确认删除")
+
+
+    })
+
+
+</script>
+
+<script>
+    // 起止时间
+    var hospitalDate = "{{.PInfo.HospitalDate}}";
+    var nowDate = nowDateObj.date, nowTime = nowDateObj.time;
+
+    var date1, date2 = 0;
+    var a = new Date(hospitalDate);
+    date1 = a.getTime();
+    var b = new Date(nowDate + " " + nowTime);
+    date2 = b.getTime();
+
+
+    var sdate = getURLParam("sdate");
+    var edate = getURLParam("edate");
+    var stime = "", etime = "";
+    console.log("----", sdate, edate);
+    if (sdate == null || sdate == "0" || edate == null || edate == "0") {
+        sdate = hospitalDate.substr(0, 10);
+        edate = nowDate;
+        stime = hospitalDate.substr(11, 5);
+        etime = nowDateObj.time.substr(0, 5);
+    } else {
+        date1 = sdate;
+        date2 = edate;
+        // alert(fromatDate(parseInt(sdate)).time)
+        stime = fromatDate(parseInt(sdate)).time;
+        etime = fromatDate(parseInt(edate)).time;
+
+        sdate = fromatDate(parseInt(sdate)).date;
+        edate = fromatDate(parseInt(edate)).date;
+
+    }
+
+    laydate.render({
+        elem: '#date1', //指定元素
+        showBottom: false,
+        value: sdate,
+        min: "{{.PInfo.HospitalDate}}",
+        max: nowDateObj.date,
+        done: function (value, date, endDate) {
+            console.log(value); //得到日期生成的值，如：2017-08-18
+            console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+            console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+
+            var timeStr = $("#time1").val() + ":00";
+            var valStr = value + " " + timeStr;
+            var a = new Date(valStr);
+            date1 = a.getTime();
+            // reloadSheet();
+        }
+    });
+    laydate.render({
+        elem: '#time1', //指定元素
+        type: 'time',
+        format: 'HH:mm',
+        min: "00:00:00",
+        max: "23:59:00",
+        btns: ["confirm"],
+        value: stime,
+        done: function (value, date, endDate) {
+            var timeStr = value + ":00";
+            var valueStr = $("#date1").val() + " " + timeStr
+            var a = new Date(valueStr);
+            date1 = a.getTime();
+            // reloadSheet();
+        }
+    });
+    laydate.render({
+        elem: '#time2', //指定元素
+        type: 'time',
+        format: 'HH:mm',
+        btns: ["confirm"],
+        value: etime,
+        done: function (value, date, endDate) {
+            var timeStr = value + ":00";
+            var valueStr = $("#date2").val() + " " + timeStr
+            var a = new Date(valueStr);
+            date2 = a.getTime();
+            // reloadSheet();
+        }
+    });
+    laydate.render({
+        elem: '#date2', //指定元素
+        showBottom: false,
+        value: edate,
+        min: "{{.PInfo.HospitalDate}}",
+        max: nowDateObj.date,
+        done: function (value, date, endDate) {
+
+            var timeStr = $("#time2").val() + ":00"
+            var valStr = value + " " + timeStr
+
+            var a = new Date(valStr);
+            date2 = a.getTime();
+            console.log("date ", date1, date2)
+            // reloadSheet();
+        }
+    });
+
+
+    $("#time-search-btn").on("click", function () {
+        reloadSheet();
+    })
+
+    // 总页数
+    var pagenum = {{.PageNum}};
+    // 当前页数
+    var index = {{.PageIndex}};
+    var pid = parseInt({{.PInfo.VAA01}});
+
+    var baseurl = "/pc/record/nrl1?";
+    var tempindex = index;
+
+    $("#leftLast-btn").on("click", function () {
+        if (index == 1) return;
+        tempindex = 1;
+        reloadSheet()
+    });
+
+    $("#left-btn").on("click", function () {
+        if (index <= 1) {
+            return
+        } else {
+            tempindex = index - 1;
+        }
+        reloadSheet();
+    });
+
+    $("#right-btn").on("click", function () {
+        if (index >= pagenum) {
+            // tempindex = pagenum;
+            return
+        } else {
+            tempindex = index + 1;
+        }
+        reloadSheet();
+    });
+
+
+    $("#rightLast-btn").on("click", function () {
+        if (index == pagenum) return;
+        tempindex = pagenum;
+        reloadSheet()
+    });
+
+    $("#go-btn").on("click", function () {
+        var val = $(".pageNum").val();
+        tempindex = val;
+        reloadSheet()
+    });
+
+    function reloadSheet() {
+        if ($(".col-cont.active").length > 0) {
+            // alert("请先保存数据！");
+            jkyAlert("请先保存数据", "no")
+            return false;
+        }
+        index = tempindex;
+        window.location.href = baseurl + "pid=" + pid + "&num=" + index + "&sdate=" + date1 + "&edate=" + date2;
+    };
+
+
+    $(".user-list").on("click", "li", function () {
+        var pid = $(this).data('msg');
+        console.log($(this).data('msg'));
+        window.location.href = "/pc/record/nrl1?pid=" + pid;
+    })
+
+
+    $("body").on("change", ".rl-sel", function () {
+        if ($(this).val() == "4") {
+            $(this).parents(".cont-warp").find(".rl-input").removeClass("none")
+        } else {
+            $(this).parents(".cont-warp").find(".rl-input").addClass("none")
+        }
+    })
+    $("body").on("change", ".cl-sel", function () {
+        if ($(this).val() == "3") {
+            $(this).parents(".cont-warp").find(".cl-input").removeClass("none")
+        } else {
+            $(this).parents(".cont-warp").find(".cl-input").addClass("none")
+        }
+    })
+
+</script>
+
+<script>
+    var curDayStr = getNowDate(), curTimeStr = "07:00";
+    var curTimestamp = (new Date(curDayStr + " " + curTimeStr)).getTime()
+    var lastTimestamp = curTimestamp - 86400000;
+    var hospitalTime = "{{.PInfo.HospitalDate}}";
+
+    // hospitalDateStr = hospitalTime.substr(0, 10);
+    // hospitalTime.slice( 0, hospitalTime.indexOf(" "))
+    // hospitalTimeStr = hospitalTime.substr(11, 5);
+    // hospitalTime.slice(  hospitalTime.indexOf(" ")+1, hospitalTime.length)
+    hospitalTimestamp = (new Date(hospitalTime)).getTime();
+
+
+    if (hospitalTimestamp > lastTimestamp) {
+        lastTimestamp = hospitalTimestamp
+    }
+
+
+    laydate.render({
+        elem: "#io-date1", //指定元素
+        showBottom: false,
+        value: fromatDate(lastTimestamp).date,
+        done: function (value, date, endDate) {
+            console.log(value); //得到日期生成的值，如：2017-08-18
+            console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+            console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+        }
+    });
+    laydate.render({
+        elem: "#io-date2", //指定元素
+        showBottom: false,
+        value: curDayStr,
+        done: function (value, date, endDate) {
+            console.log(value); //得到日期生成的值，如：2017-08-18
+            console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+            console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+
+        }
+    });
+    laydate.render({
+        elem: '#io-time1', //指定元素
+        // showBottom: false,
+        type: 'time',
+        format: 'HH:mm',
+        value: fromatDate(lastTimestamp).time,
+        done: function (value, date, endDate) {
+
+        }
+    });
+    laydate.render({
+        elem: '#io-time2', //指定元素
+        // showBottom: false,
+        type: 'time',
+        format: 'HH:mm',
+        value: curTimeStr,
+        done: function (value, date, endDate) {
+
+        }
+    });
+
+    $(".qx-btn").on("click", function () {
+        $(".m-modal").addClass("none")
+    });
+
+    // 出入量统计 默认是从前一天07：00 - 今天07：00，如果是前一天入院则入院日期是从入院时到今天早上
+    $(".btn-group").on("click", ".type3", function () {
+        $(".m-modal").removeClass("none");
+        queryio()
+    });
+
+    var iodate1, iodate2;
+    // 确认统计
+    $("#sub-btn").on("click", function () {
+        // iodate1 = $("#io-date1").val() + " " + $("#io-time1").val() + ":00";
+        // iodate2 = $("#io-date2").val() + " " + $("#io-time2").val() + ":00";
+        console.log(iodate1, iodate2);
+        queryio()
+    });
+
+    function queryio() {
+        iodate1 = $("#io-date1").val() + " " + $("#io-time1").val() + ":00";
+        iodate2 = $("#io-date2").val() + " " + $("#io-time2").val() + ":00";
+        console.log("-----------", iodate1, iodate2);
+        $.post("/pc/record/nrl/io", {
+            pid: pid,
+            startDate: iodate1,
+            endDate: iodate2,
+        }, function (json) {
+            console.log(json);
+            if (json.result == 0) {
+                var html1 = '';
+                var html2 = '';
+                var intakeArr = json.datas["intake"] || [], outputArr = json.datas["output"] || [];
+                var intakeDArr = json.datas["intakeDArr"] || [], outputCArr = json.datas["outputCArr"] || [];
+                for (var index = 0; index < intakeArr.length; index++) {
+                    var mod = intakeArr[index];
+                    html1 += '<li>\n' +
+                            '<p>\n' +
+                            '    <span class="b1">' + mod.DateStr + '</span>\n' +
+                            '    <span class="b2">' + mod.ValueTitle + '</span>\n' +
+                            '    <span class="b3">' + mod.value + 'ml</span>\n' +
+                            '    <span class="b4">' + mod.nursename + '</span>\n' +
+                            '</p>\n' +
+                            '</li>';
+                }
+
+                for (var index = 0; index < outputArr.length; index++) {
+                    var mod = outputArr[index];
+                    html2 += '<li>\n' +
+                            '<p>\n' +
+                            '    <span class="b1">' + mod.DateStr + '</span>\n' +
+                            '    <span class="b2">' + mod.ValueTitle + '</span>\n' +
+                            '    <span class="b3">' + mod.value + 'ml</span>\n' +
+                            '    <span class="b4">' + mod.nursename + '</span>\n' +
+                            '</p>\n' +
+                            '</li>';
+                }
+                $("#intake").html(html1);
+                $("#output").html(html2);
+
+                $("#intakeA").text(json.datas["intakeA"]);
+                $("#intakeB").text(json.datas["intakeB"]);
+                $("#intakeC").text(json.datas["intakeC"]);
+                $("#intakeD").data("intaked", json.datas["intakeD"]);
+                var html3 = '';
+                var html4 = '';
+
+                if (intakeDArr.length) {
+                    for (var index = 0; index < intakeDArr.length; index++) {
+                        var mod = intakeDArr[index];
+                        html3 += '<div>\n' +
+                                '<span class="tit">' + mod.ValueTitle + ':</span> <span class="val">' + mod.value + '</span>\n' +
+                                '</div>'
+                    }
+                    $("#intakeD").html(html3)
+                } else {
+                    $("#intakeD").html('<div>\n' + '<span class="tit">其他:</span> <span class="val">0</span>\n' + '</div>')
+                }
+                if (outputCArr.length) {
+                    for (var index = 0; index < outputCArr.length; index++) {
+                        var mod = outputCArr[index];
+                        html4 += '<div>\n' +
+                                '<span class="tit">' + mod.ValueTitle + ':</span> <span class="val">' + mod.value + '</span>\n' +
+                                '</div>'
+                    }
+                    $("#outputC").html(html4)
+                } else {
+                    $("#outputC").html('<div>\n' + '<span class="tit">其他:</span> <span class="val">0</span>\n' + '</div>')
+                }
+
+
+                $("#intakeTotal").text(json.datas["intakeTotal"]);
+
+                $("#outputA").text(json.datas["outputA"]);
+                $("#outputB").text(json.datas["outputB"]);
+                $("#outputC").data("outputc", json.datas["outputC"]);
+                $("#outputTotal").text(json.datas["outputTotal"]);
+            } else {
+                $("#intake").html("");
+                $("#output").html("");
+                // alert(json.errmsg);
+                jkyAlert(json.errmsg, "no")
+            }
+        }, 'json')
+    }
+
+    // 出入量 提交确认
+    $("#ok-btn").on("click", function () {
+        iodate1 = $("#io-date1").val() + " " + $("#io-time1").val() + ":00";
+        iodate2 = $("#io-date2").val() + " " + $("#io-time2").val() + ":00";
+
+        var intakeA = $("#intakeA").text();
+        var intakeB = $("#intakeB").text();
+        var intakeC = $("#intakeC").text();
+        var intakeD = $("#intakeD").data("intaked");
+        var intakeDV = $.trim($("#intakeD").text());
+        var intakeTotal = $("#intakeTotal").text();
+
+        var outputA = $("#outputA").text();
+        var outputB = $("#outputB").text();
+        var outputC = $("#outputC").data("outputc");
+        var outputCV = $.trim($("#outputC").text());
+        var outputTotal = $("#outputTotal").text();
+
+        var pid = "{{.PInfo.VAA01}}";
+        var uid = "{{.Userinfo.UID}}";
+        var username = "{{.Userinfo.Name}}";
+        var did = "{{.Userinfo.DepartmentID}}";
+        var dataType = $("#tb").prop("checked") ? 1 : 0;
+        $.post("/pc/record/nrl/insertio", {
+            pid: pid,
+            uid: uid,
+            username: username,
+            did: did,
+            dataType: dataType,
+            startDate: iodate1,
+            endDate: iodate2,
+            intakeA: intakeA,
+            intakeB: intakeB,
+            intakeC: intakeC,
+            intakeD: intakeD,
+            intakeDV: intakeDV,
+            intakeTotal: intakeTotal,
+            outputA: outputA,
+            outputB: outputB,
+            outputC: outputC,
+            outputCV: outputCV,
+            outputTotal: outputTotal,
+
+        }, function (json) {
+            console.log(json);
+            if (json.result == 0) {
+                $(".m-modal").addClass("none");
+                window.location.href = "/pc/record/nrl1?pid=" + pid;
+            } else {
+                // alert(json.errmsg);
+                jkyAlert(json.errmsg, "no")
+            }
+        }, 'json')
+    });
+
+
+    $("tbody").on("click", ".cancel-btn", function () {
+        // if ($(this).data("isnew") && $(this).data("isnew") != "0") {
+        //     location.reload()
+        // } else {
+            $(this).parents("tr").removeClass("active")
+        // }
+    })
+
+    $("body").on("click",".noneClick",function(){
+        return false;
+    })
+
+</script>
+
+</body>
+
+</html>

@@ -70,14 +70,14 @@ func CompareTimeNow(time1 string) bool {
 //数字时间转汉字时间
 var timeChina =  []string{"", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十"}
 //var dateChina =  []string{"零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十"}
-func sinicizingTime(intval int) (datestr string) {
+func sinicizingInt(intval int) (datestr string) {
 	if intval == 0 {
 		datestr = "零"
 	} else if intval < 10 {
 		datestr = timeChina[intval]
-	} else if intval == 10 {
-		datestr = "十"
-	} else {
+	} else if intval < 20 {
+		datestr = "十" + timeChina[intval % 10]
+	} else  {
 		datestr = timeChina[intval / 10] + "十" + timeChina[intval % 10]
 	}
 
@@ -89,6 +89,17 @@ func sinicizingTime(intval int) (datestr string) {
 	return
 }
 
-func STime(t time.Time) (datestr string) {
-	return sinicizingTime(t.Hour()) + "时:" + sinicizingTime(t.Minute()) + "分"
+func SinicizingTime(t time.Time) (datestr string) {
+	return sinicizingInt(t.Hour()) + "时" + sinicizingInt(t.Minute()) + "分"
+}
+
+/*
+date: 标准格式的时间字符串
+*/
+func SinicizingDateStr(date string) (datestr string) {
+	t, err := time.ParseInLocation("2006-01-02 15:04:05", date, time.Local)
+	if err != nil || t.IsZero() {
+		return ""
+	}
+	return sinicizingInt(t.Hour()) + "时" + sinicizingInt(t.Minute()) + "分"
 }

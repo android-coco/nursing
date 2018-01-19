@@ -72,7 +72,7 @@
                 code:username,
                 password:password
             }, function (json,status) {
-                console.log(json, status);
+                // console.log(json, status);
                 if (json.result == 0) {
                     var authority = json.datas.authority;
                     if (0 == authority || 1 == authority) { // 普通护士/护士长

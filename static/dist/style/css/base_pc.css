@@ -1944,9 +1944,10 @@ body {
 .temperatureFrom .hd-bar .week-list li select {
   display: inline-block;
   border: 1px solid #ddd;
-  border-radius: 6px;
-  width: 80px;
-  padding-left: 10px;
+  border-radius: 4px;
+  font-size: 16px;
+  height: 28px;
+  text-align: center;
 }
 .temperatureFrom .hd-bar .week-list li img {
   width: 16px;
@@ -7041,6 +7042,9 @@ body {
 .doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table tbody .cont-warp {
   display: none;
   text-align: center;
+}
+.doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table tbody .col-cont.empty .del-btn {
+  display: none;
 }
 .doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table tbody .date-input2,
 .doc-input1 .doc-input8-cont .scroll-box .doc-cont .doc-table table tbody .time-input2 {

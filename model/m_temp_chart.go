@@ -7,6 +7,7 @@ import (
 	"errors"
 	"nursing/utils"
 	"fmt"
+	"strings"
 )
 
 type tempChart struct {
@@ -49,7 +50,7 @@ type tempChart struct {
 15=事件
 */
 //获取体温表数据根据周
-func PCGetTempChartData(pid string, weeks []time.Time) (chartmod tempChart, err error) {
+func PCGetTempChartData(pid string, hospdate time.Time, weeks []time.Time) (chartmod tempChart, err error) {
 	// 体温
 	temp1map, err1 := GetTempChart("101", pid, weeks)
 	temp2map, err1 := GetTempChart("102", pid, weeks)
@@ -71,6 +72,45 @@ func PCGetTempChartData(pid string, weeks []time.Time) (chartmod tempChart, err 
 	// 事件
 	incidentmap, err6 := GetTempChart("12", pid, weeks)
 
+	fmt.Println("事件:", incidentmap, len(incidentmap))
+
+	incidentArr := make([]string, 48)
+	//入院事件
+
+	datestr := utils.SinicizingTime(hospdate)
+	if !hospdate.IsZero() {
+		hour := hospdate.Hour()
+		ii := 0
+		if hour >= 2 && hour < 6{
+			ii = 0
+		} else if hour >= 6 && hour < 10 {
+			ii = 1
+		} else if hour >= 10 && hour < 14 {
+			ii = 2
+		} else if hour >= 14 && hour < 18 {
+			ii = 3
+		} else if hour >= 18 && hour < 22 {
+			ii = 4
+		} else {
+			ii = 5
+		}
+		incidentArr[ii] = "入院" + "┃" + datestr
+	}
+	for index := 0; index < len(incidentmap); index++ {
+		splitSlice := strings.Split(incidentmap[index], ",")
+		//fmt.Println("----", len(splitSlice), splitSlice)
+		for ii := 0; ii < len(splitSlice); ii++ {
+			offset := 0
+			for {
+				if incidentArr[index + offset] == "" {
+					incidentArr[index + offset] = splitSlice[ii]
+					break
+				} else {
+					offset++
+				}
+			}
+		}
+	}
 	// 输入液量 1：入量，2：出量
 	// 排出量
 	// 1=其他  2=尿量  3=大
@@ -95,7 +135,8 @@ func PCGetTempChartData(pid string, weeks []time.Time) (chartmod tempChart, err 
 		Breathe:   breathemap,
 		Pulse:     pulsemap,
 		Heartrate: heartratemap,
-		Incident:  incidentmap,
+		//Incident:  incidentmap,
+		Incident:  incidentArr,
 		Intake:    intakearr,
 		Output1:   outputarr1,
 		Output2:   outputarr2,
@@ -120,13 +161,13 @@ func GetTempChart(ty, pid string, weeks []time.Time) ([]string, error) {
 		sql = "SELECT Other FROM TemperatrureChat WHERE DateTime = ? and PatientId = ? and HeadType = 1"
 	case "101": // 口温
 		jmax = 6
-		sql = "SELECT Value FROM TemperatrureChat WHERE DateTime = ? and PatientId = ? and HeadType = 1 and SubType = 3"
+		sql = "SELECT Value FROM TemperatrureChat WHERE DateTime = ? and PatientId = ? and HeadType = 1 and SubType = 3 "
 	case "102": // 腋温
 		jmax = 6
-		sql = "SELECT Value FROM TemperatrureChat WHERE DateTime = ? and PatientId = ? and HeadType = 1 and SubType = 1"
+		sql = "SELECT Value FROM TemperatrureChat WHERE DateTime = ? and PatientId = ? and HeadType = 1 and SubType = 1 "
 	case "103": // 肛温
 		jmax = 6
-		sql = "SELECT Value FROM TemperatrureChat WHERE DateTime = ? and PatientId = ? and HeadType = 1 and SubType = 4"
+		sql = "SELECT Value FROM TemperatrureChat WHERE DateTime = ? and PatientId = ? and HeadType = 1 and SubType = 4 "
 
 	case "2": // 脉搏
 		jmax = 6
@@ -153,7 +194,7 @@ func GetTempChart(ty, pid string, weeks []time.Time) ([]string, error) {
 
 	case "12": // 事件
 		jmax = 6
-		sql = "SELECT Other FROM TemperatrureChat WHERE DateTime = ? and PatientId = ? and HeadType = 12 "
+		sql = "SELECT Other, TestTime FROM TemperatrureChat WHERE DateTime = ? and PatientId = ? and HeadType = 12 "
 
 		//  ORDER BY DateTime1 DESC LIMIT 1
 	case "601": //   总入量
@@ -208,33 +249,32 @@ func GetTempChart(ty, pid string, weeks []time.Time) ([]string, error) {
 						totalvalue := ""
 						for _, dict := range resultmap {
 							if v, ok := dict["Other"]; ok {
-								t := time.Now()
-								fmt.Println("-----time str :", utils.STime(t))
-								//fmt.Printf("mods: %+v  len:%d\n", list, len(list))
 								switch v {
 								case "1":
-									totalvalue = totalvalue + "入院<br/><br/>"
+									totalvalue = totalvalue + "入院"
 								case "2":
-									totalvalue = totalvalue + "出院<br/><br/>"
+									totalvalue = totalvalue + "出院"
 								case "3":
-									totalvalue = totalvalue + "手术<br/><br/>"
+									totalvalue = totalvalue + "手术"
 								case "4":
-									totalvalue = totalvalue + "分娩<br/><br/>"
+									totalvalue = totalvalue + "分娩"
 								case "5":
-									totalvalue = totalvalue + "出生<br/><br/>"
+									totalvalue = totalvalue + "出生"
 								case "6":
-									totalvalue = totalvalue + "转入<br/><br/>"
+									totalvalue = totalvalue + "转入"
 								case "7":
-									totalvalue = totalvalue + "转科<br/><br/>"
+									totalvalue = totalvalue + "转科"
 								case "8":
-									totalvalue = totalvalue + "<span>转院<br/><br/></span>"
+									totalvalue = totalvalue + "转院"
 								case "9":
-									totalvalue = totalvalue + "死亡<br/><br/>"
+									totalvalue = totalvalue + "死亡"
 								case "10":
-									totalvalue = totalvalue + "外出<br/><br/>"
+									totalvalue = totalvalue + "外出"
 								default:
 									totalvalue = totalvalue + ""
 								}
+								datestr := utils.SinicizingDateStr(dict["TestTime"])
+								totalvalue = totalvalue + "┃" + datestr + ","
 								/*switch v {
 								case "1":
 									totalvalue = totalvalue + "入院<br/><br/>"
@@ -263,6 +303,7 @@ func GetTempChart(ty, pid string, weeks []time.Time) ([]string, error) {
 								totalvalue = totalvalue + ""
 							}
 						}
+						totalvalue = utils.DelLastIndex(totalvalue)
 						results = append(results, totalvalue)
 
 					case "109": // 体温事件

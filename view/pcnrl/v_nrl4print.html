@@ -1,0 +1,588 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="/static/dist/js/lib/jquery.min.js"></script>
+    <script src="/static/dist/js/lib/jquery.qrcode.min.js"></script>
+    <title>深圳万丰医院深静脉血栓(DVT)形成风险评估表</title>
+    <style type="text/css">
+        @media print {
+            body {-webkit-print-color-adjust: exact;}
+            .no-print {display: none;}
+        }
+        @page  {size: portrait}
+        body{
+            /*font-family: "黑体";*/
+            color:#000 !important;
+
+        }
+        table{ border-color: #000!important;}
+        .bagw{
+            height: 1540px;
+            width: 1064px;
+        }
+        <!--
+        .STYLE1 {
+            font-size: 32px;
+            font-weight: bold;
+        }
+        .tit{
+            font-size: 18px;
+        }
+        p{
+            margin:4px 0;
+        }
+        .STYLE2 {font-size: medium}
+        -->
+        .kg {
+            padding-top: 150px;
+        }
+    </style>
+    <script type="text/javascript">
+        var scoreHash = {
+            "option1": { //年龄
+                "1": "0",
+                "2": 1,
+                "3": 2,
+                "4": 3,
+                "5": 4,
+                "6": 5,
+            },
+            "option2": { //BMI= 体重（kg）/身高（m） 2
+                "1": "0",
+                "2": 1,
+                "3": 2,
+                "4": 3,
+                "5": 4,
+            },
+            "option3": {  //运动能力
+                "1": "0",
+                "2": 1,
+                "3": 2,
+                "4": 3,
+                "5": 4,
+            },
+            "option4": { //特殊风险种类：
+                "1": 1,
+                "2": 2,
+                "3": 3,
+                "4": 4,
+            },
+            "option5": { //创伤风险种类（术前）
+                "1": 1,
+                "2": 2,
+                "3": 3,
+                "4": 4,
+                "5": 5,
+            },
+            "option6": { //外科干预：
+                "1": 1,
+                "2": 2,
+                "3": 3,
+            },
+            "option7": { //现有的高风险疾病：
+                "1": 1,
+                "2": 2,
+                "3": 3,
+                "4": 4,
+                "5": 5,
+                "6": 6,
+                "7": 7,
+            },
+            "option12": { //总得分
+                "0": "0",
+                "-1": "",
+            },
+        }
+        $(function () {
+            var page = {{.PageNum}}//多少页
+            var datas = {{.NRLList}}//数据
+            var pgeDataNum = {{.PageDataNum}}//每页多少数据
+                    loadData(page, datas, pgeDataNum);
+        });
+
+        function loadData(page, datas,pgeDataNum) {
+            console.log(page,datas)
+            var len = datas.length;
+            var html = "";
+            if(len > 0){
+                for (var i = 0; i < page; i++) {
+                    html+="<div class=\"bagw\"><div>\n" +
+                            "    <div>\n" +
+                            "        <p align=\"center\" class=\"STYLE1\">深圳万丰医院深静脉血栓(DVT)形成风险评估表</p>\n" +
+                            "    </div>\n" +
+                            "</div>\n" +
+                            "<div>\n" +
+                            "    <div>\n" +
+                            "        <p class=\"tit\">\n" +
+                            "            <label>床号：</label>\n" +
+                            "        {{.PInfo.BCQ04}} \n" +
+                            "            <label>&nbsp; &nbsp; &nbsp;姓名：</label>\n" +
+                            "        {{.PInfo.VAA05}} \n" +
+                            "            <label>&nbsp; &nbsp; &nbsp;性别：</label>\n" +
+                            "        {{.PInfo.Gender}}\n" +
+                            "            <label>&nbsp; &nbsp; &nbsp;年龄：</label>\n" +
+                            "        {{.PInfo.VAA10}}岁\n" +
+                            "            <label>&nbsp; &nbsp; &nbsp;住院号：</label>\n" +
+                            "        {{.PInfo.VAA04}}\n" +
+                            "            <label>&nbsp; &nbsp; &nbsp;诊断：</label>\n" +
+                            "        {{.PInfo.VAO15}}</p>\n" +
+                            "        <table width=\"1064\" height=\"1127\"  border=\"1\"  cellspacing=\"0\" bordercolor=\"#666666\">\n" +
+                            "            <tr>\n" +
+                            "                <td width=\"134\" rowspan=\"2\"><div align=\"center\" class=\"STYLE2\">项目</div></td>\n" +
+                            "                <td width=\"42\" rowspan=\"2\"><div align=\"center\" class=\"STYLE2\">评分</div></td>\n" +
+                            "                <td width=\"263\" rowspan=\"2\"><div align=\"center\">评估标准</div></td>\n" +
+                            "                <td height=\"37\" colspan=\"6\"><div align=\"center\">评估日期</div></td>\n" +
+                            "            </tr>\n" +
+                            "            <tr>\n" +
+                            "                <td width=\"96\" height=\"46\"><div align=\"center\">"+ ((datas[i * pgeDataNum + 0]||"") && (datas[i * pgeDataNum + 0].DateStr || " ")) +"</div></td>\n" +
+                            "                <td width=\"94\"><div align=\"center\">"+ ((datas[i * pgeDataNum + 1]||"") && (datas[i * pgeDataNum + 1].DateStr || " ")) +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+ ((datas[i * pgeDataNum + 2]||"") && (datas[i * pgeDataNum + 2].DateStr || " ")) +"</td>\n" +
+                            "                <td width=\"89\"><div align=\"center\">"+ ((datas[i * pgeDataNum + 3]||"") && (datas[i * pgeDataNum + 3].DateStr || " ")) +"</div></td>\n" +
+                            "                <td width=\"92\"><div align=\"center\">"+ ((datas[i * pgeDataNum + 4]||"") && (datas[i * pgeDataNum + 4].DateStr || " ")) +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+ ((datas[i * pgeDataNum + 5]||"") && (datas[i * pgeDataNum + 5].DateStr || " ")) +"</div></td>\n" +
+                            "            </tr>\n" +
+                            "            <tr>\n" +
+                            "                <td><div align=\"center\" class=\"STYLE2\">年龄(岁)</div></td>\n" +
+                            "                <td><div class=\"STYLE2\">\n" +
+                            "                    <p align=\"center\">0</p>\n" +
+                            "                    <p align=\"center\">1</p>\n" +
+                            "                    <p align=\"center\">2</p>\n" +
+                            "                    <p align=\"center\">3</p>\n" +
+                            "                    <p align=\"center\">4</p>\n" +
+                            "                    <p align=\"center\">5</p>\n" +
+                            "                </div></td>\n" +
+                            "                <td><div>\n" +
+                            "                    <p>10---30岁</p>\n" +
+                            "                    <p>31---40岁</p>\n" +
+                            "                    <p>41---50岁</p>\n" +
+                            "                    <p>51---60岁</p>\n" +
+                            "                    <p>61---70岁</p>\n" +
+                            "                    <p>&gt;70岁</p>\n" +
+                            "                </div></td>\n" +
+                            "                <td width=\"96\"><div align=\"center\">"+(scoreHash.option1[(datas[i * pgeDataNum + 0].NRL01 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"94\"><div align=\"center\">"+(scoreHash.option1[(datas[i * pgeDataNum + 1].NRL01 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option1[(datas[i * pgeDataNum + 2].NRL01 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"89\"><div align=\"center\">"+(scoreHash.option1[(datas[i * pgeDataNum + 3].NRL01 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"92\"><div align=\"center\">"+(scoreHash.option1[(datas[i * pgeDataNum + 4].NRL01 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option1[(datas[i * pgeDataNum + 5].NRL01 || "")] || " ") +"</div></td>\n" +
+                            "            </tr>\n" +
+                            "            <tr>\n" +
+                            "                <td><div class=\"STYLE2\">\n" +
+                            "                    <div align=\"center\">BMI= 体重（kg）/身高（m）^2</div>\n" +
+                            "                </div></td>\n" +
+                            "                <td><div class=\"STYLE2\">\n" +
+                            "                    <p align=\"center\">0</p>\n" +
+                            "                    <p align=\"center\">1</p>\n" +
+                            "                    <p align=\"center\">2</p>\n" +
+                            "                    <p align=\"center\">3</p>\n" +
+                            "                    <p align=\"center\">4</p>\n" +
+                            "                </div></td>\n" +
+                            "                <td><div>\n" +
+                            "                    <p>16---19</p>\n" +
+                            "                    <p>20---25</p>\n" +
+                            "                    <p>26---30</p>\n" +
+                            "                    <p>31---40</p>\n" +
+                            "                    <p>&gt;40</p>\n" +
+                            "                </div></td>\n" +
+                            "                <td width=\"96\"><div align=\"center\">"+(scoreHash.option2[(datas[i * pgeDataNum + 0].NRL02 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"94\"><div align=\"center\">"+(scoreHash.option2[(datas[i * pgeDataNum + 1].NRL02 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option2[(datas[i * pgeDataNum + 2].NRL02 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"89\"><div align=\"center\">"+(scoreHash.option2[(datas[i * pgeDataNum + 3].NRL02 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"92\"><div align=\"center\">"+(scoreHash.option2[(datas[i * pgeDataNum + 4].NRL02 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option2[(datas[i * pgeDataNum + 5].NRL02 || "")] || " ") +"</div></td>\n" +
+                            "            </tr>\n" +
+                            "            <tr>\n" +
+                            "                <td><div class=\"STYLE2\">\n" +
+                            "                    <div align=\"center\">运动能力</div>\n" +
+                            "                </div></td>\n" +
+                            "                <td><div class=\"STYLE2\">\n" +
+                            "                    <p align=\"center\">0</p>\n" +
+                            "                    <p align=\"center\">1</p>\n" +
+                            "                    <p align=\"center\">2</p>\n" +
+                            "                    <p align=\"center\">3</p>\n" +
+                            "                    <p align=\"center\">4</p>\n" +
+                            "                </div></td>\n" +
+                            "                <td><div>\n" +
+                            "                    <p>能走动</p>\n" +
+                            "                    <p>运动受限(需要辅助工具)</p>\n" +
+                            "                    <p>运动严重受限(需要他人协助)</p>\n" +
+                            "                    <p>轮椅</p>\n" +
+                            "                    <p>完全卧床</p>\n" +
+                            "                </div></td>\n" +
+                            "                <td width=\"96\"><div align=\"center\">"+(scoreHash.option3[(datas[i * pgeDataNum + 0].NRL03 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"94\"><div align=\"center\">"+(scoreHash.option3[(datas[i * pgeDataNum + 1].NRL03 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option3[(datas[i * pgeDataNum + 2].NRL03 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"89\"><div align=\"center\">"+(scoreHash.option3[(datas[i * pgeDataNum + 3].NRL03 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"92\"><div align=\"center\">"+(scoreHash.option3[(datas[i * pgeDataNum + 4].NRL03 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option3[(datas[i * pgeDataNum + 5].NRL03 || "")] || " ") +"</div></td>\n" +
+                            "            </tr>\n" +
+                            "            <tr>\n" +
+                            "                <td><div class=\"STYLE2\">\n" +
+                            "                    <div align=\"center\">特殊风险种类</div>\n" +
+                            "                </div></td>\n" +
+                            "                <td><div class=\"STYLE2\">\n" +
+                            "                    <p align=\"center\"> </p>\n" +
+                            "                    <p align=\"center\">1</p>\n" +
+                            "                    <p align=\"center\">2</p>\n" +
+                            "                    <p align=\"center\">3</p>\n" +
+                            "                    <p align=\"center\">4</p>\n" +
+                            "                </div></td>\n" +
+                            "                <td><div>\n" +
+                            "                    <p>服用避孕药</p>\n" +
+                            "                    <p>20 ~ 35岁</p>\n" +
+                            "                    <p>大于35岁或激素替代治疗</p>\n" +
+                            "                    <p>怀孕及产褥期</p>\n" +
+                            "                    <p>易栓症</p>\n" +
+                            "                </div></td>\n" +
+                            "                <td width=\"96\"><div align=\"center\">"+(scoreHash.option4[(datas[i * pgeDataNum + 0].NRL04 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"94\"><div align=\"center\">"+(scoreHash.option4[(datas[i * pgeDataNum + 1].NRL04 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option4[(datas[i * pgeDataNum + 2].NRL04 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"89\"><div align=\"center\">"+(scoreHash.option4[(datas[i * pgeDataNum + 3].NRL04 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"92\"><div align=\"center\">"+(scoreHash.option4[(datas[i * pgeDataNum + 4].NRL04 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option4[(datas[i * pgeDataNum + 5].NRL04 || "")] || " ") +"</div></td>\n" +
+                            "            </tr>\n" +
+                            "            <tr>\n" +
+                            "                <td><div class=\"STYLE2\">\n" +
+                            "                    <div align=\"center\">创伤风险种类（术前）</div>\n" +
+                            "                </div></td>\n" +
+                            "                <td><div class=\"STYLE2\">\n" +
+                            "                    <p align=\"center\">1</p>\n" +
+                            "                    <p align=\"center\">2</p>\n" +
+                            "                    <p align=\"center\">3</p>\n" +
+                            "                    <p align=\"center\">4</p>\n" +
+                            "                </div></td>\n" +
+                            "                <td><div>\n" +
+                            "                    <p>头部损伤或胸部损伤</p>\n" +
+                            "                    <p>脊柱损伤</p>\n" +
+                            "                    <p>盆腔损伤</p>\n" +
+                            "                    <p>下肢损伤</p>\n" +
+                            "                </div></td>\n" +
+                            "                <td width=\"96\"><div align=\"center\">"+(scoreHash.option5[(datas[i * pgeDataNum + 0].NRL05 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"94\"><div align=\"center\">"+(scoreHash.option5[(datas[i * pgeDataNum + 1].NRL05 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option5[(datas[i * pgeDataNum + 2].NRL05 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"89\"><div align=\"center\">"+(scoreHash.option5[(datas[i * pgeDataNum + 3].NRL05 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"92\"><div align=\"center\">"+(scoreHash.option5[(datas[i * pgeDataNum + 4].NRL05 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option5[(datas[i * pgeDataNum + 5].NRL05 || "")] || " ") +"</div></td>\n" +
+                            "            </tr>\n" +
+                            "            <tr>\n" +
+                            "                <td height=\"126\"><div class=\"STYLE2\">\n" +
+                            "                    <div align=\"center\">外科干预</div>\n" +
+                            "                </div></td>\n" +
+                            "                <td><div class=\"STYLE2\">\n" +
+                            "                    <p align=\"center\">1</p>\n" +
+                            "                    <p align=\"center\">2</p>\n" +
+                            "                    <p align=\"center\">3</p>\n" +
+                            "                </div></td>\n" +
+                            "                <td><div>\n" +
+                            "                    <p>小手术小于30分钟</p>\n" +
+                            "                    <p>择期大型手术</p>\n" +
+                            "                    <p>急诊大手术、腹部手术、泌尿科手术、神经外科手术</p>\n" +
+                            "                </div></td>\n" +
+                            "                <td width=\"96\"><div align=\"center\">"+(scoreHash.option6[(datas[i * pgeDataNum + 0].NRL06 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"94\"><div align=\"center\">"+(scoreHash.option6[(datas[i * pgeDataNum + 1].NRL06 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option6[(datas[i * pgeDataNum + 2].NRL06 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"89\"><div align=\"center\">"+(scoreHash.option6[(datas[i * pgeDataNum + 3].NRL06 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"92\"><div align=\"center\">"+(scoreHash.option6[(datas[i * pgeDataNum + 4].NRL06 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option6[(datas[i * pgeDataNum + 5].NRL06 || "")] || " ") +"</div></td>\n" +
+                            "            </tr>\n" +
+                            "            <tr>\n" +
+                            "                <td height=\"201\"><div class=\"STYLE2\">\n" +
+                            "                    <div align=\"center\">现有的高风险疾病</div>\n" +
+                            "                </div></td>\n" +
+                            "                <td><div class=\"STYLE2\">\n" +
+                            "                    <p align=\"center\">1</p>\n" +
+                            "                    <p align=\"center\">2<br />\n" +
+                            "                                   </p>\n" +
+                            "                    <p align=\"center\">3</p>\n" +
+                            "                    <p align=\"center\">4</p>\n" +
+                            "                    <p align=\"center\">5</p>\n" +
+                            "                    <p align=\"center\">6</p>\n" +
+                            "                    <p align=\"center\">7</p>\n" +
+                            "                </div></td>\n" +
+                            "                <td><div>\n" +
+                            "                    <p>溃疡性结石肠炎</p>\n" +
+                            "                    <p>红血球增多症、镰状细胞贫血、溶血性贫血</p>\n" +
+                            "                    <p>静脉曲张、慢性心脏疾病</p>\n" +
+                            "                    <p>急性心肌梗塞</p>\n" +
+                            "                    <p>恶性肿瘤（活性）</p>\n" +
+                            "                    <p>脑血管意外</p>\n" +
+                            "                    <p>DVT病史</p>\n" +
+                            "                </div></td>\n" +
+                            "                <td width=\"96\"><div align=\"center\">"+(scoreHash.option7[(datas[i * pgeDataNum + 0].NRL07 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"94\"><div align=\"center\">"+(scoreHash.option7[(datas[i * pgeDataNum + 1].NRL07 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option7[(datas[i * pgeDataNum + 2].NRL07 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"89\"><div align=\"center\">"+(scoreHash.option7[(datas[i * pgeDataNum + 3].NRL07 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"92\"><div align=\"center\">"+(scoreHash.option7[(datas[i * pgeDataNum + 4].NRL07 || "")] || " ") +"</div></td>\n" +
+                            "                <td width=\"95\"><div align=\"center\">"+(scoreHash.option7[(datas[i * pgeDataNum + 5].NRL07 || "")] || " ") +"</div></td>\n" +
+                            "            </tr>\n" +
+                            "            <tr>\n" +
+                            "                <td colspan=\"3\"><div align=\"center\">总得分</div></td>\n" +
+                            "                <td width=\"96\" height=\"50\"><div align=\"center\">"+ (datas[i * pgeDataNum + 0].Score || scoreHash.option12[datas[i * pgeDataNum + 0].Score] ||" ") + "</div></td>\n" +
+                            "                <td width=\"94\" height=\"50\"><div align=\"center\">"+ (datas[i * pgeDataNum + 1].Score || scoreHash.option12[datas[i * pgeDataNum + 1].Score] ||" ") + "</div></td>\n" +
+                            "                <td width=\"95\" height=\"50\"><div align=\"center\">"+ (datas[i * pgeDataNum + 2].Score || scoreHash.option12[datas[i * pgeDataNum + 2].Score] ||" ") + "</div></td>\n" +
+                            "                <td width=\"89\" height=\"50\"><div align=\"center\">"+ (datas[i * pgeDataNum + 3].Score || scoreHash.option12[datas[i * pgeDataNum + 3].Score] ||" ") + "</div></td>\n" +
+                            "                <td width=\"92\" height=\"50\"><div align=\"center\">"+ (datas[i * pgeDataNum + 4].Score || scoreHash.option12[datas[i * pgeDataNum + 4].Score] ||" ") + "</div></td>\n" +
+                            "                <td width=\"95\" height=\"50\"><div align=\"center\">"+ (datas[i * pgeDataNum + 5].Score || scoreHash.option12[datas[i * pgeDataNum + 5].Score] ||" ") + "</div></td>\n" +
+                            "            </tr>\n" +
+                            "            <tr>\n" +
+                            "                <td colspan=\"3\"><div align=\"center\">评估人</div></td>\n" +
+                            "                <td width=\"96\" height=\"50\"><div align=\"center\">"+ (datas[i * pgeDataNum +0].NurseName||" ") +"</div></td>\n" +
+                            "                <td width=\"94\" height=\"50\"><div align=\"center\">"+ (datas[i * pgeDataNum +1].NurseName||" ") +"</div></td>\n" +
+                            "                <td width=\"95\" height=\"50\"><div align=\"center\">"+ (datas[i * pgeDataNum +2].NurseName||" ") +"</div></td>\n" +
+                            "                <td width=\"89\" height=\"50\"><div align=\"center\">"+ (datas[i * pgeDataNum +3].NurseName||" ") +"</div></td>\n" +
+                            "                <td width=\"92\" height=\"50\"><div align=\"center\">"+ (datas[i * pgeDataNum +4].NurseName||" ") +"</div></td>\n" +
+                            "                <td width=\"95\" height=\"50\"><div align=\"center\">"+ (datas[i * pgeDataNum +5].NurseName||" ") +"</div></td>\n" +
+                            "            </tr>\n" +
+                            "        </table>\n" +
+                            "<p class=\"tit\">评分方案：≤6 分无风险；7~10 分为低危(关注病情变化，随时评估)；11~14分为中危(第一周评估2次，此后4周内每周评估一次，之后每月评估一次)；≥15 分为高危(手术后3天内每天评估1次，之后接中危 病人评估)</p>" +
+                            "<p class=\"tit\">评估时机：患者入院24h内完成</p>" +
+                            "    </div>\n" +
+                            "</div></div>";
+
+
+
+                }
+               $('body').html(html)
+            }
+        }
+    </script>
+</head>
+
+<body>
+<div class="bagw">
+<div>
+    <div>
+        <p align="center" class="STYLE1">深圳万丰医院深静脉血栓(DVT)形成风险评估表</p>
+    </div>
+</div>
+<div>
+    <div>
+        <p class="tit">
+            <label>床号：</label>
+        {{.PInfo.BCQ04}} 
+            <label>&nbsp; &nbsp; &nbsp;姓名：</label>
+        {{.PInfo.VAA05}} 
+            <label>&nbsp; &nbsp; &nbsp;性别：</label>
+        {{.PInfo.Gender}}
+            <label>&nbsp; &nbsp; &nbsp;年龄：</label>
+        {{.PInfo.VAA10}}岁
+            <label>&nbsp; &nbsp; &nbsp;住院号：</label>
+        {{.PInfo.VAA04}}
+            <label>&nbsp; &nbsp; &nbsp;诊断：</label>
+        {{.PInfo.VAO15}}</p>
+        <table width="1064" height="1127"  border="1"  cellspacing="0" bordercolor="#666666">
+            <tr>
+                <td width="134" rowspan="2"><div align="center" class="STYLE2">项目</div></td>
+                <td width="42" rowspan="2"><div align="center" class="STYLE2">评分</div></td>
+                <td width="263" rowspan="2"><div align="center">评估标准</div></td>
+                <td height="37" colspan="6"><div align="center">评估日期</div></td>
+            </tr>
+            <tr>
+                <td width="96" height="46"><div align="center"></div></td>
+                <td width="94"><div align="center"></div></td>
+                <td width="95"><div align="center"></div></td>
+                <td width="89"><div align="center"></div></td>
+                <td width="92"><div align="center"></div></td>
+                <td width="95"><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td><div align="center" class="STYLE2">年龄(岁)</div></td>
+                <td><div class="STYLE2">
+                    <p align="center">0</p>
+                    <p align="center">1</p>
+                    <p align="center">2</p>
+                    <p align="center">3</p>
+                    <p align="center">4</p>
+                    <p align="center">5</p>
+                </div></td>
+                <td><div>
+                    <p>10---30岁</p>
+                    <p>31---40岁</p>
+                    <p>41---50岁</p>
+                    <p>51---60岁</p>
+                    <p>61---70岁</p>
+                    <p>&gt;70岁</p>
+                </div></td>
+                <td width="96"><div align="center"></div></td>
+                <td width="94"><div align="center"></div></td>
+                <td width="95"><div align="center"></div></td>
+                <td width="89"><div align="center"></div></td>
+                <td width="92"><div align="center"></div></td>
+                <td width="95"><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td><div class="STYLE2">
+                    <div align="center">BMI= 体重（kg）/身高（m）^2</div>
+                </div></td>
+                <td><div class="STYLE2">
+                    <p align="center">0</p>
+                    <p align="center">1</p>
+                    <p align="center">2</p>
+                    <p align="center">3</p>
+                    <p align="center">4</p>
+                </div></td>
+                <td><div>
+                    <p>16---19</p>
+                    <p>20---25</p>
+                    <p>26---30</p>
+                    <p>31---40</p>
+                    <p>&gt;40</p>
+                </div></td>
+                <td width="96"><div align="center"></div></td>
+                <td width="94"><div align="center"></div></td>
+                <td width="95"><div align="center"></div></td>
+                <td width="89"><div align="center"></div></td>
+                <td width="92"><div align="center"></div></td>
+                <td width="95"><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td><div class="STYLE2">
+                    <div align="center">运动能力</div>
+                </div></td>
+                <td><div class="STYLE2">
+                    <p align="center">0</p>
+                    <p align="center">1</p>
+                    <p align="center">2</p>
+                    <p align="center">3</p>
+                    <p align="center">4</p>
+                </div></td>
+                <td><div>
+                    <p>能走动</p>
+                    <p>运动受限(需要辅助工具)</p>
+                    <p>运动严重受限(需要他人协助)</p>
+                    <p>轮椅</p>
+                    <p>完全卧床</p>
+                </div></td>
+                <td width="96"><div align="center"></div></td>
+                <td width="94"><div align="center"></div></td>
+                <td width="95"><div align="center"></div></td>
+                <td width="89"><div align="center"></div></td>
+                <td width="92"><div align="center"></div></td>
+                <td width="95"><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td><div class="STYLE2">
+                    <div align="center">特殊风险种类</div>
+                </div></td>
+                <td><div class="STYLE2">
+                    <p align="center"> </p>
+                    <p align="center">1</p>
+                    <p align="center">2</p>
+                    <p align="center">3</p>
+                    <p align="center">4</p>
+                </div></td>
+                <td><div>
+                    <p>服用避孕药</p>
+                    <p>20 ~ 35岁</p>
+                    <p>大于35岁或激素替代治疗</p>
+                    <p>怀孕及产褥期</p>
+                    <p>易栓症</p>
+                </div></td>
+                <td width="96"><div align="center"></div></td>
+                <td width="94"><div align="center"></div></td>
+                <td width="95"><div align="center"></div></td>
+                <td width="89"><div align="center"></div></td>
+                <td width="92"><div align="center"></div></td>
+                <td width="95"><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td><div class="STYLE2">
+                    <div align="center">创伤风险种类（术前）</div>
+                </div></td>
+                <td><div class="STYLE2">
+                    <p align="center">1</p>
+                    <p align="center">2</p>
+                    <p align="center">3</p>
+                    <p align="center">4</p>
+                </div></td>
+                <td><div>
+                    <p>头部损伤或胸部损伤</p>
+                    <p>脊柱损伤</p>
+                    <p>盆腔损伤</p>
+                    <p>下肢损伤</p>
+                </div></td>
+                <td width="96"><div align="center"></div></td>
+                <td width="94"><div align="center"></div></td>
+                <td width="95"><div align="center"></div></td>
+                <td width="89"><div align="center"></div></td>
+                <td width="92"><div align="center"></div></td>
+                <td width="95"><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td height="126"><div class="STYLE2">
+                    <div align="center">外科干预</div>
+                </div></td>
+                <td><div class="STYLE2">
+                    <p align="center">1</p>
+                    <p align="center">2</p>
+                    <p align="center">3</p>
+                </div></td>
+                <td><div>
+                    <p>小手术小于30分钟</p>
+                    <p>择期大型手术</p>
+                    <p>急诊大手术、腹部手术、泌尿科手术、神经外科手术</p>
+                </div></td>
+                <td width="96"><div align="center"></div></td>
+                <td width="94"><div align="center"></div></td>
+                <td width="95"><div align="center"></div></td>
+                <td width="89"><div align="center"></div></td>
+                <td width="92"><div align="center"></div></td>
+                <td width="95"><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td height="201"><div class="STYLE2">
+                    <div align="center">现有的高风险疾病</div>
+                </div></td>
+                <td><div class="STYLE2">
+                    <p align="center">1</p>
+                    <p align="center">2<br />
+                                   </p>
+                    <p align="center">3</p>
+                    <p align="center">4</p>
+                    <p align="center">5</p>
+                    <p align="center">6</p>
+                    <p align="center">7</p>
+                </div></td>
+                <td><div>
+                    <p>溃疡性结石肠炎</p>
+                    <p>红血球增多症、镰状细胞贫血、溶血性贫血</p>
+                    <p>静脉曲张、慢性心脏疾病</p>
+                    <p>急性心肌梗塞</p>
+                    <p>恶性肿瘤（活性）</p>
+                    <p>脑血管意外</p>
+                    <p>DVT病史</p>
+                </div></td>
+                <td width="96"><div align="center"></div></td>
+                <td width="94"><div align="center"></div></td>
+                <td width="95"><div align="center"></div></td>
+                <td width="89"><div align="center"></div></td>
+                <td width="92"><div align="center"></div></td>
+                <td width="95"><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td colspan="3"><div align="center">总得分</div></td>
+                <td width="96" height="50"><div align="center"></div></td>
+                <td width="94" height="50"><div align="center"></div></td>
+                <td width="95" height="50"><div align="center"></div></td>
+                <td width="89" height="50"><div align="center"></div></td>
+                <td width="92" height="50"><div align="center"></div></td>
+                <td width="95" height="50"><div align="center"></div></td>
+            </tr>
+            <tr>
+                <td colspan="3"><div align="center">评估人</div></td>
+                <td width="96" height="50"><div align="center"></div></td>
+                <td width="94" height="50"><div align="center"></div></td>
+                <td width="95" height="50"><div align="center"></div></td>
+                <td width="89" height="50"><div align="center"></div></td>
+                <td width="92" height="50"><div align="center"></div></td>
+                <td width="95" height="50"><div align="center"></div></td>
+            </tr>
+        </table>
+        <p class="tit">评分方案：≤6 分无风险；7~10 分为低危(关注病情变化，随时评估)；11~14分为中危(第一周评估2次，此后4周内每周评估一次，之后每月评估一次)；≥15 分为高危(手术后3天内每天评估1次，之后接中危 病人评估)</p>
+        <p class="tit">评估时机：患者入院24h内完成</p>
+    </div>
+</div>
+</div>
+</body>
+</html>

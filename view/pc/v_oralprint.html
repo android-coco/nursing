@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>口服单</title>
+    <meta content="always" name="referrer">
+    <script src="/static/dist/js/lib/jquery.min.js"></script>
+    <link rel="stylesheet" href="/static/css/index.css">
+    <style type="text/css">
+        <!--
+        -->
+        @page  {size: landscape}
+        @page  {margin:0}
+        @media print {
+            body {-webkit-print-color-adjust: exact;}
+            .no-print {display: none;}
+        }
+        body{
+            font-family: "黑体";
+            color:#000 !important;
+        }
+        table{ border-color: #000!important;}
+        p {
+            margin: 0px 0;
+        }
+
+        .dan, .dan1 {
+            width: 1000px;
+            height: 440px;
+        }
+
+        /*.dan1 tr{*/
+        /*border-top:1px solid #000;*/
+        /*}*/
+        .dan1 {
+            font-size: 14px;
+            /*padding-right: 20px;*/
+
+        }
+
+        .dan1 .tit-bar {
+            width: 780px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .dan1 table {
+            width: 780px;
+            border-bottom: 1px solid #000;
+            border-right: 1px solid #000;
+        }
+
+        .dan1 td {
+            border-left: 1px solid #000;
+            border-top: 1px solid #000;
+            height: 30px;
+        }
+
+        .p_td {
+            height: 30px;
+            line-height: 30px;
+            border-bottom: 1px solid #000;
+        }
+
+        .p_td:nth-last-child(1) {
+            border-bottom: 0;
+        }
+    </style>
+    <script type="text/javascript">
+        var html = "";
+        $(function () {
+            var datas = {{.PrintInfo}};//数据
+            if (datas.length != 0) {
+                loadData(datas);
+                $('body').html(html)
+            }
+        });
+        function loadData(datas) {
+            var obj = JSON.parse(datas);//转JSON对象
+            var pdata = toArrData(obj, 9, 2);
+            $.each(pdata, function (key, arr) {
+                $.each(arr, function (key1, arr1) {
+                    console.log(arr1)
+                    html += '<div class="dan1">\n' +
+                            '    <p align="center" class="tit-bar">口服单</p>\n' +
+                            '    <p align="left">床号：' + arr1[0].bed + '&nbsp;&nbsp;&nbsp;姓名：' + arr1[0].name + '&nbsp;&nbsp;&nbsp;性别：' + arr1[0].sex + '&nbsp;&nbsp;&nbsp;年龄：' + arr1[0].age + ' 岁&nbsp;&nbsp;&nbsp;住院号：' + arr1[0].hosnum + '&nbsp;&nbsp;&nbsp;日期：' + arr1[0].ext + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;核对护士：&nbsp;&nbsp;&nbsp;</p>\n' +
+                            '    <table cellspacing=0 cellpadding=0>\n' +
+                            '        <tr>\n' +
+                            '            <td width="17">\n' +
+                            '                <div align="center">组</div>\n' +
+                            '            </td>\n' +
+                            '            <td width="230">\n' +
+                            '                <div align="center">药名</div>\n' +
+                            '            </td>\n' +
+                            '            <td width="43">\n' +
+                            '                <div align="center">剂量</div>\n' +
+                            '            </td>\n' +
+                            '            <td width="60">\n' +
+                            '                <div align="center">频次</div>\n' +
+                            '            </td>\n' +
+                            '            <td width="150">\n' +
+                            '                <div align="center">用法</div>\n' +
+                            '            </td>\n' +
+                            '            <td width="77">\n' +
+                            '                <div align="center">执行时间</div>\n' +
+                            '            </td>\n' +
+                            '            <td width="70">\n' +
+                            '                <div align="center">签名</div>\n' +
+                            '            </td>\n' +
+                            '            <td width="76">\n' +
+                            '                <div align="center">核对签名</div>\n' +
+                            '            </td>\n' +
+                            '        </tr>';
+                    $.each(arr1, function (key2, arr2) {
+
+                        if (arr2 == null) {
+                            html += '<tr>\n' +
+                                    '            <td>\n' +
+                                    '                <div align="center"></div>\n' +
+                                    '            </td>\n' +
+                                    '            <td>\n' +
+                                    '                <div align="center"></div>\n' +
+                                    '            </td>\n' +
+                                    '            <td>\n' +
+                                    '                <div align="center"></div>\n' +
+                                    '            </td>\n' +
+                                    '            <td>\n' +
+                                    '                <div align="center"></div>\n' +
+                                    '            </td>\n' +
+                                    '            <td>\n' +
+                                    '                <div align="center"></div>\n' +
+                                    '            </td>\n' +
+                                    '            <td>\n' +
+                                    '                <div align="center"></div>\n' +
+                                    '            </td>\n' +
+                                    '            <td>\n' +
+                                    '                <div align="center"></div>\n' +
+                                    '            </td>\n' +
+                                    '            <td>\n' +
+                                    '                <div align="center"></div>\n' +
+                                    '            </td>\n' +
+                                    '        </tr>';
+                        } else {
+                            html += '<tr>\n' +
+                                    '            <td>\n' +
+                                    '                <div align="center">' + arr2.gropnum + '</div>\n' +
+                                    '            </td> <td>';
+                            for (var i = 0; i < arr2.list.length; i++) {
+                                html += '<div align="center" class="p_td">' + arr2.list[i][0].split(" ")[0] + '</div>';
+                            }
+                            html += '</td><td>';
+                            for (var i = 0; i < arr2.list.length; i++) {
+                                html += '<div align="center" class="p_td">' + arr2.list[i][1] + '</div>';
+                            }
+                            html += '</td><td>\n' +
+                                    '                <div align="center">' + arr2.pc + '</div>\n' +
+                                    '            </td>\n' +
+                                    '            <td>\n' +
+                                    '                <div align="center">' + arr2.ff + '</div>\n' +
+                                    '            </td>\n' +
+                                    '            <td>\n' +
+                                    '                <div align="center"></div>\n' +
+                                    '            </td>\n' +
+                                    '            <td>\n' +
+                                    '                <div align="center"></div>\n' +
+                                    '            </td>\n' +
+                                    '            <td>\n' +
+                                    '                <div align="center"></div>\n' +
+                                    '            </td>\n' +
+                                    '        </tr>';
+                        }
+                    });
+                    html += '    </table>\n' +
+                            '    <p align="left">打印日期：{{.Now}}             结束时间：                                       签名：</p>\n' +
+                            '</div>';
+                });
+            });
+        }
+
+        function toArrData(datas, row, type) {
+            if (!datas) return [];
+            if (!datas.length) return [];
+            var bedObj = {}, hash = {};
+            $.each(datas, function (i, val) {
+                if (hash[val.bed] != undefined) {
+                    bedObj[val.bed].push(val)
+                } else {
+                    bedObj[val.bed] = [val]
+                    hash[val.bed] = i;
+                }
+            })
+            /*  console.log("bedObj")
+              console.log(bedObj)
+              console.log(JSON.stringify(bedObj))*/
+            var res = {};
+            $.each(bedObj, function (key, val) {
+                // console.log("key",key,"val",val)
+                var sum = 0, tmpl = [];
+                res[key] = [];
+                $.each(val, function (i, val2) {
+                    // console.log(val2)
+                    if (val2.ptv != type) {
+                        return true;
+                    }
+                    var len = val2.list.length;
+                    var ysum = sum;
+                    sum += len;
+                    // console.log("sum",sum)
+
+                    if (sum < row) {
+                        tmpl.push(val2)
+                        if (val.length == (i + 1)) {
+                            var nullArrLen = row - sum;
+                            for (ni = 0; ni < nullArrLen; ni++) {
+                                tmpl.push(null)
+                            }
+                            res[key].push(tmpl);
+                        }
+                    } else if (sum == row) {
+                        tmpl.push(val2);
+                        res[key].push(tmpl);
+                        tmpl = [];
+                        sum = 0
+                    } else {
+                        var nullArrLen = row - ysum;
+                        for (ni = 0; ni < nullArrLen; ni++) {
+                            tmpl.push(null)
+                        }
+                        res[key].push(tmpl);
+                        tmpl = [];
+                        tmpl.push(val2)
+                        sum = len
+                    }
+                })
+            })
+
+
+            return res;
+        }
+    </script>
+
+
+</head>
+
+<body>
+
+<div class="dan1">
+    <p align="center" class="tit-bar">口服单</p>
+    <p align="left">床号：B06&nbsp;&nbsp;&nbsp;姓名：王小晓&nbsp;&nbsp;&nbsp;性别：女&nbsp;&nbsp;&nbsp;年龄：32 岁&nbsp;&nbsp;&nbsp;住院号：489632&nbsp;&nbsp;&nbsp;日期：2017-11-01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;核对护士：&nbsp;&nbsp;&nbsp;</p>
+    <table cellspacing=0 cellpadding=0>
+        <tr>
+            <td width="17">
+                <div align="center">组</div>
+            </td>
+            <td width="150">
+                <div align="center">药名</div>
+            </td>
+            <td width="43">
+                <div align="center">剂量</div>
+            </td>
+            <td width="60">
+                <div align="center">频次</div>
+            </td>
+            <td width="230">
+                <div align="center">用法</div>
+            </td>
+            <td width="77">
+                <div align="center">执行时间</div>
+            </td>
+            <td width="70">
+                <div align="center">签名</div>
+            </td>
+            <td width="76">
+                <div align="center">核对签名</div>
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="2">
+                <div align="center">1</div>
+            </td>
+            <td rowspan="2">
+                <div align="center">马来酸氯苯那敏片</div>
+            </td>
+            <td rowspan="2">
+                <div align="center">1片</div>
+            </td>
+            <td rowspan="2">
+                <div align="center">每日3次</div>
+            </td>
+            <td rowspan="2">
+                <div align="center">阿凡达分</div>
+            </td>
+            <td rowspan="2">
+                <div align="center"></div>
+            </td>
+            <td rowspan="2">
+                <div align="center"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div align="center"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div align="center">2</div>
+            </td>
+            <td>
+                <div align="center">醋酸泼尼松片</div>
+            </td>
+            <td>
+                <div align="center">6片</div>
+            </td>
+            <td>
+                <div align="center">每日3次</div>
+            </td>
+            <td>
+                <div align="center">发达省份发射点发啊的撒法撒旦法</div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div align="center">3</div>
+            </td>
+            <td>
+                <div align="center">醋酸泼尼松片</div>
+            </td>
+            <td>
+                <div align="center">6片</div>
+            </td>
+            <td>
+                <div align="center">每日3次</div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div align="center">3</div>
+            </td>
+            <td>
+                <div align="center">醋酸泼尼松片</div>
+            </td>
+            <td>
+                <div align="center">16片</div>
+            </td>
+            <td>
+                <div align="center">每日3次</div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div align="center">3</div>
+            </td>
+            <td>
+                <div align="center">醋酸泼尼松片</div>
+            </td>
+            <td>
+                <div align="center">6片</div>
+            </td>
+            <td>
+                <div align="center">每日3次</div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div align="center">3</div>
+            </td>
+            <td>
+                <div align="center">醋酸泼尼松片</div>
+            </td>
+            <td>
+                <div align="center">6片</div>
+            </td>
+            <td>
+                <div align="center">每日3次</div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div align="center">3</div>
+            </td>
+            <td>
+                <div align="center">醋酸泼尼松片</div>
+            </td>
+            <td>
+                <div align="center">6片</div>
+            </td>
+            <td>
+                <div align="center">每日3次</div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div align="center">3</div>
+            </td>
+            <td>
+                <div align="center">醋酸泼尼松片</div>
+            </td>
+            <td>
+                <div align="center">6片</div>
+            </td>
+            <td>
+                <div align="center">每日3次</div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div align="center">3</div>
+            </td>
+            <td>
+                <div align="center">醋酸泼尼松片</div>
+            </td>
+            <td>
+                <div align="center">6片</div>
+            </td>
+            <td>
+                <div align="center">每日3次</div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+            <td>
+                <div align="center"></div>
+            </td>
+        </tr>
+    </table>
+    <p align="left">打印日期：{{.Now}}             结束时间：                                       签名：</p>
+</div>
+
+</body>
+
+</html>

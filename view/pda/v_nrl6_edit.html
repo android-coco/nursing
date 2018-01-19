@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>压疮风险（内科）</title>
+    <link rel="stylesheet" href="/static/dist/style/css/base.css">
+    <script>
+        function setFontSize() {
+            var deviceWidth = document.documentElement.clientWidth;
+            if (deviceWidth > 640) deviceWidth = 640;
+            document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+        }
+
+        setFontSize()
+        var timer = null;
+        window.addEventListener('resize', function() {
+            clearTimeout(timer)
+            timer = setTimeout(setFontSize, 300)
+        }, false)
+    </script>
+</head>
+
+<body>
+
+<div class="g-main">
+    <div class="m-msg">
+        <ul>
+            <li class="b1">
+                姓名:<span>{{.PInfo.VAA05}}</span>
+            </li>
+            <li class="b1">
+                性别:<span>{{.PInfo.Gender}}</span>
+            </li>
+            <li class="b1">
+                年龄:<span>{{.PInfo.VAA10}}岁</span>
+            </li>
+            <li class="b1">
+                科室:<span>{{.PInfo.BCK03C}}</span>
+            </li>
+            <li class="b1">
+                床号:<span>{{.PInfo.BCQ04}}</span>
+            </li>
+            <li class="b1">
+                住院号:<span>{{.PInfo.VAA04}}</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="m-tit">
+        <p class="tit">评估项目</p>
+    </div>
+
+    <!-- 感觉知觉程度： -->
+    <div class="m-check2" id="c1">
+        <p class="tit">
+            感觉知觉程度：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio two-row">
+                    <input type="radio" id="c1-v1" name="check1" data-v="1" class="c1" {{if eq .NRL.NRL01 "1"}}checked{{end}}>
+                    <label for="c1-v1" class="icon"></label>
+                </div>
+                <label for="c1-v1">完全受限，不能感知疼痛刺激或完全无法表达&nbsp;&nbsp;&nbsp;&nbsp;1分</label>
+            </li>
+            <li>
+                <div class="m-input-radio two-row">
+                    <input type="radio" id="c1-v2" name="check1" data-v="2" class="c1" {{if eq .NRL.NRL01 "2"}}checked{{end}}>
+                    <label for="c1-v2" class="icon"></label>
+                </div>
+                <label for="c1-v2">极度受限，只能通过呻吟表达不舒服或身体1/2以上丧失感觉&nbsp;&nbsp;&nbsp;&nbsp;2分</label>
+            </li>
+            <li>
+                <div class="m-input-radio two-row">
+                    <input type="radio" id="c1-v3" name="check1" data-v="3" class="c1" {{if eq .NRL.NRL01 "3"}}checked{{end}}>
+                    <label for="c1-v3" class="icon"></label>
+                </div>
+                <label for="c1-v3">轻度受限，可口头表达但沟通受限，1、2个肢体感觉丧失&nbsp;&nbsp;&nbsp;&nbsp;3分</label>
+            </li>
+            <li>
+                <div class="m-input-radio two-row">
+                    <input type="radio" id="c1-v4" name="check1" data-v="4" class="c1" {{if eq .NRL.NRL01 "4"}}checked{{end}}>
+                    <label for="c1-v4" class="icon"></label>
+                </div>
+                <label for="c1-v4">正常，险体没有对疼痛或不适的感觉缺失&nbsp;&nbsp;&nbsp;&nbsp;4分 </label>
+            </li>
+        </ul>
+    </div>
+
+    <div class="m-line"></div>
+
+
+    <!-- 潮湿情况: -->
+    <div class="m-check2" id="c2">
+        <p class="tit">
+            潮湿情况:
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio two-row">
+                    <input type="radio" id="c2-v1" name="check2" data-v="1" class="c1" {{if eq .NRL.NRL02 "1"}}checked{{end}}>
+                    <label for="c2-v1" class="icon"></label>
+                </div>
+                <label for="c2-v1">持久潮湿，大/小便失禁，每次翻身床单都是湿的&nbsp;&nbsp;&nbsp;&nbsp;1分</label>
+            </li>
+            <li>
+                <div class="m-input-radio two-row">
+                    <input type="radio" id="c2-v2" name="check2" data-v="2" class="c1" {{if eq .NRL.NRL02 "2"}}checked{{end}}>
+                    <label for="c2-v2" class="icon"></label>
+                </div>
+                <label for="c2-v2">非常潮湿，皮肤经常潮湿，床单至少需要每班更换&nbsp;&nbsp;&nbsp;&nbsp;2分</label>
+            </li>
+            <li>
+                <div class="m-input-radio two-row">
+                    <input type="radio" id="c2-v3" name="check2" data-v="3" class="c1" {{if eq .NRL.NRL02 "3"}}checked{{end}}>
+                    <label for="c2-v3" class="icon"></label>
+                </div>
+                <label for="c2-v3">偶尔潮湿，皮肤有时会潮湿，床单需每天更换&nbsp;&nbsp;&nbsp;&nbsp;3分</label>
+            </li>
+            <li>
+                <div class="m-input-radio two-row">
+                    <input type="radio" id="c2-v4" name="check2" data-v="4" class="c1" {{if eq .NRL.NRL02 "4"}}checked{{end}}>
+                    <label for="c2-v4" class="icon"></label>
+                </div>
+                <label for="c2-v4">很少潮湿，通常皮肤是干，只要按常规换床单即可&nbsp;&nbsp;&nbsp;&nbsp;4分 </label>
+            </li>
+        </ul>
+    </div>
+
+
+
+    <div class="m-line"></div>
+
+    <!-- 活动能力: -->
+    <div class="m-check1 t1" id="c3">
+        <p class="tit">
+            活动能力：
+        </p>
+        <ul class="t6">
+            <li class="b3">
+                <div class="m-input-radio">
+                    <input type="radio" id="c3-v1" name="check3" data-v="1" {{if eq .NRL.NRL03 "1"}}checked{{end}}>
+                    <label for="c3-v1" class="icon"></label>
+                </div>
+                <label for="c3-v1">完全卧床&nbsp;&nbsp;&nbsp;&nbsp;1分</label>
+            </li>
+            <li class="b3">
+                <div class="m-input-radio">
+                    <input type="radio" id="c3-v2" name="check3" data-v="2" {{if eq .NRL.NRL03 "2"}}checked{{end}}>
+                    <label for="c3-v2" class="icon"></label>
+                </div>
+                <label for="c3-v2">可坐轮椅&nbsp;&nbsp;&nbsp;&nbsp;2分</label>
+            </li>
+            <li class="b3" style="width:60%">
+                <div class="m-input-radio">
+                    <input type="radio" id="c3-v3" name="check3" data-v="3" {{if eq .NRL.NRL03 "3"}}checked{{end}}>
+                    <label for="c3-v3" class="icon"></label>
+                </div>
+                <label for="c3-v3">偶尔可下床活动&nbsp;&nbsp;&nbsp;&nbsp;3分</label>
+            </li>
+            <li class="b3" style="width:40%">
+                <div class="m-input-radio">
+                    <input type="radio" id="c3-v4" name="check3" data-v="4" {{if eq .NRL.NRL03 "4"}}checked{{end}}>
+                    <label for="c3-v4" class="icon"></label>
+                </div>
+                <label for="c3-v4">正常&nbsp;&nbsp;&nbsp;&nbsp;4分</label>
+            </li>
+        </ul>
+    </div>
+
+    <div class="m-line"></div>
+    <!-- 体位变换能力： -->
+    <div class="m-check2" id="c4">
+        <p class="tit">
+            体位变换能力：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c4-v1" name="check4" data-v="1" class="c1" {{if eq .NRL.NRL04 "1"}}checked{{end}}>
+                    <label for="c4-v1" class="icon"></label>
+                </div>
+                <label for="c4-v1">完全受限&nbsp;&nbsp;&nbsp;&nbsp;1分</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c4-v2" name="check4" data-v="2" class="c1" {{if eq .NRL.NRL04 "2"}}checked{{end}}>
+                    <label for="c4-v2" class="icon"></label>
+                </div>
+                <label for="c4-v2">偶尔可有身体或四肢的轻微活动&nbsp;&nbsp;&nbsp;&nbsp;2分</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c4-v3" name="check4" data-v="3" class="c1" {{if eq .NRL.NRL04 "3"}}checked{{end}}>
+                    <label for="c4-v3" class="icon"></label>
+                </div>
+                <label for="c4-v3">经常有身体或四肢的轻微活动&nbsp;&nbsp;&nbsp;&nbsp;3分</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c4-v4" name="check4" data-v="4" class="c1" {{if eq .NRL.NRL04 "4"}}checked{{end}}>
+                    <label for="c4-v4" class="icon"></label>
+                </div>
+                <label for="c4-v4">可自主活动、翻身&nbsp;&nbsp;&nbsp;&nbsp;4分 </label>
+            </li>
+        </ul>
+    </div>
+
+    <div class="m-line"></div>
+    <!-- 营养进食状况： -->
+
+
+    <div class="m-check2" id="c5">
+        <p class="tit">
+            营养进食状况：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio two-row">
+                    <input type="radio" id="c5-v1" name="check5" data-v="1" class="c1" {{if eq .NRL.NRL05 "1"}}checked{{end}}>
+                    <label for="c5-v1" class="icon"></label>
+                </div>
+                <label for="c5-v1">很差：禁食、单纯输液超过5天、进食量小于常规的1/3&nbsp;&nbsp;&nbsp;&nbsp;1分</label>
+            </li>
+            <li>
+                <div class="m-input-radio two-row">
+                    <input type="radio" id="c5-v2" name="check5" data-v="2" class="c1" {{if eq .NRL.NRL05 "2"}}checked{{end}}>
+                    <label for="c5-v2" class="icon"></label>
+                </div>
+                <label for="c5-v2">较差：进食量为常规的1/2，可能存在鼻饲或TPN不足的问题&nbsp;&nbsp;&nbsp;&nbsp;2分</label>
+            </li>
+            <li>
+                <div class="m-input-radio two-row">
+                    <input type="radio" id="c5-v3" name="check5" data-v="3" class="c1" {{if eq .NRL.NRL05 "3"}}checked{{end}}>
+                    <label for="c5-v3" class="icon"></label>
+                </div>
+                <label for="c5-v3">尚可：进食超过常规的1/2，通过鼻饲或TPN得到基本营养&nbsp;&nbsp;&nbsp;&nbsp;3分</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c5-v4" name="check5" data-v="4" class="c1" {{if eq .NRL.NRL05 "4"}}checked{{end}}>
+                    <label for="c5-v4" class="icon"></label>
+                </div>
+                <label for="c5-v4">良好&nbsp;&nbsp;&nbsp;&nbsp;4分 </label>
+            </li>
+        </ul>
+    </div>
+
+    <div class="m-line"></div>
+
+
+    <!-- 摩擦力和剪切力： -->
+
+    <div class="m-check2" id="c6">
+        <p class="tit">
+            摩擦力和剪切力：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio two-row">
+                    <input type="radio" id="c6-v1" name="check6" data-v="1" class="c1" {{if eq .NRL.NRL06 "1"}}checked{{end}}>
+                    <label for="c6-v1" class="icon"></label>
+                </div>
+                <label for="c6-v1">存在问题，经常在床上下滑，翻身完全需要别人帮助=1</label>
+            </li>
+            <li>
+                <div class="m-input-radio two-row">
+                    <input type="radio" id="c6-v2" name="check6" data-v="2" class="c1" {{if eq .NRL.NRL06 "2"}}checked{{end}}>
+                    <label for="c6-v2" class="icon"></label>
+                </div>
+                <label for="c6-v2">有潜在问题，可能会下滑，翻身需要别人帮助=2</label>
+            </li>
+            <li>
+                <div class="m-input-radio two-row">
+                    <input type="radio" id="c6-v3" name="check6" data-v="3" class="c1" {{if eq .NRL.NRL06 "3"}}checked{{end}}>
+                    <label for="c6-v3" class="icon"></label>
+                </div>
+                <label for="c6-v3">无问题=3</label>
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="m-line"></div>
+    <div class="m-zofen type2">
+        <span class="tit">合计分数：</span>
+        <span class="fen"></span>
+        <span>分</span>
+    </div>
+
+    <div class="tab-tit">
+        <div class="icon"></div>
+        预防压疮护理措施
+    </div>
+
+    <div class="tab-cont m-none">
+        <!-- （15 ~ 18分）低度风险： -->
+        <div class="m-check2" id="c7">
+            <p class="tit">
+                （15 ~ 18分）低度风险：
+            </p>
+            <ul>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c7-v1" name="check7" data-v="1" class="c1">
+                        <label for="c7-v1" class="icon"></label>
+                    </div>
+                    <label for="c7-v1">经常翻身</label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c7-v2" name="check7" data-v="2" class="c1">
+                        <label for="c7-v2" class="icon"></label>
+                    </div>
+                    <label for="c7-v2">最大限度活动</label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c7-v3" name="check7" data-v="3" class="c1">
+                        <label for="c7-v3" class="icon"></label>
+                    </div>
+                    <label for="c7-v3">如果是卧床或依靠轮椅，要使用床垫或椅垫等减压设备</label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c7-v4" name="check7" data-v="4" class="c1">
+                        <label for="c7-v4" class="icon"></label>
+                    </div>
+                    <label for="c7-v4">保护足跟、潮湿的管理、营养的管理、摩擦力和剪切力的管理</label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c7-v5" name="check7" data-v="5" class="c1">
+                        <label for="c7-v5" class="icon"></label>
+                    </div>
+                    <label for="c7-v5">每周或病情变化时重新评估，并记录皮肤状况</label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c7-v6" name="check7" data-v="6" class="c1">
+                        <label for="c7-v6" class="icon"></label>
+                    </div>
+                    <label for="c7-v6">如果有其他的危险因素存在，如（高龄、发热、饮食量少影响蛋白质的摄入、舒张压低于60 mmHg、血液动力学不稳定）可列入下一风险水平 </label>
+                </li>
+            </ul>
+
+        </div>
+        <div class="m-line"></div>
+
+        <!-- （13 ~ 14分）中度风险： -->
+        <div class="m-check2" id="c8">
+            <p class="tit">
+                （13 ~ 14分）中度风险：
+            </p>
+            <ul>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c8-v1" name="check8" data-v="1" class="c1">
+                        <label for="c8-v1" class="icon"></label>
+                    </div>
+                    <label for="c8-v1">使用翻身计划表，Q2H翻身</label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c8-v2" name="check8" data-v="2" class="c1">
+                        <label for="c8-v2" class="icon"></label>
+                    </div>
+                    <label for="c8-v2">使用海绵垫，保证30度侧卧 </label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c8-v3" name="check8" data-v="3" class="c1">
+                        <label for="c8-v3" class="icon"></label>
+                    </div>
+                    <label for="c8-v3">使用床垫或椅垫等减压设备</label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c8-v4" name="check8" data-v="4" class="c1">
+                        <label for="c8-v4" class="icon"></label>
+                    </div>
+                    <label for="c8-v4">最大限度活动 </label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c8-v5" name="check8" data-v="5" class="c1">
+                        <label for="c8-v5" class="icon"></label>
+                    </div>
+                    <label for="c8-v5">保护足跟、潮湿的管理、营养的管理、摩擦力和剪 切力的管理 </label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c8-v6" name="check8" data-v="6" class="c1">
+                        <label for="c8-v6" class="icon"></label>
+                    </div>
+                    <label for="c8-v6">每周或病情变化时重新评估，并记录皮肤状况 </label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c8-v7" name="check8" data-v="7" class="c1">
+                        <label for="c8-v7" class="icon"></label>
+                    </div>
+                    <label for="c8-v7">如果有其他的危险因素存在可列入下一风险水平 </label>
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="m-line"></div>
+
+        <!-- （10 ~ 12分）高度风险： -->
+        <div class="m-check2" id="c9">
+            <p class="tit">
+                （10 ~ 12分）高度风险：
+            </p>
+            <ul>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c9-v1" name="check9" data-v="1" class="c1">
+                        <label for="c9-v1" class="icon"></label>
+                    </div>
+                    <label for="c9-v1">保证翻身频率，至少Q2H翻身</label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c9-v2" name="check9" data-v="2" class="c1">
+                        <label for="c9-v2" class="icon"></label>
+                    </div>
+                    <label for="c9-v2">增加小幅度的移位</label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c9-v3" name="check9" data-v="3" class="c1">
+                        <label for="c9-v3" class="icon"></label>
+                    </div>
+                    <label for="c9-v3">使用海绵垫，保证30度侧卧</label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c9-v4" name="check9" data-v="4" class="c1">
+                        <label for="c9-v4" class="icon"></label>
+                    </div>
+                    <label for="c9-v4">最大限度活动</label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c9-v5" name="check9" data-v="5" class="c1">
+                        <label for="c9-v5" class="icon"></label>
+                    </div>
+                    <label for="c9-v5">保护足跟、潮湿的管理、营养的管理、摩擦力和剪 切力的管理 </label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c9-v6" name="check9" data-v="6" class="c1">
+                        <label for="c8-v6" class="icon"></label>
+                    </div>
+                    <label for="c9-v6">每天观察并记录皮肤状况、预防措施 </label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c9-v7" name="check9" data-v="7" class="c1">
+                        <label for="c9-v7" class="icon"></label>
+                    </div>
+                    <label for="c9-v7">每天或病情变化时重新评估  </label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c9-v8" name="check9" data-v="8" class="c1">
+                        <label for="c9-v8" class="icon"></label>
+                    </div>
+                    <label for="c9-v8">填写高风险压疮申请表，上报护理部</label>
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="m-line"></div>
+
+        <!-- （< 9分）非常风险：-->
+
+        <div class="m-check2" id="c10">
+            <p class="tit">
+                （
+                < 9分）非常风险： </p>
+            <ul>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c10-v1" name="check10" data-v="1" class="c1">
+                        <label for="c10-v1" class="icon"></label>
+                    </div>
+                    <label for="c10-v1">采取以上所有措施</label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c10-v2" name="check10" data-v="2" class="c1">
+                        <label for="c10-v2" class="icon"></label>
+                    </div>
+                    <label for="c10-v2">使用体表压力缓释设备如气垫床</label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c10-v3" name="check10" data-v="3" class="c1">
+                        <label for="c10-v3" class="icon"></label>
+                    </div>
+                    <label for="c10-v3">每班观察并记录皮肤状况、预防措施，床边交接皮 肤情况</label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c10-v4" name="check10" data-v="4" class="c1">
+                        <label for="c10-v4" class="icon"></label>
+                    </div>
+                    <label for="c10-v4">每天评估记录评分值 </label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c10-v5" name="check10" data-v="5" class="c1">
+                        <label for="c10-v5" class="icon"></label>
+                    </div>
+                    <label for="c10-v5">气垫床不能代替翻身 </label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c10-v6" name="check10" data-v="6" class="c1">
+                        <label for="c10-v6" class="icon"></label>
+                    </div>
+                    <label for="c10-v6">填写高风险压疮申报表，上报护理部 </label>
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="m-line"></div>
+        <!-- 潮湿管理： -->
+        <div class="m-check2" id="c11">
+            <p class="tit">
+                潮湿管理：
+            </p>
+            <ul>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c11-v1" name="check11" data-v="1" class="c1">
+                        <label for="c11-v1" class="icon"></label>
+                    </div>
+                    <label for="c11-v1">使用隔绝潮湿和保护皮肤的护理用品</label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c11-v2" name="check11" data-v="2" class="c1">
+                        <label for="c11-v2" class="icon"></label>
+                    </div>
+                    <label for="c11-v2">使用吸收垫或干燥垫控制潮湿</label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c11-v3" name="check11" data-v="3" class="c1">
+                        <label for="c11-v3" class="icon"></label>
+                    </div>
+                    <label for="c11-v3">如果可能找出发生潮湿的原因并避免</label>
+                </li>
+
+            </ul>
+        </div>
+
+        <div class="m-line"></div>
+
+        <!-- 营养管理： -->
+        <div class="m-check2" id="c12">
+            <p class="tit">
+                营养管理：
+            </p>
+            <ul>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c12-v1" name="check12" data-v="1" class="c1">
+                        <label for="c12-v1" class="icon"></label>
+                    </div>
+                    <label for="c12-v1">增加蛋白质的摄入</label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c12-v2" name="check12" data-v="2" class="c1">
+                        <label for="c12-v2" class="icon"></label>
+                    </div>
+                    <label for="c12-v2">增加热量的摄入</label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c12-v3" name="check12" data-v="3" class="c1">
+                        <label for="c12-v3" class="icon"></label>
+                    </div>
+                    <label for="c12-v3">补充多种维生素，必须包括VA、C、E</label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c12-v4" name="check12" data-v="4" class="c1">
+                        <label for="c12-v4" class="icon"></label>
+                    </div>
+                    <label for="c12-v4">以上措施需迅速执行，以缓解营养缺乏</label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c12-v5" name="check12" data-v="5" class="c1">
+                        <label for="c12-v5" class="icon"></label>
+                    </div>
+                    <label for="c12-v5">咨询营养师</label>
+                </li>
+            </ul>
+        </div>
+
+        <div class="m-line"></div>
+
+        <!-- 摩擦力和剪切力的预防： -->
+        <div class="m-check2" id="c13">
+            <p class="tit">
+                摩擦力和剪切力的预防：
+            </p>
+            <ul>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c13-v1" name="check12" data-v="1" class="c1">
+                        <label for="c13-v1" class="icon"></label>
+                    </div>
+                    <label for="c13-v1">床头太高不得超过30度（疾病允许的情况下）</label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c13-v2" name="check12" data-v="2" class="c1">
+                        <label for="c13-v2" class="icon"></label>
+                    </div>
+                    <label for="c13-v2">必要时使用牵吊装置</label>
+                </li>
+                <li>
+                    <div class="m-input-checkbox">
+                        <input type="checkbox" id="c13-v3" name="check12" data-v="3" class="c1">
+                        <label for="c13-v3" class="icon"></label>
+                    </div>
+                    <label for="c13-v3">使用过床单移动患者</label>
+                </li>
+            </ul>
+        </div>
+        <div class="m-line"></div>
+        <!-- 其他护理注意事项： -->
+        <div class="m-check2">
+            <p class="tit"> 其他护理注意事项：</p>
+            <p class="msg">不得按摩骨突压红的部位、不得使用气圈类装置、保 持足够的水分摄入、避免皮肤干燥</p>
+        </div>
+        <div class="m-line"></div>
+
+    </div>
+
+
+    <div class="m-time">
+        <span>记录时间</span>
+        <div class="input">
+            <span class="date">{{.NRL.DateStr}}</span>
+            {{/*<span class="time">{{.NRL.TimeStr}}</span>*/}}
+        </div>
+    </div>
+
+    <div class="m-autograph">
+        <span>责任护士签名：</span>
+        <span class="name">{{.Account.Username}}</span>
+    </div>
+
+    <div class="m-autograph2">
+        <span class="tit">审核护士签名：</span>
+        <input class="m-input-txt type2" id="qname" value="{{.NRL.NRL15B}}">
+    </div>
+
+    <div class="m-pd40"></div>
+
+    <div class="m-remarks">
+        <div class="tit">
+            备注：
+        </div>
+        <p>1. 对所有新入院、转入、转科、大手术后患者当天内必须完成初次压疮风险因素评估（用Braden压疮风险 评估表）；对高龄、消瘦、水肿、瘫痪、大小便失禁、 昏迷、长期卧床等“压疮高风险患者”，定期进行压疮风险因素评估；最高23分，15-18分为低风险，13-1 4分为中风险，10-12分为高风险，<9分为非常风险。</p>
+        <p>2. 评估周期：</p>
+        <p>①所有病人都需要评估；</p>
+        <p>
+            ②入院时立即评估，当评分13~18分时，此后每48h评估一次，为期1星期；
+        </p>
+        <p>
+            ③长期护理的患者应在第一个4周内每周评估一次，之后每月评估一次；
+        </p>
+        <p>
+            ④当病人情况有变化及时评估，然后每星期再进行评估；
+        </p>
+        <p>
+            ⑤≤12分每天评估，18分作为预测有压疮发生风险的诊断价值，评分≤18分应采取预防压疮的措施。
+        </p>
+
+    </div>
+</div>
+<div class="m-pd100"></div>
+
+
+<script src="/static/dist/js/base.js"></script>
+<script>    
+
+    // setTime('{"date":"2017-01-02","time":"21:00"}')
+    function setTime(dataStr) {
+        // var data = JSON.parse(dataStr)
+        var data = dataStr || {}
+        var $mTime = $('.m-time');
+        data.date && $mTime.find('.date').text(data.date)
+        data.time && $mTime.find('.time').text(data.time)
+    }
+
+    function nowDate() {
+        var res = {},
+            nowD = new Date();
+        res.date = nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
+        res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
+        // return JSON.stringify(res)
+        return res
+    }
+
+    function addZero(i) {
+        if (i < 10) {
+            return "0" + i;
+        } else {
+            return i;
+        }
+    }
+
+
+    var type = {{.Type}};
+    if (type == "1") {
+        setTime(nowDate())
+    }
+
+    //安卓调用
+    $(function(){
+        $(".m-time").find('.date').on('click',function(){
+            // WebJs_SetDate()
+            if(window.android!=null && typeof(window.android)!="undefined"){
+                window.android.WebJs_SetDate();
+            }else{
+                alert("js对象注入失败")
+            }
+
+        })
+        $(".m-time").find('.time').on('click',function(){
+            // WebJs_SetTime()
+            if(window.android!=null && typeof(window.android)!="undefined"){
+                window.android.WebJs_SetTime();
+            }else{
+                alert("js对象注入失败")
+            }
+        })
+    })
+
+
+
+    //单选可取消单选
+    $("input[type=radio]:checked").data('check',1)
+    $('input[type=radio]').on('click',function(){
+        var ischeck = $(this).data("check");
+        if(!ischeck){
+            $(this).parents('ul').find("input[type=radio]").data("check",0)
+            $(this).data("check",1);
+        }else{
+            $(this).prop('checked',false);
+            $(this).data("check",0);
+        }
+    })
+
+
+    
+
+
+
+    function reqAPI(type) {
+        var data = {}
+
+        function init() {
+            data = {
+                /***---------------------**/
+                // 护士ID
+                "uid": {{.Account.Employeeid}},
+                // 护士名
+                "username": {{.Account.Username}},
+                //病人id
+                "pid": {{.PInfo.VAA01}},
+                // 科室id
+                "did": {{.PInfo.BCK01C}},
+                // "nrl_id":{{.Rid}}
+                /***---------------------**/
+            }
+            if(type=="2"){
+                data["rid"] = {{.Rid}}
+            }
+        }
+        // 获取当前时间 hh:mm:ss
+        function getNowTime() {
+            var str = "";
+            var nowD = new Date();
+            str = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes()) + ":" +addZero(nowD.getSeconds());
+            return str;
+        }
+          //设置日期
+        function setDataDateTime() {
+            var $mTime = $('.m-time')
+            dateStr = $mTime.find('.date').text()
+            // timeStr = $mTime.find('.time').text()
+            if (dateStr) {
+                data.datetime = dateStr + " "+getNowTime()
+            }
+        }
+
+        function setData() {
+            init() //重置数据
+            setDataDateTime();
+            setDatavNRL01();
+            setDatavNRL02();
+            setDatavNRL03();
+            setDatavNRL04();
+            setDatavNRL05();
+            setDatavNRL06();
+            //-----
+            setDatavNRL07();
+            setDatavNRL08();
+            setDatavNRL09();
+            setDatavNRL10();
+            setDatavNRL11();
+            setDatavNRL12();
+            setDatavNRL13();
+
+            setDatavNRL15B();
+            sumFen();
+
+            // 判断是否是没设置值
+            if(type=="1"){
+                var num = 0;
+                $.each(data,function(i,n){
+                    num++;
+                })
+                //总共5个固定参数,如果没填长度就为5
+                if(num==5){
+                    return false;
+                }else{
+                    return true;
+                }
+            }else{
+                return true;
+            }
+        }
+
+
+        //获取总分
+        function sumFen() {
+            var $fen = $('.m-zofen').find(".fen")
+            fenStr = $fen.text()
+            // timeStr = $mTime.find('.time').text()
+            if (fenStr!="") {
+                data.score = fenStr
+            }
+        }
+        // 感觉知觉程度
+        function setDatavNRL01(){
+            var $check = $("#c1").find('input[type=radio]:checked');
+            $check.length && (data.NRL01 = $check.data('v'))
+        }
+
+        // 潮湿情况
+        function setDatavNRL02(){
+            var $check = $("#c2").find('input[type=radio]:checked');
+            $check.length && (data.NRL02 = $check.data('v'))
+        }
+
+        // 活动能力
+        function setDatavNRL03(){
+            var $check = $("#c3").find('input[type=radio]:checked');
+            $check.length && (data.NRL03 = $check.data('v'))
+        }
+
+        // 体位变换能力
+        function setDatavNRL04(){
+            var $check = $("#c4").find('input[type=radio]:checked');
+            $check.length && (data.NRL04 = $check.data('v'))
+        }
+
+        // 营养进食状况
+        function setDatavNRL05(){
+            var $check = $("#c5").find('input[type=radio]:checked');
+            $check.length && (data.NRL05 = $check.data('v'))
+        }
+
+        // 营养进食状况
+        function setDatavNRL06(){
+            var $check = $("#c6").find('input[type=radio]:checked');
+            $check.length && (data.NRL06 = $check.data('v'))
+        }
+
+
+
+        // 护理措施，低度风险
+        function setDatavNRL07(){
+            var $check = $("#c7").find('input[type=checkbox]:checked');
+            if($check.length){
+                var res = [];
+                $check.each(function(i,el){
+                    res.push($(el).data('v'));
+                })
+                // console.log(res)
+                data.NRL07 =res.join(",")
+            }
+        }
+
+
+        // 护理措施，中度风险
+        function setDatavNRL08(){
+            var $check = $("#c8").find('input[type=checkbox]:checked');
+            if($check.length){
+                var res = [];
+                $check.each(function(i,el){
+                    res.push($(el).data('v'));
+                })
+                // console.log(res)
+                data.NRL08 =res.join(",")
+            }
+        }
+
+        // 护理措施，高度风险
+        function setDatavNRL09(){
+            var $check = $("#c7").find('input[type=checkbox]:checked');
+            if($check.length){
+                var res = [];
+                $check.each(function(i,el){
+                    res.push($(el).data('v'));
+                })
+                // console.log(res)
+                data.NRL09 =res.join(",")
+            }
+        }
+
+
+        // 护理措施，非常风险
+        function setDatavNRL10(){
+            var $check = $("#c10").find('input[type=checkbox]:checked');
+            if($check.length){
+                var res = [];
+                $check.each(function(i,el){
+                    res.push($(el).data('v'));
+                })
+                // console.log(res)
+                data.NRL10 =res.join(",")
+            }
+        }
+
+        //护理措施，潮湿管理
+        function setDatavNRL11(){
+            var $check = $("#c11").find('input[type=checkbox]:checked');
+            if($check.length){
+                var res = [];
+                $check.each(function(i,el){
+                    res.push($(el).data('v'));
+                })
+                // console.log(res)
+                data.NRL11 =res.join(",")
+            }
+        }
+
+        // 护理措施，营养管理
+        function setDatavNRL12(){
+            var $check = $("#c12").find('input[type=checkbox]:checked');
+            if($check.length){
+                var res = [];
+                $check.each(function(i,el){
+                    res.push($(el).data('v'));
+                })
+                // console.log(res)
+                data.NRL12 =res.join(",")
+            }
+        }
+
+        // 护理措施，摩擦力和剪切力的预防
+        function setDatavNRL13(){
+            var $check = $("#c13").find('input[type=checkbox]:checked');
+            if($check.length){
+                var res = [];
+                $check.each(function(i,el){
+                    res.push($(el).data('v'));
+                })
+                // console.log(res)
+                data.NRL13 =res.join(",")
+            }
+        }
+
+        // 审核护士签名
+        function setDatavNRL15B(){
+            var NRL15B = $.trim($("#qname").val());
+            NRL15B && (data.NRL15B = NRL15B);
+
+        }
+
+        var api = '',
+            typeStr = '';
+        if (type == 1) {
+            api = "/record/nr6/add"
+            typeStr = '保存'
+        } else if (type == 2) {
+            api = "/record/nr6/update"
+            typeStr = '修改'
+        }
+        return function saveFrom() {
+
+            var isOk = setData();
+            if(isOk) {
+                $.ajax({
+                    url: api,
+                    data: data,
+                    type: "POST",
+                    success: function (data) {
+                        console.log(data);
+                        if (data) {
+                            switch (data.result) {
+                                case 0:
+                                    jky.util.toast(typeStr + "成功！", 1500, function () {
+                                        if (window.android != null && typeof(window.android) != "undefined") {
+                                            window.android.WebJs_Finish();
+                                        } else {
+                                            alert("js对象注入失败")
+                                        }
+                                    });
+                                    break;
+                                case 2:
+                                    jky.util.toast(typeStr + "失败，请重试！", 1500);
+                                    break;
+                                default:
+                                    jky.util.toast("未知错误！", 1000)
+                            }
+                        }
+                    },
+                    error: function (e) {
+                        console.log("ajax err:", e)
+                    },
+                    dataType: "json"
+                })
+            }else{
+                jky.util.toast("请填写内容", 1500)
+            }
+        }
+    }
+    
+    var reqAPIFN = reqAPI(type);
+
+    //tab下拉
+    $('.tab-tit').on('click', function() {
+        if ($(this).hasClass('active')) {
+            $(this).removeClass('active');
+            $('.tab-cont').addClass('m-none')
+        } else {
+            $(this).addClass('active');
+            $('.tab-cont').removeClass('m-none')
+        }
+    })
+
+
+    // 分数计算
+    $(function(){
+        var  scoreHash = {
+            "option1":{ //感觉知觉程度
+                "1":1,
+                "2":2,
+                "3":3,
+                "4":4,
+            },
+            "option2":{ //潮湿情况
+                "1":1,
+                "2":2,
+                "3":3,
+                "4":4,
+            },
+            "option3":{  //活动能力
+                "1":1,
+                "2":2,
+                "3":3,
+                "4":4,
+            },
+            "option4":{ //体位变换能力：
+                "1":1,
+                "2":2,
+                "3":3,
+                "4":4,
+            },
+            "option5":{ //营养进食状况
+                "1":1,
+                "2":2,
+                "3":3,
+                "4":4,
+            },
+            "option6":{ //摩擦力和剪切力
+                "1":1,
+                "2":2,
+                "3":3,
+            }
+        }
+
+        function sumScore(){
+            // var i =10; //10题
+            var optionVal = [],sum="";
+            for(var i=1;i<7;i++){
+                // console.log($('#c'+i).find('input[type=radio]:checked').data('v'))
+                // console.log(scoreHash["option"+i])
+                // console.log($('#c'+i))
+                optionVal.push(scoreHash["option"+i][$('#c'+i).find('input[type=radio]:checked').data('v')])
+            }
+
+            $.each(optionVal,function(i,n){
+                if(n!=undefined&& parseFloat(n)!=NaN){
+                    if(sum == ""){
+                        sum = 0;
+                    }
+                    sum +=  parseFloat(n)
+                }
+            })
+            return sum;
+        }
+
+        $('input[type=radio]').on('click',function(){
+            $('.m-zofen').find('.fen').text(sumScore())
+        })
+
+        if(type=="2"){
+            $('.m-zofen').find('.fen').text(sumScore())
+        }
+    })
+
+    //多选填值
+    var NRL07Str = {{.NRL.NRL07}};
+    var NRL08Str = {{.NRL.NRL08}};
+    var NRL09Str = {{.NRL.NRL09}};
+    var NRL10Str = {{.NRL.NRL10}};
+    var NRL11Str = {{.NRL.NRL11}};
+    var NRL12Str = {{.NRL.NRL12}};
+    var NRL13Str = {{.NRL.NRL13}};
+    //  （15 ~ 18分）低度风险：
+    setCheckBox("#c7",NRL07Str.split(","))
+    // （13 ~ 14分）中度风险：                
+    setCheckBox("#c8",NRL08Str.split(","))
+    // （10 ~ 12分）高度风险： 
+    setCheckBox("#c9",NRL09Str.split(","))
+    // （< 9分）非常风险：
+    setCheckBox("#c10",NRL10Str.split(","))
+    // 潮湿管理
+    setCheckBox("#c11",NRL11Str.split(","))
+    //  营养管理
+    setCheckBox("#c12",NRL12Str.split(","))
+    // 摩擦力和剪切力的预防
+    setCheckBox("#c13",NRL13Str.split(","))
+
+    function setCheckBox(id,valArr){
+        $(id).find("input[type=checkbox]").each(function(i,el){
+            $.each(valArr,function (i2,val) {
+                if($(el).data("v") == valArr[i2]){
+                    $(el).prop("checked",true)
+                }
+            })
+        })
+    }
+
+
+    
+</script>
+
+</body>
+
+</html>

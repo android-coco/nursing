@@ -6,6 +6,8 @@ import (
 	"fit"
 	"nursing/model"
 	"strconv"
+	"time"
+	"nursing/utils"
 )
 
 type PatientInfoController struct {
@@ -46,6 +48,39 @@ func (c PatientInfoController) Get(w *fit.Response, r *fit.Request, p fit.Params
 		}
 	}
 }
+
+/*修改入科日期*/
+func (c PatientInfoController) UpdateEntry(w *fit.Response, r *fit.Request, p fit.Params) {
+	defer c.ResponseToJson(w)
+	r.ParseForm()
+	entryDay := r.FormValue("day")
+	entryTime := r.FormValue("time")
+	pid := r.FormValue("pid")
+	if "" == entryDay || "" == entryTime || pid == "" {
+		c.RenderingJsonAutomatically(1,"参数不完整")
+		return
+	}
+
+	entry := entryDay + " " + entryTime + ":00"
+	if _, err := time.Parse("2006-01-02 15:04:05", entry);err != nil {
+		c.RenderingJsonAutomatically(2,"参数错误 day+time "+entryDay+" " + entryTime)
+		return
+	}
+
+	pid_i, err := utils.Int64Value(pid)
+	if pid_i == 0 || err != nil {
+		 c.RenderingJsonAutomatically(2,"参数错误 pid "+pid)
+		 return
+	}
+
+	err = model.EnteringEntryDepartmentDate(pid_i, entry)
+	if err != nil {
+		c.RenderingJsonAutomatically(3, "Database "+err.Error())
+	} else {
+		c.RenderingJsonAutomatically(0,"录入成功")
+	}
+}
+
 
 func (c *PatientInfoController) RenderingJsonAutomatically(result int, errMsg string) {
 	c.RenderingJson(result, errMsg, make([]interface{}, 0))

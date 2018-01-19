@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>护理记录单 查看</title>
+    <link rel="stylesheet" href="/static/dist/style/css/base.css">
+    <script>
+        function setFontSize() {
+            var deviceWidth = document.documentElement.clientWidth;
+            if (deviceWidth > 640) deviceWidth = 640;
+            document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+        }
+        setFontSize()
+        var timer = null;
+        window.addEventListener('resize', function() {
+            clearTimeout(timer)
+            timer = setTimeout(setFontSize, 300)
+        }, false)
+    </script>
+</head>
+
+<body>
+
+<div class="g-main none">
+    <div class="m-msg">
+        <ul>
+            {{$time := .Time}}<!-- 入院日期 -->
+            {{range .Patintinfos}}
+            <li class="b1">
+                姓名:<span>{{.VAA1.VAA05}}</span>
+            </li>
+            <li class="b1">
+                性别:<span>{{.Gender}}</span>
+            </li>
+            <li class="b1">
+                年龄:<span>{{.VAA1.VAA10}}</span>
+            </li>
+            <li class="b1">
+                科室:<span>{{.BCK03C}}</span>
+            </li>
+            <li class="b1">
+                床号:<span>{{.VAA1.BCQ04}}</span>
+            </li>
+            <li class="b1">
+                住院号:<span>{{.VAA1.VAA04}}</span>
+            </li>
+            <li class="b2">
+                入院日期:<span>{{$time}}</span>
+            </li>
+            <li class="b2">
+                诊断:<span>{{.VAO2.VAO15}}</span>
+            </li>
+            {{end}}
+        </ul>
+    </div>
+
+
+    <div class="m-tit">
+        <p class="tit">生命体征</p>
+    </div>
+
+
+    <div class="m-input1">
+        <ul>
+            <li>
+                <label for="temperature">体温：</label>
+                <input id="temperature" type="text" class="m-input-txt" value="{{.NRL.Temperature}}" disabled>
+                <span class="unit">℃</span>
+            </li>
+            <li>
+                <label for="pulse">脉搏：</label>
+                <input id="pulse" type="text" class="m-input-txt" value="{{.NRL.Pulse}}" disabled>
+                <span class="unit">次/分</span>
+            </li>
+            <!--<li>-->
+                <!--<label for="heartrate">心率：</label>-->
+                <!--<input id="heartrate" type="text" value="{{.NRL.Heartrate}}" class="m-input-txt" disabled>-->
+                <!--<span class="unit">次/分</span>-->
+            <!--</li>-->
+            <li>
+                <label for="breathe">呼吸：</label>
+                <input id="breathe" type="text" class="m-input-txt" value="{{.NRL.Breathe}}" disabled>
+                <span class="unit">次/分</span>
+            </li>
+            <li>
+                <label for="pressure">血压：</label>
+                <input id="pressure" type="text" class="m-input-txt type2" value="{{.NRL.PressureDIA}}" disabled>
+                <span class="line">/</span>
+                <input id="pressure_sys" type="text" class="m-input-txt type2" value="{{.NRL.PressureSYS}}" disabled>
+                <span class="unit">mmHg</span>
+            </li>
+            <li>
+                <label for="heartrate">血氧：</label>
+                <input id="heartrate" type="text" value="{{.NRL.Heartrate}}" class="m-input-txt" disabled>
+                <span class="unit">%</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="m-line"></div>
+    <div class="m-check1">
+        <p class="tit">
+            瞳孔：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio"  {{if eq .NRL.NRA16B "1"}}checked{{end}}  disabled id="c2-v1" name="check2">
+                    <label for="c2-v1" class="icon"></label>
+                </div>
+                <label for="c2-v1">灵敏</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" {{if eq .NRL.NRA16B "2"}}checked{{end}} disabled id="c2-v2" name="check2">
+                    <label for="c2-v2" class="icon"></label>
+                </div>
+                <label for="c2-v2">迟钝</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" {{if eq .NRL.NRA16B "3"}}checked{{end}} disabled id="c2-v3" name="check2">
+                    <label for="c2-v3" class="icon"></label>
+                </div>
+                <label for="c2-v3">消失</label>
+            </li>
+
+        </ul>
+    </div>
+
+    <div class="m-line"></div>
+
+    <div class="m-check1">
+        <p class="tit">
+            意识：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio"  {{if eq .NRL.NRA5 "1"}}checked{{end}}  disabled id="c1-v1" name="check1">
+                    <label for="c1-v1" class="icon"></label>
+                </div>
+                <label for="c1-v1">清醒</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" {{if eq .NRL.NRA5 "2"}}checked{{end}} disabled id="c1-v2" name="check1">
+                    <label for="c1-v2" class="icon"></label>
+                </div>
+                <label for="c1-v2">嗜睡</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" {{if eq .NRL.NRA5 "6"}}checked{{end}} disabled id="c1-v3" name="check1">
+                    <label for="c1-v3" class="icon"></label>
+                </div>
+                <label for="c1-v3">意识浑浊</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" {{if eq .NRL.NRA5 "3"}}checked{{end}} disabled id="c1-v4" name="check1">
+                    <label for="c1-v4" class="icon"></label>
+                </div>
+                <label for="c1-v4">昏睡</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" {{if eq .NRL.NRA5 "4"}}checked{{end}} disabled id="c1-v5" name="check1">
+                    <label for="c1-v5" class="icon"></label>
+                </div>
+                <label for="c1-v5">浅昏迷</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" {{if eq .NRL.NRA5 "5"}}checked{{end}} disabled id="c1-v6" name="check1">
+                    <label for="c1-v6" class="icon"></label>
+                </div>
+                <label for="c1-v6">深昏迷</label>
+            </li>
+
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" {{if eq .NRL.NRA5 "7"}}checked{{end}} disabled id="c1-v7" name="check1">
+                    <label for="c1-v7" class="icon"></label>
+                </div>
+                <label for="c1-v7">谵妄状态</label>
+            </li>
+
+        </ul>
+    </div>
+
+
+    <div class="m-tit">
+        <p class="tit">入量</p>
+    </div>
+    <div class="m-input2">
+        <ul>
+            <li>
+                <label for="i2-v1">量：</label>
+                <input id="i2-v1" type="text" value="{{.NRL.NRA6B}}"  class="m-input-txt" disabled>
+                <span class="unit">ml</span>
+            </li>
+            <li>
+                <label for="i2-v2">内容：</label>
+                <input id="i2-v2" type="text" value="{{.NRL.NRA6A}}" class="m-input-txt type3" disabled>
+            </li>
+
+        </ul>
+    </div>
+    <div class="m-tit">
+        <p class="tit">出量</p>
+    </div>
+    <div class="m-input2">
+        <ul>
+            <li>
+                <label for="i3-v1">量：</label>
+                <input id="i3-v1" type="text" value="{{.NRL.NRA7B}}" class="m-input-txt" disabled>
+                <span class="unit">ml</span>
+            </li>
+            <li>
+                <label for="i3-v2">内容：</label>
+                <input id="i3-v2" type="text" value="{{.NRL.NRA7A}}" class="m-input-txt type3" disabled>
+            </li>
+
+        </ul>
+    </div>
+    <div class="m-tit">
+        <p class="tit">自定义项</p>
+    </div>
+
+
+    <div class="m-input3">
+        <div id="warp">
+            <div class="item">
+                <ul>
+                    <li><label class="pd" for="i4-v1-1"><span class="icon">1</span>名称：</label>
+                        <input id="i4-v1-1" type="text" class="m-input-txt" value="{{.NRL.NRA9A}}" disabled></li>
+                    <li><label for="i4-v1-2">结果：</label>
+                        <input id="i4-v1-2" type="text" class="m-input-txt type1" value="{{.NRL.NRA9B}}" disabled></li>
+                </ul>
+            </div>
+
+
+            <div class="item">
+                <ul>
+                    <li><label class="pd" for="i4-v1-1"><span class="icon">2</span>名称：</label>
+                        <input id="i4-v2-1" type="text" class="m-input-txt" value="{{.NRL.NRA10A}}" disabled></li>
+                    <li><label for="i4-v2-2">结果：</label>
+                        <input id="i4-v2-2" type="text" class="m-input-txt type1" value="{{.NRL.NRA10B}}" disabled></li>
+                </ul>
+            </div>
+
+            <div class="item">
+                <ul>
+                    <li><label class="pd" for="i4-v1-1"><span class="icon">3</span>名称：</label>
+                        <input id="i4-v3-1" type="text" class="m-input-txt" value="{{.NRL.NRA11A}}" disabled></li>
+                    <li><label for="i4-v3-2">结果：</label>
+                        <input id="i4-v3-2" type="text" class="m-input-txt type1" value="{{.NRL.NRA11B}}" disabled></li>
+                </ul>
+            </div>
+
+            {{ if eq .NRL.NRA12A ""}}
+            {{else}}
+            <div class="item">
+                <ul>
+                    <li><label class="pd" for="i4-v1-1"><span class="icon">4</span>名称：</label>
+                        <input id="i4-v4-1" type="text" class="m-input-txt" value="{{.NRL.NRA12A}}" disabled></li>
+                    <li><label for="i4-v4-2">结果：</label>
+                        <input id="i4-v4-2" type="text" class="m-input-txt type1" value="{{.NRL.NRA12B}}" disabled></li>
+                </ul>
+            </div>
+            {{end}}
+
+            {{ if eq .NRL.NRA13A ""}}
+            {{else}}
+            <div class="item">
+                <ul>
+                    <li><label class="pd" for="i4-v1-1"><span class="icon">5</span>名称：</label>
+                        <input id="i4-v5-1" type="text" class="m-input-txt" value="{{.NRL.NRA13A}}" disabled></li>
+                    <li><label for="i4-v5-2">结果：</label>
+                        <input id="i4-v5-2" type="text" class="m-input-txt type1" value="{{.NRL.NRA13B}}" disabled></li>
+                </ul>
+            </div>
+            {{end}}
+
+            {{ if eq .NRL.NRA14A ""}}
+            {{else}}
+            <div class="item">
+                <ul>
+                    <li><label class="pd" for="i4-v1-1"><span class="icon">6</span>名称：</label>
+                        <input id="i4-v6-1" type="text" class="m-input-txt" value="{{.NRL.NRA14A}}" disabled></li>
+                    <li><label for="i4-v6-2">结果：</label>
+                        <input id="i4-v6-2" type="text" class="m-input-txt type1" value="{{.NRL.NRA14B}}" disabled></li>
+                </ul>
+            </div>
+            {{end}}
+
+            {{ if eq .NRL.NRA15A ""}}
+            {{else}}
+            <div class="item">
+                <ul>
+                    <li><label class="pd" for="i4-v1-1"><span class="icon">7</span>名称：</label>
+                        <input id="i4-v7-1" type="text" class="m-input-txt" value="{{.NRL.NRA15A}}" disabled></li>
+                    <li><label for="i4-v7-2">结果：</label>
+                        <input id="i4-v7-2" type="text" class="m-input-txt type1" value="{{.NRL.NRA15B}}" disabled></li>
+                </ul>
+            </div>
+            {{end}}
+
+
+
+
+        </div>
+        <!-- <div class="add-btn" data-item="3">
+            <img src="../dist/images/add_btn.png" alt=""><span>点击添加一栏</span>
+        </div> -->
+    </div>
+
+
+    <div class="m-textarea1">
+        <p class="tit">
+            特殊情况记录：
+        </p>
+        <div class="textarea">
+            {{.NRL.NRA8}}
+        </div>
+    </div>
+
+    <div class="m-time">
+        <span>记录时间</span>
+        <div class="input">
+            <span class="date">{{.RecordDate}}</span>
+            <span class="time">{{.RecordTime}}</span>
+        </div>
+    </div>
+
+    <div class="m-autograph">
+        <span>责任护士签名：</span>
+        <span class="name">{{.NRL.NurseName}}</span>
+    </div>
+</div>
+<div class="m-pd100"></div>
+
+<script type="tmpl" id="item">
+        <div class="item">
+            <ul>
+                <li><label class="pd" for="--"><span class="icon">-</span>名称：</label>
+                    <input id="--" type="text" class="m-input-txt"></li>
+                <li><label for="--">结果：</label>
+                    <input id="--" type="text" class="m-input-txt type1"></li>
+            </ul>
+        </div>
+    </script>
+
+<script src="/static/dist/js/base.js"></script>
+<script>
+    function addItem(index) {
+        var $item = $($('#item').text())
+        $item.find('.icon').text(index)
+        console.log($item.find('li').eq(1).find('label'))
+        $item.find('li').eq(0).find('label').attr('for', 'i4-v' + index + '-1')
+        $item.find('li').eq(0).find('input').attr('id', 'i4-v' + index + '-1')
+        $item.find('li').eq(1).find('label').attr('for', 'i4-v' + index + '-2')
+        $item.find('li').eq(1).find('input').attr('id', 'i4-v' + index + '-2')
+        $('#warp').append($item)
+    }
+
+    $('.add-btn').on('click', function() {
+        var index = $(this).data('item');
+        index = parseInt(index) + 1
+        addItem(index)
+        $(this).data('item', index)
+    })
+
+    /*var datetime = {{.NRL.DateTime}};
+
+    var dataDate = new Date(datetime);
+
+    function getDateStr(dateDate) {
+        var res = {}, nowD = new Date(dateDate);
+        if (dateDate==""){
+            res.time=""
+            res.date=""
+            return res
+        }
+        res.date = nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
+        res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
+
+        return res
+    }
+    function addZero(i) {
+        if (i < 10) {
+            return "0" + i;
+        } else {
+            return i;
+        }
+    }
+
+    var dateObj = getDateStr(dataDate)
+    $('.date').text(dateObj.date)
+    $('.time').text(dateObj.time)*/
+
+</script>
+
+</body>
+
+</html>

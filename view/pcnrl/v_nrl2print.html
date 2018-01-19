@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>见康云护理管理信息系统</title>
+    <script src="/static/dist/js/lib/jquery.min.js"></script>
+    {{/*<link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/amazeui.css">*/}}
+    {{/*<link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/core.css">*/}}
+    {{/*<link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/menu.css">*/}}
+    {{/*<link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/admin.css">*/}}
+    {{/*<link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/page/typography.css">*/}}
+    {{/*<link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/page/form.css">*/}}
+    {{/*<link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/component.css">*/}}
+    <style>
+        @page  {size: portrait}
+        @media print {
+            body {-webkit-print-color-adjust: exact;}
+            .no-print {display: none;}
+        }
+        body{
+            /*font-family: "黑体";*/
+            color:#000 !important;
+
+        }
+        table{ border-color: #000!important;}
+        .bagw{
+            height: 1400px;
+            width: 1064px;
+        }
+        .text-ea{
+            display: inline-block;font-size: 16px;width: 850px;height:80px;
+            overflow: hidden;
+            font-size:18px;
+        }
+        .text-ea2{
+            display: inline-block;font-size: 16px;width: 910px;height:28px;
+            overflow: hidden;
+            font-size:18px;
+
+        }
+        .text-ea3{
+            display: inline-block;font-size: 16px;width: 850px;height:28px;
+            overflow: hidden;
+            font-size:18px;
+
+        }
+        .text-ea4{
+            display: inline-block;font-size: 16px;width: 850px;height:120px;
+            overflow: hidden;
+            font-size:18px;
+
+        }
+        ul{
+            padding:0;
+        }
+        p{
+            margin:0;
+        }
+        label {
+            font-weight: 400;
+            margin: 0;
+            color: #000;
+        }
+        .STYLE1 {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .big-tit{
+            font-size:32px;
+            font-weight: bold;
+            text-align: center;
+            margin-top:0;
+            margin-bottom:20px;
+        }
+        .doc-input1-cont .m-input-txt {
+            border: 0;
+            background-color: transparent;
+            border-bottom: 1px solid #000;
+        }
+
+        .doc-input1-cont {
+            /*margin-left: 244px;*/
+            /*position: relative;*/
+            height: 100%;
+        }
+        .doc-input1-cont.content {
+            /*padding: 118px 5px 0 5px;*/
+        }
+        .doc-input1-cont .tit-bar {
+            width: 100%;
+            position: relative;
+            top: -118px;
+        }
+        .doc-input1-cont .tit-bar .tit {
+            text-align: center;
+            font-size: 18px;
+            color: #000;
+            line-height: 46px;
+            clear: both;
+        }
+        .doc-input1-cont .tit-bar .btn-group {
+            float: right;
+            line-height: 46px;
+        }
+        .doc-input1-cont .scroll-box {
+            height: 100%;
+            /*position: relative;*/
+            /*top: -118px;*/
+            bottom: 140px;
+            /*overflow: auto;*/
+        }
+        .doc-input1-cont .scroll-box .doc-cont {
+            border: 1px solid #000;
+            /*width: 875px;*/
+            margin: 0 auto;
+        }
+        .doc-input1-cont .scroll-box .doc-cont .line {
+            border-bottom: 1px solid #000;
+        }
+        .doc-input1-cont .scroll-box .doc-cont .hd-row {
+            /*padding: 10px 15px;*/
+            padding: 0 15px;
+
+        }
+        .doc-input1-cont .scroll-box .doc-cont .hd-row ul {
+            font-size: 0;
+            padding:0;
+        }
+        .doc-input1-cont .scroll-box .doc-cont .hd-row li {
+            display: inline-block;
+            /*font-size: 14px;*/
+            font-size: 18px;
+            min-width: 100px;
+            color: #000;
+            line-height: 32px;
+        }
+        .doc-input1-cont .scroll-box .doc-cont .hd-row li span {
+            color: #000;
+        }
+        .doc-input1-cont .scroll-box .cont-row {
+            padding: 0 15px;
+            /*line-height: 32px;*/
+            line-height: 26px;
+        }
+        .doc-input1-cont .scroll-box .cont-row .tit2 {
+            font-size: 18px;
+            color: #000;
+            line-height: 32px;
+        }
+        .doc-input1-cont .scroll-box .cont-row.type2 {
+            /*padding: 10px 8px 10px 15px;*/
+            padding: 10px 8px 0 15px;
+        }
+        .doc-input1-cont .scroll-box .m-check1 {
+            font-size: 0;
+            width: 550px;
+            display: inline-block;
+        }
+        .doc-input1-cont .scroll-box .m-check1 .tit {
+            /*color: #0066ce;*/
+            color: #000;
+            font-size: 18px;
+            display: inline-block;
+        }
+        .doc-input1-cont .scroll-box .m-check1 .tit.msg {
+            color: #000;
+        }
+        .doc-input1-cont .scroll-box .m-check1 .tit.msg span {
+            color: #000;
+        }
+        .doc-input1-cont .scroll-box .m-check1 ul {
+            display: inline-block;
+        }
+        .doc-input1-cont .scroll-box .m-check1 li {
+            font-size: 18px;
+            color: #000;
+            display: inline-block;
+            padding-right: 16px;
+        }
+        .doc-input1-cont .scroll-box .m-check1 li label {
+            cursor: pointer;
+            line-height: 32px;
+        }
+        .doc-input1-cont .scroll-box .m-check2 {
+            font-size: 0;
+            display: inline-block;
+        }
+        .doc-input1-cont .scroll-box .m-check2 .tit {
+            /*color: #0066ce;*/
+            color: #000;
+            font-size: 18px;
+            display: inline-block;
+        }
+        .doc-input1-cont .scroll-box .m-check2 .tit3 {
+            font-size: 18px;
+            color: #000;
+        }
+        .doc-input1-cont .scroll-box .m-check2 ul {
+            display: inline-block;
+            margin: 0;
+        }
+        .doc-input1-cont .scroll-box .m-check2 li {
+            font-size: 14px;
+            color: #000;
+            display: inline-block;
+            /*padding-right: 16px;*/
+            padding-right: 8px;
+        }
+        .doc-input1-cont .scroll-box .m-check2 li.pd-0 {
+            padding-right: 0;
+        }
+        .doc-input1-cont .scroll-box .m-check2 li label {
+            cursor: pointer;
+        }
+        .doc-input1-cont .scroll-box .m-check2 .m-input-txt {
+            width: 65px;
+            height: 22px;
+            line-height: 22px;
+            font-size: 18px;
+            vertical-align: 3px;
+            color: #000;
+        }
+        .doc-input1-cont .scroll-box .m-check2 .m-input-txt.type2 {
+            width: 148px;
+        }
+        .doc-input1-cont .scroll-box .m-check2 .m-input-txt.type3 {
+            width: 156px;
+        }
+        .doc-input1-cont .scroll-box .m-check2 .m-input-txt.type4 {
+            width: 112px;
+        }
+        .doc-input1-cont .scroll-box .m-check2 .m-input-txt.type5 {
+            width: 685px;
+        }
+        .doc-input1-cont .scroll-box .m-check2 input[type=number] {
+            vertical-align: sub;
+        }
+        .doc-input1-cont .scroll-box .m-check2 .m-input-bar {
+            display: inline-block;
+        }
+        .doc-input1-cont .scroll-box .m-check2 label {
+            /*font-size: 14px;*/
+            font-size: 18px;
+            color: #000;
+        }
+        .doc-input1-cont .scroll-box .m-check2 span {
+            font-size: 18px;
+            color: #000;
+        }
+        .doc-input1-cont .scroll-box .m-check2 .m-msg-bar {
+            display: inline-block;
+        }
+        .doc-input1-cont .scroll-box .m-check-warp {
+            display: inline-block;
+            font-size: 18px;
+        }
+        .doc-input1-cont .scroll-box .m-textarea1 {
+            font-size: 0;
+        }
+        .doc-input1-cont .scroll-box .m-textarea1 .tit {
+            /*color: #0066ce;*/
+            color: #000;
+            font-size: 18px;
+            display: inline-block;
+        }
+        .doc-input1-cont .scroll-box .m-textarea1 textarea {
+            display: inline-block;
+            width: 735px;
+            height: 64px;
+            border: 1px solid #000;
+            background-color: #f8f8f8;
+            resize: none;
+            padding: 4px;
+            font-size: 18px;
+            color: #000;
+            line-height: 18px;
+        }
+        .doc-input1-cont .scroll-box .m-textarea2 {
+            width: 100%;
+            display: inline-block;
+            height: 30px;
+            border: 1px solid #000;
+            background-color: #f8f8f8;
+            resize: none;
+            padding: 4px;
+            font-size: 18px;
+            color: #000;
+            line-height: 18px;
+            margin-bottom: 10px;
+        }
+        .doc-input1-cont .scroll-box .m-textarea3 {
+            font-size: 0;
+            line-height: 30px;
+            height: 40px;
+            padding-top: 10px;
+        }
+        .doc-input1-cont .scroll-box .m-textarea3 .tit {
+            display: inline-block;
+            font-size: 18px;
+            line-height: 30px;
+            /*color: #0066ce;*/
+            color: #000;
+        }
+        .doc-input1-cont .scroll-box .m-textarea3 textarea {
+            display: inline-block;
+            width: 750px;
+            height: 30px;
+            resize: none;
+            padding: 4px;
+            font-size: 18px;
+            color: #000;
+            line-height: 18px;
+            border: 1px solid #000;
+            background-color: #f8f8f8;
+        }
+        .doc-input1-cont .scroll-box .m-textarea4 {
+            font-size: 0;
+            line-height: 30px;
+            height: 40px;
+            padding-top: 10px;
+        }
+        .doc-input1-cont .scroll-box .m-textarea4 .tit {
+            display: inline-block;
+            font-size: 18px;
+            line-height: 30px;
+            /*color: #0066ce;*/
+            color: #000;
+        }
+        .doc-input1-cont .scroll-box .m-textarea4 textarea {
+            display: inline-block;
+            width: 712px;
+            height: 30px;
+            resize: none;
+            padding: 4px;
+            font-size: 18px;
+            color: #000;
+            line-height: 18px;
+            border: 1px solid #000;
+            background-color: #f8f8f8;
+        }
+        .doc-input1-cont .scroll-box .m-textarea5 {
+            font-size: 0;
+            line-height: 30px;
+            padding-top: 10px;
+        }
+        .doc-input1-cont .scroll-box .m-textarea5 .tit {
+            display: inline-block;
+            font-size: 18px;
+            line-height: 30px;
+            color: #0066ce;
+        }
+        .doc-input1-cont .scroll-box .m-textarea5 textarea {
+            display: inline-block;
+            width: 712px;
+            height: 136px;
+            resize: none;
+            padding: 4px;
+            font-size: 18px;
+            color: #000;
+            line-height: 18px;
+            border: 1px solid #000;
+            background-color: #f8f8f8;
+        }
+        .doc-input1-cont .ft-bt {
+            width: 875px;
+            /*height: 140px;*/
+            margin: 0 auto;
+        }
+        .doc-input1-cont .ft-bt .bar {
+            padding-top: 6px;
+            width: 100%;
+            overflow: auto;
+        }
+        .doc-input1-cont .ft-bt .bar .m-time {
+            background: #fff;
+            font-size: 18px;
+            line-height: 30px;
+            float: left;
+            color: #000;
+            padding-left: 20px;
+            cursor: pointer;
+        }
+        .doc-input1-cont .ft-bt .bar .m-time .input {
+            border: 1px solid #000;
+            display: inline-block;
+            height: 30px;
+            border-radius: 4px;
+        }
+        .doc-input1-cont .ft-bt .bar .m-time .input span {
+            border-right: 1px solid #000;
+            height: 30px;
+            display: inline-block;
+            color: #000;
+            padding: 0 10px;
+            font-size: 18px;
+        }
+        .doc-input1-cont .ft-bt .bar .m-time .input span:nth-last-child(1) {
+            border-right: 0;
+        }
+        .doc-input1-cont .ft-bt .bar .m-autograph {
+            width: 240px;
+            float: right;
+            background-color: #fff;
+            color: #000;
+            font-size: 18px;
+        }
+        .doc-input1-cont .ft-bt .bar .m-autograph input.name {
+            width: 120px;
+            height: 30px;
+            background-color: #f8f8f8;
+            color: #000;
+            padding: 0 5px;
+            border: 1px solid #000;
+        }
+
+        /*--------------------------*/
+        .m-input-radio {
+            position: relative;
+            width: 14px;
+            height: 14px;
+            display: inline-block;
+            vertical-align: -2px;
+        }
+        .m-input-radio input[type=radio] {
+            display: none;
+        }
+        .m-input-radio .icon {
+            width: 14px;
+            height: 14px;
+            border-radius: 2px;
+            cursor: pointer;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border: 1px solid #000;
+            background-color: #fff;
+            box-sizing: border-box;
+        }
+        .m-input-radio .icon:after {
+            content: '';
+            width: 9px;
+            height: 5px;
+            position: absolute;
+            top: 30%;
+            left: 4px;
+            /*border: 2px solid #4895ef;*/
+            border: 2px solid #000;
+            border-top: none;
+            border-right: none;
+            background: transparent;
+            filter: progid:dximagetransform.microsoft.alpha(Opacity=0);
+            opacity: 0;
+            transform: rotate(-45deg) translate(0, -50%);
+        }
+        .m-input-radio input[type=radio]:disabled + label.icon {
+            border-color: #000;
+        }
+        .m-input-radio input[type=radio]:checked + label.icon:after {
+            filter: progid:dximagetransform.microsoft.alpha(enabled=false);
+            opacity: 1;
+        }
+
+
+        /*------------------------------*/
+
+        .m-input-checkbox {
+            position: relative;
+            width: 14px;
+            height: 14px;
+            display: inline-block;
+            vertical-align: middle;
+            vertical-align: -1px;
+        }
+        .m-input-checkbox input[type=checkbox] {
+            display: none;
+        }
+        .m-input-checkbox .icon {
+            width: 14px;
+            height: 14px;
+            border-radius: 2px;
+            cursor: pointer;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border: 1px solid #000;
+            background-color: #fff;
+            box-sizing: border-box;
+        }
+        .m-input-checkbox .icon:after {
+            content: '';
+            width: 9px;
+            height: 5px;
+            position: absolute;
+            top: 30%;
+            left: 4px;
+            /*border: 2px solid #4895ef;*/
+            border: 2px solid #000;
+            border-top: none;
+            border-right: none;
+            background: transparent;
+            filter: progid:dximagetransform.microsoft.alpha(Opacity=0);
+            opacity: 0;
+            transform: rotate(-45deg) translate(0, -50%);
+        }
+        .m-input-checkbox input[type=checkbox]:disabled + label.icon {
+            border-color: #000;
+        }
+        .m-input-checkbox input[type=checkbox]:checked + label.icon:after {
+            filter: progid:dximagetransform.microsoft.alpha(enabled=false);
+            opacity: 1;
+        }
+
+    </style>
+
+</head>
+<body>
+<div class="bagw">
+    <div class="content doc-input1-cont">
+        <p class="big-tit">深圳万丰医院首次护理记录单(内科）</p>
+        <div class="scroll-box">
+            <div class="doc-cont">
+                <div class="hd-row ">
+                    <ul>
+                        <li class="b1" style="min-width: 116px">
+                            姓名:&nbsp;<span>{{.PInfo.VAA05}}</span>
+                        </li>
+                        <li class="b1" style="min-width: 80px">
+                            性别:&nbsp;<span>{{.PInfo.Gender}}</span>
+                        </li>
+                        <li class="b1" style="min-width: 96px">
+                            年龄:&nbsp;<span>{{.PInfo.VAA10}}岁</span>
+                        </li>
+                        <li class="b1" style="min-width: 140px">
+                            科室:&nbsp;<span>{{.PInfo.BCK03C}}</span>
+                        </li>
+                        <li class="b1" style="min-width: 100px">
+                            床号:&nbsp;<span>{{.PInfo.BCQ04}}</span>
+                        </li>
+                        <li class="b1" style="min-width: 140px">
+                            住院号:&nbsp;<span>{{.PInfo.VAA04}}</span>
+                        </li>
+                        <li class="b1" style="min-width: 252px">
+                            入院日期:&nbsp;<span>{{.EntryDate}}</span>
+                        </li>
+
+                    </ul>
+
+                </div>
+                {{/*<div class="line"></div>*/}}
+
+                <div class="hd-row ">
+                    <ul>
+                        <li class="b1" style="min-width: 116px">
+                            职业:&nbsp;<span>{{.NRL.NRL40}}</span>
+                        </li>
+                        <li class="b1">
+                            民族／宗教：<span>{{.NRL.NRL41}}</span>
+                        </li>
+                    </ul>
+
+                </div>
+                <div class="line"></div>
+                <div class="cont-row">
+                    <!-- 教育程度： -->
+                    <div class="m-check1" id="c1">
+                        <p class="tit">
+                            教育程度：
+                        </p>
+                        <ul>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  disabled type="radio" id="c1-v1" name="check1" data-v="1"
+                                           {{if eq .NRL.NRL02 "1"}}checked{{end}}>
+                                    <label for="c1-v1" class="icon"></label>
+                                </div>
+                                <label for="c1-v1">文盲</label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  disabled type="radio" id="c1-v2" name="check1" data-v="2"
+                                           {{if eq .NRL.NRL02 "2"}}checked{{end}}>
+                                    <label for="c1-v2" class="icon"></label>
+                                </div>
+                                <label for="c1-v2">小学</label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  disabled type="radio" id="c1-v3" name="check1" data-v="3"
+                                           {{if eq .NRL.NRL02 "3"}}checked{{end}}>
+                                    <label for="c1-v3" class="icon"></label>
+                                </div>
+                                <label for="c1-v3">中学</label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  disabled type="radio" id="c1-v4" name="check1" data-v="4"
+                                           {{if eq .NRL.NRL02 "4"}}checked{{end}}>
+                                    <label for="c1-v4" class="icon"></label>
+                                </div>
+                                <label for="c1-v4">中专</label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c1-v5" name="check1" data-v="5"
+                                           {{if eq .NRL.NRL02 "5"}}checked{{end}}>
+                                    <label for="c1-v5" class="icon"></label>
+                                </div>
+                                <label for="c1-v5">大专以上</label>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- 资料来源： -->
+                    <div class="m-check2" id="c2">
+                        <p class="tit">
+                            资料来源：
+                        </p>
+                        <ul id="u27">
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c2-v1" name="check2" data-v="1">
+                                    <label for="c2-v1" class="icon"></label>
+                                </div>
+                                <label for="c2-v1">患者</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c2-v2" name="check2" data-v="2">
+                                    <label for="c2-v2" class="icon"></label>
+                                </div>
+                                <label for="c2-v2">家属</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c2-v3" name="check2" data-v="3">
+                                    <label for="c2-v3" class="icon"></label>
+                                </div>
+                                <label for="c2-v3">朋友</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c2-v4" name="check2" data-v="4">
+                                    <label for="c2-v4" class="icon"></label>
+                                </div>
+                                <label for="c2-v4">其他</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="line"></div>
+
+                <div class="cont-row">
+                    <!-- 日常照顾者： -->
+                    <div class="m-check2" id="c3">
+                        <p class="tit">
+                            日常照顾者：
+                        </p>
+                        <ul id="u36">
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c3-v1" name="check3" data-v="1">
+                                    <label for="c3-v1" class="icon"></label>
+                                </div>
+                                <label for="c3-v1">自我照顾</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c3-v2" name="check3" data-v="2">
+                                    <label for="c3-v2" class="icon"></label>
+                                </div>
+                                <label for="c3-v2">夫/妻</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c3-v3" name="check3" data-v="3">
+                                    <label for="c3-v3" class="icon"></label>
+                                </div>
+                                <label for="c3-v3">父母</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c3-v4" name="check3" data-v="4">
+                                    <label for="c3-v4" class="icon"></label>
+                                </div>
+                                <label for="c3-v4">子女</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c3-v5" name="check3" data-v="5">
+                                    <label for="c3-v5" class="icon"></label>
+                                </div>
+                                <label for="c3-v5">亲戚</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c3-v6" name="check3" data-v="6">
+                                    <label for="c3-v6" class="icon"></label>
+                                </div>
+                                <label for="c3-v6">朋友</label>
+                            </li>
+
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c3-v7" name="check3" data-v="7">
+                                    <label for="c3-v7" class="icon"></label>
+                                </div>
+                                <label for="c3-v7">保姆</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c3-v8" name="check3" data-v="8">
+                                    <label for="c3-v8" class="icon"></label>
+                                </div>
+                                <label for="c3-v8">其他</label>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="line"></div>
+                <div class="cont-row">
+                    <div class="m-check1">
+                        <p class="tit msg">
+                            入院诊断：<span>{{.PInfo.VAO2.VAO15}}</span>
+                        </p>
+                    </div>
+                    <!-- 入院方式： -->
+                    <div class="m-check2" id="c4">
+                        <p class="tit">
+                            入院方式：
+                        </p>
+                        <ul>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  disabled type="radio" id="c4-v1" name="check4" data-v="1"
+                                           {{if eq .NRL.NRL05 "1"}}checked{{end}}>
+                                    <label for="c4-v1" class="icon"></label>
+                                </div>
+                                <label for="c4-v1">步行</label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c4-v2" name="check4" data-v="2"
+                                           {{if eq .NRL.NRL05 "2"}}checked{{end}}>
+                                    <label for="c4-v2" class="icon"></label>
+                                </div>
+                                <label for="c4-v2">扶行</label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c4-v3" name="check4" data-v="3"
+                                           {{if eq .NRL.NRL05 "3"}}checked{{end}}>
+                                    <label for="c4-v3" class="icon"></label>
+                                </div>
+                                <label for="c4-v3">轮椅</label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c4-v4" name="check4" data-v="4"
+                                           {{if eq .NRL.NRL05 "4"}}checked{{end}}>
+                                    <label for="c4-v4" class="icon"></label>
+                                </div>
+                                <label for="c4-v4">平车</label>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <div class="line"></div>
+                <div class="cont-row">
+                    <!-- 过敏史： -->
+                    <div class="m-check2" id="c5">
+                        <p class="tit" style="vertical-align: 33px">
+                            过敏史：</p>
+                        <ul class="radio-grup" style="width: 958px;">
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c5-v1" name="check5" data-v="1" class="c5"
+                                           {{if eq .NRL.NRL06 "1"}}checked{{end}}>
+                                    <label for="c5-v1" class="icon"></label>
+                                </div>
+                                <label for="c5-v1">无</label>
+
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c5-v3" name="check5" data-v="3" class="c5"
+                                           {{if eq .NRL.NRL06 "3"}}checked{{end}}>
+                                    <label for="c5-v3" class="icon"></label>
+                                </div>
+                                <label for="c5-v3">不明确</label>
+                            </li>
+                            <li>
+                                <div class="m-check-warp">
+                                    <div class="m-input-radio">
+                                        <input disabled  type="radio" id="c5-v2" name="check5" data-v="2" class="c5 main-sel"
+                                               {{if eq .NRL.NRL06 "2"}}checked{{end}}>
+                                        <label for="c5-v2" class="icon"></label>
+                                    </div>
+                                    <label for="c5-v2">有</label>
+                                </div>
+                                <ul id="c5-c2" class="child-sel disabled-box">
+                                    <li class="b1" style="font-size: 18px;">
+                                        (过敏源：<div class="m-input-checkbox">
+                                            <input disabled  type="checkbox" id="c5-v2-v1" name="c5-v2" data-v="1"
+                                                   class="main-sel">
+                                            <label for="c5-v2-v1" class="icon"></label>
+                                        </div>
+                                        <label for="c5-v2-v1">食物，种类：</label><span class="child-sel disabled-box"><input disabled  type="text" class="m-input-txt" style="width:165px">
+                                        </span>
+                                    </li>
+                                    <li class="b2">
+                                        <div class="m-input-checkbox">
+                                            <input disabled  type="checkbox" id="c5-v2-v2" name="c5-v2" data-v="2"
+                                                   class="main-sel">
+                                            <label for="c5-v2-v2" class="icon"></label>
+                                        </div>
+                                        <label for="c5-v2-v2">药物：</label><span class="child-sel disabled-box"><input disabled  type="text" class="m-input-txt" style="width:165px">
+                                    </span>
+                                    </li>
+                                    <li class="b2">
+                                        <div class="m-input-checkbox">
+                                            <input disabled  type="checkbox" id="c5-v2-v3" name="c5-v2" data-v="3"
+                                                   class="main-sel">
+                                            <label for="c5-v2-v3" class="icon"></label>
+                                        </div>
+                                        <label for="c5-v2-v3">其他：</label>
+                                        <span class="child-sel disabled-box">
+                                                        <input disabled  type="text" class="m-input-txt" style="width:165px">)
+                                                    </span>
+                                    </li>
+
+                                </ul>
+
+                            </li>
+
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="line"></div>
+
+                <div class="cont-row radio-grup">
+                    <!-- 医疗费用支付方式： -->
+                    <div class="m-check2 t1" id="c6">
+                        <p class="tit">
+                            医疗费用支付方式：
+                        </p>
+                        <ul>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c6-v1" name="check6" data-v="1"
+                                           {{if eq .NRL.NRL07 "1"}}checked{{end}}>
+                                    <label for="c6-v1" class="icon"></label>
+                                </div>
+                                <label for="c6-v1">自费</label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c6-v2" name="check6" data-v="2"
+                                           {{if eq .NRL.NRL07 "2"}}checked{{end}}>
+                                    <label for="c6-v2" class="icon"></label>
+                                </div>
+                                <label for="c6-v2">公费医疗</label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c6-v3" name="check6" data-v="3"
+                                           {{if eq .NRL.NRL07 "3"}}checked{{end}}>
+                                    <label for="c6-v3" class="icon"></label>
+                                </div>
+                                <label for="c6-v3">医保</label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c6-v4" name="check6" data-v="4"
+                                           {{if eq .NRL.NRL07 "4"}}checked{{end}}>
+                                    <label for="c6-v4" class="icon"></label>
+                                </div>
+                                <label for="c6-v4">社保</label>
+                            </li>
+
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c6-v5" name="check6" data-v="5"
+                                           {{if eq .NRL.NRL07 "5"}}checked{{end}}>
+                                    <label for="c6-v5" class="icon"></label>
+                                </div>
+                                <label for="c6-v5">商业保险</label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c6-v6" name="check6" data-v="6"
+                                           {{if eq .NRL.NRL07 "6"}}checked{{end}}>
+                                    <label for="c6-v6" class="icon"></label>
+                                </div>
+                                <label for="c6-v6">他人赔付</label>
+                            </li>
+                            <li class="b1">
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c6-v7" class="main-sel" name="check6" data-v="7"
+                                           {{if eq .NRL.NRL07 "7"}}checked{{end}}>
+                                    <label for="c6-v7" class="icon"></label>
+                                </div>
+                                <label for="c6-v7">其他：</label>
+                                <span class="child-sel disabled-box">
+                                                <input disabled  type="text" class="m-input-txt type2" style="width: 276px"
+                                                       {{if eq .NRL.NRL07 "7"}}value="{{.NRL.NRL07A}}"{{end}}>
+                                            </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="line"></div>
+                <div class="cont-row">
+                    <div class="tit2">
+                        一、护理评估
+                    </div>
+                </div>
+
+                <div class="line"></div>
+                <div class="cont-row">
+                    <!-- 意识状态： -->
+                    <div class="m-check2">
+                        <p class="tit">
+                            意识状态：
+                        </p>
+                        <ul id="c7">
+                            <li class="tit3">呼之</li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c7-v1" name="check7" data-v="1"
+                                           {{if eq .NRL.NRL08 "1"}}checked{{end}}>
+                                    <label for="c7-v1" class="icon"></label>
+                                </div>
+                                <label for="c7-v1">能应</label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c7-v2" name="check7" data-v="2"
+                                           {{if eq .NRL.NRL08 "2"}}checked{{end}}>
+                                    <label for="c7-v2" class="icon"></label>
+                                </div>
+                                <label for="c7-v2">不应;</label>
+                            </li>
+                        </ul>
+                        <ul id="c8">
+                            <li class="tit3">&nbsp;&nbsp;&nbsp;对答</li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c8-v1" name="check8" data-v="1"
+                                           {{if eq .NRL.NRL09 "1"}}checked{{end}}>
+                                    <label for="c8-v1" class="icon"></label>
+                                </div>
+                                <label for="c8-v1">切题</label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c8-v2" name="check8" data-v="2"
+                                           {{if eq .NRL.NRL09 "2"}}checked{{end}}>
+                                    <label for="c8-v2" class="icon"></label>
+                                </div>
+                                <label for="c8-v2">不切题</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="line"></div>
+
+                <div class="cont-row">
+                    <!-- 饮食： -->
+                    <div class="m-check2">
+                        <p class="tit">
+                            饮食：
+                        </p>
+                        <ul id="c9">
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c9-v1" name="check9" data-v="1"
+                                           {{if eq .NRL.NRL10 "1"}}checked{{end}}>
+                                    <label for="c9-v1" class="icon"></label>
+                                </div>
+                                <label for="c9-v1">自行进食</label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c9-v2" name="check9" data-v="2"
+                                           {{if eq .NRL.NRL10 "2"}}checked{{end}}>
+                                    <label for="c9-v2" class="icon"></label>
+                                </div>
+                                <label for="c9-v2">协助进食</label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c9-v3" name="check9" data-v="3"
+                                           {{if eq .NRL.NRL10 "3"}}checked{{end}}>
+                                    <label for="c9-v3" class="icon"></label>
+                                </div>
+                                <label for="c9-v3">经鼻胃管</label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c9-v4" name="check9" data-v="4"
+                                           {{if eq .NRL.NRL10 "4"}}checked{{end}}>
+                                    <label for="c9-v4" class="icon"></label>
+                                </div>
+                                <label for="c9-v4">经鼻肠管</label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c9-v5" name="check9" data-v="5"
+                                           {{if eq .NRL.NRL10 "5"}}checked{{end}}>
+                                    <label for="c9-v5" class="icon"></label>
+                                </div>
+                                <label for="c9-v5">胃肠造瘘管;</label>
+                            </li>
+                        </ul>
+                        <ul class="t2" id="c10">
+                            <li class="tit3">&nbsp;&nbsp;咀嚼困难：</li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c10-v1" name="check10" data-v="1"
+                                           {{if eq .NRL.NRL11 "1"}}checked{{end}}>
+                                    <label for="c10-v1" class="icon"></label>
+                                </div>
+                                <label for="c10-v1">无</label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c10-v2" name="check10" data-v="2"
+                                           {{if eq .NRL.NRL11 "2"}}checked{{end}}>
+                                    <label for="c10-v2" class="icon"></label>
+                                </div>
+                                <label for="c10-v2">有</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="line"></div>
+
+
+                <div class="cont-row">
+                    <!-- 口腔黏膜： -->
+                    <div class="m-check2 t1">
+                        <p class="tit">
+                            口腔黏膜：
+                        </p>
+                        <ul id="c11">
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c11-v1" name="check11" data-v="1"
+                                           {{if eq .NRL.NRL12 "1"}}checked{{end}}>
+                                    <label for="c11-v1" class="icon"></label>
+                                </div>
+                                <label for="c11-v1">完整</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c11-v2" name="check11" data-v="2"
+                                           {{if eq .NRL.NRL12 "2"}}checked{{end}}>
+                                    <label for="c11-v2" class="icon"></label>
+                                </div>
+                                <label for="c11-v2">溃疡</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c11-v3" name="check11" data-v="3"
+                                           {{if eq .NRL.NRL12 "3"}}checked{{end}}>
+                                    <label for="c11-v3" class="icon"></label>
+                                </div>
+                                <label for="c11-v3">白斑</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c11-v4" name="check11" data-v="4"
+                                           {{if eq .NRL.NRL12 "4"}}checked{{end}}>
+                                    <label for="c11-v4" class="icon"></label>
+                                </div>
+                                <label for="c11-v4">红肿</label>
+                            </li>
+                            <li class="b2">
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c11-v5" name="check11" class="main-sel" data-v="5"
+                                           {{if eq .NRL.NRL12 "5"}}checked{{end}}>
+                                    <label for="c11-v5" class="icon"></label>
+                                </div>
+                                <label for="c11-v5">其他：</label>
+                                <span class="child-sel disabled-box">
+                                                <input disabled  type="text" class="m-input-txt type3" style="width:186px" value="{{.NRL.NRL12A}}">;
+                                            </span>
+                            </li>
+                        </ul>
+
+
+                        <ul class="t2" id="c12">
+                            <li class="tit3">吞咽困难：</li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c12-v1" name="check12" data-v="1"
+                                           {{if eq .NRL.NRL13 "1"}}checked{{end}}>
+                                    <label for="c12-v1" class="icon"></label>
+                                </div>
+                                <label for="c12-v1">无</label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c12-v2" name="check12" data-v="2"
+                                           {{if eq .NRL.NRL13 "2"}}checked{{end}}>
+                                    <label for="c12-v2" class="icon"></label>
+                                </div>
+                                <label for="c12-v2">有</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="line"></div>
+
+
+                <div class="cont-row">
+                    <!-- 睡眠： -->
+                    <div class="m-check2 t1">
+                        <p class="tit">
+                            睡眠：
+                        </p>
+                        <ul id="c13">
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c13-v1" name="check13" data-v="1"
+                                           {{if eq .NRL.NRL14 "1"}}checked{{end}}>
+                                    <label for="c13-v1" class="icon"></label>
+                                </div>
+                                <label for="c13-v1">正常 </label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c13-v2" name="check13" data-v="2"
+                                           {{if eq .NRL.NRL14 "2"}}checked{{end}}>
+                                    <label for="c13-v2" class="icon"></label>
+                                </div>
+                                <label for="c13-v2">难入眠</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c13-v3" name="check13" data-v="3"
+                                           {{if eq .NRL.NRL14 "3"}}checked{{end}}>
+                                    <label for="c13-v3" class="icon"></label>
+                                </div>
+                                <label for="c13-v3">易醒</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c13-v4" name="check13" data-v="4"
+                                           {{if eq .NRL.NRL14 "4"}}checked{{end}}>
+                                    <label for="c13-v4" class="icon"></label>
+                                </div>
+                                <label for="c13-v4">早醒</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c13-v5" name="check13" data-v="5"
+                                           {{if eq .NRL.NRL14 "5"}}checked{{end}}>
+                                    <label for="c13-v5" class="icon"></label>
+                                </div>
+                                <label for="c13-v5">多梦</label>
+                            </li>
+
+                            <li class="b1">
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c13-v6" class="main-sel" name="check13" data-v="6"
+                                           {{if eq .NRL.NRL14 "6"}}checked{{end}}>
+                                    <label for="c13-v6" class="icon"></label>
+                                </div>
+                                <label for="c13-v6">使用辅助药物：</label>
+                                <span class="child-sel disabled-box">
+                                                <input disabled  type="text" class="m-input-txt type4" style="width: 184px;" value="{{.NRL.NRL14A}}">;
+                                            </span>
+                            </li>
+                        </ul>
+
+
+                        <ul class="t2" id="c14">
+                            <li class="tit3">醒后疲劳感：</li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c14-v1" name="check14" data-v="1"
+                                           {{if eq .NRL.NRL15 "1"}}checked{{end}}>
+                                    <label for="c14-v1" class="icon"></label>
+                                </div>
+                                <label for="c14-v1">无</label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c14-v2" name="check14" data-v="2"
+                                           {{if eq .NRL.NRL15 "2"}}checked{{end}}>
+                                    <label for="c14-v2" class="icon"></label>
+                                </div>
+                                <label for="c14-v2">有</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="line"></div>
+
+
+                <div class="cont-row">
+                    <div class="m-check2 t1">
+                        <p class="tit">
+                            排尿：
+                        </p>
+                        <ul id="c15">
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c15-v1" name="check15" data-v="1"
+                                           {{if eq .NRL.NRL16 "1"}}checked{{end}}>
+                                    <label for="c15-v1" class="icon"></label>
+                                </div>
+                                <label for="c15-v1">未发现异常 </label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c15-v2" name="check15" data-v="2"
+                                           {{if eq .NRL.NRL16 "2"}}checked{{end}}>
+                                    <label for="c15-v2" class="icon"></label>
+                                </div>
+                                <label for="c15-v2">尿频</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c15-v3" name="check15" data-v="3"
+                                           {{if eq .NRL.NRL16 "3"}}checked{{end}}>
+                                    <label for="c15-v3" class="icon"></label>
+                                </div>
+                                <label for="c15-v3">尿急</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c15-v4" name="check15" data-v="4"
+                                           {{if eq .NRL.NRL16 "4"}}checked{{end}}>
+                                    <label for="c15-v4" class="icon"></label>
+                                </div>
+                                <label for="c15-v4">尿痛</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c15-v5" name="check15" data-v="5"
+                                           {{if eq .NRL.NRL16 "5"}}checked{{end}}>
+                                    <label for="c15-v5" class="icon"></label>
+                                </div>
+                                <label for="c15-v5">尿失禁</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c15-v6" name="check15" data-v="6"
+                                           {{if eq .NRL.NRL16 "6"}}checked{{end}}>
+                                    <label for="c15-v6" class="icon"></label>
+                                </div>
+                                <label for="c15-v6">尿潴留</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c15-v7" name="check15" data-v="7"
+                                           {{if eq .NRL.NRL16 "7"}}checked{{end}}>
+                                    <label for="c15-v7" class="icon"></label>
+                                </div>
+                                <label for="c15-v7">留置尿管</label>
+                            </li>
+
+                            <li class="b2">
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c15-v8" name="check15" class="main-sel" data-v="8"
+                                           {{if eq .NRL.NRL16 "8"}}checked{{end}}>
+                                    <label for="c15-v8" class="icon"></label>
+                                </div>
+                                <label for="c15-v8">其他：</label>
+                                <span class="child-sel disabled-box">
+                                                <input disabled  type="text" class="m-input-txt type4" style="width: 285px; " value="{{.NRL.NRL16A}}">
+                                            </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="line"></div>
+
+
+                <div class="cont-row">
+                    <!-- 排便： -->
+
+                    <div class="m-check2 t1">
+                        <p class="tit">
+                            排便：
+                        </p>
+                        <div class="m-input-bar">
+                            <label for="i1">次数：</label>
+                            <input disabled  type="number" class="m-input-txt" id="i1" value="{{.NRL18A}}">
+                            <span>次/天</span><label for="i2">（1次/&nbsp;&nbsp;</label>
+                            <input disabled  type="number" class="m-input-txt" id="i2" value="{{.NRL18B}}">
+                            <span>天）</span>
+                        </div>
+                        <ul id="c16" class="radio-grup">
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c16-v1" name="check16" data-v="1"
+                                           {{if eq .NRL.NRL17 "1"}}checked{{end}}>
+                                    <label for="c16-v1" class="icon"></label>
+                                </div>
+                                <label for="c16-v1">便秘</label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c16-v2" name="check16" data-v="2"
+                                           {{if eq .NRL.NRL17 "2"}}checked{{end}}>
+                                    <label for="c16-v2" class="icon"></label>
+                                </div>
+                                <label for="c16-v2">腹泻</label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c16-v3" name="check16" data-v="3"
+                                           {{if eq .NRL.NRL17 "3"}}checked{{end}}>
+                                    <label for="c16-v3" class="icon"></label>
+                                </div>
+                                <label for="c16-v3">失禁</label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c16-v4" name="check16" data-v="4"
+                                           {{if eq .NRL.NRL17 "4"}}checked{{end}}>
+                                    <label for="c16-v4" class="icon"></label>
+                                </div>
+                                <label for="c16-v4">造瘘</label>
+                            </li>
+
+                            <li class="b2">
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c16-v5" name="check16" class="main-sel" data-v="5"
+                                           {{if eq .NRL.NRL17 "5"}}checked{{end}}>
+                                    <label for="c16-v5" class="icon"></label>
+                                </div>
+                                <label for="c16-v5">其他：</label>
+                                <span class="child-sel disabled-box">
+                                                <input disabled  type="text" class="m-input-txt type4" style="width: 310px" value="{{.NRL.NRL17A}}">
+                                            </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="line"></div>
+
+                <div class="cont-row radio-grup">
+                    <!-- 四肢活动： -->
+
+                    <div class="m-check2">
+                        <p class="tit">
+                            四肢活动：
+                        </p>
+                        <ul id="c17">
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c17-v1" name="check17" class="c17" data-v="1"
+                                           {{if eq .NRL.NRL19 "1"}}checked{{end}}>
+                                    <label for="c17-v1" class="icon"></label>
+                                </div>
+                                <label for="c17-v1">自如</label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c17-v2" name="check17" class="c17" data-v="2"
+                                           {{if eq .NRL.NRL19 "2"}}checked{{end}}>
+                                    <label for="c17-v2" class="icon"></label>
+                                </div>
+                                <label for="c17-v2">无力</label>
+                            </li>
+                            <li class="b1 tbar1">
+                                <div class="m-check-warp">
+                                    <div class="m-input-radio">
+                                        <input disabled  type="radio" id="c17-v3" name="check17" class="c17 main-sel"
+                                               data-v="3" {{if eq .NRL.NRL19 "3"}}checked{{end}}>
+                                        <label for="c17-v3" class="icon"></label>
+                                    </div>
+                                    <label for="c17-v3">偏瘫</label>
+                                </div>
+                                <ul id="c17-c2" class="child-sel disabled-box">
+                                    <li>(
+                                        <div class="m-input-checkbox">
+                                            <input disabled  type="checkbox" id="c17-v3-v1" name="check17-2"
+                                                   data-v="1" {{if eq .NRL.NRL19 "3"}}{{if eq .NRL.LimbsId "1"}}checked{{end}}{{end}}>
+                                            <label for="c17-v3-v1" class="icon"></label>
+                                        </div>
+                                        <label for="c17-v3-v1">左上肢</label>
+                                    </li>
+                                    <li>&nbsp;
+                                        <div class="m-input-checkbox">
+                                            <input disabled  type="checkbox" id="c17-v3-v2" name="check17-2"
+                                                   data-v="2" {{if eq .NRL.NRL19 "3"}}{{if eq .NRL.LimbsId "2"}}checked{{end}}{{end}}>
+                                            <label for="c17-v3-v2" class="icon"></label>
+                                        </div>
+                                        <label for="c17-v3-v2">左下肢</label>
+                                    </li>
+                                    <li>
+                                        &nbsp;
+                                        <div class="m-input-checkbox">
+                                            <input disabled  type="checkbox" id="c17-v3-v3" name="check17-2"
+                                                   data-v="3" {{if eq .NRL.NRL19 "3"}}{{if eq .NRL.LimbsId "3"}}checked{{end}}{{end}}>
+                                            <label for="c17-v3-v3" class="icon"></label>
+                                        </div>
+                                        <label for="c17-v3-v3">右上肢</label>
+                                    </li>
+                                    <li>
+                                        &nbsp;
+                                        <div class="m-input-checkbox">
+                                            <input disabled  type="checkbox" id="c17-v3-v4" name="check17-2"
+                                                   data-v="4" {{if eq .NRL.NRL19 "3"}}{{if eq .NRL.LimbsId "4"}}checked{{end}}{{end}}>
+                                            <label for="c17-v3-v4" class="icon"></label>
+                                        </div>
+                                        <label for="c17-v3-v4">右下肢</label> )
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c17-v4" name="check17" class="c17" data-v="4"
+                                           {{if eq .NRL.NRL19 "4"}}checked{{end}}>
+                                    <label for="c17-v4" class="icon"></label>
+                                </div>
+                                <label for="c17-v4">截瘫</label>
+                            </li>
+
+                            <li class="b2">
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c17-v5" name="check17" class="c17" data-v="5"
+                                           {{if eq .NRL.NRL19 "5"}}checked{{end}}>
+                                    <label for="c17-v5" class="icon"></label>
+                                </div>
+                                <label for="c17-v5">全瘫</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="line"></div>
+
+                <div class="cont-row radio-grup">
+                    <!-- 自理能力： -->
+                    <div class="m-check2 t1">
+                        <p class="tit">
+                            自理能力：
+                        </p>
+                        <ul class="t3" id="c18">
+                            <li class="b3">
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c18-v1" name="check18" data-v="1"
+                                           {{if eq .NRL.NRL20 "1"}}checked{{end}}>
+                                    <label for="c18-v1" class="icon"></label>
+                                </div>
+                                <label for="c18-v1">完全自理</label>
+                            </li>
+                            <li class="b3">
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c18-v2" name="check18" data-v="2"
+                                           {{if eq .NRL.NRL20 "2"}}checked{{end}}>
+                                    <label for="c18-v2" class="icon"></label>
+                                </div>
+                                <label for="c18-v2">完全不能自理</label>
+                            </li>
+
+                            <li class="b1">
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c18-v3" name="check18" class="main-sel" data-v="3"
+                                           {{if eq .NRL.NRL20 "3"}}checked{{end}}>
+                                    <label for="c18-v3" class="icon"></label>
+                                </div>
+                                <label for="c18-v3">部分自理：</label>
+                                <span class="child-sel disabled-box">
+                                                <input disabled  type="text" class="m-input-txt type4" style="width: 514px;"
+                                                       {{if eq .NRL.NRL20 "3"}}value="{{.NRL.NRL20A}}"{{end}}>
+                                            </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="line"></div>
+
+                <div class="cont-row">
+                    <!-- 皮肤状况： -->
+                    <div class="m-check2 t1">
+                        <p class="tit">
+                            皮肤状况：
+                        </p>
+                        <ul id="c19">
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c19-v1" name="check19" data-v="1"
+                                           {{if eq .NRL.NRL21 "1"}}checked{{end}}>
+                                    <label for="c19-v1" class="icon"></label>
+                                </div>
+                                <label for="c19-v1">完整 </label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c19-v2" name="check19" data-v="2"
+                                           {{if eq .NRL.NRL21 "2"}}checked{{end}}>
+                                    <label for="c19-v2" class="icon"></label>
+                                </div>
+                                <label for="c19-v2">苍白</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c19-v3" name="check19" data-v="3"
+                                           {{if eq .NRL.NRL21 "3"}}checked{{end}}>
+                                    <label for="c19-v3" class="icon"></label>
+                                </div>
+                                <label for="c19-v3">黄疸</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c19-v4" name="check19" data-v="4"
+                                           {{if eq .NRL.NRL21 "4"}}checked{{end}}>
+                                    <label for="c19-v4" class="icon"></label>
+                                </div>
+                                <label for="c19-v4">潮红</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c19-v5" name="check19" data-v="5"
+                                           {{if eq .NRL.NRL21 "5"}}checked{{end}}>
+                                    <label for="c19-v5" class="icon"></label>
+                                </div>
+                                <label for="c19-v5">紫绀</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c19-v6" name="check19" data-v="6"
+                                           {{if eq .NRL.NRL21 "6"}}checked{{end}}>
+                                    <label for="c19-v6" class="icon"></label>
+                                </div>
+                                <label for="c19-v6">干燥</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c19-v7" name="check19" data-v="7"
+                                           {{if eq .NRL.NRL21 "7"}}checked{{end}}>
+                                    <label for="c19-v7" class="icon"></label>
+                                </div>
+                                <label for="c19-v7">出血点</label>
+                            </li>
+
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c19-v8" name="check19" data-v="8"
+                                           {{if eq .NRL.NRL21 "8"}}checked{{end}}>
+                                    <label for="c19-v8" class="icon"></label>
+                                </div>
+                                <label for="c19-v8">压疮</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c19-v9" name="check19" data-v="9"
+                                           {{if eq .NRL.NRL21 "9"}}checked{{end}}>
+                                    <label for="c19-v9" class="icon"></label>
+                                </div>
+                                <label for="c19-v9">破损</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c19-v10" name="check19" data-v="10"
+                                           {{if eq .NRL.NRL21 "10"}}checked{{end}}>
+                                    <label for="c19-v10" class="icon"></label>
+                                </div>
+                                <label for="c19-v10">水肿</label>
+                            </li>
+                            <li>
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c19-v11" name="check19" data-v="11"
+                                           {{if eq .NRL.NRL21 "11"}}checked{{end}}>
+                                    <label for="c19-v11" class="icon"></label>
+                                </div>
+                                <label for="c19-v11">皮疹</label>
+                            </li>
+                        </ul>
+
+                        <div class="m-msg-bar">
+                            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;详细描述：</span>
+                            <input disabled  type="text" class="m-input-txt type5" id="i3" style="width: 858px;font-size: 17px" value="{{.NRL.NRL22}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="line"></div>
+
+
+                <div class="cont-row">
+                    <!-- 语言沟通： -->
+
+                    <div class="m-check2 t1">
+                        <p class="tit">
+                            语言沟通：
+                        </p>
+                        <div class="m-msg-bar type1">
+                            <span>最常用语言/语种：</span>
+                            <input disabled  type="text" class="m-input-txt type4" id="i4" style="width: 296px" value="{{.NRL.NRL23}}">
+                        </div>
+                        <ul class="t4" id="c20">
+                            <li class="tit3">&nbsp;&nbsp;&nbsp;&nbsp;语言表达：</li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c20-v1" name="check20" data-v="1"
+                                           {{if eq .NRL.NRL24 "1"}}checked{{end}}>
+                                    <label for="c20-v1" class="icon"></label>
+                                </div>
+                                <label for="c20-v1">清楚 </label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c20-v2" name="check20" data-v="2"
+                                           {{if eq .NRL.NRL24 "2"}}checked{{end}}>
+                                    <label for="c20-v2" class="icon"></label>
+                                </div>
+                                <label for="c20-v2">含糊</label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c20-v3" name="check20" data-v="3"
+                                           {{if eq .NRL.NRL24 "3"}}checked{{end}}>
+                                    <label for="c20-v3" class="icon"></label>
+                                </div>
+                                <label for="c20-v3">失语</label>
+                            </li>
+
+                        </ul>
+
+
+                    </div>
+                </div>
+                <div class="line"></div>
+
+
+                <div class="cont-row">
+                    <!-- 生活习惯： -->
+
+                    <div class="m-check2 t1">
+                        <p class="tit">
+                            生活习惯：
+                        </p>
+                        <ul class="t5 radio-grup" id="c21">
+                            <li class="tit">吸烟：</li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c21-v1" name="check21" data-v="1"
+                                           {{if eq .NRL.NRL25 "1"}}checked{{end}}>
+                                    <label for="c21-v1" class="icon"></label>
+                                </div>
+                                <label for="c21-v1">无 </label>
+
+
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c21-v2" name="check21" class="main-sel" data-v="2"
+                                           {{if eq .NRL.NRL25 "2"}}checked{{end}}>
+                                    <label for="c21-v2" class="icon"></label>
+                                </div>
+                                <label for="c21-v2">有，</label>
+                                <span class="child-sel disabled-box">
+                                                <input disabled  type="number" class="m-input-txt" value="{{.NRL.NRL26}}">
+                                            </span>
+                                <span>支/天;</span>
+                            </li>
+                        </ul>
+                        <ul class="t5 radio-grup" id="c22">
+                            <li class="tit">嗜酒：</li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c22-v1" name="check22" data-v="1"
+                                           {{if eq .NRL.NRL27 "1"}}checked{{end}}>
+                                    <label for="c22-v1" class="icon"></label>
+                                </div>
+                                <label for="c22-v1">无 </label>
+                            </li>
+                            <li>
+                                <div class="m-input-radio">
+                                    <input disabled  type="radio" id="c22-v2" name="check22" class="main-sel" data-v="2"
+                                           {{if eq .NRL.NRL27 "2"}}checked{{end}}>
+                                    <label for="c22-v2" class="icon"></label>
+                                </div>
+                                <label for="c22-v2">有，</label>
+                                <span class="child-sel disabled-box">
+                                                <input disabled  type="number" class="m-input-txt" value="{{.NRL.NRL28}}">
+                                            </span>
+                                <span>两/天</span>
+                            </li>
+                        </ul>
+
+
+                    </div>
+                </div>
+                <div class="line"></div>
+
+
+                <div class="cont-row type2">
+                    <div class="m-textarea1">
+                        <p class="tit" style="vertical-align: top;float: left;">
+                            其他症状和体征：
+                        </p>
+
+                        <p class="txt text-ea" >
+                        {{.NRL.NRL29}}
+                        </p>
+                    </div>
+                </div>
+                <div class="line"></div>
+
+
+                <div class="cont-row">
+                    <div class="tit2">
+                        二、住院告知
+                    </div>
+                </div>
+                <div class="line"></div>
+
+                <div class="cont-row">
+                    <!--住院告知-->
+                    <div class="m-check2 t1">
+                        <ul class="t6" id="c23">
+                            <li class="b3">
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c23-v1" name="check23" data-v="1"
+                                           {{if eq .NRL.NRL30 "1"}}checked{{end}}>
+                                    <label for="c23-v1" class="icon"></label>
+                                </div>
+                                <label for="c23-v1">住院须知 </label>
+                            </li>
+                            <li class="b3">
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c23-v2" name="check23" data-v="2"
+                                           {{if eq .NRL.NRL30 "2"}}checked{{end}}>
+                                    <label for="c23-v2" class="icon"></label>
+                                </div>
+                                <label for="c23-v2">物品管理</label>
+                            </li>
+                            <li class="b3">
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c23-v3" name="check23" data-v="3"
+                                           {{if eq .NRL.NRL30 "3"}}checked{{end}}>
+                                    <label for="c23-v3" class="icon"></label>
+                                </div>
+                                <label for="c23-v3">作息</label>
+                            </li>
+                            <li class="b3">
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c23-v4" name="check23" data-v="4"
+                                           {{if eq .NRL.NRL30 "4"}}checked{{end}}>
+                                    <label for="c23-v4" class="icon"></label>
+                                </div>
+                                <label for="c23-v4">探陪</label>
+                            </li>
+                            <li class="b3">
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c23-v5" name="check23" data-v="5"
+                                           {{if eq .NRL.NRL30 "5"}}checked{{end}}>
+                                    <label for="c23-v5" class="icon"></label>
+                                </div>
+                                <label for="c23-v5">订餐</label>
+                            </li>
+                            <li class="b3">
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c23-v6" name="check23" data-v="6"
+                                           {{if eq .NRL.NRL30 "6"}}checked{{end}}>
+                                    <label for="c23-v6" class="icon"></label>
+                                </div>
+                                <label for="c23-v6">介绍主管医生</label>
+                            </li>
+                            <li class="b3">
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c23-v7" name="check23" data-v="7"
+                                           {{if eq .NRL.NRL30 "7"}}checked{{end}}>
+                                    <label for="c23-v7" class="icon"></label>
+                                </div>
+                                <label for="c23-v7">介绍主管护士</label>
+                            </li>
+                            <br>
+                            <li class="b2 pd-0">
+                                <div class="m-input-checkbox">
+                                    <input disabled  type="checkbox" id="c23-v8" name="check23" class="main-sel" data-v="8"
+                                           {{if eq .NRL.NRL30 "8"}}checked{{end}}>
+                                    <label for="c23-v8" class="icon"></label>
+                                </div>
+                                <label for="c23-v8">其他：</label>
+                                <span class="child-sel disabled-box">
+                                                <input disabled  type="text" style="width: 948px;font-size: 17px;" {{if eq .NRL.NRL30 "9"}}checked{{end}} class="m-input-txt type2"
+                                                       value="{{.NRL.NRL30A}}">
+                                            </span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- <input disabled  type="text" class="m-textarea2">-->
+                </div>
+
+                <div class="line"></div>
+                <div class="cont-row">
+                    <div class="tit2">
+                        三、护理重点
+                    </div>
+                </div>
+                <div class="line"></div>
+                <div class="cont-row">
+
+                    <div class="m-textarea3">
+                        <p class="tit " style="vertical-align: top;float: left;">
+                            1、基础护理：
+                        </p>
+                        <p class="text-ea2" style="font-size: 17px">{{.NRL.NRL31}}</p>
+                    </div>
+                </div>
+                <div class="line"></div>
+                <div class="cont-row">
+                    <div class="m-textarea3">
+                        <p class="tit " style="vertical-align: top;float: left;">
+                            2、专科护理：
+                        </p>
+                        <p class="text-ea2"  style="font-size: 17px">{{.NRL.NRL32}}</p>
+                    </div>
+                </div>
+                <div class="line"></div>
+                <div class="cont-row">
+                    <div class="m-textarea3" >
+                        <p class="tit " style="vertical-align: top;float: left;">
+                            3、患者安全：
+                        </p>
+                        <p class="text-ea2"  style="font-size: 17px">{{.NRL.NRL33}}</p>
+                    </div>
+                </div>
+                <div class="line"></div>
+                <div class="cont-row">
+                    <div class="m-textarea3">
+                        <p class="tit bule" style="vertical-align: top;float: left;">
+                            4、其&nbsp;他：
+                        </p>
+                        <p class="text-ea2"  style="font-size: 17px">{{.NRL.NRL34}}</p>
+                    </div>
+                </div>
+                <div class="line"></div>
+                <div class="cont-row">
+                    <div class="m-textarea4">
+                        <p class="tit bule"  style="vertical-align: top;float: left;">
+                            护理交接班重点：
+                        </p>
+                        <p class="text-ea3" style="font-size: 17px;width: 876px">{{.NRL.NRL35}}</p>
+                    </div>
+                </div>
+                <div class="line"></div>
+                <div class="cont-row">
+                    <div class="m-textarea4">
+                        <p class="tit bule" style="vertical-align: top;float: left;">
+                            提醒医生给予关注：
+                        </p>
+                        <p class="text-ea3"  style="font-size: 17px">{{.NRL.NRL36}}</p>
+                    </div>
+                </div>
+                <div class="line"></div>
+                <div class="cont-row">
+                    <div class="m-textarea4" style="height: 110px;padding-bottom: 10px">
+                        <p class="tit bule" style="vertical-align: top;float: left;">
+                            提醒家属给予关爱：
+                        </p>
+                        <p class="text-ea4" style="height: 120px;font-size: 17px">{{.NRL.NRL37}}</p>
+                    </div>
+                </div>
+                <div class="pd-20"></div>
+
+            </div>
+            <div class="ft-bt">
+                <div class="bar">
+                    <div class="m-autograph">
+                        <span>责任护士签名：</span>
+                        <span class="name">{{.Userinfo.Name}}</span>
+                    </div>
+                    <div class="m-time date-time1">
+                        <span>记录时间:</span>
+                    {{.NRL38A}} {{.NRL38B}}
+
+                    </div>
+                </div>
+                <div class="bar">
+                    <div class="m-autograph">
+                        <span>审核人签名：</span>
+                        <span class="name">{{.NRL.NRL39C}}</span>
+                    </div>
+                    <div class="m-time date-time2">
+                        <span>审核时间:</span>
+                    {{.NRL39B}} {{.NRL39C}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // 过敏史,json字符串
+    var NRL06AJSONStr = {{.NRL.NRL06A}};
+    setCheckBoxJson("#c5-c2",NRL06AJSONStr)
+    function setCheckBoxJson(el,jsonStr){
+        // $(el).find("input[type=checkbox]").each(function(i,el){
+        //     $.each(valArr,function (i2,val) {
+        //         if($(el).data("v") == valArr[i2]){
+        //             $(el).prop("checked",true)
+        //         }
+        //     })
+        // })
+        if(jsonStr){
+            var jsonObj = JSON.parse(jsonStr);
+            $.each(jsonObj,function (key,val) {
+                $(el).find("input[type=checkbox]").each(function(i,el){
+                    if($(el).data("v")==key){
+                        $(el).prop("checked",true)
+                        // console.log(val)
+                        // console.log( $(el).parents("li").eq(0).find(".m-input-txt"))
+                        $(el).parents("li").eq(0).find(".m-input-txt").val(val)
+                    }
+                })
+            })
+        }
+
+
+
+    }
+
+
+
+    //多选填值
+    // 资料来源
+    var NNRL03Str = {{.NRL.NRL03}};
+    setCheckBox("#u27",NNRL03Str.split(","))
+
+    // 日常照顾者
+    var NRL04Str = {{.NRL.NRL04}};
+    setCheckBox("#u36",NRL04Str.split(","))
+
+    // 口腔黏膜
+    var NRL12Str = {{.NRL.NRL12}};
+    setCheckBox("#c11",NRL12Str.split(","))
+
+    // 睡眠
+    var NRL14Str = {{.NRL.NRL14}};
+    setCheckBox("#c13",NRL14Str.split(","))
+
+    // 排尿
+    var NRL16Str = {{.NRL.NRL16}};
+    setCheckBox("#c15",NRL16Str.split(","))
+
+    {{/*//  四肢活动*/}}
+    var LimbsIdStr = {{.NRL.LimbsId}};
+    setCheckBox("#c17",LimbsIdStr.split(","))
+
+    // 皮肤状况
+    var NRL21Str = {{.NRL.NRL21}};
+    setCheckBox("#c19",NRL21Str.split(","))
+
+    // 住院告知
+    var NRL30Str = {{.NRL.NRL30}};
+    setCheckBox("#c23",NRL30Str.split(","))
+
+    function setCheckBox(id,valArr){
+        $(id).find("input[type=checkbox]").each(function(i,el){
+            $.each(valArr,function (i2,val) {
+                if($(el).data("v") == valArr[i2]){
+                    $(el).prop("checked",true)
+                }
+            })
+        })
+    }
+</script>
+</body>
+</html>

@@ -138,7 +138,7 @@ CREATE TABLE VAA1 --病人资料
 	,
 	BCQ04 VARCHAR (20) --床号
 	,
-	VAA73 DATETIME --入院时间
+	VAA73 DATETIME --入院日期
 	,
 	VAA74 DATETIME --出院时间
 	,

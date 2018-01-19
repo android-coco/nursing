@@ -57,6 +57,12 @@ func Substr2(str string, start int, end int) string {
 	return string(rs[start:end])
 }
 
+func DelLastIndex(str string) string  {
+	rs := []rune(str)
+	length := len(rs)
+	return string(rs[0:length - 1])
+}
+
 func Int64Value(str string) (int64, error) {
 	return strconv.ParseInt(str, 10, 64)
 }

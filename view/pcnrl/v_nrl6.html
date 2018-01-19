@@ -1,0 +1,2354 @@
+{{template "header_top" .}}
+<!-- end page -->
+<div class="admin">
+    <!--<div class="am-g">-->
+    <!-- ========== Left Sidebar Start ========== -->
+    <!--<div class="left side-menu am-hide-sm-only am-u-md-1 am-padding-0">
+        <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 548px;">
+            <div class="sidebar-inner slimscrollleft" style="overflow: hidden; width: auto; height: 548px;">-->
+    <!-- sidebar start -->
+    {{template "header_side" .}}
+    <!-- sidebar end -->
+    <!--</div>
+        </div>
+    </div>-->
+    <!-- ========== Left Sidebar end ========== -->
+    <!--	<div class="am-g">-->
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <div class="content-page jky-table-page doc-input1" data-index="1">
+        <div class="s-btn">
+            <!-- <img src="/static/dist/images/admin_pc/icon22.png" alt=""> -->
+        </div>
+        <div class="user-bar">
+            <div class="tit">
+                <div class="l">
+                    床号
+                </div>
+                <div class="r">
+                    姓名
+                </div>
+            </div>
+            <div class="user-list">
+                <ul>
+                    {{range $key, $val := .Beds}}
+                    <li data-id="{{$key}}" data-msg="{{$val.VAA01}}" class="{{if eq  $.PInfo.VAA01 $val.VAA01}}active{{end}}">
+                        <div class="l">
+                            <label>{{$val.BCQ04}}</label>
+                        </div>
+                        <div class="r">
+                            {{$val.VAA05}}
+                        </div>
+                    </li>
+                    {{end}}
+                </ul>
+            </div>
+        </div>
+        <!-- Start content -->
+        <div class="content doc-input6-cont">
+            <div class="tit-warp">
+                <div class="tit-bar">
+                    <div class="date-box fl">
+                        <div class="icon">
+                            <img src="/static/dist/images/admin_pc/icon20.png" alt="">
+                        </div>
+                        <input type="text" class="am-form-field  date-input" id="date1" >
+                        <span class="line">—</span>
+                        <input type="text" class="am-form-field  date-input" id="date2" >
+                        <div id="time-search-btn" class="btn-search">搜索</div>
+
+                        <a href="/pc/record/nrl6?pid={{.PInfo.VAA01}}" class="all-btn">所有记录</a>
+                    </div>
+                    <div class="btn-group">
+                    {{ if eq .PageNum .PageIndex}}
+                        <a class="btn type2 createCol">新建</a>
+                    {{end}}
+                        <a class="btn print">打印</a>
+                    </div>
+                    <p class="tit">深圳万丰医院压疮风险因素评估表（Braden评分）</p>
+
+                </div>
+            </div>
+            <div class="scroll-box">
+                <div class="doc-cont">
+                    <p class="row-txt">
+                        <span><label>床号：</label>{{.PInfo.BCQ04}}</span>
+                        <span><label>姓名：</label>{{.PInfo.VAA05}}</span>
+                        <span><label>性别：</label>{{.PInfo.Gender}}</span>
+                        <span><label>年龄：</label>{{.PInfo.VAA10}}岁</span>
+                        <span><label>住院号：</label>{{.PInfo.VAA04}}</span>
+                        <span><label>诊断：</label>{{.PInfo.VAO15}}</span>
+                    </p>
+
+                    <!-- cont -->
+                    <table class="doc-table">
+                        <tr class="tit-tr">
+                            <td class="td1">
+                                <div class="cont-warp">项目</div>
+                            </td>
+                            <td class="td2">
+                                <div class="cont-warp">内容</div>
+                            </td>
+                            <td class="td3">
+                                <div class="cont-warp">分值</div>
+                            </td>
+                        </tr>
+                        <!-- 感觉知觉程度 -->
+                        <tr class="tr1">
+                            <td class="td1">
+                                <div class="cont-warp">感觉知觉程度</div>
+                            </td>
+                            <td class="td2">
+                                <div class="cont-warp">
+                                    <p>完全受限，不能感知疼痛刺激或完全无法表达</p>
+                                    <p>极度受限，只能通过呻吟表达不舒服或身体1/2以上丧失感觉</p>
+                                    <p>轻度受限，可口头表达但沟通受限，1、2个肢体感觉丧失</p>
+                                    <p>正常，险体没有对疼痛或不适的感觉缺失</p>
+                                </div>
+                            </td>
+                            <td class="td3">
+                                <div class="cont-warp">
+                                    <p>1</p>
+                                    <p>2</p>
+                                    <p>3</p>
+                                    <p>4</p>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- 潮湿情况-->
+                        <tr class="tr2">
+                            <td class="td1">
+                                <div class="cont-warp">潮湿情况</div>
+                            </td>
+                            <td class="td2">
+                                <div class="cont-warp">
+                                    <p>持久潮湿，大/小便失禁，每次翻身床单都是湿的</p>
+                                    <p>非常潮湿，皮肤经常潮湿，床单至少需要每班更换</p>
+                                    <p>偶尔潮湿，皮肤有时会潮湿，床单需每天更换</p>
+                                    <p>很少潮湿，通常皮肤是干，只要按常规换床单即可</p>
+                                </div>
+                            </td>
+                            <td class="td3">
+                                <div class="cont-warp">
+                                    <p>1</p>
+                                    <p>2</p>
+                                    <p>3</p>
+                                    <p>4</p>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- 活动能力 -->
+                        <tr class="tr3">
+                            <td class="td1">
+                                <div class="cont-warp">活动能力</div>
+                            </td>
+                            <td class="td2">
+                                <div class="cont-warp c">
+                                    <p>完全卧床</p>
+                                    <p>可坐轮椅</p>
+                                    <p>偶尔可下床活动</p>
+                                    <p>正常</p>
+                                </div>
+                            </td>
+                            <td class="td3">
+                                <div class="cont-warp">
+                                    <p>1</p>
+                                    <p>2</p>
+                                    <p>3</p>
+                                    <p>4</p>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- 体位变换能力 -->
+                        <tr class="tr4">
+                            <td class="td1">
+                                <div class="cont-warp">体位变换能力</div>
+                            </td>
+                            <td class="td2">
+                                <div class="cont-warp c">
+                                    <p>完全受限</p>
+                                    <p>偶尔可有身体或四肢的轻微活动</p>
+                                    <p>经常有身体或四肢的轻微活动</p>
+                                    <p>可自主活动、翻身</p>
+                                </div>
+                            </td>
+                            <td class="td3">
+                                <div class="cont-warp">
+                                    <p>1</p>
+                                    <p>2</p>
+                                    <p>3</p>
+                                    <p>4</p>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- 营养进食状况 -->
+                        <tr class="tr5">
+                            <td class="td1">
+                                <div class="cont-warp">营养进食状况</div>
+                            </td>
+                            <td class="td2">
+                                <div class="cont-warp">
+                                    <p>很差：禁食、单纯输液超过5天、进食量小于常规的1/3</p>
+                                    <p>较差：进食量为常规的1/2，可能存在鼻饲或TPN不足的问题</p>
+                                    <p>尚可：进食超过常规的1/2，通过鼻饲或TPN得到基本营养</p>
+                                    <p style="text-align:center;">良好</p>
+
+                                </div>
+                            </td>
+                            <td class="td3">
+                                <div class="cont-warp">
+                                    <p>1</p>
+                                    <p>2</p>
+                                    <p>3</p>
+                                    <p>4</p>
+                                </div>
+                            </td>
+                        </tr>
+
+
+                        <!-- 摩擦力和剪切力 -->
+                        <tr class="tr6">
+                            <td class="td1">
+                                <div class="cont-warp" style="padding-top:10px">摩擦力和剪切力</div>
+                            </td>
+                            <td class="td2">
+                                <div class="cont-warp">
+                                    <p>存在问题，经常在床上下滑，翻身完全需要别人帮助</p>
+                                    <p>有潜在问题，可能会下滑，翻身需要别人帮助</p>
+                                    <p style="text-align:center;">无问题</p>
+
+                                </div>
+                            </td>
+                            <td class="td3">
+                                <div class="cont-warp">
+                                    <p>1</p>
+                                    <p>2</p>
+                                    <p>3</p>
+                                </div>
+                            </td>
+                        </tr>
+
+
+                        <tr class="bt-tit">
+                            <td colspan="3">
+                                <div class="cont-warp">
+                                    合计分数
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="tit-tr2">
+                            <td colspan="3">
+                                <div class="cont-warp">
+                                    护理措施
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- (15 ~ 18分)低度风险 -->
+                        <tr class="tr7">
+                            <td rowspan="6" class="td1">
+                                <div class="cont-warp" style="padding-top:80px">
+                                    (15 ~ 18分)低度风险
+                                </div>
+                            </td>
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    经常翻身
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr7 tr7-2">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    最大限度活动
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr7 tr7-3">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    如果是卧床或依靠轮椅，要使用床垫或椅垫等减压设备
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr7 tr7-4">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    保护足跟、潮湿的管理、营养的管理、摩擦力和剪切力的管理
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr7 tr7-5">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    每周或病情变化时重新评估，并记录皮肤状况
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr7 tr7-6">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp type">
+                                    如果有其他的危险因素存在，如（高龄、发热、饮食量少影响蛋白质的摄入、舒张压低于60 mmHg、血液动力学不稳定）可列入下一风险水平
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- (13 ~ 14分)中度风险 -->
+                        <tr class="tr8">
+                            <td rowspan="7" class="td1">
+                                <div class="cont-warp" style="padding-top:60px">
+                                    (13 ~ 14分)中度风险
+                                </div>
+                            </td>
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    使用翻身计划表，Q2H翻身
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr8 tr8-2">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    使用海绵垫，保证30度侧卧
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr8 tr8-3">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    使用床垫或椅垫等减压设备
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr8 tr8-4">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    最大限度活动
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr8 tr8-5">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    保护足跟、潮湿的管理、营养的管理、摩擦力和剪切力的管理
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr8 tr8-6">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    每周或病情变化时重新评估，并记录皮肤状况
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr8 tr8-7">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp ">
+                                    如果有其他的危险因素存在可列入下一风险水平
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- （10 ~ 12分）高度风险： -->
+                        <tr class="tr9">
+                            <td rowspan="8" class="td1">
+                                <div class="cont-warp" style="padding-top:80px">
+                                    (10 ~ 12分)高度风险
+                                </div>
+                            </td>
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    保证翻身频率，至少Q2H翻身
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr9 tr9-2">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    增加小幅度的移位
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr9 tr9-3">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    使用海绵垫，保证30度侧卧
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr9 tr9-4">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    最大限度活动
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr9 tr9-5">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    保护足跟、潮湿的管理、营养的管理、摩擦力和剪切力的管理
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr9 tr9-6">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    每天观察并记录皮肤状况、预防措施
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr9 tr9-7">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp ">
+                                    每天或病情变化时重新评估
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr9 tr9-8">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp ">
+                                    填写高风险压疮申请表，上报护理部
+                                </div>
+                            </td>
+                        </tr>
+
+
+                        <!-- （< 9分）非常风险：-->
+                        <tr class="tr10">
+                            <td rowspan="6" class="td1">
+                                <div class="cont-warp" style="padding-top:60px">
+                                    (
+                                    < 9分)非常风险 </div>
+                            </td>
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    采取以上所有措施
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr10 tr10-2">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    使用体表压力缓释设备如气垫床
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr10 tr10-3">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    每班观察并记录皮肤状况、预防措施，床边交接皮肤情况
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr10 tr10-4">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    每天评估记录评分值
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr10 tr10-5">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    气垫床不能代替翻身
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr10 tr10-6">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    填写高风险压疮申报表，上报护理部
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- 潮湿管理： -->
+                        <tr class="tr11">
+                            <td rowspan="3" class="td1">
+                                <div class="cont-warp" style="padding-top:20px">
+                                    潮湿管理</div>
+                            </td>
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    使用隔绝潮湿和保护皮肤的护理用品
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr11 tr11-2">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    使用吸收垫或干燥垫控制潮湿
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr11 tr11-3">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    如果可能找出发生潮湿的原因并避免
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- 营养管理： -->
+                        <tr class="tr12">
+                            <td rowspan="5" class="td1">
+                                <div class="cont-warp" style="padding-top:60px">
+                                    营养管理
+                                </div>
+                            </td>
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    增加蛋白质的摄入
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr12 tr12-2">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    增加热量的摄入
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr12 tr12-3">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    补充多种维生素，必须包括VA、C、E
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr12 tr12-4">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    以上措施需迅速执行，以缓解营养缺乏
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr12 tr12-5">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    咨询营养师
+                                </div>
+                            </td>
+                        </tr>
+
+
+
+                        <!-- 摩擦力和剪切力的预防： -->
+                        <tr class="tr13">
+                            <td rowspan="3" class="td1">
+                                <div class="cont-warp" style="padding-top:20px">
+                                    摩擦力和剪切力的预防</div>
+                            </td>
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    床头太高不得超过30度（疾病允许的情况下）
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr13 tr13-2">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    必要时使用牵吊装置
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tr13 tr13-3">
+                            <td colspan="2" class="td2">
+                                <div class="cont-warp">
+                                    使用过床单移动患者
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- 其他护理注意事项 -->
+                        <tr class="tr14">
+                            <td colspan="3" style="border-right:1px solid #fff;">
+                                <div class="cont-warp">
+                                    其他护理注意事项： 不得按摩骨突压红的部位、不得使用气圈类装置、保持足够的水分摄入、避免皮肤干燥
+                                </div>
+                            </td>
+                        </tr>
+
+
+
+                        <tr class="bt-tit2">
+                            <td colspan="3">
+                                <div class="cont-warp">
+                                    责任护士签名
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="bt-tit3">
+                            <td colspan="3">
+                                <div class="cont-warp">
+                                    审核护士签名
+                                </div>
+                            </td>
+                        </tr>
+
+
+
+
+
+                        <tr class="bt-tit4">
+                            <td colspan="3">
+                                <div class="cont-warp">
+                                    操作
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+
+                    <div class="sel-box">
+                        <div class="tit">
+                            评估日期
+                        </div>
+                        <ul class="line-box">
+                            <li class="tr type">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="bt-tit">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr null">
+                                <div class="cont-warp"></div>
+                            </li>
+
+
+                            <!--  -->
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr type3">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="tr type2">
+                                <div class="cont-warp"></div>
+                            </li>
+
+                            <li class="tr type4">
+                                <div class="cont-warp"></div>
+                            </li>
+
+                            <li class="bt-tit2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="bt-tit2">
+                                <div class="cont-warp"></div>
+                            </li>
+                            <li class="bt-tit4">
+                                <div class="cont-warp"></div>
+                            </li>
+                        </ul>
+                        <div class="list"  id="tab-list">
+                            {{range $k, $val := .NRLList}}
+                            <ul data-rid="{{$val.ID}}" class="data-col">
+                                <li class="date-tr">
+                                    <div class="cont-warp">
+                                        <p class="txt">{{$val.DateStr}}</p>
+                                        <div class="sel-input">
+                                            <input type="text" class="td-date-input" data-date="{{$val.DateStr}}" />
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="tr1 fen-item">
+                                    <div class="cont-warp">
+                                        <p class="txt"></p>
+                                        <div class="sel-input">
+                                            <select class="c1">
+                                                <option value="0"></option>
+                                                <option value="1" {{if eq $val.NRL01 "1"}}selected{{end}}>1</option>
+                                                <option value="2" {{if eq $val.NRL01 "2"}}selected{{end}}>2</option>
+                                                <option value="3" {{if eq $val.NRL01 "3"}}selected{{end}}>3</option>
+                                                <option value="4" {{if eq $val.NRL01 "4"}}selected{{end}}>4</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="tr2 fen-item">
+                                    <div class="cont-warp">
+                                        <p class="txt"></p>
+                                        <div class="sel-input">
+                                            <select class="c2">
+                                                <option value="0"></option>
+                                                <option value="1" {{if eq $val.NRL02 "1"}}selected{{end}}>1</option>
+                                                <option value="2" {{if eq $val.NRL02 "2"}}selected{{end}}>2</option>
+                                                <option value="3" {{if eq $val.NRL02 "3"}}selected{{end}}>3</option>
+                                                <option value="4" {{if eq $val.NRL02 "4"}}selected{{end}}>4</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="tr3 fen-item">
+                                    <div class="cont-warp">
+                                        <p class="txt"></p>
+                                        <div class="sel-input">
+                                            <select class="c3">
+                                                <option value="0"></option>
+                                                <option value="1" {{if eq $val.NRL03 "1"}}selected{{end}}>1</option>
+                                                <option value="2" {{if eq $val.NRL03 "2"}}selected{{end}}>2</option>
+                                                <option value="3" {{if eq $val.NRL03 "3"}}selected{{end}}>3</option>
+                                                <option value="4" {{if eq $val.NRL03 "4"}}selected{{end}}>4</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="tr4 fen-item">
+                                    <div class="cont-warp">
+                                        <p class="txt"></p>
+                                        <div class="sel-input">
+                                            <select class="c4">
+                                                <option value="0"></option>
+                                                <option value="1" {{if eq $val.NRL04 "1"}}selected{{end}}>1</option>
+                                                <option value="2" {{if eq $val.NRL04 "2"}}selected{{end}}>2</option>
+                                                <option value="3" {{if eq $val.NRL04 "3"}}selected{{end}}>3</option>
+                                                <option value="4" {{if eq $val.NRL04 "4"}}selected{{end}}>4</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="tr5 fen-item">
+                                    <div class="cont-warp">
+                                        <p class="txt"></p>
+                                        <div class="sel-input">
+                                            <select class="c5">
+                                                <option value="0"></option>
+                                                <option value="1" {{if eq $val.NRL05 "1"}}selected{{end}}>1</option>
+                                                <option value="2" {{if eq $val.NRL05 "2"}}selected{{end}}>2</option>
+                                                <option value="3" {{if eq $val.NRL05 "3"}}selected{{end}}>3</option>
+                                                <option value="4" {{if eq $val.NRL05 "4"}}selected{{end}}>4</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="tr6 fen-item">
+                                    <div class="cont-warp">
+                                        <p class="txt"></p>
+                                        <div class="sel-input">
+                                            <select class="c6">
+                                                <option value="0"></option>
+                                                <option value="1" {{if eq $val.NRL06 "1"}}selected{{end}}>1</option>
+                                                <option value="2" {{if eq $val.NRL06 "2"}}selected{{end}}>2</option>
+                                                <option value="3" {{if eq $val.NRL06 "3"}}selected{{end}}>3</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="bt-tit">
+                                    <div class="cont-warp">
+                                        <p class="txt sumFen">
+                                            {{$val.Score}}
+                                        </p>
+                                        <div class="sel-input">
+                                            <p class="sumFen">
+                                            {{$val.Score}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li class="null">
+                                    <div class="cont-warp"></div>
+                                </li>
+
+                                <li class="tr7">
+                                    <div class="cont-warp">
+                                        <ul class="c7 check-group"  data-val="{{$val.NRL07}}">
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="1"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="2"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2">
+                                                    <label class="icon" data-v="3"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="4"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="5"></label>
+                                                </div>
+                                            </li>
+                                            <li class="last">
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="6"></label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+                                <li class="tr8">
+                                    <div class="cont-warp">
+                                        <ul class="c8 check-group"  data-val="{{$val.NRL08}}">
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="1"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="2"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="3"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="4"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="5"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="6"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="7"></label>
+                                                </div>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="tr9" >
+                                    <div class="cont-warp">
+                                        <ul class="c9 check-group" data-val="{{$val.NRL09}}">
+                                            <li>
+                                                <div class="m-input-radio2">
+                                                    <label class="icon" data-v="1"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="2"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="3"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="4"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="5"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="6"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="7"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="8"></label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="tr10" >
+                                    <div class="cont-warp">
+                                        <ul class="c10 check-group" data-val="{{$val.NRL10}}">
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="1"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="2"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="3"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="4"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="5"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2">
+                                                    <label class="icon" data-v="6"></label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="tr11">
+                                    <div class="cont-warp">
+                                        <ul class="c11 check-group"  data-val="{{$val.NRL11}}">
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="1"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="2"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="3"></label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="tr12">
+                                    <div class="cont-warp">
+                                        <ul class="c12 check-group"  data-val="{{$val.NRL12}}">
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="1"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="2"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="3"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="4"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="5"></label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="tr13" >
+                                    <div class="cont-warp">
+                                        <ul class="c13 check-group" data-val="{{$val.NRL13}}">
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="1"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2">
+                                                    <label class="icon" data-v="2"></label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="m-input-radio2 ">
+                                                    <label class="icon" data-v="3"></label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+                                <li class="null2">
+                                    <div class="cont-warp"></div>
+                                </li>
+                                <li class="bt-tit2">
+                                    <div class="cont-warp">
+                                        <p class="txt2">{{$val.NurseName}}</p>
+                                    </div>
+                                </li>
+                                <li class="bt-tit3">
+                                    <div class="cont-warp auditingWarp">
+                                        <p class="txt">{{$val.NRL15B}}</p>
+                                        <div class="sel-input">
+                                            <input type="text" class="input-txt" value="{{$val.NRL15B}}">
+                                        </div>
+                                        <div class="auditingName" data-rid="{{$val.ID}}" data-uid="{{$val.NurseId}}" data-name="{{$val.NurseName}}" data-pid="{{$val.PatientId}}">
+                                            <i class="am-icon-pencil"></i>编辑
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="bt-tit4">
+                                    <div class="cont-warp">
+
+                                        <a href="#1" class="save-btn" data-isjump="0" data-isnew="0"><span>保存</span></a>
+                                        <a class="cancel-btn" data-isnew="0"><span>取消</span></a>
+                                        <a href="#1" class="edit-btn" data-id="{{$val.NurseId}}">
+                                            <i class="am-icon-pencil"></i><span>编辑</span>
+                                        </a>
+                                        <a href="#1" class="del-btn" data-id="{{$val.NurseId}}"><i class="am-icon-trash"></i><span>删除</span></a>
+
+                                    </div>
+                                </li>
+                            </ul>
+                            {{end}}
+                        </div>
+
+                        <div class="list none" id="tab-list2"></div>
+                    </div>
+                    <!-- 分页栏 -->
+                    <div class="page-bar">
+                        <span>页面位置</span>
+                        <ul>
+                            <li>
+                                <a id="leftLast-btn">
+                                    <img src="/static/dist/images/admin_pc/icon43.png" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                <a id="left-btn">
+                                    <img src="/static/dist/images/admin_pc/icon44.png" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                第<input type="text" class="pageNum" value="{{.PageIndex}}"> 页
+                                <a id="go-btn">Go</a>
+                            </li>
+                            <li>
+                                <a id="right-btn">
+                                    <img src="/static/dist/images/admin_pc/icon45.png" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                <a id="rightLast-btn">
+                                    <img src="/static/dist/images/admin_pc/icon46.png" alt="">
+                                </a>
+                            </li>
+                        </ul>
+                        <span>共<i class="pageSum">{{.PageNum}}</i>页</span>
+                    </div>
+
+                    <!-- 备注 -->
+                    <div class="remarks-box">
+                        <div >
+                            <p class="tit">该表使用说明：</p>
+                            <p class="txt">
+                                1. 对所有新入院、转入、转科、大手术后患者当天内必须完成初次压疮风险因素评估（用Braden压疮风险评估表）；对高龄、消瘦、水肿、瘫痪、大小便失禁、昏迷、长期卧床等“压疮高风险患者”，定期进行压疮风险因素评估；最高23分，15-18分为低风险，13-14分为中风险，10-12分为高风险，
+                                <9分为非常风险 </p>
+                            <p class="txt">
+                                2. 评估周期： </p>
+                            <p class="txt"></p>①所有病人都需要评估； </p>
+                            <p class="txt"></p>②入院时立即评估，当评分13~18分时，此后每48h评估一次，为期1星期； </p>
+                            <p class="txt"></p>③长期护理的患者应在第一个4周内每周评估一次，之后每月评估一次； </p>
+                            <p class="txt"></p>④当病人情况有变化及时评估，然后每星期再进行评估； </p>
+                            <p class="txt"></p>⑤≤12分每天评估，18分作为预测有压疮发生风险的诊断价值，评分≤18分应采取预防压疮的措施 </p>
+
+                        </div>
+
+                    </div>
+                    <div class="pd-20"></div>
+
+                </div>
+
+            </div>
+        </div>
+        <!-- end right Content here -->
+        <!--</div>-->
+    </div>
+
+    <!-- </div> -->
+    {{/*type="application/json"*/}}
+    <script  type="application/json" id="col">
+        <ul class="data-col active">
+            <li class="date-tr">
+                <div class="cont-warp">
+                    <p class="txt"><%= datestr%></p>
+                    <div class="sel-input">
+                        <input type="text" class="td-date-input" data-date="<%= datestr%>"  />
+                    </div>
+                </div>
+            </li>
+            <li class="tr1 fen-item">
+                <div class="cont-warp">
+                    <p class="txt"></p>
+                    <div class="sel-input">
+                        <select class="c1">
+                            <option value="0"></option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div>
+                </div>
+            </li>
+            <li class="tr2 fen-item">
+                <div class="cont-warp">
+                    <p class="txt"></p>
+                    <div class="sel-input">
+                        <select class="c2">
+                            <option value="0"></option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div>
+                </div>
+            </li>
+            <li class="tr3 fen-item">
+                <div class="cont-warp">
+                    <p class="txt"></p>
+                    <div class="sel-input">
+                        <select class="c3">
+                            <option value="0"></option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div>
+                </div>
+            </li>
+            <li class="tr4 fen-item">
+                <div class="cont-warp">
+                    <p class="txt"></p>
+                    <div class="sel-input">
+                        <select class="c4">
+                            <option value="0"></option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div>
+                </div>
+            </li>
+            <li class="tr5 fen-item">
+                <div class="cont-warp">
+                    <p class="txt"></p>
+                    <div class="sel-input">
+                        <select class="c5">
+                            <option value="0"></option>
+                            <option value="1" >1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div>
+                </div>
+            </li>
+            <li class="tr6 fen-item">
+                <div class="cont-warp">
+                    <p class="txt"></p>
+                    <div class="sel-input">
+                        <select class="c6">
+                            <option value="0"></option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                </div>
+            </li>
+            <li class="bt-tit">
+                <div class="cont-warp">
+                    <p class="txt sumFen"></p>
+                    <div class="sel-input">
+                        <p class="sumFen"></p>
+                    </div>
+                </div>
+            </li>
+
+            <li class="null">
+                <div class="cont-warp"></div>
+            </li>
+
+            <li class="tr7">
+                <div class="cont-warp">
+                    <ul class="c7 check-group">
+                        <li>
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="1"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="2"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="3"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="4"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="5"></label>
+                            </div>
+                        </li>
+                        <li class="last">
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="6"></label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="tr8">
+                <div class="cont-warp">
+                    <ul class="c8 check-group">
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="1"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="2"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="3"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="4"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="5"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="6"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="7"></label>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
+            <li class="tr9">
+                <div class="cont-warp">
+                    <ul class="c9 check-group">
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="1"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="2"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2">
+                                <label class="icon" data-v="3"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="4"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="5"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="6"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="7"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="8"></label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="tr10">
+                <div class="cont-warp">
+                    <ul class="c10 check-group">
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="1"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="2"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="3"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="4"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="5"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="6"></label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="tr11">
+                <div class="cont-warp">
+                    <ul class="c11 check-group">
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="1"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="2"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="3"></label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="tr12">
+                <div class="cont-warp">
+                    <ul class="c12 check-group">
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="1"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="2"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="3"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="4"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="5"></label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="tr13">
+                <div class="cont-warp">
+                    <ul class="c13 check-group">
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="1"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="2"></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="m-input-radio2 ">
+                                <label class="icon" data-v="3"></label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="null2">
+                <div class="cont-warp"></div>
+            </li>
+            <li class="bt-tit2">
+                <div class="cont-warp">
+                    <p class="txt2"><%=username%></p>
+                    <div class="sel-input"></div>
+                </div>
+            </li>
+            <li class="bt-tit3">
+                <div class="cont-warp">
+                    <p class="txt"></p>
+                    <div class="sel-input">
+                        <input type="text" class="input-txt">
+                    </div>
+                </div>
+            </li>
+            <li class="bt-tit4">
+                <div class="cont-warp">
+
+                    <a href="#1" class="save-btn" data-isjump="<%= isJump %>" data-isnew="1"><span>保存</span></a>
+                    <a class="cancel-btn" data-isnew="1"><span>取消</span></a>
+                    <a href="#1" class="edit-btn">
+                        <i class="am-icon-pencil"></i><span>编辑</span>
+                    </a>
+                    <a href="#1" class="del-btn"><i class="am-icon-trash"></i><span>删除</span></a>
+
+                </div>
+            </li>
+        </ul>
+
+    </script>
+
+
+    <!-- navbar -->
+    <a href="admin-offcanvas" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}">
+        <!--<i class="fa fa-bars" aria-hidden="true"></i>--></a>
+    <script type="text/javascript" src="/static/dist/js/lib/jquery.min.js"></script>
+    <!--框架js-->
+    <script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/amazeui.min.js"></script>
+    <script src="/static/dist/js/lib/laydate/laydate.js"></script>
+
+    <!--前端模板引擎-->
+    <script src="/static/dist/js/lib/template-web.js"></script>
+    <script type="text/javascript" src="/static/common.js" ></script>
+    <script>
+
+        //打印
+        $(".print").on("click", function () {
+            // 起止时间
+            var hospitalDate = {{.PInfo.HospitalDate}};
+            hospitalDate = hospitalDate.substr(0, 10);
+            var nowDate = nowDateObj.date;
+
+            var date1, date2 = 0;
+            var a = new Date(hospitalDate);
+            date1 = a.getTime();
+            var b = new Date(nowDate);
+            date2 = b.getTime();
+
+
+            var sdate = getURLParam("sdate");
+            var edate = getURLParam("edate");
+            console.log("----", sdate, edate);
+            if (sdate == null || sdate == "0" || edate == null || edate == "0") {
+                sdate = hospitalDate;
+                edate = nowDate;
+            } else {
+                date1 = sdate;
+                date2 = edate;
+
+                sdate = fromatDate(parseInt(sdate)).date;
+                edate = fromatDate(parseInt(edate)).date;
+            }
+            window.open("/pc/nrl6print?pid=" + {{.PInfo.VAA01}}+"&num=-1&sdate=" + date1 + "&edate=" + date2);
+        });
+        var nowDateObj = fromatDate()
+
+
+        var $inputNum = $('.tit2,.tit3,.tit4').find('input')
+        $inputNum.on('input', throttle(function() {
+            if (isNaN(parseFloat($(this).val()))) {
+                $(this).val("")
+            } else {
+                $(this).val(parseFloat($(this).val()))
+            }
+        }, 500, {
+            leading: false, //配置第一次不立即执行 true 第一次执行 false 第一次不执行
+            trailing: true // 是否抛弃 还是 往后堆积
+        }))
+
+
+        function toggleTar() {
+            if ($('.top48').hasClass('small-type')) {
+                $('.top48').removeClass('small-type')
+                $('.jky_sidebar').removeClass('small-type')
+            } else {
+                $('.top48').addClass('small-type')
+                $('.jky_sidebar').addClass('small-type')
+            }
+        }
+
+
+        $('.s-btn').on('click', function() {
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+                $('.user-bar').show();
+                $('.doc-input6-cont').css('margin-left', 162)
+            } else {
+                $(this).addClass('active');
+                $('.doc-input6-cont').css('margin-left', 0)
+                $('.user-bar').hide();
+            }
+        })
+
+
+        //修改
+        $('body').on('click', '.edit-btn', function() {
+            var userId = {{.Userinfo.UID}}
+            var yId = $(this).data("id")
+            // console.log(userId , yId)
+            if(!userId){
+                alert("err: 用户信息错误");
+                return false
+            }else if(!yId){
+                alert("err: 用户信息错误");
+                return false
+            }
+            if(yId == userId){
+                if ($('.list').find('ul.active').length > 0) {
+                    // alert("请先保存信息")
+                    jkyAlert("请先保存信息","no")
+                } else {
+                    var $ul = $(this).parents('ul')
+                    $ul.addClass("active")
+
+                    // $date = $("<input class='date-input-td'>")
+                    // $ul.find('.tr11').find('.cont-warp').find('.sel-input').html($date)
+                }
+            }else{
+                // alert("您没有权限编辑！");
+                jkyAlert("您没有权限编辑！")
+            }
+
+        })
+
+        function setDataText($el){
+            var $t1 =$el.find(".td-date-input").parents("li").find(".txt");
+            $t1.text($.trim($el.find(".td-date-input").data("date")))
+
+
+            var $t2 =$el.find(".c1").parents("li").find(".txt");
+            $t2.text($.trim($el.find(".c1").find("option:selected").text()))
+
+            var $t3 =$el.find(".c2").parents("li").find(".txt");
+            $t3.text($.trim($el.find(".c2").find("option:selected").text()))
+
+            var $t4 =$el.find(".c3").parents("li").find(".txt");
+            $t4.text($.trim($el.find(".c3").find("option:selected").text()))
+
+            var $t5 =$el.find(".c4").parents("li").find(".txt");
+            $t5.text($.trim($el.find(".c4").find("option:selected").text()))
+
+            var $t6 =$el.find(".c4").parents("li").find(".txt");
+            $t6.text($.trim($el.find(".c4").find("option:selected").text()))
+
+
+            var $t7 =$el.find(".c5").parents("li").find(".txt");
+            $t7.text($.trim($el.find(".c5").find("option:selected").text()))
+
+
+            var $t8 =$el.find(".c6").parents("li").find(".txt");
+            $t8.text($.trim($el.find(".c6").find("option:selected").text()))
+
+            var $t8 =$el.find(".bt-tit3").find(".txt");
+            $t8.text($.trim($el.find(".bt-tit3").find(".input-txt").val()))
+
+
+            // var $t4 =$el.find(".grade").parents("li").find(".txt");
+            // // console.log($el.find(".grade").find("select").not(".none").find("option:selected").text())
+            // $t4.text($.trim($el.find(".grade").find("select").not(".none").find("option:selected").text()))
+            //
+            // var $t5 =$el.find(".name-input").parents("li").find(".txt");
+            // $t5.text($.trim($el.find(".name-input").val()))
+        }
+
+        // 保存
+        $('body').on('click', '.save-btn', function() {
+
+            var isNew = false;
+            if($(this).data("isnew")=="1"){
+                isNew = true;
+                api = "/record/nr6/add"
+                typeStr = '保存'
+            }else{
+                api = "/record/nr6/update"
+                typeStr = '修改'
+            }
+
+            var data = {
+                // 护士ID
+                "uid": {{.Userinfo.UID}},
+                // 护士名
+                "username": {{.Userinfo.Name}},
+                //病人id
+                "pid": {{.PInfo.VAA01}},
+                //科室id
+                "did":  {{.PInfo.BCK01C}},
+            }
+
+
+
+            var $cont = $(this).parents('ul')
+
+            setDataDateTime(data,$cont)
+            // NRL01-NRL06
+            setDatavSelect(data,$cont)
+            setDatavScore(data,$cont)
+
+            // NRL07-NRL13
+            setDatavCheck(data,$cont)
+            setDatavNRL15B(data,$cont)
+
+
+            if(isNew){
+                var num = 0;
+                $.each(data,function(i,n){
+                    num++;
+                })
+                // console.log('num',num)
+                //总共5个固定参数,如果没填长度就为5
+                if(num==5){
+                    // alert("请填写内容！")
+                    jkyAlert("请填写内容！","no")
+                    return false;
+                }
+                var $this= $(this)
+                req(api,data,function(){
+                    // alert("保存成功")
+                    jkyAlert("保存成功！","yes",function(){
+                        if($this.data("isjump")!="1"){
+                            location.reload()
+                        }else{
+                            var baseurl = "/pc/record/nrl6?",
+                                    index = parseInt({{.PageIndex}})+1,
+                                    pid = parseInt({{.PInfo.VAA01}}),
+                                    date1=getURLParam("sdate"),
+                                    date2=getURLParam("edate"),
+                                    urlStr = baseurl + "pid=" + pid + "&num=" + index;
+
+                            if(date1){
+                                urlStr =urlStr+"&sdate=" + date1
+                            }
+                            if(date2){
+                                urlStr =urlStr+"&edate=" + date2
+                            }
+                            location.href= urlStr
+                            // console.log( baseurl + "pid=" + pid + "&num=" + index + "&sdate=" + date1 + "&edate=" + date2)
+                            // location.href=  baseurl + "pid=" + pid + "&num=" + index + "&sdate=" + date1 + "&edate=" + date2;
+                        }
+                    })
+
+
+                })
+            }else{
+                data.rid = $cont.data("rid")
+                var $el = $(this)
+                req(api,data,function(){
+                    // alert("修改成功")
+                    jkyAlert("修改成功","yes",function(){
+                        setDataText($cont)
+                        $cont.removeClass("active")
+                    })
+
+                })
+            }
+
+            // sumFen
+
+            // $cont.removeClass("active")
+
+            // setDataText($cont)
+        })
+
+
+        //设置日期
+        function setDataDateTime(data,$el) {
+            var $mTime = $el
+            dateStr = $.trim($mTime.find('.td-date-input').val())
+            if (dateStr) {
+                data.datetime = dateStr + " " + getNowTime()
+            }
+        }
+
+
+        function setDatavSelect(data,$el){
+            for(var i=1;i<7;i++){
+                var checkVal = $.trim($el.find(".c"+i).val())
+                if(checkVal!="0"){
+                    data["NRL0"+i] = checkVal
+                }
+            }
+        }
+        function setDatavCheck(data,$el){
+            $el.find(".check-group").each(function(i,el){
+                var index = addZero(i+7)
+                var res = [];
+                $(el).find(".m-input-radio2.active").each(function(i2,el2){
+                    res.push($.trim($(el2).find("label").data("v")))
+                })
+                if(res.length>0){
+                    data["NRL"+index] = res.join(",")
+                }
+            })
+        }
+
+        function setDatavScore(data,$el){
+            var scoreVal =$.trim($el.find(".sel-input .sumFen").text())
+            if(scoreVal){
+                data.score =scoreVal
+            }
+        }
+
+        function setDatavNRL15B(data,$el){
+            var checkVal = $.trim($el.find(".bt-tit3").find(".input-txt").val())
+            if(checkVal){
+                data.NRL15B = checkVal;
+            }
+        }
+
+        function req(api,data,cb) {
+            $.ajax({
+                url: api,
+                data: data,
+                type: "POST",
+                success: function (data) {
+                    console.log(data);
+                    if (data) {
+                        switch (data.result) {
+                            case 0:
+                                cb();
+                                break;
+                            default:
+                                // alert(data.errmsg)
+                                jkyAlert(data.errmsg,"no")
+                        }
+                    }
+                },
+                error: function (e) {
+                    console.log("ajax err:", e)
+                },
+                dataType: "json"
+            })
+
+        }
+
+        $('body').on('click', '.del-btn', function() {
+
+
+            var rid = $(this).parents("ul").data("rid") || 0;
+            if(rid){ //是否是已存在的真实数据
+                var userId = {{.Userinfo.UID}}
+                var yId = $(this).data("id")
+                if(!userId){
+                    alert("err: 用户信息错误");
+                    return false
+                }else if(!yId){
+                    alert("err: 用户信息错误");
+                    return false
+                }
+                if(yId == userId){
+                    // var isDel = confirm("是否确认删除");
+                     jkyConfirm("是否确认删除",function(){
+                        var data = {}
+                        data.rid = rid;
+                        $.ajax({
+                            url: "/record/nr6/delete",
+                            data: data,
+                            type: "POST",
+                            success: function (data) {
+                                console.log(data);
+                                if (data) {
+                                    switch (data.result) {
+                                        case 0:
+                                            location.reload();
+                                            break;
+                                        default:
+                                            // alert(data.errmsg)
+                                            jkyAlert(data.errmsg,"no")
+                                    }
+                                }
+                            },
+                            error: function (e) {
+                                console.log("ajax err:", e)
+                            },
+                            dataType: "json"
+                        })
+                    })
+
+                }else{
+                    // alert("您没有权限删除！");
+                    jkyAlert("您没有权限删除！","no")
+                    return false
+                }
+            }else{
+                $(this).parents("ul").remove()
+                $cont = $("#tab-list2");
+                // 是否过页
+                var isPage = $(this).parents("ul").find(".save-btn").data("isjump").toString();
+                if(isPage=="1") {
+
+                    $("#tab-list2").addClass("none")
+                    $("#tab-list").removeClass("none");
+
+                    $(".pageSum").text(parseInt($(".pageSum").text()) - 1)
+                    $(".pageNum").val(parseInt($(".pageSum").text()))
+                }
+            }
+
+
+        })
+
+
+        //多选框
+        $("body").on('click', ".m-input-radio2", function() {
+            //只有编辑的时候点击才生效
+            if ($(this).parents("ul").hasClass("active")) {
+
+                if ($(this).hasClass("active")) {
+                    $(this).removeClass("active");
+                } else {
+                    if ($(this).parents(".check-group").length == 0) {
+                        $(this).parents(".radio-group").find(".m-input-radio2").removeClass("active");
+                    }
+
+                    $(this).addClass("active");
+                }
+            } else {
+                return false;
+            }
+        })
+    </script>
+
+    <script>
+        $(function () {
+            // 起止时间
+            var hospitalDate = {{.PInfo.HospitalDate}};
+            hospitalDate = hospitalDate.substr(0, 10);
+            var nowDate = nowDateObj.date;
+
+            var date1, date2 = 0;
+            var a = new Date(hospitalDate);
+            date1 = a.getTime();
+            var b = new Date(nowDate);
+            date2 = b.getTime();
+
+            var sdate = getURLParam("sdate");
+            var edate = getURLParam("edate");
+            if (sdate == null || sdate == "0" || edate == null ||  edate == "0") {
+                sdate = hospitalDate;
+                edate = nowDate;
+            } else {
+                date1 = sdate;
+                date2 = edate;
+
+                sdate = fromatDate(parseInt(sdate)).date;
+                edate = fromatDate(parseInt(edate)).date;
+            }
+
+            laydate.render({
+                elem: '#date1', //指定元素
+                showBottom: false,
+                value: sdate,
+                min:"{{.PInfo.HospitalDate}}",
+                max: nowDateObj.date,
+                done: function(value, date, endDate) {
+
+                    var a = new Date(value);
+                    date1 = a.getTime();
+                    // reloadSheet();
+                }
+            });
+            laydate.render({
+                elem: '#date2', //指定元素
+                showBottom: false,
+                value: edate,
+                min:"{{.PInfo.HospitalDate}}",
+                max: nowDateObj.date,
+                done: function(value, date, endDate) {
+                    var a = new Date(value);
+                    date2 = a.getTime();
+                    console.log("date ", date1, date2);
+                    // reloadSheet();
+                }
+            });
+
+            $("#time-search-btn").on("click",function(){
+                reloadSheet();
+            })
+
+            // 总页数
+            var pagenum = {{.PageNum}};
+            // 当前页数
+            var index = {{.PageIndex}};
+            var pid = parseInt({{.PInfo.VAA01}});
+
+            var baseurl = "/pc/record/nrl6?";
+
+            var  tempindex = index;
+            $("#leftLast-btn").on("click",function () {
+                tempindex = 1;
+                reloadSheet()
+            });
+
+            $("#left-btn").on("click",function () {
+                if (index <= 1) {
+                    tempindex = 1;
+                } else {
+                    tempindex = index-1;
+                }
+                reloadSheet();
+            });
+
+            $("#right-btn").on("click",function () {
+                if (index >= pagenum) {
+                    tempindex = pagenum;
+                } else {
+                    tempindex = index+1;
+                }
+                reloadSheet();
+            });
+
+
+            $("#rightLast-btn").on("click",function () {
+                tempindex = pagenum;
+                reloadSheet()
+            });
+
+            $("#go-btn").on("click", function () {
+                var val = $(".pageNum").val();
+                tempindex = val;
+                reloadSheet()
+            });
+
+            function reloadSheet() {
+                if($(".data-col.active").length>0){
+                    // alert("请先保存数据！");
+                    jkyAlert("请先保存数据！","no")
+                    return false;
+                }
+                index = tempindex;
+                window.location.href =  baseurl + "pid=" + pid + "&num=" + index + "&sdate=" + date1 + "&edate=" + date2;
+            };
+
+            $(".user-list").on("click", "li", function () {
+                var pid = $(this).data('msg');
+                console.log($(this).data('msg'));
+                window.location.href = baseurl + "pid=" + pid;
+            })
+
+        });
+    </script>
+
+    <script>
+        var nowD = getNowDateTime();
+        var datestr = nowD.date;
+        // var timestr = nowD.time;
+        var username = {{.Userinfo.Name}}; // 护士姓名
+        $(".btn.type2.createCol").on("click", function () {
+            if($(".data-col.active").length>0){
+                // alert("请先保存数据！")
+                jkyAlert("请先保存数据！","no")
+                return false;
+            }
+
+            var $cont = $("#tab-list");
+            var isJump = "0";
+
+            if($cont.find(".data-col").length>=4){
+                $cont = $("#tab-list2");
+                $("#tab-list").addClass("none")
+                $("#tab-list2").removeClass("none")
+                isJump = "1";
+                $(".pageSum").text(parseInt($(".pageSum").text())+1)
+                $(".pageNum").val(parseInt($(".pageSum").text()))
+            }
+
+            var data = {
+                datestr:datestr,
+                username:username,
+                isJump:isJump
+            }
+
+            var html = template("col",data);
+
+            $cont.append(html)
+
+            lay('.td-date-input').each(function() {
+                var dateV = $(this).data("date"),
+                        $self=$(this);
+                laydate.render({
+                    elem: this,
+                    showBottom: false,
+                    value: dateV,
+                    min:"{{.PInfo.HospitalDate}}",
+                    max: nowDateObj.date,
+                    done: function(value, date, endDate) {
+                        $self.data("date",value)
+                    }
+                });
+            });
+        });
+
+        // 填值
+        for (var i = 1; i < 7; i++) {
+            $(".list ul").find(".c"+i).find("option:selected").each(function(i,el){
+                // console.log("??")
+                $(el).parents("li").find(".txt").text($(el).text())
+            })
+        }
+
+
+        lay('.td-date-input').each(function() {
+            var dateV = $(this).data("date"),
+                    $self=$(this);
+            laydate.render({
+                elem: this,
+                showBottom: false,
+                value: dateV,
+                done: function(value, date, endDate) {
+                    $self.data("date",value)
+                }
+            });
+        });
+
+        // for (var i = 1; i < 10; i++) {
+        //     $(".list ul").find(".c"+i).find("option:selected").each(function(i,el){
+        //         // console.log("??")
+        //         $(el).parents("li").find(".txt").text($(el).text())
+        //     })
+        // }
+
+
+        $("body").on("change",".fen-item select",function(){
+            var $ul = $(this).parents("ul")
+            var sum = sumScore($ul)
+            $ul.find(".sumFen").text(sum)
+        })
+
+
+        var  scoreHash = {
+            "option1":{ //感觉知觉程度
+                "1":1,
+                "2":2,
+                "3":3,
+                "4":4,
+            },
+            "option2":{ //潮湿情况
+                "1":1,
+                "2":2,
+                "3":3,
+                "4":4,
+            },
+            "option3":{  //活动能力
+                "1":1,
+                "2":2,
+                "3":3,
+                "4":4,
+            },
+            "option4":{ //体位变换能力：
+                "1":1,
+                "2":2,
+                "3":3,
+                "4":4,
+            },
+            "option5":{ //营养进食状况
+                "1":1,
+                "2":2,
+                "3":3,
+                "4":4,
+            },
+            "option6":{ //摩擦力和剪切力
+                "1":1,
+                "2":2,
+                "3":3,
+            }
+        }
+
+        function sumScore($el){
+            var optionVal = [],sum="";
+            $el.find(".fen-item select").each(function(i,el){
+                if( $(el).val()!=0 && $(el).val()!="0"){
+                    optionVal.push(scoreHash["option"+(i+1)][$(el).val()])
+                }
+            })
+            $.each(optionVal,function(i,n){
+                if(n!=undefined&& parseFloat(n)!=NaN){
+                    if(sum == ""){
+                        sum = 0;
+                    }
+                    sum +=  parseFloat(n)
+                }
+            })
+            return sum;
+        }
+
+
+        $("body").find(".check-group").each(function(i,el){
+            var valStr = $(el).data("val");
+            var valArr =[]
+            if(valStr){
+                valStr = valStr.toString()
+                valArr= valStr.split(",")
+            }
+            var $self = $(el);
+            $self.find("li").each(function (i,el) {
+                var elV = $(el).find(".m-input-radio2 ").find("label").data("v").toString();
+                $.each(valArr, function(i,val){
+                    if(elV == val){
+                        $(el).find(".m-input-radio2").addClass("active")
+                    }
+                })
+            })
+        })
+
+
+        $("body").on("click",".cancel-btn",function(){
+            if($(this).data("isnew") && $(this).data("isnew") !="0"){
+                location.reload()
+            }else{
+                $(this).parents(".data-col").removeClass("active")
+            }
+        })
+        ;(function (){
+            var $this=null,reqData=null
+            $("body").on("click",".auditingName",function(){
+                $this = $(this);
+
+                if ($('.list').find('ul.active').length > 0) {
+                    // alert("请先保存信息")
+                    jkyAlert("请先保存信息", "no")
+                }else{
+                    var rid = $this.data("rid")
+                    // var uid = $this.data("uid")
+                    // var name = $this.data("name")
+                    // var pid = $this.data("pid")
+                    reqData = {
+                        "nrltype":"6",
+                        "rid": rid
+                    }
+                    var api = "/record/nrl/updatechecker"
+                    if(rid){
+                        var valTxt = $.trim($this.parents(".bt-tit3").find(".txt").text());
+                        jkyPrompt({
+                            txt:"审核护士签名",
+                            valTxt:valTxt,
+                            maxlength:10
+                        }, function(data){
+                            data= $.trim(data)
+                            if(data){
+                                reqData["nurseName"] = data
+                                req(api,reqData,function(resData){
+                                    $this.parents(".bt-tit3").find(".txt").text(data)
+                                    // reqData = null;
+                                    // $this= null;
+                                })
+
+                            }
+                        },function(){
+                            $("#jky-prompt-input").val("")
+                        })
+
+
+                    }else{
+                        jkyAlert("意外错误！","no")
+                    }
+                }
+            })
+        })()
+
+
+
+
+    </script>
+</body>
+
+</html>

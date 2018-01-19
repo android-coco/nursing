@@ -283,7 +283,7 @@ func FetchMedicalAdviceExecutionDetail(gid int64, ext string, exc int) ([]Medica
 
 
 	length = len(arrA)
-	fit.Logger().LogDebug("***JK***1***",length,arrA)
+	//fit.Logger().LogDebug("***JK***1***",length,arrA)
 	if length == 0 {
 		return response, err_res
 	}
@@ -351,7 +351,7 @@ func FetchMedicalAdviceExecutionDetail(gid int64, ext string, exc int) ([]Medica
 		return response, err_res
 	}
 
-	fit.Logger().LogDebug("***JK***3***")
+	//fit.Logger().LogDebug("***JK***3***")
 
 	err_res = fit.MySqlEngine().SQL("select * from AdviceDetail where Madid = ? and Plan = ? And ExCycle = ?", gid, ext, exc).Find(&res.Records)
 	if len(res.Records) == 0 {

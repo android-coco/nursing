@@ -808,7 +808,7 @@ EXEC sp_updateextendedproperty @name = N'MS_Description', @value = N'CREATE TABL
       ,BCK01B INT  --科室ID
       ,BCK01C INT  --病区ID
       ,BCQ04  VARCHAR(20)  --床号
-      ,VAA73  DATETIME  --入院时间
+      ,VAA73  DATETIME  --入院日期
       ,VAA74  DATETIME  --出院时间
       ,VAA75  DATETIME  --建档时间
       ,BEP05  NUMERIC(18, 4)  --住院报警值
@@ -897,7 +897,7 @@ EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'CREATE TABLE V
       ,BCK01B INT  --科室ID
       ,BCK01C INT  --病区ID
       ,BCQ04  VARCHAR(20)  --床号
-      ,VAA73  DATETIME  --入院时间
+      ,VAA73  DATETIME  --入院日期
       ,VAA74  DATETIME  --出院时间
       ,VAA75  DATETIME  --建档时间
       ,BEP05  NUMERIC(18, 4)  --住院报警值

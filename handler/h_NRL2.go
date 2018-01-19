@@ -66,8 +66,15 @@ func (c NRL2Controller) Check(w *fit.Response, r *fit.Request, p fit.Params) {
 		}
 	}
 
-	// 入院时间
-	VAA73 := time.Time(patient.VAE11).Format("2006-01-02 15:04")
+	// 获取入科日期，如果没登记，则使用入院时间
+	entryDate := model.FetchEntryDepartmentDate(patient.VAA01)
+	//if entryDate.IsExist == 0 {
+	//	entryDate.EntryDay = time.Time(patient.VAE11).Format("2006-01-02")
+	//	entryDate.EntryTime = time.Time(patient.VAE11).Format("15:04")
+	//}
+
+	// 入院日期
+	//VAA73 := time.Time(patient.VAE11).Format("2006-01-02 15:04")
 	// 拆分护理单录入时间
 	tempTime, _ := time.ParseInLocation("2006-01-02 15:04:05", nr2.NRL38, time.Local)
 	NRL38A := tempTime.Format("2006-01-02")
@@ -77,16 +84,18 @@ func (c NRL2Controller) Check(w *fit.Response, r *fit.Request, p fit.Params) {
 	NRL39B := tempTime2.Format("2006-01-02")
 	NRL39C := tempTime2.Format("15:04")
 	c.Data = fit.Data{
-		"PInfo":  patient, // 病人数据
-		"NRL":    nr2,     // 护理单数据
-		"VAA73":  VAA73,   // 入院时间
-		"NRL06A": NRL06A,  // 过敏源的index
-		"NRL06B": NRL06B,  // 过敏源的补充内容
-		"NRL18A": NRL18A,  // n次/天
-		"NRL18B": NRL18B,  // 1次/m天
-		"NRL38A": NRL38A,  // 录入护理单的年月日
-		"NRL38B": NRL38B,  // 录入护理单的时分
-		"NRL39B": NRL39B,  //审核时间
+		"PInfo": patient, // 病人数据
+		"NRL":   nr2,     // 护理单数据
+		//"VAA73":  VAA73,   // 入院日期
+		"EntryDate": entryDate.EntryDate, // 入科时间
+
+		"NRL06A": NRL06A, // 过敏源的index
+		"NRL06B": NRL06B, // 过敏源的补充内容
+		"NRL18A": NRL18A, // n次/天
+		"NRL18B": NRL18B, // 1次/m天
+		"NRL38A": NRL38A, // 录入护理单的年月日
+		"NRL38B": NRL38B, // 录入护理单的时分
+		"NRL39B": NRL39B, //审核时间
 		"NRL39C": NRL39C,
 	}
 
@@ -128,8 +137,15 @@ func (c NRL2Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 		return
 	}
 
-	// 入院时间
-	VAA73 := time.Time(patient.VAE11).Format("2006-01-02 15:04")
+	// 入院日期
+	//VAA73 := time.Time(patient.VAE11).Format("2006-01-02 15:04")
+	// 获取入科日期，如果没登记，则使用入院时间
+	entryDate := model.FetchEntryDepartmentDate(patient.VAA01)
+	if entryDate.IsExist == 0 {
+		entryDate.EntryDay = time.Time(patient.VAE11).Format("2006-01-02")
+		entryDate.EntryTime = time.Time(patient.VAE11).Format("15:04")
+	}
+
 	//fmt.Printf("account %+v \n\n %+v\n\n", account, pinfo)
 	var NRL06A, NRL06B, NRL18A, NRL18B, NRL38A, NRL38B, NRL39B, NRL39C string
 	if ty == "2" {
@@ -172,7 +188,9 @@ func (c NRL2Controller) Edit(w *fit.Response, r *fit.Request, p fit.Params) {
 		"Account": account,
 		"PInfo":   patient, // 病人数据
 		"NRL":     nr2,     // 护理单数据
-		"VAA73":   VAA73,   // 入院时间
+		//"VAA73":   VAA73,   // 入院日期
+		"EntryDay":  entryDate.EntryDay,  // 入科日期
+		"EntryTime": entryDate.EntryTime, // 入科时间
 
 		"NRL06A": NRL06A, // 过敏源的index
 		"NRL06B": NRL06B, // 过敏源的补充内容
@@ -475,7 +493,12 @@ func (c PCNRL2Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Param
 	NRL39B := tempTime.Format("2006-01-02")
 	NRL39C := tempTime.Format("15:04")
 
-	//fmt.Printf("user info %+v:", userinfo)
+	// 获取入科日期，如果没登记，则使用入院时间
+	entryDate := model.FetchEntryDepartmentDate(pInfo.VAA01)
+	if entryDate.IsExist == 0 {
+		entryDate.EntryDay = time.Time(pInfo.VAE11).Format("2006-01-02")
+		entryDate.EntryTime = time.Time(pInfo.VAE11).Format("15:04")
+	}
 
 	c.Data = fit.Data{
 		"Userinfo":  userinfo, // 护士信息
@@ -491,6 +514,8 @@ func (c PCNRL2Controller) NRLRecord(w *fit.Response, r *fit.Request, p fit.Param
 		"NRL38B":    NRL38B, // 录入护理单的时分
 		"NRL39B":    NRL39B,
 		"NRL39C":    NRL39C,
+		"EntryDay":  entryDate.EntryDay,
+		"EntryTime": entryDate.EntryTime,
 	}
 
 	c.LoadViewSafely(w, r, "pcnrl/v_nrl2.html", "pc/header_side.html", "pc/header_top.html")

@@ -153,7 +153,8 @@
                         <th class="th7">诊断</th>
                         <th class="th8">住院医师</th>
                         <th class="th9">责任护士</th>
-                        <th class="th10">入院时间</th>
+                        <th class="th10">入院日期</th>
+                        <th class="th11" style="width: 160px">入科日期</th>
                     {{/*<th class="th11">费用差额</th>*/}}
 
                     </tr>
@@ -180,6 +181,7 @@
                         <td>{{$val.Physician}}</td>
                         <td>{{$val.Nurse}}</td>
                         <td class="">{{$val.HospDay}}</td>
+                        <td class="">{{$val.EntryDate}}</td>
                     </tr>
                     {{else}}
                     <tr class="td-5">
@@ -192,6 +194,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
+                        <td class=""></td>
                         <td class=""></td>
                     {{/*<td class="t-c "></td>*/}}
                     </tr>

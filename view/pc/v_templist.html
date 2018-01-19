@@ -9,6 +9,7 @@
     <!-- sidebar start -->
     {{template "header_side" .}}
 
+
     <!-- sidebar end -->
 
     <!--</div>
@@ -21,6 +22,10 @@
             z-index: 99;
             background: #fff;
         }
+        .table-data-box table .data-box .bg_line .line .sj{
+            line-height: 22px;
+        }
+
     </style>
 
     <div class="content-page type2" style="margin-top: 10px;">
@@ -154,16 +159,16 @@
                                         </div>
                                         <div class="bar" id="patient-info">
                                             <div class="l">
-                                                <label>姓名</label> <span id="pinfo-name">{{.PInfo.VAA05}}</span>
+                                                <label>姓名</label> <span style="min-width: 84px;" id="pinfo-name">{{.PInfo.VAA05}}</span>
                                                 <label>性别</label> <span class="t4" id="pinfo-sex">{{.PInfo.Gender}}</span>
                                                 <label>年龄</label> <span class="t3" id="pinfo-age">{{.PInfo.VAA10}}</span>
-                                                <label>入院日期</label> <span class="t2" id="pinfo-date-year">2017</span>
+                                                <label>入科日期</label> <span class="t2" id="pinfo-date-year">2017</span>
                                                 <label>年</label><span class="t2" id="pinfo-date-month">10</span>
                                                 <label>月</label><span class="t2"
                                                                       id="pinfo-date-day">10</span><label>日</label>
-                                                <label>病区</label><span id="pinfo-bed1">{{.PInfo.BCK03C}}</span>
-                                                <label>床号</label><span id="pinfo-bed2">{{.PInfo.BCQ04}}</span>
-                                                <label>住院号</label><span id="pinfo-bed3">{{.PInfo.VAA04}}</span>
+                                                <label>病区</label><span  style="min-width: 84px;"  id="pinfo-bed1">{{.PInfo.BCK03C}}</span>
+                                                <label>床号</label><span  style="min-width: 84px;"  id="pinfo-bed2">{{.PInfo.BCQ04}}</span>
+                                                <label>住院号</label><span  style="min-width: 84px;"  id="pinfo-bed3">{{.PInfo.VAA04}}</span>
                                             </div>
                                         </div>
 
@@ -827,10 +832,9 @@
         var dates2 = {{.Dates2}};
 
         var pinfo = {{.PInfo}};
-        // console.log(pinfo, dates1, dates2);
-        // console.log("output3", output3);
-        // console.log(pinfo["name"]);
-        var h_date = pinfo["hospital_date"];
+        // var h_date = pinfo["hospital_date"];
+        var h_date = {{.EntryDate}}
+
         // 病人信息
         // $("#pinfo-name").text(pinfo["name"]);
         // $("#pinfo-age").text(pinfo["age"]);
@@ -869,7 +873,7 @@
 
         // 呼吸
         $("#hxc_bar").find("td").each(function (i, el) {
-            console.log(breathe.length);
+            // console.log(breathe.length);
             if (i != 0 && i < breathe.length / 6 + 1) {
                 var value1 = breathe[i * 6 - 6];
                 var value2 = breathe[i * 6 - 5];
@@ -951,13 +955,13 @@
         });
         // 事件
         $("#incident-td").find(".sj").each(function(i, el){
-            $(el).html(incident[i]);
+            if (i==41) {
+                $(el).html(incident[41]+incident[42]+incident[43]+incident[44]);
+            } else {
+                $(el).html(incident[i]);
+            }
             $(el).css("color", "red");
-            // var tempval1 = parseFloat(temp1[i]);
-            // var tempval2 = parseFloat(temp2[i]);
-            // var tempval3 = parseFloat(temp3[i]);
-            // if (tempval1 >= 40 || tempval2 >= 40 || tempval3 >= 40) {
-            // }
+            // console.log(incident.length, incident)
         });
         // 其他
         $("#incident-td").find(".temp-other").each(function(i, el){
@@ -967,11 +971,11 @@
         // 其他
         $("#other-tr").find("td").each(function (i, el) {
             if (i != 0) {
-                console.log(other[i - 1])
+                // console.log(other[i - 1])
                 $(el).text(other[i - 1])
             }
         });
-        console.log("其他", other);
+        // console.log("其他", other);
     {{/*var classid = {{.Userinfo.DepartmentID}};*/}}
         /*var url = "/pc/home/beds?department_id=" + classid + "&type=0";
         $.get(url, function (json) {
@@ -1003,7 +1007,7 @@
             window.location.href = "/pc/templist?pid=" + pid + "&num=" + weekindex;
         });
 
-        console.log("num", weeknum, "index", weekindex);
+        // console.log("num", weeknum, "index", weekindex);
 
         $("#weekindex").empty();
         var html = '';
@@ -1037,7 +1041,7 @@
 
         $('.user-list').on('click','li',function(){
             var pid = $(this).data('msg');
-            console.log($(this).data('msg'));
+            // console.log($(this).data('msg'));
             window.location.href = "/pc/templist?pid=" + pid;
         })
 

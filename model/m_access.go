@@ -10,17 +10,17 @@ type AccessType int
 type AccessReason int
 
 const (
-	AccessTypeUnknown = 0
 	AccessTypeBack AccessType = 1 << iota
 	AccessTypeOut
 	AccessTypeAll
+	AccessTypeUnknown = 0
 )
 
 const (
-	AccessReasonUnknown = 0
 	AccessReasonCheck     AccessReason = 1 << iota
 	AccessReasonOperation
 	AccessReasonOther
+	AccessReasonUnknown = 0
 )
 
 type Access struct {

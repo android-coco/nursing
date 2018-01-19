@@ -1,0 +1,1377 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="/static/dist/js/lib/jquery.min.js"></script>
+    <script src="/static/dist/js/lib/jquery.qrcode.min.js"></script>
+    <title>深静脉血栓护理观察表</title>
+    <style type="text/css">
+        @media print {
+            body {-webkit-print-color-adjust: exact;}
+            .no-print {display: none;}
+        }
+        @page  {size: portrait}
+        .bagw{
+            height: 1540px;
+            width: 1064px;
+        }
+        body{
+            /*font-family: "黑体";*/
+            color:#000 !important;
+
+        }
+        table{ border-color: #000!important;}
+        p{
+            margin:4px 0;
+        }
+        <!--
+        .STYLE1 {font-size: 18px}
+        .STYLE3 {
+            font-size: 32px;
+            font-weight: bold;
+        }
+        .STYLE4 {font-size: 20px; }
+        -->
+        .kg {
+            padding-top: 80px;
+        }
+        .icon {
+            background-image: url(/static/dist/images/admin_pc/icon47.png);
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 18px;
+        }
+    </style>
+    <script>
+        $(function () {
+            var page = {{.PageNum}}//多少页
+            var datas = {{.NRLList}}//数据
+            var pgeDataNum = {{.PageDataNum}}//每页多少数据
+            loadData(page, datas, pgeDataNum);
+        });
+        function Str(str1, str2) {
+            var x = str1.split(",")
+            var isOk = false;
+            for (var i = 0; i < x.length; i++) {
+                if (x[i] == str2) {
+                    isOk = true;
+                    break;
+                }
+            }
+            return isOk;
+        }
+        function loadData(page, datas,pgeDataNum) {
+            console.log(page,datas,pgeDataNum)
+            var len = datas.length;
+            var html = "";
+            if (len > 0) {
+                for (var i = 0; i < page; i++) {
+                    html += "<div class=\"bagw\">\n" +
+                        "<p align=\"center\" class=\"STYLE3\" >深圳万丰医院深静脉血栓护理观察表</p>\n" +
+                        "<p align=\"center\"><span><label>床号：</label>{{.PInfo.BCQ04}}</span><span><label> &nbsp; &nbsp; &nbsp;姓名：</label>{{.PInfo.VAA05}}</span>\n" +
+                        "    <span><label> &nbsp; &nbsp; &nbsp;性别：</label>{{.PInfo.Gender}}</span>\n" +
+                        "    <span><label> &nbsp; &nbsp; &nbsp;年龄：</label>{{.PInfo.VAA10}}岁</span>\n" +
+                        "    <span><label> &nbsp; &nbsp; &nbsp;住院号：</label>{{.PInfo.VAA04}}</span>\n" +
+                        "    <span><label> &nbsp; &nbsp; &nbsp;诊断：</label>{{.PInfo.VAO15}}</span>\n" +
+                        "</p>";
+                    html += "<table width=\"1064\" border=\"1\" align=\"center\" cellspacing=\"0\" bordercolor=\"#666666\" >\n" +
+                            "  <tr>\n" +
+                            "<td height=\"20\" colspan=\"2\" bordercolor=\"0\"><div align=\"center\" class=\"STYLE1\">日期</div></td>";
+
+                    for(var j=0;j<pgeDataNum;j++){
+                            html+="<td height=\"20\" colspan=\"6\" bordercolor=\"0\"><div align=\"center\" class=\"STYLE1\"></div><div align=\"center\" class=\"STYLE1\"></div><div align=\"center\" class=\"STYLE1\">"+ ((datas[i * pgeDataNum + j]||"")&&(datas[i * pgeDataNum + j].DateStr || " ")) +"</div></td>"
+                    }
+
+                    html += "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td height=\"20\" colspan=\"2\" bordercolor=\"0\"><div align=\"center\" class=\"STYLE1\">时间</div></td>";
+                    for(var j=0;j<pgeDataNum;j++){
+                            html+="    <td colspan=\"2\" bordercolor=\"0\"><div align=\"center\"><span class=\"STYLE1\">A</span></div></td>\n" +
+                                "    <td height=\"20\" colspan=\"2\" bordercolor=\"0\"><div align=\"center\">P    </div></td>\n" +
+                                "    <td height=\"20\" colspan=\"2\" bordercolor=\"0\"><div align=\"center\">N"
+                    }
+                    html +=   "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td height=\"20\" colspan=\"2\" bordercolor=\"0\"><div align=\"center\" class=\"STYLE1\">部位(下肢)</div>      <div align=\"center\" class=\"STYLE1\"></div></td>\n";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\" bordercolor=\"0\"><div align=\"center\"><span class=\"STYLE4\">左</span></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\"><div align=\"center\"><span class=\"STYLE4\">右</span></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\"><div align=\"center\"><span class=\"STYLE4\">左</span></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\"><div align=\"center\" class=\"STYLE4\">\n" +
+                            "      <div align=\"center\">右</div>\n" +
+                            "    </div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\"><div align=\"center\" class=\"STYLE4\">\n" +
+                            "      <div align=\"center\">左</div>\n" +
+                            "    </div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\"><div align=\"center\" class=\"STYLE4\">\n" +
+                            "      <div align=\"center\">右</div>\n" +
+                            "    </div></td>"
+                    }
+                    html +=   "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td width=\"115\" height=\"20\" rowspan=\"3\" bordercolor=\"0\"><span class=\"STYLE1\">腘动脉搏动</span></td>\n" +
+                        "    <td width=\"178\" height=\"20\" bordercolor=\"0\"><div align=\"left\" class=\"STYLE1\">\n" +
+                        "      <div align=\"center\">正常</div>\n" +
+                        "    </div></td>";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\"  bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL02A == "1" && "class=icon")) +" ><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL02B == "1" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL02A == "1" && "class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL02B == "1" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL02A == "1" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL02B == "1" &&"class=icon")) +"><div align=\"center\"></div></td>"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td width=\"178\" height=\"20\" bordercolor=\"0\"><div align=\"left\" class=\"STYLE1\">\n" +
+                        "      <div align=\"center\">变弱</div>\n" +
+                        "    </div></td>\n";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\"  bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL02A == "2" && "class=icon")) +" ><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL02B == "2" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL02A == "2" && "class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL02B == "2" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL02A == "2" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL02B == "2" &&"class=icon")) +"><div align=\"center\"></div></td>"
+                    }
+                    html +=  "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td width=\"178\" height=\"20\" bordercolor=\"0\"><div align=\"left\" class=\"STYLE1\">\n" +
+                        "      <div align=\"center\">不能触及*</div>\n" +
+                        "    </div></td>\n";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\"  bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL02A == "3" && "class=icon")) +" ><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL02B == "3" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL02A == "3" && "class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL02B == "3" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL02A == "3" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL02B == "3" &&"class=icon")) +"><div align=\"center\"></div></td>"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td width=\"115\" height=\"20\" rowspan=\"3\" bordercolor=\"0\"><span class=\"STYLE1\">足背动脉搏动</span></td>\n" +
+                        "    <td width=\"178\" height=\"20\" bordercolor=\"0\"><div align=\"left\" class=\"STYLE1\">\n" +
+                        "      <div align=\"center\">正常</div>\n" +
+                        "    </div></td>\n";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\"  bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL03A == "1" && "class=icon")) +" ><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL03B == "1" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL03A == "1" && "class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL03B == "1" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL03A == "1" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL03B == "1" &&"class=icon")) +"><div align=\"center\"></div></td>"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td width=\"178\" height=\"20\" bordercolor=\"0\"><div align=\"left\" class=\"STYLE1\">\n" +
+                        "      <div align=\"center\">变弱</div>\n" +
+                        "    </div></td>\n";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\"  bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL03A == "2" && "class=icon")) +" ><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL03B == "2" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL03A == "2" && "class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL03B == "2" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL03A == "2" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL03B == "2" &&"class=icon")) +"><div align=\"center\"></div></td>"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td width=\"178\" height=\"20\" bordercolor=\"0\"><div align=\"left\" class=\"STYLE1\">\n" +
+                        "      <div align=\"center\">不能触及</div>\n" +
+                        "    </div></td>\n";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\"  bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL03A == "3" && "class=icon")) +" ><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL03B == "3" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL03A == "3" && "class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL03B == "3" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL03A == "3" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL03B == "3" &&"class=icon")) +"><div align=\"center\"></div></td>"
+                    }
+                    html +=     "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td width=\"115\" height=\"20\" rowspan=\"3\" bordercolor=\"0\"><span class=\"STYLE1\">下肢皮肤颜色</span></td>\n" +
+                        "    <td height=\"20\" bordercolor=\"0\"><div class=\"STYLE1\">\n" +
+                        "      <p align=\"center\">淡红</p>\n" +
+                        "    </div></td>\n";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\"  bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL04A == "1" && "class=icon")) +" ><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL04B == "1" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL04A == "1" && "class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL04B == "1" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL04A == "1" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL04B == "1" &&"class=icon")) +"><div align=\"center\"></div></td>"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td height=\"20\" bordercolor=\"0\"><div class=\"STYLE1\">\n" +
+                        "      <p align=\"center\">紫色*</p>\n" +
+                        "    </div></td>\n";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\"  bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL04A == "2" && "class=icon")) +" ><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL04B == "2" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL04A == "2" && "class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL04B == "2" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL04A == "2" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL04B == "2" &&"class=icon")) +"><div align=\"center\"></div></td>"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td height=\"20\" bordercolor=\"0\"><div class=\"STYLE1\">\n" +
+                        "      <p align=\"center\">红色</p>\n" +
+                        "    </div></td>\n";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\"  bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL04A == "3" && "class=icon")) +" ><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL04B == "3" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL04A == "3" && "class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL04B == "3" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL04A == "3" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL04B == "3" &&"class=icon")) +"><div align=\"center\"></div></td>"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td width=\"115\" height=\"20\" rowspan=\"2\" bordercolor=\"0\"><span class=\"STYLE1\">Homan's 征</span></td>\n" +
+                        "    <td height=\"20\" bordercolor=\"0\"><div class=\"STYLE1\">\n" +
+                        "      <p align=\"center\">阴性</p>\n" +
+                        "    </div></td>\n";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\"  bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL05A == "1" && "class=icon")) +" ><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL05B == "1" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL05A == "1" && "class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL05B == "1" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL05A == "1" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL05B == "1" &&"class=icon")) +"><div align=\"center\"></div></td>"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td height=\"20\" bordercolor=\"0\"><div class=\"STYLE1\">\n" +
+                        "      <p align=\"center\">阳性</p>\n" +
+                        "    </div></td>\n";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\"  bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL05A == "2" && "class=icon")) +" ><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL05B == "2" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL05A == "2" && "class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL05B == "2" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL05A == "2" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL05B == "2" &&"class=icon")) +"><div align=\"center\"></div></td>"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td height=\"20\" colspan=\"2\" bordercolor=\"0\"><span class=\"STYLE1\">疼痛尺或表情评分（分）\n" +
+                        "    </span>      <div align=\"center\" class=\"STYLE1\"></div></td>\n";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\"  bordercolor=\"0\"><div align=\"center\" "+ " >"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL06A ||" ")) +"</div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\"><div align=\"center\">"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL06B ||" ")) +"</div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\"><div align=\"center\">"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL06A ||" ")) +"</div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\"><div align=\"center\">"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL06B ||" ")) +"</div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\"><div align=\"center\">"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL06A ||" ")) +"</div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\"><div align=\"center\">"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL06B ||" ")) +"</div></td>"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td width=\"115\" height=\"20\" rowspan=\"5\" bordercolor=\"0\"><span class=\"STYLE1\">肿胀</span></td>\n" +
+                        "    <td height=\"20\" bordercolor=\"0\"><div class=\"STYLE1\">\n" +
+                        "      <p align=\"center\">无</p>\n" +
+                        "    </div></td>\n";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\"  bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL07A == "1" && "class=icon")) +" ><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL07B == "1" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL07A == "1" && "class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL07B == "1" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL07A == "1" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL07B == "1" &&"class=icon")) +"><div align=\"center\"></div></td>"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td height=\"20\" bordercolor=\"0\"><div class=\"STYLE1\">\n" +
+                        "      <p align=\"center\">I度</p>\n" +
+                        "    </div></td>\n";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\"  bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL07A == "2" && "class=icon")) +" ><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL07B == "2" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL07A == "2" && "class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL07B == "2" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL07A == "2" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL07B == "2" &&"class=icon")) +"><div align=\"center\"></div></td>"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td height=\"20\" bordercolor=\"0\"><div class=\"STYLE1\">\n" +
+                        "      <p align=\"center\">II度</p>\n" +
+                        "    </div></td>\n";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\"  bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL07A == "3" && "class=icon")) +" ><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL07B == "3" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL07A == "3" && "class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL07B == "3" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL07A == "3" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL07B == "3" &&"class=icon")) +"><div align=\"center\"></div></td>"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td height=\"20\" bordercolor=\"0\"><div class=\"STYLE1\">\n" +
+                        "      <p align=\"center\">III度</p>\n" +
+                        "    </div></td>\n";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\"  bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL07A == "4" && "class=icon")) +" ><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL07B == "4" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL07A == "4" && "class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL07B == "4" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL07A == "4" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL07B == "4" &&"class=icon")) +"><div align=\"center\"></div></td>"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td height=\"20\" bordercolor=\"0\"><div class=\"STYLE1\">\n" +
+                        "      <p align=\"center\">IV度</p>\n" +
+                        "    </div></td>\n";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\"  bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL07A == "5" && "class=icon")) +" ><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL07B == "5" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL07A == "5" && "class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL07B == "5" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL07A == "5" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL07B == "5" &&"class=icon")) +"><div align=\"center\"></div></td>"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td height=\"20\" colspan=\"2\" bordercolor=\"0\"><span class=\"STYLE1\">皮肤温度\n" +
+                        "    </span>      <div align=\"center\" class=\"STYLE1\"></div></td>\n";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\"  bordercolor=\"0\"><div align=\"center\" "+ " >"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL08A ||" ")) +"</div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\"><div align=\"center\">"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL08B ||" ")) +"</div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\"><div align=\"center\">"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL08A ||" ")) +"</div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\"><div align=\"center\">"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL08B ||" ")) +"</div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\"><div align=\"center\">"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL08A ||" ")) +"</div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\"><div align=\"center\">"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL08B ||" ")) +"</div></td>"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td width=\"115\" height=\"20\" rowspan=\"2\" bordercolor=\"0\"><span class=\"STYLE1\">主观麻痹感</span></td>\n" +
+                        "    <td height=\"20\" bordercolor=\"0\"><div class=\"STYLE1\">\n" +
+                        "      <p align=\"center\">无</p>\n" +
+                        "    </div></td>\n";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\"  bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL09A == "1" && "class=icon")) +" ><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL09B == "1" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL09A == "1" && "class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL09B == "1" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL09A == "1" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL09B == "1" &&"class=icon")) +"><div align=\"center\"></div></td>"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td height=\"20\" bordercolor=\"0\"><div class=\"STYLE1\">\n" +
+                        "      <p align=\"center\">有*</p>\n" +
+                        "    </div></td>\n";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\"  bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL09A == "2" && "class=icon")) +" ><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL09B == "2" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL09A == "2" && "class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL09B == "2" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL09A == "2" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL09B == "2" &&"class=icon")) +"><div align=\"center\"></div></td>"
+                    }
+                    html +=     "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td height=\"20\" colspan=\"2\" bordercolor=\"0\"><span class=\"STYLE1\">大腿周径(cm)\n" +
+                        "    </span>      <div align=\"center\" class=\"STYLE1\"></div></td>\n";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\"  bordercolor=\"0\"><div align=\"center\" "+ " >"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL10A ||" ")) +"</div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\"><div align=\"center\">"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL10B ||" ")) +"</div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\"><div align=\"center\">"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL10A ||" ")) +"</div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\"><div align=\"center\">"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL10B ||" ")) +"</div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\"><div align=\"center\">"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL10A ||" ")) +"</div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\"><div align=\"center\">"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL10B ||" ")) +"</div></td>"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td height=\"20\" colspan=\"2\" bordercolor=\"0\"><span class=\"STYLE1\">小腿周径(cm)\n" +
+                        "    </span>      <div align=\"center\" class=\"STYLE1\"></div></td>\n";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\"  bordercolor=\"0\"><div align=\"center\" "+ " >"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL10C ||" ")) +"</div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\"><div align=\"center\">"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL10D ||" ")) +"</div></td>\n" +
+                            "    <td width=\"30\" bordercolor=\"0\"><div align=\"center\">"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL10C ||" ")) +"</div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\"><div align=\"center\">"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL10D ||" ")) +"</div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\"><div align=\"center\">"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL10C ||" ")) +"</div></td>\n" +
+                            "    <td width=\"30\" height=\"20\" bordercolor=\"0\"><div align=\"center\">"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL10D ||" ")) +"</div></td>"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td width=\"115\" height=\"20\" rowspan=\"3\" bordercolor=\"0\"><span class=\"STYLE1\">评估意见</span></td>\n" +
+                        "    <td height=\"20\" bordercolor=\"0\"><div class=\"STYLE1\">\n" +
+                        "      <p align=\"left\">1、未发现问题</p>\n" +
+                        "    </div></td>";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\" colspan=\"2\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL11 == "1" && "class=icon")) +" ><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" colspan=\"2\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL11 == "1" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" colspan=\"2\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL11 == "1" && "class=icon")) +"><div align=\"center\"></div></td>\n"
+                    }
+                    html +=     "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td height=\"20\" bordercolor=\"0\"><div class=\"STYLE1\">\n" +
+                        "      <p align=\"left\">2、进一步评估</p>\n" +
+                        "    </div></td>\n";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\" colspan=\"2\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL11 == "2" && "class=icon")) +" ><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" colspan=\"2\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL11 == "2" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" colspan=\"2\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL11 == "2" && "class=icon")) +"><div align=\"center\"></div></td>\n"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td height=\"20\" bordercolor=\"0\"><div class=\"STYLE1\">\n" +
+                        "      <p align=\"left\">3、采取护理措施</p>\n" +
+                        "    </div></td>\n";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\" colspan=\"2\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NRL11 == "3" && "class=icon")) +" ><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" colspan=\"2\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NRL11 == "3" &&"class=icon")) +"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" colspan=\"2\" bordercolor=\"0\" "+(datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NRL11 == "3" && "class=icon")) +"><div align=\"center\"></div></td>\n"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td height=\"20\" colspan=\"20\" bordercolor=\"0\"><span class=\"STYLE1\">护理措施\n" +
+                        "    </span>\n" +
+                        "    <div align=\"center\" class=\"STYLE1\"></div>    <div align=\"center\" class=\"STYLE1\"></div>    <div align=\"center\" class=\"STYLE1\"></div>    <div align=\"center\" class=\"STYLE1\"></div>    <div align=\"center\" class=\"STYLE1\"></div>    <div align=\"center\" class=\"STYLE1\"></div>    <div align=\"center\" class=\"STYLE1\"></div>    <div align=\"center\" class=\"STYLE1\"></div>    <div align=\"center\" class=\"STYLE1\"></div>    <div align=\"center\" class=\"STYLE1\"></div>    <div align=\"center\" class=\"STYLE1\"></div>    <div align=\"center\" class=\"STYLE1\"></div>    <div align=\"center\" class=\"STYLE1\"></div>    <div align=\"center\" class=\"STYLE1\"></div>    <div align=\"center\" class=\"STYLE1\"></div>    <div align=\"center\" class=\"STYLE1\"></div>    <div align=\"center\"></div>    <div align=\"center\"></div>    <div align=\"center\"></div>    <div align=\"center\"></div>    <div align=\"center\"></div>    <div align=\"center\"></div>    <div align=\"center\"></div>    <div align=\"center\"></div>    <div align=\"center\"></div>    <div align=\"center\"></div>    <div align=\"center\"></div>    <div align=\"center\"></div>    <div align=\"center\"></div>    <div align=\"center\"></div>    <div align=\"center\"></div>    <div align=\"center\"></div>    <div align=\"center\"></div>    <div align=\"center\"></div></td>\n" +
+                        "  </tr>\n" +
+                        "  <tr>\n"+
+                        "<td height=\"20\" colspan=\"2\" bordercolor=\"0\"><span class=\"STYLE1\">1、卧床休息\n" +
+                        "    </span>      <div align=\"center\" class=\"STYLE1\"></div></td>";
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\" colspan=\"2\" bordercolor=\"0\"   class=" + (Str(datas[i * pgeDataNum + j].ModelA.NRL12, 1) && "icon")+"><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelP.NRL12, 1) && "icon")+"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelN.NRL12, 1) && "icon")+"><div align=\"center\"></div></td>\n"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td height=\"20\" colspan=\"2\" bordercolor=\"0\"><span class=\"STYLE1\">2、抬高患肢，肢体位置高于心脏水平20~30cm\n" +
+                        "    </span>      <div align=\"center\" class=\"STYLE1\"></div></td>\n" ;
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelA.NRL12, 2) && "icon")+" ><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelP.NRL12, 2) && "icon")+"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelN.NRL12, 2) && "icon")+"><div align=\"center\"></div></td>\n"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td height=\"20\" colspan=\"2\" bordercolor=\"0\"><span class=\"STYLE1\">3、膝关节微屈15°，腘窝处避免受压\n" +
+                        "    </span>      <div align=\"center\" class=\"STYLE1\"></div></td>\n" ;
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelA.NRL12, 3) && "icon")+"><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelP.NRL12, 3) && "icon")+"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelN.NRL12, 3) && "icon")+"><div align=\"center\"></div></td>\n"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td height=\"20\" colspan=\"2\" bordercolor=\"0\"><span class=\"STYLE1\">4、严禁按摩及热敷，避免下肢静脉穿刺\n" +
+                        "    </span>      <div align=\"center\" class=\"STYLE1\"></div></td>\n" ;
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelA.NRL12, 4) && "icon")+"><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelP.NRL12, 4) && "icon")+"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelN.NRL12, 4) && "icon")+"><div align=\"center\"></div></td>\n"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td height=\"20\" colspan=\"2\" bordercolor=\"0\"><span class=\"STYLE1\">5、指导踝泵锻炼\n" +
+                        "    </span>      <div align=\"center\" class=\"STYLE1\"></div></td>\n" ;
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelA.NRL12, 5) && "icon")+"><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelP.NRL12, 5) && "icon")+"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelN.NRL12, 5) && "icon")+"><div align=\"center\"></div></td>\n"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td height=\"20\" colspan=\"2\" bordercolor=\"0\"><span class=\"STYLE1\">6、监测外周循环情况\n" +
+                        "    </span>      <div align=\"center\" class=\"STYLE1\"></div></td>\n" ;
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelA.NRL12, 6) && "icon")+"><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelP.NRL12, 6) && "icon")+"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelN.NRL12, 6) && "icon")+"><div align=\"center\"></div></td>\n"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td height=\"20\" colspan=\"2\" bordercolor=\"0\"><span class=\"STYLE1\">7、监测D二聚体等实验室指标\n" +
+                        "    </span>      <div align=\"center\" class=\"STYLE1\"></div></td>\n" ;
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelA.NRL12, 7) && "icon")+"><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelP.NRL12, 7) && "icon")+"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelN.NRL12, 7) && "icon")+"><div align=\"center\"></div></td>\n"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td height=\"20\" colspan=\"2\" bordercolor=\"0\"><span class=\"STYLE1\">8、遵嘱使用抗凝药\n" +
+                        "    </span>      <div align=\"center\" class=\"STYLE1\"></div></td>\n" ;
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelA.NRL12, 8) && "icon")+"><div align=\"center\" "+ " ></div></td>\n" +
+                            "    <td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelP.NRL12, 8) && "icon")+"><div align=\"center\"></div></td>\n" +
+                            "    <td width=\"30\" colspan=\"2\" bordercolor=\"0\" class=" + (Str(datas[i * pgeDataNum + j].ModelN.NRL12, 8) && "icon")+"><div align=\"center\"></div></td>\n"
+                    }
+                    html +=    "  </tr>\n" +
+                        "  <tr>\n" +
+                        "    <td height=\"26\" colspan=\"2\" bordercolor=\"0\"><span class=\"STYLE1\">责任护士签名\n" +
+                        "    </span>      <div align=\"center\" class=\"STYLE1\"></div></td>\n" ;
+                    for(var j=0;j<pgeDataNum;j++){
+                        html+="<td width=\"30\" colspan=\"2\" bordercolor=\"0\"><div align=\"center\" "+ " >"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelA.NurseName ||" ")) +"</div></td>\n" +
+                            "    <td width=\"30\" colspan=\"2\" bordercolor=\"0\"><div align=\"center\">"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelP.NurseName ||" ")) +"</div></td>\n" +
+                            "    <td width=\"30\" colspan=\"2\" bordercolor=\"0\"><div align=\"center\">"+ (datas[i * pgeDataNum + j] && (datas[i * pgeDataNum + j].ModelN.NurseName ||" ")) +"</div></td>\n"
+                    }
+                    html +=    "  </tr>\n" +
+                        "</table></div>";
+                }
+                $('body').html(html)
+            }
+
+        }
+    </script>
+</head>
+
+<body>
+<div class="bagw">
+<p align="center" class="STYLE3" >深圳万丰医院深静脉血栓护理观察表</p>
+<p align="center"><span><label>床号：</label>{{.PInfo.BCQ04}}</span><span><label> &nbsp; &nbsp; &nbsp;姓名：</label>{{.PInfo.VAA05}}</span>
+    <span><label> &nbsp; &nbsp; &nbsp;性别：</label>{{.PInfo.Gender}}</span>
+    <span><label> &nbsp; &nbsp; &nbsp;年龄：</label>{{.PInfo.VAA10}}岁</span>
+    <span><label> &nbsp; &nbsp; &nbsp;住院号：</label>{{.PInfo.VAA04}}</span>
+    <span><label> &nbsp; &nbsp; &nbsp;诊断：</label>{{.PInfo.VAO15}}</span>
+</p>
+    <table width="1064" border="1" align="center" cellspacing="0" bordercolor="#666666" >
+        <tr>
+            <td height="20" colspan="2" bordercolor="0"><div align="center" class="STYLE1">日期</div></td>
+            <td height="20" colspan="6" bordercolor="0"><div align="center" class="STYLE1"></div>      <div align="center" class="STYLE1"></div>      <div align="center" class="STYLE1"></div></td>
+            <td height="20" colspan="6" bordercolor="0"><div align="center" class="STYLE1"></div>      <div align="center" class="STYLE1"></div>      <div align="center" class="STYLE1"></div></td>
+            <td height="20" colspan="6" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="20" colspan="2" bordercolor="0"><div align="center" class="STYLE1">时间</div></td>
+            <td colspan="2" bordercolor="0"><div align="center"><span class="STYLE1">A</span></div></td>
+            <td height="20" colspan="2" bordercolor="0"><div align="center">P    </div></td>
+            <td height="20" colspan="2" bordercolor="0"><div align="center">N
+            </div>      <div align="center" class="STYLE1"></div></td>
+            <td colspan="2" bordercolor="0"><div align="center"><span class="STYLE1">A</span></div></td>
+            <td height="20" colspan="2" bordercolor="0"><div align="center">P </div></td>
+            <td height="20" colspan="2" bordercolor="0"><div align="center">N </div>      <div align="center" class="STYLE1"></div></td>
+            <td colspan="2" bordercolor="0"><div align="center"><span class="STYLE1">A</span></div></td>
+            <td height="20" colspan="2" bordercolor="0"><div align="center">P </div></td>
+            <td height="20" colspan="2" bordercolor="0"><div align="center">N </div>    <div align="center" class="STYLE1"></div></td>
+        </tr>
+        <tr>
+            <td height="20" colspan="2" bordercolor="0"><div align="center" class="STYLE1">部位(下肢)</div>      <div align="center" class="STYLE1"></div></td>
+            <td width="30" bordercolor="0"><div align="center"><span class="STYLE4">左</span></div></td>
+            <td width="30" bordercolor="0"><div align="center"><span class="STYLE4">右</span></div></td>
+            <td width="30" bordercolor="0"><div align="center"><span class="STYLE4">左</span></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center" class="STYLE4">
+                <div align="center">右</div>
+            </div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center" class="STYLE4">
+                <div align="center">左</div>
+            </div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center" class="STYLE4">
+                <div align="center">右</div>
+            </div></td>
+            <td width="30" bordercolor="0"><div align="center"><span class="STYLE4">左</span></div></td>
+            <td width="30" bordercolor="0"><div align="center"><span class="STYLE4">右</span></div></td>
+            <td width="30" bordercolor="0"><div align="center"><span class="STYLE4">左</span></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center" class="STYLE4">
+                <div align="center">右</div>
+            </div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center" class="STYLE4">
+                <div align="center">左</div>
+            </div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center" class="STYLE4">
+                <div align="center">右</div>
+            </div></td>
+            <td width="30" bordercolor="0"><div align="center"><span class="STYLE4">左</span></div></td>
+            <td width="30" bordercolor="0"><div align="center"><span class="STYLE4">右</span></div></td>
+            <td width="30" bordercolor="0"><div align="center"><span class="STYLE4">左</span></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center" class="STYLE4">
+                <div align="center">右</div>
+            </div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center" class="STYLE4">
+                <div align="center">左</div>
+            </div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center" class="STYLE4">
+                <div align="center">右</div>
+            </div></td>
+        </tr>
+        <tr>
+            <td width="115" height="20" rowspan="3" bordercolor="0"><span class="STYLE1">腘动脉搏动</span></td>
+            <td width="178" height="20" bordercolor="0"><div align="left" class="STYLE1">
+                <div align="center">正常</div>
+            </div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td width="178" height="20" bordercolor="0"><div align="left" class="STYLE1">
+                <div align="center">变弱</div>
+            </div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td width="178" height="20" bordercolor="0"><div align="left" class="STYLE1">
+                <div align="center">不能触及*</div>
+            </div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td width="115" height="20" rowspan="3" bordercolor="0"><span class="STYLE1">足背动脉搏动</span></td>
+            <td width="178" height="20" bordercolor="0"><div align="left" class="STYLE1">
+                <div align="center">正常</div>
+            </div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td width="178" height="20" bordercolor="0"><div align="left" class="STYLE1">
+                <div align="center">变弱</div>
+            </div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td width="178" height="20" bordercolor="0"><div align="left" class="STYLE1">
+                <div align="center">不能触及</div>
+            </div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td width="115" height="20" rowspan="3" bordercolor="0"><span class="STYLE1">下肢皮肤颜色</span></td>
+            <td height="20" bordercolor="0"><div class="STYLE1">
+                <p align="center">淡红</p>
+            </div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="20" bordercolor="0"><div class="STYLE1">
+                <p align="center">紫色*</p>
+            </div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="20" bordercolor="0"><div class="STYLE1">
+                <p align="center">红色</p>
+            </div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td width="115" height="20" rowspan="2" bordercolor="0"><span class="STYLE1">Homan's 征</span></td>
+            <td height="20" bordercolor="0"><div class="STYLE1">
+                <p align="center">阴性</p>
+            </div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="20" bordercolor="0"><div class="STYLE1">
+                <p align="center">阳性</p>
+            </div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="20" colspan="2" bordercolor="0"><span class="STYLE1">疼痛尺或表情评分（分）
+    </span>      <div align="center" class="STYLE1"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td width="115" height="20" rowspan="5" bordercolor="0"><span class="STYLE1">肿胀</span></td>
+            <td height="20" bordercolor="0"><div class="STYLE1">
+                <p align="center">无</p>
+            </div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="20" bordercolor="0"><div class="STYLE1">
+                <p align="center">I度</p>
+            </div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="20" bordercolor="0"><div class="STYLE1">
+                <p align="center">II度</p>
+            </div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="20" bordercolor="0"><div class="STYLE1">
+                <p align="center">III度</p>
+            </div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="20" bordercolor="0"><div class="STYLE1">
+                <p align="center">IV度</p>
+            </div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="20" colspan="2" bordercolor="0"><span class="STYLE1">皮肤温度
+    </span>      <div align="center" class="STYLE1"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td width="115" height="20" rowspan="2" bordercolor="0"><span class="STYLE1">主观麻痹感</span></td>
+            <td height="20" bordercolor="0"><div class="STYLE1">
+                <p align="center">无</p>
+            </div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="20" bordercolor="0"><div class="STYLE1">
+                <p align="center">有*</p>
+            </div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="20" colspan="2" bordercolor="0"><span class="STYLE1">大腿周径(cm)
+    </span>      <div align="center" class="STYLE1"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="20" colspan="2" bordercolor="0"><span class="STYLE1">小腿周径(cm)
+    </span>      <div align="center" class="STYLE1"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td width="115" height="20" rowspan="3" bordercolor="0"><span class="STYLE1">评估意见</span></td>
+            <td height="20" bordercolor="0"><div class="STYLE1">
+                <p align="left">1、未发现问题</p>
+            </div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="20" bordercolor="0"><div class="STYLE1">
+                <p align="left">2、进一步评估</p>
+            </div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="20" bordercolor="0"><div class="STYLE1">
+                <p align="left">3、采取护理措施</p>
+            </div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="20" colspan="20" bordercolor="0"><span class="STYLE1">护理措施
+    </span>
+                <div align="center" class="STYLE1"></div>    <div align="center" class="STYLE1"></div>    <div align="center" class="STYLE1"></div>    <div align="center" class="STYLE1"></div>    <div align="center" class="STYLE1"></div>    <div align="center" class="STYLE1"></div>    <div align="center" class="STYLE1"></div>    <div align="center" class="STYLE1"></div>    <div align="center" class="STYLE1"></div>    <div align="center" class="STYLE1"></div>    <div align="center" class="STYLE1"></div>    <div align="center" class="STYLE1"></div>    <div align="center" class="STYLE1"></div>    <div align="center" class="STYLE1"></div>    <div align="center" class="STYLE1"></div>    <div align="center" class="STYLE1"></div>    <div align="center"></div>    <div align="center"></div>    <div align="center"></div>    <div align="center"></div>    <div align="center"></div>    <div align="center"></div>    <div align="center"></div>    <div align="center"></div>    <div align="center"></div>    <div align="center"></div>    <div align="center"></div>    <div align="center"></div>    <div align="center"></div>    <div align="center"></div>    <div align="center"></div>    <div align="center"></div>    <div align="center"></div>    <div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="20" colspan="2" bordercolor="0"><span class="STYLE1">1、卧床休息
+    </span>      <div align="center" class="STYLE1"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="20" colspan="2" bordercolor="0"><span class="STYLE1">2、抬高患肢，肢体位置高于心脏水平20~30cm
+    </span>      <div align="center" class="STYLE1"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="20" colspan="2" bordercolor="0"><span class="STYLE1">3、膝关节微屈15°，腘窝处避免受压
+    </span>      <div align="center" class="STYLE1"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="20" colspan="2" bordercolor="0"><span class="STYLE1">4、严禁按摩及热敷，避免下肢静脉穿刺
+    </span>      <div align="center" class="STYLE1"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="20" colspan="2" bordercolor="0"><span class="STYLE1">5、指导踝泵锻炼
+    </span>      <div align="center" class="STYLE1"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="20" colspan="2" bordercolor="0"><span class="STYLE1">6、监测外周循环情况
+    </span>      <div align="center" class="STYLE1"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="20" colspan="2" bordercolor="0"><span class="STYLE1">7、监测D二聚体等实验室指标
+    </span>      <div align="center" class="STYLE1"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="20" colspan="2" bordercolor="0"><span class="STYLE1">8、遵嘱使用抗凝药
+    </span>      <div align="center" class="STYLE1"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="20" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="20" bordercolor="0"><div align="center"></div></td>
+        </tr>
+        <tr>
+            <td height="26" colspan="2" bordercolor="0"><span class="STYLE1">责任护士签名
+    </span>      <div align="center" class="STYLE1"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="26" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="26" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="26" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="26" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="26" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="26" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="26" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="26" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="26" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="26" bordercolor="0"><div align="center"></div></td>
+            <td width="30" height="26" bordercolor="0"><div align="center"></div></td>
+            <td width="41" height="26" bordercolor="0"><div align="center"></div></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

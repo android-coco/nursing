@@ -120,7 +120,7 @@ type VAA1 struct {
 	BCK01B int       // 科室ID
 	BCK01C int       // 病区ID
 	BCQ04  string    // 床号
-	VAA73  time.Time // 入院时间
+	VAA73  time.Time // 入院日期
 	VAA74  time.Time // 出院时间
 	VAA75  time.Time // 建档时间
 	BEP05  float32   // 住院报警值

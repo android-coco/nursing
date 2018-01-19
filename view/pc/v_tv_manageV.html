@@ -1,0 +1,608 @@
+{{template "header_top" .}}
+<div class="admin">
+    <!--<div class="am-g">-->
+    <!-- ========== Left Sidebar Start ========== -->
+    <!--<div class="left side-menu am-hide-sm-only am-u-md-1 am-padding-0">
+        <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 548px;">
+            <div class="sidebar-inner slimscrollleft" style="overflow: hidden; width: auto; height: 548px;">-->
+    <!-- sidebar start -->
+    {{template "header_side" .}}
+
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+
+        input[type="text"]:enabled {
+            border: 1px dashed gray;
+        }
+
+        .tvHeader {
+            background-color: rgb(2, 92, 154);
+            height: 2em;
+            width: 100%;
+            text-align: center;
+            vertical-align: middle;
+            color: white;
+        }
+
+        .tvDynamicArea {
+            height: 362px;
+            width: 100%;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .tvDataNotify {
+            height: 120px;
+            width: 100%;
+            border-top: solid 1px gray;
+            border-bottom: solid 1px gray;
+        }
+        .cmdButton {
+            background-color: #5cb85c;
+            color: #fff;
+            border-color: #4cae4c;
+            border-radius: 6px;
+            display: inline-block;
+            vertical-align: middle;
+            padding: 6px 30px;            
+            font-weight: 400;
+            font-size: 14px;
+            text-align: center;
+            
+        }
+        .tvDataNotify p {
+
+            width: 1em;
+        }
+
+        .tvDataNotify input {
+            margin-left: 1em;
+            border-bottom: solid 1px gray;
+            width: 300px;
+        }
+
+        .tvDataArrangement {
+            height: 51px;
+            width: 100%;
+        }
+
+        .tvLeftBar {
+            left: 0px;
+            background-color: rgb(175, 222, 252);
+            float: left;
+            width: 2em;
+            height: 100%;
+            text-align: center;
+            vertical-align: middle-align;
+            writing-mode: vertical-lr;
+        }
+
+        .tvDynamicData {
+            margin-left: 2em;
+        }
+
+        .tvItemCapation1 {
+            font-size: 18px;
+            color: rgb(21, 100, 157);
+            text-align: left;
+            width: 20%;
+        }
+
+        .tvItemData1 {
+            font-size: 15px;
+            width: 80%;
+        }
+
+        .tvItemCapation2 {
+            font-size: 18px;
+            color: rgb(21, 100, 157);
+            text-align: left;
+            width: 20%;
+        }
+
+        .tvItemData2 {
+            font-size: 15px;
+            width: 70%;
+        }
+
+        .editCell {
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
+
+        .editCell:hover:not([disabled="disabled"]) {
+            border: blue solid 1px;
+        }
+
+        .editCellAssign {
+            border: none;
+            width: 100%;
+            margin-left: 10px;
+        }
+
+        table,
+        th,
+        td {
+            padding: 0px;
+            border: 1px solid gray;
+        }
+
+        td {
+            height: 30px;
+        }
+
+        p.notifyMessage {
+            border-bottom: 1px solid gray;
+        }
+
+        .tvDoctor {
+            font-size: 18px;
+            color: rgb(21, 100, 157);
+            display: inline-block;
+
+        }
+
+        .tvNurse {
+            font-size: 18px;
+            color: rgb(21, 100, 157);
+
+            display: inline-block;
+        }
+
+        table {
+
+            width: 50%;
+            float: left;
+        }
+
+        input:disabled {
+            background-color: white;
+        }
+
+        .center {
+            margin: 5px 45%;
+            height: 50px;
+        }
+    </style>
+
+    <div id="app" class="content-page jky-table-page doc-input1" data-index="1" style="margin:0px;border=0px;">
+        <div class="tv-manage">
+            <p class="tit">TV监控信息编辑</p>
+        </div>
+        <div class="center">           
+            <button v-cloak type="button" class="cmdButton" v-show="editable == true" style="display:none;" v-on:click="editfn" >编辑</button>
+            <button v-cloak type="button" class="cmdButton" v-show="editable == false" style="display:none;" v-on:click="savefn"  >保存</button>
+            <button v-cloak type="button" class="cmdButton" v-show="editable == false" style="display:none;" v-on:click="cancelfn">取消</button>            
+        </div>
+
+        <div class="tvHeader">万丰医院内科</div>
+        <div class="tvDynamicArea">
+            <div class="tvLeftBar">病区动态</div>
+            <div class="tvDynamicData">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="tvItemCapation1">患者总数</td>
+                            <td class="tvItemData1" v-cloak>${tmplData.v1}</td>
+                        </tr>
+                        <tr>
+                            <td class="tvItemCapation1">新入</td>
+                            <td class="tvItemData1">
+                                <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.v2">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tvItemCapation1">出院</td>
+                            <td class="tvItemData1">
+                                <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.v3">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tvItemCapation1">一级护理</td>
+                            <td class="tvItemData1">
+                                <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.v4">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tvItemCapation1">病重</td>
+                            <td class="tvItemData1">
+                                <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.v5">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tvItemCapation1">病危</td>
+                            <td class="tvItemData1">
+                                <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.v6">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tvItemCapation1">心电监护</td>
+                            <td class="tvItemData1">
+                                <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.v7">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tvItemCapation1">吸氧</td>
+                            <td class="tvItemData1">
+                                <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.v8">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tvItemCapation1">神志瞳孔监测</td>
+                            <td class="tvItemData1">
+                                <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.v9">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tvItemCapation1">雾化吸入</td>
+                            <td class="tvItemData1">
+                                <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.v10">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tvItemCapation1">口腔护理</td>
+                            <td class="tvItemData1">
+                                <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.v11">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tvItemCapation1">尿道口护理</td>
+                            <td class="tvItemData1">
+                                <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.v12">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="tvItemCapation2" colspan="2">留置导尿</td>
+                            <td class="tvItemData2">
+                                <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.v13">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tvItemCapation2" colspan="2">计24小时尿量</td>
+                            <td class="tvItemData2">
+                                <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.v14">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tvItemCapation2" colspan="2">计24小时出入量</td>
+                            <td class="tvItemData2">
+                                <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.v15">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tvItemCapation2" rowspan="3">血压监控</td>
+                            <td>Tid</td>
+                            <td class="tvItemData2">
+                                <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.Tid">
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td>Qid</td>
+                            <td class="tvItemData2">
+                                <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.Qid">
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td>Bid</td>
+                            <td class="tvItemData2">
+                                <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.Bid">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tvItemCapation2" rowspan="3" colspan="2">血糖监控</td>
+                            <td class="tvItemData2">
+                                <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.blood1">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tvItemData2" colspan="2">
+                                <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.blood2">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tvItemData2" colspan="2">
+                                <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.blood3">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tvItemCapation2" colspan="2">其他</td>
+                            <td class="tvItemData2">
+                                <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.v20">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tvItemCapation2" colspan="2">
+                                <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.customTit1">
+                            </td>
+                            <td class="tvItemData2">
+                                <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.customVal1">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tvItemCapation2" colspan="2">
+                                <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.customTit2">
+                            </td>
+                            <td class="tvItemData2">
+                                <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.customVal2">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tvDataNotify">
+            <div class="tvLeftBar">通知</div>
+            <div class="tvDynamicData">
+                <div>
+                    <span> 1. </span>
+                    <input type="text" v-bind:disabled="editable" class="editCell" style="width:95%" v-model="tmplData.notify1.notifyinfo">
+                </div>
+                <div>
+                    <span> 2. </span>
+                    <input type="text" v-bind:disabled="editable" class="editCell" style="width:95%" v-model="tmplData.notify2.notifyinfo">
+                </div>
+                <div>
+                    <span> 3. </span>
+                    <input type="text" v-bind:disabled="editable" class="editCell" style="width:95%" v-model="tmplData.notify3.notifyinfo">
+                </div>
+                <div>
+                    <span> 4. </span>
+                    <input type="text" v-bind:disabled="editable" class="editCell" style="width:95%" v-model="tmplData.notify4.notifyinfo">
+                </div>
+
+
+
+            </div>
+        </div>
+
+        <div class="tvDataArrangement">
+            <div class="tvLeftBar">安排</div>
+            <div class="tvDynamicData">
+                <div style="width: 50%; float:left;">
+                    <span class="tvDoctor"> 值班医生 </span>
+                    <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.doctorname">
+                </div>
+
+                <div style="width: 50%; float:left;">
+                    <span class="tvNurse"> 值班护士 </span>
+                    <input type="text" class="editCell" v-bind:disabled="editable" v-model="tmplData.nursename">
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+<script type="text/javascript" src="/static/dist/js/lib/jquery.min.js"></script>
+<!--框架js-->
+<script type="text/javascript" src="/static/dist/js/lib/amazeui_tmplate/amazeui.min.js"></script>
+
+<script src="/static/dist/js/lib/vue.js"></script>
+<!--前端模板引擎-->
+<script src="/static/dist/js/lib/template-web.js"></script>
+<script type="text/javascript" src="/static/common.js"></script>
+
+<script>
+
+    var classid = {{.Userinfo.DepartmentID }}
+
+    function req(api, data, cb) {
+        $.ajax({
+            url: api,
+            data: data,
+            type: "POST",
+            success: function (data) {
+                console.log(data);
+                if (data) {
+                    switch (data.result) {
+                        case 0:
+                            cb(data.datas);
+                            break;
+                        default:
+                            // alert(data.errmsg)
+                            jkyAlert(data.errmsg, "no")
+                    }
+                }
+            },
+            error: function (e) {
+                console.log("ajax err:", e)
+            },
+            dataType: "json"
+        })
+
+    }
+    req("/tv/list", { "class_id": classid },
+        function (reqData) {
+            var sourceData = reqData[0];
+            var c = reqData[0];
+            if (sourceData) {
+                setCustom(sourceData)
+            }
+            var tmplData = {}
+            $.extend(true, tmplData, sourceData)
+            a = tmplData
+            d = sourceData
+            var app = new Vue({
+                delimiters: ['${', '}'],
+                el: '#app',
+                data: {
+                    reqData: sourceData,
+                    tmplData: tmplData,
+                    editable: true
+                },
+                computed: {
+                    isShowTit2: function () {
+                        if (this.reqData.v19) {
+                            return false;
+                        } else {
+                            return true
+                        }
+                    },
+                    tmplChecked: {
+                        get: function () {
+                            return this.tmplData.display == "0" ? false : true;
+                        },
+                        // setter
+                        set: function (newValue) {
+                            newValue ? this.tmplData.display = "1" : this.tmplData.display = "0"
+                        }
+
+                    }
+
+                },
+                methods: {
+                    editfn: function (e) {
+                        if (this.editable == false) {
+                            return;
+                        }
+                        this.editable = false;
+                    },
+                    cancelfn: function (e) {
+                        this.editable = true;
+                        tmplData = this.reqData;
+                        return;
+                    },
+                    savefn: function (e) {
+                        this.editable = true;
+
+                        if (equals(tmplData, sourceData)) {
+                            return;
+                        }
+                        tmplData["v18"] = tmplData["customTit1"] && (tmplData["customTit1"] + "|" + tmplData["customVal1"])
+                        tmplData["v19"] = tmplData["customTit2"] && (tmplData["customTit2"] + "|" + tmplData["customVal2"])
+
+                        bloodPress = [tmplData.Tid, tmplData.Qid, tmplData.Bid];
+                        tmplData["v16"] = bloodPress.join('|');
+                        bloodSugar = [tmplData.blood1, tmplData.blood2, tmplData.blood3];
+
+                        tmplData["v17"] = bloodSugar.join('|');
+                        var t = tmplData.notify1.notifyinfo.trim();
+                        tmplData.notifys = [];
+                        if (t !== undefined && t != null && t !== "") {
+                            tmplData.notifys.push(tmplData.notify1);
+                        }
+                        t = tmplData.notify2.notifyinfo.trim();
+                        if (t !== undefined && t != null && t !== "") {
+                            tmplData.notifys.push(tmplData.notify2);
+                        }
+                        t = tmplData.notify3.notifyinfo.trim();
+                        if (t !== undefined && t != null && t !== "") {
+                            tmplData.notifys.push(tmplData.notify3);
+                        }
+                        t = tmplData.notify4.notifyinfo.trim();
+                        if (t !== undefined && t != null && t !== "") {
+                            tmplData.notifys.push(tmplData.notify4);
+                        }
+
+                        if (!tmplData["customTit1"] && tmplData["customVal1"]) {
+                            jkyAlert("自定义表题1不能为空", "no");
+                            return;
+                        } else if (!tmplData["customTit2"] && tmplData["customVal2"]) {
+                            jkyAlert("自定义表题2不能为空", "no");
+                            return;;
+                        }
+
+
+                        // tmplData.mid = tmplData.id
+                        var data = {}
+                        $.extend(true, data, tmplData)
+                        data.mid = tmplData.id
+                        // data.infos = tmplData.notifys
+                        data.infos = JSON.stringify(tmplData.notifys)
+                        var self = this;
+                        req("/pc/tv/monitorinfo", data, function (data) {
+                            jkyAlert("保存成功", "yes")
+                            $(e.target).parents(".item-block").removeClass("active")
+                            req("/tv/list", { "class_id": classid }, function (listData) {
+                                var list = listData[0];
+                                if (list) {
+                                    setCustom(list)
+                                }
+                                sourceData = $.extend(true, {}, list)
+                                tmplData = $.extend(true, {}, list)
+                                self.$set(self, "reqData", sourceData)
+                                self.$set(self, "tmplData", tmplData)
+                            })
+                        })
+
+                    } ,
+
+                keydownfn: function (e) {
+                    console.log(e.keyCode)
+                    var $this = $(e.target);
+                    setTimeout(function () {
+                        var IllegalStr = "|"
+                        var val = $this.val()
+                        var index = val.length - 1;
+                        var s = val.charAt(index)
+                        if (IllegalStr.indexOf(s) >= 0) {
+                            val = val.substring(0, index);
+                            $this.val(val)
+                        }
+                    }, 0)
+
+                }
+            }
+            })
+        })
+
+
+
+    function setCustom(sourceData) {
+        if (sourceData.v18) {
+            sourceData.customTit1 = sourceData.v18.split("|")[0]
+            sourceData.customVal1 = sourceData.v18.split("|")[1]
+        } else {
+            sourceData.customTit1 = ""
+            sourceData.customVal1 = ""
+        }
+        if (sourceData.v19) {
+            sourceData.customTit2 = sourceData.v19.split("|")[0]
+            sourceData.customVal2 = sourceData.v19.split("|")[1]
+        } else {
+            sourceData.customTit2 = ""
+            sourceData.customVal2 = ""
+        }
+
+        if (sourceData.v16) {
+            var arr = sourceData.v16.split('|');
+            sourceData.Tid = (typeof arr[0] !== undefined) ? arr[0] : "";
+            sourceData.Qid = (typeof arr[1] !== undefined) ? arr[1] : "";
+            sourceData.Bid = (typeof arr[2] !== undefined) ? arr[2] : "";
+        }
+        if (sourceData.v17) {
+            var arr = sourceData.v17.split('|');
+            sourceData.blood1 = (typeof arr[0] !== undefined) ? arr[0] : "";
+            sourceData.blood2 = (typeof arr[1] !== undefined) ? arr[1] : "";
+            sourceData.blood3 = (typeof arr[2] !== undefined) ? arr[2] : "";
+        }
+        
+            sourceData.notify1 = (typeof sourceData.notifys !== "undefined") &&
+                 ( typeof sourceData.notifys[0] !== "undefined") ? sourceData.notifys[0] : { notifyinfo: '' };
+            sourceData.notify2 = (typeof sourceData.notifys !== "undefined") &&
+                (typeof sourceData.notifys[1] !== "undefined") ? sourceData.notifys[1] : { notifyinfo: '' };
+            sourceData.notify3 = (typeof sourceData.notifys !== "undefined") &&
+                (typeof sourceData.notifys[2] !== "undefined") ? sourceData.notifys[2] : { notifyinfo: '' };
+            sourceData.notify4 =(typeof sourceData.notifys !== "undefined") &&
+                 (typeof sourceData.notifys[3] !== "undefined") ? sourceData.notifys[3] : { notifyinfo: '' };
+        
+    }
+
+</script>
+</body>
+
+</html>

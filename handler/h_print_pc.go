@@ -11,6 +11,7 @@ import (
 	"encoding/json"
 	"strings"
 	"strconv"
+	"homedoctor/utils"
 )
 
 // 腕带打印
@@ -253,42 +254,81 @@ func (c PCNrl1Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 		fmt.Fprintln(w, "查询NRL 错误！  NRL error", errdata)
 		return
 	}
-
+	newModes := make([]model.NRLModel,0)
+	//事件数据太多  顺延
+	sjNum := 44
+	sjRow := 1
+	for i := 0; i < len(mods); i++ {
+		newMod17 := mods[i].Mod17
+		nursename := mods[i].NurseName
+		sjStr := newMod17.Value
+		sjlen := strings.Count(sjStr,"")-1
+		if sjlen >= sjNum {
+			if sjlen%sjNum == 0 {
+				sjRow = sjlen / sjNum
+			} else {
+				sjRow = sjlen/sjNum + 1
+			}
+			for j :=0; j < sjRow ; j++  {
+				if j == 0{
+					mods[i].Mod17.Value = utils.Substr2(mods[i].Mod17.Value,0,sjNum)
+					newModes = append(newModes,mods[i])
+				}else{
+					if j == sjRow - 1{
+						newMod17.Value = utils.Substr2(sjStr,sjNum * j,sjlen)
+						newModes = append(newModes,model.NRLModel{Mod17:newMod17,NurseName:nursename})
+					}else{
+						newMod17.Value = utils.Substr2(sjStr,sjNum * j,sjNum * (j+1))
+						newModes = append(newModes,model.NRLModel{Mod17:newMod17,NurseName:nursename})
+					}
+				}
+			}
+		}else{
+			newModes = append(newModes,mods[i])
+		}
+	}
+	//fit.Logger().LogError("nrl page info :", len(mods),len(newModes), newModes)
 	//总条数
 	var page int
 	pageDataNum := 8 //每页多少数据
-	if len(mods)%pageDataNum == 0 {
-		page = len(mods) / pageDataNum
+	if len(newModes)%pageDataNum == 0 {
+		page = len(newModes) / pageDataNum
 	} else {
-		page = len(mods)/pageDataNum + 1
+		page = len(newModes)/pageDataNum + 1
 	}
 	//计算最后一页差多少数据
 	//[]NRL3
 	//fit.Logger().LogError("nrl page info :", len(mods), mods)
-	oldlen := len(mods)
+	oldlen := len(newModes)
 	for i := 0; i < (page*pageDataNum - oldlen); i++ {
-		mods = append(mods, model.NRLModel{})
+		newModes = append(newModes, model.NRLModel{})
 	}
 
 	nrl1Title := model.NRL1Title{PatientId: pInfo.VAA01}
 	errTitle := nrl1Title.PCQueryNRL1Title()
 	if errTitle != nil {
 		fit.Logger().LogError("PCQueryNRL1Title error :", errTitle)
-		fmt.Fprintln(w, "查询NRL 错误！  NRL error", errTitle)
+		//fmt.Fprintln(w, "查询NRL 错误！  NRL error", errTitle)
 		return
 	}
+	// 获取入科日期，如果没登记，则使用入院时间
+	entryDate := model.FetchEntryDepartmentDate(pInfo.VAA01)
+	if entryDate.IsExist == 0 {
+		entryDate.EntryDate = pInfo.HospitalDate
+	}
 
-	fmt.Printf("mods %+v\n length：%d\n\n", mods, len(mods))
+	//fmt.Printf("mods %+v\n length：%d\n\n", mods, len(mods))
 
 	c.Data = fit.Data{
 		"Userinfo":    userinfo, // 护士信息
 		"PInfo":       pInfo,    // 病人信息
 		"Beds":        beds,     // 床位list
-		"NRLList":     mods,
+		"NRLList":     newModes,
 		"NRLTitle":    nrl1Title,
 		"PageNum":     page,
 		"PageDataNum": pageDataNum,
 		"Menuindex":   "7-1",
+		"EntryDate":   entryDate.EntryDate,
 	}
 
 }
@@ -367,7 +407,11 @@ func (c PCNrl2Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 	NRL39B := tempTime.Format("2006-01-02")
 	NRL39C := tempTime.Format("15:04")
 
-	//fmt.Printf("user info %+v:", userinfo)
+	// 获取入科日期，如果没登记，则使用入院时间
+	entryDate := model.FetchEntryDepartmentDate(pInfo.VAA01)
+	if entryDate.IsExist == 0 {
+		entryDate.EntryDate = pInfo.HospitalDate
+	}
 
 	c.Data = fit.Data{
 		"Userinfo":  userinfo, // 护士信息
@@ -383,6 +427,7 @@ func (c PCNrl2Controller) Get(w *fit.Response, r *fit.Request, p fit.Params) {
 		"NRL38B":    NRL38B, // 录入护理单的时分
 		"NRL39B":    NRL39B,
 		"NRL39C":    NRL39C,
+		"EntryDate": entryDate.EntryDate,
 	}
 
 }

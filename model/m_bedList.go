@@ -17,12 +17,12 @@ type Beds struct {
 	Fever        int                    `json:"fever"`          // 是否发热（最后一次测量体温>37.5°）
 	Operation    int                    `json:"operation"`      // 是否待手术 ？
 	Arrearage    int                    `json:"arrearage"`      // 是否欠费
-	NewPatient   int                    `json:"new_patient"`    // 是否是新病人（VAA1.VAA73入院时间判断 今天早上8点到明天早上8点）
+	NewPatient   int                    `json:"new_patient"`    // 是否是新病人（VAA1.VAA73入院日期判断 今天早上8点到明天早上8点）
 	VAK20        int                    `json:"-"`              // 预交金额
 	VAK21        int                    `json:"-"`              // 费用总额
 	AAG01        string                 `json:"nursing_degree"` // 护理级别
 	Vid          int64                  `json:"vid"`            // 就诊ID
-	VAE11        DatetimeWithoutSeconds `json:"hospital_date"`  // 入院时间
+	VAE11        DatetimeWithoutSeconds `json:"hospital_date"`  // 入院日期
 	Gender       string                 `json:"gender"`         // 性别(结果字符串)
 }
 
@@ -33,9 +33,9 @@ type PCBedDup struct {
 	VAO2                                `xorm:"extends"`       // 诊断病症
 	AAG01        string                                        // 护理级别
 	Vid          int64                  `json:"vid"`           // 就诊ID
-	VAE11        DatetimeWithoutSeconds `json:"hospital_date"` // 入院时间
+	VAE11        DatetimeWithoutSeconds `json:"hospital_date"` // 入院日期
 	Gender       string                                        // 性别(结果字符串)
-	HospitalDate string                                        // 入院时间字符串
+	HospitalDate string                                        // 入院日期字符串
 }
 
 /*病人资料表*/
@@ -93,14 +93,15 @@ type PCPatient struct {
 	NursingDegreeV string                 `json:"nursing_degree_v"` // 护理级别
 	AAG01          int                    `json:"-"`                // AAG01 --> BBY01
 	Diagnosis      string                 `json:"diagnosis"`        // 诊断
-	HospTime       DatetimeWithoutSeconds `json:"-"`                // 入院时间
-	HospDay        string                 `json:"hosp_time"`        // 入院时间
+	HospTime       DatetimeWithoutSeconds `json:"-"`                // 入院日期
+	HospDay        string                 `json:"hosp_time"`        // 入院日期
 	NewOrder       int                    `json:"new_order"`        // 新医嘱 ？
 	StoppedOrder   int                    `json:"stopped_order"`    // 已停医嘱 ？
 	Fever          int                    `json:"fever"`            // 是否发热（最后一次测量体温>37.5°）
 	Operation      int                    `json:"operation"`        // 是否待手术 ？
 	Arrearage      int                    `json:"arrearage"`        // 是否欠费
-	NewPatient     int                    `json:"new_patient"`      // 是否是新病人（VAA1.VAA73入院时间判断 今天早上8点到明天早上8点）
+	NewPatient     int                    `json:"new_patient"`      // 是否是新病人（VAA1.VAA73入院日期判断 今天早上8点到明天早上8点）
+	EntryDate      string                 `json:"entry_date"`       // 入科日期
 }
 
 /*PDA 接口，返回 []Beds 切片数组*/
@@ -146,7 +147,7 @@ func QueryDepartmentBedList(BCK01 int) ([]Beds, error) {
 				// 参考时间：前一天早上8点
 				temp := time.Date(timeNow.Year(), timeNow.Month(), timeNow.Day(), 8, 0, 0, 0, time.Local)
 				reference := temp.AddDate(0, 0, -1)
-				// 入院时间大于前一天早上8点
+				// 入院日期大于前一天早上8点
 				if wh := reference.Before(hospital_date); wh == true {
 					patient.NewPatient = 1
 				}
@@ -264,11 +265,13 @@ func GetDepartmentBedsByClassifying(BCK01 int, typeDup int) (map[string]interfac
 					// 参考时间：前一天早上8点
 					temp := time.Date(timeNow.Year(), timeNow.Month(), timeNow.Day(), 8, 0, 0, 0, time.Local)
 					reference := temp.AddDate(0, 0, -1)
-					// 入院时间大于前一天早上8点
+					// 入院日期大于前一天早上8点
 					if wh := reference.Before(hospital_date); wh == true {
 						patient.NewPatient = 1
 					}
 				}
+				// 入科日期
+				_, err = fit.MySqlEngine().SQL("select DATE_FORMAT(EntryDate,'%Y-%m-%d %H:%i') as EntryDate from departmenttransfer where Pid = ?",patient.Pid).Get(&patient)
 
 				// 是否有新医嘱
 				patient.NewOrder = IsExistNewMedicalAdvice(patient.Vid, BCK01, hospitalDate)
@@ -397,7 +400,7 @@ func GetDepartmentBedsByClassifyingByPage(BCK01 int, typeDup int, page, pagenum 
 					// 参考时间：前一天早上8点
 					temp := time.Date(timeNow.Year(), timeNow.Month(), timeNow.Day(), 8, 0, 0, 0, time.Local)
 					reference := temp.AddDate(0, 0, -1)
-					// 入院时间大于前一天早上8点
+					// 入院日期大于前一天早上8点
 					if wh := reference.Before(hospital_date); wh == true {
 						patient.NewPatient = 1
 					}
@@ -495,7 +498,7 @@ type TVInpatient struct {
 	Did            int       `json:"did"`    // 住院病区
 	Bed            string    `json:"bed"`    // 床位号
 	NursingDegreeV string    `json:"degree"` // 护理级别
-	AdmissionTime  time.Time `json:"adtime"` // 入院时间
+	AdmissionTime  time.Time `json:"adtime"` // 入院日期
 	DischargeTime  time.Time `json:"dctime"` // 出院时间
 	State          int       `json:"state"`  // 状态
 }
@@ -538,7 +541,7 @@ func FetchInpatientsForTV(did int) (amount int, bedStr string, bedStr1 string, b
 			// 参考时间：前一天早上8点
 			temp := time.Date(timeNow.Year(), timeNow.Month(), timeNow.Day(), 8, 0, 0, 0, time.Local)
 			reference := temp.AddDate(0, 0, -1)
-			// 入院时间大于前一天早上8点
+			// 入院日期大于前一天早上8点
 			if wh := reference.Before(v.AdmissionTime); wh == true {
 				beds1 = append(beds1, v.Bed)
 			}
@@ -546,7 +549,7 @@ func FetchInpatientsForTV(did int) (amount int, bedStr string, bedStr1 string, b
 	}
 	bedStr = strings.Join(beds, ",")   //一级护理
 	bedStr1 = strings.Join(beds1, ",") //新入院病人
-	bedStr2 = "" //新出院病人
+	bedStr2 = ""                       //新出院病人
 
 	return
 }

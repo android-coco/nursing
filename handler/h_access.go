@@ -74,7 +74,6 @@ func (c AccessController) AccessList(w *fit.Response, r *fit.Request, p fit.Para
 	classId := r.FormValue("class_id")
 	page := r.FormValue("page")
 	accessType, err1 := model.Access{}.ParseAccessType(r.FormValue("access_type"))
-
 	if classId == "" {
 		c.JsonData.Result = 1
 		c.JsonData.ErrorMsg = "参数不完整"

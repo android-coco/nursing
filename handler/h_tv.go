@@ -70,7 +70,7 @@ func (c TvController) List(w *fit.Response, r *fit.Request, p fit.Params) {
 	}
 	response, err := model.TVQueryMonitor(classId)
 	// 获取所有病人
-	amount, bedStr ,newInPut,_ := model.FetchInpatientsForTV(classIdInt)
+	amount, bedStr ,_,_ := model.FetchInpatientsForTV(classIdInt)
 	if len(response) == 0 {
 		response = make([]model.MonitorInfo, 1)
 		response[0].MonitorNotifys = make([]model.MonitorNotify, 0)
@@ -82,7 +82,7 @@ func (c TvController) List(w *fit.Response, r *fit.Request, p fit.Params) {
 	// 获取一级护理床位
 	response[0].V4 = bedStr
 	//新入
-	response[0].V2 = newInPut
+	//response[0].V2 = newInPut
 	//出院
 	// response[0].V3 = newOutPut
 	if err != nil {

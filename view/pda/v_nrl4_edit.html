@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>深静脉血栓</title>
+    <link rel="stylesheet" href="/static/dist/style/css/base.css">
+    <script>
+        function setFontSize() {
+            var deviceWidth = document.documentElement.clientWidth;
+            if (deviceWidth > 640) deviceWidth = 640;
+            document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+        }
+
+        setFontSize()
+        var timer = null;
+        window.addEventListener('resize', function() {
+            clearTimeout(timer)
+            timer = setTimeout(setFontSize, 300)
+        }, false)
+    </script>
+</head>
+
+<body>
+
+<div class="g-main">
+    <div class="m-msg">
+        <ul>
+            <li class="b1">
+                姓名:<span>{{.PInfo.VAA05}}</span>
+            </li>
+            <li class="b1">
+                性别:<span>{{.PInfo.Gender}}</span>
+            </li>
+            <li class="b1">
+                年龄:<span>{{.PInfo.VAA10}}岁</span>
+            </li>
+            <li class="b1">
+                科室:<span>{{.PInfo.BCK03C}}</span>
+            </li>
+            <li class="b1">
+                床号:<span>{{.PInfo.BCQ04}}</span>
+            </li>
+            <li class="b1">
+                住院号:<span>{{.PInfo.VAA04}}</span>
+            </li>
+            <li class="b2">
+                诊断内容：<span>{{.PInfo.VAO15}}</span>
+            </li>
+        </ul>
+    </div>
+    <div class="m-tit">
+        <p class="tit">评估项目</p>
+    </div>
+
+    <!-- 年龄(岁）： -->
+    <div class="m-check2" id="c1">
+        <p class="tit">
+            年龄(岁）：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c1-v1" name="check1" data-v="1" class="c1" {{if eq .NRL.NRL01 1}}checked{{end}}>
+                    <label for="c1-v1" class="icon"></label>
+                </div>
+                <label for="c1-v1">10---30 岁&nbsp;&nbsp;&nbsp;&nbsp;0分</label>
+            </li>
+            <li>
+                <div class="m-input-radio ">
+                    <input type="radio" id="c1-v2" name="check1" data-v="2" class="c1" {{if eq .NRL.NRL01 2}}checked{{end}}>
+                    <label for="c1-v2" class="icon"></label>
+                </div>
+                <label for="c1-v2">31---40 岁&nbsp;&nbsp;&nbsp;&nbsp;1分</label>
+            </li>
+            <li>
+                <div class="m-input-radio ">
+                    <input type="radio" id="c1-v3" name="check1" data-v="3" class="c1"  {{if eq .NRL.NRL01 3}}checked{{end}}>
+                    <label for="c1-v3" class="icon"></label>
+                </div>
+                <label for="c1-v3">41---50 岁&nbsp;&nbsp;&nbsp;&nbsp;2分</label>
+            </li>
+            <li>
+                <div class="m-input-radio ">
+                    <input type="radio" id="c1-v4" name="check1" data-v="4" class="c1" {{if eq .NRL.NRL01 4}}checked{{end}}>
+                    <label for="c1-v4" class="icon"></label>
+                </div>
+                <label for="c1-v4">51---60 岁&nbsp;&nbsp;&nbsp;&nbsp;3分</label>
+            </li>
+            <li>
+                <div class="m-input-radio ">
+                    <input type="radio" id="c1-v5" name="check1" data-v="5" class="c1" {{if eq .NRL.NRL01 5}}checked{{end}}>
+                    <label for="c1-v5" class="icon"></label>
+                </div>
+                <label for="c1-v5">61---70 岁&nbsp;&nbsp;&nbsp;&nbsp;4分</label>
+            </li>
+            <li>
+                <div class="m-input-radio ">
+                    <input type="radio" id="c1-v6" name="check1" data-v="6" class="c1"  {{if eq .NRL.NRL01 6}}checked{{end}}>
+                    <label for="c1-v6" class="icon"></label>
+                </div>
+                <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+                <label for="c1-v6">> 70 岁&nbsp;&nbsp;&nbsp;&nbsp;5分</label>
+            </li>
+        </ul>
+    </div>
+    <div class="m-line"></div>
+
+    <!-- BMI= 体重（kg）/身高（m）  2: -->
+    <div class="m-check2" id="c2">
+        <p class="tit">
+            BMI= 体重（kg）/身高（m）^2:
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c2-v1" name="check2" data-v="1" class="c1"  {{if eq .NRL.NRL02 1}}checked{{end}}>
+                    <label for="c2-v1" class="icon"></label>
+                </div>
+                <label for="c2-v1">16---19 &nbsp;&nbsp;&nbsp;&nbsp;0分</label>
+            </li>
+            <li>
+                <div class="m-input-radio ">
+                    <input type="radio" id="c2-v2" name="check2" data-v="2" class="c1" {{if eq .NRL.NRL02 2}}checked{{end}}>
+                    <label for="c2-v2" class="icon"></label>
+                </div>
+                <label for="c2-v2">20---25 &nbsp;&nbsp;&nbsp;&nbsp;1分</label>
+            </li>
+            <li>
+                <div class="m-input-radio ">
+                    <input type="radio" id="c2-v3" name="check2" data-v="3" class="c1" {{if eq .NRL.NRL02 3}}checked{{end}}>
+                    <label for="c2-v3" class="icon"></label>
+                </div>
+                <label for="c2-v3">26---30 &nbsp;&nbsp;&nbsp;&nbsp;2分</label>
+            </li>
+            <li>
+                <div class="m-input-radio ">
+                    <input type="radio" id="c2-v4" name="check2" data-v="4" class="c1"  {{if eq .NRL.NRL02 4}}checked{{end}}>
+                    <label for="c2-v4" class="icon"></label>
+                </div>
+                <label for="c2-v4">31---40 &nbsp;&nbsp;&nbsp;&nbsp;3分</label>
+            </li>
+            <li>
+                <div class="m-input-radio ">
+                    <input type="radio" id="c2-v5" name="check2" data-v="5" class="c1" {{if eq .NRL.NRL02 5}}checked{{end}}>
+                    <label for="c2-v5" class="icon"></label>
+                </div>
+                <label for="c2-v5">> 40 &nbsp;&nbsp;&nbsp;&nbsp;4分</label>
+            </li>
+        </ul>
+    </div>
+    <div class="m-line"></div>
+
+    <!-- 运动能力: -->
+    <div class="m-check2" id="c3">
+        <p class="tit">
+            运动能力:
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c3-v1" name="check3" data-v="1" class="c1"  {{if eq .NRL.NRL03 1}}checked{{end}}>
+                    <label for="c3-v1" class="icon"></label>
+                </div>
+                <label for="c3-v1">能走动&nbsp;&nbsp;&nbsp;&nbsp;0分</label>
+            </li>
+            <li>
+                <div class="m-input-radio ">
+                    <input type="radio" id="c3-v2" name="check3" data-v="2" class="c1" {{if eq .NRL.NRL03 2}}checked{{end}}>
+                    <label for="c3-v2" class="icon"></label>
+                </div>
+                <label for="c3-v2">运动受限（需辅助工具）&nbsp;&nbsp;&nbsp;&nbsp;1分</label>
+            </li>
+            <li>
+                <div class="m-input-radio ">
+                    <input type="radio" id="c3-v3" name="check3" data-v="3" class="c1" {{if eq .NRL.NRL03 3}}checked{{end}}>
+                    <label for="c3-v3" class="icon"></label>
+                </div>
+                <label for="c3-v3">运动严重受限（需要他人协助）&nbsp;&nbsp;&nbsp;&nbsp;2分</label>
+            </li>
+            <li>
+                <div class="m-input-radio ">
+                    <input type="radio" id="c3-v4" name="check3" data-v="4" class="c1" {{if eq .NRL.NRL03 4}}checked{{end}}>
+                    <label for="c3-v4" class="icon"></label>
+                </div>
+                <label for="c3-v4">轮椅&nbsp;&nbsp;&nbsp;&nbsp;3分</label>
+            </li>
+            <li>
+                <div class="m-input-radio ">
+                    <input type="radio" id="c3-v5" name="check3" data-v="5" class="c1" {{if eq .NRL.NRL03 5}}checked{{end}}>
+                    <label for="c3-v5" class="icon"></label>
+                </div>
+                <label for="c3-v5">完全卧床&nbsp;&nbsp;&nbsp;&nbsp;4分</label>
+            </li>
+        </ul>
+    </div>
+    <div class="m-line"></div>
+
+
+    <!-- 特殊风险种类： -->
+    <div class="m-check2" id="c4">
+        <p class="tit">
+            特殊风险种类：
+        </p>
+        <p class="tit-msg">
+            服用避孕药
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c4-v1" name="check4" data-v="1" class="c1" {{if eq .NRL.NRL04 1}}checked{{end}}>
+                    <label for="c4-v1" class="icon"></label>
+                </div>
+                <label for="c4-v1">20 ~ 35 岁&nbsp;&nbsp;&nbsp;&nbsp;1分</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c4-v2" name="check4" data-v="2" class="c1" {{if eq .NRL.NRL04 2}}checked{{end}}>
+                    <label for="c4-v2" class="icon"></label>
+                </div>
+                <label for="c4-v2">大于35岁或激素替代治疗&nbsp;&nbsp;&nbsp;&nbsp;2分</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c4-v3" name="check4" data-v="3" class="c1" {{if eq .NRL.NRL04 3}}checked{{end}}>
+                    <label for="c4-v3" class="icon"></label>
+                </div>
+                <label for="c4-v3">怀孕及产褥期&nbsp;&nbsp;&nbsp;&nbsp;3分</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c4-v4" name="check4" data-v="4" class="c1" {{if eq .NRL.NRL04 4}}checked{{end}}>
+                    <label for="c4-v4" class="icon"></label>
+                </div>
+                <label for="c4-v4">易栓症&nbsp;&nbsp;&nbsp;&nbsp;4分</label>
+            </li>
+        </ul>
+    </div>
+
+    <div class="m-line"></div>
+
+    <!-- 创伤风险种类（术前）：-->
+    <div class="m-check2" id="c5">
+        <p class="tit">
+            创伤风险种类（术前）：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c5-v1" name="check5" data-v="1" class="c1" {{if eq .NRL.NRL05 1}}checked{{end}}>
+                    <label for="c5-v1" class="icon"></label>
+                </div>
+                <label for="c5-v1">头部损伤或胸部损伤&nbsp;&nbsp;&nbsp;&nbsp;1分</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c5-v2" name="check5" data-v="2" class="c1" {{if eq .NRL.NRL05 2}}checked{{end}}>
+                    <label for="c5-v2" class="icon"></label>
+                </div>
+                <label for="c5-v2">脊柱损伤&nbsp;&nbsp;&nbsp;&nbsp;2分</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c5-v3" name="check5" data-v="3" class="c1" {{if eq .NRL.NRL05 3}}checked{{end}}>
+                    <label for="c5-v3" class="icon"></label>
+                </div>
+                <label for="c5-v3">盆腔损伤&nbsp;&nbsp;&nbsp;&nbsp; 3分</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c5-v4" name="check5" data-v="4" class="c1" {{if eq .NRL.NRL05 4}}checked{{end}}>
+                    <label for="c5-v4" class="icon"></label>
+                </div>
+                <label for="c5-v4">下肢损伤&nbsp;&nbsp;&nbsp;&nbsp; 4分</label>
+            </li>
+        </ul>
+    </div>
+    <div class="m-line"></div>
+
+    <!-- 外科干预： -->
+    <div class="m-check2" id="c6">
+        <p class="tit">
+            外科干预：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c6-v1" name="check6" data-v="1" class="c1" {{if eq .NRL.NRL06 1}}checked{{end}}>
+                    <label for="c6-v1" class="icon"></label>
+                </div>
+                <label for="c6-v1">小手术小于30分钟&nbsp;&nbsp;&nbsp;&nbsp;1分</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c6-v2" name="check6" data-v="2" class="c1" {{if eq .NRL.NRL06 2}}checked{{end}}>
+                    <label for="c6-v2" class="icon"></label>
+                </div>
+                <label for="c6-v2">择期大型手术&nbsp;&nbsp;&nbsp;&nbsp;2分</label>
+            </li>
+            <li>
+                <div class="m-input-radio two-row">
+                    <input type="radio" id="c6-v3" name="check6" data-v="3" class="c1" {{if eq .NRL.NRL06 3}}checked{{end}}>
+                    <label for="c6-v3" class="icon"></label>
+                </div>
+                <label for="c6-v3">急诊大手术、腹部手术、泌尿科手术、神经外科手术&nbsp;&nbsp;&nbsp;&nbsp;3分</label>
+            </li>
+        </ul>
+    </div>
+    <div class="m-line"></div>
+
+
+    <!-- 现有的高风险疾病： -->
+    <div class="m-check2" id="c7">
+        <p class="tit">
+            现有的高风险疾病：
+        </p>
+        <ul>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c7-v1" name="check7" data-v="1" class="c1" {{if eq .NRL.NRL07 1}}checked{{end}}>
+                    <label for="c7-v1" class="icon"></label>
+                </div>
+                <label for="c7-v1">溃疡性结石肠炎&nbsp;&nbsp;&nbsp;&nbsp;1分</label>
+            </li>
+            <li>
+                <div class="m-input-radio two-row">
+                    <input type="radio" id="c7-v2" name="check7" data-v="2" class="c1" {{if eq .NRL.NRL07 2}}checked{{end}}>
+                    <label for="c7-v2" class="icon"></label>
+                </div>
+                <label for="c7-v2">红血球增多症、镰状细胞贫血、溶血性贫血&nbsp;&nbsp;&nbsp;&nbsp;2分</label>
+            </li>
+            <li>
+                <div class="m-input-radio ">
+                    <input type="radio" id="c7-v3" name="check7" data-v="3" class="c1" {{if eq .NRL.NRL07 3}}checked{{end}}>
+                    <label for="c7-v3" class="icon"></label>
+                </div>
+                <label for="c7-v3">静脉曲张、慢性心脏疾病&nbsp;&nbsp;&nbsp;&nbsp;3分</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c7-v4" name="check7" data-v="4" class="c1" {{if eq .NRL.NRL07 4}}checked{{end}}>
+                    <label for="c7-v4" class="icon"></label>
+                </div>
+                <label for="c7-v4">急性心肌梗塞&nbsp;&nbsp;&nbsp;&nbsp;4分</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c7-v5" name="check7" data-v="5" class="c1" {{if eq .NRL.NRL07 5}}checked{{end}}>
+                    <label for="c7-v5" class="icon"></label>
+                </div>
+                <label for="c7-v5">恶性肿瘤（活性）&nbsp;&nbsp;&nbsp;&nbsp;5分</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c7-v6" name="check7" data-v="6" class="c1" {{if eq .NRL.NRL07 6}}checked{{end}}>
+                    <label for="c7-v6" class="icon"></label>
+                </div>
+                <label for="c7-v6">脑血管意外&nbsp;&nbsp;&nbsp;&nbsp;6分</label>
+            </li>
+            <li>
+                <div class="m-input-radio">
+                    <input type="radio" id="c7-v7" name="check7" data-v="7" class="c1" {{if eq .NRL.NRL07 7}}checked{{end}}>
+                    <label for="c7-v7" class="icon"></label>
+                </div>
+                <label for="c7-v7">DVT病史&nbsp;&nbsp;&nbsp;&nbsp;7分</label>
+            </li>
+        </ul>
+    </div>
+    <div class="m-line"></div>
+
+
+
+    <div class="m-zofen">
+        <span>总得分:</span>
+        <span class="fen"></span>
+        <span>分</span>
+    </div>
+
+
+    <div class="m-time pdt-20">
+        <span>评估时间：</span>
+        <div class="input">
+            <span class="date">{{.NRL.DateStr}}</span>
+            {{/*<span class="time">{{.NRL.TimeStr}}</span>*/}}
+        </div>
+    </div>
+
+    <div class="m-autograph">
+        <span>签名：</span>
+        <span class="name">{{.Account.Username}}</span>
+    </div>
+    <div class="m-pd40"></div>
+
+    <div class="m-remarks">
+        <div class="tit">
+            备注：
+        </div>
+        <p>
+            评分方案：≤ 6分无风险；7~10分为低危（关注病情 变化，随时评估）；11~14分为中危（第一周评估2次， 此后4周内每周评估一次，之后每月评估一次）；≥15 分为高危（手术后3天内每天评估1次，之后接中危 病人评估）
+        </p>
+        <p class="pdt-10">评估时机：患者入院24h 内完成
+        </p>
+        <p class="pdt-20">
+            2016年8月1日编制</p>
+    </div>
+</div>
+
+<div class="m-pd100"></div>
+
+<script src="/static/dist/js/base.js"></script>
+<script>
+    function setTime(dataStr) {
+        var data = dataStr || {};
+        // var data = JSON.parse(dataStr)
+        var $mTime = $('.m-time');
+        data.date && $mTime.find('.date').text(data.date)
+        data.time && $mTime.find('.time').text(data.time)
+    }
+    function nowDate() {
+        var res = {},
+            nowD = new Date();
+        res.date = nowD.getFullYear() + "-" + addZero(nowD.getMonth() + 1) + "-" + addZero(nowD.getDate());
+        res.time = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes())
+        // return JSON.stringify(res)
+        return res;
+    }
+    function addZero(i) {
+        if (i < 10) {
+            return "0" + i;
+        } else {
+            return i;
+        }
+    }
+
+
+    var type = {{.Type}};
+    if (type == "1") {
+        setTime(nowDate())
+    }
+    //安卓调用
+    $(function(){
+        $(".m-time").find('.date').on('click',function(){
+            // WebJs_SetDate()
+            if(window.android!=null && typeof(window.android)!="undefined"){
+                window.android.WebJs_SetDate();
+            }else{
+                alert("js对象注入失败")
+            }
+
+        })
+        $(".m-time").find('.time').on('click',function(){
+            // WebJs_SetTime()
+            if(window.android!=null && typeof(window.android)!="undefined"){
+                window.android.WebJs_SetTime();
+            }else{
+                alert("js对象注入失败")
+            }
+        })
+    })
+
+    //单选可取消单选
+    $("input[type=radio]:checked").data('check',1);
+    $('input[type=radio]').on('click',function(){
+        var ischeck = $(this).data("check");
+        if(!ischeck){
+            $(this).parents('ul').find("input[type=radio]").data("check",0)
+            $(this).data("check",1);
+        }else{
+            $(this).prop('checked',false);
+            $(this).data("check",0);
+        }
+    })
+
+
+    function reqAPI(type) {
+        var data = {}
+        function init(){
+            data = {
+                /***---------------------**/
+                // 护士ID
+                "uid": {{.Account.Employeeid}},
+                // 护士名
+                "username": {{.Account.Username}},
+                //病人id
+                "pid": {{.PInfo.VAA01}},
+                // 科室id
+                "did": {{.PInfo.BCK01C}},
+                // "nrl_id":{{.Rid}}
+            /***---------------------**/
+        }
+            if(type=="2"){
+                data["rid"] = {{.Rid}}
+            }
+        }
+
+
+        function setData() {
+            init();
+            setDataDateTime();
+
+            setDatavNRL01();
+            setDatavNRL02();
+            setDatavNRL03();
+            setDatavNRL04();
+            setDatavNRL05();
+            setDatavNRL06();
+            setDatavNRL07();
+            sumFen();
+            //    判断是否是没设置值
+            if(type=="1"){
+                var num = 0;
+                $.each(data,function(i,n){
+                    num++;
+                })
+                //总共5个固定参数,如果没填长度就为5
+                if(num==5){
+                    return false;
+                }else{
+                    return true;
+                }
+            }else{
+                return true;
+            }
+        }
+        // 获取当前时间 hh:mm:ss
+        function getNowTime() {
+            var str = "";
+            var nowD = new Date();
+            str = addZero(nowD.getHours()) + ":" + addZero(nowD.getMinutes()) + ":" +addZero(nowD.getSeconds());
+            return str;
+        }
+        //设置日期
+        function setDataDateTime() {
+            var $mTime = $('.m-time')
+            dateStr = $mTime.find('.date').text()
+            // timeStr = $mTime.find('.time').text()
+            if (dateStr) {
+                data.datetime = dateStr + " "+getNowTime()
+            }
+        }
+
+        //获取总分
+        function sumFen() {
+            var $fen = $('.m-zofen').find(".fen")
+            fenStr = $fen.text()
+            // timeStr = $mTime.find('.time').text()
+            if (fenStr!="") {
+                data.score = fenStr
+            }
+        }
+
+        // 获取 年龄(岁）
+        function setDatavNRL01() {
+            var $check = $("#c1").find('input[type=radio]:checked');
+            $check.length && (data.NRL01 = $check.data('v'))
+        }
+        // BMI= 体重（kg）/身高（m） 2
+        function setDatavNRL02() {
+            var $check = $("#c2").find('input[type=radio]:checked');
+            $check.length && (data.NRL02 = $check.data('v'))
+        }
+        // 运动能力:
+        function setDatavNRL03() {
+            var $check = $("#c3").find('input[type=radio]:checked');
+            $check.length && (data.NRL03 = $check.data('v'))
+        }
+
+        // 特殊风险种类：
+        function setDatavNRL04() {
+            var $check = $("#c4").find('input[type=radio]:checked');
+            $check.length && (data.NRL04 = $check.data('v'))
+        }
+
+        // 创伤风险种类（术前）：
+        function setDatavNRL05() {
+            var $check = $("#c5").find('input[type=radio]:checked');
+            $check.length && (data.NRL05 = $check.data('v'))
+        }
+
+        // 外科干预：
+        function setDatavNRL06() {
+            var $check = $("#c6").find('input[type=radio]:checked');
+            $check.length && (data.NRL06 = $check.data('v'))
+        }
+        // 现有的高风险疾病：
+        function setDatavNRL07() {
+            var $check = $("#c7").find('input[type=radio]:checked');
+            $check.length && (data.NRL07 = $check.data('v'))
+        }
+
+
+
+        var api = '', typeStr = '';
+        if (type == "1") {
+            api = "/record/nr4/add"
+            typeStr = '保存'
+        } else if (type == "2") {
+            api = "/record/nr4/update"
+            typeStr = '修改'
+        }
+        return function saveFrom() {
+            var isOk = setData();
+            if(isOk){
+                $.ajax({
+                    url: api,
+                    data: data,
+                    type: "POST",
+                    timeout : 2000,
+                    success: function (data) {
+                        console.log(data);
+                        if (data) {
+                            switch (data.result) {
+                                case 0:
+                                    jky.util.toast(typeStr+"成功！", 1500, function(){
+                                        if(window.android!=null && typeof(window.android)!="undefined"){
+                                            window.android.WebJs_Finish();
+                                        }else{
+                                            alert("js对象注入失败")
+                                        }
+                                    });
+                                    break;
+                                case 2:
+                                    jky.util.toast(typeStr+"失败，请重试！", 1500);
+                                    break;
+                                default:
+                                    jky.util.toast("未知错误！", 1000)
+                            }
+                        }
+                    },
+                    error: function (e,txtStatus) {
+                        if(txtStatus == 'timeout'){
+                            jky.util.toast("请求超时，请重试！", 1000)
+                        }
+                        console.log("ajax err:", e)
+                    },
+                    dataType: "json"
+                })
+            }else{
+                jky.util.toast("请填写内容", 1500)
+            }
+
+        }
+    }
+
+    var reqAPIFN = reqAPI(type);
+    // 分数计算
+    $(function(){
+        var  scoreHash = {
+            "option1":{ //年龄
+                "1":0,
+                "2":1,
+                "3":2,
+                "4":3,
+                "5":4,
+                "6":5,
+            },
+            "option2":{ //BMI= 体重（kg）/身高（m） 2
+                "1":0,
+                "2":1,
+                "3":2,
+                "4":3,
+                "5":4,
+            },
+            "option3":{  //运动能力
+                "1":0,
+                "2":1,
+                "3":2,
+                "4":3,
+                "5":4,
+            },
+            "option4":{ //特殊风险种类：
+                "1":1,
+                "2":2,
+                "3":3,
+                "4":4,
+            },
+            "option5":{ //创伤风险种类（术前）
+                "1":1,
+                "2":2,
+                "3":3,
+                "4":4,
+                "5":5,
+            },
+            "option6":{ //外科干预：
+                "1":1,
+                "2":2,
+                "3":3,
+            },
+            "option7":{ //现有的高风险疾病：
+                "1":1,
+                "2":2,
+                "3":3,
+                "4":4,
+                "5":5,
+                "6":6,
+                "7":7,
+            },
+        }
+
+        function sumScore(){
+            // var i =10; //10题
+            var optionVal = [],sum="";
+            for(var i=1;i<8;i++){
+                // console.log($('#c'+i).find('input[type=radio]:checked').data('v'))
+                // console.log(scoreHash["option"+i])
+                // console.log($('#c'+i))
+                optionVal.push(scoreHash["option"+i][$('#c'+i).find('input[type=radio]:checked').data('v')])
+            }
+
+            $.each(optionVal,function(i,n){
+                if(n!=undefined&& parseFloat(n)!=NaN){
+                    if(sum == ""){
+                        sum = 0;
+                    }
+                    sum +=  parseFloat(n)
+                }
+            })
+            return sum;
+        }
+
+        $('input[type=radio]').on('click',function(){
+            $('.m-zofen').find('.fen').text(sumScore())
+        })
+
+        if(type=="2"){
+            $('.m-zofen').find('.fen').text(sumScore())
+        }
+    })
+</script>
+
+</body>
+
+</html>

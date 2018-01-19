@@ -171,7 +171,7 @@ func IputSuccession(session *xorm.Session, strData map[string]string) error {
 	}
 
 	if has {
-		_, err = session.Where("id = ?", item1.ID).Update(item);
+		_, err = session.Where("id = ?", item1.ID).AllCols().Omit("id").Update(item);
 		fit.Logger().LogError("gk dd", "更新正确")
 	} else {
 		_, err = session.Insert(item);
@@ -190,7 +190,7 @@ func OutSuccession(sql string, msg ...interface{}) ([]Succession, error) {
 //交接班详情
 type SuccessionDetails struct {
 	ID          int          `json:"id" xorm:"notnull comment(数据id)"`
-	DataTime    FitTime `json:"datatime" xorm:"notnull comment(日期)"`
+	DataTime    FitTime      `json:"datatime" xorm:"notnull comment(日期)"`
 	ClassId     string       `json:"classid" xorm:"notnull comment(科室ID)"`
 	BedID       string       `json:"bedid" xorm:"notnull comment(床位号)"`
 	PatientName string       `json:"patientname" xorm:"notnull comment(病人名称)"`
@@ -284,7 +284,7 @@ func IputSuccessionDetails(session *xorm.Session, strData map[string]string) err
 	}
 
 	if has {
-		_, err = session.Where("id = ?", item1.ID).Update(item);
+		_, err = session.Where("id = ?", item1.ID).AllCols().Omit("id").Update(item);
 	} else {
 		_, err = session.Insert(item);
 	}

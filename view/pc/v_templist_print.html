@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>体温表</title>
     <link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/amazeui.css">
     {{/*<link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/core.css">*/}}
     {{/*<link rel="stylesheet" href="/static/dist/style/lib/amazeui_tmplate/menu.css">*/}}
@@ -16,6 +16,11 @@
         @page  {size: portrait}
         .table-data-box table .tab-cont-box .data-warp{
             height: 700px;
+        }
+        body{
+            /*font-family: "黑体";*/
+            color:#000 !important;
+
         }
         .table-data-box table .data-box .bg_line .line-warp{
             height: 740px;
@@ -46,6 +51,9 @@
             z-index: 99;
             background: #fff;
         }
+        .table-data-box table .data-box .bg_line .line .sj{
+            line-height: 16px;
+        }
     </style>
 </head>
 <body style="overflow: auto;">
@@ -63,16 +71,16 @@
                 </div>
                 <div class="bar" id="patient-info">
                     <div class="l">
-                        <label>姓名</label> <span id="pinfo-name">{{.PInfo.VAA05}}</span>
+                        <label>姓名</label> <span  style="min-width: 84px;" id="pinfo-name">{{.PInfo.VAA05}}</span>
                         <label>性别</label> <span class="t4" id="pinfo-sex">{{.PInfo.Gender}}</span>
                         <label>年龄</label> <span class="t3" id="pinfo-age">{{.PInfo.VAA10}}</span>
-                        <label>入院日期</label> <span class="t2" id="pinfo-date-year">2017</span>
+                        <label>入科日期</label> <span class="t2" id="pinfo-date-year">2017</span>
                         <label>年</label><span class="t2" id="pinfo-date-month">10</span>
                         <label>月</label><span class="t2"
                                               id="pinfo-date-day">10</span><label>日</label>
-                        <label>病区</label><span id="pinfo-bed1">{{.PInfo.BCK03C}}</span>
-                        <label>床号</label><span id="pinfo-bed2">{{.PInfo.BCQ04}}</span>
-                        <label>住院号</label><span id="pinfo-bed3">{{.PInfo.VAA04}}</span>
+                        <label>病区</label><span  style="min-width: 84px;" id="pinfo-bed1">{{.PInfo.BCK03C}}</span>
+                        <label>床号</label><span  style="min-width: 84px;" id="pinfo-bed2">{{.PInfo.BCQ04}}</span>
+                        <label>住院号</label><span  style="min-width: 84px;" id="pinfo-bed3">{{.PInfo.VAA04}}</span>
                     </div>
                 </div>
 
@@ -649,7 +657,8 @@
 
         var pinfo = {{.PInfo}};
 
-        var h_date = pinfo["hospital_date"];
+        // var h_date = pinfo["hospital_date"];
+        var h_date = {{.EntryDate}}
         // 病人信息
 
         $("#pinfo-date-year").text(h_date.substring(0, 4));
@@ -765,7 +774,11 @@
         });
         // 事件
         $("#incident-td").find(".sj").each(function(i, el){
-            $(el).html(incident[i]);
+            if(i==41){
+                $(el).html(incident[41]+incident[42]+incident[43]+incident[44]);
+            }else{
+                $(el).html(incident[i]);
+            }
             $(el).css("color", "red");
         });
         // 其他

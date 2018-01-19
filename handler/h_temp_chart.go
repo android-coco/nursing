@@ -26,8 +26,17 @@ func (c TempChartController) LoadTable(w *fit.Response, r *fit.Request, p fit.Pa
 		return
 	}
 
+	// 获取入科日期，如果没登记，则使用入院时间
+	entryDate := model.FetchEntryDepartmentDate(pInfo.VAA01)
+	if entryDate.IsExist == 0 {
+		entryDate.EntryDate = pInfo.VAE11.ParseToMinute()
+	}
+	entryDate.EntryDate = entryDate.EntryDate + ":00"
+	entry, _ := time.ParseInLocation("2006-01-02 15:04:05", entryDate.EntryDate, time.Local)
+
 	// 入院日期
-	datestr := pInfo.VAE11.ParseToSecond()
+	//datestr := pInfo.VAE11.ParseToSecond()
+	datestr := entryDate.EntryDate
 	num := r.FormValue("num")
 
 	// 手术产后日期时间model
@@ -37,8 +46,17 @@ func (c TempChartController) LoadTable(w *fit.Response, r *fit.Request, p fit.Pa
 		fmt.Fprintln(w, "参数错误！temp ", err)
 		return
 	}
-
-	chartmod, errchart := model.PCGetTempChartData(pid, hospdate.weeks)
+	// 入院事件时间
+	var hospDateTime time.Time
+	if len(hospdate.weeks) > 0 {
+		t0 := hospdate.weeks[0]
+		//t := time.Time(pInfo.VAE11)
+		t := entry
+		if t.Year() == t0.Year() && t.Month() == t0.Month() && t.Day() == t0.Day() {
+			hospDateTime = t
+		}
+	}
+	chartmod, errchart := model.PCGetTempChartData(pid, hospDateTime, hospdate.weeks)
 	if errchart != nil {
 		fit.Logger().LogInfo("info templist", "参数错误！temp ", errchart)
 		fmt.Fprintln(w, "参数错误！temp ", errchart)
@@ -73,6 +91,8 @@ func (c TempChartController) LoadTable(w *fit.Response, r *fit.Request, p fit.Pa
 		"Skin":      chartmod.Skin,
 		"Other":     chartmod.Other,
 
+		"EntryDate": entryDate.EntryDate,
+
 		"Menuindex": "5-0",
 	}
 
@@ -98,8 +118,18 @@ func (c TempChartController) PrintTempChart(w *fit.Response, r *fit.Request, p f
 	}
 	pInfo := pInfos[0]
 
+
+	// 获取入科日期，如果没登记，则使用入院时间
+	entryDate := model.FetchEntryDepartmentDate(pInfo.VAA01)
+	if entryDate.IsExist == 0 {
+		entryDate.EntryDate = pInfo.VAE11.ParseToMinute()
+	}
+	entryDate.EntryDate = entryDate.EntryDate + ":00"
+	entry, _ := time.ParseInLocation("2006-01-02 15:04:05", entryDate.EntryDate, time.Local)
+
 	// 入院日期
-	datestr := pInfo.VAE11.ParseToSecond()
+	//datestr := pInfo.VAE11.ParseToSecond()
+	datestr := entryDate.EntryDate
 
 	// 手术产后日期时间model
 	hospdate, err := getWeeksByOperationDates(datestr, pid, num)
@@ -108,8 +138,17 @@ func (c TempChartController) PrintTempChart(w *fit.Response, r *fit.Request, p f
 		fmt.Fprintln(w, "参数错误！temp ", err)
 		return
 	}
-
-	chartmod, errchart := model.PCGetTempChartData(pid, hospdate.weeks)
+	// 入院事件时间
+	var hospDateTime time.Time
+	if len(hospdate.weeks) > 0 {
+		t0 := hospdate.weeks[0]
+		//t := time.Time(pInfo.VAE11)
+		t := entry
+		if t.Year() == t0.Year() && t.Month() == t0.Month() && t.Day() == t0.Day() {
+			hospDateTime = t
+		}
+	}
+	chartmod, errchart := model.PCGetTempChartData(pid, hospDateTime, hospdate.weeks)
 	if errchart != nil {
 		fit.Logger().LogInfo("info templist", "参数错误！temp ", errchart)
 		fmt.Fprintln(w, "参数错误！temp ", errchart)
@@ -140,12 +179,14 @@ func (c TempChartController) PrintTempChart(w *fit.Response, r *fit.Request, p f
 		"Incident":  chartmod.Incident,
 		"Skin":      chartmod.Skin,
 		"Other":     chartmod.Other,
+
+		"EntryDate": entryDate.EntryDate,
 	}
 
 	c.LoadView(w, "pc/v_templist_print.html")
 }
 
-func (c TempChartController) Test(w *fit.Response, r *fit.Request, p fit.Params)  {
+func (c TempChartController) Test(w *fit.Response, r *fit.Request, p fit.Params) {
 	defer c.ResponseToJson(w)
 	pid := "817242"
 	// 手术产后日期时间model
@@ -170,7 +211,7 @@ type hospDateModel struct {
 
 /*
 获取手术或产后时间  12-07 优化版
-hospitaldate 入院时间
+hospitaldate 入院日期
 */
 func getWeeksByOperationDates(hospitaldate, pid, weekindexstr string) (hospdate hospDateModel, err error) {
 	loc := time.Now().Location()
@@ -296,7 +337,7 @@ func fetchOperationLable(pid string, sdate time.Time) (strlables []string, err e
 	// 超过的当前时间的不显示
 	nowdate := time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), 0, 0, 0, 0, time.Local)
 	diffnow := nowdate.Sub(sdate).Hours()
-	if diffnow > 0 {
+	if diffnow >= 0 {
 		offset := int(diffnow / 24)
 		for ii := 6; ii > offset; ii-- {
 			strlables[ii] = ""

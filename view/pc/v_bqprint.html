@@ -7,22 +7,42 @@
     <script src="/static/dist/js/lib/jquery.qrcode.min.js"></script>
     <style>
         @media print {
-            body {-webkit-print-color-adjust: exact;}
+            body {
+                -webkit-print-color-adjust: exact;
+                font-family: "黑体";
+
+            }
             .no-print {display: none;}
         }
-        @page  {size: landscape}
-        @page  {margin:1px}
+        /*@page  {size: landscape}*/
+        /*@page  {*/
+            /*margin-left: 2mm ;*/
+            /*margin-top: 4mm ;*/
+        /*}*/
         body{
-            margin-top: 0;
-            margin-bottom: 0;
+            /*margin-top: 0;*/
+            /*margin-bottom: 0;*/
+            margin:0;
+            font-family: "黑体";
+            /*font-family: Arial;*/
+            /*font-family: SimSun;*/
+            color:#000 !important;
+            /*width: 244px;*/
+            /*font-size:14pt;*/
         }
+        table{ border-color: #000!important;}
         .box{
-            width: 292px;
+            /*width: 292px;*/
+            /*width: 244px;*/
+            width: 500px;
+
             height: 150px;
             font-size: 20px;
+            font-weight: 100;
+            /*font-size:14px;*/
         }
+
         .bar1{
-            width: 244px;
             margin:0;
             text-align: left;
         }
@@ -41,11 +61,22 @@
             width: 180px;
             margin-left: -10px;
         }
-        body{
-            font-family: arial;
-        }
         .msg{
             margin:0;
+        }
+        .brm1{
+            border-bottom:1px solid #000;
+        }
+        .brt1{
+            border-top:1px solid #000;
+        }
+        .yname{
+            height: 76px;
+            overflow: hidden;
+            word-break: break-all;
+        }
+        .ml20{
+            margin-left:55px;
         }
     </style>
     <script type="text/javascript">
@@ -63,17 +94,17 @@
                 {
                     for(var i=0; i < obj.length; i++){
                         html += '<div class="box">';
-                        html+='<p class="bar1">' +
+                        html+='<p class="bar1 brm1">' +
                                 '        <span class="name">'+obj[i].name+'</span>' +
                                 '        <span>'+obj[i].sex+'</span>' +
                                 '        <span>'+obj[i].age+'</span>' +
-                                '    </p><hr />';
+                                '    </p>';
                         for(var j=0; j < obj[i].list.length; j++){
-                            html+='<p class="msg">'+obj[i].list[j][0].split(" ")[0]+'</p>';
+                            html+='<p class="msg yname">'+obj[i].list[j][0].split(" ")[0]+'</p>';
                         }
-                        html+='<hr /><p class="msg">口服：'+obj[i].pc+'</p>';
+                        html+='<p class="msg brt1">口服：'+obj[i].pc+'</p>';
                         for(var j=0; j < obj[i].list.length; j++){
-                            html+='<p class="msg">每次：'+obj[i].list[j][1]+'</p>';
+                            html+='<p class="msg ml20">每次：'+obj[i].list[j][1]+'</p>';
                         }
                         html+="</div>"
                     }

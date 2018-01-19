@@ -162,7 +162,7 @@ func GetTemperatureChatData(tp int, patienttd int64, weeks []time.Time) ([]strin
 						if v, ok := dict["Other"]; ok {
 							switch v {
 							case "1":
-								totalvalue = totalvalue + "入院<br/><br/>"
+								totalvalue = totalvalue + "入科<br/><br/>"
 							case "2":
 								totalvalue = totalvalue + "出院<br/><br/>"
 							case "3":
